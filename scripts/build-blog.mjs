@@ -231,6 +231,18 @@ ${thumb}
 </article>`;
 }
 
+function resolveAuthorRole(article) {
+  const fallback = article.author === 'THE REV. CONDITIONING LAB.' ? '' : 'THE REV. CONDITIONING LAB.';
+  const role = article.authorRole || fallback;
+  return role && role !== article.author ? role : '';
+}
+
+function authorLineHtml(article, tag) {
+  const role = resolveAuthorRole(article);
+  const roleHtml = role ? `<${tag}>${escapeHtml(role)}</${tag}>` : '';
+  return `${escapeHtml(article.author)}${roleHtml}`;
+}
+
 function tocHtml(article) {
   if (article.h2Count < 3) return '';
   const items = article.toc.map(t => `<li><a href="#${t.id}">${escapeHtml(t.text)}</a></li>`).join('\n');
@@ -249,7 +261,7 @@ function authorBlockHtml(article) {
     : 'THE REV. CONDITIONING LAB. のトレーニング・コンディショニングに関する知見をもとに構成しています。';
   return `<aside class="blog-author">
 <p class="blog-author-label">WRITTEN BY</p>
-<p class="blog-author-name">${escapeHtml(article.author)}<span>${escapeHtml(article.authorRole || 'THE REV. CONDITIONING LAB.')}</span></p>
+<p class="blog-author-name">${authorLineHtml(article, 'span')}</p>
 <p class="blog-author-bio">${escapeHtml(bio)}</p>
 <a class="tz-link" href="/trainer.html">トレーナーについて<span class="tz-arrow" aria-hidden="true"></span></a>
 </aside>`;
@@ -374,8 +386,7 @@ function buildArticlePages(published, all, postTemplate) {
       PUBLISHED_DISPLAY: formatDateDisplay(article.published),
       UPDATED_BLOCK: updatedBlock,
       ARTICLE_TITLE_HTML: escapeHtml(article.title).replace(/\n/g, '<br>'),
-      AUTHOR_NAME: escapeHtml(article.author),
-      AUTHOR_ROLE: escapeHtml(article.authorRole || 'THE REV. CONDITIONING LAB.'),
+      AUTHOR_LINE: authorLineHtml(article, 'span'),
       HERO_IMAGE_BLOCK: heroImage,
       TOC_BLOCK: tocHtml(article),
       BODY_HTML: article.bodyHtml,

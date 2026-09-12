@@ -4,38 +4,54 @@
    新しいデザインシステムは作らない。
    =================================================================== */
 
-/* ---------- Hero（一覧・カテゴリ・記事共通） ---------- */
-.blog-hero-wrap{ width:min(760px,90vw); }
-.blog-hero-dates{
-  font-family:var(--latin); font-weight:400; font-size:12.5px; letter-spacing:.14em;
-  color:var(--wood); display:flex; gap:16px; flex-wrap:wrap; margin-top:14px;
-}
-.blog-hero-dates .blog-update{ color:#D9D1C2; }
-.blog-post-title{ font-family:var(--serif) !important; font-weight:600 !important; font-size:clamp(28px,4.4vw,46px) !important; letter-spacing:.03em; line-height:1.55 !important; }
-.blog-post-lead{ max-width:56ch; }
-.blog-hero-author{
-  margin-top:clamp(20px,2.6vw,30px); font-family:var(--sans); font-size:14px; color:#EFEAE0;
-  display:flex; flex-direction:column; gap:2px;
-}
-.blog-hero-author span{ font-family:var(--latin); font-size:11px; letter-spacing:.14em; color:var(--wood); text-transform:uppercase; }
-
-/* ---------- Hero画像 ---------- */
-.blog-hero-media{
-  background:var(--paper); margin:0; padding-top:clamp(28px,4vw,48px);
-}
-.blog-hero-media img{
-  width:min(960px,90vw); margin-inline:auto; aspect-ratio:16/9; object-fit:cover;
-  border:1px solid var(--line);
-}
-
-/* ---------- 一覧：軽量Editorial Hero ----------
+/* ---------- Header固定（一覧・記事詳細 共通） ----------
    Recovery/Trainer等の巨大な黒Hero（.page-head）は使わず、
-   コラム一覧専用の軽い紹介セクションにする。
+   コラム一覧・記事詳細ともに軽いEditorialセクションにする。
    このページには .hero も .page-head も無いため、
    固定Headerのロゴ・背景を明示的に「スクロール後」と同じ見た目に固定する。 */
-body.blog-index .site-header{ background:rgba(250,249,246,.96); box-shadow:0 1px 0 var(--line-soft); }
-body.blog-index .brand-logo--light{ opacity:0; }
-body.blog-index .brand-logo--dark{ opacity:1; }
+body.blog-index .site-header, body.blog-post .site-header{ background:rgba(250,249,246,.96); box-shadow:0 1px 0 var(--line-soft); }
+body.blog-index .brand-logo--light, body.blog-post .brand-logo--light{ opacity:0; }
+body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; }
+
+/* ---------- 記事詳細：軽量Editorial Hero ---------- */
+.blog-article-hero{
+  background:var(--paper); color:var(--ink);
+  padding-top:clamp(112px,15vw,148px); padding-bottom:clamp(20px,2.6vw,32px);
+}
+.blog-article-hero-wrap{ width:min(720px,90vw); }
+.blog-back{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--latin); font-weight:400; font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink-soft); text-decoration:none; margin-bottom:24px; transition:color .3s;
+}
+.blog-back:hover{ color:var(--wood-deep); }
+.blog-article-dates{
+  font-family:var(--latin); font-weight:400; font-size:12.5px; letter-spacing:.08em;
+  color:var(--ink-faint); display:flex; gap:16px; flex-wrap:wrap; margin-top:14px;
+}
+.blog-article-dates .blog-update{ color:var(--wood-deep); }
+.blog-article-title{
+  font-family:var(--serif); font-weight:600; font-size:clamp(27px,4vw,42px); letter-spacing:.02em;
+  line-height:1.55; color:var(--ink); margin:16px 0 0;
+}
+.blog-article-lead{
+  margin-top:clamp(16px,2vw,22px); font-size:clamp(15px,1.1vw,16.5px); line-height:1.9;
+  color:var(--ink-soft); letter-spacing:.03em; max-width:56ch;
+}
+.blog-article-author{
+  margin-top:clamp(18px,2.2vw,24px); font-family:var(--sans); font-size:14px; color:var(--ink);
+  display:flex; flex-direction:column; gap:2px;
+}
+.blog-article-author span{ font-family:var(--latin); font-size:11px; letter-spacing:.12em; color:var(--wood-deep); text-transform:uppercase; }
+
+/* ---------- Hero画像（記事の補助画像。キービジュアル扱いにしない） ---------- */
+.blog-hero-media{ background:var(--paper); margin:0; padding-top:clamp(4px,1vw,16px); }
+.blog-hero-media img{
+  width:min(860px,90vw); height:auto; margin-inline:auto; aspect-ratio:16/9; object-fit:cover;
+  border:1px solid var(--line); display:block;
+}
+
+/* ---------- 一覧：軽量Editorial Hero ---------- */
 
 .blog-lp-hero{
   background:var(--paper); color:var(--ink);
@@ -97,14 +113,14 @@ body.blog-index .brand-logo--dark{ opacity:1; }
 .blog-post-wrap{ width:min(760px,88vw); background:var(--paper); color:var(--ink); padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(64px,8vw,110px); }
 
 .blog-toc{
-  border:1px solid var(--line); background:var(--paper-2); padding:clamp(20px,2.6vw,28px) clamp(22px,2.8vw,30px);
-  margin-bottom:clamp(40px,5vw,56px);
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:clamp(14px,1.8vw,18px) 2px; margin-bottom:clamp(36px,4.4vw,48px);
 }
-.blog-toc-label{ font-family:var(--latin); font-size:11px; letter-spacing:.22em; color:var(--wood-deep); margin:0 0 14px; }
-.blog-toc-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; counter-reset:toc; }
+.blog-toc-label{ font-family:var(--latin); font-size:10px; letter-spacing:.24em; color:var(--ink-faint); margin:0 0 10px; }
+.blog-toc-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:7px; counter-reset:toc; }
 .blog-toc-list li{ counter-increment:toc; }
 .blog-toc-list a{
-  font-size:14.5px; color:var(--ink-soft); text-decoration:none; line-height:1.6;
+  font-size:13.5px; color:var(--ink-soft); text-decoration:none; line-height:1.6;
 }
 .blog-toc-list a::before{ content:counter(toc,decimal-leading-zero)" — "; color:var(--wood); font-family:var(--latin); }
 .blog-toc-list a:hover{ color:var(--wood-deep); }
@@ -141,13 +157,19 @@ body.blog-index .brand-logo--dark{ opacity:1; }
 .blog-author-name span{ font-family:var(--sans); font-weight:400; font-size:13px; color:var(--ink-faint); }
 .blog-author-bio{ font-size:14.5px; line-height:1.85; color:var(--ink-soft); margin:0 0 18px; }
 
-/* ---------- Article CTA ---------- */
+/* ---------- Article CTA ----------
+   黒背景は維持しつつ、記事本文に対して広告的に強くなりすぎないよう
+   見出し・余白を一覧セクションのCTAより控えめにする。 */
 .blog-cta{
-  margin-top:clamp(48px,5.4vw,64px); padding:clamp(32px,4vw,44px) clamp(26px,3.4vw,36px);
+  margin-top:clamp(40px,4.6vw,56px); padding:clamp(26px,3vw,34px) clamp(22px,3vw,30px);
   background:var(--charcoal); color:#EFEAE0; text-align:center;
 }
-.blog-cta-headline{ font-family:var(--serif); font-weight:600; font-size:clamp(19px,2vw,23px); margin:0 0 24px; }
-.blog-cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
+.blog-cta-headline{ font-family:var(--serif); font-weight:600; font-size:clamp(17px,1.7vw,20px); margin:0 0 20px; }
+.blog-cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; }
+/* .btn-outline-gold は既定で濃色文字（paper.html等の明るい背景向け）のため、
+   この暗い背景の上では見えなくなる。ここだけ明るい文字色に上書きする。 */
+.blog-cta .btn-outline-gold{ color:#EFEAE0; border-color:rgba(239,234,224,.55); }
+.blog-cta .btn-outline-gold:hover{ background:rgba(239,234,224,.14); color:#fff; border-color:#EFEAE0; }
 
 /* ---------- Related Articles ---------- */
 .blog-related{ margin-top:clamp(56px,6vw,80px); }
