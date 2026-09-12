@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Articles｜THE REV. Editorial Console</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/articles/" aria-current="page">Articles</a>
+<a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Eで追加予定">Analytics</a>
+</nav>
+<div class="admin-shell-user">
+<span id="user-email" class="admin-shell-email"></span>
+<button id="logout-btn" class="admin-logout" type="button">ログアウト</button>
+</div>
+</header>
+
+<main class="admin-main">
+<div class="admin-page-head-row">
+<div>
+<h1 class="admin-page-title">Articles</h1>
+<p class="admin-page-lead">Adminで作成した下書きの一覧です。公開サイトへはまだ反映されません（Phase D以降）。</p>
+</div>
+<a class="admin-btn-primary" href="/admin/articles/editor/">New Article</a>
+</div>
+
+<div id="error-box" class="admin-error admin-hidden" role="alert"></div>
+<div id="list-loading" class="admin-card admin-hidden">読み込み中…</div>
+
+<div id="empty-state" class="admin-empty admin-hidden">
+<p class="admin-empty-title">まだ下書きがありません</p>
+<p class="admin-empty-lead">「New Article」から最初の記事を書き始めましょう。</p>
+<a class="admin-btn-primary" href="/admin/articles/editor/">New Article</a>
+</div>
+
+<table id="articles-table" class="admin-table admin-hidden">
+<thead>
+<tr>
+<th>Title</th>
+<th>Category</th>
+<th>Slug</th>
+<th>Updated</th>
+<th>Status</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="articles-tbody"></tbody>
+</table>
+</main>
+</div>
+
+<script type="module">
+import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
+import { AdminApi } from '/admin/js/admin-api.mjs';
+
+const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'RECOVERY', 'body-knowledge': 'BODY KNOWLEDGE' };
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function formatDateTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}.${pad(d.getMonth() + 1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function showError(message) {
+  const box = document.getElementById('error-box');
+  box.textContent = message;
+  box.classList.remove('admin-hidden');
+}
+
+function renderRows(articles) {
+  const tbody = document.getElementById('articles-tbody');
+  tbody.innerHTML = articles.map((a) => `
+<tr>
+<td>${escapeHtml(a.title || '(無題)')}</td>
+<td>${escapeHtml(CATEGORY_LABELS[a.category] || a.category || '—')}</td>
+<td><code>${escapeHtml(a.slug || '—')}</code></td>
+<td>${formatDateTime(a.updated_at)}</td>
+<td><span class="admin-badge admin-badge-draft">DRAFT</span></td>
+<td><a class="admin-table-edit" href="/admin/articles/editor/?id=${encodeURIComponent(a.id)}">Edit</a></td>
+</tr>`).join('');
+}
+
+async function init() {
+  const result = await requireSession();
+  if (!result) return;
+
+  document.getElementById('user-email').textContent = result.session.user.email;
+  document.getElementById('checking').classList.add('admin-hidden');
+  document.getElementById('app').classList.remove('admin-hidden');
+  document.getElementById('logout-btn').addEventListener('click', () => signOut());
+
+  const loading = document.getElementById('list-loading');
+  loading.classList.remove('admin-hidden');
+
+  try {
+    const { articles } = await AdminApi.listArticles();
+    loading.classList.add('admin-hidden');
+    if (!articles.length) {
+      document.getElementById('empty-state').classList.remove('admin-hidden');
+      return;
+    }
+    renderRows(articles);
+    document.getElementById('articles-table').classList.remove('admin-hidden');
+  } catch (e) {
+    loading.classList.add('admin-hidden');
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    showError(e.message || '記事一覧の取得に失敗しました。');
+  }
+}
+
+init();
+</script>
+</body>
+</html>

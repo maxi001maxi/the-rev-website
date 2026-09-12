@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor｜THE REV. Editorial Console</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/articles/" aria-current="page">Articles</a>
+<a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Eで追加予定">Analytics</a>
+</nav>
+<div class="admin-shell-user">
+<span id="user-email" class="admin-shell-email"></span>
+<button id="logout-btn" class="admin-logout" type="button">ログアウト</button>
+</div>
+</header>
+
+<main class="admin-main admin-editor-main">
+<a class="admin-back-link" href="/admin/articles/">← Back to Articles</a>
+<div class="admin-page-head-row">
+<h1 id="editor-heading" class="admin-page-title">New Article</h1>
+<div class="admin-editor-actions">
+<span id="save-status" class="admin-save-status"></span>
+<button id="delete-btn" class="admin-btn-danger admin-hidden" type="button">Delete</button>
+<button id="save-btn" class="admin-btn-primary" type="button">Save Draft</button>
+</div>
+</div>
+
+<div id="error-box" class="admin-error admin-hidden" role="alert"></div>
+<div id="loading-box" class="admin-card admin-hidden">読み込み中…</div>
+
+<form id="editor-form" class="admin-hidden">
+<div class="admin-field-grid">
+<div class="admin-field">
+<label for="f-title">Title</label>
+<input id="f-title" type="text" required>
+</div>
+<div class="admin-field">
+<label for="f-slug">Slug</label>
+<div class="admin-slug-row">
+<input id="f-slug" type="text" required>
+<button id="slug-suggest-btn" type="button" class="admin-btn-mini">タイトルから生成</button>
+</div>
+<p class="admin-field-hint">半角英数字とハイフンのみ（a-z 0-9 -）。日本語タイトルの場合は手動で入力してください。</p>
+</div>
+</div>
+
+<div class="admin-field">
+<label for="f-description">Description</label>
+<textarea id="f-description" rows="2" required></textarea>
+</div>
+
+<div class="admin-field-grid admin-field-grid-3">
+<div class="admin-field">
+<label for="f-category">Category</label>
+<select id="f-category">
+<option value="training">TRAINING</option>
+<option value="boxing">BOXING</option>
+<option value="recovery">RECOVERY</option>
+<option value="body-knowledge">BODY KNOWLEDGE</option>
+</select>
+</div>
+<div class="admin-field">
+<label for="f-author">Author</label>
+<input id="f-author" type="text">
+</div>
+<div class="admin-field">
+<label for="f-author-role">Author Role</label>
+<input id="f-author-role" type="text">
+</div>
+</div>
+
+<details class="admin-advanced">
+<summary>SEO / Advanced</summary>
+<div class="admin-field-grid admin-field-grid-3">
+<div class="admin-field">
+<label for="f-published">Published date</label>
+<input id="f-published" type="date">
+</div>
+<div class="admin-field">
+<label for="f-updated">Updated date</label>
+<input id="f-updated" type="date">
+</div>
+<div class="admin-field">
+<label for="f-cta">CTA Type</label>
+<select id="f-cta">
+<option value="general">general</option>
+<option value="personal-training">personal-training</option>
+<option value="boxing">boxing</option>
+<option value="recovery">recovery</option>
+</select>
+</div>
+</div>
+<div class="admin-field-grid admin-field-grid-3">
+<div class="admin-field">
+<label for="f-thumbnail">Thumbnail path</label>
+<input id="f-thumbnail" type="text" placeholder="/assets/images/blog/xxx.jpg">
+</div>
+<div class="admin-field">
+<label for="f-og">OGP image path</label>
+<input id="f-og" type="text" placeholder="/assets/images/blog/og/xxx.jpg">
+</div>
+<div class="admin-field">
+<label for="f-keywords">Keywords</label>
+<input id="f-keywords" type="text" placeholder="カンマ区切り">
+</div>
+</div>
+<div class="admin-checkbox-row">
+<label><input id="f-featured" type="checkbox"> Featured</label>
+<label><input id="f-noindex" type="checkbox"> Noindex</label>
+</div>
+</details>
+
+<div class="admin-editor-split">
+<div class="admin-editor-pane">
+<p class="admin-pane-label">MARKDOWN</p>
+<textarea id="f-body" class="admin-md-input" spellcheck="false" placeholder="## 見出し&#10;&#10;本文を書きます。"></textarea>
+</div>
+<div class="admin-editor-pane">
+<p class="admin-pane-label">PREVIEW</p>
+<iframe id="preview-frame" class="admin-preview-frame" title="記事プレビュー"></iframe>
+</div>
+</div>
+</form>
+</main>
+</div>
+
+<script type="module">
+import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
+import { AdminApi } from '/admin/js/admin-api.mjs';
+import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12/+esm';
+
+const params = new URLSearchParams(location.search);
+let articleId = params.get('id');
+let isDirty = false;
+
+const els = {
+  title: document.getElementById('f-title'),
+  slug: document.getElementById('f-slug'),
+  description: document.getElementById('f-description'),
+  category: document.getElementById('f-category'),
+  author: document.getElementById('f-author'),
+  authorRole: document.getElementById('f-author-role'),
+  published: document.getElementById('f-published'),
+  updated: document.getElementById('f-updated'),
+  cta: document.getElementById('f-cta'),
+  thumbnail: document.getElementById('f-thumbnail'),
+  og: document.getElementById('f-og'),
+  keywords: document.getElementById('f-keywords'),
+  featured: document.getElementById('f-featured'),
+  noindex: document.getElementById('f-noindex'),
+  body: document.getElementById('f-body')
+};
+
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function showError(message) {
+  const box = document.getElementById('error-box');
+  box.textContent = message;
+  box.classList.remove('admin-hidden');
+}
+function clearError() {
+  document.getElementById('error-box').classList.add('admin-hidden');
+}
+
+function slugifyFromTitle(title) {
+  const ascii = title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, ' ')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  return ascii;
+}
+
+function markDirty() { isDirty = true; }
+
+function renderPreview() {
+  const html = marked.parse(els.body.value || '', { gfm: true });
+  const titleHtml = els.title.value
+    ? `<h1 class="blog-article-title" style="margin-top:0;">${escapeHtml(els.title.value)}</h1>`
+    : '';
+  const doc = `<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/blog.css">
+<style>body{margin:0;padding:28px;background:var(--paper);}</style>
+</head><body>${titleHtml}<div class="blog-body">${html}</div></body></html>`;
+  document.getElementById('preview-frame').srcdoc = doc;
+}
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+let previewTimer = null;
+function schedulePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(renderPreview, 250);
+}
+
+function fillForm(a) {
+  els.title.value = a.title || '';
+  els.slug.value = a.slug || '';
+  els.description.value = a.description || '';
+  els.category.value = a.category || 'training';
+  els.author.value = a.author || 'THE REV. CONDITIONING LAB.';
+  els.authorRole.value = a.author_role || '';
+  els.published.value = a.published || '';
+  els.updated.value = a.updated || '';
+  els.cta.value = a.cta_type || 'general';
+  els.thumbnail.value = a.thumbnail || '';
+  els.og.value = a.og_image || '';
+  els.keywords.value = Array.isArray(a.keywords) ? a.keywords.join(', ') : '';
+  els.featured.checked = !!a.featured;
+  els.noindex.checked = !!a.noindex;
+  els.body.value = a.body_markdown || '';
+}
+
+function collectForm() {
+  return {
+    title: els.title.value.trim(),
+    slug: els.slug.value.trim().toLowerCase(),
+    description: els.description.value.trim(),
+    category: els.category.value,
+    author: els.author.value.trim(),
+    author_role: els.authorRole.value.trim(),
+    published: els.published.value || null,
+    updated: els.updated.value || null,
+    cta_type: els.cta.value,
+    thumbnail: els.thumbnail.value.trim(),
+    og_image: els.og.value.trim(),
+    keywords: els.keywords.value.split(',').map((k) => k.trim()).filter(Boolean),
+    featured: els.featured.checked,
+    noindex: els.noindex.checked,
+    body_markdown: els.body.value
+  };
+}
+
+function setSaveStatus(text) {
+  document.getElementById('save-status').textContent = text;
+}
+function formatTime(d) {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+
+async function save() {
+  clearError();
+  if (!document.getElementById('editor-form').reportValidity()) return;
+  const data = collectForm();
+  if (!/^[a-z0-9-]+$/.test(data.slug)) {
+    showError('slug は半角英数字とハイフン（a-z 0-9 -）のみ使用できます。');
+    return;
+  }
+
+  const saveBtn = document.getElementById('save-btn');
+  saveBtn.disabled = true;
+  setSaveStatus('保存中…');
+
+  try {
+    if (articleId) {
+      await AdminApi.updateArticle(articleId, data);
+    } else {
+      const { article } = await AdminApi.createArticle(data);
+      articleId = article.id;
+      history.replaceState(null, '', `/admin/articles/editor/?id=${encodeURIComponent(articleId)}`);
+      document.getElementById('delete-btn').classList.remove('admin-hidden');
+      document.getElementById('editor-heading').textContent = 'Edit Article';
+    }
+    isDirty = false;
+    setSaveStatus(`Saved ${formatTime(new Date())}`);
+  } catch (e) {
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    setSaveStatus('');
+    showError(e.message || '保存に失敗しました。');
+  } finally {
+    saveBtn.disabled = false;
+  }
+}
+
+async function remove() {
+  if (!articleId) return;
+  if (!confirm('この下書きを削除します。元に戻せません。よろしいですか？')) return;
+  try {
+    await AdminApi.deleteArticle(articleId);
+    isDirty = false;
+    location.href = '/admin/articles/';
+  } catch (e) {
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    showError(e.message || '削除に失敗しました。');
+  }
+}
+
+window.addEventListener('beforeunload', (e) => {
+  if (!isDirty) return;
+  e.preventDefault();
+  e.returnValue = '';
+});
+
+async function init() {
+  const result = await requireSession();
+  if (!result) return;
+
+  document.getElementById('user-email').textContent = result.session.user.email;
+  document.getElementById('checking').classList.add('admin-hidden');
+  document.getElementById('app').classList.remove('admin-hidden');
+  document.getElementById('logout-btn').addEventListener('click', () => signOut());
+
+  const form = document.getElementById('editor-form');
+  const loading = document.getElementById('loading-box');
+
+  if (articleId) {
+    document.getElementById('editor-heading').textContent = 'Edit Article';
+    document.getElementById('delete-btn').classList.remove('admin-hidden');
+    loading.classList.remove('admin-hidden');
+    try {
+      const { article } = await AdminApi.getArticle(articleId);
+      fillForm(article);
+      loading.classList.add('admin-hidden');
+      form.classList.remove('admin-hidden');
+      renderPreview();
+    } catch (e) {
+      loading.classList.add('admin-hidden');
+      if (e.status === 401) { location.replace('/admin/login/'); return; }
+      showError(e.status === 404 ? 'この記事は見つかりませんでした。削除された可能性があります。' : (e.message || '記事の読み込みに失敗しました。'));
+      return;
+    }
+  } else {
+    els.published.value = todayStr();
+    els.updated.value = todayStr();
+    els.author.value = 'THE REV. CONDITIONING LAB.';
+    form.classList.remove('admin-hidden');
+    renderPreview();
+  }
+
+  form.addEventListener('input', () => { markDirty(); schedulePreview(); });
+  document.getElementById('save-btn').addEventListener('click', save);
+  document.getElementById('delete-btn').addEventListener('click', remove);
+  document.getElementById('slug-suggest-btn').addEventListener('click', () => {
+    const suggestion = slugifyFromTitle(els.title.value || '');
+    if (suggestion) { els.slug.value = suggestion; markDirty(); }
+  });
+}
+
+init();
+</script>
+</body>
+</html>

@@ -18,7 +18,7 @@
 <div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
 <nav class="admin-shell-nav" aria-label="Admin navigation">
 <a href="/admin/" aria-current="page">Dashboard</a>
-<a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Cで追加予定">Articles</a>
+<a href="/admin/articles/">Articles</a>
 <a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Eで追加予定">Analytics</a>
 </nav>
 <div class="admin-shell-user">
@@ -29,7 +29,7 @@
 
 <main class="admin-main">
 <h1 class="admin-page-title">Dashboard</h1>
-<p class="admin-page-lead">認証基盤とAdmin共通レイアウトが完成しました。記事の作成・編集・公開とAnalyticsは、次のPhaseで順次追加します。</p>
+<p class="admin-page-lead">記事の下書き作成・編集・削除ができるようになりました。公開サイトへの反映（GitHub連携）とAnalyticsは、次のPhaseで順次追加します。</p>
 
 <div class="admin-status-grid">
 <div class="admin-status-item">
@@ -38,7 +38,7 @@
 </div>
 <div class="admin-status-item">
 <p class="admin-status-label">Articles</p>
-<p class="admin-status-value">Phase C</p>
+<p class="admin-status-value">Draft対応</p>
 </div>
 <div class="admin-status-item">
 <p class="admin-status-label">Analytics</p>
@@ -47,8 +47,9 @@
 </div>
 
 <div class="admin-card">
-<h2>このPhaseで完了したこと</h2>
-<p>Supabase Authによるログイン・ログアウト、未認証時の自動リダイレクト、認証済みユーザーのみが閲覧できるAdmin共通レイアウトを実装しました。記事のMarkdown Source of Truth（<code>content/blog/*.md</code>）や公開サイトのBlog機能には変更を加えていません。</p>
+<h2>Articles</h2>
+<p>下書きの作成・編集・プレビュー・削除ができます。まだ公開サイト（GitHub / content/blog/*.md）への書き込みは行いません。</p>
+<p style="margin-top:16px;"><a class="admin-btn-primary" href="/admin/articles/">Articles を開く</a></p>
 </div>
 </main>
 </div>
