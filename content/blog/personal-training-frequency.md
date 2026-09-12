@@ -10,7 +10,7 @@ author: "THE REV. CONDITIONING LAB."
 author_role: "THE REV. CONDITIONING LAB."
 thumbnail: "/assets/images/blog/thumb-training.jpg"
 og_image: "/assets/images/blog/og/og-training.jpg"
-status: "published"
+status: "draft"
 featured: true
 cta_type: "personal-training"
 keywords:
