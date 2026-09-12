@@ -59,14 +59,15 @@ Admin（`/admin/`）のログイン機能はSupabase Authを使います。Ver.1
    - プロジェクトの起動まで1〜2分待つ
 2. 左メニュー **Authentication → Providers** を開き、**Email** が有効になっていることを確認する（通常は初期状態で有効）
 3. 同じくAuthenticationの中の **Sign In / Providers**（または **Settings**）で、「Allow new users to sign up」（新規ユーザーのセルフサインアップ許可）を **OFF** にする
-   - これにより、万が一SupabaseのURLとanonキーが第三者に知られても、勝手にアカウントを作成される心配がなくなります
+   - これにより、万が一SupabaseのURLとpublishable keyが第三者に知られても、勝手にアカウントを作成される心配がなくなります
 4. **Authentication → Users** を開き、**Add user** から運営者本人のメールアドレスとパスワードを直接作成する（Ver.1.0はこの1件のみ）
    - 「Auto Confirm User」のようなチェックがあれば有効にして、メール確認なしですぐログインできるようにしてください
-5. **Project Settings → API** を開き、以下をコピーする
+5. **Project Settings → API Keys**（現行のSupabase UIでは publishable key / secret key という表記）を開き、以下をコピーする
    - **Project URL** → Vercelの環境変数 `SUPABASE_URL` に登録
-   - **anon public key** → Vercelの環境変数 `SUPABASE_ANON_KEY` に登録
-   - **service_role key** はPhase B（今回）では使いません。Phase D（記事公開のGitHub連携）で使うため、控えておくだけで構いません。**絶対にブラウザ側コードや`/admin`配下の静的ファイルには書かないでください**
-6. Vercelプロジェクト → **Settings → Environment Variables** で、上記の `SUPABASE_URL` ・ `SUPABASE_ANON_KEY` の2つを登録し、**Production**（必要ならPreviewも）にチェックを入れて保存する
+   - **publishable key** → Vercelの環境変数 `SUPABASE_PUBLISHABLE_KEY` に登録
+   - **secret key** はPhase B（今回）では使いません。Phase D（記事公開のGitHub連携）で使うため、控えておくだけで構いません。**絶対にブラウザ側コードや`/admin`配下の静的ファイルには書かないでください**
+6. Vercelプロジェクト → **Settings → Environment Variables** で、上記の `SUPABASE_URL` ・ `SUPABASE_PUBLISHABLE_KEY` の2つを登録し、**Production**（必要ならPreviewも）にチェックを入れて保存する
+   - Phase Bのログインはこの2つだけで動作します。secret key（service role key）の登録は不要です
 7. 環境変数は保存しただけでは既存のデプロイには反映されません。Vercelの **Deployments** タブから最新デプロイの「Redeploy」を行うか、次にこちらからpushするコミットで自動的に反映されます
 
 ---

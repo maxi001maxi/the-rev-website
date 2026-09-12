@@ -4,8 +4,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 let clientPromise = null;
 
-// SUPABASE_URL / SUPABASE_ANON_KEY は /api/config から取得する。
-// anonキーはSupabaseの設計上ブラウザに公開される前提の値（秘密情報ではない）。
+// SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY は /api/config から取得する。
+// publishable keyはSupabaseの設計上ブラウザに公開される前提の値（秘密情報ではない）。
 async function getSupabaseClient() {
   if (!clientPromise) {
     clientPromise = fetch('/api/config')
@@ -13,7 +13,7 @@ async function getSupabaseClient() {
         if (!r.ok) throw new Error('config_fetch_failed');
         return r.json();
       })
-      .then(({ supabaseUrl, supabaseAnonKey }) => createClient(supabaseUrl, supabaseAnonKey));
+      .then(({ supabaseUrl, supabasePublishableKey }) => createClient(supabaseUrl, supabasePublishableKey));
   }
   return clientPromise;
 }
