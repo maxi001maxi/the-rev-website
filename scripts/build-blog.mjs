@@ -81,12 +81,14 @@ function slugifyHeading(text) {
 }
 
 function formatDateDisplay(dateStr) {
-  const d = new Date(dateStr + 'T00:00:00+09:00');
-  if (Number.isNaN(d.getTime())) return dateStr;
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}.${m}.${day}`;
+  // Front Matterの日付（YYYY-MM-DD）はJSTの暦日として入力される前提の文字列であり、
+  // 表示整形のためだけにDateオブジェクトへ変換しない（実行環境のローカルタイムゾーンに
+  // 依存し、UTCで動くVercelのビルド環境ではJSTとの差で日付が1日ずれてしまうため）。
+  // 文字列のまま区切り文字だけ置換することで、実行環境によらず常に同じ表示になる。
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr));
+  if (!match) return dateStr;
+  const [, y, m, d] = match;
+  return `${y}.${m}.${d}`;
 }
 
 function toIso(dateStr) {
