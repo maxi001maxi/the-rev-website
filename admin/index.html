@@ -3,32 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE REV. Editorial Console</title>
+<title>Dashboard｜THE REV. Editorial Console</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
-<style>
-  :root{
-    --paper:#FBFAF7; --charcoal:#26241F; --ink:#232220; --ink-soft:#5C574F;
-    --wood:#C2A982; --wood-deep:#9C8160; --line:#E4DDCF;
-    --serif:"Shippori Mincho",serif; --sans:"Zen Kaku Gothic New",sans-serif; --latin:"Jost",sans-serif;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-    background:var(--charcoal); color:var(--paper); font-family:var(--sans); text-align:center; padding:40px 24px;
-  }
-  .mark{ font-family:var(--latin); font-weight:400; letter-spacing:.4em; font-size:14px; color:var(--wood); text-indent:.4em; margin-bottom:28px; }
-  h1{ font-family:var(--serif); font-weight:600; font-size:clamp(20px,3vw,28px); letter-spacing:.06em; margin:0 0 14px; }
-  p{ font-family:var(--sans); font-weight:300; font-size:14px; line-height:2; color:rgba(251,250,247,.7); margin:0; }
-</style>
+<link rel="stylesheet" href="/admin/css/admin.css">
 </head>
 <body>
-<div>
-  <p class="mark">THE REV.</p>
-  <h1>Editorial Console</h1>
-  <p>準備中です。ログイン・記事編集機能は近日追加されます。</p>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/" aria-current="page">Dashboard</a>
+<a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Cで追加予定">Articles</a>
+<a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Eで追加予定">Analytics</a>
+</nav>
+<div class="admin-shell-user">
+<span id="user-email" class="admin-shell-email"></span>
+<button id="logout-btn" class="admin-logout" type="button">ログアウト</button>
 </div>
+</header>
+
+<main class="admin-main">
+<h1 class="admin-page-title">Dashboard</h1>
+<p class="admin-page-lead">認証基盤とAdmin共通レイアウトが完成しました。記事の作成・編集・公開とAnalyticsは、次のPhaseで順次追加します。</p>
+
+<div class="admin-status-grid">
+<div class="admin-status-item">
+<p class="admin-status-label">Auth</p>
+<p class="admin-status-value">Connected</p>
+</div>
+<div class="admin-status-item">
+<p class="admin-status-label">Articles</p>
+<p class="admin-status-value">Phase C</p>
+</div>
+<div class="admin-status-item">
+<p class="admin-status-label">Analytics</p>
+<p class="admin-status-value">Phase E</p>
+</div>
+</div>
+
+<div class="admin-card">
+<h2>このPhaseで完了したこと</h2>
+<p>Supabase Authによるログイン・ログアウト、未認証時の自動リダイレクト、認証済みユーザーのみが閲覧できるAdmin共通レイアウトを実装しました。記事のMarkdown Source of Truth（<code>content/blog/*.md</code>）や公開サイトのBlog機能には変更を加えていません。</p>
+</div>
+</main>
+</div>
+
+<script type="module">
+import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
+
+const checking = document.getElementById('checking');
+const app = document.getElementById('app');
+
+(async () => {
+  const result = await requireSession();
+  if (!result) return; // requireSession内で /admin/login/ へ遷移済み
+
+  document.getElementById('user-email').textContent = result.session.user.email;
+  checking.classList.add('admin-hidden');
+  app.classList.remove('admin-hidden');
+})();
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  signOut();
+});
+</script>
 </body>
 </html>

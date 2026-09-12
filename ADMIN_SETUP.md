@@ -49,16 +49,25 @@ git push -u origin main
 
 ---
 
-## STEP 4｜Supabaseプロジェクトを作成する（Phase Bで使用）
+## STEP 4｜Supabaseプロジェクトを作成する（Phase Bで使用・今すぐ必要）
 
-1. https://supabase.com/dashboard/projects で新規プロジェクトを作成
-2. Authentication → Providers で **Email** を有効化
-3. Authentication → Users で、運営者本人のメールアドレスを1件だけ招待する（Ver.1.0は1ユーザー運用）
-4. Project Settings → API から、
-   - `SUPABASE_URL`（Project URL）
-   - `SUPABASE_ANON_KEY`（anon public key）
-   - `SUPABASE_SERVICE_ROLE_KEY`（service_role key。**絶対にブラウザ側コードに書かない**）
-   をコピーし、Vercelの Environment Variables に登録する
+Admin（`/admin/`）のログイン機能はSupabase Authを使います。Ver.1.0は運営者本人1名のみが使う想定なので、**一般向けの新規登録画面は作りません**。ユーザー登録はSupabase側の管理画面から手動で1件だけ作成します。
+
+1. https://supabase.com/dashboard/projects を開き、新規プロジェクトを作成する
+   - Database Passwordは控えておく（今回のAdmin機能では直接使いませんが、念のため保管してください）
+   - Regionは日本から近いもの（Northeast Asia系）があればそれを選択
+   - プロジェクトの起動まで1〜2分待つ
+2. 左メニュー **Authentication → Providers** を開き、**Email** が有効になっていることを確認する（通常は初期状態で有効）
+3. 同じくAuthenticationの中の **Sign In / Providers**（または **Settings**）で、「Allow new users to sign up」（新規ユーザーのセルフサインアップ許可）を **OFF** にする
+   - これにより、万が一SupabaseのURLとanonキーが第三者に知られても、勝手にアカウントを作成される心配がなくなります
+4. **Authentication → Users** を開き、**Add user** から運営者本人のメールアドレスとパスワードを直接作成する（Ver.1.0はこの1件のみ）
+   - 「Auto Confirm User」のようなチェックがあれば有効にして、メール確認なしですぐログインできるようにしてください
+5. **Project Settings → API** を開き、以下をコピーする
+   - **Project URL** → Vercelの環境変数 `SUPABASE_URL` に登録
+   - **anon public key** → Vercelの環境変数 `SUPABASE_ANON_KEY` に登録
+   - **service_role key** はPhase B（今回）では使いません。Phase D（記事公開のGitHub連携）で使うため、控えておくだけで構いません。**絶対にブラウザ側コードや`/admin`配下の静的ファイルには書かないでください**
+6. Vercelプロジェクト → **Settings → Environment Variables** で、上記の `SUPABASE_URL` ・ `SUPABASE_ANON_KEY` の2つを登録し、**Production**（必要ならPreviewも）にチェックを入れて保存する
+7. 環境変数は保存しただけでは既存のデプロイには反映されません。Vercelの **Deployments** タブから最新デプロイの「Redeploy」を行うか、次にこちらからpushするコミットで自動的に反映されます
 
 ---
 
