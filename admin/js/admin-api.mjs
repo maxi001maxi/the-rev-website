@@ -51,12 +51,15 @@ async function authedFetch(path, options = {}) {
   return payload;
 }
 
+// 単体記事は /api/admin/article?id=... （クエリ文字列）方式。
+// [id].mjs 形式のパスセグメント動的ルートは、このVercelプロジェクト構成では
+// マッチしないことを診断の上で確認したため使用していない（api/admin/article.mjs 冒頭コメント参照）。
 export const AdminApi = {
   listArticles: () => authedFetch('/api/admin/articles'),
   createArticle: (data) => authedFetch('/api/admin/articles', { method: 'POST', body: JSON.stringify(data) }),
-  getArticle: (id) => authedFetch(`/api/admin/articles/${encodeURIComponent(id)}`),
-  updateArticle: (id, data) => authedFetch(`/api/admin/articles/${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  deleteArticle: (id) => authedFetch(`/api/admin/articles/${encodeURIComponent(id)}`, { method: 'DELETE' })
+  getArticle: (id) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`),
+  updateArticle: (id, data) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  deleteArticle: (id) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
 };
 
 export { ApiError };

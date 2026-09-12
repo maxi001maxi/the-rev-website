@@ -1,7 +1,14 @@
-// GET    /api/admin/articles/{id} … 下書き1件の全フィールド取得（Editor読み込み用）
-// PATCH  /api/admin/articles/{id} … 下書きの更新（statusは常にdraftへ強制）
-// DELETE /api/admin/articles/{id} … 下書きの削除
-import { getAuthedContext, normalizeArticleInput, sendError } from '../../../lib/supabaseAdmin.mjs';
+// GET    /api/admin/article?id={id} … 下書き1件の全フィールド取得（Editor読み込み用）
+// PATCH  /api/admin/article?id={id} … 下書きの更新（statusは常にdraftへ強制）
+// DELETE /api/admin/article?id={id} … 下書きの削除
+//
+// 注記: 当初は /api/admin/articles/[id].mjs という動的パスセグメント方式で実装していたが、
+// このVercelプロジェクト構成（Framework Preset: Other、vercel.jsonでの手動outputDirectory/rewrites指定）では
+// [id] 形式のブラケット動的ルートが一切マッチしない（Vercelの汎用404が返る）ことを診断用エンドポイントで
+// 複数パターン（フォルダ名・拡張子違い）で確認した。クエリ文字列（?id=）方式は正常に機能するため、
+// この方式へ変更した。req.query.id の取得自体はパスパラメータ方式と同じAPIで扱えるため、
+// ハンドラのロジックは変更していない。
+import { getAuthedContext, normalizeArticleInput, sendError } from '../../lib/supabaseAdmin.mjs';
 
 export default async function handler(req, res) {
   const ctx = await getAuthedContext(req);
