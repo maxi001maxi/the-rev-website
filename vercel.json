@@ -1,0 +1,8 @@
+{
+  "outputDirectory": "dist",
+  "trailingSlash": true,
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin/index.html" }
+  ]
+}

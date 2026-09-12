@@ -1,0 +1,160 @@
+/* ===================================================================
+   THE REV. CONDITIONING LAB. — blog.css
+   Blog / Column 専用スタイル。既存 style.css の変数・命名規則のみを使用し、
+   新しいデザインシステムは作らない。
+   =================================================================== */
+
+/* ---------- Hero（一覧・カテゴリ・記事共通） ---------- */
+.blog-hero-wrap{ width:min(760px,90vw); }
+.blog-hero-dates{
+  font-family:var(--latin); font-weight:400; font-size:12.5px; letter-spacing:.14em;
+  color:var(--wood); display:flex; gap:16px; flex-wrap:wrap; margin-top:14px;
+}
+.blog-hero-dates .blog-update{ color:#D9D1C2; }
+.blog-post-title{ font-family:var(--serif) !important; font-weight:600 !important; font-size:clamp(28px,4.4vw,46px) !important; letter-spacing:.03em; line-height:1.55 !important; }
+.blog-post-lead{ max-width:56ch; }
+.blog-hero-author{
+  margin-top:clamp(20px,2.6vw,30px); font-family:var(--sans); font-size:14px; color:#EFEAE0;
+  display:flex; flex-direction:column; gap:2px;
+}
+.blog-hero-author span{ font-family:var(--latin); font-size:11px; letter-spacing:.14em; color:var(--wood); text-transform:uppercase; }
+
+/* ---------- Hero画像 ---------- */
+.blog-hero-media{
+  background:var(--paper); margin:0; padding-top:clamp(28px,4vw,48px);
+}
+.blog-hero-media img{
+  width:min(960px,90vw); margin-inline:auto; aspect-ratio:16/9; object-fit:cover;
+  border:1px solid var(--line);
+}
+
+/* ---------- 一覧：軽量Editorial Hero ----------
+   Recovery/Trainer等の巨大な黒Hero（.page-head）は使わず、
+   コラム一覧専用の軽い紹介セクションにする。
+   このページには .hero も .page-head も無いため、
+   固定Headerのロゴ・背景を明示的に「スクロール後」と同じ見た目に固定する。 */
+body.blog-index .site-header{ background:rgba(250,249,246,.96); box-shadow:0 1px 0 var(--line-soft); }
+body.blog-index .brand-logo--light{ opacity:0; }
+body.blog-index .brand-logo--dark{ opacity:1; }
+
+.blog-lp-hero{
+  background:var(--paper); color:var(--ink);
+  padding-top:clamp(116px,15vw,150px); padding-bottom:clamp(36px,4.6vw,56px);
+}
+.blog-lp-hero-wrap{ width:min(680px,90vw); }
+.blog-lp-title{
+  font-family:var(--serif); font-weight:600; font-size:clamp(26px,3.6vw,38px);
+  line-height:1.6; color:var(--ink); margin:18px 0 0;
+}
+.blog-lp-lead{
+  margin-top:clamp(18px,2.2vw,24px); font-size:clamp(14.5px,1.1vw,16px); line-height:1.95;
+  color:var(--ink-soft); letter-spacing:.03em; max-width:50ch;
+}
+
+/* ---------- 記事一覧グリッド ---------- */
+.blog-grid-sec{ background:var(--paper); color:var(--ink); padding-top:clamp(40px,5vw,64px); }
+.blog-grid{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(28px,3.4vw,48px) clamp(24px,3vw,40px);
+}
+@media(max-width:720px){ .blog-grid{ grid-template-columns:1fr; gap:36px; } }
+
+.blog-card{ border:1px solid var(--line); background:var(--paper); transition:border-color .3s, transform .3s; }
+.blog-card:hover{ border-color:var(--wood); transform:translateY(-3px); }
+.blog-card-link{ display:block; color:inherit; text-decoration:none; }
+.blog-card-media{ aspect-ratio:3/2; overflow:hidden; }
+.blog-card-media img{ width:100%; height:100%; object-fit:cover; }
+.blog-card-body{ padding:clamp(20px,2.4vw,28px); }
+.blog-card-cat{
+  font-family:var(--latin); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--wood-deep); margin:0 0 8px;
+}
+.blog-card-date{
+  display:block; font-family:var(--latin); font-size:12px; letter-spacing:.06em; color:var(--ink-faint); margin-bottom:12px;
+}
+.blog-card-title{
+  font-family:var(--serif); font-weight:600; font-size:clamp(17px,1.6vw,20px); line-height:1.6; color:var(--ink); margin:0 0 10px;
+}
+.blog-card-desc{
+  font-size:14.5px; line-height:1.85; color:var(--ink-soft); margin:0 0 16px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.blog-card-more{
+  font-family:var(--sans); font-size:13px; letter-spacing:.08em; color:var(--ink);
+  display:inline-flex; align-items:center; gap:10px;
+}
+.blog-card .tz-arrow{ width:16px; height:1px; background:currentColor; position:relative; display:inline-block; }
+.blog-card .tz-arrow::after{ content:""; position:absolute; right:0; top:-3px; width:6px; height:6px; border-top:1px solid currentColor; border-right:1px solid currentColor; transform:rotate(45deg); }
+
+.blog-empty{ text-align:center; color:var(--ink-faint); padding:60px 0; font-size:15px; letter-spacing:.05em; }
+
+.blog-pagination{ display:flex; justify-content:center; gap:10px; margin-top:clamp(48px,5vw,64px); }
+.blog-page-link{
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--line); font-family:var(--latin); font-size:13px; color:var(--ink-soft); text-decoration:none;
+}
+.blog-page-link[aria-current="page"]{ background:var(--charcoal); color:#EFEAE0; border-color:var(--charcoal); }
+
+/* ---------- 記事詳細 ---------- */
+.blog-post-wrap{ width:min(760px,88vw); background:var(--paper); color:var(--ink); padding-top:clamp(48px,6vw,72px); padding-bottom:clamp(64px,8vw,110px); }
+
+.blog-toc{
+  border:1px solid var(--line); background:var(--paper-2); padding:clamp(20px,2.6vw,28px) clamp(22px,2.8vw,30px);
+  margin-bottom:clamp(40px,5vw,56px);
+}
+.blog-toc-label{ font-family:var(--latin); font-size:11px; letter-spacing:.22em; color:var(--wood-deep); margin:0 0 14px; }
+.blog-toc-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; counter-reset:toc; }
+.blog-toc-list li{ counter-increment:toc; }
+.blog-toc-list a{
+  font-size:14.5px; color:var(--ink-soft); text-decoration:none; line-height:1.6;
+}
+.blog-toc-list a::before{ content:counter(toc,decimal-leading-zero)" — "; color:var(--wood); font-family:var(--latin); }
+.blog-toc-list a:hover{ color:var(--wood-deep); }
+
+.blog-body{ font-size:clamp(16px,1.05vw,18px); line-height:1.95; letter-spacing:.03em; color:var(--ink); }
+.blog-body h2{
+  font-family:var(--serif); font-weight:600; font-size:clamp(22px,2.6vw,30px); line-height:1.55;
+  margin:clamp(48px,5.4vw,64px) 0 clamp(20px,2.4vw,26px); scroll-margin-top:100px;
+}
+.blog-body h3{
+  font-family:var(--serif); font-weight:600; font-size:clamp(18px,1.9vw,21px); line-height:1.6;
+  margin:clamp(32px,3.6vw,40px) 0 16px; scroll-margin-top:100px;
+}
+.blog-body p{ margin:0 0 1.6em; }
+.blog-body strong{ font-weight:700; }
+.blog-body a{ color:var(--wood-deep); text-decoration:underline; text-underline-offset:3px; }
+.blog-body ul, .blog-body ol{ margin:0 0 1.6em; padding-left:1.4em; }
+.blog-body li{ margin-bottom:.5em; }
+.blog-body blockquote{
+  margin:0 0 1.6em; padding:4px 0 4px 22px; border-left:2px solid var(--wood);
+  color:var(--ink-soft); font-style:normal;
+}
+.blog-body img{ width:100%; height:auto; border:1px solid var(--line); margin:0 0 1.6em; }
+.blog-body table{ width:100%; border-collapse:collapse; margin:0 0 1.6em; font-size:14.5px; }
+.blog-body th, .blog-body td{ border:1px solid var(--line); padding:10px 14px; text-align:left; }
+.blog-body th{ background:var(--paper-2); font-family:var(--sans); font-weight:500; }
+
+/* ---------- Author Block ---------- */
+.blog-author{
+  margin-top:clamp(48px,5.4vw,64px); padding:clamp(26px,3vw,34px); border:1px solid var(--line); background:var(--paper-2);
+}
+.blog-author-label{ font-family:var(--latin); font-size:11px; letter-spacing:.22em; color:var(--wood-deep); margin:0 0 12px; }
+.blog-author-name{ font-family:var(--serif); font-weight:600; font-size:17px; color:var(--ink); margin:0 0 12px; display:flex; flex-direction:column; gap:4px; }
+.blog-author-name span{ font-family:var(--sans); font-weight:400; font-size:13px; color:var(--ink-faint); }
+.blog-author-bio{ font-size:14.5px; line-height:1.85; color:var(--ink-soft); margin:0 0 18px; }
+
+/* ---------- Article CTA ---------- */
+.blog-cta{
+  margin-top:clamp(48px,5.4vw,64px); padding:clamp(32px,4vw,44px) clamp(26px,3.4vw,36px);
+  background:var(--charcoal); color:#EFEAE0; text-align:center;
+}
+.blog-cta-headline{ font-family:var(--serif); font-weight:600; font-size:clamp(19px,2vw,23px); margin:0 0 24px; }
+.blog-cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
+
+/* ---------- Related Articles ---------- */
+.blog-related{ margin-top:clamp(56px,6vw,80px); }
+.blog-related-label{ font-family:var(--latin); font-size:11px; letter-spacing:.22em; color:var(--wood-deep); margin:0 0 24px; text-align:center; }
+.blog-related-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media(max-width:640px){ .blog-related-grid{ grid-template-columns:1fr; } }
+.blog-related-card a{ display:block; color:inherit; text-decoration:none; }
+.blog-related-card img{ width:100%; aspect-ratio:3/2; object-fit:cover; border:1px solid var(--line); margin-bottom:10px; }
+.blog-related-cat{ font-family:var(--latin); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--wood-deep); margin:0 0 6px; }
+.blog-related-card h4{ font-family:var(--serif); font-weight:600; font-size:15.5px; line-height:1.6; color:var(--ink); margin:0; }
