@@ -7,6 +7,7 @@
 //   2. GITHUB_TOKEN が戻り値・エラーメッセージへ絶対に含まれないこと
 //   3. Publish権限（ADMIN_PUBLISHER_USER_ID）が fail closed であること
 //   4. Markdown Serializerの出力が既存の scripts/build-blog.mjs でそのままビルドできること
+//   5. Phase D.1: 画像アップロードの検証ロジック（MIME/サイズ/パス生成）が正しいこと
 //
 // 4番は実際に content/blog/ へ一時ファイルを書いて build-blog を実行し、
 // 最後に必ず削除して元の状態へ戻す（finallyで復旧）。
@@ -394,6 +395,60 @@ try {
   delete process.env.GITHUB_BRANCH;
   delete process.env.ADMIN_PUBLISHER_USER_ID;
 }
+
+/* =============================================================
+   7. Phase D.1: 画像アップロード（admin-storage.mjs の純粋関数）
+   ============================================================= */
+section('7. admin-storage.mjs（画像アップロードの検証ロジック）');
+
+// このファイルはトップレベルで admin-auth.mjs（CDNからSupabase SDKをimport）を
+// importしない設計になっている。ここでのimport自体がネットワークアクセスを
+// 発生させないことも、このテストが通ること自体で確認できる。
+const storage = await import('../admin/js/admin-storage.mjs');
+
+assert(
+  JSON.stringify(storage.ALLOWED_MIME_TYPES) === JSON.stringify(['image/jpeg', 'image/png', 'image/webp']),
+  'ALLOWED_MIME_TYPES は JPEG / PNG / WebP のみ', JSON.stringify(storage.ALLOWED_MIME_TYPES)
+);
+assert(storage.MAX_FILE_SIZE_BYTES === 5 * 1024 * 1024, 'MAX_FILE_SIZE_BYTES は5MB', String(storage.MAX_FILE_SIZE_BYTES));
+
+assert(storage.validateImageFile({ type: 'image/jpeg', size: 1024 }).ok === true, '許可されたMIME・サイズ内はok');
+assert(storage.validateImageFile({ type: 'image/gif', size: 1024 }).ok === false, '許可されていないMIME（gif等）は拒否');
+assert(storage.validateImageFile({ type: 'application/octet-stream', size: 1024 }).ok === false, '画像以外のMIMEは拒否');
+assert(storage.validateImageFile({ type: 'image/png', size: storage.MAX_FILE_SIZE_BYTES + 1 }).ok === false, '上限超過サイズは拒否');
+assert(storage.validateImageFile({ type: 'image/webp', size: storage.MAX_FILE_SIZE_BYTES }).ok === true, '上限ちょうどのサイズは許可');
+assert(storage.validateImageFile({ type: 'image/jpeg', size: 0 }).ok === false, '空ファイル（size:0）は拒否');
+assert(storage.validateImageFile(null).ok === false, 'ファイル未選択は拒否');
+
+const path1 = storage.buildStoragePath('11111111-1111-4111-8111-111111111111', 'image/jpeg');
+assert(path1.startsWith('blog/11111111-1111-4111-8111-111111111111/'), '保存先パスは blog/{draft-id}/ 配下', path1);
+assert(path1.endsWith('.jpg'), 'JPEGの拡張子は.jpg', path1);
+assert(storage.buildStoragePath('id', 'image/png').endsWith('.png'), 'PNGの拡張子は.png');
+assert(storage.buildStoragePath('id', 'image/webp').endsWith('.webp'), 'WebPの拡張子は.webp');
+
+const pathA = storage.buildStoragePath('id', 'image/jpeg');
+const pathB = storage.buildStoragePath('id', 'image/jpeg');
+assert(pathA !== pathB, '同じdraft・同じ形式でも毎回異なるファイル名になる（上書き事故防止）', `${pathA} / ${pathB}`);
+
+try {
+  storage.buildStoragePath(null, 'image/jpeg');
+  fail('draft-id未指定はエラーになる', '例外が投げられませんでした');
+} catch (e) {
+  ok('draft-id未指定はエラーになる（Save Draft前のアップロードを防止）');
+}
+
+try {
+  storage.buildStoragePath('id', 'image/gif');
+  fail('未許可MIMEでのパス生成はエラーになる', '例外が投げられませんでした');
+} catch (e) {
+  ok('未許可MIMEでのパス生成はエラーになる');
+}
+
+// パストラバーサル対策：draft-idやファイル名はユーザー入力の生文字列を一切パスへ混ぜない設計を確認する
+// （ファイル名は常にAdmin側が生成するtimestamp+ランダム値＋拡張子のみ）。
+const suspicious = storage.buildStoragePath('11111111-1111-4111-8111-111111111111', 'image/png');
+assert(!suspicious.includes('..'), '生成されるパスに ".." が含まれない', suspicious);
+assert(/^blog\/[^/]+\/[0-9]+-[0-9a-z]+\.(jpg|png|webp)$/.test(suspicious), 'パスの形式が blog/{id}/{timestamp}-{rand}.{ext} に一致', suspicious);
 
 /* ============================================================= */
 console.log(`\n──────────────────────────────`);

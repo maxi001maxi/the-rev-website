@@ -176,3 +176,52 @@ Publish権限がfail closedであること・生成Markdownが既存の `scripts
 
 現在GitHubにあるサンプル4記事は、Phase D v1.0ではSupabaseへ自動Importしません。
 **Adminから作成した記事のみ**がGitHub同期の対象です。既存記事の取り込みは別途行います。
+
+---
+
+## Phase D.1（画像アップロード）の使い方
+
+Editorから記事のThumbnail・OGP画像・本文中の画像をアップロードできます。
+記事MarkdownのSource of TruthはこれまでどおりGitHubで、**画像ファイルのみ** Supabase Storageに
+置きます。アップロードはブラウザから既存のSupabase session（ログイン中のアクセストークン）で
+直接行われ、`service_role` は使用しません。認可の実体はSupabase Storageのポリシー（RLS）です。
+
+### 必要な設定（1回だけ・SQL Editorでの実行が必要）
+
+Supabase側の設定はSQLで完結しますが、このセッションの実行環境からは
+`api.supabase.com` へ到達できず `supabase db push` を実行できないため、
+**この1手順だけ手動でお願いします**（Phase Cのテーブル作成時と同じ操作です）。
+
+1. Supabase Dashboard → **SQL Editor** を開く
+2. `supabase/migrations/20260913020000_phase_d1_storage.sql` の内容をそのまま貼り付けて実行する
+   - `blog-images` という Storage バケットを作成します（存在すれば設定を上書きするだけなので、
+     誤って複数回実行しても安全です）
+   - 許可する画像形式：JPEG / PNG / WebP、上限5MB（Storage側でも強制されます）
+   - 読み取り（select）はバケット全体を公開にします（公開Blogページの`<img>`から
+     認証なしで表示できるようにするため。既存の `/assets/images/blog/*.jpg` と同様の扱いです）
+   - 書き込み（insert / update / delete）は **認証済みユーザーのみ** 許可します
+
+以上でVercel側の環境変数の追加や、コードの変更は不要です（アップロードは
+ブラウザ→Supabase Storageへ直接行われ、Vercel Functionsを経由しません）。
+
+### 保存先・命名規則
+
+`blog/{draft-id}/{timestamp}-{ランダム8文字}.{jpg|png|webp}` の形式で保存されます。
+
+- `draft-id` は `admin_article_drafts.id`（UUID）。ユーザー入力ではなく、
+  Draftを一度Save Draftした後にAdmin側が保持している値のみを使用します
+  （画像アップロードは **Save Draft後** でないと行えません）
+- ファイル名は常にAdmin側が生成する値のみで、アップロード元の元ファイル名は一切使用しません
+  （パストラバーサル対策）
+
+### 使い方（Editor）
+
+1. Editorで記事を作成し、一度 **Save Draft** する（articleIdが確定するまで画像アップロードは無効）
+2. 「SEO / Advanced」内の **Images** から画像をアップロード（アップロード中／成功／失敗を表示）
+3. アップロードした画像のサムネイルから
+   - **Set as Thumbnail** → Thumbnail欄へ設定
+   - **Set as OGP** → OGP image欄へ設定（Thumbnailと同じ画像でよい場合は、OGP欄の
+     「Thumbnailと同じ」ボタンでコピーできます）
+   - **本文へ挿入** → 本文（Markdown）のカーソル位置へ `![](URL)` を自動挿入
+4. Review画面・公開後のBlog記事のどちらでも、Supabase StorageのURLがそのまま
+   `<img src="...">` として表示されます（既存のローカルパス画像と扱いは同じ）

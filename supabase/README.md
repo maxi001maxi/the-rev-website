@@ -61,6 +61,13 @@ supabase migration list
    （migrationファイル自体はGitで管理するSource of Truthであり、`supabase db push` は
    「まだ適用されていないファイルを適用する」だけなので、pushの順序はどちらが先でも安全）
 
+## Phase D.1（画像アップロード / Storage）
+
+`20260913020000_phase_d1_storage.sql` は `blog-images` Storageバケットとそのアクセスポリシーを
+作成します。既存のmigration同様、内容は再実行に強い書き方（`on conflict do update` /
+`drop policy if exists`）にしてあります。手順・設計方針は `ADMIN_SETUP.md` の
+「Phase D.1（画像アップロード）の使い方」を参照してください。
+
 ## RLS / DB制約の変更について
 
 `admin_article_drafts.status` の `check (status = 'draft')` 制約は、Phase Dでも意図的に

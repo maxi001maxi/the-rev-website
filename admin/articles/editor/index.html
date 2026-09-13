@@ -115,7 +115,10 @@
 </div>
 <div class="admin-field">
 <label for="f-og">OGP image path</label>
+<div class="admin-slug-row">
 <input id="f-og" type="text" placeholder="/assets/images/blog/og/xxx.jpg">
+<button id="og-same-as-thumb-btn" type="button" class="admin-btn-mini">Thumbnailと同じ</button>
+</div>
 </div>
 <div class="admin-field">
 <label for="f-keywords">Keywords</label>
@@ -125,6 +128,20 @@
 <div class="admin-checkbox-row">
 <label><input id="f-featured" type="checkbox"> Featured</label>
 <label><input id="f-noindex" type="checkbox"> Noindex</label>
+</div>
+
+<div class="admin-field admin-images-field">
+<label>Images</label>
+<p id="image-upload-disabled-hint" class="admin-field-hint">先にSave Draftしてください（画像はDraft保存後にアップロードできます）。</p>
+<div id="image-upload-controls" class="admin-hidden">
+<div class="admin-image-upload-row">
+<label class="admin-btn-mini admin-file-btn" for="f-image-upload">画像をアップロード</label>
+<input id="f-image-upload" type="file" accept="image/jpeg,image/png,image/webp" class="admin-hidden">
+<span id="image-upload-status" class="admin-upload-status"></span>
+</div>
+<p class="admin-field-hint">JPEG / PNG / WebP、5MBまで。アップロード後、各画像から Thumbnail・OGP への設定や本文への挿入ができます。</p>
+<div id="image-gallery" class="admin-image-gallery"></div>
+</div>
 </div>
 </details>
 
@@ -145,6 +162,7 @@
 <script type="module">
 import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
 import { AdminApi } from '/admin/js/admin-api.mjs';
+import { uploadImage, validateImageFile } from '/admin/js/admin-storage.mjs';
 import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12/+esm';
 
 const params = new URLSearchParams(location.search);
@@ -232,6 +250,103 @@ function applyPublishedState() {
   document.getElementById('delete-btn').classList.toggle('admin-hidden', published || !articleId);
 }
 
+/* ---------- Phase D.1: 画像アップロード（Supabase Storage） ---------- */
+
+// このページ内でアップロードした画像（{ url, path }）。ページを離れると消える
+// （永続的な画像ライブラリは今回のスコープ外。Thumbnail/OGP/本文への挿入は都度行う）。
+let uploadedImages = [];
+let uploading = false;
+
+// アップロードは記事（draft）のIDが確定してから（＝Save Draft後）でないと
+// 保存先パス blog/{draft-id}/... を決められないため、それまでは操作できないようにする。
+function applyImageUploadAvailability() {
+  const available = !!articleId;
+  document.getElementById('image-upload-disabled-hint').classList.toggle('admin-hidden', available);
+  document.getElementById('image-upload-controls').classList.toggle('admin-hidden', !available);
+}
+
+function setUploadStatus(text, kind) {
+  const el = document.getElementById('image-upload-status');
+  el.textContent = text || '';
+  el.className = 'admin-upload-status' + (kind ? ` admin-upload-status-${kind}` : '');
+}
+
+function renderImageGallery() {
+  const gallery = document.getElementById('image-gallery');
+  gallery.innerHTML = uploadedImages.map((img, i) => `
+<figure class="admin-image-chip">
+<img src="${escapeHtml(img.url)}" alt="" loading="lazy">
+<figcaption>
+<button type="button" class="admin-btn-mini" data-action="thumb" data-index="${i}">Set as Thumbnail</button>
+<button type="button" class="admin-btn-mini" data-action="og" data-index="${i}">Set as OGP</button>
+<button type="button" class="admin-btn-mini" data-action="insert" data-index="${i}">本文へ挿入</button>
+</figcaption>
+</figure>`).join('');
+}
+
+async function handleImageFileSelected(file) {
+  clearError();
+  if (!articleId) {
+    showError('先にDraftを保存してください。');
+    return;
+  }
+  const validation = validateImageFile(file);
+  if (!validation.ok) {
+    setUploadStatus(validation.message, 'error');
+    return;
+  }
+  if (uploading) return; // 二重送信禁止
+  uploading = true;
+  setUploadStatus('アップロード中…', 'uploading');
+  try {
+    const { url } = await uploadImage({ draftId: articleId, file });
+    uploadedImages = [...uploadedImages, { url }];
+    renderImageGallery();
+    setUploadStatus('アップロードしました。', 'success');
+  } catch (e) {
+    setUploadStatus(e.message || '画像のアップロードに失敗しました。', 'error');
+  } finally {
+    uploading = false;
+  }
+}
+
+// 本文のテキストエリアは、フォーカスが外れてもselectionStart/Endは直前の位置を保持するため、
+// 「本文へ挿入」ボタン押下時にそのまま参照すればカーソル位置へ挿入できる。
+function insertMarkdownImageAtCursor(url) {
+  const textarea = els.body;
+  const start = textarea.selectionStart ?? textarea.value.length;
+  const end = textarea.selectionEnd ?? textarea.value.length;
+  const snippet = `![](${url})`;
+  textarea.value = textarea.value.slice(0, start) + snippet + textarea.value.slice(end);
+  const caret = start + snippet.length;
+  textarea.setSelectionRange(caret, caret);
+  textarea.focus();
+  markDirty();
+  schedulePreview();
+}
+
+document.getElementById('f-image-upload').addEventListener('change', (e) => {
+  const file = e.target.files && e.target.files[0];
+  e.target.value = ''; // 同じファイルを連続選択しても change が発火するようにリセット
+  if (file) handleImageFileSelected(file);
+});
+
+document.getElementById('image-gallery').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  const img = uploadedImages[Number(btn.dataset.index)];
+  if (!img) return;
+  if (btn.dataset.action === 'thumb') { els.thumbnail.value = img.url; markDirty(); schedulePreview(); }
+  if (btn.dataset.action === 'og') { els.og.value = img.url; markDirty(); }
+  if (btn.dataset.action === 'insert') { insertMarkdownImageAtCursor(img.url); }
+});
+
+document.getElementById('og-same-as-thumb-btn').addEventListener('click', () => {
+  if (!els.thumbnail.value) { showError('先にThumbnailを設定してください。'); return; }
+  els.og.value = els.thumbnail.value;
+  markDirty();
+});
+
 function fillForm(a) {
   els.title.value = a.title || '';
   els.slug.value = a.slug || '';
@@ -250,6 +365,7 @@ function fillForm(a) {
   els.body.value = a.body_markdown || '';
   sourcePath = a.source_path || null;
   applyPublishedState();
+  applyImageUploadAvailability();
 }
 
 function collectForm() {
@@ -305,6 +421,7 @@ async function save() {
       history.replaceState(null, '', `/admin/articles/editor/?id=${encodeURIComponent(articleId)}`);
       document.getElementById('editor-heading').textContent = 'Edit Article';
       applyPublishedState();
+      applyImageUploadAvailability();
     }
     isDirty = false;
     setSaveStatus(`Saved ${formatTime(new Date())}`);
@@ -388,6 +505,7 @@ async function init() {
     els.updated.value = todayStr();
     els.author.value = 'THE REV. CONDITIONING LAB.';
     applyPublishedState();
+    applyImageUploadAvailability();
     form.classList.remove('admin-hidden');
     renderPreview();
   }
