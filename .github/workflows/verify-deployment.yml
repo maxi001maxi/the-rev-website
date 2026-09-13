@@ -25,6 +25,13 @@
 #   このworkflow自身もecho等で値を出力する処理を持たない）。
 #   Secretが未設定の場合はヘッダーなしで実行し、警告のみ出して安全にフェイルする
 #   （Vercel Authenticationが有効な対象では302が返る想定）。
+#
+# リダイレクト追従：
+#   このプロジェクトの vercel.json は trailingSlash: true のため、末尾スラッシュ
+#   なしで /api/* を叩くと308でスラッシュ付きへリダイレクトされる（実際のブラウザ
+#   fetch()は自動追従するため本番挙動には影響しない）。curlも -L で追従し、
+#   POST（Publish系チェック）は --post301/--post302/--post303 でメソッドを
+#   維持する（308は元々RFC上メソッド保持が必須で、curlも自動で維持する）。
 name: Verify Deployment
 
 on:
@@ -76,7 +83,8 @@ jobs:
             local url="${BASE_URL}${path}"
             local tmp; tmp="$(mktemp)"
             local code
-            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" \
+            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -L \
+              --post301 --post302 --post303 -X "$method" \
               -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" "$url" || echo "000")
             local ok="❌"
             if [ "$code" = "$expected" ]; then
