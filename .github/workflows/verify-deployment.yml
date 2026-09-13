@@ -10,23 +10,21 @@
 #   ヘルスチェック・回帰確認はここで行い、結果をジョブサマリーに残す。
 #
 # Vercel Deployment Protection（Vercel Authentication）越え：
-#   長期のBypass Secretは使わず、Vercelの推奨方式であるOIDC Federation
-#   （Trusted Sources）を使用する。このworkflowがGitHubのOIDCプロバイダから
-#   短命のID tokenを取得し、`x-vercel-trusted-oidc-idp-token` ヘッダーとして
-#   保護されたデプロイへ送る。Vercel側で本リポジトリ（と対象ブランチ/環境）を
-#   Trusted Sourceとして登録していない間は、このヘッダーを送ってもVercelは
-#   信用せず、通常どおり保護（302リダイレクト）が働く＝安全にフェイルする。
+#   OIDC Federation（Trusted Sources）を検証したが、このプロジェクトでは
+#   Trusted Sourcesを設定しても対象デプロイが一貫してVercel Authenticationの
+#   ログイン画面（/sso-api）へリダイレクトされ続けたため調査を終了し、
+#   Vercel公式の Protection Bypass for Automation 方式へ切り替えた。
 #
-#   Trusted Sourcesの設定はVercelダッシュボード側の操作が必要で、ここでは
-#   行えない（Project Settings → Deployment Protection → Trusted Sources /
-#   OIDC Federation でGitHub Actionsを信頼済みソースとして登録する）。
+#   GitHub Repository Secret `VERCEL_AUTOMATION_BYPASS_SECRET`（値はVercelの
+#   Project Settings → Deployment Protection → Protection Bypass for
+#   Automation で発行したもの）を、すべてのリクエストへ
+#   `x-vercel-protection-bypass` ヘッダーとして付与する。
 #
-#   audienceはVercel公式のGitHub Actions例に合わせ、既定では明示指定しない
-#   （`core.getIDToken()` を引数なしで呼んだ場合と同じく、GitHubのOIDC
-#   プロバイダへ `audience` パラメータを付けずにtokenを要求する＝GitHub側の
-#   デフォルトaudienceがそのまま使われる）。Vercel UI側でTrusted Sources設定時に
-#   特定のaudience値の入力が明示的に必要だった場合のみ、`oidc_audience` 入力へ
-#   その値を渡して上書きすること。
+#   このSecretはログへ一切出力しない
+#   （ワークフロー内で参照した時点でGitHubが自動的にログをマスクする。
+#   このworkflow自身もecho等で値を出力する処理を持たない）。
+#   Secretが未設定の場合はヘッダーなしで実行し、警告のみ出して安全にフェイルする
+#   （Vercel Authenticationが有効な対象では302が返る想定）。
 name: Verify Deployment
 
 on:
@@ -41,84 +39,33 @@ on:
         required: false
         type: string
         default: 'Preview'
-      oidc_audience:
-        description: '通常は空欄のままでよい。Vercel UIがOIDC tokenのaudienceを明示的に要求した場合のみ、その値を入力する'
-        required: false
-        type: string
-        default: ''
-
-permissions:
-  contents: read
-  id-token: write
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Get GitHub OIDC ID token for Vercel Trusted Sources
-        id: oidc
-        env:
-          AUDIENCE: ${{ inputs.oidc_audience }}
-        run: |
-          set -u
-          if [ -z "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" ] || [ -z "${ACTIONS_ID_TOKEN_REQUEST_TOKEN:-}" ]; then
-            echo "::warning::OIDC token request環境変数が見つかりません（permissions: id-token: write を確認）。ヘッダーなしで続行します。"
-            echo "token=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          REQUEST_URL="${ACTIONS_ID_TOKEN_REQUEST_URL}"
-          if [ -n "$AUDIENCE" ]; then
-            REQUEST_URL="${REQUEST_URL}&audience=${AUDIENCE}"
-          fi
-          RESP=$(curl -sS -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "${REQUEST_URL}")
-          TOKEN=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('value',''))" 2>/dev/null || echo "")
-          if [ -z "$TOKEN" ]; then
-            echo "::warning::OIDC ID tokenの取得に失敗しました。レスポンス: ${RESP}"
-          else
-            echo "::add-mask::$TOKEN"
-          fi
-          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
-
-      # 診断用：tokenの署名部分は出力せず、非秘匿のclaim（aud/sub/iss/exp）だけを
-      # ジョブサマリーへ出す。Vercel Trusted Sourcesの設定値と実際のtokenの中身が
-      # 一致しているかどうかを、Vercelの管理画面を見なくても突き合わせられるようにする。
-      - name: Decode OIDC token claims (diagnostics only, no secret material)
-        if: steps.oidc.outputs.token != ''
-        env:
-          TOKEN: ${{ steps.oidc.outputs.token }}
-        run: |
-          set -u
-          CLAIMS_JSON=$(python3 -c "import base64,json,os; t=os.environ['TOKEN']; p=t.split('.')[1]; p+='='*(-len(p)%4); c=json.loads(base64.urlsafe_b64decode(p)); keys=('aud','sub','iss','repository','ref','workflow_ref','environment'); print(json.dumps({k: c.get(k) for k in keys}))")
-          echo "OIDC token claims（secret署名部分は含まない）:"
-          echo "$CLAIMS_JSON" | python3 -m json.tool
-          {
-            echo ""
-            echo "### OIDC token claims（診断用）"
-            echo ""
-            echo '```json'
-            echo "$CLAIMS_JSON" | python3 -m json.tool
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Run checks against ${{ inputs.base_url }}
         env:
           BASE_URL: ${{ inputs.base_url }}
           LABEL: ${{ inputs.label }}
-          OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
           set -u
           FAIL=0
           SUMMARY="$GITHUB_STEP_SUMMARY"
 
+          if [ -z "$VERCEL_BYPASS_SECRET" ]; then
+            echo "::warning::VERCEL_AUTOMATION_BYPASS_SECRET が設定されていません（Repository Secretsが空）。Bypassヘッダーなしで続行します。"
+          fi
+
           echo "# Deployment Verification — ${LABEL}" >> "$SUMMARY"
           echo "" >> "$SUMMARY"
           echo "Target: \`${BASE_URL}\`" >> "$SUMMARY"
-          if [ -n "$OIDC_TOKEN" ]; then
-            echo "" >> "$SUMMARY"
-            echo "OIDC Trusted Sourcesヘッダー（x-vercel-trusted-oidc-idp-token）を付与して実行しました。" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          if [ -n "$VERCEL_BYPASS_SECRET" ]; then
+            echo "Vercel Protection Bypass for Automation（\`x-vercel-protection-bypass\`）を付与して実行しました。" >> "$SUMMARY"
           else
-            echo "" >> "$SUMMARY"
-            echo "⚠️ OIDC ID tokenを取得できなかったため、Trusted Sourcesヘッダーなしで実行しました（Vercel Authenticationが有効な対象では302が返る想定）。" >> "$SUMMARY"
+            echo "⚠️ VERCEL_AUTOMATION_BYPASS_SECRET が未設定のため、Bypassヘッダーなしで実行しました（Vercel Authenticationが有効な対象では302が返る想定）。" >> "$SUMMARY"
           fi
           echo "" >> "$SUMMARY"
           echo "| Check | Expected | Actual | Result |" >> "$SUMMARY"
@@ -129,12 +76,8 @@ jobs:
             local url="${BASE_URL}${path}"
             local tmp; tmp="$(mktemp)"
             local code
-            if [ -n "$OIDC_TOKEN" ]; then
-              code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" \
-                -H "x-vercel-trusted-oidc-idp-token: ${OIDC_TOKEN}" "$url" || echo "000")
-            else
-              code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" "$url" || echo "000")
-            fi
+            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" \
+              -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" "$url" || echo "000")
             local ok="❌"
             if [ "$code" = "$expected" ]; then
               if [ -n "$grep_for" ]; then
@@ -149,17 +92,6 @@ jobs:
             head -c 500 "$tmp"; echo ""
             rm -f "$tmp"
           }
-
-          # 診断用：Healthエンドポイントへのレスポンスヘッダーをそのまま出す
-          # （Vercelがどう判定しているかのヒントになるx-vercel-*系ヘッダーを見るため）。
-          echo "---- diagnostics: response headers for ${BASE_URL}/api/health ----"
-          if [ -n "$OIDC_TOKEN" ]; then
-            curl -sS -D - -o /dev/null --max-time 20 \
-              -H "x-vercel-trusted-oidc-idp-token: ${OIDC_TOKEN}" "${BASE_URL}/api/health"
-          else
-            curl -sS -D - -o /dev/null --max-time 20 "${BASE_URL}/api/health"
-          fi
-          echo ""
 
           check "Health"                    GET  "/api/health"                          200 '"ok":true'
           check "Config (public, no secret)" GET  "/api/config"                          200
