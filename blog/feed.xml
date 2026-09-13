@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>THE REV. CONDITIONING LAB. — COLUMN</title>
 <link>https://therev-lab.com/blog/</link>
+<atom:link href="https://therev-lab.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
 <description>THE REV.で実際に聞かれる身体づくりの疑問や、代表トレーナーの考え方をまとめたコラムです。</description>
 <language>ja</language>
 

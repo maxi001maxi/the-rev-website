@@ -214,7 +214,7 @@ function renderPreview(a) {
     ? ` <time class="blog-update">UPDATE ${escapeHtml(String(a.updated).replace(/-/g, '.'))}</time>`
     : '';
   const hero = a.thumbnail
-    ? `<figure class="blog-hero-media"><img src="${escapeHtml(a.thumbnail)}" alt="" width="1200" height="675"></figure>`
+    ? `<figure class="blog-hero-media"><img src="${escapeHtml(a.thumbnail)}" alt="${escapeHtml(a.title || '')}" width="1200" height="675"></figure>`
     : '';
   const doc = `<!doctype html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -236,7 +236,7 @@ function renderPreview(a) {
 <div class="blog-article-dates"><time>${escapeHtml(String(a.published || '').replace(/-/g, '.'))}</time>${updatedBlock}</div>
 <h1 class="blog-article-title">${escapeHtml(a.title || '')}</h1>
 <p class="blog-article-lead">${escapeHtml(a.description || '')}</p>
-<p class="blog-article-author">${escapeHtml(a.author || '')}${a.author_role && a.author_role !== a.author ? `<span>${escapeHtml(a.author_role)}</span>` : ''}</p>
+<p class="blog-article-author"><span class="blog-article-author-label">WRITTEN BY</span>${escapeHtml(a.author || '')}${a.author_role && a.author_role !== a.author ? `<span>${escapeHtml(a.author_role)}</span>` : ''}</p>
 </div>
 </header>
 ${hero}

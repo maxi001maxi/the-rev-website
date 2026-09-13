@@ -18,7 +18,9 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
   background:var(--paper); color:var(--ink);
   padding-top:clamp(112px,15vw,148px); padding-bottom:clamp(20px,2.6vw,32px);
 }
-.blog-article-hero-wrap{ width:min(720px,90vw); }
+/* Hero・目次・本文・CTAの左端を1本に揃える。以前は Hero 720px / 本文 760px で
+   デスクトップでタイトルと本文の左端が20pxずれていた（計測で確認）。 */
+.blog-article-hero-wrap{ width:min(760px,88vw); }
 .blog-back{
   display:inline-flex; align-items:center; gap:8px;
   font-family:var(--latin); font-weight:400; font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
@@ -31,8 +33,11 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
 }
 .blog-article-dates .blog-update{ color:var(--wood-deep); }
 .blog-article-title{
-  font-family:var(--serif); font-weight:600; font-size:clamp(27px,4vw,42px); letter-spacing:.02em;
-  line-height:1.55; color:var(--ink); margin:16px 0 0;
+  font-family:var(--serif); font-weight:600; font-size:clamp(27px,3.6vw,40px); letter-spacing:.02em;
+  line-height:1.5; color:var(--ink); margin:16px 0 0;
+  /* 日本語の行末禁則を厳密にし、行長をならす。
+     以前は末尾に「い？」だけが取り残される折り返しになっていた。 */
+  line-break:strict; word-break:auto-phrase; text-wrap:balance; overflow-wrap:anywhere;
 }
 .blog-article-lead{
   margin-top:clamp(16px,2vw,22px); font-size:clamp(15px,1.1vw,16.5px); line-height:1.9;
@@ -43,6 +48,10 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
   display:flex; flex-direction:column; gap:2px;
 }
 .blog-article-author span{ font-family:var(--latin); font-size:11px; letter-spacing:.12em; color:var(--wood-deep); text-transform:uppercase; }
+.blog-article-author .blog-article-author-label{
+  font-family:var(--latin); font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--ink-faint); margin-bottom:6px;
+}
 
 /* ---------- Hero画像（記事の補助画像。キービジュアル扱いにしない） ---------- */
 .blog-hero-media{ background:var(--paper); margin:0; padding-top:clamp(4px,1vw,16px); }
@@ -57,7 +66,11 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
   background:var(--paper); color:var(--ink);
   padding-top:clamp(116px,15vw,150px); padding-bottom:clamp(36px,4.6vw,56px);
 }
-.blog-lp-hero-wrap{ width:min(680px,90vw); }
+/* 一覧Heroは独自幅（680px中央寄せ）だったため、下の記事グリッド（.wrap）と
+   左端が250pxずれていた。.wrap と同じ幅にして左端を揃え、
+   読み物としての縦のラインを1本にする。 */
+.blog-lp-hero-wrap{ width:min(var(--maxw),92vw); }
+.blog-lp-hero-wrap > *{ max-width:min(680px,100%); }
 .blog-lp-title{
   font-family:var(--serif); font-weight:600; font-size:clamp(26px,3.6vw,38px);
   line-height:1.6; color:var(--ink); margin:18px 0 0;
@@ -67,6 +80,23 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
   color:var(--ink-soft); letter-spacing:.03em; max-width:50ch;
 }
 
+/* 日本語見出しの折り返し。word-break:auto-phrase は文節単位で折り返す（Chrome 119+）。
+   非対応ブラウザでは無視され従来どおりの文字単位折り返しに戻るだけなので安全。
+   これがないとスマートフォン幅で「…を知りた／い方へ。」のように語中で切れる。 */
+.blog-lp-title,
+.blog-card-title,
+.blog-body h2,
+.blog-body h3,
+.blog-related-card h3{
+  line-break:strict; word-break:auto-phrase; text-wrap:balance;
+}
+
+/* リード文・説明文も文節単位で折り返す（見出しではないので balance は掛けない）。 */
+.blog-lp-lead,
+.blog-article-lead,
+.blog-card-desc,
+.blog-cta-headline{ line-break:strict; word-break:auto-phrase; }
+
 /* ---------- 記事一覧グリッド ---------- */
 .blog-grid-sec{ background:var(--paper); color:var(--ink); padding-top:clamp(40px,5vw,64px); }
 .blog-grid{
@@ -74,12 +104,22 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
 }
 @media(max-width:720px){ .blog-grid{ grid-template-columns:1fr; gap:36px; } }
 
-.blog-card{ border:1px solid var(--line); background:var(--paper); transition:border-color .3s, transform .3s; }
-.blog-card:hover{ border-color:var(--wood); transform:translateY(-3px); }
-.blog-card-link{ display:block; color:inherit; text-decoration:none; }
-.blog-card-media{ aspect-ratio:3/2; overflow:hidden; }
-.blog-card-media img{ width:100%; height:100%; object-fit:cover; }
-.blog-card-body{ padding:clamp(20px,2.4vw,28px); }
+/* 枠線で囲んだカード＋hoverで浮き上がる表現は、一般的なブログテンプレートの
+   見え方に寄るため採用しない。同じページ内の関連記事ブロックと同じく、
+   画像＋テキストだけの構成に統一する（枠なし・影なし・角丸なし）。 */
+/* タイトルの行数が1行/2行で変わると READ ARTICLE の位置が段違いになるため、
+   カードを縦フレックスにして本文下の導線を必ず下端へ揃える。 */
+.blog-card{ background:transparent; height:100%; }
+.blog-card-link{ display:flex; flex-direction:column; height:100%; color:inherit; text-decoration:none; }
+.blog-card-media{ aspect-ratio:3/2; overflow:hidden; border:1px solid var(--line); }
+.blog-card-media img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform 1.2s cubic-bezier(.2,.7,.3,1);
+}
+.blog-card-link:hover .blog-card-media img{ transform:scale(1.03); }
+.blog-card-link:hover .blog-card-title{ color:var(--wood-deep); }
+.blog-card-title{ transition:color .3s; }
+.blog-card-body{ padding:clamp(16px,1.8vw,20px) 0 0; display:flex; flex-direction:column; flex:1; }
 .blog-card-cat{
   font-family:var(--latin); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--wood-deep); margin:0 0 8px;
 }
@@ -96,6 +136,7 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
 .blog-card-more{
   font-family:var(--sans); font-size:13px; letter-spacing:.08em; color:var(--ink);
   display:inline-flex; align-items:center; gap:10px;
+  margin-top:auto; align-self:flex-start;
 }
 .blog-card .tz-arrow{ width:16px; height:1px; background:currentColor; position:relative; display:inline-block; }
 .blog-card .tz-arrow::after{ content:""; position:absolute; right:0; top:-3px; width:6px; height:6px; border-top:1px solid currentColor; border-right:1px solid currentColor; transform:rotate(45deg); }
@@ -125,7 +166,8 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
 .blog-toc-list a::before{ content:counter(toc,decimal-leading-zero)" — "; color:var(--wood); font-family:var(--latin); }
 .blog-toc-list a:hover{ color:var(--wood-deep); }
 
-.blog-body{ font-size:clamp(16px,1.05vw,18px); line-height:1.95; letter-spacing:.03em; color:var(--ink); }
+/* 1440pxで1行48字と長めだったため、本文サイズを1段上げて約45字に収める。 */
+.blog-body{ font-size:clamp(16px,1.2vw,17.5px); line-height:1.95; letter-spacing:.03em; color:var(--ink); }
 .blog-body h2{
   font-family:var(--serif); font-weight:600; font-size:clamp(22px,2.6vw,30px); line-height:1.55;
   margin:clamp(48px,5.4vw,64px) 0 clamp(20px,2.4vw,26px); scroll-margin-top:100px;
@@ -164,8 +206,36 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
   margin-top:clamp(40px,4.6vw,56px); padding:clamp(26px,3vw,34px) clamp(22px,3vw,30px);
   background:var(--charcoal); color:#EFEAE0; text-align:center;
 }
-.blog-cta-headline{ font-family:var(--serif); font-weight:600; font-size:clamp(17px,1.7vw,20px); margin:0 0 20px; }
-.blog-cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:14px; }
+/* word-break:auto-phrase は日本語を文節単位で折り返す（Chrome 119+）。
+   非対応ブラウザでは無視され、従来どおりの文字単位折り返しになるだけなので安全。
+   これがないとスマートフォン幅で「…を知りた／い方へ。」と語中で切れる。 */
+.blog-cta-headline{
+  font-family:var(--serif); font-weight:600; font-size:clamp(17px,1.7vw,20px); margin:0 0 20px;
+  line-break:strict; word-break:auto-phrase; text-wrap:balance;
+}
+/* 以前は内寸700pxに対しボタン合計714pxで折り返し、幅の違う2つが
+   中央寄せで段違いに並んでいた。横並びが収まらない場合は
+   最初から縦積み＋同一幅にして、意図した並びに見えるようにする。 */
+.blog-cta-actions{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+/* 縦積み時、サイト共通の .cta は左右44pxのパディングを持つため、
+   390px幅では内寸211pxとなりラベル（約204px）がぎりぎり入らず
+   「パーソナルトレーニン／グを見る」と語中で折り返していた。
+   このブロック内に限りパディングを詰めて1行に収める。 */
+.blog-cta-actions > *{ width:min(320px,100%); justify-content:center; padding-inline:20px; }
+/* 最小クラスのスマートフォン（〜414px）ではボタン幅が299pxしか取れず、
+   「パーソナルトレーニングを見る」（15px・字送り.14emで実測209px）＋
+   gap14px＋矢印22px＝245px が内寸259pxを超える瞬間があり語中で折り返す。
+   この幅のときだけ本文サイズを1px落とし、左右パディングも詰めて1行に収める。 */
+@media(max-width:414px){
+  .blog-cta-actions > *{ font-size:14px; padding-inline:16px; }
+}
+@media(min-width:600px){
+  /* 横並び。align-items:stretch も試したがボタン内のラベルが
+     「…を見／る」と折り返してしまったため、中央揃えのままにする
+     （2つのボタンの高さ差5pxは中央揃えで視覚的に問題にならない）。 */
+  .blog-cta-actions{ flex-direction:row; justify-content:center; align-items:center; }
+  .blog-cta-actions > *{ width:auto; min-width:236px; white-space:nowrap; }
+}
 /* .btn-outline-gold は既定で濃色文字（paper.html等の明るい背景向け）のため、
    この暗い背景の上では見えなくなる。ここだけ明るい文字色に上書きする。 */
 .blog-cta .btn-outline-gold{ color:#EFEAE0; border-color:rgba(239,234,224,.55); }

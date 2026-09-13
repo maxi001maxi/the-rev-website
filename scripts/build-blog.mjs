@@ -225,7 +225,7 @@ ${thumb}
 <div class="blog-card-body">
 <p class="blog-card-cat">${escapeHtml(article.categoryLabel)}</p>
 <time class="blog-card-date" datetime="${toIso(article.published)}">${formatDateDisplay(article.published)}</time>
-<h3 class="blog-card-title">${escapeHtml(article.title)}</h3>
+<h2 class="blog-card-title">${escapeHtml(article.title)}</h2>
 <p class="blog-card-desc">${escapeHtml(article.description)}</p>
 <span class="blog-card-more">READ ARTICLE<span class="tz-arrow" aria-hidden="true"></span></span>
 </div>
@@ -290,11 +290,11 @@ function relatedBlockHtml(article, all) {
 <a href="/blog/${r.slug}/" data-track="related_article_click" data-source-slug="${article.slug}" data-target-slug="${r.slug}">
 ${r.thumbnail ? `<img src="${escapeHtml(r.thumbnail)}" alt="" width="400" height="267" loading="lazy" decoding="async">` : ''}
 <p class="blog-related-cat">${escapeHtml(r.categoryLabel)}</p>
-<h4>${escapeHtml(r.title)}</h4>
+<h3>${escapeHtml(r.title)}</h3>
 </a>
 </article>`).join('\n');
   return `<section class="blog-related" aria-label="関連記事">
-<p class="blog-related-label">RELATED ARTICLES</p>
+<h2 class="blog-related-label">RELATED ARTICLES</h2>
 <div class="blog-related-grid">
 ${items}
 </div>
@@ -360,7 +360,7 @@ function buildArticlePages(published, all, postTemplate) {
       : '';
 
     const heroImage = article.thumbnail
-      ? `<figure class="blog-hero-media"><img src="${escapeHtml(article.thumbnail)}" alt="" width="1200" height="675" fetchpriority="high" decoding="async"></figure>`
+      ? `<figure class="blog-hero-media"><img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>`
       : '';
 
     const breadcrumb = breadcrumbJsonLd([
@@ -370,7 +370,7 @@ function buildArticlePages(published, all, postTemplate) {
     ]);
 
     const html = fill(postTemplate, {
-      TITLE: escapeHtml(`${article.title}｜THE REV. CONDITIONING LAB.`),
+      TITLE: escapeHtml(`${article.title}｜THE REV.`),
       DESCRIPTION: escapeHtml(article.description),
       CANONICAL: article.canonical,
       ROBOTS_META: article.noindex ? '<meta name="robots" content="noindex,follow">\n' : '',
@@ -388,7 +388,7 @@ function buildArticlePages(published, all, postTemplate) {
       PUBLISHED_DISPLAY: formatDateDisplay(article.published),
       UPDATED_BLOCK: updatedBlock,
       ARTICLE_TITLE_HTML: escapeHtml(article.title).replace(/\n/g, '<br>'),
-      AUTHOR_LINE: authorLineHtml(article, 'span'),
+      AUTHOR_LINE: `<span class="blog-article-author-label">WRITTEN BY</span>${authorLineHtml(article, 'span')}`,
       HERO_IMAGE_BLOCK: heroImage,
       TOC_BLOCK: tocHtml(article),
       BODY_HTML: article.bodyHtml,
@@ -427,7 +427,7 @@ function buildIndexPages(published, indexTemplate) {
     const drawer = renderChrome(readPartial('drawer.html'), '');
 
     const html = fill(indexTemplate, {
-      TITLE: escapeHtml(page === 1 ? 'コラム｜THE REV. CONDITIONING LAB.' : `コラム（${page}ページ目）｜THE REV. CONDITIONING LAB.`),
+      TITLE: escapeHtml(page === 1 ? 'コラム｜THE REV. CONDITIONING LAB.' : `コラム（${page}ページ目）｜THE REV.`),
       DESCRIPTION: escapeHtml('トレーニング、ボクシング、リカバリー。THE REV.で実際に聞かれる疑問や、身体づくりについての考え方をまとめたコラムです。'),
       CANONICAL: canonical,
       OG_IMAGE: `${SITE_URL}/assets/images/blog/og/og-default.jpg`,
@@ -483,10 +483,11 @@ function buildRss(published) {
     <description>${escapeHtml(a.description)}</description>
   </item>`).join('\n');
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>THE REV. CONDITIONING LAB. — COLUMN</title>
 <link>${SITE_URL}/blog/</link>
+<atom:link href="${SITE_URL}/blog/feed.xml" rel="self" type="application/rss+xml"/>
 <description>THE REV.で実際に聞かれる身体づくりの疑問や、代表トレーナーの考え方をまとめたコラムです。</description>
 <language>ja</language>
 ${items}
