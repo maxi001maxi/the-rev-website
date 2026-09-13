@@ -6,6 +6,12 @@
 <atom:link href="https://therev-lab.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
 <description>THE REV.で実際に聞かれる身体づくりの疑問や、代表トレーナーの考え方をまとめたコラムです。</description>
 <language>ja</language>
-
+  <item>
+    <title>パーソナルジムは週何回通えばいい？月2回・月4回をどう選ぶか</title>
+    <link>https://therev-lab.com/blog/personal-training-frequency/</link>
+    <guid>https://therev-lab.com/blog/personal-training-frequency/</guid>
+    <pubDate>Sat, 12 Sep 2026 15:00:00 GMT</pubDate>
+    <description>パーソナルジムは週何回が正解か。月2回・月4回それぞれの考え方と、回数以上に大切にしたい1回の質について解説します。</description>
+  </item>
 </channel>
 </rss>
