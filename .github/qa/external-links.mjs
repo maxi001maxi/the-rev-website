@@ -83,10 +83,10 @@ for (const u of urls) {
 // それ以外の404（例: 既存ページが本番で引けない）は本当の異常なので、
 // リダイレクトの経路まで出して区別できるようにする。
 const diag = [];
-for (const u of rows.filter(r => r.state === 'BROKEN' && r.url.includes('therev-lab.com')).map(r => r.url)) {
+for (const u of rows.filter(r => r.url.includes('therev-lab.com')).map(r => r.url)) {
   try {
     const r = await fetch(u, { redirect: 'manual', headers: { 'user-agent': UA } });
-    diag.push({ url: u, first: r.status, location: r.headers.get('location') || null, server: r.headers.get('server') || null, xVercelId: !!r.headers.get('x-vercel-id') });
+    diag.push({ url: u, first: r.status, location: r.headers.get('location') || null, server: r.headers.get('server') || null, xVercelId: !!r.headers.get('x-vercel-id'), poweredBy: r.headers.get('x-powered-by') || null, cache: r.headers.get('x-vercel-cache') || null });
   } catch (e) { diag.push({ url: u, error: String(e.cause?.code || e.message).slice(0, 60) }); }
 }
 
@@ -101,9 +101,11 @@ const order = { BROKEN: 0, UNVERIFIED: 1, BOT_BLOCKED: 2, OK: 3 };
 for (const r of rows.sort((a, b) => order[a.state] - order[b.state] || a.url.localeCompare(b.url))) {
   w(`| ${icon[r.state]} ${r.state} | ${r.code ?? '-'} | \`${r.url.slice(0, 100)}\` | ${r.note || (r.finalUrl ? '→ ' + r.finalUrl.slice(0, 60) : '')} |`);
 }
-w(''); w('## 本番ドメインの404 — リダイレクト前の生レスポンス');
-w('| URL | 初回HTTP | Location | server | Vercel配信 |'); w('|---|---|---|---|---|');
-for (const d of diag) w(`| \`${d.url}\` | ${d.first ?? d.error} | ${d.location || '—'} | ${d.server || '—'} | ${d.xVercelId ? 'yes' : 'no'} |`);
+w(''); w('## 本番ドメイン therev-lab.com の配信元（リダイレクト前の生レスポンス）');
+w('本番ドメインがこのVercelプロジェクトから配信されているかを確認する。');
+w('x-vercel-id が付かない場合、そのURLはVercel以外のサーバから返っている。'); w('');
+w('| URL | 初回HTTP | server | x-vercel-id | x-vercel-cache | Location |'); w('|---|---|---|---|---|---|');
+for (const d of diag) w(`| \`${d.url.replace('https://therev-lab.com', '')||'/'}\` | ${d.first ?? d.error} | ${d.server || '—'} | ${d.xVercelId ? 'yes' : '**no**'} | ${d.cache || '—'} | ${d.location || '—'} |`);
 fs.writeFileSync('external-links.json', JSON.stringify({ rows, diag }, null, 2));
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, S.join('\n') + '\n');
 console.log('\n' + S.join('\n'));

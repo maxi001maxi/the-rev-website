@@ -107,7 +107,33 @@ for (const vp of VIEWPORTS) {
         overflowElems: overflow,
         scrollWidth: de.scrollWidth, clientWidth: de.clientWidth,
         fontsLoaded: document.fonts.size,
-        renderedFont: q('h1') ? getComputedStyle(q('h1')).fontFamily.split(',')[0] : null
+        renderedFont: q('h1') ? getComputedStyle(q('h1')).fontFamily.split(',')[0] : null,
+        // Webフォントが実際に適用されているかの判定。
+        // document.fonts.check() は「その文字を描ける実体が読み込まれているか」を返す。
+        // 併せて、同じ文字列を webfont 指定 / フォールバックのみ で描いた幅を比べる。
+        // 幅が同じならフォールバックで描かれている（＝Webフォントが効いていない）。
+        fontApplied: (() => {
+          const sample = '身体づくりトレーニング';
+          const check = {
+            mincho: document.fonts.check('600 24px "Shippori Mincho"', sample),
+            gothic: document.fonts.check('400 16px "Zen Kaku Gothic New"', sample),
+            jost: document.fonts.check('400 16px "Jost"', 'READ ARTICLE')
+          };
+          const measure = (family) => {
+            const c = document.createElement('canvas').getContext('2d');
+            c.font = `600 24px ${family}`;
+            return Math.round(c.measureText(sample).width * 100) / 100;
+          };
+          const wWebfont = measure('"Shippori Mincho", serif');
+          const wFallback = measure('serif');
+          const wGothic = measure('"Zen Kaku Gothic New", sans-serif');
+          const wSans = measure('sans-serif');
+          return {
+            check,
+            minchoWidth: wWebfont, serifFallbackWidth: wFallback, minchoDiffers: wWebfont !== wFallback,
+            gothicWidth: wGothic, sansFallbackWidth: wSans, gothicDiffers: wGothic !== wSans
+          };
+        })()
       };
     });
 
@@ -161,6 +187,17 @@ w('## Console errors'); w(allConsole.length ? allConsole.map(x => '- `' + x + '`
 w(''); w('## Network failures'); w(allNet.length ? allNet.map(x => '- `' + x + '`').join('\n') : '- なし');
 w(''); w('## 4xx/5xx responses'); w(allBad.length ? allBad.map(x => '- `' + x + '`').join('\n') : '- なし');
 w(''); w('## 横スクロール'); w(allOverflow.length ? allOverflow.map(x => '- ' + x).join('\n') : '- なし');
+w(''); w('## Webフォントが実際に適用されているか');
+w('fonts.check は「その文字を描ける実体が読み込み済みか」。');
+w('幅比較は、同じ文字列をWebフォント指定とフォールバックのみで描いた幅の差。');
+w('差があればWebフォントで描かれている（フォールバックに落ちていない）。'); w('');
+w('| Page | VP | check(明朝) | check(ゴシック) | check(Jost) | 明朝幅≠serif | ゴシック幅≠sans | gstatic失敗数 |');
+w('|---|---|---|---|---|---|---|---|');
+for (const r of results) {
+  const f = r.fontApplied;
+  const ff = r.networkFailures.filter(x => x.includes('fonts.gstatic.com')).length;
+  w(`| ${r.page} | ${r.vp} | ${f.check.mincho ? '✅' : '❌'} | ${f.check.gothic ? '✅' : '❌'} | ${f.check.jost ? '✅' : '❌'} | ${f.minchoDiffers ? '✅ ' + f.minchoWidth + ' vs ' + f.serifFallbackWidth : '❌ 同一 ' + f.minchoWidth} | ${f.gothicDiffers ? '✅ ' + f.gothicWidth + ' vs ' + f.sansFallbackWidth : '❌ 同一 ' + f.gothicWidth} | ${ff} |`);
+}
 w(''); w('## メタ情報（1440のみ）');
 w('| Page | title | description | canonical | 描画フォント |');
 w('|---|---|---|---|---|');
