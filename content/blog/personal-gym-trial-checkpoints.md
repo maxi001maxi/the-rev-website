@@ -11,7 +11,7 @@ author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
 thumbnail: "/assets/images/blog/thumb-personal-gym-trial-checkpoints.jpg"
 og_image: "/assets/images/blog/og/og-personal-gym-trial-checkpoints.jpg"
 alt: "THE REV.でトレーナーが利用者と話す様子"
-status: "draft"
+status: "published"
 featured: false
 cta_type: "personal-training"
 keywords:

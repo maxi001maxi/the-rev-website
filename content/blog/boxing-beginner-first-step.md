@@ -11,7 +11,7 @@ author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
 thumbnail: "/assets/images/blog/thumb-boxing-beginner-first-step.jpg"
 og_image: "/assets/images/blog/og/og-boxing-beginner-first-step.jpg"
 alt: "THE REV.でミット打ちを行うパーソナルボクシング"
-status: "draft"
+status: "published"
 featured: false
 cta_type: "boxing"
 keywords:

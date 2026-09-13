@@ -11,7 +11,7 @@ author_role: "THE REV. CONDITIONING LAB."
 thumbnail: "/assets/images/blog/thumb-oxygen-room-what-is-it.jpg"
 og_image: "/assets/images/blog/og/og-oxygen-room-what-is-it.jpg"
 alt: "THE REV.の酸素ルームとトレーニングスペース"
-status: "draft"
+status: "published"
 featured: false
 cta_type: "recovery"
 keywords:

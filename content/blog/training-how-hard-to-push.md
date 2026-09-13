@@ -11,7 +11,7 @@ author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
 thumbnail: "/assets/images/blog/thumb-training-how-hard-to-push.jpg"
 og_image: "/assets/images/blog/og/og-training-how-hard-to-push.jpg"
 alt: "THE REV.のベンチプレスでフォームと負荷を確認する様子"
-status: "draft"
+status: "published"
 featured: false
 cta_type: "personal-training"
 keywords:
