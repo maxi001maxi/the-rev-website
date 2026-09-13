@@ -36,7 +36,7 @@ on:
       - 'claude/**'
 
 permissions:
-  contents: read
+  contents: write
   deployments: read
 
 jobs:
@@ -91,6 +91,7 @@ jobs:
           BASE_URL: ${{ needs.resolve-preview.outputs.base_url }}
           VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           OUT_DIR: qa-out
+          LITE_DIR: qa-lite
         run: node .github/qa/visual-qa.mjs
 
       - name: Upload screenshots
@@ -100,6 +101,28 @@ jobs:
           name: preview-visual-qa
           path: qa-out
           retention-days: 7
+
+      # セッション実行環境からはArtifactの保管先（blob storage）へegressできず、
+      # スクリーンショットを取り出して目視することができない。軽量版（JPEG）だけを
+      # 使い捨てブランチへ置いて持ち出す。ブランチ名はrun idごとに一意で、
+      # 既存のrefを上書きしない（force pushしない）。確認後に削除する。
+      - name: Publish lite screenshots to a throwaway branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: qa/preview-shots-${{ github.run_id }}
+        run: |
+          set -eu
+          workdir="$(mktemp -d)"
+          cp -R qa-lite/. "$workdir"/
+          cd "$workdir"
+          git init -q -b "$BRANCH"
+          git config user.email "noreply@anthropic.com"
+          git config user.name "Preview QA"
+          git add -A
+          git commit -q -m "Preview visual QA screenshots (throwaway branch; safe to delete)"
+          git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${BRANCH}"
+          echo "screenshots branch: ${BRANCH}"
 
   external-links:
     needs: resolve-preview

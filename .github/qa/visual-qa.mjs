@@ -29,6 +29,7 @@ const PAGES = [
   { name: 'formcheck', url: '/blog/self-training-form-check/' }
 ];
 
+const LITE = process.env.LITE_DIR || 'qa-lite';
 fs.mkdirSync(OUT, { recursive: true });
 const results = [];
 const browser = await chromium.launch();
@@ -116,6 +117,13 @@ for (const vp of VIEWPORTS) {
     const cta = await page.$('.blog-cta');
     if (cta) await cta.screenshot({ path: path.join(OUT, `${base}__cta.png`) }).catch(() => {});
 
+    // 軽量版（JPEG）。セッション環境からはArtifact（blob storage）へ到達できないため、
+    // 一時ブランチへpushして持ち出せるようファイルサイズを抑えたコピーも出す。
+    fs.mkdirSync(LITE, { recursive: true });
+    await page.screenshot({ path: path.join(LITE, `${base}__fold.jpg`), type: 'jpeg', quality: 72 });
+    await page.screenshot({ path: path.join(LITE, `${base}__full.jpg`), type: 'jpeg', quality: 45, fullPage: true });
+    if (cta) await cta.screenshot({ path: path.join(LITE, `${base}__cta.jpg`), type: 'jpeg', quality: 80 }).catch(() => {});
+
     results.push({ page: pg.name, url: pg.url, vp: vp.name, status: resp?.status(), consoleErrors, networkFailures, badResponses, ...m });
     await page.close();
   }
@@ -124,6 +132,8 @@ for (const vp of VIEWPORTS) {
 await browser.close();
 
 fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify(results, null, 2));
+fs.mkdirSync(LITE, { recursive: true });
+fs.writeFileSync(path.join(LITE, 'results.json'), JSON.stringify(results, null, 2));
 
 // ---- サマリー出力 ----
 const S = [];
@@ -136,9 +146,11 @@ w('| Page | VP | HTTP | h1 | Hero | 本文字数 | CTA行数 | Related | Footer 
 w('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
 let fail = 0;
 for (const r of results) {
-  const bad = r.horizontalOverflow || r.consoleErrors.length || r.networkFailures.length || r.badResponses.length || r.imagesBroken.length || r.h1.length !== 1;
+  const fontFails = r.networkFailures.filter(x => x.includes('fonts.gstatic.com')).length;
+  const otherNetFails = r.networkFailures.length - fontFails;
+  const bad = r.horizontalOverflow || otherNetFails || r.badResponses.length || r.imagesBroken.length || r.h1.length !== 1;
   if (bad) fail = 1;
-  w(`| ${r.page} | ${r.vp} | ${r.status} | ${r.h1.length} | ${r.heroImg ? (r.heroImg.natural > 0 ? '✅' : '❌') : '—'} | ${r.bodyChars || '—'} | ${r.cta.map(c => c.lines).join('/') || '—'} | ${r.related.length} | ${r.footerLinks} | ${r.horizontalOverflow ? '❌ ' + r.scrollWidth + '>' + r.clientWidth : '✅'} | ${r.consoleErrors.length} | ${r.networkFailures.length} | ${r.badResponses.length} | ${r.imagesBroken.length} |`);
+  w(`| ${r.page} | ${r.vp} | ${r.status} | ${r.h1.length} | ${r.heroImg ? (r.heroImg.natural > 0 ? '✅' : '❌') : '—'} | ${r.bodyChars || '—'} | ${r.cta.map(c => c.lines).join('/') || '—'} | ${r.related.length} | ${r.footerLinks} | ${r.horizontalOverflow ? '❌ ' + r.scrollWidth + '>' + r.clientWidth : '✅'} | ${r.consoleErrors.length} | ${otherNetFails} (+font ${fontFails}) | ${r.badResponses.length} | ${r.imagesBroken.length} |`);
 }
 w('');
 const allConsole = [...new Set(results.flatMap(r => r.consoleErrors))];

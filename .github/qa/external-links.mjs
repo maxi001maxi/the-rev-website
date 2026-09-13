@@ -67,12 +67,27 @@ async function probe(url) {
   return { state: 'UNVERIFIED', code: null, note: 'both GET and HEAD failed' };
 }
 
-const urls = [...found.keys()].sort();
+// <link rel="preconnect"> の裸オリジンは「リンク」ではなく接続先の予告であり、
+// ドキュメントとしてGETすれば404になるのが正常。判定対象から外す。
+const PRECONNECT_ONLY = new Set(['https://fonts.googleapis.com', 'https://fonts.gstatic.com']);
+const urls = [...found.keys()].filter(u => !PRECONNECT_ONLY.has(u.replace(/\/$/, ''))).sort();
 const rows = [];
 for (const u of urls) {
   const res = await probe(u);
   rows.push({ url: u, pages: [...found.get(u)], ...res });
   console.log(`${res.state.padEnd(12)} ${String(res.code ?? '-').padEnd(4)} ${u.slice(0, 110)}${res.note ? '  (' + res.note + ')' : ''}`);
+}
+
+// 本番ドメイン（therev-lab.com）側の状況を切り分けるための追加診断。
+// canonical / og:url に含まれる本番URLは、Blogが本番未公開の間は404になるのが正常。
+// それ以外の404（例: 既存ページが本番で引けない）は本当の異常なので、
+// リダイレクトの経路まで出して区別できるようにする。
+const diag = [];
+for (const u of rows.filter(r => r.state === 'BROKEN' && r.url.includes('therev-lab.com')).map(r => r.url)) {
+  try {
+    const r = await fetch(u, { redirect: 'manual', headers: { 'user-agent': UA } });
+    diag.push({ url: u, first: r.status, location: r.headers.get('location') || null, server: r.headers.get('server') || null, xVercelId: !!r.headers.get('x-vercel-id') });
+  } catch (e) { diag.push({ url: u, error: String(e.cause?.code || e.message).slice(0, 60) }); }
 }
 
 const S = [];
@@ -86,7 +101,10 @@ const order = { BROKEN: 0, UNVERIFIED: 1, BOT_BLOCKED: 2, OK: 3 };
 for (const r of rows.sort((a, b) => order[a.state] - order[b.state] || a.url.localeCompare(b.url))) {
   w(`| ${icon[r.state]} ${r.state} | ${r.code ?? '-'} | \`${r.url.slice(0, 100)}\` | ${r.note || (r.finalUrl ? '→ ' + r.finalUrl.slice(0, 60) : '')} |`);
 }
-fs.writeFileSync('external-links.json', JSON.stringify(rows, null, 2));
+w(''); w('## 本番ドメインの404 — リダイレクト前の生レスポンス');
+w('| URL | 初回HTTP | Location | server | Vercel配信 |'); w('|---|---|---|---|---|');
+for (const d of diag) w(`| \`${d.url}\` | ${d.first ?? d.error} | ${d.location || '—'} | ${d.server || '—'} | ${d.xVercelId ? 'yes' : 'no'} |`);
+fs.writeFileSync('external-links.json', JSON.stringify({ rows, diag }, null, 2));
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, S.join('\n') + '\n');
 console.log('\n' + S.join('\n'));
 process.exit(counts.BROKEN ? 1 : 0);
