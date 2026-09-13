@@ -20,7 +20,9 @@
 #   GitHub Deployments APIへ environment_url を登録するので、
 #   ジョブ側でそれをポーリングして対象URLを得る。
 #
-#   コミットメッセージに [skip-qa] を含めるとスキップされる。
+#   コミットメッセージ1行目の末尾が NOPREVIEWQA の場合はスキップする
+#   （この判定文字列自体をコミット本文へ書くと自分で自分をスキップしてしまうため、
+#    先頭行の末尾一致という限定的な条件にしてある）。
 #
 # Vercel Deployment Protection は Protection Bypass for Automation
 # （Repository Secret: VERCEL_AUTOMATION_BYPASS_SECRET）で越える。
@@ -39,7 +41,7 @@ permissions:
 
 jobs:
   resolve-preview:
-    if: ${{ !contains(github.event.head_commit.message, '[skip-qa]') }}
+    if: ${{ !endsWith(github.event.head_commit.message, 'NOPREVIEWQA') }}
     runs-on: ubuntu-latest
     outputs:
       base_url: ${{ steps.find.outputs.base_url }}
