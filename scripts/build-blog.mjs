@@ -181,6 +181,7 @@ function loadArticles() {
       authorRole: fm.author_role || '',
       thumbnail: fm.thumbnail || '',
       ogImage: fm.og_image || '/assets/images/blog/og/og-default.jpg',
+      imageAlt: fm.alt || fm.title,
       status: fm.status,
       featured: !!fm.featured,
       ctaType: fm.cta_type || 'general',
@@ -360,7 +361,7 @@ function buildArticlePages(published, all, postTemplate) {
       : '';
 
     const heroImage = article.thumbnail
-      ? `<figure class="blog-hero-media"><img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>`
+      ? `<figure class="blog-hero-media"><img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.imageAlt)}" width="1200" height="800" fetchpriority="high" decoding="async"></figure>`
       : '';
 
     const breadcrumb = breadcrumbJsonLd([
