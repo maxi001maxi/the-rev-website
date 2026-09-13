@@ -10,7 +10,7 @@ author: "服部 真騎士"
 author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
 thumbnail: "/assets/images/blog/thumb-boxing.jpg"
 og_image: "/assets/images/blog/og/og-boxing.jpg"
-status: "draft"
+status: "published"
 featured: false
 cta_type: "boxing"
 keywords:
