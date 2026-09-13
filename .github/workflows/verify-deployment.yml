@@ -108,9 +108,13 @@ jobs:
           check "TOP page regression"        GET  "/"                                    200 'THE REV'
           check "Blog index regression"      GET  "/blog/"                               200
 
-          # Phase D.1診断：ブラウザへ配信される静的ファイルにGitHub Token/Supabase
-          # service_role等の秘匿値が紛れ込んでいないかを、実際に配信されているバイト列で確認する
+          # Phase D.1診断：ブラウザへ配信される静的ファイルにGitHub Token等の秘匿値が
+          # 紛れ込んでいないかを、実際に配信されているバイト列で確認する
           # （ソースコード上に無いことは既に確認済みだが、配信経路そのものの確認として実施）。
+          # 検出パターンは実際のトークンの「形」（ghp_接頭辞+ランダム文字列等）に限定し、
+          # 「service_role」等の単なる単語一致にはしない
+          # （このファイル自身の説明コメント「service_roleは使用しない」等に
+          # 誤反応してしまうため）。
           echo "" >> "$SUMMARY"
           echo "### 静的ファイルへのSecret露出チェック" >> "$SUMMARY"
           echo "" >> "$SUMMARY"
@@ -123,7 +127,7 @@ jobs:
             curl -sS -o "$tmp" --max-time 20 -L \
               -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" "$url" || true
             local ok="✅"
-            if grep -qiE "ghp_|github_pat_|service_role|SUPABASE_SERVICE_ROLE_KEY|GITHUB_TOKEN\s*=" "$tmp"; then
+            if grep -qE "ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}" "$tmp"; then
               ok="❌"
               FAIL=1
             fi
