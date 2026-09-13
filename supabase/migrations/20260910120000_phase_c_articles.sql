@@ -1,12 +1,15 @@
 -- THE REV. Editorial Console — Phase C: Admin Draft Workspace
--- Supabaseの SQL Editor（https://supabase.com/dashboard/project/_/sql/new）に
--- このファイルの内容をそのまま貼り付けて実行してください。
+--
+-- このファイルは Supabase CLI のmigrationとして管理されています（Phase Dで移行）。
+-- 内容は当時SQL Editorへ直接貼り付けて実行したものと同一で、変更はありません。
+-- 実行済みの本番Supabaseに対しては再適用せず、`supabase migration repair` で
+-- 「適用済み」としてベースライン登録してください（詳細は supabase/README.md）。
 --
 -- 役割：
 --   admin_article_drafts は「Adminで書いている下書き」を保存するテーブルです。
 --   公開サイトのSource of Truthは引き続き GitHub の content/blog/*.md であり、
---   このテーブルはPhase D（GitHub同期）が実装されるまでの作業スペースです。
---   status は Phase C では 'draft' のみを許可します（CHECK制約でDBレベルでも強制）。
+--   このテーブルはPhase D（GitHub同期）が実装された今もWorking Draftとして使用します。
+--   status は 'draft' のみを許可します（CHECK制約でDBレベルでも強制。Phase Dでも解除していません）。
 
 -- ---------------------------------------------------------------------------
 -- 1. テーブル

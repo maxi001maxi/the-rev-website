@@ -85,10 +85,13 @@ Admin（`/admin/`）のログイン機能はSupabase Authを使います。Ver.1
 5. **Project Settings → API Keys**（現行のSupabase UIでは publishable key / secret key という表記）を開き、以下をコピーする
    - **Project URL** → Vercelの環境変数 `SUPABASE_URL` に登録
    - **publishable key** → Vercelの環境変数 `SUPABASE_PUBLISHABLE_KEY` に登録
-   - **secret key** はPhase B（今回）では使いません。Phase D（記事公開のGitHub連携）で使うため、控えておくだけで構いません。**絶対にブラウザ側コードや`/admin`配下の静的ファイルには書かないでください**
+   - **secret key** はPhase B〜Dのいずれでも使いません（Adminの認可はSupabaseのRow Level Securityのみで行う設計のため）。Vercelへ登録する必要もありません。**絶対にブラウザ側コードや`/admin`配下の静的ファイルには書かないでください**
 6. Vercelプロジェクト → **Settings → Environment Variables** で、上記の `SUPABASE_URL` ・ `SUPABASE_PUBLISHABLE_KEY` の2つを登録し、**Production**（必要ならPreviewも）にチェックを入れて保存する
    - Phase Bのログインはこの2つだけで動作します。secret key（service role key）の登録は不要です
 7. 環境変数は保存しただけでは既存のデプロイには反映されません。Vercelの **Deployments** タブから最新デプロイの「Redeploy」を行うか、次にこちらからpushするコミットで自動的に反映されます
+
+> スキーマ変更（テーブル・列・RLSの追加変更）は、STEP 4以降 `supabase/migrations/*.sql` として管理します。
+> 運用方法は `supabase/README.md` を参照してください。
 
 ---
 
