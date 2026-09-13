@@ -6,33 +6,6 @@
 <atom:link href="https://therev-lab.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
 <description>THE REV.で実際に聞かれる身体づくりの疑問や、代表トレーナーの考え方をまとめたコラムです。</description>
 <language>ja</language>
-  <item>
-    <title>初心者でもパーソナルボクシングはできる？</title>
-    <link>https://therev-lab.com/blog/boxing-beginner-first-step/</link>
-    <guid>https://therev-lab.com/blog/boxing-beginner-first-step/</guid>
-    <pubDate>Mon, 14 Sep 2026 15:00:00 GMT</pubDate>
-    <description>運動経験がなくてもパーソナルボクシングを始められるのか。THE REV.での指導の考え方をご紹介します。</description>
-  </item>
-  <item>
-    <title>パーソナルジムは週何回通えばいい？</title>
-    <link>https://therev-lab.com/blog/personal-training-frequency/</link>
-    <guid>https://therev-lab.com/blog/personal-training-frequency/</guid>
-    <pubDate>Mon, 14 Sep 2026 15:00:00 GMT</pubDate>
-    <description>パーソナルトレーニングに通う頻度について、目的や運動経験に合わせた考え方をTHE REV.が解説します。</description>
-  </item>
-  <item>
-    <title>トレーニング後に休息まで考える理由</title>
-    <link>https://therev-lab.com/blog/recovery-after-training/</link>
-    <guid>https://therev-lab.com/blog/recovery-after-training/</guid>
-    <pubDate>Mon, 14 Sep 2026 15:00:00 GMT</pubDate>
-    <description>THE REV.が、トレーニングだけでなくその後の休息まで含めて身体づくりと考えている理由をご紹介します。</description>
-  </item>
-  <item>
-    <title>自己流トレーニングでフォームを見る意味</title>
-    <link>https://therev-lab.com/blog/self-training-form-check/</link>
-    <guid>https://therev-lab.com/blog/self-training-form-check/</guid>
-    <pubDate>Mon, 14 Sep 2026 15:00:00 GMT</pubDate>
-    <description>自己流でトレーニングを続けてきた方に向けて、フォームを第三者に見てもらうことの意味をTHE REV.が解説します。</description>
-  </item>
+
 </channel>
 </rss>

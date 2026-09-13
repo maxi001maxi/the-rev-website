@@ -10,7 +10,7 @@ author: "THE REV. CONDITIONING LAB."
 author_role: "THE REV. CONDITIONING LAB."
 thumbnail: "/assets/images/blog/thumb-recovery.jpg"
 og_image: "/assets/images/blog/og/og-recovery.jpg"
-status: "published"
+status: "draft"
 featured: false
 cta_type: "recovery"
 keywords:
