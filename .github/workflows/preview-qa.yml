@@ -1,0 +1,124 @@
+# THE REV. — Preview 実機QA（ビジュアル / 外部リンク）
+#
+# 目的：
+#   Claude Codeのセッション実行環境は *.vercel.app および多くの外部サイトへ
+#   到達できない。実機のレンダリング確認と外部リンクの実通信確認は
+#   ランナー上で行い、結果をジョブサマリーとアーティファクトに残す。
+#
+#   - visual         … Playwright（実Chromium）で 390/430/768/1440 の4幅を開き、
+#                      スクリーンショットと計測値を出す。
+#   - external-links … 公開ページ内の外部リンクへ実際にリクエストし、
+#                      OK / BOT_BLOCKED / UNVERIFIED / BROKEN に分類する。
+#
+# 起動方法について：
+#   このworkflowは意図的に「作業ブランチへのpush」で起動する。
+#   workflow_dispatch はworkflowファイルがデフォルトブランチ（main）に
+#   存在しないと使えないが、QAのためだけにmainへ変更を入れると
+#   本番Vercel Deploymentが発生してしまうため、それを避けている。
+#
+#   push後、同じcommit SHAに対してVercelがPreview Deploymentを作成し
+#   GitHub Deployments APIへ environment_url を登録するので、
+#   ジョブ側でそれをポーリングして対象URLを得る。
+#
+#   コミットメッセージに [skip-qa] を含めるとスキップされる。
+#
+# Vercel Deployment Protection は Protection Bypass for Automation
+# （Repository Secret: VERCEL_AUTOMATION_BYPASS_SECRET）で越える。
+# Secretの値はログへ出力しない（GitHubが自動マスクするうえ、
+# スクリプト側にも値を出力する処理を持たせていない）。
+name: Preview QA
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  resolve-preview:
+    if: ${{ !contains(github.event.head_commit.message, '[skip-qa]') }}
+    runs-on: ubuntu-latest
+    outputs:
+      base_url: ${{ steps.find.outputs.base_url }}
+    steps:
+      - name: Wait for Vercel Preview deployment URL
+        id: find
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -u
+          url=""
+          for i in $(seq 1 60); do
+            ids=$(gh api "repos/${REPO}/deployments?sha=${SHA}&per_page=10" --jq '.[].id' 2>/dev/null || echo "")
+            for id in $ids; do
+              u=$(gh api "repos/${REPO}/deployments/${id}/statuses?per_page=20" \
+                    --jq '[.[] | select(.state=="success") | .environment_url // empty] | first // empty' 2>/dev/null || echo "")
+              if [ -n "$u" ]; then url="$u"; break; fi
+            done
+            if [ -n "$url" ]; then break; fi
+            echo "waiting for preview deployment... ($i)"
+            sleep 10
+          done
+          if [ -z "$url" ]; then
+            echo "::error::Preview deployment URL が取得できませんでした。"
+            exit 1
+          fi
+          echo "Preview: $url"
+          echo "base_url=$url" >> "$GITHUB_OUTPUT"
+
+  visual:
+    needs: resolve-preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright (chromium only)
+        run: npm i -D playwright@1.55.0 && npx playwright install --with-deps chromium
+
+      - name: Visual QA against ${{ needs.resolve-preview.outputs.base_url }}
+        env:
+          BASE_URL: ${{ needs.resolve-preview.outputs.base_url }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          OUT_DIR: qa-out
+        run: node .github/qa/visual-qa.mjs
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-visual-qa
+          path: qa-out
+          retention-days: 7
+
+  external-links:
+    needs: resolve-preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: External link check against ${{ needs.resolve-preview.outputs.base_url }}
+        env:
+          BASE_URL: ${{ needs.resolve-preview.outputs.base_url }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node .github/qa/external-links.mjs
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-links
+          path: external-links.json
+          retention-days: 7
