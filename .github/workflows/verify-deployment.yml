@@ -20,10 +20,13 @@
 #   Trusted Sourcesの設定はVercelダッシュボード側の操作が必要で、ここでは
 #   行えない（Project Settings → Deployment Protection → Trusted Sources /
 #   OIDC Federation でGitHub Actionsを信頼済みソースとして登録する）。
-#   Vercel側が要求するaudience（`aud`）の値は、その設定画面で提示される値と
-#   一致させる必要があるため、`oidc_audience` 入力で指定できるようにしてある
-#   （未指定時は `https://vercel.com` を仮のデフォルトとして使用するが、
-#   実際にVercelが検証する値と異なる場合は手動で上書きすること）。
+#
+#   audienceはVercel公式のGitHub Actions例に合わせ、既定では明示指定しない
+#   （`core.getIDToken()` を引数なしで呼んだ場合と同じく、GitHubのOIDC
+#   プロバイダへ `audience` パラメータを付けずにtokenを要求する＝GitHub側の
+#   デフォルトaudienceがそのまま使われる）。Vercel UI側でTrusted Sources設定時に
+#   特定のaudience値の入力が明示的に必要だった場合のみ、`oidc_audience` 入力へ
+#   その値を渡して上書きすること。
 name: Verify Deployment
 
 on:
@@ -39,10 +42,10 @@ on:
         type: string
         default: 'Preview'
       oidc_audience:
-        description: 'Vercel Trusted SourcesがOIDC tokenに要求するaudience（Vercel設定画面の表示値に合わせる）'
+        description: '通常は空欄のままでよい。Vercel UIがOIDC tokenのaudienceを明示的に要求した場合のみ、その値を入力する'
         required: false
         type: string
-        default: 'https://vercel.com'
+        default: ''
 
 permissions:
   contents: read
@@ -63,8 +66,11 @@ jobs:
             echo "token=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          RESP=$(curl -sS -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${AUDIENCE}")
+          REQUEST_URL="${ACTIONS_ID_TOKEN_REQUEST_URL}"
+          if [ -n "$AUDIENCE" ]; then
+            REQUEST_URL="${REQUEST_URL}&audience=${AUDIENCE}"
+          fi
+          RESP=$(curl -sS -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" "${REQUEST_URL}")
           TOKEN=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('value',''))" 2>/dev/null || echo "")
           if [ -z "$TOKEN" ]; then
             echo "::warning::OIDC ID tokenの取得に失敗しました。レスポンス: ${RESP}"
