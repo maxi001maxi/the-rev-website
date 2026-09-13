@@ -79,6 +79,27 @@ jobs:
           fi
           echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
 
+      # 診断用：tokenの署名部分は出力せず、非秘匿のclaim（aud/sub/iss/exp）だけを
+      # ジョブサマリーへ出す。Vercel Trusted Sourcesの設定値と実際のtokenの中身が
+      # 一致しているかどうかを、Vercelの管理画面を見なくても突き合わせられるようにする。
+      - name: Decode OIDC token claims (diagnostics only, no secret material)
+        if: steps.oidc.outputs.token != ''
+        env:
+          TOKEN: ${{ steps.oidc.outputs.token }}
+        run: |
+          set -u
+          CLAIMS_JSON=$(python3 -c "import base64,json,os; t=os.environ['TOKEN']; p=t.split('.')[1]; p+='='*(-len(p)%4); c=json.loads(base64.urlsafe_b64decode(p)); keys=('aud','sub','iss','repository','ref','workflow_ref','environment'); print(json.dumps({k: c.get(k) for k in keys}))")
+          echo "OIDC token claims（secret署名部分は含まない）:"
+          echo "$CLAIMS_JSON" | python3 -m json.tool
+          {
+            echo ""
+            echo "### OIDC token claims（診断用）"
+            echo ""
+            echo '```json'
+            echo "$CLAIMS_JSON" | python3 -m json.tool
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Run checks against ${{ inputs.base_url }}
         env:
           BASE_URL: ${{ inputs.base_url }}
@@ -128,6 +149,17 @@ jobs:
             head -c 500 "$tmp"; echo ""
             rm -f "$tmp"
           }
+
+          # 診断用：Healthエンドポイントへのレスポンスヘッダーをそのまま出す
+          # （Vercelがどう判定しているかのヒントになるx-vercel-*系ヘッダーを見るため）。
+          echo "---- diagnostics: response headers for ${BASE_URL}/api/health ----"
+          if [ -n "$OIDC_TOKEN" ]; then
+            curl -sS -D - -o /dev/null --max-time 20 \
+              -H "x-vercel-trusted-oidc-idp-token: ${OIDC_TOKEN}" "${BASE_URL}/api/health"
+          else
+            curl -sS -D - -o /dev/null --max-time 20 "${BASE_URL}/api/health"
+          fi
+          echo ""
 
           check "Health"                    GET  "/api/health"                          200 '"ok":true'
           check "Config (public, no secret)" GET  "/api/config"                          200
