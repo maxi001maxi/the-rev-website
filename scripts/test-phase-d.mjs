@@ -193,6 +193,12 @@ section('5. build-blog.mjs との互換性（実ビルド）');
 
 const tmpMdPath = path.join(ROOT, 'content', 'blog', `${TEST_SLUG}.md`);
 const outIndexPath = path.join(ROOT, 'blog', TEST_SLUG, 'index.html');
+const existingPublishedCount = fs.readdirSync(path.dirname(tmpMdPath))
+  .filter((file) => file.endsWith('.md') && file !== `${TEST_SLUG}.md`)
+  .filter((file) => {
+    const raw = fs.readFileSync(path.join(path.dirname(tmpMdPath), file), 'utf8');
+    return matter(raw).data.status === 'published';
+  }).length;
 
 if (fs.existsSync(tmpMdPath)) {
   fail('テスト用ファイルの事前確認', `${tmpMdPath} がすでに存在します。手動で削除してから再実行してください。`);
@@ -201,7 +207,9 @@ if (fs.existsSync(tmpMdPath)) {
     fs.writeFileSync(tmpMdPath, md, 'utf8');
     const log = execFileSync(process.execPath, [path.join(ROOT, 'scripts', 'build-blog.mjs')], { cwd: ROOT, encoding: 'utf8' });
     ok('build-blog.mjs がエラーなく完走する');
-    assert(/公開: 1/.test(log), 'status: published として1件が公開対象になる', log.trim().split('\n').slice(-4).join(' / '));
+    const expectedPublishedCount = existingPublishedCount + 1;
+    assert(log.includes(`公開: ${expectedPublishedCount}`),
+      '既存公開記事にテスト用published 1件が追加される', log.trim().split('\n').slice(-4).join(' / '));
 
     assert(fs.existsSync(outIndexPath), `/blog/${TEST_SLUG}/index.html が生成される`, outIndexPath);
     if (fs.existsSync(outIndexPath)) {

@@ -11,7 +11,7 @@ author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
 thumbnail: "/assets/images/blog/thumb-personal-training-frequency.jpg"
 og_image: "/assets/images/blog/og/og-personal-training-frequency.jpg"
 alt: "THE REV.でトレーナーが補助しながら行うベンチプレス"
-status: "draft"
+status: "published"
 featured: true
 cta_type: "personal-training"
 keywords:
