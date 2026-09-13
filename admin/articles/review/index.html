@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review &amp; Publish｜THE REV. Editorial Console</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/articles/" aria-current="page">Articles</a>
+<a class="admin-nav-stub" href="#" tabindex="-1" aria-disabled="true" title="Phase Eで追加予定">Analytics</a>
+</nav>
+<div class="admin-shell-user">
+<span id="user-email" class="admin-shell-email"></span>
+<button id="logout-btn" class="admin-logout" type="button">ログアウト</button>
+</div>
+</header>
+
+<main class="admin-main admin-review-main">
+<a id="back-link" class="admin-back-link" href="/admin/articles/">← Back to Articles</a>
+<div class="admin-page-head-row">
+<div>
+<h1 class="admin-page-title">Review &amp; Publish</h1>
+<p class="admin-page-lead">公開前の最終確認です。ここで「Publish Article」を押すと、GitHubの <code id="repo-label">content/blog/</code> へMarkdownがコミットされ、Vercelの自動デプロイが始まります。</p>
+</div>
+</div>
+
+<div id="error-box" class="admin-error admin-hidden" role="alert"></div>
+<div id="loading-box" class="admin-card admin-hidden">Preflightを実行中…</div>
+
+<!-- ===== 公開成功パネル ===== -->
+<section id="success-panel" class="admin-success admin-hidden" aria-live="polite">
+<p class="admin-success-title">GitHubへの反映に成功しました</p>
+<dl class="admin-success-list">
+<div><dt>Mode</dt><dd id="s-mode">—</dd></div>
+<div><dt>File</dt><dd><code id="s-path">—</code></dd></div>
+<div><dt>Commit SHA</dt><dd><code id="s-commit">—</code></dd></div>
+<div><dt>公開予定URL</dt><dd><code id="s-url">—</code></dd></div>
+</dl>
+<p id="s-deploy" class="admin-success-note">Vercel deploy started — GitHub mainへのコミットを検知して自動デプロイが開始されます。<strong>この時点ではまだ本番サイトに反映されていない可能性があります。</strong>反映まで通常1〜3分ほどかかります。</p>
+<p id="s-poll" class="admin-success-poll"></p>
+<p id="s-warning" class="admin-success-warning admin-hidden"></p>
+<div class="admin-success-actions">
+<a id="s-open" class="admin-btn-primary" href="#" target="_blank" rel="noopener">Open Live Article</a>
+<a id="s-commit-link" class="admin-btn-mini admin-hidden" href="#" target="_blank" rel="noopener">View commit on GitHub</a>
+<a class="admin-btn-mini" href="/admin/articles/">Back to Articles</a>
+</div>
+</section>
+
+<!-- ===== Review本体 ===== -->
+<div id="review-body" class="admin-hidden">
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">PREFLIGHT</h2>
+<ul id="checks-list" class="admin-checks"></ul>
+<div id="blocker-box" class="admin-error admin-hidden" role="alert"></div>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">PUBLISH TARGET</h2>
+<dl class="admin-kv">
+<div><dt>公開予定URL</dt><dd><code id="v-public-url">—</code></dd></div>
+<div><dt>GitHub file</dt><dd><code id="v-path">—</code></dd></div>
+<div><dt>Repository</dt><dd><code id="v-repo">—</code></dd></div>
+<div><dt>Commit message</dt><dd><code id="v-commit-message">—</code></dd></div>
+<div><dt>source_path</dt><dd><code id="v-source-path">—</code></dd></div>
+<div><dt>source_sha</dt><dd><code id="v-source-sha">—</code></dd></div>
+</dl>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">ARTICLE META</h2>
+<dl class="admin-kv">
+<div><dt>Title</dt><dd id="v-title">—</dd></div>
+<div><dt>Slug</dt><dd><code id="v-slug">—</code></dd></div>
+<div><dt>Category</dt><dd id="v-category">—</dd></div>
+<div><dt>Description</dt><dd id="v-description">—</dd></div>
+<div><dt>Published / Updated</dt><dd id="v-dates">—</dd></div>
+<div><dt>Author</dt><dd id="v-author">—</dd></div>
+<div><dt>Thumbnail</dt><dd id="v-thumbnail">—</dd></div>
+<div><dt>OGP</dt><dd id="v-og">—</dd></div>
+<div><dt>CTA</dt><dd id="v-cta">—</dd></div>
+<div><dt>Keywords</dt><dd id="v-keywords">—</dd></div>
+<div><dt>Featured</dt><dd id="v-featured">—</dd></div>
+<div><dt>Noindex</dt><dd id="v-noindex">—</dd></div>
+</dl>
+<div id="v-images" class="admin-review-images"></div>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">ARTICLE PREVIEW</h2>
+<p class="admin-field-hint">公開サイトと同じCSS（style.css / blog.css）で表示しています。ヘッダー・フッター・関連記事は含みません。</p>
+<iframe id="preview-frame" class="admin-review-frame" title="記事プレビュー"></iframe>
+</section>
+
+<details class="admin-advanced">
+<summary>生成されるMarkdown（content/blog/*.md）を確認する</summary>
+<pre id="markdown-pre" class="admin-md-pre"></pre>
+</details>
+
+<div class="admin-publish-bar">
+<div class="admin-publish-note" id="publish-note"></div>
+<div class="admin-publish-actions">
+<a id="edit-link" class="admin-btn-mini" href="/admin/articles/">Back to Editor</a>
+<button id="publish-btn" class="admin-btn-primary" type="button" disabled>Publish Article</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- ===== 確認ダイアログ ===== -->
+<div id="confirm-overlay" class="admin-modal-overlay admin-hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+<div class="admin-modal">
+<p id="confirm-title" class="admin-modal-title">記事を公開します</p>
+<p class="admin-modal-text">この記事を公開します。GitHub mainへ反映され、Vercelの自動デプロイが開始されます。</p>
+<p class="admin-modal-sub"><code id="confirm-path"></code></p>
+<div class="admin-modal-actions">
+<button id="confirm-cancel" class="admin-btn-mini" type="button">Cancel</button>
+<button id="confirm-publish" class="admin-btn-primary" type="button">Publish</button>
+</div>
+</div>
+</div>
+
+<script type="module">
+import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
+import { AdminApi } from '/admin/js/admin-api.mjs';
+import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12/+esm';
+
+const params = new URLSearchParams(location.search);
+const articleId = params.get('id');
+
+const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'RECOVERY', 'body-knowledge': 'BODY KNOWLEDGE' };
+
+let publishing = false;
+let preflight = null;
+
+function $(id) { return document.getElementById(id); }
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function showError(message) {
+  const box = $('error-box');
+  box.textContent = message;
+  box.classList.remove('admin-hidden');
+}
+function clearError() { $('error-box').classList.add('admin-hidden'); }
+function text(id, value) { $(id).textContent = value === null || value === undefined || value === '' ? '—' : String(value); }
+
+/* ---------- Preflight結果の描画 ---------- */
+
+function renderChecks(checks) {
+  const icons = { ok: '✓', error: '✕', skip: '–' };
+  $('checks-list').innerHTML = (checks || []).map((c) => `
+<li class="admin-check admin-check-${escapeHtml(c.status)}">
+<span class="admin-check-icon" aria-hidden="true">${icons[c.status] || '?'}</span>
+<span class="admin-check-body">
+<span class="admin-check-label">${escapeHtml(c.label)}</span>
+<span class="admin-check-message">${escapeHtml(c.message || '')}</span>
+</span>
+</li>`).join('');
+}
+
+function renderMeta(a, data) {
+  text('v-title', a.title);
+  text('v-slug', a.slug);
+  text('v-category', `${CATEGORY_LABELS[a.category] || a.category || '—'}（${a.category || '—'}）`);
+  text('v-description', a.description);
+  text('v-dates', `${a.published || '—'} / ${a.updated || '—'}`);
+  text('v-author', a.author_role && a.author_role !== a.author ? `${a.author}（${a.author_role}）` : a.author);
+  text('v-thumbnail', a.thumbnail);
+  text('v-og', a.og_image);
+  text('v-cta', a.cta_type || 'general');
+  text('v-keywords', (a.keywords || []).join(' / '));
+  text('v-featured', a.featured ? 'true' : 'false');
+  text('v-noindex', a.noindex ? 'true（検索エンジンにインデックスさせない）' : 'false');
+
+  const images = [];
+  if (a.thumbnail) images.push({ label: 'THUMBNAIL', src: a.thumbnail });
+  if (a.og_image) images.push({ label: 'OGP', src: a.og_image });
+  $('v-images').innerHTML = images.map((im) => `
+<figure class="admin-review-image">
+<img src="${escapeHtml(im.src)}" alt="" loading="lazy">
+<figcaption>${im.label}</figcaption>
+</figure>`).join('');
+
+  text('v-public-url', data.publicUrl);
+  text('v-path', data.targetPath);
+  text('v-repo', data.github?.repo ? `${data.github.repo} @ ${data.github.branch}` : '未設定');
+  text('v-commit-message', data.commitMessage);
+  text('v-source-path', a.source_path || '（未公開）');
+  text('v-source-sha', a.source_sha || '（未公開）');
+  $('repo-label').textContent = data.targetPath || 'content/blog/';
+  $('edit-link').href = `/admin/articles/editor/?id=${encodeURIComponent(a.id)}`;
+  $('back-link').href = `/admin/articles/editor/?id=${encodeURIComponent(a.id)}`;
+}
+
+// 公開サイトと同じCSSで、記事本体の見た目に近い形をiframeへ描画する。
+function renderPreview(a) {
+  const bodyHtml = marked.parse(a.body_markdown || '', { gfm: true, breaks: false });
+  const categoryLabel = CATEGORY_LABELS[a.category] || a.category || '';
+  const updatedBlock = a.updated && a.updated !== a.published
+    ? ` <time class="blog-update">UPDATE ${escapeHtml(String(a.updated).replace(/-/g, '.'))}</time>`
+    : '';
+  const hero = a.thumbnail
+    ? `<figure class="blog-hero-media"><img src="${escapeHtml(a.thumbnail)}" alt="" width="1200" height="675"></figure>`
+    : '';
+  const doc = `<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/blog.css">
+<style>
+  body{margin:0;}
+  /* 本番の .reveal はJSで表示されるため、Preview側では常に表示状態にする */
+  .reveal{opacity:1 !important; transform:none !important;}
+</style>
+</head><body class="blog blog-post">
+<main>
+<article class="blog-article">
+<header class="blog-article-hero">
+<div class="wrap blog-article-hero-wrap">
+<p class="eyebrow">COLUMN / ${escapeHtml(categoryLabel)}</p>
+<div class="blog-article-dates"><time>${escapeHtml(String(a.published || '').replace(/-/g, '.'))}</time>${updatedBlock}</div>
+<h1 class="blog-article-title">${escapeHtml(a.title || '')}</h1>
+<p class="blog-article-lead">${escapeHtml(a.description || '')}</p>
+<p class="blog-article-author">${escapeHtml(a.author || '')}${a.author_role && a.author_role !== a.author ? `<span>${escapeHtml(a.author_role)}</span>` : ''}</p>
+</div>
+</header>
+${hero}
+<div class="wrap blog-post-wrap">
+<div class="blog-body">${bodyHtml}</div>
+</div>
+</article>
+</main>
+</body></html>`;
+  $('preview-frame').srcdoc = doc;
+}
+
+/* ---------- Preflight実行 ---------- */
+
+async function loadPreflight() {
+  clearError();
+  $('loading-box').classList.remove('admin-hidden');
+  try {
+    const data = await AdminApi.publishPreview(articleId);
+    preflight = data;
+    $('loading-box').classList.add('admin-hidden');
+
+    renderChecks(data.checks);
+    renderMeta(data.article, data);
+    renderPreview(data.article);
+    $('markdown-pre').textContent = data.markdown || '（必須項目が不足しているため、Markdownを生成できません）';
+
+    const btn = $('publish-btn');
+    const note = $('publish-note');
+    if (data.ok) {
+      btn.disabled = false;
+      note.textContent = data.mode === 'create'
+        ? '新規記事としてGitHubへ作成します。'
+        : '既存のGitHubファイルを更新します（SHA一致を確認済み）。';
+      $('blocker-box').classList.add('admin-hidden');
+    } else {
+      btn.disabled = true;
+      note.textContent = '上のPreflightで✕になっている項目を解消すると公開できます。';
+      const blocker = $('blocker-box');
+      blocker.textContent = data.blocker?.message || '公開前チェックに失敗しました。';
+      blocker.classList.remove('admin-hidden');
+    }
+
+    $('confirm-path').textContent = data.targetPath || '';
+    $('review-body').classList.remove('admin-hidden');
+  } catch (e) {
+    $('loading-box').classList.add('admin-hidden');
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    showError(e.status === 404
+      ? 'この記事は見つかりませんでした。削除された可能性があります。'
+      : (e.message || 'Preflightの実行に失敗しました。'));
+  }
+}
+
+/* ---------- Publish ---------- */
+
+function openConfirm() {
+  $('confirm-overlay').classList.remove('admin-hidden');
+  $('confirm-publish').focus();
+}
+function closeConfirm() {
+  $('confirm-overlay').classList.add('admin-hidden');
+}
+
+async function doPublish() {
+  if (publishing) return;            // 二重送信禁止
+  publishing = true;
+  const confirmBtn = $('confirm-publish');
+  const publishBtn = $('publish-btn');
+  confirmBtn.disabled = true;
+  publishBtn.disabled = true;
+  confirmBtn.textContent = 'Publishing…';
+  clearError();
+
+  try {
+    const result = await AdminApi.publish(articleId);
+    closeConfirm();
+    showSuccess(result);
+  } catch (e) {
+    closeConfirm();
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    const message = e.code === 'source_conflict'
+      ? 'GitHub側の記事が別経路で変更されています。Adminからの上書きはできません。GitHub上の内容を確認してください。'
+      : (e.message || '公開に失敗しました。');
+    // 失敗後は最新状態でPreflightをやり直す（Supabase Draftは壊れていない）。
+    // loadPreflight() はエラー表示をクリアするため、やり直したあとに改めて表示する。
+    await loadPreflight();
+    showError(message);
+  } finally {
+    publishing = false;
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = 'Publish';
+  }
+}
+
+function showSuccess(result) {
+  $('review-body').classList.add('admin-hidden');
+  text('s-mode', result.mode === 'create' ? 'CREATE（新規作成）' : 'UPDATE（既存ファイルの更新）');
+  text('s-path', `${result.repo}@${result.branch}:${result.path}`);
+  text('s-commit', result.commitSha || '—');
+  text('s-url', result.publicUrl || '—');
+  $('s-open').href = result.publicUrl || '/blog/';
+  if (result.commitUrl) {
+    const link = $('s-commit-link');
+    link.href = result.commitUrl;
+    link.classList.remove('admin-hidden');
+  }
+  if (result.syncWarning) {
+    const w = $('s-warning');
+    w.textContent = result.syncWarning;
+    w.classList.remove('admin-hidden');
+  }
+  $('success-panel').classList.remove('admin-hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (result.mode === 'create' && result.publicUrl) {
+    pollNewArticle(result.publicUrl);
+  } else {
+    // 更新の場合、URLは公開前から200を返すため「200になった＝新しい内容が反映された」とは判定できない。
+    $('s-poll').textContent = '既存記事の更新のため、URLの応答だけでは新しい内容が反映されたか判定できません。数分ほど待ってから「Open Live Article」で内容をご確認ください（ブラウザのキャッシュにご注意ください）。';
+  }
+}
+
+// 新規記事のみ、公開URLが200を返すまで軽くポーリングする。無限ループにはしない。
+async function pollNewArticle(url) {
+  const MAX_ATTEMPTS = 12;   // 5秒間隔 × 12回 ≒ 最大60秒でおしまい
+  const INTERVAL_MS = 5000;
+  const poll = $('s-poll');
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    poll.textContent = `Vercelのデプロイ完了を確認しています…（${attempt}/${MAX_ATTEMPTS}）`;
+    await new Promise((r) => setTimeout(r, INTERVAL_MS));
+    try {
+      const res = await fetch(`${url}?_=${Date.now()}`, { method: 'GET', cache: 'no-store' });
+      if (res.ok) {
+        poll.textContent = '公開URLが応答しました。「Open Live Article」から表示を確認してください。';
+        return;
+      }
+    } catch (e) { /* デプロイ中は失敗しうる。次の試行へ */ }
+  }
+  poll.textContent = 'まだ公開URLを確認できていません（デプロイに時間がかかっている可能性があります）。1〜2分ほど待ってから「Open Live Article」でご確認ください。';
+}
+
+/* ---------- 初期化 ---------- */
+
+async function init() {
+  const result = await requireSession();
+  if (!result) return;
+
+  $('user-email').textContent = result.session.user.email;
+  $('checking').classList.add('admin-hidden');
+  $('app').classList.remove('admin-hidden');
+  $('logout-btn').addEventListener('click', () => signOut());
+
+  if (!articleId) {
+    showError('記事IDが指定されていません。Articles一覧から記事を選び直してください。');
+    return;
+  }
+
+  $('publish-btn').addEventListener('click', openConfirm);
+  $('confirm-cancel').addEventListener('click', closeConfirm);
+  $('confirm-publish').addEventListener('click', doPublish);
+  $('confirm-overlay').addEventListener('click', (e) => { if (e.target === $('confirm-overlay') && !publishing) closeConfirm(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !publishing) closeConfirm(); });
+
+  await loadPreflight();
+}
+
+init();
+</script>
+</body>
+</html>

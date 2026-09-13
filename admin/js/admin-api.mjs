@@ -45,7 +45,9 @@ async function authedFetch(path, options = {}) {
     if (res.status === 401) {
       throw new ApiError(401, 'unauthorized', 'ログインの有効期限が切れました。再度ログインしてください。');
     }
-    throw new ApiError(res.status, payload?.error || 'error', payload?.message || 'エラーが発生しました。');
+    const err = new ApiError(res.status, payload?.error || 'error', payload?.message || 'エラーが発生しました。');
+    err.payload = payload;
+    throw err;
   }
 
   return payload;
@@ -59,7 +61,12 @@ export const AdminApi = {
   createArticle: (data) => authedFetch('/api/admin/articles', { method: 'POST', body: JSON.stringify(data) }),
   getArticle: (id) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`),
   updateArticle: (id, data) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(data) }),
-  deleteArticle: (id) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'DELETE' })
+  deleteArticle: (id) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'DELETE' }),
+
+  // Phase D: Publish Review（Preflight）とPublish本体。
+  // publishPreview は GitHubへの書き込みを行わない読み取り専用のPreflight。
+  publishPreview: (id) => authedFetch(`/api/admin/publish-preview?id=${encodeURIComponent(id)}`),
+  publish: (articleId) => authedFetch('/api/admin/publish', { method: 'POST', body: JSON.stringify({ articleId }) })
 };
 
 export { ApiError };

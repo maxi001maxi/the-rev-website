@@ -31,7 +31,7 @@
 <div class="admin-page-head-row">
 <div>
 <h1 class="admin-page-title">Articles</h1>
-<p class="admin-page-lead">Adminで作成した下書きの一覧です。公開サイトへはまだ反映されません（Phase D以降）。</p>
+<p class="admin-page-lead">Adminで作成した記事の一覧です。<strong>PUBLISHED</strong> はGitHub（<code>content/blog/*.md</code>）へ反映済み、<strong>DRAFT</strong> はAdmin内のみの下書きです。公開はEditorの「Review &amp; Publish」から行います。</p>
 </div>
 <a class="admin-btn-primary" href="/admin/articles/editor/">New Article</a>
 </div>
@@ -53,6 +53,7 @@
 <th>Slug</th>
 <th>Updated</th>
 <th>Status</th>
+<th></th>
 <th></th>
 </tr>
 </thead>
@@ -86,15 +87,27 @@ function showError(message) {
 
 function renderRows(articles) {
   const tbody = document.getElementById('articles-tbody');
-  tbody.innerHTML = articles.map((a) => `
+  tbody.innerHTML = articles.map((a) => {
+    // source_path があれば「GitHubへ公開済み」。Supabase側のstatusはPhase Dでもdraft固定のため、
+    // 公開状態の判定には status ではなく source_path を使う。
+    const published = !!a.source_path;
+    const badge = published
+      ? '<span class="admin-badge admin-badge-published">PUBLISHED</span>'
+      : '<span class="admin-badge admin-badge-draft">DRAFT</span>';
+    const reviewLink = a.slug
+      ? `<a class="admin-table-edit" href="/admin/articles/review/?id=${encodeURIComponent(a.id)}">Review</a>`
+      : '';
+    return `
 <tr>
 <td>${escapeHtml(a.title || '(無題)')}</td>
 <td>${escapeHtml(CATEGORY_LABELS[a.category] || a.category || '—')}</td>
 <td><code>${escapeHtml(a.slug || '—')}</code></td>
 <td>${formatDateTime(a.updated_at)}</td>
-<td><span class="admin-badge admin-badge-draft">DRAFT</span></td>
+<td>${badge}</td>
 <td><a class="admin-table-edit" href="/admin/articles/editor/?id=${encodeURIComponent(a.id)}">Edit</a></td>
-</tr>`).join('');
+<td>${reviewLink}</td>
+</tr>`;
+  }).join('');
 }
 
 async function init() {

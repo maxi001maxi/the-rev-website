@@ -35,7 +35,7 @@ git push -u origin main
 
 ---
 
-## STEP 3｜GitHub Personal Access Token を発行する（Phase Dで使用）
+## STEP 3｜GitHub Personal Access Token を発行する（Phase Dで使用・Publishに必須）
 
 1. https://github.com/settings/personal-access-tokens/new を開く
 2. Repository access は **Only select repositories** → STEP 1で作ったリポジトリのみ選択
@@ -43,9 +43,29 @@ git push -u origin main
 4. 発行されたトークンをコピーする（この画面を閉じると二度と表示されません）
 5. Vercelのプロジェクト → Settings → Environment Variables で、
    - `GITHUB_TOKEN` … 発行したトークン
-   - `GITHUB_REPO` … `your-account/therev-site` の形式
+   - `GITHUB_REPO` … `maxi001maxi/the-rev-website` の形式（`owner/repo`）
    - `GITHUB_BRANCH` … `main`
    を登録する
+
+> `GITHUB_TOKEN` はVercel Functionsの中でのみ使用します。ブラウザ側のJS・HTML・`/api/config`・ログのいずれにも出力されません。
+> 未設定のままでも Admin のログイン・下書き作成・保存は従来どおり動作し、Publish Review画面で
+> 「GitHub連携の環境変数が未設定です」とだけ表示されます（Publishボタンは押せません）。
+
+---
+
+## STEP 3b｜Publish権限（`ADMIN_PUBLISHER_USER_ID`）を設定する（Phase Dで使用・Publishに必須）
+
+「Supabaseにログインできる人＝誰でもGitHubへ書き込める」構造にしないための追加ゲートです。
+Publish APIは、ログイン中ユーザーの `user.id` がこの環境変数と一致した場合のみGitHubへ書き込みます（不一致は403）。
+
+1. Supabase Dashboard → **Authentication → Users** を開く
+2. STEP 4で作成した運営者アカウントの行を開き、**User UID**（UUID形式）をコピーする
+3. Vercelのプロジェクト → Settings → Environment Variables で
+   - `ADMIN_PUBLISHER_USER_ID` … コピーしたUUID
+   を登録する
+
+> 未設定の場合、Publish APIは常に403を返します（安全側の既定動作）。
+> 記事の作成・編集・保存（Articles CRUD）は従来どおりSupabaseのRLSのみで制御され、この変数の影響を受けません。
 
 ---
 
@@ -87,4 +107,69 @@ Admin（`/admin/`）のログイン機能はSupabase Authを使います。Ver.1
 
 ## ここまで終わったら
 
-STEP 1・2（GitHub + Vercel接続）が完了していれば、Phase B（Admin認証・共通画面）に着手できます。STEP 3〜5は、それぞれ対応するPhase（D／B／E）に入る直前までに完了していれば問題ありません。
+STEP 1・2（GitHub + Vercel接続）が完了していれば、Phase B（Admin認証・共通画面）に着手できます。STEP 3・3bはPhase D（記事公開）、STEP 4はPhase B、STEP 5はPhase Eに入る直前までに完了していれば問題ありません。
+
+---
+
+## Phase D（GitHub同期・Publish）の使い方
+
+### 必要な環境変数（4つ）
+
+| 変数 | 用途 | 未設定のときの挙動 |
+| --- | --- | --- |
+| `GITHUB_TOKEN` | GitHub Contents APIでのコミット | Publish Reviewの「GitHub接続」が✕になり、Publishできない |
+| `GITHUB_REPO` | `owner/repo`（例: `maxi001maxi/the-rev-website`） | 同上 |
+| `GITHUB_BRANCH` | コミット先ブランチ（`main`） | 未設定なら `main` として扱う |
+| `ADMIN_PUBLISHER_USER_ID` | Publishを許可するSupabase user.id | Publish APIが常に403 |
+
+環境変数は保存しただけでは既存のデプロイに反映されません。Vercelの **Deployments → 最新デプロイ → Redeploy** を実行してください。
+
+### 公開の流れ
+
+```
+Admin Editor → Save Draft → Review & Publish → Preflight → Publish
+   → GitHub content/blog/{slug}.md へコミット → Vercel自動デプロイ → /blog/{slug}/ 公開
+```
+
+- 公開サイトのSource of Truthは引き続き **GitHub の `content/blog/*.md`** です。
+- Supabaseの `admin_article_drafts` は Working Draft であり、`status` はPhase Dでも `draft` 固定です（DBのCHECK制約はそのまま）。
+- GitHubへ書き出すMarkdownのFront Matterだけが `status: "published"` になります。
+
+### Publish前のPreflight（`GET /api/admin/publish-preview?id=...`）
+
+Review画面を開いた時点で以下を確認します。Publishボタンを押したあとも、サーバー側で**同じPreflightを再実行**してから書き込みます（Review時の結果は信用しません）。
+
+1. 認証
+2. Publisher権限（`ADMIN_PUBLISHER_USER_ID` 一致）
+3. Draft存在
+4. 必須項目（title / slug / description / published / updated / category / author / 本文）
+5. slug形式（`a-z 0-9 -`）
+6. GitHub接続（リポジトリ＋ブランチの到達性）
+7. GitHub上のslug衝突（新規時）／対象ファイルの存在（更新時）
+8. `source_path`
+9. `source_sha`
+
+### 事故防止のための制約（Phase D v1.0）
+
+- **新規公開**：`content/blog/{slug}.md` がGitHubにすでに存在する場合はPublishをブロックします（Supabase内のslug重複チェックだけでは不十分なため、GitHub側も必ず見ます）。
+- **既存記事の更新**：GitHubの現在SHAとSupabaseの `source_sha` が一致しない場合は上書きを禁止し、`409 source_conflict` として「GitHub側の記事が別経路で変更されています」と表示します。Force overwriteはPhase D v1.0では実装していません。
+- **公開後のSlug**：`source_path` が設定された記事はSlugを変更できません（Editorでread-only、API側でも `409 slug_locked`）。URL変更・redirect対応は別Phaseです。
+- **公開済みDraftの削除**：`source_path` がある記事はAdminから削除できません（`409 published_article`「公開済みの記事はAdminから削除できません。」）。GitHubに記事が残ったまま同期情報だけ消える事故を防ぐためです。
+- **GitHub失敗時**：Supabase Draftは一切変更しません。`source_path` / `source_sha` はGitHubへの書き込みが成功した場合にのみ保存します。
+- **公開後もDraftは保持**：次回の更新（Editor → Save Draft → Review & Publish）で同じGitHubファイルを更新し、そのたびに `source_sha` を最新へ更新します。
+
+### 検証（ローカル）
+
+```bash
+npm run test:phase-d
+```
+
+GitHub環境変数を未設定にした状態で、
+GitHub連携が安全にエラーになること・トークンが戻り値やエラーメッセージに混入しないこと・
+Publish権限がfail closedであること・生成Markdownが既存の `scripts/build-blog.mjs` でそのままビルドできることを確認します。
+（テスト中に `content/blog/` へ一時記事を書きますが、終了時に必ず削除して元の状態へ戻します。）
+
+### 既存のGitHub記事について
+
+現在GitHubにあるサンプル4記事は、Phase D v1.0ではSupabaseへ自動Importしません。
+**Adminから作成した記事のみ**がGitHub同期の対象です。既存記事の取り込みは別途行います。

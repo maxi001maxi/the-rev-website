@@ -29,7 +29,7 @@
 
 <main class="admin-main">
 <h1 class="admin-page-title">Dashboard</h1>
-<p class="admin-page-lead">記事の下書き作成・編集・削除ができるようになりました。公開サイトへの反映（GitHub連携）とAnalyticsは、次のPhaseで順次追加します。</p>
+<p class="admin-page-lead">記事の下書き作成・編集に加えて、Review &amp; Publish からGitHub（<code>content/blog/*.md</code>）への公開ができるようになりました。Analyticsは次のPhaseで追加します。</p>
 
 <div class="admin-status-grid">
 <div class="admin-status-item">
@@ -38,7 +38,11 @@
 </div>
 <div class="admin-status-item">
 <p class="admin-status-label">Articles</p>
-<p class="admin-status-value">Draft対応</p>
+<p class="admin-status-value">Draft + Publish</p>
+</div>
+<div class="admin-status-item">
+<p class="admin-status-label">GitHub Sync</p>
+<p class="admin-status-value">Phase D</p>
 </div>
 <div class="admin-status-item">
 <p class="admin-status-label">Analytics</p>
@@ -48,7 +52,8 @@
 
 <div class="admin-card">
 <h2>Articles</h2>
-<p>下書きの作成・編集・プレビュー・削除ができます。まだ公開サイト（GitHub / content/blog/*.md）への書き込みは行いません。</p>
+<p>下書きの作成・編集・プレビュー・削除に加えて、「Review &amp; Publish」からGitHubの <code>content/blog/{slug}.md</code> へ公開できます。Publishボタンは確認ダイアログを経由し、Publish前にはGitHub接続・slug衝突・SHA競合などのPreflightを必ず実行します。</p>
+<p style="margin-top:10px;">公開済みの記事はSlug変更とAdminからの削除ができません（GitHub側と同期情報がずれる事故を防ぐため）。</p>
 <p style="margin-top:16px;"><a class="admin-btn-primary" href="/admin/articles/">Articles を開く</a></p>
 </div>
 </main>

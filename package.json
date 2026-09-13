@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build:blog": "node scripts/build-blog.mjs",
-    "vercel-build": "node scripts/build-blog.mjs && node scripts/prepare-deploy.mjs"
+    "vercel-build": "node scripts/build-blog.mjs && node scripts/prepare-deploy.mjs",
+    "test:phase-d": "node scripts/test-phase-d.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

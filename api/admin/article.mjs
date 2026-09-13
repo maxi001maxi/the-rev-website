@@ -1,6 +1,11 @@
 // GET    /api/admin/article?id={id} … 下書き1件の全フィールド取得（Editor読み込み用）
 // PATCH  /api/admin/article?id={id} … 下書きの更新（statusは常にdraftへ強制）
-// DELETE /api/admin/article?id={id} … 下書きの削除
+// DELETE /api/admin/article?id={id} … 下書きの削除（公開済み＝source_pathありはブロック）
+//
+// Phase Dで追加した制約：
+//   - 一度GitHubへ公開した記事（source_pathあり）はSlugを変更できない（URL変更・redirectは別Phase）。
+//   - 一度GitHubへ公開した記事はAdminから削除できない
+//     （GitHubに記事が残ったまま同期情報だけ消える事故を防ぐため）。
 //
 // 注記: 当初は /api/admin/articles/[id].mjs という動的パスセグメント方式で実装していたが、
 // このVercelプロジェクト構成（Framework Preset: Other、vercel.jsonでの手動outputDirectory/rewrites指定）では
@@ -34,6 +39,24 @@ export default async function handler(req, res) {
     const { value, errors } = normalizeArticleInput(req.body || {});
     if (errors) return sendError(res, 422, 'validation_error', errors.join(' '));
 
+    const current = await supabase
+      .from('admin_article_drafts')
+      .select('id, slug, source_path')
+      .eq('id', id)
+      .maybeSingle();
+    if (current.error) return sendError(res, 500, 'db_error', '記事の取得に失敗しました。');
+    if (!current.data) return sendError(res, 404, 'not_found', '記事が見つかりません。');
+
+    // 公開済み記事のSlug変更は、Editorのread-onlyだけに頼らずAPI側でも拒否する。
+    if (current.data.source_path && value.slug !== current.data.slug) {
+      return sendError(
+        res,
+        409,
+        'slug_locked',
+        `公開済みの記事はSlugを変更できません（現在: ${current.data.slug}）。`
+      );
+    }
+
     const dup = await supabase
       .from('admin_article_drafts')
       .select('id')
@@ -58,6 +81,19 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'DELETE') {
+    const current = await supabase
+      .from('admin_article_drafts')
+      .select('id, source_path')
+      .eq('id', id)
+      .maybeSingle();
+    if (current.error) return sendError(res, 500, 'db_error', '記事の取得に失敗しました。');
+    if (!current.data) return sendError(res, 404, 'not_found', '記事が見つかりません。');
+
+    // GitHubへ公開済みの記事は削除させない（GitHubのファイルだけが残る事故を防ぐ）。
+    if (current.data.source_path) {
+      return sendError(res, 409, 'published_article', '公開済みの記事はAdminから削除できません。');
+    }
+
     const { error, count } = await supabase
       .from('admin_article_drafts')
       .delete({ count: 'exact' })

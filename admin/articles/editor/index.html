@@ -30,11 +30,15 @@
 <main class="admin-main admin-editor-main">
 <a class="admin-back-link" href="/admin/articles/">← Back to Articles</a>
 <div class="admin-page-head-row">
+<div class="admin-editor-heading-row">
 <h1 id="editor-heading" class="admin-page-title">New Article</h1>
+<span id="published-badge" class="admin-badge admin-badge-published admin-hidden">PUBLISHED</span>
+</div>
 <div class="admin-editor-actions">
 <span id="save-status" class="admin-save-status"></span>
 <button id="delete-btn" class="admin-btn-danger admin-hidden" type="button">Delete</button>
 <button id="save-btn" class="admin-btn-primary" type="button">Save Draft</button>
+<button id="review-btn" class="admin-btn-review" type="button">Review &amp; Publish</button>
 </div>
 </div>
 
@@ -54,6 +58,7 @@
 <button id="slug-suggest-btn" type="button" class="admin-btn-mini">タイトルから生成</button>
 </div>
 <p class="admin-field-hint">半角英数字とハイフンのみ（a-z 0-9 -）。日本語タイトルの場合は手動で入力してください。</p>
+<p id="slug-locked-hint" class="admin-field-hint admin-field-hint-lock admin-hidden">公開済みの記事はSlugを変更できません（URLの変更・リダイレクト対応は今後のPhaseで対応します）。</p>
 </div>
 </div>
 
@@ -145,6 +150,9 @@ import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12/+esm';
 const params = new URLSearchParams(location.search);
 let articleId = params.get('id');
 let isDirty = false;
+// GitHubへ公開済みかどうか（source_pathあり＝公開済み）。
+// 公開済みならSlug変更とDeleteを禁止する。
+let sourcePath = null;
 
 const els = {
   title: document.getElementById('f-title'),
@@ -212,6 +220,18 @@ function schedulePreview() {
   previewTimer = setTimeout(renderPreview, 250);
 }
 
+// 公開済み（source_pathあり）のときのUI制約をまとめて適用する。
+// API側でも同じ制約を再チェックしているため、ここは「事故を防ぐための表示」。
+function applyPublishedState() {
+  const published = !!sourcePath;
+  document.getElementById('published-badge').classList.toggle('admin-hidden', !published);
+  document.getElementById('slug-locked-hint').classList.toggle('admin-hidden', !published);
+  els.slug.readOnly = published;
+  document.getElementById('slug-suggest-btn').disabled = published;
+  // 公開済み記事はAdminから削除できない（GitHub側にファイルだけが残る事故を防ぐため）
+  document.getElementById('delete-btn').classList.toggle('admin-hidden', published || !articleId);
+}
+
 function fillForm(a) {
   els.title.value = a.title || '';
   els.slug.value = a.slug || '';
@@ -228,6 +248,8 @@ function fillForm(a) {
   els.featured.checked = !!a.featured;
   els.noindex.checked = !!a.noindex;
   els.body.value = a.body_markdown || '';
+  sourcePath = a.source_path || null;
+  applyPublishedState();
 }
 
 function collectForm() {
@@ -273,13 +295,16 @@ async function save() {
 
   try {
     if (articleId) {
-      await AdminApi.updateArticle(articleId, data);
+      const { article } = await AdminApi.updateArticle(articleId, data);
+      sourcePath = article?.source_path || sourcePath;
+      applyPublishedState();
     } else {
       const { article } = await AdminApi.createArticle(data);
       articleId = article.id;
+      sourcePath = article.source_path || null;
       history.replaceState(null, '', `/admin/articles/editor/?id=${encodeURIComponent(articleId)}`);
-      document.getElementById('delete-btn').classList.remove('admin-hidden');
       document.getElementById('editor-heading').textContent = 'Edit Article';
+      applyPublishedState();
     }
     isDirty = false;
     setSaveStatus(`Saved ${formatTime(new Date())}`);
@@ -292,8 +317,28 @@ async function save() {
   }
 }
 
+// Reviewへ進む前に、未保存の変更がないことを必ず確認する。
+// Review画面はSupabaseに保存済みのDraftを読むため、未保存のままでは
+// 画面に出ているものと公開されるものがずれてしまう。
+function goToReview() {
+  clearError();
+  if (!articleId) {
+    showError('先にDraftを保存してください。（Save Draftを押してから Review & Publish へ進めます）');
+    return;
+  }
+  if (isDirty) {
+    showError('先にDraftを保存してください。未保存の変更があるため、Review画面へは進めません。');
+    return;
+  }
+  location.href = `/admin/articles/review/?id=${encodeURIComponent(articleId)}`;
+}
+
 async function remove() {
   if (!articleId) return;
+  if (sourcePath) {
+    showError('公開済みの記事はAdminから削除できません。');
+    return;
+  }
   if (!confirm('この下書きを削除します。元に戻せません。よろしいですか？')) return;
   try {
     await AdminApi.deleteArticle(articleId);
@@ -325,7 +370,6 @@ async function init() {
 
   if (articleId) {
     document.getElementById('editor-heading').textContent = 'Edit Article';
-    document.getElementById('delete-btn').classList.remove('admin-hidden');
     loading.classList.remove('admin-hidden');
     try {
       const { article } = await AdminApi.getArticle(articleId);
@@ -343,12 +387,14 @@ async function init() {
     els.published.value = todayStr();
     els.updated.value = todayStr();
     els.author.value = 'THE REV. CONDITIONING LAB.';
+    applyPublishedState();
     form.classList.remove('admin-hidden');
     renderPreview();
   }
 
   form.addEventListener('input', () => { markDirty(); schedulePreview(); });
   document.getElementById('save-btn').addEventListener('click', save);
+  document.getElementById('review-btn').addEventListener('click', goToReview);
   document.getElementById('delete-btn').addEventListener('click', remove);
   document.getElementById('slug-suggest-btn').addEventListener('click', () => {
     const suggestion = slugifyFromTitle(els.title.value || '');

@@ -181,3 +181,104 @@ a{ color:inherit; }
   border-radius:2px; resize:vertical;
 }
 .admin-preview-frame{ width:100%; min-height:520px; border:1px solid var(--line); background:#fff; border-radius:2px; }
+
+/* ===================================================================
+   Phase D — Publish Review / Publish
+   =================================================================== */
+.admin-badge-published{ background:#EFE6D3; color:#6B5433; border:1px solid var(--wood); }
+
+.admin-editor-heading-row{ display:flex; align-items:center; gap:14px; }
+.admin-editor-heading-row .admin-page-title{ margin:0; }
+.admin-btn-review{
+  display:inline-flex; align-items:center; padding:11px 22px; border:1px solid var(--charcoal); border-radius:2px;
+  cursor:pointer; background:var(--charcoal); color:var(--paper);
+  font-family:var(--sans); font-weight:500; font-size:13.5px; letter-spacing:.06em; white-space:nowrap;
+  transition:opacity .25s;
+}
+.admin-btn-review:hover{ opacity:.85; }
+.admin-btn-review:disabled{ opacity:.5; cursor:default; }
+.admin-field-hint-lock{ color:var(--wood-deep); }
+
+/* ---------- Review画面 ---------- */
+.admin-review-main{ width:min(1080px,94vw); }
+.admin-review-section{ margin-bottom:44px; }
+.admin-section-title{
+  font-family:var(--latin); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--wood-deep); margin:0 0 16px; padding-bottom:10px; border-bottom:1px solid var(--line);
+}
+
+/* Preflightチェック一覧 */
+.admin-checks{ list-style:none; margin:0; padding:0; border:1px solid var(--line); background:#fff; }
+.admin-check{ display:flex; gap:14px; padding:14px 18px; border-bottom:1px solid var(--line); }
+.admin-check:last-child{ border-bottom:0; }
+.admin-check-icon{
+  flex:0 0 22px; height:22px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; font-size:12px; line-height:1;
+}
+.admin-check-ok .admin-check-icon{ background:#E4EDE2; color:#3F6B3A; }
+.admin-check-error .admin-check-icon{ background:#FBEDE8; color:#8A3B25; }
+.admin-check-skip .admin-check-icon{ background:var(--paper-2); color:var(--ink-faint); }
+.admin-check-body{ display:flex; flex-direction:column; gap:4px; }
+.admin-check-label{ font-size:13.5px; color:var(--ink); }
+.admin-check-message{ font-size:12.5px; line-height:1.75; color:var(--ink-soft); }
+.admin-check-error .admin-check-label{ color:#8A3B25; }
+
+/* 定義リスト（メタ情報） */
+.admin-kv{ margin:0; border:1px solid var(--line); background:#fff; }
+.admin-kv > div{ display:grid; grid-template-columns:200px 1fr; gap:16px; padding:12px 18px; border-bottom:1px solid var(--line); }
+.admin-kv > div:last-child{ border-bottom:0; }
+.admin-kv dt{
+  font-family:var(--latin); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-faint); padding-top:2px;
+}
+.admin-kv dd{ margin:0; font-size:13.5px; line-height:1.8; color:var(--ink); word-break:break-word; }
+.admin-kv dd code, .admin-page-lead code{ font-family:var(--latin); font-size:12.5px; color:var(--ink-soft); }
+@media(max-width:720px){ .admin-kv > div{ grid-template-columns:1fr; gap:4px; } }
+
+.admin-review-images{ display:flex; gap:20px; flex-wrap:wrap; margin-top:20px; }
+.admin-review-image{ margin:0; width:min(320px,100%); }
+.admin-review-image img{ width:100%; height:auto; display:block; border:1px solid var(--line); background:var(--paper-2); }
+.admin-review-image figcaption{
+  font-family:var(--latin); font-size:10.5px; letter-spacing:.16em; color:var(--ink-faint); margin-top:8px;
+}
+
+.admin-review-frame{ width:100%; min-height:720px; border:1px solid var(--line); background:#fff; border-radius:2px; }
+.admin-md-pre{
+  margin:0 0 20px; padding:18px; background:var(--paper-2); border:1px solid var(--line); border-radius:2px;
+  font-family:"SFMono-Regular",Consolas,monospace; font-size:12.5px; line-height:1.8; color:var(--ink);
+  white-space:pre-wrap; word-break:break-word; max-height:520px; overflow:auto;
+}
+
+/* Publishバー */
+.admin-publish-bar{
+  display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  margin-top:36px; padding:22px clamp(18px,2.4vw,26px); border:1px solid var(--line); background:#fff;
+}
+.admin-publish-note{ font-size:13px; line-height:1.8; color:var(--ink-soft); }
+.admin-publish-actions{ display:flex; align-items:center; gap:14px; }
+
+/* 確認ダイアログ */
+.admin-modal-overlay{
+  position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center;
+  padding:24px; background:rgba(38,36,31,.55);
+}
+.admin-modal{ width:min(520px,100%); background:var(--paper); border:1px solid var(--line); padding:clamp(24px,3vw,34px); }
+.admin-modal-title{ font-family:var(--serif); font-weight:600; font-size:18px; margin:0 0 14px; }
+.admin-modal-text{ font-size:13.5px; line-height:1.9; color:var(--ink-soft); margin:0 0 12px; }
+.admin-modal-sub{ margin:0 0 24px; }
+.admin-modal-sub code{ font-family:var(--latin); font-size:12.5px; color:var(--wood-deep); }
+.admin-modal-actions{ display:flex; justify-content:flex-end; gap:12px; }
+
+/* 公開成功パネル */
+.admin-success{ border:1px solid var(--wood); background:#fff; padding:clamp(24px,3vw,34px); margin-bottom:32px; }
+.admin-success-title{ font-family:var(--serif); font-weight:600; font-size:19px; color:var(--ink); margin:0 0 20px; }
+.admin-success-list{ margin:0 0 20px; }
+.admin-success-list > div{ display:grid; grid-template-columns:160px 1fr; gap:16px; padding:8px 0; }
+.admin-success-list dt{ font-family:var(--latin); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); }
+.admin-success-list dd{ margin:0; font-size:13.5px; color:var(--ink); word-break:break-all; }
+.admin-success-list dd code{ font-family:var(--latin); font-size:12.5px; }
+@media(max-width:720px){ .admin-success-list > div{ grid-template-columns:1fr; gap:2px; } }
+.admin-success-note{ font-size:13px; line-height:1.9; color:var(--ink-soft); margin:0 0 10px; padding:14px 16px; background:var(--paper-2); }
+.admin-success-poll{ font-size:12.5px; line-height:1.8; color:var(--ink-soft); margin:0 0 18px; min-height:1.2em; }
+.admin-success-warning{ font-size:13px; line-height:1.8; color:#8A3B25; background:#FBEDE8; border:1px solid #C97B63; padding:12px 14px; margin:0 0 18px; }
+.admin-success-actions{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
