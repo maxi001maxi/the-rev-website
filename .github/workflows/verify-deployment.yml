@@ -1,0 +1,83 @@
+# THE REV. Editorial Console — Deployment Verification
+#
+# 手動起動（workflow_dispatch）専用。プッシュやデプロイでは自動起動しない
+# （Vercelへのすべてのデプロイに対して勝手にActionsが走る状態を避けるため）。
+#
+# 目的：
+#   Claude Codeのセッション実行環境からは、ネットワークegressポリシーにより
+#   *.vercel.app / api.vercel.com へ直接アクセスできない。GitHub Actionsの
+#   ランナーには通常のインターネットアクセスがあるため、実際のデプロイ先URLへの
+#   ヘルスチェック・回帰確認はここで行い、結果をジョブサマリーに残す。
+#
+# 新しいSecretは一切使用しない（対象URLは実行時に手動で渡す公開URLのみ）。
+name: Verify Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: '確認対象のデプロイURL（例: https://the-rev-website-xxxx.vercel.app）'
+        required: true
+        type: string
+      label:
+        description: 'このデプロイのラベル（例: Preview / Production）'
+        required: false
+        type: string
+        default: 'Preview'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run checks against ${{ inputs.base_url }}
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          LABEL: ${{ inputs.label }}
+        run: |
+          set -u
+          FAIL=0
+          SUMMARY="$GITHUB_STEP_SUMMARY"
+
+          echo "# Deployment Verification — ${LABEL}" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          echo "Target: \`${BASE_URL}\`" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          echo "| Check | Expected | Actual | Result |" >> "$SUMMARY"
+          echo "|---|---|---|---|" >> "$SUMMARY"
+
+          check() {
+            local name="$1" method="$2" path="$3" expected="$4" grep_for="${5:-}"
+            local url="${BASE_URL}${path}"
+            local tmp; tmp="$(mktemp)"
+            local code
+            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" "$url" || echo "000")
+            local ok="❌"
+            if [ "$code" = "$expected" ]; then
+              if [ -n "$grep_for" ]; then
+                if grep -qF "$grep_for" "$tmp"; then ok="✅"; else ok="⚠️ body mismatch"; fi
+              else
+                ok="✅"
+              fi
+            fi
+            if [ "$ok" != "✅" ]; then FAIL=1; fi
+            echo "| ${name} | ${method} ${expected} | ${method} ${code} | ${ok} |" >> "$SUMMARY"
+            echo "---- ${name} (${method} ${path}) -> HTTP ${code} ----"
+            head -c 500 "$tmp"; echo ""
+            rm -f "$tmp"
+          }
+
+          check "Health"                    GET  "/api/health"                          200 '"ok":true'
+          check "Config (public, no secret)" GET  "/api/config"                          200
+          check "Publish preview — unauth"   GET  "/api/admin/publish-preview?id=00000000-0000-0000-0000-000000000000" 401
+          check "Publish — unauth"           POST "/api/admin/publish"                   401
+          check "TOP page regression"        GET  "/"                                    200 'THE REV'
+          check "Blog index regression"      GET  "/blog/"                               200
+
+          echo "" >> "$SUMMARY"
+          if [ "$FAIL" = "1" ]; then
+            echo "**結果: 失敗した項目があります。上の表を確認してください。**" >> "$SUMMARY"
+          else
+            echo "**結果: すべての項目が期待どおりでした。**" >> "$SUMMARY"
+          fi
+
+          exit $FAIL
