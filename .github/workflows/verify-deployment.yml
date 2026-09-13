@@ -9,7 +9,21 @@
 #   ランナーには通常のインターネットアクセスがあるため、実際のデプロイ先URLへの
 #   ヘルスチェック・回帰確認はここで行い、結果をジョブサマリーに残す。
 #
-# 新しいSecretは一切使用しない（対象URLは実行時に手動で渡す公開URLのみ）。
+# Vercel Deployment Protection（Vercel Authentication）越え：
+#   長期のBypass Secretは使わず、Vercelの推奨方式であるOIDC Federation
+#   （Trusted Sources）を使用する。このworkflowがGitHubのOIDCプロバイダから
+#   短命のID tokenを取得し、`x-vercel-trusted-oidc-idp-token` ヘッダーとして
+#   保護されたデプロイへ送る。Vercel側で本リポジトリ（と対象ブランチ/環境）を
+#   Trusted Sourceとして登録していない間は、このヘッダーを送ってもVercelは
+#   信用せず、通常どおり保護（302リダイレクト）が働く＝安全にフェイルする。
+#
+#   Trusted Sourcesの設定はVercelダッシュボード側の操作が必要で、ここでは
+#   行えない（Project Settings → Deployment Protection → Trusted Sources /
+#   OIDC Federation でGitHub Actionsを信頼済みソースとして登録する）。
+#   Vercel側が要求するaudience（`aud`）の値は、その設定画面で提示される値と
+#   一致させる必要があるため、`oidc_audience` 入力で指定できるようにしてある
+#   （未指定時は `https://vercel.com` を仮のデフォルトとして使用するが、
+#   実際にVercelが検証する値と異なる場合は手動で上書きすること）。
 name: Verify Deployment
 
 on:
@@ -24,15 +38,46 @@ on:
         required: false
         type: string
         default: 'Preview'
+      oidc_audience:
+        description: 'Vercel Trusted SourcesがOIDC tokenに要求するaudience（Vercel設定画面の表示値に合わせる）'
+        required: false
+        type: string
+        default: 'https://vercel.com'
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
+      - name: Get GitHub OIDC ID token for Vercel Trusted Sources
+        id: oidc
+        env:
+          AUDIENCE: ${{ inputs.oidc_audience }}
+        run: |
+          set -u
+          if [ -z "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" ] || [ -z "${ACTIONS_ID_TOKEN_REQUEST_TOKEN:-}" ]; then
+            echo "::warning::OIDC token request環境変数が見つかりません（permissions: id-token: write を確認）。ヘッダーなしで続行します。"
+            echo "token=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          RESP=$(curl -sS -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=${AUDIENCE}")
+          TOKEN=$(echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('value',''))" 2>/dev/null || echo "")
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::OIDC ID tokenの取得に失敗しました。レスポンス: ${RESP}"
+          else
+            echo "::add-mask::$TOKEN"
+          fi
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+
       - name: Run checks against ${{ inputs.base_url }}
         env:
           BASE_URL: ${{ inputs.base_url }}
           LABEL: ${{ inputs.label }}
+          OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
         run: |
           set -u
           FAIL=0
@@ -41,6 +86,13 @@ jobs:
           echo "# Deployment Verification — ${LABEL}" >> "$SUMMARY"
           echo "" >> "$SUMMARY"
           echo "Target: \`${BASE_URL}\`" >> "$SUMMARY"
+          if [ -n "$OIDC_TOKEN" ]; then
+            echo "" >> "$SUMMARY"
+            echo "OIDC Trusted Sourcesヘッダー（x-vercel-trusted-oidc-idp-token）を付与して実行しました。" >> "$SUMMARY"
+          else
+            echo "" >> "$SUMMARY"
+            echo "⚠️ OIDC ID tokenを取得できなかったため、Trusted Sourcesヘッダーなしで実行しました（Vercel Authenticationが有効な対象では302が返る想定）。" >> "$SUMMARY"
+          fi
           echo "" >> "$SUMMARY"
           echo "| Check | Expected | Actual | Result |" >> "$SUMMARY"
           echo "|---|---|---|---|" >> "$SUMMARY"
@@ -50,7 +102,12 @@ jobs:
             local url="${BASE_URL}${path}"
             local tmp; tmp="$(mktemp)"
             local code
-            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" "$url" || echo "000")
+            if [ -n "$OIDC_TOKEN" ]; then
+              code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" \
+                -H "x-vercel-trusted-oidc-idp-token: ${OIDC_TOKEN}" "$url" || echo "000")
+            else
+              code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" "$url" || echo "000")
+            fi
             local ok="❌"
             if [ "$code" = "$expected" ]; then
               if [ -n "$grep_for" ]; then
