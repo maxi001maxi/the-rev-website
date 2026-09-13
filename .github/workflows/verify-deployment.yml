@@ -9,7 +9,29 @@
 #   ランナーには通常のインターネットアクセスがあるため、実際のデプロイ先URLへの
 #   ヘルスチェック・回帰確認はここで行い、結果をジョブサマリーに残す。
 #
-# 新しいSecretは一切使用しない（対象URLは実行時に手動で渡す公開URLのみ）。
+# Vercel Deployment Protection（Vercel Authentication）越え：
+#   OIDC Federation（Trusted Sources）を検証したが、このプロジェクトでは
+#   Trusted Sourcesを設定しても対象デプロイが一貫してVercel Authenticationの
+#   ログイン画面（/sso-api）へリダイレクトされ続けたため調査を終了し、
+#   Vercel公式の Protection Bypass for Automation 方式へ切り替えた。
+#
+#   GitHub Repository Secret `VERCEL_AUTOMATION_BYPASS_SECRET`（値はVercelの
+#   Project Settings → Deployment Protection → Protection Bypass for
+#   Automation で発行したもの）を、すべてのリクエストへ
+#   `x-vercel-protection-bypass` ヘッダーとして付与する。
+#
+#   このSecretはログへ一切出力しない
+#   （ワークフロー内で参照した時点でGitHubが自動的にログをマスクする。
+#   このworkflow自身もecho等で値を出力する処理を持たない）。
+#   Secretが未設定の場合はヘッダーなしで実行し、警告のみ出して安全にフェイルする
+#   （Vercel Authenticationが有効な対象では302が返る想定）。
+#
+# リダイレクト追従：
+#   このプロジェクトの vercel.json は trailingSlash: true のため、末尾スラッシュ
+#   なしで /api/* を叩くと308でスラッシュ付きへリダイレクトされる（実際のブラウザ
+#   fetch()は自動追従するため本番挙動には影響しない）。curlも -L で追従し、
+#   POST（Publish系チェック）は --post301/--post302/--post303 でメソッドを
+#   維持する（308は元々RFC上メソッド保持が必須で、curlも自動で維持する）。
 name: Verify Deployment
 
 on:
@@ -33,14 +55,25 @@ jobs:
         env:
           BASE_URL: ${{ inputs.base_url }}
           LABEL: ${{ inputs.label }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
           set -u
           FAIL=0
           SUMMARY="$GITHUB_STEP_SUMMARY"
 
+          if [ -z "$VERCEL_BYPASS_SECRET" ]; then
+            echo "::warning::VERCEL_AUTOMATION_BYPASS_SECRET が設定されていません（Repository Secretsが空）。Bypassヘッダーなしで続行します。"
+          fi
+
           echo "# Deployment Verification — ${LABEL}" >> "$SUMMARY"
           echo "" >> "$SUMMARY"
           echo "Target: \`${BASE_URL}\`" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          if [ -n "$VERCEL_BYPASS_SECRET" ]; then
+            echo "Vercel Protection Bypass for Automation（\`x-vercel-protection-bypass\`）を付与して実行しました。" >> "$SUMMARY"
+          else
+            echo "⚠️ VERCEL_AUTOMATION_BYPASS_SECRET が未設定のため、Bypassヘッダーなしで実行しました（Vercel Authenticationが有効な対象では302が返る想定）。" >> "$SUMMARY"
+          fi
           echo "" >> "$SUMMARY"
           echo "| Check | Expected | Actual | Result |" >> "$SUMMARY"
           echo "|---|---|---|---|" >> "$SUMMARY"
@@ -50,7 +83,9 @@ jobs:
             local url="${BASE_URL}${path}"
             local tmp; tmp="$(mktemp)"
             local code
-            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -X "$method" "$url" || echo "000")
+            code=$(curl -sS -o "$tmp" -w "%{http_code}" --max-time 20 -L \
+              --post301 --post302 --post303 -X "$method" \
+              -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" "$url" || echo "000")
             local ok="❌"
             if [ "$code" = "$expected" ]; then
               if [ -n "$grep_for" ]; then
@@ -72,6 +107,39 @@ jobs:
           check "Publish — unauth"           POST "/api/admin/publish"                   401
           check "TOP page regression"        GET  "/"                                    200 'THE REV'
           check "Blog index regression"      GET  "/blog/"                               200
+
+          # Phase D.1診断：ブラウザへ配信される静的ファイルにGitHub Token等の秘匿値が
+          # 紛れ込んでいないかを、実際に配信されているバイト列で確認する
+          # （ソースコード上に無いことは既に確認済みだが、配信経路そのものの確認として実施）。
+          # 検出パターンは実際のトークンの「形」（ghp_接頭辞+ランダム文字列等）に限定し、
+          # 「service_role」等の単なる単語一致にはしない
+          # （このファイル自身の説明コメント「service_roleは使用しない」等に
+          # 誤反応してしまうため）。
+          echo "" >> "$SUMMARY"
+          echo "### 静的ファイルへのSecret露出チェック" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          echo "| File | Result |" >> "$SUMMARY"
+          echo "|---|---|"  >> "$SUMMARY"
+          check_no_secret_leak() {
+            local path="$1"
+            local url="${BASE_URL}${path}"
+            local tmp; tmp="$(mktemp)"
+            curl -sS -o "$tmp" --max-time 20 -L \
+              -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" "$url" || true
+            local ok="✅"
+            if grep -qE "ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}" "$tmp"; then
+              ok="❌"
+              FAIL=1
+            fi
+            echo "| ${path} | ${ok} |" >> "$SUMMARY"
+            echo "---- secret-leak check (${path}) -> ${ok} ----"
+            rm -f "$tmp"
+          }
+          check_no_secret_leak "/admin/js/admin-storage.mjs"
+          check_no_secret_leak "/admin/js/admin-auth.mjs"
+          check_no_secret_leak "/admin/js/admin-api.mjs"
+          check_no_secret_leak "/admin/articles/editor/"
+          check_no_secret_leak "/admin/articles/review/?id=00000000-0000-0000-0000-000000000000"
 
           echo "" >> "$SUMMARY"
           if [ "$FAIL" = "1" ]; then
