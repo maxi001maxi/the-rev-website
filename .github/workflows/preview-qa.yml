@@ -20,9 +20,10 @@
 #   GitHub Deployments APIへ environment_url を登録するので、
 #   ジョブ側でそれをポーリングして対象URLを得る。
 #
-#   コミットメッセージ1行目の末尾が NOPREVIEWQA の場合はスキップする
-#   （この判定文字列自体をコミット本文へ書くと自分で自分をスキップしてしまうため、
-#    先頭行の末尾一致という限定的な条件にしてある）。
+#   既定では走らない。コミットメッセージ1行目の末尾が RUNPREVIEWQA のときだけ実行する。
+#   （Playwrightの実行とスクリーンショット用ブランチのpushを伴うため、
+#    通常のpushで毎回走らせない。判定文字列をコミット本文へ書くと
+#    意図せず一致してしまうので、先頭行の末尾一致という限定的な条件にしてある。）
 #
 # Vercel Deployment Protection は Protection Bypass for Automation
 # （Repository Secret: VERCEL_AUTOMATION_BYPASS_SECRET）で越える。
@@ -41,7 +42,7 @@ permissions:
 
 jobs:
   resolve-preview:
-    if: ${{ !endsWith(github.event.head_commit.message, 'NOPREVIEWQA') }}
+    if: ${{ endsWith(github.event.head_commit.message, 'RUNPREVIEWQA') }}
     runs-on: ubuntu-latest
     outputs:
       base_url: ${{ steps.find.outputs.base_url }}
