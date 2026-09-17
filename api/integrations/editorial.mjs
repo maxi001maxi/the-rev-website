@@ -8,9 +8,11 @@
 //   - Service-role key is used only inside this Vercel Function
 //   - Target owner is fixed to ADMIN_PUBLISHER_USER_ID
 //   - Only READY + Fact PASS + Topic Gate PUBLISH payloads are accepted
-//   - This endpoint NEVER publishes to GitHub. Human approval remains required.
+//   - Missing article images are prepared automatically before Preview
+//   - This endpoint NEVER publishes the article to GitHub. Human approval remains required.
 import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
+import { ensureEditorialImages, EditorialImageError } from '../../lib/editorialImage.mjs';
 import {
   BRIDGE_SOURCE,
   bridgeConfig,
@@ -44,7 +46,9 @@ export default async function handler(req, res) {
     return send(res, 422, 'editorial_gate_failed', envelope.errors.join(' '));
   }
 
-  const { value: articleValue, errors: articleErrors } = normalizeArticleInput({
+  // First normalize the article itself. Image paths may still be empty here and
+  // will be filled automatically before the final sync hash is calculated.
+  const normalized = normalizeArticleInput({
     title: body.title,
     slug: body.slug,
     description: body.description,
@@ -61,15 +65,13 @@ export default async function handler(req, res) {
     noindex: body.noindex,
     keywords: body.keywords
   });
-  if (articleErrors) {
-    return send(res, 422, 'validation_error', articleErrors.join(' '));
+  if (normalized.errors) {
+    return send(res, 422, 'validation_error', normalized.errors.join(' '));
   }
-  if (!String(articleValue.body_markdown || '').trim()) {
+  if (!String(normalized.value.body_markdown || '').trim()) {
     return send(res, 422, 'validation_error', 'body_markdown は必須です。');
   }
 
-  const metadata = normalizeBridgeMetadata(body);
-  const syncHash = computeEditorialSyncHash(articleValue, metadata);
   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false }
   });
@@ -83,21 +85,75 @@ export default async function handler(req, res) {
   if (existing.error) return send(res, 500, 'db_error', '既存Draftの確認に失敗しました。');
 
   let article = existing.data || null;
-  let action = 'unchanged';
 
+  // Published drafts keep their original slug. Check before creating any image
+  // assets so a rejected slug change cannot leave orphan files in GitHub.
+  if (article?.source_path && article.slug !== normalized.value.slug) {
+    return send(res, 409, 'slug_locked', `公開済みDraftのslugは変更できません（現在: ${article.slug}）。`);
+  }
+
+  // Never take over an unrelated manually-created draft that happens to use
+  // the same slug. Check this before generating/copying article images.
   if (!article) {
-    // Never take over an unrelated manually-created draft that happens to use
-    // the same slug. A human must resolve that conflict in the Console.
     const slugConflict = await supabase
       .from('admin_article_drafts')
       .select('id, editorial_source, editorial_content_id')
-      .eq('slug', articleValue.slug)
+      .eq('slug', normalized.value.slug)
       .maybeSingle();
     if (slugConflict.error) return send(res, 500, 'db_error', 'slug重複確認に失敗しました。');
     if (slugConflict.data) {
-      return send(res, 409, 'slug_conflict', `slug "${articleValue.slug}" は既存Draftで使用されています。`);
+      return send(res, 409, 'slug_conflict', `slug "${normalized.value.slug}" は既存Draftで使用されています。`);
     }
+  }
 
+  // Priority: explicitly supplied path -> existing draft path -> automatic image.
+  // If only one image path exists, reuse it for both roles rather than creating
+  // an unnecessary second visual.
+  let thumbnail = normalized.value.thumbnail || article?.thumbnail || null;
+  let ogImage = normalized.value.og_image || article?.og_image || null;
+  if (thumbnail && !ogImage) ogImage = thumbnail;
+  if (ogImage && !thumbnail) thumbnail = ogImage;
+
+  let imageInfo = null;
+  if (!thumbnail || !ogImage) {
+    try {
+      imageInfo = await ensureEditorialImages({
+        title: normalized.value.title,
+        slug: normalized.value.slug,
+        description: normalized.value.description,
+        category: normalized.value.category,
+        bodyMarkdown: normalized.value.body_markdown,
+        primaryQuery: body.primary_query
+      });
+      thumbnail = thumbnail || imageInfo.thumbnail;
+      ogImage = ogImage || imageInfo.ogImage;
+    } catch (e) {
+      if (e instanceof EditorialImageError) {
+        return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
+      }
+      return send(res, 502, 'image_automation_failed', '記事画像の自動準備中に予期しないエラーが発生しました。');
+    }
+  } else {
+    imageInfo = {
+      strategy: 'existing-draft',
+      sourcePath: null,
+      generated: false,
+      commitSha: null,
+      thumbnail,
+      ogImage
+    };
+  }
+
+  const articleValue = {
+    ...normalized.value,
+    thumbnail,
+    og_image: ogImage
+  };
+  const metadata = normalizeBridgeMetadata(body);
+  const syncHash = computeEditorialSyncHash(articleValue, metadata);
+  let action = 'unchanged';
+
+  if (!article) {
     const inserted = await supabase
       .from('admin_article_drafts')
       .insert({
@@ -118,13 +174,6 @@ export default async function handler(req, res) {
     article = inserted.data;
     action = 'created';
   } else if (article.editorial_sync_hash !== syncHash) {
-    // Published drafts may still be updated as Working Drafts; publishing the
-    // new revision still requires the normal Review -> Preflight -> Publish flow.
-    // Slug remains locked after first publish.
-    if (article.source_path && article.slug !== articleValue.slug) {
-      return send(res, 409, 'slug_locked', `公開済みDraftのslugは変更できません（現在: ${article.slug}）。`);
-    }
-
     const updated = await supabase
       .from('admin_article_drafts')
       .update({
@@ -153,9 +202,12 @@ export default async function handler(req, res) {
       title: article.title,
       slug: article.slug,
       source_path: article.source_path || null,
+      thumbnail: article.thumbnail || null,
+      og_image: article.og_image || null,
       editorial_content_id: article.editorial_content_id,
       editorial_synced_at: article.editorial_synced_at
     },
+    image: imageInfo,
     review_url: origin ? `${origin}/admin/articles/review/?id=${encodeURIComponent(article.id)}` : null,
     editor_url: origin ? `${origin}/admin/articles/editor/?id=${encodeURIComponent(article.id)}` : null,
     publish_requires_human_approval: true
