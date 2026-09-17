@@ -1,25 +1,41 @@
 # THE REV. Xserver Deployment
 
-本番サイト `https://therev-lab.com/` を、GitHub Actions から Xserver へ安全に反映するための運用メモです。
+本番サイト `https://therev-lab.com/` を、GitHub Actions から Xserver へ自動反映するための運用メモです。
 
 ## 方式
 
 Workflow: `.github/workflows/deploy-xserver.yml`
 
-手動起動（`workflow_dispatch`）専用です。通常の `main` push ではXserverへ自動公開しません。
+通常運用では、`main` に本番サイトへ影響する変更が入ると自動起動します。必要に応じて `workflow_dispatch` から手動実行もできます。
 
-実行順序:
+自動起動対象は主に次の正本・公開ソースです。
 
-1. Xserver FTPルート `/` を丸ごとFTPSでバックアップ
-2. バックアップをGitHub Actions Artifactへ14日保存
-3. `npm ci`
-4. `npm run vercel-build`
-5. `content/blog/*.md` の `status` と `dist/blog/` の生成結果を照合
-6. `dist/admin` を除外したXserver用payloadを作成
+- ルートHTML
+- `assets/**`
+- `content/blog/**`
+- `scripts/**`
+- `lib/**`
+- `package.json`
+- `package-lock.json`
+- `favicon.ico`
+- `robots.txt`
+
+生成物である `blog/**` や `sitemap.xml`、Workflowや運用ドキュメントだけの変更では、自動デプロイしません。
+
+## 実行順序
+
+1. `npm ci`
+2. `npm run vercel-build`
+3. `content/blog/*.md` の `status` と `dist/blog/` の生成結果を照合
+4. `dist/admin` を除外したXserver用payloadを作成
+5. Xserver FTPルート `/` の本番をFTPSでバックアップ
+6. バックアップをGitHub Actions Artifactへ14日保存
 7. 本番 `/blog/` 配下を完全同期し、下書き化・削除された記事の残骸を除去
 8. それ以外の公開ファイルをFTPルート `/` へ上書き
 9. `therev-lab.com` のTOP / Blog一覧 / 全公開記事をHTTP確認
 10. 下書き記事がBlog一覧に出ておらず、URLもHTTP 200になっていないことを確認
+
+Xserver接続は一時的に不安定になることがあるため、バックアップとデプロイは最大3回まで自動再試行します。ビルド検証に失敗した場合は、FTP接続や本番変更を行う前に停止します。
 
 ## 公開先の確認結果
 
@@ -42,7 +58,7 @@ Workflow: `.github/workflows/deploy-xserver.yml`
 - Protected environment: `/unlimited-dev/`
 - Production URL: `https://therev-lab.com`
 
-GitHub Repository Secretsとして次の2つだけ登録します。
+GitHub Repository Secretsとして次の2つを使用します。
 
 - `XSERVER_FTP_USER`
 - `XSERVER_FTP_PASSWORD`
@@ -51,15 +67,26 @@ FTP認証情報をファイルやWorkflowへ直接書かないでください。
 
 GitHubでの登録場所:
 
-`Repository → Settings → Secrets and variables → Actions → New repository secret`
+`Repository → Settings → Secrets and variables → Actions`
 
-## 実行方法
+## 通常運用
 
-GitHubの対象リポジトリで:
+サイトの正本を更新し、その変更が `main` に入ると自動でXserver本番まで反映されます。
+
+通常は次の操作は不要です。
+
+- FileZillaでの手動アップロード
+- `npm run vercel-build` の手動実行
+- GitHub Actions の `Run workflow` ボタン操作
+- 公開後のBlog URL手動チェック
+
+手動実行が必要な場合だけ、GitHubで:
 
 `Actions → Deploy to Xserver → Run workflow`
 
-実行中は同じ本番deployを重複起動できないよう `concurrency` を設定しています。
+を使用します。
+
+同じ本番deployを重複起動しないよう `concurrency` を設定しています。
 
 ## サーバー上で削除しないもの
 
@@ -79,7 +106,7 @@ FTPルート `/` 全体には `--delete` を使いません。そのため、Xse
 
 ## バックアップ
 
-各実行前に現在のFTPルート `/` を取得し、GitHub Actions Artifactとして保存します。
+各デプロイ前に現在のFTPルート `/` の本番領域を取得し、GitHub Actions Artifactとして保存します。認証付き別環境 `/unlimited-dev/` は本番バックアップ対象から除外します。
 
 Artifact名:
 
@@ -91,7 +118,7 @@ Artifact名:
 
 ## ローカルUSB側を同期する
 
-GitHub上でWorkflowファイルを更新した後、USBのローカルリポジトリで以下を実行します。
+GitHub上でWorkflowやサイトを更新した後、USBのローカルリポジトリを使う前に以下で同期します。
 
 ```bat
 cd /d "E:\rev\サイト\ブラッシュアップ"
