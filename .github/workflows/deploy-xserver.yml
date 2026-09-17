@@ -18,6 +18,8 @@
 #   - Blog配下だけは、GitHubの公開状態と一致させるため完全同期（--delete）する。
 #   - dist/admin はVercel Functions前提の管理画面を含むためXserverへは配信しない。
 #   - FTPパスワードはRepository Secretsからのみ読み、ログへ出さない。
+#   - 当回バックアップがXserver側の一時的なFTPS不調で失敗した場合でも、48時間以内の
+#     非expiredバックアップArtifactが存在する場合に限り、そのArtifactを安全網としてDeployを継続する。
 name: Deploy to Xserver
 
 on:
@@ -35,9 +37,12 @@ on:
       - 'package-lock.json'
       - 'favicon.ico'
       - 'robots.txt'
+      # 今回の安定化変更を自動で1回検証するため含める。検証後に外す。
+      - '.github/workflows/deploy-xserver.yml'
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: xserver-production
@@ -171,43 +176,91 @@ jobs:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
           XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
         run: |
-          set -euo pipefail
+          set -u
           STAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
           BACKUP_DIR="xserver-backup/${STAMP}"
           mkdir -p "$BACKUP_DIR"
 
           BACKUP_OK=0
-          for ATTEMPT in 1 2 3; do
-            echo "Backup attempt ${ATTEMPT}/3"
+          for ATTEMPT in 1 2; do
+            echo "Backup attempt ${ATTEMPT}/2"
             if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ftp:passive-mode true
           set ssl:verify-certificate yes
-          set net:max-retries 5
-          set net:timeout 30
+          set net:max-retries 2
+          set net:timeout 20
           set net:reconnect-interval-base 5
           mirror --continue --verbose --exclude-glob 'unlimited-dev/' --exclude-glob 'unlimited-dev/**' "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
           bye
           EOF
             then
-              BACKUP_OK=1
-              break
+              if [ -f "$BACKUP_DIR/index.html" ]; then
+                BACKUP_OK=1
+                break
+              fi
+              echo "::warning::Backup接続は完了しましたが index.html を取得できませんでした。"
             fi
             echo "::warning::Xserver backup attempt ${ATTEMPT} failed. Retrying..."
-            sleep $((ATTEMPT * 20))
+            sleep $((ATTEMPT * 10))
           done
 
-          if [ "$BACKUP_OK" != "1" ]; then
-            echo "::error::Xserver production backup failed after 3 attempts. Deployment stopped before upload."
+          echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
+          if [ "$BACKUP_OK" = "1" ]; then
+            echo "backup_ok=true" >> "$GITHUB_OUTPUT"
+            echo "Backup complete: $BACKUP_DIR"
+          else
+            echo "backup_ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Current Xserver backup failed. Checking recent backup Artifact before deploy."
+          fi
+
+      - name: Check recent backup safety net
+        id: backup_safety
+        if: steps.backup.outputs.backup_ok != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          API="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100"
+          JSON="$(curl -fsSL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$API")"
+
+          LATEST_LINE="$(printf '%s' "$JSON" | jq -r '
+            [.artifacts[]
+              | select(.expired == false)
+              | select(.name | startswith("xserver-backup-"))
+              | {name, created_at}]
+            | sort_by(.created_at)
+            | reverse
+            | .[0] // empty
+            | if . == "" then "" else "\(.name)|\(.created_at)" end
+          ')"
+
+          if [ -z "$LATEST_LINE" ]; then
+            echo "::error::Current backup failed and no usable prior Xserver backup Artifact exists. Deployment stopped."
             exit 1
           fi
 
-          test -f "$BACKUP_DIR/index.html"
-          echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
-          echo "Backup complete: $BACKUP_DIR"
+          FALLBACK_NAME="${LATEST_LINE%%|*}"
+          FALLBACK_CREATED="${LATEST_LINE#*|}"
+          FALLBACK_TS="$(date -u -d "$FALLBACK_CREATED" +%s)"
+          CUTOFF_TS="$(date -u -d '48 hours ago' +%s)"
+
+          if [ "$FALLBACK_TS" -lt "$CUTOFF_TS" ]; then
+            echo "::error::Latest prior backup Artifact is older than 48 hours (${FALLBACK_CREATED}). Deployment stopped."
+            exit 1
+          fi
+
+          echo "fallback_artifact=$FALLBACK_NAME" >> "$GITHUB_OUTPUT"
+          echo "fallback_created_at=$FALLBACK_CREATED" >> "$GITHUB_OUTPUT"
+          echo "::warning::Using recent prior backup safety net: ${FALLBACK_NAME} (${FALLBACK_CREATED})"
 
       - name: Store production backup artifact
+        if: steps.backup.outputs.backup_ok == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: xserver-backup-${{ github.run_id }}
@@ -251,7 +304,7 @@ jobs:
           done
 
           if [ "$DEPLOY_OK" != "1" ]; then
-            echo "::error::Xserver upload failed after 3 attempts. Backup artifact is retained."
+            echo "::error::Xserver upload failed after 3 attempts. Backup safety net remains available."
             exit 1
           fi
 
@@ -271,7 +324,11 @@ jobs:
           echo "- Commit: \`${GITHUB_SHA}\`" >> "$SUMMARY"
           echo "- Target: \`${PRODUCTION_URL}\`" >> "$SUMMARY"
           echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}\`" >> "$SUMMARY"
-          echo "- Backup artifact: \`xserver-backup-${GITHUB_RUN_ID}\`" >> "$SUMMARY"
+          if [ "${{ steps.backup.outputs.backup_ok }}" = "true" ]; then
+            echo "- Backup: \`xserver-backup-${GITHUB_RUN_ID}\` (current run)" >> "$SUMMARY"
+          else
+            echo "- Backup safety net: \`${{ steps.backup_safety.outputs.fallback_artifact }}\`" >> "$SUMMARY"
+          fi
           echo "" >> "$SUMMARY"
           echo "| Check | Result |" >> "$SUMMARY"
           echo "|---|---|" >> "$SUMMARY"
@@ -337,7 +394,7 @@ jobs:
           if [ "$FAIL" = "0" ]; then
             echo "**結果: Xserver本番公開・公開記事・下書き非公開を確認しました。**" >> "$SUMMARY"
           else
-            echo "**結果: 本番確認で失敗した項目があります。バックアップArtifactを保持したまま停止しました。**" >> "$SUMMARY"
+            echo "**結果: 本番確認で失敗した項目があります。バックアップ安全網を保持したまま停止しました。**" >> "$SUMMARY"
           fi
 
           rm -rf "$TMP_DIR"
