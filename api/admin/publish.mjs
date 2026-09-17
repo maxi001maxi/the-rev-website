@@ -5,7 +5,7 @@
 //
 // 重要：
 //   - Review画面のPreflight結果は信用せず、ここで必ず再実行する。
-//   - Publish権限は ADMIN_PUBLISHER_USER_ID と一致するユーザーのみ（不一致は403）。
+//   - Publish権限は public.admin_members の active + can_publish で判定する。
 //   - GitHubが失敗した場合、Supabase Draftは一切変更しない（Draftを壊さない）。
 //   - Force overwrite は Phase D v1.0 では提供しない。
 import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   const { supabase, user } = ctx;
 
   // 認証済みであるだけでは書き込ませない。
-  const publisher = checkPublisher(user);
+  const publisher = await checkPublisher(user, supabase);
   if (!publisher.allowed) {
     return sendError(res, 403, publisher.reason, publisher.message);
   }
