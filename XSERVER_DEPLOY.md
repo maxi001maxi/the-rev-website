@@ -10,23 +10,36 @@ Workflow: `.github/workflows/deploy-xserver.yml`
 
 実行順序:
 
-1. Xserver `/unlimited-dev/` を丸ごとFTPSでバックアップ
+1. Xserver FTPルート `/` を丸ごとFTPSでバックアップ
 2. バックアップをGitHub Actions Artifactへ14日保存
 3. `npm ci`
 4. `npm run vercel-build`
 5. `content/blog/*.md` の `status` と `dist/blog/` の生成結果を照合
 6. `dist/admin` を除外したXserver用payloadを作成
-7. Blog配下を完全同期し、下書き化・削除された記事の残骸を除去
-8. それ以外の公開ファイルを `/unlimited-dev/` へ上書き
+7. 本番 `/blog/` 配下を完全同期し、下書き化・削除された記事の残骸を除去
+8. それ以外の公開ファイルをFTPルート `/` へ上書き
 9. `therev-lab.com` のTOP / Blog一覧 / 全公開記事をHTTP確認
 10. 下書き記事がBlog一覧に出ておらず、URLもHTTP 200になっていないことを確認
+
+## 公開先の確認結果
+
+2026-09-17 に手動probeで確認済みです。
+
+- FTP `/` に置いた `__rev_root_probe.txt` は `https://therev-lab.com/__rev_root_probe.txt` で直接配信された
+- FTP `/unlimited-dev/` に置いたファイルは本番ルート直下では配信されない
+- `https://therev-lab.com/unlimited-dev/...` へアクセスするとBasic認証が表示される
+- `therev-lab.com` と `sv14602.xserver.jp` は同じIP `162.43.104.3` を解決した
+
+したがって、GitHub Actions の本番配信先は **FTPルート `/`** とする。
+`/unlimited-dev/` は本番DocumentRootではなく、認証付きの別環境として扱う。
 
 ## Xserver設定
 
 固定値:
 
 - FTP host: `sv14602.xserver.jp`
-- Remote directory: `/unlimited-dev`
+- Production remote directory: `/`
+- Protected environment: `/unlimited-dev/`
 - Production URL: `https://therev-lab.com`
 
 GitHub Repository Secretsとして次の2つだけ登録します。
@@ -50,14 +63,15 @@ GitHubの対象リポジトリで:
 
 ## サーバー上で削除しないもの
 
-ルート `/unlimited-dev/` 全体には `--delete` を使いません。そのため、Xserver側にだけ存在する以下のようなファイルは保持されます。
+FTPルート `/` 全体には `--delete` を使いません。そのため、Xserver側にだけ存在する以下のようなファイル・ディレクトリは保持されます。
 
 - `.htaccess`
 - `.user.ini`
 - 既存バックアップZIP
+- `/unlimited-dev/`
 - Xserver固有ファイル
 
-ただし `/unlimited-dev/blog/` だけはGitHubの公開状態を正本とするため完全同期します。
+ただし本番 `/blog/` だけはGitHubの公開状態を正本とするため完全同期します。
 
 ## adminをXserverへ配信しない理由
 
@@ -65,7 +79,7 @@ GitHubの対象リポジトリで:
 
 ## バックアップ
 
-各実行前に現在の `/unlimited-dev/` を取得し、GitHub Actions Artifactとして保存します。
+各実行前に現在のFTPルート `/` を取得し、GitHub Actions Artifactとして保存します。
 
 Artifact名:
 
