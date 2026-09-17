@@ -1,6 +1,6 @@
 # THE REV. — Xserver Production Deploy
 #
-# 手動起動（workflow_dispatch）専用。
+# mainへの本番関連変更で自動起動し、必要に応じてworkflow_dispatchでも手動起動できる。
 # 目的：
 #   1) 現在のXserver本番をFTPSで丸ごとバックアップ
 #   2) GitHub mainから公開物をビルド
@@ -22,6 +22,23 @@ name: Deploy to Xserver
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '*.html'
+      - 'assets/**'
+      - 'content/blog/**'
+      - 'blog/**'
+      - 'scripts/build-blog.mjs'
+      - 'scripts/prepare-deploy.mjs'
+      - 'lib/blogMarkdown.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'favicon.ico'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - '.github/workflows/deploy-xserver.yml'
 
 permissions:
   contents: read
@@ -205,6 +222,8 @@ jobs:
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
           mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
           mirror --reverse --verbose "deploy/" "$XSERVER_REMOTE_DIR"
+          rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
+          rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
           bye
           EOF
 
