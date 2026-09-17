@@ -10,7 +10,7 @@ author: "服部 真騎士"
 author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
 thumbnail: ""
 og_image: ""
-status: "published"
+status: "draft"
 featured: false
 cta_type: "personal-training"
 keywords:
