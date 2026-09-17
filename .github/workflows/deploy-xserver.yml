@@ -83,10 +83,14 @@ jobs:
           set net:max-retries 2
           set net:timeout 20
           mirror --verbose "$XSERVER_REMOTE_DIR/" "$BACKUP_DIR/"
+          get "$XSERVER_REMOTE_DIR/.htaccess" -o "$BACKUP_DIR/.htaccess"
+          get "$XSERVER_REMOTE_DIR/.user.ini" -o "$BACKUP_DIR/.user.ini"
           bye
           EOF
 
           test -f "$BACKUP_DIR/index.html"
+          test -f "$BACKUP_DIR/.htaccess"
+          test -f "$BACKUP_DIR/.user.ini"
           echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
           echo "Backup complete: $BACKUP_DIR"
 
@@ -96,6 +100,7 @@ jobs:
           name: xserver-backup-${{ github.run_id }}
           path: ${{ steps.backup.outputs.backup_dir }}
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
 
       - name: Install dependencies
