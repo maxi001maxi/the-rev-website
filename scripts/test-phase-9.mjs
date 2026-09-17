@@ -1,10 +1,16 @@
-// THE REV. Phase 9 — Editorial AI bridge safety tests
+// THE REV. Phase 9/10 — Editorial AI bridge safety tests
 import {
   bridgeConfig,
   computeEditorialSyncHash,
   safeSecretEqual,
   validateBridgeEnvelope
 } from '../lib/editorialBridge.mjs';
+import {
+  buildEditorialIllustrationPrompt,
+  imagePathsForSlug,
+  selectBrandImageSource,
+  shouldGenerateIllustration
+} from '../lib/editorialImage.mjs';
 
 let passed = 0;
 const failed = [];
@@ -49,5 +55,27 @@ const h3 = computeEditorialSyncHash({ ...article, body_markdown: 'changed' }, me
 assert(h1 === h2, 'キー順に依存せず同内容は同じhash');
 assert(h1 !== h3, '本文変更でhashが変わる');
 
-console.log(`\nPhase 9 tests: ${passed} passed / ${failed.length} failed`);
+console.log('\n[5. editorial image planning]');
+const imgPaths = imagePathsForSlug('after-work-tired-strength-training');
+assert(imgPaths.thumbnailPublicPath === '/assets/images/blog/thumb-after-work-tired-strength-training.jpg', 'Thumbnail公開パスをslugから生成');
+assert(imgPaths.ogPublicPath === '/assets/images/blog/og/og-after-work-tired-strength-training.jpg', 'OGP公開パスをslugから生成');
+
+const fatigueArticle = {
+  title: '仕事終わり、疲れている日は筋トレに行くべき？',
+  description: '疲れている日の負荷調整を考える。',
+  bodyMarkdown: '仕事終わりの疲労と休息を見ながら判断します。',
+  category: 'body-knowledge'
+};
+assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真をfallbackに選ぶ');
+assert(shouldGenerateIllustration(fatigueArticle, {}) === false, 'OpenAI keyなしではAI画像生成を必須にしない');
+assert(shouldGenerateIllustration(fatigueArticle, { OPENAI_API_KEY: 'dummy' }) === true, 'keyありBODY KNOWLEDGEは図解生成対象');
+assert(shouldGenerateIllustration({ ...fatigueArticle, category: 'boxing' }, { OPENAI_API_KEY: 'dummy' }) === false, 'conceptual_onlyではboxing実写を優先');
+assert(shouldGenerateIllustration(fatigueArticle, { OPENAI_API_KEY: 'dummy', EDITORIAL_IMAGE_AI_MODE: 'off' }) === false, 'AI mode offなら実写選定のみ');
+
+const prompt = buildEditorialIllustrationPrompt(fatigueArticle);
+assert(prompt.includes('NOT a photograph'), '生成画像は実在施設の偽写真にしない');
+assert(prompt.includes('No readable text'), '生成図解に読めない文字を入れない');
+assert(prompt.includes('3:2') && prompt.includes('1.91:1'), 'Thumbnail/OGP両方のcrop safeを指示');
+
+console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
