@@ -37,8 +37,6 @@ on:
       - 'package-lock.json'
       - 'favicon.ico'
       - 'robots.txt'
-      # 今回の安定化変更を自動で1回検証するため含める。検証後に外す。
-      - '.github/workflows/deploy-xserver.yml'
 
 permissions:
   contents: read
