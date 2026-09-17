@@ -1,0 +1,31 @@
+name: Phase 9 Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'api/integrations/editorial.mjs'
+      - 'lib/editorialBridge.mjs'
+      - 'scripts/test-phase-9.mjs'
+      - 'scripts/test-phase-d.mjs'
+      - 'scripts/build-blog.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'supabase/migrations/**'
+      - '.github/workflows/phase-9-check.yml'
+  push:
+    branches: [phase-9-editorial-bridge]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:phase-9
+      - run: npm run test:phase-d
+      - run: npm run build:blog
