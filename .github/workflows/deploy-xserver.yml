@@ -4,11 +4,17 @@
 # 目的：
 #   1) 現在のXserver本番をFTPSで丸ごとバックアップ
 #   2) GitHub mainから公開物をビルド
-#   3) Xserverの /unlimited-dev/ へ安全に反映
+#   3) XserverのFTPルート / へ安全に反映
 #   4) therev-lab.com のTOP / Blog / 公開記事を実通信で確認
 #
+# 2026-09-17 に手動probeで確認:
+#   - FTP / に置いたtxt → https://therev-lab.com/<file> で配信
+#   - FTP /unlimited-dev は https://therev-lab.com/unlimited-dev/ でBasic認証
+# よって本番DocumentRootはFTP / とする。
+#
 # 重要：
-#   - Xserver側の .htaccess / .user.ini / 既存ZIP等は削除しない。
+#   - Xserver側ルート全体には --delete を使わない。
+#   - /unlimited-dev やXserver固有ファイルは削除しない。
 #   - Blog配下だけは、GitHubの公開状態と一致させるため完全同期（--delete）する。
 #   - dist/admin はVercel Functions前提の管理画面を含むためXserverへは配信しない。
 #   - FTPパスワードはRepository Secretsからのみ読み、ログへ出さない。
@@ -27,7 +33,7 @@ concurrency:
 env:
   NODE_VERSION: '22'
   XSERVER_FTP_HOST: 'sv14602.xserver.jp'
-  XSERVER_REMOTE_DIR: '/unlimited-dev'
+  XSERVER_REMOTE_DIR: '/'
   PRODUCTION_URL: 'https://therev-lab.com'
 
 jobs:
@@ -82,13 +88,11 @@ jobs:
           set ssl:verify-certificate yes
           set net:max-retries 2
           set net:timeout 20
-          mirror --verbose "$XSERVER_REMOTE_DIR/" "$BACKUP_DIR/"
+          mirror --verbose "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
           bye
           EOF
 
           test -f "$BACKUP_DIR/index.html"
-          test -f "$BACKUP_DIR/.htaccess"
-          test -f "$BACKUP_DIR/.user.ini"
           echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
           echo "Backup complete: $BACKUP_DIR"
 
@@ -198,9 +202,9 @@ jobs:
           set ssl:verify-certificate yes
           set net:max-retries 2
           set net:timeout 20
-          mkdir -p "$XSERVER_REMOTE_DIR/blog"
-          mirror --reverse --delete --verbose "deploy/blog/" "$XSERVER_REMOTE_DIR/blog/"
-          mirror --reverse --verbose "deploy/" "$XSERVER_REMOTE_DIR/"
+          mkdir -p "${XSERVER_REMOTE_DIR}blog"
+          mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
+          mirror --reverse --verbose "deploy/" "$XSERVER_REMOTE_DIR"
           bye
           EOF
 
@@ -218,7 +222,7 @@ jobs:
           echo "" >> "$SUMMARY"
           echo "- Commit: \`${GITHUB_SHA}\`" >> "$SUMMARY"
           echo "- Target: \`${PRODUCTION_URL}\`" >> "$SUMMARY"
-          echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}/\`" >> "$SUMMARY"
+          echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}\`" >> "$SUMMARY"
           echo "- Backup artifact: \`xserver-backup-${GITHUB_RUN_ID}\`" >> "$SUMMARY"
           echo "" >> "$SUMMARY"
           echo "| Check | Result |" >> "$SUMMARY"
