@@ -1,0 +1,289 @@
+# THE REV. — Xserver Production Deploy
+#
+# 手動起動（workflow_dispatch）専用。
+# 目的：
+#   1) 現在のXserver本番をFTPSで丸ごとバックアップ
+#   2) GitHub mainから公開物をビルド
+#   3) Xserverの /unlimited-dev/ へ安全に反映
+#   4) therev-lab.com のTOP / Blog / 公開記事を実通信で確認
+#
+# 重要：
+#   - Xserver側の .htaccess / .user.ini / 既存ZIP等は削除しない。
+#   - Blog配下だけは、GitHubの公開状態と一致させるため完全同期（--delete）する。
+#   - dist/admin はVercel Functions前提の管理画面を含むためXserverへは配信しない。
+#   - FTPパスワードはRepository Secretsからのみ読み、ログへ出さない。
+name: Deploy to Xserver
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: xserver-production
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '22'
+  XSERVER_FTP_HOST: 'sv14602.xserver.jp'
+  XSERVER_REMOTE_DIR: '/unlimited-dev'
+  PRODUCTION_URL: 'https://therev-lab.com'
+
+jobs:
+  deploy:
+    name: Backup → Build → Deploy → Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Validate Xserver secrets
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${XSERVER_FTP_USER:-}" ] || [ -z "${XSERVER_FTP_PASSWORD:-}" ]; then
+            echo "::error::Repository Secrets XSERVER_FTP_USER / XSERVER_FTP_PASSWORD が未設定です。"
+            exit 1
+          fi
+          echo "Xserver credentials: configured"
+
+      - name: Install FTPS client
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+      - name: Backup current Xserver production
+        id: backup
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          STAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
+          BACKUP_DIR="xserver-backup/${STAMP}"
+          mkdir -p "$BACKUP_DIR"
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 2
+          set net:timeout 20
+          mirror --verbose "$XSERVER_REMOTE_DIR/" "$BACKUP_DIR/"
+          bye
+          EOF
+
+          test -f "$BACKUP_DIR/index.html"
+          echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
+          echo "Backup complete: $BACKUP_DIR"
+
+      - name: Store production backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xserver-backup-${{ github.run_id }}
+          path: ${{ steps.backup.outputs.backup_dir }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production files
+        run: npm run vercel-build
+
+      - name: Validate generated Blog against source status
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import matter from 'gray-matter';
+
+          const contentDir = 'content/blog';
+          const distBlogDir = 'dist/blog';
+          const indexPath = path.join(distBlogDir, 'index.html');
+
+          if (!fs.existsSync(indexPath)) {
+            throw new Error('dist/blog/index.html が生成されていません。');
+          }
+
+          const files = fs.readdirSync(contentDir).filter((name) => name.endsWith('.md'));
+          const published = [];
+          const drafts = [];
+
+          for (const file of files) {
+            const raw = fs.readFileSync(path.join(contentDir, file), 'utf8');
+            const { data } = matter(raw);
+            const slug = String(data.slug || path.basename(file, '.md')).trim();
+            const status = String(data.status || 'draft').trim().toLowerCase();
+
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+              throw new Error(`不正なslug: ${slug}`);
+            }
+
+            const generated = path.join(distBlogDir, slug, 'index.html');
+            if (status === 'published') {
+              if (!fs.existsSync(generated)) {
+                throw new Error(`公開記事がdistにありません: ${slug}`);
+              }
+              published.push(slug);
+            } else {
+              if (fs.existsSync(generated)) {
+                throw new Error(`下書き記事がdistへ混入しています: ${slug}`);
+              }
+              drafts.push(slug);
+            }
+          }
+
+          if (published.length === 0) {
+            throw new Error('公開記事が0件です。デプロイを停止します。');
+          }
+
+          const blogIndex = fs.readFileSync(indexPath, 'utf8');
+          for (const slug of published) {
+            if (!blogIndex.includes(`/blog/${slug}/`)) {
+              throw new Error(`Blog一覧に公開記事がありません: ${slug}`);
+            }
+          }
+          for (const slug of drafts) {
+            if (blogIndex.includes(`/blog/${slug}/`)) {
+              throw new Error(`Blog一覧に下書き記事が混入しています: ${slug}`);
+            }
+          }
+
+          fs.writeFileSync('.deploy-published-slugs', `${published.join('\n')}\n`);
+          fs.writeFileSync('.deploy-draft-slugs', drafts.length ? `${drafts.join('\n')}\n` : '');
+          console.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}`);
+          NODE
+
+      - name: Prepare Xserver payload
+        run: |
+          set -euo pipefail
+          rm -rf deploy
+          cp -a dist deploy
+          rm -rf deploy/admin
+          test -f deploy/index.html
+          test -f deploy/blog/index.html
+          test ! -e deploy/admin
+          echo "Xserver payload prepared (dist/admin excluded)."
+
+      - name: Deploy to Xserver over FTPS
+        id: xserver_deploy
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 2
+          set net:timeout 20
+          mkdir -p "$XSERVER_REMOTE_DIR/blog"
+          mirror --reverse --delete --verbose "deploy/blog/" "$XSERVER_REMOTE_DIR/blog/"
+          mirror --reverse --verbose "deploy/" "$XSERVER_REMOTE_DIR/"
+          bye
+          EOF
+
+          echo "Xserver upload complete."
+
+      - name: Verify live production
+        run: |
+          set -euo pipefail
+          FAIL=0
+          SUMMARY="$GITHUB_STEP_SUMMARY"
+          CACHE_BUST="deploy=${GITHUB_RUN_ID}"
+          TMP_DIR="$(mktemp -d)"
+
+          echo "# Xserver Production Deploy" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          echo "- Commit: \`${GITHUB_SHA}\`" >> "$SUMMARY"
+          echo "- Target: \`${PRODUCTION_URL}\`" >> "$SUMMARY"
+          echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}/\`" >> "$SUMMARY"
+          echo "- Backup artifact: \`xserver-backup-${GITHUB_RUN_ID}\`" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          echo "| Check | Result |" >> "$SUMMARY"
+          echo "|---|---|" >> "$SUMMARY"
+
+          fetch_page() {
+            local label="$1"
+            local url="$2"
+            local outfile="$3"
+            local code
+            code=$(curl -sS -L -o "$outfile" -w '%{http_code}' \
+              --retry 5 --retry-delay 3 --retry-all-errors --max-time 30 "$url" || echo '000')
+            if [ "$code" = "200" ]; then
+              echo "| ${label} | ✅ HTTP 200 |" >> "$SUMMARY"
+            else
+              echo "| ${label} | ❌ HTTP ${code} |" >> "$SUMMARY"
+              FAIL=1
+            fi
+          }
+
+          fetch_page "TOP" "${PRODUCTION_URL}/?${CACHE_BUST}" "$TMP_DIR/top.html"
+          if ! grep -qF 'THE REV' "$TMP_DIR/top.html"; then
+            echo "::error::TOPページ本文に THE REV が見つかりません。"
+            FAIL=1
+          fi
+
+          fetch_page "Blog index" "${PRODUCTION_URL}/blog/?${CACHE_BUST}" "$TMP_DIR/blog.html"
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+            if ! grep -qF "/blog/${slug}/" "$TMP_DIR/blog.html"; then
+              echo "::error::本番Blog一覧に公開記事がありません: ${slug}"
+              echo "| Blog link: ${slug} | ❌ missing |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Blog link: ${slug} | ✅ listed |" >> "$SUMMARY"
+            fi
+            fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+          done < .deploy-published-slugs
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+            if grep -qF "/blog/${slug}/" "$TMP_DIR/blog.html"; then
+              echo "::error::本番Blog一覧に下書き記事が表示されています: ${slug}"
+              echo "| Draft hidden: ${slug} | ❌ listed |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Draft hidden: ${slug} | ✅ not listed |" >> "$SUMMARY"
+            fi
+
+            code=$(curl -sS -L -o "$TMP_DIR/draft-${slug}.html" -w '%{http_code}' \
+              --retry 3 --retry-delay 2 --retry-all-errors --max-time 20 \
+              "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" || echo '000')
+            if [ "$code" = "200" ]; then
+              echo "::error::下書き記事URLが本番でHTTP 200を返しています: ${slug}"
+              echo "| Draft URL: ${slug} | ❌ HTTP 200 |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Draft URL: ${slug} | ✅ HTTP ${code} |" >> "$SUMMARY"
+            fi
+          done < .deploy-draft-slugs
+
+          echo "" >> "$SUMMARY"
+          if [ "$FAIL" = "0" ]; then
+            echo "**結果: Xserver本番公開・公開記事・下書き非公開を確認しました。**" >> "$SUMMARY"
+          else
+            echo "**結果: 本番確認で失敗した項目があります。バックアップArtifactを保持したまま停止しました。**" >> "$SUMMARY"
+          fi
+
+          rm -rf "$TMP_DIR"
+          exit "$FAIL"
