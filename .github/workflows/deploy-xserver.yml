@@ -29,15 +29,12 @@ on:
       - '*.html'
       - 'assets/**'
       - 'content/blog/**'
-      - 'blog/**'
       - 'scripts/**'
       - 'lib/**'
       - 'package.json'
       - 'package-lock.json'
       - 'favicon.ico'
       - 'robots.txt'
-      - 'sitemap.xml'
-      - '.github/workflows/deploy-xserver.yml'
 
 permissions:
   contents: read
