@@ -8,9 +8,9 @@ category: "body-knowledge"
 category_label: "BODY KNOWLEDGE"
 author: "服部 真騎士"
 author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
-thumbnail: ""
-og_image: ""
-status: "draft"
+thumbnail: "/assets/images/blog/thumb-after-work-tired-strength-training.jpg"
+og_image: "/assets/images/blog/og/og-after-work-tired-strength-training.jpg"
+status: "published"
 featured: false
 cta_type: "personal-training"
 keywords:
