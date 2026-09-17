@@ -2,8 +2,8 @@
 #
 # mainへの本番関連変更で自動起動し、必要に応じてworkflow_dispatchでも手動起動できる。
 # 目的：
-#   1) 現在のXserver本番をFTPSで丸ごとバックアップ
-#   2) GitHub mainから公開物をビルド
+#   1) GitHub mainから公開物をビルドして事前検証
+#   2) 現在のXserver本番をFTPSでバックアップ
 #   3) XserverのFTPルート / へ安全に反映
 #   4) therev-lab.com のTOP / Blog / 公開記事を実通信で確認
 #
@@ -30,9 +30,8 @@ on:
       - 'assets/**'
       - 'content/blog/**'
       - 'blog/**'
-      - 'scripts/build-blog.mjs'
-      - 'scripts/prepare-deploy.mjs'
-      - 'lib/blogMarkdown.mjs'
+      - 'scripts/**'
+      - 'lib/**'
       - 'package.json'
       - 'package-lock.json'
       - 'favicon.ico'
@@ -55,7 +54,7 @@ env:
 
 jobs:
   deploy:
-    name: Backup → Build → Deploy → Verify
+    name: Build → Backup → Deploy → Verify
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -68,59 +67,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
-
-      - name: Validate Xserver secrets
-        env:
-          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
-          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
-        run: |
-          set -euo pipefail
-          if [ -z "${XSERVER_FTP_USER:-}" ] || [ -z "${XSERVER_FTP_PASSWORD:-}" ]; then
-            echo "::error::Repository Secrets XSERVER_FTP_USER / XSERVER_FTP_PASSWORD が未設定です。"
-            exit 1
-          fi
-          echo "Xserver credentials: configured"
-
-      - name: Install FTPS client
-        run: |
-          set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq lftp
-
-      - name: Backup current Xserver production
-        id: backup
-        env:
-          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
-          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
-        run: |
-          set -euo pipefail
-          STAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
-          BACKUP_DIR="xserver-backup/${STAMP}"
-          mkdir -p "$BACKUP_DIR"
-
-          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
-          set ftp:ssl-force true
-          set ftp:ssl-protect-data true
-          set ftp:passive-mode true
-          set ssl:verify-certificate yes
-          set net:max-retries 2
-          set net:timeout 20
-          mirror --verbose "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
-          bye
-          EOF
-
-          test -f "$BACKUP_DIR/index.html"
-          echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
-          echo "Backup complete: $BACKUP_DIR"
-
-      - name: Store production backup artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: xserver-backup-${{ github.run_id }}
-          path: ${{ steps.backup.outputs.backup_dir }}
-          if-no-files-found: error
-          include-hidden-files: true
-          retention-days: 14
 
       - name: Install dependencies
         run: npm ci
@@ -204,6 +150,75 @@ jobs:
           test ! -e deploy/admin
           echo "Xserver payload prepared (dist/admin excluded)."
 
+      - name: Validate Xserver secrets
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${XSERVER_FTP_USER:-}" ] || [ -z "${XSERVER_FTP_PASSWORD:-}" ]; then
+            echo "::error::Repository Secrets XSERVER_FTP_USER / XSERVER_FTP_PASSWORD が未設定です。"
+            exit 1
+          fi
+          echo "Xserver credentials: configured"
+
+      - name: Install FTPS client
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+      - name: Backup current Xserver production
+        id: backup
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          STAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
+          BACKUP_DIR="xserver-backup/${STAMP}"
+          mkdir -p "$BACKUP_DIR"
+
+          BACKUP_OK=0
+          for ATTEMPT in 1 2 3; do
+            echo "Backup attempt ${ATTEMPT}/3"
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          mirror --continue --verbose --exclude-glob 'unlimited-dev/' --exclude-glob 'unlimited-dev/**' "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
+          bye
+          EOF
+            then
+              BACKUP_OK=1
+              break
+            fi
+            echo "::warning::Xserver backup attempt ${ATTEMPT} failed. Retrying..."
+            sleep $((ATTEMPT * 20))
+          done
+
+          if [ "$BACKUP_OK" != "1" ]; then
+            echo "::error::Xserver production backup failed after 3 attempts. Deployment stopped before upload."
+            exit 1
+          fi
+
+          test -f "$BACKUP_DIR/index.html"
+          echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
+          echo "Backup complete: $BACKUP_DIR"
+
+      - name: Store production backup artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xserver-backup-${{ github.run_id }}
+          path: ${{ steps.backup.outputs.backup_dir }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+
       - name: Deploy to Xserver over FTPS
         id: xserver_deploy
         env:
@@ -212,13 +227,17 @@ jobs:
         run: |
           set -euo pipefail
 
-          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          DEPLOY_OK=0
+          for ATTEMPT in 1 2 3; do
+            echo "Deploy attempt ${ATTEMPT}/3"
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ftp:passive-mode true
           set ssl:verify-certificate yes
-          set net:max-retries 2
-          set net:timeout 20
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
           mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
           mirror --reverse --verbose "deploy/" "$XSERVER_REMOTE_DIR"
@@ -226,6 +245,18 @@ jobs:
           rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
           bye
           EOF
+            then
+              DEPLOY_OK=1
+              break
+            fi
+            echo "::warning::Xserver deploy attempt ${ATTEMPT} failed. Retrying..."
+            sleep $((ATTEMPT * 20))
+          done
+
+          if [ "$DEPLOY_OK" != "1" ]; then
+            echo "::error::Xserver upload failed after 3 attempts. Backup artifact is retained."
+            exit 1
+          fi
 
           echo "Xserver upload complete."
 
@@ -239,6 +270,7 @@ jobs:
 
           echo "# Xserver Production Deploy" >> "$SUMMARY"
           echo "" >> "$SUMMARY"
+          echo "- Trigger: \`${GITHUB_EVENT_NAME}\`" >> "$SUMMARY"
           echo "- Commit: \`${GITHUB_SHA}\`" >> "$SUMMARY"
           echo "- Target: \`${PRODUCTION_URL}\`" >> "$SUMMARY"
           echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}\`" >> "$SUMMARY"
