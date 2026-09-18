@@ -112,8 +112,10 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
 .blog-card{ background:transparent; height:100%; }
 .blog-card-link{ display:flex; flex-direction:column; height:100%; color:inherit; text-decoration:none; }
 .blog-card-media{ aspect-ratio:3/2; overflow:hidden; border:1px solid var(--line); }
+/* サムネイル内にコピーを含むデザインでも文字を切らない。
+   枠の3:2比率は維持し、画像全体を収める。 */
 .blog-card-media img{
-  width:100%; height:100%; object-fit:cover;
+  width:100%; height:100%; object-fit:contain; background:var(--paper);
   transition:transform 1.2s cubic-bezier(.2,.7,.3,1);
 }
 .blog-card-link:hover .blog-card-media img{ transform:scale(1.03); }
@@ -247,11 +249,10 @@ body.blog-index .brand-logo--dark, body.blog-post .brand-logo--dark{ opacity:1; 
 .blog-related-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 @media(max-width:640px){ .blog-related-grid{ grid-template-columns:1fr; } }
 .blog-related-card a{ display:block; color:inherit; text-decoration:none; }
-/* 関連記事ではサムネイル内に文字を含むデザインも使うため、
-   固定比率＋coverで切り取らない。元画像の比率をそのまま表示し、
-   コピーや被写体が端で欠ける事故を防ぐ。 */
+/* 関連記事は3:2の表示枠を維持しながら画像全体を表示する。
+   文字入りサムネイルでも端を切らず、3列の高さも揃える。 */
 .blog-related-card img{
-  width:100%; height:auto; aspect-ratio:auto; object-fit:contain;
+  width:100%; aspect-ratio:3/2; object-fit:contain; background:var(--paper);
   border:1px solid var(--line); margin-bottom:10px; display:block;
 }
 .blog-related-cat{ font-family:var(--latin); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--wood-deep); margin:0 0 6px; }
