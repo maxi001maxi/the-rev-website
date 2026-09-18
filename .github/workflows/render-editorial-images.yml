@@ -65,7 +65,8 @@ jobs:
       - name: Commit rendered assets
         id: commit_images
         run: |
-          if git diff --quiet -- assets/images/blog; then
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- assets/images/blog)" ]; then
             echo "No rendered image changes."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
