@@ -85,7 +85,7 @@ async function refreshStaleEditorialImages(supabase, id) {
   }
 }
 
-export const config = { maxDuration: 180 };
+export const config = { maxDuration: 300 };
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
