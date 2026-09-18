@@ -7,9 +7,15 @@
 import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
 import { runPreflight, draftSummary } from '../../lib/publishFlow.mjs';
 import { commitMessageFor } from '../../lib/blogMarkdown.mjs';
-import { ensureEditorialImages, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
+import {
+  prepareEditorialImageJob,
+  checkEditorialImageReady,
+  EditorialImageError,
+  IMAGE_RENDER_VERSION,
+  IMAGE_STYLE_TEMPLATE
+} from '../../lib/editorialImage.mjs';
 
-const IMAGE_RETRY_COOLDOWN_MS = 5 * 60 * 1000;
+const IMAGE_RETRY_COOLDOWN_MS = 15 * 1000;
 
 async function refreshStaleEditorialImages(supabase, id) {
   const { data: draft, error } = await supabase
@@ -20,71 +26,96 @@ async function refreshStaleEditorialImages(supabase, id) {
 
   if (error || !draft || draft.editorial_source !== 'the-rev-editorial-ai') return;
 
-  const current =
-    draft.image_status === 'READY' &&
-    draft.image_asset_ready === true &&
-    draft.image_render_version === IMAGE_RENDER_VERSION;
-  if (current) return;
+  const classicCurrent =
+    draft.image_render_version === IMAGE_RENDER_VERSION &&
+    draft.image_style_template === IMAGE_STYLE_TEMPLATE &&
+    draft.image_headline_short;
+
+  // Existing older articles are automatically queued into the single Classic
+  // renderer route when their Review page is opened.
+  if (!classicCurrent) {
+    try {
+      const image = await prepareEditorialImageJob({
+        title: draft.title,
+        slug: draft.slug,
+        description: draft.description,
+        category: draft.category,
+        bodyMarkdown: draft.body_markdown,
+        primaryQuery: Array.isArray(draft.keywords) ? draft.keywords[0] : '',
+        imageHeadlineShort: draft.image_headline_short,
+        imageCategoryLabel: draft.image_category_label,
+        imageSeriesLabel: draft.image_series_label || (draft.slug === 'after-work-tired-strength-training' ? 'COLUMN 06' : ''),
+        sourceImage: draft.image_source_path
+      });
+
+      await supabase
+        .from('admin_article_drafts')
+        .update({
+          thumbnail: image.thumbnail,
+          og_image: image.ogImage,
+          image_status: 'PREPARING',
+          image_render_version: image.renderVersion,
+          image_strategy: image.strategy,
+          image_source_path: image.sourcePath,
+          image_asset_ready: false,
+          image_checked_at: new Date().toISOString(),
+          image_qa: image.qa,
+          image_style_template: image.styleTemplate,
+          image_headline_short: image.imageHeadlineShort,
+          image_category_label: image.categoryLabel,
+          image_series_label: image.seriesLabel,
+          image_asset_version: image.assetVersion,
+          image_job_path: image.jobPath,
+          image_last_error: null
+        })
+        .eq('id', id);
+      return;
+    } catch (e) {
+      const message = e instanceof Error ? e.message : '記事画像Jobの自動準備に失敗しました。';
+      await supabase
+        .from('admin_article_drafts')
+        .update({
+          image_status: 'ERROR',
+          image_asset_ready: false,
+          image_last_error: String(message).slice(0, 1000),
+          image_checked_at: new Date().toISOString()
+        })
+        .eq('id', id);
+      if (!(e instanceof EditorialImageError)) console.error('Classic image queue failed', e);
+      return;
+    }
+  }
+
+  if (draft.image_status === 'READY' && draft.image_asset_ready === true && draft.image_qa?.pass === true) return;
 
   const checkedAt = draft.image_checked_at ? new Date(draft.image_checked_at).getTime() : 0;
   const recentAttempt = Number.isFinite(checkedAt) && (Date.now() - checkedAt) < IMAGE_RETRY_COOLDOWN_MS;
-  if (recentAttempt && (draft.image_status === 'GENERATING' || draft.image_status === 'ERROR')) return;
+  if (recentAttempt && draft.image_status === 'PREPARING') return;
 
-  const now = new Date().toISOString();
-  await supabase
-    .from('admin_article_drafts')
-    .update({
-      image_status: 'GENERATING',
-      image_asset_ready: false,
-      image_last_error: null,
-      image_checked_at: now
-    })
-    .eq('id', id);
-
-  try {
-    const image = await ensureEditorialImages({
-      title: draft.title,
-      slug: draft.slug,
-      description: draft.description,
-      category: draft.category,
-      bodyMarkdown: draft.body_markdown,
-      primaryQuery: Array.isArray(draft.keywords) ? draft.keywords[0] : ''
-    }, { force: true });
-
+  const readiness = await checkEditorialImageReady(draft);
+  if (!readiness.ready) {
     await supabase
       .from('admin_article_drafts')
       .update({
-        thumbnail: image.thumbnail,
-        og_image: image.ogImage,
-        image_status: 'READY',
-        image_render_version: image.renderVersion || IMAGE_RENDER_VERSION,
-        image_strategy: image.strategy || null,
-        image_source_path: image.sourcePath || null,
-        image_asset_ready: image.assetReady === true,
+        image_status: 'PREPARING',
+        image_asset_ready: false,
         image_checked_at: new Date().toISOString(),
-        image_qa: image.qa || null,
-        image_attempts: Number.isFinite(Number(image.attempts)) ? Number(image.attempts) : null,
         image_last_error: null
       })
       .eq('id', id);
-  } catch (e) {
-    const message = e instanceof Error ? e.message : '記事画像の自動再生成に失敗しました。';
-    await supabase
-      .from('admin_article_drafts')
-      .update({
-        image_status: 'ERROR',
-        image_asset_ready: false,
-        image_last_error: String(message).slice(0, 1000),
-        image_checked_at: new Date().toISOString()
-      })
-      .eq('id', id);
-
-    // The normal preflight below turns this into a visible image_not_ready
-    // blocker. Do not turn the whole Review page into a generic 500.
-    if (!(e instanceof EditorialImageError)) {
-      console.error('Phase 10 image refresh failed', e);
-    }
+    return;
   }
+
+  await supabase
+    .from('admin_article_drafts')
+    .update({
+      image_status: 'READY',
+      image_asset_ready: true,
+      image_checked_at: new Date().toISOString(),
+      image_qa: readiness.qa,
+      image_last_error: null
+    })
+    .eq('id', id);
 }
 
 export const config = { maxDuration: 300 };
