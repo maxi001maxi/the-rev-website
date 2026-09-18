@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: editorial-image-render
@@ -52,9 +53,11 @@ jobs:
           done
 
       - name: Commit rendered assets
+        id: commit_images
         run: |
           if git diff --quiet -- assets/images/blog; then
             echo "No rendered image changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "THE REV Editorial Bot"
@@ -62,3 +65,11 @@ jobs:
           git add assets/images/blog
           git commit -m "Editorial rendered images"
           git push origin main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch Xserver deploy after rendered image commit
+        if: steps.commit_images.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run deploy-xserver.yml --ref main
