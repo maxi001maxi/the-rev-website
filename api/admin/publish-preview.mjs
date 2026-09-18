@@ -85,6 +85,8 @@ async function refreshStaleEditorialImages(supabase, id) {
   }
 }
 
+export const config = { maxDuration: 180 };
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
