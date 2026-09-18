@@ -6,9 +6,12 @@ import {
   validateBridgeEnvelope
 } from '../lib/editorialBridge.mjs';
 import {
-  buildEditorialIllustrationPrompt,
+  IMAGE_RENDER_VERSION,
+  buildEditorialDesignPrompt,
+  buildEditorialDesignText,
   imagePathsForSlug,
   selectBrandImageSource,
+  selectColumnMaster,
   shouldGenerateIllustration
 } from '../lib/editorialImage.mjs';
 
@@ -59,23 +62,27 @@ console.log('\n[5. editorial image planning]');
 const imgPaths = imagePathsForSlug('after-work-tired-strength-training');
 assert(imgPaths.thumbnailPublicPath === '/assets/images/blog/thumb-after-work-tired-strength-training.jpg', 'Thumbnail公開パスをslugから生成');
 assert(imgPaths.ogPublicPath === '/assets/images/blog/og/og-after-work-tired-strength-training.jpg', 'OGP公開パスをslugから生成');
+assert(IMAGE_RENDER_VERSION === 'rev-column-master-v2', '画像Render Versionを固定');
 
 const fatigueArticle = {
-  title: '仕事終わり、疲れている日は筋トレに行くべき？',
+  title: '仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安',
   description: '疲れている日の負荷調整を考える。',
   bodyMarkdown: '仕事終わりの疲労と休息を見ながら判断します。',
   category: 'body-knowledge'
 };
-assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真をfallbackに選ぶ');
-assert(shouldGenerateIllustration(fatigueArticle, {}) === false, 'OpenAI keyなしではAI画像生成を必須にしない');
-assert(shouldGenerateIllustration(fatigueArticle, { OPENAI_API_KEY: 'dummy' }) === true, 'keyありBODY KNOWLEDGEは図解生成対象');
-assert(shouldGenerateIllustration({ ...fatigueArticle, category: 'boxing' }, { OPENAI_API_KEY: 'dummy' }) === false, 'conceptual_onlyではboxing実写を優先');
-assert(shouldGenerateIllustration(fatigueArticle, { OPENAI_API_KEY: 'dummy', EDITORIAL_IMAGE_AI_MODE: 'off' }) === false, 'AI mode offなら実写選定のみ');
+assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真を選ぶ');
+assert(selectColumnMaster(fatigueArticle) === 'assets/images/blog/columns/column-02-push-master.jpg', 'BODY KNOWLEDGEは既存Column masterをデザイン参照に使う');
+assert(shouldGenerateIllustration(fatigueArticle, {}) === false, 'OpenAI keyなしではデザイン生成不可');
+assert(shouldGenerateIllustration(fatigueArticle, { OPENAI_API_KEY: 'dummy' }) === true, 'OpenAI keyありならデザイン生成可能');
 
-const prompt = buildEditorialIllustrationPrompt(fatigueArticle);
-assert(prompt.includes('NOT a photograph'), '生成画像は実在施設の偽写真にしない');
-assert(prompt.includes('No readable text'), '生成図解に読めない文字を入れない');
-assert(prompt.includes('3:2') && prompt.includes('1.91:1'), 'Thumbnail/OGP両方のcrop safeを指示');
+const designText = buildEditorialDesignText(fatigueArticle);
+assert(designText.headline === '仕事終わり、疲れている日は筋トレに行くべき？', '疑問文までをサムネ主見出しにする');
+assert(designText.subcopy === '軽く始めて決める目安', '疑問文後を補助コピーにする');
+const prompt = buildEditorialDesignPrompt(fatigueArticle);
+assert(prompt.includes('existing THE REV. column series'), '既存Columnシリーズをデザイン正本にする');
+assert(prompt.includes('CRITICAL TEXT RULE'), '日本語文字の保持を強く指示');
+assert(prompt.includes(designText.headline) && prompt.includes(designText.subcopy), '実際の見出しと補助コピーをPromptへ含める');
+assert(prompt.includes('1.91:1'), 'SNS crop safeを指示');
 
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
