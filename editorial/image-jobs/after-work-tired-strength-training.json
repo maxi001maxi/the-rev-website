@@ -5,5 +5,6 @@
   "headline": "仕事終わり、疲れている日は筋トレに行くべき？",
   "subcopy": "軽く始めて決める目安",
   "source_image": "assets/images/photo-evolgear.jpg",
-  "qa_release": "v3-live-byte-verify"
+  "qa_release": "v3-live-byte-verify",
+  "release_gate": "staged-assets-before-blog"
 }
