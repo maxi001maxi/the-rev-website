@@ -1,0 +1,64 @@
+name: Render Editorial Blog Images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'editorial/image-jobs/**.json'
+      - 'scripts/render-blog-image.mjs'
+      - '.github/workflows/render-editorial-images.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: editorial-image-render
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install browser renderer
+        run: |
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+
+      - name: Render all editorial image jobs
+        run: |
+          shopt -s nullglob
+          files=(editorial/image-jobs/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No image jobs found."
+            exit 0
+          fi
+          for f in "${files[@]}"; do
+            echo "Rendering $f"
+            node scripts/render-blog-image.mjs "$f"
+          done
+
+      - name: Commit rendered assets
+        run: |
+          if git diff --quiet -- assets/images/blog; then
+            echo "No rendered image changes."
+            exit 0
+          fi
+          git config user.name "THE REV Editorial Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/images/blog
+          git commit -m "Editorial rendered images"
+          git push origin main
