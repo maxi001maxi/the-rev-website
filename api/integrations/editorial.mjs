@@ -24,7 +24,7 @@ import {
   validateBridgeEnvelope
 } from '../../lib/editorialBridge.mjs';
 
-export const config = { maxDuration: 180 };
+export const config = { maxDuration: 300 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
