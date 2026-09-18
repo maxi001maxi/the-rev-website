@@ -289,7 +289,7 @@ function relatedBlockHtml(article, all) {
   if (!related.length) return '';
   const items = related.map(r => `<article class="blog-related-card">
 <a href="/blog/${r.slug}/" data-track="related_article_click" data-source-slug="${article.slug}" data-target-slug="${r.slug}">
-${r.thumbnail ? `<img src="${escapeHtml(r.thumbnail)}" alt="" width="400" height="267" loading="lazy" decoding="async">` : ''}
+${r.thumbnail ? `<img src="${escapeHtml(r.thumbnail)}" alt="" width="400" loading="lazy" decoding="async">` : ''}
 <p class="blog-related-cat">${escapeHtml(r.categoryLabel)}</p>
 <h3>${escapeHtml(r.title)}</h3>
 </a>
