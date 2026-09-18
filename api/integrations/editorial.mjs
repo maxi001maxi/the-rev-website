@@ -12,7 +12,7 @@
 //   - This endpoint NEVER publishes the article to GitHub. Human approval remains required.
 import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
-import { ensureEditorialImages, EditorialImageError } from '../../lib/editorialImage.mjs';
+import { ensureEditorialImages, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
 import {
   BRIDGE_SOURCE,
   bridgeConfig,
@@ -23,6 +23,8 @@ import {
   safeSecretEqual,
   validateBridgeEnvelope
 } from '../../lib/editorialBridge.mjs';
+
+export const config = { maxDuration: 180 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -105,16 +107,22 @@ export default async function handler(req, res) {
     }
   }
 
-  // Priority: explicitly supplied image -> existing Draft image -> automation.
-  // If only one path is set manually, reuse it for both roles rather than
-  // generating a second unrelated visual.
+  // Phase 10 v2: Editorial AI drafts must use the current designed-image
+  // render version. Existing paths alone are not enough because an older plain
+  // photo may still be sitting at the same URL.
   let thumbnail = normalized.value.thumbnail || article?.thumbnail || null;
   let ogImage = normalized.value.og_image || article?.og_image || null;
   if (thumbnail && !ogImage) ogImage = thumbnail;
   if (ogImage && !thumbnail) thumbnail = ogImage;
 
+  const imageNeedsRefresh =
+    !thumbnail ||
+    !ogImage ||
+    article?.image_render_version !== IMAGE_RENDER_VERSION ||
+    article?.image_asset_ready !== true;
+
   let imageInfo = null;
-  if (!thumbnail || !ogImage) {
+  if (imageNeedsRefresh) {
     try {
       imageInfo = await ensureEditorialImages({
         title: normalized.value.title,
@@ -123,20 +131,34 @@ export default async function handler(req, res) {
         category: normalized.value.category,
         bodyMarkdown: normalized.value.body_markdown,
         primaryQuery: body.primary_query
-      });
-      thumbnail = thumbnail || imageInfo.thumbnail;
-      ogImage = ogImage || imageInfo.ogImage;
+      }, { force: Boolean(article) });
+
+      thumbnail = imageInfo.thumbnail;
+      ogImage = imageInfo.ogImage;
     } catch (e) {
+      if (article?.id) {
+        await supabase
+          .from('admin_article_drafts')
+          .update({
+            image_status: 'ERROR',
+            image_asset_ready: false,
+            image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
+            image_checked_at: new Date().toISOString()
+          })
+          .eq('id', article.id);
+      }
       if (e instanceof EditorialImageError) {
         return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
       }
-      return send(res, 502, 'image_automation_failed', '記事画像の自動準備中に予期しないエラーが発生しました。');
+      return send(res, 502, 'image_automation_failed', '文字入り記事画像の自動準備中に予期しないエラーが発生しました。Preview公開を停止しました。');
     }
   } else {
     imageInfo = {
-      status: 'READY',
-      strategy: 'existing-draft',
-      sourcePath: null,
+      status: article.image_status || 'READY',
+      strategy: article.image_strategy || 'existing-designed',
+      renderVersion: article.image_render_version,
+      assetReady: true,
+      sourcePath: article.image_source_path || null,
       generated: false,
       commitSha: null,
       thumbnail,
@@ -149,8 +171,23 @@ export default async function handler(req, res) {
     thumbnail,
     og_image: ogImage
   };
+  const imageState = {
+    image_status: 'READY',
+    image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,
+    image_strategy: imageInfo.strategy || null,
+    image_source_path: imageInfo.sourcePath || null,
+    image_asset_ready: imageInfo.assetReady === true,
+    image_checked_at: new Date().toISOString(),
+    image_last_error: null
+  };
   const metadata = normalizeBridgeMetadata(body);
-  const syncHash = computeEditorialSyncHash(articleValue, metadata);
+  // Do not hash timestamps. The render version/strategy is stable and is enough
+  // to force one update when the image design system changes.
+  const syncHash = computeEditorialSyncHash({
+    ...articleValue,
+    image_render_version: imageState.image_render_version,
+    image_strategy: imageState.image_strategy
+  }, metadata);
   let action = 'unchanged';
 
   if (!article) {
@@ -158,6 +195,7 @@ export default async function handler(req, res) {
       .from('admin_article_drafts')
       .insert({
         ...articleValue,
+        ...imageState,
         user_id: process.env.ADMIN_PUBLISHER_USER_ID,
         editorial_source: BRIDGE_SOURCE,
         editorial_content_id: envelope.value.contentId,
@@ -178,6 +216,7 @@ export default async function handler(req, res) {
       .from('admin_article_drafts')
       .update({
         ...articleValue,
+        ...imageState,
         editorial_week_start: envelope.value.weekStart,
         editorial_sync_hash: syncHash,
         editorial_synced_at: new Date().toISOString()
@@ -205,7 +244,11 @@ export default async function handler(req, res) {
       thumbnail: article.thumbnail || null,
       og_image: article.og_image || null,
       editorial_content_id: article.editorial_content_id,
-      editorial_synced_at: article.editorial_synced_at
+      editorial_synced_at: article.editorial_synced_at,
+      image_status: article.image_status || null,
+      image_render_version: article.image_render_version || null,
+      image_asset_ready: article.image_asset_ready === true,
+      image_strategy: article.image_strategy || null
     },
     image: imageInfo,
     review_url: origin ? `${origin}/admin/articles/review/?id=${encodeURIComponent(article.id)}` : null,

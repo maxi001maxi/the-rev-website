@@ -150,6 +150,21 @@ assert(r.ok === false && r.blocker?.code === 'github_not_configured', 'admin権�
 r = await runPreflight({ supabase: fakeSupabase({ draft: { ...BASE_DRAFT, thumbnail: '' } }), user: USER, articleId: 'a1' });
 assert(checkOf(r, 'required')?.status === 'error' && r.blocker?.status === 422, '画像未設定はPreflightでpublish不可', JSON.stringify(r.blocker));
 
+r = await runPreflight({
+  supabase: fakeSupabase({
+    draft: {
+      ...BASE_DRAFT,
+      editorial_source: 'the-rev-editorial-ai',
+      image_status: 'LEGACY_READY',
+      image_asset_ready: true,
+      image_render_version: null
+    }
+  }),
+  user: USER,
+  articleId: 'a1'
+});
+assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', '旧画像Render VersionのEditorial記事はpublish不可', JSON.stringify(r.blocker));
+
 r = await runPreflight({ supabase: fakeSupabase({ draft: null }), user: USER, articleId: 'a1' });
 assert(r.ok === false && r.blocker?.code === 'not_found', 'Draft無しは404');
 

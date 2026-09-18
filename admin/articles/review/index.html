@@ -32,7 +32,7 @@
 <div class="admin-page-head-row">
 <div>
 <h1 class="admin-page-title">Review &amp; Publish</h1>
-<p class="admin-page-lead">公開前の最終確認です。ここで「Publish Article」を押すと、GitHubの <code id="repo-label">content/blog/</code> へMarkdownがコミットされ、Vercelの自動デプロイが始まります。</p>
+<p class="admin-page-lead">公開前の最終確認です。ここで「Publish Article」を押すと、GitHubの <code id="repo-label">content/blog/</code> へMarkdownがコミットされ、Xserver本番デプロイが始まります。文字入りThumbnail / OGPが揃っていない記事は公開できません。</p>
 </div>
 </div>
 
@@ -48,7 +48,7 @@
 <div><dt>Commit SHA</dt><dd><code id="s-commit">—</code></dd></div>
 <div><dt>公開予定URL</dt><dd><code id="s-url">—</code></dd></div>
 </dl>
-<p id="s-deploy" class="admin-success-note">Vercel deploy started — GitHub mainへのコミットを検知して自動デプロイが開始されます。<strong>この時点ではまだ本番サイトに反映されていない可能性があります。</strong>反映まで通常1〜3分ほどかかります。</p>
+<p id="s-deploy" class="admin-success-note">Xserver deploy started — GitHub mainへのコミットを検知して本番デプロイが開始されます。画像を先に配置し、最後にBlogを切り替えるため、記事だけ先に見えて画像が欠ける状態を防ぎます。<strong>この時点ではまだ本番反映完了ではありません。</strong></p>
 <p id="s-poll" class="admin-success-poll"></p>
 <p id="s-warning" class="admin-success-warning admin-hidden"></p>
 <div class="admin-success-actions">
@@ -90,6 +90,8 @@
 <div><dt>Author</dt><dd id="v-author">—</dd></div>
 <div><dt>Thumbnail</dt><dd id="v-thumbnail">—</dd></div>
 <div><dt>OGP</dt><dd id="v-og">—</dd></div>
+<div><dt>Image status</dt><dd id="v-image-status">—</dd></div>
+<div><dt>Image render</dt><dd id="v-image-render">—</dd></div>
 <div><dt>CTA</dt><dd id="v-cta">—</dd></div>
 <div><dt>Keywords</dt><dd id="v-keywords">—</dd></div>
 <div><dt>Featured</dt><dd id="v-featured">—</dd></div>
@@ -145,6 +147,8 @@ const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'REC
 
 let publishing = false;
 let preflight = null;
+let imageReadyRetryCount = 0;
+const IMAGE_READY_MAX_RETRIES = 36; // 5秒 × 36回 = 最大約3分
 
 function $(id) { return document.getElementById(id); }
 function escapeHtml(str) {
@@ -181,6 +185,10 @@ function renderMeta(a, data) {
   text('v-author', a.author_role && a.author_role !== a.author ? `${a.author}（${a.author_role}）` : a.author);
   text('v-thumbnail', a.thumbnail);
   text('v-og', a.og_image);
+  text('v-image-status', a.image_status || '—');
+  text('v-image-render', a.image_render_version
+    ? `${a.image_render_version} / asset_ready=${a.image_asset_ready ? 'true' : 'false'}`
+    : '—');
   text('v-cta', a.cta_type || 'general');
   text('v-keywords', (a.keywords || []).join(' / '));
   text('v-featured', a.featured ? 'true' : 'false');
@@ -267,17 +275,26 @@ async function loadPreflight() {
     const btn = $('publish-btn');
     const note = $('publish-note');
     if (data.ok) {
+      imageReadyRetryCount = 0;
       btn.disabled = false;
       note.textContent = data.mode === 'create'
-        ? '新規記事としてGitHubへ作成します。'
-        : '既存のGitHubファイルを更新します（SHA一致を確認済み）。';
+        ? '画像を含む本番準備が完了しています。新規記事としてGitHubへ作成します。'
+        : '画像を含む本番準備が完了しています。既存のGitHubファイルを更新します（SHA一致を確認済み）。';
       $('blocker-box').classList.add('admin-hidden');
     } else {
       btn.disabled = true;
-      note.textContent = '上のPreflightで✕になっている項目を解消すると公開できます。';
+      const waitingForImage = data.blocker?.code === 'image_live_not_ready' || data.blocker?.code === 'image_not_ready';
+      note.textContent = waitingForImage
+        ? '記事画像を準備中です。反映確認が完了すると自動でPublish可能になります。'
+        : '上のPreflightで✕になっている項目を解消すると公開できます。';
       const blocker = $('blocker-box');
       blocker.textContent = data.blocker?.message || '公開前チェックに失敗しました。';
       blocker.classList.remove('admin-hidden');
+
+      if (waitingForImage && imageReadyRetryCount < IMAGE_READY_MAX_RETRIES) {
+        imageReadyRetryCount += 1;
+        window.setTimeout(() => loadPreflight(), 5000);
+      }
     }
 
     $('confirm-path').textContent = data.targetPath || '';
@@ -367,17 +384,17 @@ async function pollNewArticle(url) {
   const poll = $('s-poll');
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-    poll.textContent = `Vercelのデプロイ完了を確認しています…（${attempt}/${MAX_ATTEMPTS}）`;
+    poll.textContent = `Xserver本番反映を確認しています…（${attempt}/${MAX_ATTEMPTS}）`;
     await new Promise((r) => setTimeout(r, INTERVAL_MS));
     try {
       const res = await fetch(`${url}?_=${Date.now()}`, { method: 'GET', cache: 'no-store' });
       if (res.ok) {
-        poll.textContent = '公開URLが応答しました。「Open Live Article」から表示を確認してください。';
+        poll.textContent = '公開URLが応答しました。画像を含む本番表示を「Open Live Article」から確認できます。';
         return;
       }
     } catch (e) { /* デプロイ中は失敗しうる。次の試行へ */ }
   }
-  poll.textContent = 'まだ公開URLを確認できていません（デプロイに時間がかかっている可能性があります）。1〜2分ほど待ってから「Open Live Article」でご確認ください。';
+  poll.textContent = 'まだ本番反映を確認できていません。Xserverデプロイ完了後に「Open Live Article」で確認できます。';
 }
 
 /* ---------- 初期化 ---------- */
