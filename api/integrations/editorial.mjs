@@ -160,6 +160,8 @@ export default async function handler(req, res) {
       assetReady: true,
       sourcePath: article.image_source_path || null,
       generated: false,
+      qa: article.image_qa || null,
+      attempts: article.image_attempts || 0,
       commitSha: null,
       thumbnail,
       ogImage
@@ -178,6 +180,8 @@ export default async function handler(req, res) {
     image_source_path: imageInfo.sourcePath || null,
     image_asset_ready: imageInfo.assetReady === true,
     image_checked_at: new Date().toISOString(),
+    image_qa: imageInfo.qa || null,
+    image_attempts: Number.isFinite(Number(imageInfo.attempts)) ? Number(imageInfo.attempts) : null,
     image_last_error: null
   };
   const metadata = normalizeBridgeMetadata(body);
@@ -248,7 +252,9 @@ export default async function handler(req, res) {
       image_status: article.image_status || null,
       image_render_version: article.image_render_version || null,
       image_asset_ready: article.image_asset_ready === true,
-      image_strategy: article.image_strategy || null
+      image_strategy: article.image_strategy || null,
+      image_qa: article.image_qa || null,
+      image_attempts: article.image_attempts || null
     },
     image: imageInfo,
     review_url: origin ? `${origin}/admin/articles/review/?id=${encodeURIComponent(article.id)}` : null,
