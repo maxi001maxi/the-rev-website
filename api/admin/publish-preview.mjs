@@ -1,13 +1,89 @@
 // GET /api/admin/publish-preview?id={uuid}
 //
 // Publish Review画面（/admin/articles/review/）を開いた時点で実行されるPreflight。
-// GitHubへの書き込みは行わず、読み取りと検査のみを行う。
-//
-// 注記: このVercelプロジェクト構成では [id] 形式のブラケット動的ルートがマッチしないため、
-// Phase Dでもクエリ文字列（?id=）方式で統一している（api/admin/article.mjs 冒頭コメント参照）。
+// Phase 10 v2では、Editorial AI記事の画像Render Versionが古い場合だけ、
+// Review表示の前に文字入りThumbnail / OGPを自動再生成する。
+// 記事MarkdownのPublish自体はここでは行わない。
 import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
 import { runPreflight, draftSummary } from '../../lib/publishFlow.mjs';
 import { commitMessageFor } from '../../lib/blogMarkdown.mjs';
+import { ensureEditorialImages, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
+
+const IMAGE_RETRY_COOLDOWN_MS = 5 * 60 * 1000;
+
+async function refreshStaleEditorialImages(supabase, id) {
+  const { data: draft, error } = await supabase
+    .from('admin_article_drafts')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (error || !draft || draft.editorial_source !== 'the-rev-editorial-ai') return;
+
+  const current =
+    draft.image_status === 'READY' &&
+    draft.image_asset_ready === true &&
+    draft.image_render_version === IMAGE_RENDER_VERSION;
+  if (current) return;
+
+  const checkedAt = draft.image_checked_at ? new Date(draft.image_checked_at).getTime() : 0;
+  const recentAttempt = Number.isFinite(checkedAt) && (Date.now() - checkedAt) < IMAGE_RETRY_COOLDOWN_MS;
+  if (recentAttempt && (draft.image_status === 'GENERATING' || draft.image_status === 'ERROR')) return;
+
+  const now = new Date().toISOString();
+  await supabase
+    .from('admin_article_drafts')
+    .update({
+      image_status: 'GENERATING',
+      image_asset_ready: false,
+      image_last_error: null,
+      image_checked_at: now
+    })
+    .eq('id', id);
+
+  try {
+    const image = await ensureEditorialImages({
+      title: draft.title,
+      slug: draft.slug,
+      description: draft.description,
+      category: draft.category,
+      bodyMarkdown: draft.body_markdown,
+      primaryQuery: Array.isArray(draft.keywords) ? draft.keywords[0] : ''
+    }, { force: true });
+
+    await supabase
+      .from('admin_article_drafts')
+      .update({
+        thumbnail: image.thumbnail,
+        og_image: image.ogImage,
+        image_status: 'READY',
+        image_render_version: image.renderVersion || IMAGE_RENDER_VERSION,
+        image_strategy: image.strategy || null,
+        image_source_path: image.sourcePath || null,
+        image_asset_ready: image.assetReady === true,
+        image_checked_at: new Date().toISOString(),
+        image_last_error: null
+      })
+      .eq('id', id);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : '記事画像の自動再生成に失敗しました。';
+    await supabase
+      .from('admin_article_drafts')
+      .update({
+        image_status: 'ERROR',
+        image_asset_ready: false,
+        image_last_error: String(message).slice(0, 1000),
+        image_checked_at: new Date().toISOString()
+      })
+      .eq('id', id);
+
+    // The normal preflight below turns this into a visible image_not_ready
+    // blocker. Do not turn the whole Review page into a generic 500.
+    if (!(e instanceof EditorialImageError)) {
+      console.error('Phase 10 image refresh failed', e);
+    }
+  }
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -28,6 +104,12 @@ export default async function handler(req, res) {
   const { id } = req.query;
   if (!id || typeof id !== 'string') return sendError(res, 400, 'bad_request', 'idが指定されていません。');
 
+  try {
+    await refreshStaleEditorialImages(ctx.supabase, id);
+  } catch (e) {
+    console.error('Phase 10 image preparation check failed', e);
+  }
+
   let result;
   try {
     result = await runPreflight({ supabase: ctx.supabase, user: ctx.user, articleId: id });
@@ -35,7 +117,6 @@ export default async function handler(req, res) {
     return sendError(res, 500, 'preflight_failed', 'Preflightの実行中にエラーが発生しました。');
   }
 
-  // 記事そのものが無い / DBエラーはHTTPステータスでも表現する。
   if (result.blocker && (result.blocker.code === 'not_found' || result.blocker.code === 'db_error')) {
     return sendError(res, result.blocker.status, result.blocker.code, result.blocker.message);
   }
@@ -52,7 +133,6 @@ export default async function handler(req, res) {
     publicUrl: result.publicUrl,
     canonical: result.canonical,
     commitMessage: result.draft ? commitMessageFor(result.draft, result.mode) : null,
-    // github にはリポジトリ名とブランチ名のみ。GITHUB_TOKEN は絶対に含めない。
     github: result.github
   });
 }
