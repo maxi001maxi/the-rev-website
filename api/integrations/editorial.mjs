@@ -167,7 +167,9 @@ export default async function handler(req, res) {
   const articleValue = {
     ...normalized.value,
     thumbnail,
-    og_image: ogImage,
+    og_image: ogImage
+  };
+  const imageState = {
     image_status: 'READY',
     image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,
     image_strategy: imageInfo.strategy || null,
@@ -177,7 +179,13 @@ export default async function handler(req, res) {
     image_last_error: null
   };
   const metadata = normalizeBridgeMetadata(body);
-  const syncHash = computeEditorialSyncHash(articleValue, metadata);
+  // Do not hash timestamps. The render version/strategy is stable and is enough
+  // to force one update when the image design system changes.
+  const syncHash = computeEditorialSyncHash({
+    ...articleValue,
+    image_render_version: imageState.image_render_version,
+    image_strategy: imageState.image_strategy
+  }, metadata);
   let action = 'unchanged';
 
   if (!article) {
@@ -185,6 +193,7 @@ export default async function handler(req, res) {
       .from('admin_article_drafts')
       .insert({
         ...articleValue,
+        ...imageState,
         user_id: process.env.ADMIN_PUBLISHER_USER_ID,
         editorial_source: BRIDGE_SOURCE,
         editorial_content_id: envelope.value.contentId,
@@ -205,6 +214,7 @@ export default async function handler(req, res) {
       .from('admin_article_drafts')
       .update({
         ...articleValue,
+        ...imageState,
         editorial_week_start: envelope.value.weekStart,
         editorial_sync_hash: syncHash,
         editorial_synced_at: new Date().toISOString()
