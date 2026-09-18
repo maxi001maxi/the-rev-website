@@ -62,6 +62,8 @@ async function refreshStaleEditorialImages(supabase, id) {
         image_source_path: image.sourcePath || null,
         image_asset_ready: image.assetReady === true,
         image_checked_at: new Date().toISOString(),
+        image_qa: image.qa || null,
+        image_attempts: Number.isFinite(Number(image.attempts)) ? Number(image.attempts) : null,
         image_last_error: null
       })
       .eq('id', id);
@@ -85,7 +87,7 @@ async function refreshStaleEditorialImages(supabase, id) {
   }
 }
 
-export const config = { maxDuration: 180 };
+export const config = { maxDuration: 300 };
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
