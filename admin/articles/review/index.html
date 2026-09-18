@@ -147,6 +147,8 @@ const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'REC
 
 let publishing = false;
 let preflight = null;
+let imageReadyRetryCount = 0;
+const IMAGE_READY_MAX_RETRIES = 36; // 5秒 × 36回 = 最大約3分
 
 function $(id) { return document.getElementById(id); }
 function escapeHtml(str) {
@@ -273,17 +275,26 @@ async function loadPreflight() {
     const btn = $('publish-btn');
     const note = $('publish-note');
     if (data.ok) {
+      imageReadyRetryCount = 0;
       btn.disabled = false;
       note.textContent = data.mode === 'create'
-        ? '新規記事としてGitHubへ作成します。'
-        : '既存のGitHubファイルを更新します（SHA一致を確認済み）。';
+        ? '画像を含む本番準備が完了しています。新規記事としてGitHubへ作成します。'
+        : '画像を含む本番準備が完了しています。既存のGitHubファイルを更新します（SHA一致を確認済み）。';
       $('blocker-box').classList.add('admin-hidden');
     } else {
       btn.disabled = true;
-      note.textContent = '上のPreflightで✕になっている項目を解消すると公開できます。';
+      const waitingForImage = data.blocker?.code === 'image_live_not_ready' || data.blocker?.code === 'image_not_ready';
+      note.textContent = waitingForImage
+        ? '記事画像を準備中です。反映確認が完了すると自動でPublish可能になります。'
+        : '上のPreflightで✕になっている項目を解消すると公開できます。';
       const blocker = $('blocker-box');
       blocker.textContent = data.blocker?.message || '公開前チェックに失敗しました。';
       blocker.classList.remove('admin-hidden');
+
+      if (waitingForImage && imageReadyRetryCount < IMAGE_READY_MAX_RETRIES) {
+        imageReadyRetryCount += 1;
+        window.setTimeout(() => loadPreflight(), 5000);
+      }
     }
 
     $('confirm-path').textContent = data.targetPath || '';
