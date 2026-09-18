@@ -2,10 +2,9 @@
   "slug": "after-work-tired-strength-training",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN 06",
-  "headline": "仕事終わり、疲れている日は筋トレに行くべき？",
-  "subcopy": "軽く始めて決める目安",
+  "article_title": "仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安",
+  "image_headline_short": "疲れた日は、\n軽く始めて決める。",
+  "image_style_template": "rev-column-classic-v1",
   "source_image": "assets/images/photo-evolgear.jpg",
-  "qa_release": "v3-live-byte-verify",
-  "release_gate": "versioned-asset-stage",
-  "asset_version": "v3-qa-20260918"
+  "asset_version": "classic-v1-ad9b49ab6f"
 }

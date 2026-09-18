@@ -6,6 +6,8 @@ on:
     paths:
       - 'editorial/image-jobs/**.json'
       - 'scripts/render-blog-image.mjs'
+      - 'lib/editorialImageStyle.mjs'
+      - 'lib/editorialImageCopy.mjs'
       - '.github/workflows/render-editorial-images.yml'
   workflow_dispatch:
 

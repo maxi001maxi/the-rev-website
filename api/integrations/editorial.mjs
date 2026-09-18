@@ -12,7 +12,7 @@
 //   - This endpoint NEVER publishes the article to GitHub. Human approval remains required.
 import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
-import { ensureEditorialImages, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
+import { prepareEditorialImageJob, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
 import {
   BRIDGE_SOURCE,
   bridgeConfig,
@@ -107,66 +107,44 @@ export default async function handler(req, res) {
     }
   }
 
-  // Phase 10 v2: Editorial AI drafts must use the current designed-image
-  // render version. Existing paths alone are not enough because an older plain
-  // photo may still be sitting at the same URL.
-  let thumbnail = normalized.value.thumbnail || article?.thumbnail || null;
-  let ogImage = normalized.value.og_image || article?.og_image || null;
-  if (thumbnail && !ogImage) ogImage = thumbnail;
-  if (ogImage && !thumbnail) thumbnail = ogImage;
-
-  const imageNeedsRefresh =
-    !thumbnail ||
-    !ogImage ||
-    article?.image_render_version !== IMAGE_RENDER_VERSION ||
-    article?.image_asset_ready !== true;
-
+  // Phase 10 Classic: one deterministic rendering route.
+  // The Bridge prepares a versioned image job and stores the expected paths.
+  // GitHub Actions renders/stages the assets; Review finalizes READY only after
+  // those exact assets are live on Xserver.
   let imageInfo = null;
-  if (imageNeedsRefresh) {
-    try {
-      imageInfo = await ensureEditorialImages({
-        title: normalized.value.title,
-        slug: normalized.value.slug,
-        description: normalized.value.description,
-        category: normalized.value.category,
-        bodyMarkdown: normalized.value.body_markdown,
-        primaryQuery: body.primary_query
-      }, { force: Boolean(article) });
-
-      thumbnail = imageInfo.thumbnail;
-      ogImage = imageInfo.ogImage;
-    } catch (e) {
-      if (article?.id) {
-        await supabase
-          .from('admin_article_drafts')
-          .update({
-            image_status: 'ERROR',
-            image_asset_ready: false,
-            image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
-            image_checked_at: new Date().toISOString()
-          })
-          .eq('id', article.id);
-      }
-      if (e instanceof EditorialImageError) {
-        return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
-      }
-      return send(res, 502, 'image_automation_failed', '文字入り記事画像の自動準備中に予期しないエラーが発生しました。Preview公開を停止しました。');
+  try {
+    imageInfo = await prepareEditorialImageJob({
+      title: normalized.value.title,
+      slug: normalized.value.slug,
+      description: normalized.value.description,
+      category: normalized.value.category,
+      bodyMarkdown: normalized.value.body_markdown,
+      primaryQuery: body.primary_query,
+      imageHeadlineShort: body.image_headline_short,
+      imageCategoryLabel: body.image_category_label,
+      imageSeriesLabel: body.image_series_label,
+      sourceImage: body.image_source_path
+    });
+  } catch (e) {
+    if (article?.id) {
+      await supabase
+        .from('admin_article_drafts')
+        .update({
+          image_status: 'ERROR',
+          image_asset_ready: false,
+          image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
+          image_checked_at: new Date().toISOString()
+        })
+        .eq('id', article.id);
     }
-  } else {
-    imageInfo = {
-      status: article.image_status || 'READY',
-      strategy: article.image_strategy || 'existing-designed',
-      renderVersion: article.image_render_version,
-      assetReady: true,
-      sourcePath: article.image_source_path || null,
-      generated: false,
-      qa: article.image_qa || null,
-      attempts: article.image_attempts || 0,
-      commitSha: null,
-      thumbnail,
-      ogImage
-    };
+    if (e instanceof EditorialImageError) {
+      return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
+    }
+    return send(res, 502, 'image_automation_failed', '旧5記事準拠のThumbnail / OGP準備中に予期しないエラーが発生しました。');
   }
+
+  const thumbnail = imageInfo.thumbnail;
+  const ogImage = imageInfo.ogImage;
 
   const articleValue = {
     ...normalized.value,
@@ -174,14 +152,20 @@ export default async function handler(req, res) {
     og_image: ogImage
   };
   const imageState = {
-    image_status: 'READY',
+    image_status: 'PREPARING',
     image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,
     image_strategy: imageInfo.strategy || null,
     image_source_path: imageInfo.sourcePath || null,
-    image_asset_ready: imageInfo.assetReady === true,
+    image_asset_ready: false,
     image_checked_at: new Date().toISOString(),
     image_qa: imageInfo.qa || null,
-    image_attempts: Number.isFinite(Number(imageInfo.attempts)) ? Number(imageInfo.attempts) : null,
+    image_attempts: null,
+    image_style_template: imageInfo.styleTemplate || null,
+    image_headline_short: imageInfo.imageHeadlineShort || null,
+    image_category_label: imageInfo.categoryLabel || null,
+    image_series_label: imageInfo.seriesLabel || null,
+    image_asset_version: imageInfo.assetVersion || null,
+    image_job_path: imageInfo.jobPath || null,
     image_last_error: null
   };
   const metadata = normalizeBridgeMetadata(body);
@@ -253,6 +237,12 @@ export default async function handler(req, res) {
       image_render_version: article.image_render_version || null,
       image_asset_ready: article.image_asset_ready === true,
       image_strategy: article.image_strategy || null,
+      image_style_template: article.image_style_template || null,
+      image_headline_short: article.image_headline_short || null,
+      image_category_label: article.image_category_label || null,
+      image_series_label: article.image_series_label || null,
+      image_asset_version: article.image_asset_version || null,
+      image_job_path: article.image_job_path || null,
       image_qa: article.image_qa || null,
       image_attempts: article.image_attempts || null
     },

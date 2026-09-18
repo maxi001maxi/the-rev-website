@@ -14,6 +14,7 @@ const { buildBlogMarkdown, validateDraftForPublish, categoryLabelFor, contentPat
   await import('../lib/blogMarkdown.mjs');
 const github = await import('../lib/githubContent.mjs');
 const { checkPublisher, runPreflight } = await import('../lib/publishFlow.mjs');
+const { IMAGE_RENDER_VERSION, IMAGE_STYLE_TEMPLATE } = await import('../lib/editorialImage.mjs');
 const storage = await import('../admin/js/admin-storage.mjs');
 
 let passed = 0;
@@ -164,6 +165,48 @@ r = await runPreflight({
   articleId: 'a1'
 });
 assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', '旧画像Render VersionのEditorial記事はpublish不可', JSON.stringify(r.blocker));
+
+r = await runPreflight({
+  supabase: fakeSupabase({
+    draft: {
+      ...BASE_DRAFT,
+      editorial_source: 'the-rev-editorial-ai',
+      image_status: 'READY',
+      image_asset_ready: true,
+      image_render_version: IMAGE_RENDER_VERSION,
+      image_style_template: 'wrong-template',
+      image_headline_short: '短いコピー。',
+      image_asset_version: 'classic-v1-deadbeef00',
+      image_qa: { pass: true },
+      thumbnail: '/assets/images/blog/thumb-my-post-classic-v1-deadbeef00.jpg',
+      og_image: '/assets/images/blog/og/og-my-post-classic-v1-deadbeef00.jpg'
+    }
+  }),
+  user: USER,
+  articleId: 'a1'
+});
+assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', 'Classic V1以外のテンプレートはpublish不可', JSON.stringify(r.blocker));
+
+r = await runPreflight({
+  supabase: fakeSupabase({
+    draft: {
+      ...BASE_DRAFT,
+      editorial_source: 'the-rev-editorial-ai',
+      image_status: 'READY',
+      image_asset_ready: true,
+      image_render_version: IMAGE_RENDER_VERSION,
+      image_style_template: IMAGE_STYLE_TEMPLATE,
+      image_headline_short: '短いコピー。',
+      image_asset_version: 'classic-v1-deadbeef00',
+      image_qa: { pass: true },
+      thumbnail: '/assets/images/blog/thumb-my-post.jpg',
+      og_image: '/assets/images/blog/og/og-my-post.jpg'
+    }
+  }),
+  user: USER,
+  articleId: 'a1'
+});
+assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', 'versioned filenameでないEditorial画像はpublish不可', JSON.stringify(r.blocker));
 
 r = await runPreflight({ supabase: fakeSupabase({ draft: null }), user: USER, articleId: 'a1' });
 assert(r.ok === false && r.blocker?.code === 'not_found', 'Draft無しは404');
