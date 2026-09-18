@@ -67,8 +67,7 @@ jobs:
           git push origin main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Dispatch Xserver deploy after rendered image commit
-        if: steps.commit_images.outputs.changed == 'true'
+      - name: Dispatch Xserver deploy after render pass
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
