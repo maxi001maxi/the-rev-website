@@ -7,14 +7,18 @@ import {
 } from '../lib/editorialBridge.mjs';
 import {
   IMAGE_RENDER_VERSION,
-  buildEditorialDesignPrompt,
-  buildEditorialDesignText,
-  buildEditorialImageQaPrompt,
+  IMAGE_STYLE_TEMPLATE,
+  buildEditorialImagePlan,
   imagePathsForSlug,
   selectBrandImageSource,
-  selectColumnMaster,
-  shouldGenerateIllustration
+  selectColumnMaster
 } from '../lib/editorialImage.mjs';
+import {
+  buildImageHeadlineShort,
+  imageCopyIsArticleTitle,
+  validateImageHeadlineShort
+} from '../lib/editorialImageCopy.mjs';
+import { REV_COLUMN_CLASSIC_V1 } from '../lib/editorialImageStyle.mjs';
 
 let passed = 0;
 const failed = [];
@@ -60,33 +64,38 @@ assert(h1 === h2, 'キー順に依存せず同内容は同じhash');
 assert(h1 !== h3, '本文変更でhashが変わる');
 
 console.log('\n[5. editorial image planning]');
-const imgPaths = imagePathsForSlug('after-work-tired-strength-training');
-assert(imgPaths.thumbnailPublicPath === '/assets/images/blog/thumb-after-work-tired-strength-training.jpg', 'Thumbnail公開パスをslugから生成');
-assert(imgPaths.ogPublicPath === '/assets/images/blog/og/og-after-work-tired-strength-training.jpg', 'OGP公開パスをslugから生成');
-assert(IMAGE_RENDER_VERSION === 'rev-column-master-v3-qa', 'QA込み画像Render Versionを固定');
+assert(IMAGE_RENDER_VERSION === 'rev-column-classic-v1', 'Classic V1を画像Render Version正本に固定');
+assert(IMAGE_STYLE_TEMPLATE === 'rev-column-classic-v1', 'Classic V1を画像Style正本に固定');
+assert(REV_COLUMN_CLASSIC_V1.headline.weight === 400, '旧5記事準拠で見出しは明朝・標準ウェイト');
+assert(REV_COLUMN_CLASSIC_V1.panelRatio === 0.50, '旧5記事準拠で左右50/50');
 
 const fatigueArticle = {
   title: '仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安',
+  slug: 'after-work-tired-strength-training',
   description: '疲れている日の負荷調整を考える。',
   bodyMarkdown: '仕事終わりの疲労と休息を見ながら判断します。',
-  category: 'body-knowledge'
+  category: 'body-knowledge',
+  imageSeriesLabel: 'COLUMN 06'
 };
-assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真を選ぶ');
-assert(selectColumnMaster(fatigueArticle) === 'assets/images/blog/columns/column-02-push-master.jpg', 'BODY KNOWLEDGEは既存Column masterをデザイン参照に使う');
-assert(shouldGenerateIllustration(fatigueArticle, {}) === false, 'OpenAI keyなしではデザイン生成不可');
-assert(shouldGenerateIllustration(fatigueArticle, { OPENAI_API_KEY: 'dummy' }) === true, 'OpenAI keyありならデザイン生成可能');
 
-const designText = buildEditorialDesignText(fatigueArticle);
-assert(designText.headline === '仕事終わり、疲れている日は筋トレに行くべき？', '疑問文までをサムネ主見出しにする');
-assert(designText.subcopy === '軽く始めて決める目安', '疑問文後を補助コピーにする');
-const prompt = buildEditorialDesignPrompt(fatigueArticle);
-assert(prompt.includes('existing THE REV. column series'), '既存Columnシリーズをデザイン正本にする');
-assert(prompt.includes('CRITICAL TEXT RULE'), '日本語文字の保持を強く指示');
-assert(prompt.includes(designText.headline) && prompt.includes(designText.subcopy), '実際の見出しと補助コピーをPromptへ含める');
-assert(prompt.includes('1.91:1'), 'SNS crop safeを指示');
-const qaPrompt = buildEditorialImageQaPrompt(fatigueArticle);
-assert(qaPrompt.includes(designText.headline) && qaPrompt.includes(designText.subcopy), '画像QAにも期待する日本語文字列を渡す');
-assert(qaPrompt.includes('same restrained, premium editorial series'), '画像QAで既存シリーズとの統一感も検査');
+const shortCopy = buildImageHeadlineShort(fatigueArticle);
+assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事タイトルと分離した短いEditorial Copyを生成');
+assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
+assert(validateImageHeadlineShort(shortCopy).ok === true, '画像コピーが長さ・トーン規則を通過');
+assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真を選ぶ');
+assert(selectColumnMaster(fatigueArticle) === 'assets/images/blog/columns/column-02-push-master.jpg', '旧5記事master参照を保持');
+
+const plan = buildEditorialImagePlan(fatigueArticle);
+assert(plan.styleTemplate === 'rev-column-classic-v1', 'Classic V1 templateで画像Jobを設計');
+assert(plan.imageHeadlineShort === shortCopy, 'Jobへ短い画像コピーを渡す');
+assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
+assert(/^classic-v1-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionを内容ハッシュで固定');
+assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
+assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
+
+const imgPaths = imagePathsForSlug(fatigueArticle.slug, plan.assetVersion);
+assert(imgPaths.thumbnailPublicPath === plan.thumbnail, 'Thumbnail公開パスをplanと一致');
+assert(imgPaths.ogPublicPath === plan.ogImage, 'OGP公開パスをplanと一致');
 
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
