@@ -279,8 +279,8 @@ jobs:
           include-hidden-files: true
           retention-days: 14
 
-      - name: Deploy to Xserver over FTPS
-        id: xserver_deploy
+      - name: Deploy non-Blog assets to Xserver
+        id: xserver_assets_deploy
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
           XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
@@ -289,7 +289,7 @@ jobs:
 
           DEPLOY_OK=0
           for ATTEMPT in 1 2 3; do
-            echo "Deploy attempt ${ATTEMPT}/3"
+            echo "Asset deploy attempt ${ATTEMPT}/3"
             if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
@@ -299,11 +299,9 @@ jobs:
           set net:timeout 30
           set net:reconnect-interval-base 5
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
-          # Phase 10 release order: assets/root first, Blog LAST.
-          # This prevents a new article HTML/index from becoming visible before
-          # its Thumbnail/OGP files have reached Xserver.
+          # Phase 10 staged release:
+          # upload static assets/root FIRST, but keep current Blog HTML/index live.
           mirror --reverse --verbose --exclude-glob 'blog/' --exclude-glob 'blog/**' "deploy/" "$XSERVER_REMOTE_DIR"
-          mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
           rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
           rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
           bye
@@ -312,16 +310,105 @@ jobs:
               DEPLOY_OK=1
               break
             fi
-            echo "::warning::Xserver deploy attempt ${ATTEMPT} failed. Retrying..."
+            echo "::warning::Xserver asset deploy attempt ${ATTEMPT} failed. Retrying..."
             sleep $((ATTEMPT * 20))
           done
 
           if [ "$DEPLOY_OK" != "1" ]; then
-            echo "::error::Xserver upload failed after 3 attempts. Backup safety net remains available."
+            echo "::error::Xserver asset upload failed after 3 attempts. Existing Blog remains untouched."
             exit 1
           fi
 
-          echo "Xserver upload complete."
+          echo "Xserver non-Blog asset upload complete."
+
+      - name: Wait until published images are live
+        run: |
+          set -euo pipefail
+          CACHE_BUST="asset-gate=${GITHUB_RUN_ID}"
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+
+          wait_for_image() {
+            local image_path="$1"
+            local image_label="${image_path#/}"
+            local local_file="dist/${image_label}"
+            local live_file="$TMP_DIR/live-$(printf '%s' "$image_label" | tr '/ ' '__')"
+
+            if [ ! -f "$local_file" ]; then
+              echo "::error::比較元のdist画像がありません: ${image_path}"
+              return 1
+            fi
+
+            local local_sha
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+
+            # CDN / browser-facing cache can trail FTPS by several minutes.
+            # Do not switch Blog HTML until the public URL serves the exact new bytes.
+            for ATTEMPT in $(seq 1 20); do
+              code=$(curl -sS -L -o "$live_file" -w '%{http_code}' \
+                --connect-timeout 8 --max-time 20 \
+                "${PRODUCTION_URL}${image_path}?${CACHE_BUST}&attempt=${ATTEMPT}" || echo '000')
+
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "Image ready ${ATTEMPT}/20: ${image_path}"
+                  return 0
+                fi
+              fi
+
+              echo "Waiting for image propagation ${ATTEMPT}/20: ${image_path} (HTTP ${code})"
+              sleep 15
+            done
+
+            echo "::error::本番画像が新しいdist画像へ切り替わりませんでした: ${image_path}"
+            return 1
+          }
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+            wait_for_image "$image_path"
+          done < .deploy-published-images
+
+          echo "All published image assets are live and byte-identical. Blog switch is now safe."
+
+      - name: Deploy Blog LAST
+        id: xserver_deploy
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          DEPLOY_OK=0
+          for ATTEMPT in 1 2 3; do
+            echo "Blog deploy attempt ${ATTEMPT}/3"
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          mkdir -p "${XSERVER_REMOTE_DIR}blog"
+          mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
+          bye
+          EOF
+            then
+              DEPLOY_OK=1
+              break
+            fi
+            echo "::warning::Xserver Blog deploy attempt ${ATTEMPT} failed. Retrying..."
+            sleep $((ATTEMPT * 20))
+          done
+
+          if [ "$DEPLOY_OK" != "1" ]; then
+            echo "::error::Xserver Blog switch failed after 3 attempts. Assets are present but Blog HTML was not intentionally advanced."
+            exit 1
+          fi
+
+          echo "Xserver Blog switch complete."
 
       - name: Verify live production
         run: |
