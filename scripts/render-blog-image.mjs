@@ -12,7 +12,8 @@ const {
   column_label = '',
   headline,
   subcopy = '',
-  source_image
+  source_image,
+  asset_version = ''
 } = job;
 
 if (!slug || !headline || !source_image) {
@@ -26,8 +27,10 @@ const mime = ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'im
 const imageData = fs.readFileSync(srcPath).toString('base64');
 const imageUrl = `data:${mime};base64,${imageData}`;
 
-const outThumb = path.resolve(`assets/images/blog/thumb-${slug}.jpg`);
-const outOg = path.resolve(`assets/images/blog/og/og-${slug}.jpg`);
+const safeVersion = String(asset_version || '').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+const versionSuffix = safeVersion ? `-${safeVersion}` : '';
+const outThumb = path.resolve(`assets/images/blog/thumb-${slug}${versionSuffix}.jpg`);
+const outOg = path.resolve(`assets/images/blog/og/og-${slug}${versionSuffix}.jpg`);
 fs.mkdirSync(path.dirname(outThumb), { recursive: true });
 fs.mkdirSync(path.dirname(outOg), { recursive: true });
 
@@ -110,4 +113,11 @@ try {
   await browser.close();
 }
 
-console.log(JSON.stringify({ slug, thumbnail: outThumb, og: outOg }));
+console.log(JSON.stringify({
+  slug,
+  asset_version: safeVersion || null,
+  thumbnail: outThumb,
+  og: outOg,
+  thumbnail_public: `/assets/images/blog/thumb-${slug}${versionSuffix}.jpg`,
+  og_public: `/assets/images/blog/og/og-${slug}${versionSuffix}.jpg`
+}));
