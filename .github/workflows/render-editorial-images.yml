@@ -17,6 +17,11 @@ concurrency:
   group: editorial-image-render
   cancel-in-progress: false
 
+env:
+  XSERVER_FTP_HOST: 'sv14602.xserver.jp'
+  XSERVER_REMOTE_DIR: '/'
+  PRODUCTION_URL: 'https://therev-lab.com'
+
 jobs:
   render:
     runs-on: ubuntu-latest
@@ -41,16 +46,21 @@ jobs:
 
       - name: Render all editorial image jobs
         run: |
+          set -euo pipefail
           shopt -s nullglob
           files=(editorial/image-jobs/*.json)
+          : > .rendered-image-paths
           if [ ${#files[@]} -eq 0 ]; then
             echo "No image jobs found."
             exit 0
           fi
           for f in "${files[@]}"; do
             echo "Rendering $f"
-            node scripts/render-blog-image.mjs "$f"
+            output="$(node scripts/render-blog-image.mjs "$f")"
+            echo "$output"
+            printf '%s\n' "$output" | jq -r '.thumbnail_public, .og_public' >> .rendered-image-paths
           done
+          sort -u .rendered-image-paths -o .rendered-image-paths
 
       - name: Commit rendered assets
         id: commit_images
@@ -67,8 +77,75 @@ jobs:
           git push origin main
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Dispatch Xserver deploy after render pass
+      - name: Validate Xserver credentials
         env:
-          GH_TOKEN: ${{ github.token }}
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
         run: |
-          gh workflow run deploy-xserver.yml --ref main
+          set -euo pipefail
+          test -n "${XSERVER_FTP_USER:-}"
+          test -n "${XSERVER_FTP_PASSWORD:-}"
+          echo "Xserver credentials: configured"
+
+      - name: Install FTPS client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+      - name: Stage editorial image assets to Xserver
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          mkdir -p "${XSERVER_REMOTE_DIR}assets/images/blog"
+          mirror --reverse --verbose "assets/images/blog/" "${XSERVER_REMOTE_DIR}assets/images/blog/"
+          bye
+          EOF
+
+      - name: Verify staged editorial images are publicly live
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+          CACHE_BUST="editorial-stage=${GITHUB_RUN_ID}"
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+            label="${image_path#/}"
+            local_file="$label"
+            live_file="$TMP_DIR/live-$(printf '%s' "$label" | tr '/ ' '__')"
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+
+            READY=0
+            for ATTEMPT in $(seq 1 20); do
+              code=$(curl -sS -L -o "$live_file" -w '%{http_code}' \
+                --connect-timeout 8 --max-time 20 \
+                "${PRODUCTION_URL}${image_path}?${CACHE_BUST}&attempt=${ATTEMPT}" || echo '000')
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "Staged image ready ${ATTEMPT}/20: ${image_path}"
+                  READY=1
+                  break
+                fi
+              fi
+              echo "Waiting for staged image ${ATTEMPT}/20: ${image_path} (HTTP ${code})"
+              sleep 15
+            done
+
+            if [ "$READY" != "1" ]; then
+              echo "::error::Editorial image did not become publicly byte-identical: ${image_path}"
+              exit 1
+            fi
+          done < .rendered-image-paths
+
+          echo "All editorial images are staged and publicly ready."

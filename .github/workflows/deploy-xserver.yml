@@ -279,7 +279,7 @@ jobs:
           include-hidden-files: true
           retention-days: 14
 
-      - name: Deploy non-Blog assets to Xserver
+      - name: Deploy assets FIRST
         id: xserver_assets_deploy
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
@@ -298,12 +298,8 @@ jobs:
           set net:max-retries 5
           set net:timeout 30
           set net:reconnect-interval-base 5
-          mkdir -p "${XSERVER_REMOTE_DIR}blog"
-          # Phase 10 staged release:
-          # upload static assets/root FIRST, but keep current Blog HTML/index live.
-          mirror --reverse --verbose --exclude-glob 'blog/' --exclude-glob 'blog/**' "deploy/" "$XSERVER_REMOTE_DIR"
-          rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
-          rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
+          mkdir -p "${XSERVER_REMOTE_DIR}assets"
+          mirror --reverse --verbose "deploy/assets/" "${XSERVER_REMOTE_DIR}assets/"
           bye
           EOF
             then
@@ -319,7 +315,7 @@ jobs:
             exit 1
           fi
 
-          echo "Xserver non-Blog asset upload complete."
+          echo "Xserver assets upload complete."
 
       - name: Wait until published images are live
         run: |
@@ -371,6 +367,30 @@ jobs:
           done < .deploy-published-images
 
           echo "All published image assets are live and byte-identical. Blog switch is now safe."
+
+      - name: Deploy root files after image gate
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          cd "$XSERVER_REMOTE_DIR"
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.html
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.xml
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.txt
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.ico
+          rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
+          rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
+          bye
+          EOF
 
       - name: Deploy Blog LAST
         id: xserver_deploy
