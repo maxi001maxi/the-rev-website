@@ -92,6 +92,10 @@
 <div><dt>OGP</dt><dd id="v-og">—</dd></div>
 <div><dt>Image status</dt><dd id="v-image-status">—</dd></div>
 <div><dt>Image render</dt><dd id="v-image-render">—</dd></div>
+<div><dt>Image style</dt><dd id="v-image-style">—</dd></div>
+<div><dt>Image copy</dt><dd id="v-image-copy">—</dd></div>
+<div><dt>Image series</dt><dd id="v-image-series">—</dd></div>
+<div><dt>Image asset version</dt><dd id="v-image-version">—</dd></div>
 <div><dt>Image QA</dt><dd id="v-image-qa">—</dd></div>
 <div><dt>CTA</dt><dd id="v-cta">—</dd></div>
 <div><dt>Keywords</dt><dd id="v-keywords">—</dd></div>
@@ -127,7 +131,7 @@
 <div id="confirm-overlay" class="admin-modal-overlay admin-hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
 <div class="admin-modal">
 <p id="confirm-title" class="admin-modal-title">記事を公開します</p>
-<p class="admin-modal-text">この記事を公開します。GitHub mainへ反映され、Vercelの自動デプロイが開始されます。</p>
+<p class="admin-modal-text">この記事を公開します。GitHub mainへ反映され、Xserver本番デプロイが開始されます。</p>
 <p class="admin-modal-sub"><code id="confirm-path"></code></p>
 <div class="admin-modal-actions">
 <button id="confirm-cancel" class="admin-btn-mini" type="button">Cancel</button>
@@ -190,6 +194,10 @@ function renderMeta(a, data) {
   text('v-image-render', a.image_render_version
     ? `${a.image_render_version} / asset_ready=${a.image_asset_ready ? 'true' : 'false'}`
     : '—');
+  text('v-image-style', a.image_style_template || '—');
+  text('v-image-copy', a.image_headline_short || '—');
+  text('v-image-series', [a.image_category_label, a.image_series_label].filter(Boolean).join(' / ') || '—');
+  text('v-image-version', a.image_asset_version || '—');
   text('v-image-qa', a.image_qa
     ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / attempts=${a.image_attempts ?? '—'}`
     : '—');
