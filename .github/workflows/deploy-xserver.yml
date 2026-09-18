@@ -93,6 +93,7 @@ jobs:
           const files = fs.readdirSync(contentDir).filter((name) => name.endsWith('.md'));
           const published = [];
           const drafts = [];
+          const publishedImages = new Set();
 
           for (const file of files) {
             const raw = fs.readFileSync(path.join(contentDir, file), 'utf8');
@@ -110,6 +111,16 @@ jobs:
                 throw new Error(`公開記事がdistにありません: ${slug}`);
               }
               published.push(slug);
+              for (const imagePath of [data.thumbnail, data.og_image]) {
+                if (typeof imagePath !== 'string' || !imagePath.startsWith('/assets/')) {
+                  throw new Error(`公開記事の画像パスが不正です: ${slug} -> ${imagePath || '(empty)'}`);
+                }
+                const localImage = path.join('dist', imagePath.replace(/^\//, ''));
+                if (!fs.existsSync(localImage)) {
+                  throw new Error(`公開記事の画像がdistにありません: ${slug} -> ${imagePath}`);
+                }
+                publishedImages.add(imagePath);
+              }
             } else {
               if (fs.existsSync(generated)) {
                 throw new Error(`下書き記事がdistへ混入しています: ${slug}`);
@@ -136,7 +147,8 @@ jobs:
 
           fs.writeFileSync('.deploy-published-slugs', `${published.join('\n')}\n`);
           fs.writeFileSync('.deploy-draft-slugs', drafts.length ? `${drafts.join('\n')}\n` : '');
-          console.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}`);
+          fs.writeFileSync('.deploy-published-images', `${[...publishedImages].join('\n')}\n`);
+          console.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}, images: ${publishedImages.size}`);
           NODE
 
       - name: Prepare Xserver payload
@@ -287,8 +299,11 @@ jobs:
           set net:timeout 30
           set net:reconnect-interval-base 5
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
+          # Phase 10 release order: assets/root first, Blog LAST.
+          # This prevents a new article HTML/index from becoming visible before
+          # its Thumbnail/OGP files have reached Xserver.
+          mirror --reverse --verbose --exclude-glob 'blog/' --exclude-glob 'blog/**' "deploy/" "$XSERVER_REMOTE_DIR"
           mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
-          mirror --reverse --verbose "deploy/" "$XSERVER_REMOTE_DIR"
           rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
           rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
           bye
@@ -353,6 +368,17 @@ jobs:
           fi
 
           fetch_page "Blog index" "${PRODUCTION_URL}/blog/?${CACHE_BUST}" "$TMP_DIR/blog.html"
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+            image_label="${image_path#/}"
+            image_file="$TMP_DIR/image-$(printf '%s' "$image_label" | tr '/ ' '__')"
+            fetch_page "Image: ${image_label}" "${PRODUCTION_URL}${image_path}?${CACHE_BUST}" "$image_file"
+            if [ ! -s "$image_file" ]; then
+              echo "::error::本番画像が空です: ${image_path}"
+              FAIL=1
+            fi
+          done < .deploy-published-images
 
           while IFS= read -r slug; do
             [ -z "$slug" ] && continue
