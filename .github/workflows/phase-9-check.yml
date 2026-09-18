@@ -15,6 +15,7 @@ on:
       - 'api/admin/publish-preview.mjs'
       - 'admin/articles/review/**'
       - '.github/workflows/render-editorial-images.yml'
+      - '.github/workflows/deploy-xserver.yml'
       - 'package.json'
       - 'package-lock.json'
       - 'supabase/migrations/**'
