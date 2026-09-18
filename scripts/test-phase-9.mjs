@@ -9,6 +9,7 @@ import {
   IMAGE_RENDER_VERSION,
   buildEditorialDesignPrompt,
   buildEditorialDesignText,
+  buildEditorialImageQaPrompt,
   imagePathsForSlug,
   selectBrandImageSource,
   selectColumnMaster,
@@ -62,7 +63,7 @@ console.log('\n[5. editorial image planning]');
 const imgPaths = imagePathsForSlug('after-work-tired-strength-training');
 assert(imgPaths.thumbnailPublicPath === '/assets/images/blog/thumb-after-work-tired-strength-training.jpg', 'Thumbnail公開パスをslugから生成');
 assert(imgPaths.ogPublicPath === '/assets/images/blog/og/og-after-work-tired-strength-training.jpg', 'OGP公開パスをslugから生成');
-assert(IMAGE_RENDER_VERSION === 'rev-column-master-v2', '画像Render Versionを固定');
+assert(IMAGE_RENDER_VERSION === 'rev-column-master-v3-qa', 'QA込み画像Render Versionを固定');
 
 const fatigueArticle = {
   title: '仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安',
@@ -83,6 +84,9 @@ assert(prompt.includes('existing THE REV. column series'), '既存Columnシリ�
 assert(prompt.includes('CRITICAL TEXT RULE'), '日本語文字の保持を強く指示');
 assert(prompt.includes(designText.headline) && prompt.includes(designText.subcopy), '実際の見出しと補助コピーをPromptへ含める');
 assert(prompt.includes('1.91:1'), 'SNS crop safeを指示');
+const qaPrompt = buildEditorialImageQaPrompt(fatigueArticle);
+assert(qaPrompt.includes(designText.headline) && qaPrompt.includes(designText.subcopy), '画像QAにも期待する日本語文字列を渡す');
+assert(qaPrompt.includes('same restrained, premium editorial series'), '画像QAで既存シリーズとの統一感も検査');
 
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
