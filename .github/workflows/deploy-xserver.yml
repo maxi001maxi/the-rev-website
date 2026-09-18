@@ -373,10 +373,26 @@ jobs:
             [ -z "$image_path" ] && continue
             image_label="${image_path#/}"
             image_file="$TMP_DIR/image-$(printf '%s' "$image_label" | tr '/ ' '__')"
+            local_file="dist/${image_label}"
             fetch_page "Image: ${image_label}" "${PRODUCTION_URL}${image_path}?${CACHE_BUST}" "$image_file"
             if [ ! -s "$image_file" ]; then
               echo "::error::本番画像が空です: ${image_path}"
               FAIL=1
+              continue
+            fi
+            if [ ! -f "$local_file" ]; then
+              echo "::error::比較元のdist画像がありません: ${image_path}"
+              FAIL=1
+              continue
+            fi
+            live_sha="$(sha256sum "$image_file" | awk '{print $1}')"
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+            if [ "$live_sha" != "$local_sha" ]; then
+              echo "::error::本番画像が今回のdist画像と一致しません: ${image_path}"
+              echo "| Image bytes: ${image_label} | ❌ SHA256 mismatch |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Image bytes: ${image_label} | ✅ exact match |" >> "$SUMMARY"
             fi
           done < .deploy-published-images
 
