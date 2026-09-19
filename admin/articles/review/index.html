@@ -169,6 +169,18 @@ function showError(message) {
 function clearError() { $('error-box').classList.add('admin-hidden'); }
 function text(id, value) { $(id).textContent = value === null || value === undefined || value === '' ? '—' : String(value); }
 
+function publicAssetUrl(src, publicUrl) {
+  const raw = String(src || '').trim();
+  if (!raw) return '';
+  if (/^https?:\/\//i.test(raw)) return raw;
+  try {
+    const origin = new URL(publicUrl || 'https://therev-lab.com').origin;
+    return new URL(raw.startsWith('/') ? raw : '/' + raw, origin).href;
+  } catch {
+    return raw;
+  }
+}
+
 /* ---------- Preflight結果の描画 ---------- */
 
 function renderChecks(checks) {
@@ -217,7 +229,7 @@ function renderMeta(a, data) {
   if (a.og_image) images.push({ label: 'OGP', src: a.og_image });
   $('v-images').innerHTML = images.map((im) => `
 <figure class="admin-review-image">
-<img src="${escapeHtml(im.src)}" alt="" loading="lazy">
+<img src="${escapeHtml(publicAssetUrl(im.src, data.publicUrl))}" alt="" loading="lazy">
 <figcaption>${im.label}</figcaption>
 </figure>`).join('');
 
@@ -233,14 +245,14 @@ function renderMeta(a, data) {
 }
 
 // 公開サイトと同じCSSで、記事本体の見た目に近い形をiframeへ描画する。
-function renderPreview(a) {
+function renderPreview(a, publicUrl) {
   const bodyHtml = marked.parse(a.body_markdown || '', { gfm: true, breaks: false });
   const categoryLabel = CATEGORY_LABELS[a.category] || a.category || '';
   const updatedBlock = a.updated && a.updated !== a.published
     ? ` <time class="blog-update">UPDATE ${escapeHtml(String(a.updated).replace(/-/g, '.'))}</time>`
     : '';
   const hero = a.thumbnail
-    ? `<figure class="blog-hero-media"><img src="${escapeHtml(a.thumbnail)}" alt="${escapeHtml(a.title || '')}" width="1200" height="675"></figure>`
+    ? `<figure class="blog-hero-media"><img src="${escapeHtml(publicAssetUrl(a.thumbnail, publicUrl))}" alt="${escapeHtml(a.title || '')}" width="1200" height="675"></figure>`
     : '';
   const doc = `<!doctype html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -287,7 +299,7 @@ async function loadPreflight() {
 
     renderChecks(data.checks);
     renderMeta(data.article, data);
-    renderPreview(data.article);
+    renderPreview(data.article, data.publicUrl);
     $('markdown-pre').textContent = data.markdown || '（必須項目が不足しているため、Markdownを生成できません）';
 
     const btn = $('publish-btn');
