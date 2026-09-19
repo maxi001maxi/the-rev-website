@@ -155,7 +155,7 @@ const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'REC
 let publishing = false;
 let preflight = null;
 let imageReadyRetryCount = 0;
-const IMAGE_READY_MAX_RETRIES = 36; // 5秒 × 36回 = 最大約3分
+const IMAGE_READY_MAX_RETRIES = 120; // Reference V2生成・Brand QA・Xserver stageを最大約10分待つ
 
 function $(id) { return document.getElementById(id); }
 function escapeHtml(str) {
