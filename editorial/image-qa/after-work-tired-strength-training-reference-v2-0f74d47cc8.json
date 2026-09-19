@@ -1,0 +1,58 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 8,
+  "article_visual_relevance": 9,
+  "source_identity_preservation": 10,
+  "invented_people_or_objects": false,
+  "source_photo_changed_materially": false,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "unexpected_text_is_source_native": true,
+  "too_promotional": false,
+  "comments": "Strong sixth member of the approved series. The split composition, restrained cream text field, fine rule, spaced category label, Japanese editorial typography, and natural gym photography align closely with the established visual language. The supplied source photo is clearly preserved through crop/resize only, including native LYFT and equipment markings. The smiling, seated/resting state supports the state-check-coaching theme and the headline is exact and legible. Slightly softer photographic rendering and the wider card aspect ratio are acceptable and do not compromise series fit.",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.2",
+  "generation_model": "source-photo-lock-playwright",
+  "render_mode": "source-photo-lock-v1",
+  "content_reference": "assets/images/trainer-coaching.jpg",
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-recency-second-v1",
+    "priority_order": [
+      "article_relevance",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/photo-lobby.jpg",
+        "checked_at": "2026-09-19T03:43:58.106Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/photo-lobby.jpg"
+    ],
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/trainer-coaching.jpg",
+        "intent": "state-check-coaching",
+        "relevanceLevel": "primary"
+      }
+    ],
+    "selected_content_reference": "assets/images/trainer-coaching.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  },
+  "qa_model": "gpt-5.6-luna",
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v2-0f74d47cc8",
+  "checked_at": "2026-09-19T04:00:58.954Z"
+}
