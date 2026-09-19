@@ -3269,6 +3269,8 @@ button:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
    M1 — Website Marketing Optimization v1.1
    Starting Point + How We Work
    =================================================================== */
+.m1-sp-break{ display:none; }
+
 .hero-approach-link{
   margin-top:18px;
   color:rgba(255,255,255,.9);
@@ -3380,6 +3382,7 @@ button:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
   }
 }
 @media(max-width:640px){
+  .m1-sp-break{ display:none; }
   .hero-approach-link{
     margin-top:15px;
     font-size:10.5px;
@@ -3410,4 +3413,8 @@ button:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
     margin-top:50px;
     text-align:left;
   }
+}
+
+@media(max-width:400px){
+  .m1-sp-break{ display:block; }
 }
