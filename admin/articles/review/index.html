@@ -96,7 +96,9 @@
 <div><dt>Image copy</dt><dd id="v-image-copy">—</dd></div>
 <div><dt>Image series</dt><dd id="v-image-series">—</dd></div>
 <div><dt>Image asset version</dt><dd id="v-image-version">—</dd></div>
-<div><dt>Image QA</dt><dd id="v-image-qa">—</dd></div>
+<div><dt>Generation model</dt><dd id="v-image-model">—</dd></div>
+<div><dt>Brand QA</dt><dd id="v-image-qa">—</dd></div>
+<div><dt>Brand score</dt><dd id="v-image-score">—</dd></div>
 <div><dt>CTA</dt><dd id="v-cta">—</dd></div>
 <div><dt>Keywords</dt><dd id="v-keywords">—</dd></div>
 <div><dt>Featured</dt><dd id="v-featured">—</dd></div>
@@ -153,7 +155,7 @@ const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'REC
 let publishing = false;
 let preflight = null;
 let imageReadyRetryCount = 0;
-const IMAGE_READY_MAX_RETRIES = 36; // 5秒 × 36回 = 最大約3分
+const IMAGE_READY_MAX_RETRIES = 120; // Reference V2生成・Brand QA・Xserver stageを最大約10分待つ
 
 function $(id) { return document.getElementById(id); }
 function escapeHtml(str) {
@@ -198,9 +200,13 @@ function renderMeta(a, data) {
   text('v-image-copy', a.image_headline_short || '—');
   text('v-image-series', [a.image_category_label, a.image_series_label].filter(Boolean).join(' / ') || '—');
   text('v-image-version', a.image_asset_version || '—');
-  text('v-image-qa', a.image_qa
-    ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / attempts=${a.image_attempts ?? '—'}`
+  text('v-image-model', a.image_generation_model
+    ? `${a.image_generation_model} / QA: ${a.image_qa_model || '—'}`
     : '—');
+  text('v-image-qa', a.image_qa
+    ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / editorial=${a.image_qa.editorial_quality ?? '—'}`
+    : '—');
+  text('v-image-score', a.image_brand_qa_score ?? a.image_qa?.series_consistency ?? '—');
   text('v-cta', a.cta_type || 'general');
   text('v-keywords', (a.keywords || []).join(' / '));
   text('v-featured', a.featured ? 'true' : 'false');

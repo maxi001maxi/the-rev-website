@@ -1,39 +1,52 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import { getEditorialImageStyle, REV_COLUMN_CLASSIC_V1 } from '../lib/editorialImageStyle.mjs';
+import {
+  getEditorialImageStyle,
+  REV_COLUMN_REFERENCE_V2
+} from '../lib/editorialImageStyle.mjs';
 import { validateImageHeadlineShort } from '../lib/editorialImageCopy.mjs';
 
 const jobPath = process.argv[2];
 if (!jobPath) throw new Error('Usage: node scripts/render-blog-image.mjs <job.json>');
-const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
 
+const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
 const {
   slug,
   category_label = 'COLUMN',
   column_label = '',
   article_title = '',
   image_headline_short = '',
-  image_style_template = REV_COLUMN_CLASSIC_V1.id,
-  source_image,
+  image_style_template = REV_COLUMN_REFERENCE_V2.id,
   asset_version = ''
 } = job;
 
-if (!slug || !image_headline_short || !source_image) {
-  throw new Error('job requires slug, image_headline_short, source_image');
+if (!slug || !image_headline_short || !asset_version) {
+  throw new Error('job requires slug, image_headline_short, asset_version');
 }
+
 const copyCheck = validateImageHeadlineShort(image_headline_short);
-if (!copyCheck.ok) throw new Error(`invalid image_headline_short: ${copyCheck.errors.join(', ')}`);
+if (!copyCheck.ok) {
+  throw new Error(`invalid image_headline_short: ${copyCheck.errors.join(', ')}`);
+}
+
 const style = getEditorialImageStyle(image_style_template);
+if (style.id !== REV_COLUMN_REFERENCE_V2.id) {
+  throw new Error(`Reference V2 renderer received unsupported style: ${style.id}`);
+}
 
-const srcPath = path.resolve(source_image);
-if (!fs.existsSync(srcPath)) throw new Error(`source image missing: ${source_image}`);
-const ext = path.extname(srcPath).toLowerCase();
-const mime = ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg';
-const imageData = fs.readFileSync(srcPath).toString('base64');
-const imageUrl = `data:${mime};base64,${imageData}`;
+const safeVersion = String(asset_version)
+  .trim()
+  .toLowerCase()
+  .replace(/[^a-z0-9-]+/g, '-')
+  .replace(/^-+|-+$/g, '');
 
-const safeVersion = String(asset_version || '').trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+const basePath = path.resolve('.editorial-tmp', `${slug}-${safeVersion}-base.jpg`);
+if (!fs.existsSync(basePath)) {
+  throw new Error(`Reference V2 generated base image missing: ${basePath}`);
+}
+
+const baseUrl = `data:image/jpeg;base64,${fs.readFileSync(basePath).toString('base64')}`;
 const versionSuffix = safeVersion ? `-${safeVersion}` : '';
 const outThumb = path.resolve(`assets/images/blog/thumb-${slug}${versionSuffix}.jpg`);
 const outOg = path.resolve(`assets/images/blog/og/og-${slug}${versionSuffix}.jpg`);
@@ -49,56 +62,82 @@ function esc(s) {
 }
 
 function html({ width, height, og = false }) {
-  const padX = og ? 66 : 74;
-  const padTop = og ? 64 : 72;
-  const headlineSize = og ? style.headline.sizeOg : style.headline.sizeThumb;
-  const labelSize = og ? style.label.sizeOg : style.label.sizeThumb;
-  const imageWidth = Math.round((1 - style.panelRatio) * 100);
-  const copyWidth = 100 - imageWidth;
+  const labelSize = og ? style.overlay.label.sizeOg : style.overlay.label.sizeThumb;
+  const headlineSize = og ? style.overlay.headline.sizeOg : style.overlay.headline.sizeThumb;
   const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
+  const top = og ? 72 : 78;
+  const left = og ? 76 : 80;
+  const headlineTop = og ? 230 : 275;
+  const maxWidth = og ? 460 : 470;
+
   return `<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <style>
   *{box-sizing:border-box}
-  html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden;background:${style.colors.background}}
-  body{color:${style.colors.text}}
-  .card{position:relative;width:100%;height:100%;display:flex;background:${style.colors.background};border:1px solid ${style.colors.border}}
-  .copy{position:relative;width:${copyWidth}%;height:100%;padding:${padTop}px ${padX}px 58px ${padX}px;display:flex;flex-direction:column}
-  .label{font-family:${style.label.family};font-size:${labelSize}px;font-weight:${style.label.weight};letter-spacing:${style.label.letterSpacing};line-height:1.4;color:${style.colors.muted};white-space:nowrap}
-  .hairline{width:34px;height:1px;background:${style.colors.text};opacity:.65;margin-top:${og?36:40}px}
-  .headlineWrap{flex:1;display:flex;align-items:center;padding-bottom:${og?30:38}px}
-  .headline{margin:0;font-family:${style.headline.family};font-size:${headlineSize}px;font-weight:${style.headline.weight};line-height:${style.headline.lineHeight};letter-spacing:${style.headline.letterSpacing};word-break:keep-all;overflow-wrap:anywhere}
-  .media{width:${imageWidth}%;height:100%;overflow:hidden;background:#dedad1}
-  .media img{width:100%;height:100%;object-fit:cover;object-position:center}
+  html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden;background:#f6f2e9}
+  body{position:relative;color:${style.overlay.headline.color}}
+  .base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  .label{
+    position:absolute;left:${left}px;top:${top}px;
+    font-family:${style.overlay.label.family};
+    font-size:${labelSize}px;
+    font-weight:${style.overlay.label.weight};
+    letter-spacing:${style.overlay.label.letterSpacing};
+    line-height:1.4;
+    color:${style.overlay.label.color};
+    white-space:nowrap;
+  }
+  .hairline{
+    position:absolute;left:${left}px;top:${top + (og ? 43 : 46)}px;
+    width:30px;height:1px;background:${style.overlay.headline.color};opacity:.55;
+  }
+  .headline{
+    position:absolute;left:${left}px;top:${headlineTop}px;
+    margin:0;
+    max-width:${maxWidth}px;
+    font-family:${style.overlay.headline.family};
+    font-size:${headlineSize}px;
+    font-weight:${style.overlay.headline.weight};
+    line-height:${style.overlay.headline.lineHeight};
+    letter-spacing:${style.overlay.headline.letterSpacing};
+    color:${style.overlay.headline.color};
+    word-break:keep-all;
+    overflow-wrap:anywhere;
+    text-rendering:optimizeLegibility;
+  }
 </style>
 </head>
 <body>
-<div class="card">
-  <section class="copy">
-    <div class="label">${esc(category_label)}${column_label ? ' / '+esc(column_label) : ''}</div>
-    <div class="hairline"></div>
-    <div class="headlineWrap"><h1 class="headline">${headlineHtml}</h1></div>
-  </section>
-  <section class="media">
-    <img src="${imageUrl}" alt="">
-  </section>
-</div>
+  <img class="base" src="${baseUrl}" alt="">
+  <div class="label">${esc(category_label)}${column_label ? ' / ' + esc(column_label) : ''}</div>
+  <div class="hairline"></div>
+  <h1 class="headline">${headlineHtml}</h1>
 </body>
 </html>`;
 }
 
 const browser = await chromium.launch({ headless: true });
+
 try {
   for (const spec of [
-    { width: 1200, height: 800, out: outThumb, og: false },
-    { width: 1200, height: 630, out: outOg, og: true }
+    { width: style.thumb.width, height: style.thumb.height, out: outThumb, og: false },
+    { width: style.og.width, height: style.og.height, out: outOg, og: true }
   ]) {
-    const page = await browser.newPage({ viewport: { width: spec.width, height: spec.height }, deviceScaleFactor: 1 });
+    const page = await browser.newPage({
+      viewport: { width: spec.width, height: spec.height },
+      deviceScaleFactor: 1
+    });
+
     await page.setContent(html(spec), { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: spec.out, type: 'jpeg', quality: 92, fullPage: false });
+    await page.screenshot({
+      path: spec.out,
+      type: 'jpeg',
+      quality: 94,
+      fullPage: false
+    });
     await page.close();
   }
 } finally {
@@ -110,7 +149,8 @@ console.log(JSON.stringify({
   article_title,
   image_headline_short,
   image_style_template: style.id,
-  asset_version: safeVersion || null,
+  asset_version: safeVersion,
+  generated_base: basePath,
   thumbnail: outThumb,
   og: outOg,
   thumbnail_public: `/assets/images/blog/thumb-${slug}${versionSuffix}.jpg`,

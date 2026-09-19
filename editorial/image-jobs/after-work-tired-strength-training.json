@@ -1,10 +1,20 @@
 {
   "slug": "after-work-tired-strength-training",
+  "article_title": "仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN 06",
-  "article_title": "仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安",
   "image_headline_short": "疲れた日は、\n軽く始めて決める。",
-  "image_style_template": "rev-column-classic-v1",
-  "source_image": "assets/images/photo-evolgear.jpg",
-  "asset_version": "classic-v1-ad9b49ab6f"
+  "image_style_template": "rev-column-reference-v2",
+  "style_references": [
+    "assets/images/blog/columns/column-01-frequency-master.jpg",
+    "assets/images/blog/columns/column-02-push-master.jpg",
+    "assets/images/blog/columns/column-03-trial-master.jpg",
+    "assets/images/blog/columns/column-04-boxing-master.jpg",
+    "assets/images/blog/columns/column-05-recovery-master.jpg"
+  ],
+  "content_reference": "assets/images/photo-evolgear.jpg",
+  "asset_version": "reference-v2-b1b77ec983",
+  "generation_model": "gpt-image-2.5-sunburst",
+  "qa_model": "gpt-5.4-mini",
+  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-b1b77ec983.json"
 }

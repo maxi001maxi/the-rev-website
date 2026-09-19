@@ -5,7 +5,10 @@ on:
     branches: [main]
     paths:
       - 'editorial/image-jobs/**.json'
+      - 'scripts/generate-editorial-image.mjs'
       - 'scripts/render-blog-image.mjs'
+      - 'scripts/qa-editorial-image.mjs'
+      - 'lib/editorialImage.mjs'
       - 'lib/editorialImageStyle.mjs'
       - 'lib/editorialImageCopy.mjs'
       - '.github/workflows/render-editorial-images.yml'
@@ -13,7 +16,6 @@ on:
 
 permissions:
   contents: write
-  actions: write
 
 concurrency:
   group: editorial-image-render
@@ -23,10 +25,18 @@ env:
   XSERVER_FTP_HOST: 'sv14602.xserver.jp'
   XSERVER_REMOTE_DIR: '/'
   PRODUCTION_URL: 'https://therev-lab.com'
+  EDITORIAL_IMAGE_MODEL: 'gpt-image-2.5-sunburst'
+  EDITORIAL_IMAGE_QUALITY: 'high'
+  EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.4-mini'
 
 jobs:
   render:
     runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+      XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
@@ -39,116 +49,201 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install browser renderer
+      - name: Validate automation secrets
         run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY GitHub secret is required for Reference V2."; exit 1; }
+          test -n "${XSERVER_FTP_USER:-}" || { echo "::error::XSERVER_FTP_USER is required."; exit 1; }
+          test -n "${XSERVER_FTP_PASSWORD:-}" || { echo "::error::XSERVER_FTP_PASSWORD is required."; exit 1; }
+          echo "Reference V2 secrets: configured"
+
+      - name: Install render dependencies
+        run: |
+          set -euo pipefail
           npm install --no-save --package-lock=false playwright@1.55.0
           npx playwright install --with-deps chromium
-          sudo apt-get update
-          sudo apt-get install -y fonts-noto-cjk
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk lftp jq
 
-      - name: Render all editorial image jobs
+      - name: Select image jobs
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
         run: |
           set -euo pipefail
-          shopt -s nullglob
-          files=(editorial/image-jobs/*.json)
+          : > .render-jobs
+
+          render_all=0
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            render_all=1
+          elif [ -z "${EVENT_BEFORE:-}" ] || [ "$EVENT_BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            render_all=1
+          else
+            core_changes="$(git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" --               scripts/generate-editorial-image.mjs               scripts/render-blog-image.mjs               scripts/qa-editorial-image.mjs               lib/editorialImage.mjs               lib/editorialImageStyle.mjs               lib/editorialImageCopy.mjs               .github/workflows/render-editorial-images.yml || true)"
+            if [ -n "$core_changes" ]; then
+              render_all=1
+            fi
+          fi
+
+          if [ "$render_all" = "1" ]; then
+            find editorial/image-jobs -maxdepth 1 -type f -name '*.json' | sort > .render-jobs
+          else
+            git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" -- 'editorial/image-jobs/*.json'               | grep -E '^editorial/image-jobs/[^/]+\.json$'               | sort -u > .render-jobs || true
+          fi
+
+          echo "Selected jobs:"
+          cat .render-jobs || true
+
+      - name: Generate, typeset and brand-QA images
+        run: |
+          set -euo pipefail
           : > .rendered-image-paths
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No image jobs found."
+          : > .rendered-qa-paths
+
+          if [ ! -s .render-jobs ]; then
+            echo "No editorial image jobs selected."
             exit 0
           fi
-          for f in "${files[@]}"; do
-            echo "Rendering $f"
-            output="$(node scripts/render-blog-image.mjs "$f")"
-            echo "$output"
-            printf '%s\n' "$output" | jq -r '.thumbnail_public, .og_public' >> .rendered-image-paths
-          done
-          sort -u .rendered-image-paths -o .rendered-image-paths
 
-      - name: Commit rendered assets
-        id: commit_images
+          while IFS= read -r job; do
+            [ -z "$job" ] && continue
+            echo "Reference V2 job: $job"
+
+            passed=0
+            for attempt in 1 2 3; do
+              echo "Generation attempt ${attempt}/3"
+              node scripts/generate-editorial-image.mjs "$job"
+              node scripts/render-blog-image.mjs "$job"
+
+              if node scripts/qa-editorial-image.mjs "$job"; then
+                passed=1
+                echo "Brand QA PASS on attempt ${attempt}"
+                break
+              fi
+
+              echo "::warning::Brand QA failed on attempt ${attempt}; regenerating with QA correction."
+            done
+
+            if [ "$passed" != "1" ]; then
+              echo "::error::Reference V2 failed brand QA after 3 attempts: $job"
+              exit 1
+            fi
+
+            slug="$(jq -r '.slug' "$job")"
+            version="$(jq -r '.asset_version' "$job")"
+            qa_path="$(jq -r '.qa_report_path' "$job")"
+            thumb="assets/images/blog/thumb-${slug}-${version}.jpg"
+            og="assets/images/blog/og/og-${slug}-${version}.jpg"
+
+            test -f "$thumb"
+            test -f "$og"
+            test -f "$qa_path"
+
+            printf '%s\n' "$thumb" "$og" >> .rendered-image-paths
+            printf '%s\n' "$qa_path" >> .rendered-qa-paths
+          done < .render-jobs
+
+          sort -u .rendered-image-paths -o .rendered-image-paths
+          sort -u .rendered-qa-paths -o .rendered-qa-paths
+
+      - name: Commit Reference V2 assets and QA
+        id: commit_assets
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain -- assets/images/blog)" ]; then
-            echo "No rendered image changes."
+
+          if [ ! -s .rendered-image-paths ]; then
+            echo "No rendered images to commit."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+
           git config user.name "THE REV Editorial Bot"
           git config user.email "actions@users.noreply.github.com"
-          git add assets/images/blog
-          git commit -m "Editorial rendered images"
-          git push origin main
-          echo "changed=true" >> "$GITHUB_OUTPUT"
 
-      - name: Validate Xserver credentials
-        env:
-          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
-          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+          while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .rendered-image-paths
+          while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .rendered-qa-paths
+
+          if git diff --cached --quiet; then
+            echo "Reference V2 assets already match."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Editorial Reference V2 images"
+            git push origin main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stage rendered images to Xserver
+        if: always() && success()
         run: |
           set -euo pipefail
-          test -n "${XSERVER_FTP_USER:-}"
-          test -n "${XSERVER_FTP_PASSWORD:-}"
-          echo "Xserver credentials: configured"
 
-      - name: Install FTPS client
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq lftp
+          if [ ! -s .rendered-image-paths ]; then
+            echo "No images to stage."
+            exit 0
+          fi
 
-      - name: Stage editorial image assets to Xserver
-        env:
-          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
-          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+          COMMANDS="$(mktemp)"
+          {
+            echo "set ftp:ssl-force true"
+            echo "set ftp:ssl-protect-data true"
+            echo "set ftp:passive-mode true"
+            echo "set ssl:verify-certificate yes"
+            echo "set net:max-retries 5"
+            echo "set net:timeout 30"
+            echo "set net:reconnect-interval-base 5"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog/og"
+            while IFS= read -r p; do
+              [ -z "$p" ] && continue
+              echo "put \"$p\" -o \"${XSERVER_REMOTE_DIR}$p\""
+            done < .rendered-image-paths
+            echo "bye"
+          } > "$COMMANDS"
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" < "$COMMANDS"
+          rm -f "$COMMANDS"
+
+      - name: Verify staged images are publicly byte-identical
+        if: always() && success()
         run: |
           set -euo pipefail
-          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
-          set ftp:ssl-force true
-          set ftp:ssl-protect-data true
-          set ftp:passive-mode true
-          set ssl:verify-certificate yes
-          set net:max-retries 5
-          set net:timeout 30
-          set net:reconnect-interval-base 5
-          mkdir -p "${XSERVER_REMOTE_DIR}assets/images/blog"
-          mirror --reverse --verbose "assets/images/blog/" "${XSERVER_REMOTE_DIR}assets/images/blog/"
-          bye
-          EOF
 
-      - name: Verify staged editorial images are publicly live
-        run: |
-          set -euo pipefail
+          if [ ! -s .rendered-image-paths ]; then
+            echo "No images to verify."
+            exit 0
+          fi
+
           TMP_DIR="$(mktemp -d)"
           trap 'rm -rf "$TMP_DIR"' EXIT
-          CACHE_BUST="editorial-stage=${GITHUB_RUN_ID}"
+          CACHE_BUST="reference-v2=${GITHUB_RUN_ID}"
 
           while IFS= read -r image_path; do
             [ -z "$image_path" ] && continue
-            label="${image_path#/}"
-            local_file="$label"
-            live_file="$TMP_DIR/live-$(printf '%s' "$label" | tr '/ ' '__')"
-            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
 
-            READY=0
-            for ATTEMPT in $(seq 1 20); do
-              code=$(curl -sS -L -o "$live_file" -w '%{http_code}' \
-                --connect-timeout 8 --max-time 20 \
-                "${PRODUCTION_URL}${image_path}?${CACHE_BUST}&attempt=${ATTEMPT}" || echo '000')
+            live_file="$TMP_DIR/$(basename "$image_path")"
+            local_sha="$(sha256sum "$image_path" | awk '{print $1}')"
+            ready=0
+
+            for attempt in $(seq 1 20); do
+              code="$(curl -sS -L -o "$live_file" -w '%{http_code}'                 --connect-timeout 8 --max-time 25                 "${PRODUCTION_URL}/${image_path}?${CACHE_BUST}&attempt=${attempt}" || echo '000')"
+
               if [ "$code" = "200" ] && [ -s "$live_file" ]; then
                 live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
                 if [ "$live_sha" = "$local_sha" ]; then
-                  echo "Staged image ready ${ATTEMPT}/20: ${image_path}"
-                  READY=1
+                  echo "Reference V2 image ready ${attempt}/20: /${image_path}"
+                  ready=1
                   break
                 fi
               fi
-              echo "Waiting for staged image ${ATTEMPT}/20: ${image_path} (HTTP ${code})"
+
+              echo "Waiting for /${image_path} (${attempt}/20, HTTP ${code})"
               sleep 15
             done
 
-            if [ "$READY" != "1" ]; then
-              echo "::error::Editorial image did not become publicly byte-identical: ${image_path}"
+            if [ "$ready" != "1" ]; then
+              echo "::error::Reference V2 image did not become publicly byte-identical: /${image_path}"
               exit 1
             fi
           done < .rendered-image-paths
 
-          echo "All editorial images are staged and publicly ready."
+          echo "Reference V2 assets are staged and publicly ready."
