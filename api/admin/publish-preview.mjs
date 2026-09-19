@@ -47,7 +47,9 @@ async function refreshStaleEditorialImages(supabase, id) {
         imageHeadlineShort: draft.image_headline_short,
         imageCategoryLabel: draft.image_category_label,
         imageSeriesLabel: draft.image_series_label || (draft.slug === 'after-work-tired-strength-training' ? 'COLUMN 06' : ''),
-        sourceImage: draft.image_source_path
+        sourceImage: String(draft.image_strategy || '').includes('explicit-source')
+          ? draft.image_source_path
+          : ''
       });
 
       await supabase
