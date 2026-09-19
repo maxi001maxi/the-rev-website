@@ -25,9 +25,9 @@ env:
   XSERVER_FTP_HOST: 'sv14602.xserver.jp'
   XSERVER_REMOTE_DIR: '/'
   PRODUCTION_URL: 'https://therev-lab.com'
-  EDITORIAL_IMAGE_MODEL: 'gpt-image-2.5-sunburst'
+  EDITORIAL_IMAGE_MODEL: 'gpt-image-2'
   EDITORIAL_IMAGE_QUALITY: 'high'
-  EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.4-mini'
+  EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6-luna'
 
 jobs:
   render:
