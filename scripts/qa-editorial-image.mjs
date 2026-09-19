@@ -71,6 +71,7 @@ const schema = {
     copy_legible: { type: 'boolean' },
     expected_copy_present: { type: 'boolean' },
     unexpected_readable_text: { type: 'boolean' },
+    unexpected_text_is_source_native: { type: 'boolean' },
     too_promotional: { type: 'boolean' },
     comments: { type: 'string' },
     correction: { type: 'string' }
@@ -89,6 +90,7 @@ const schema = {
     'copy_legible',
     'expected_copy_present',
     'unexpected_readable_text',
+    'unexpected_text_is_source_native',
     'too_promotional',
     'comments',
     'correction'
@@ -183,7 +185,10 @@ const hardPass =
   qa.source_photo_changed_materially === false &&
   qa.copy_legible === true &&
   qa.expected_copy_present === true &&
-  qa.unexpected_readable_text === false &&
+  (
+    qa.unexpected_readable_text === false ||
+    qa.unexpected_text_is_source_native === true
+  ) &&
   qa.too_promotional === false;
 
 const report = {
