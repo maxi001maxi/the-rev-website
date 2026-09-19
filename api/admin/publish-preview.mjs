@@ -1,8 +1,9 @@
 // GET /api/admin/publish-preview?id={uuid}
 //
 // Publish Review画面（/admin/articles/review/）を開いた時点で実行されるPreflight。
-// Phase 10 v2では、Editorial AI記事の画像Render Versionが古い場合だけ、
-// Review表示の前に文字入りThumbnail / OGPを自動再生成する。
+// Phase 10 Reference V2では、Editorial AI記事が旧画像方式ならReview表示時に
+// Reference V2 jobへ自動移行する。生成自体はGitHub Actionsが担当し、
+// ReviewはQA report + GitHub assets + Xserver live readinessを確認する。
 // 記事MarkdownのPublish自体はここでは行わない。
 import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
 import { runPreflight, draftSummary } from '../../lib/publishFlow.mjs';
@@ -26,14 +27,15 @@ async function refreshStaleEditorialImages(supabase, id) {
 
   if (error || !draft || draft.editorial_source !== 'the-rev-editorial-ai') return;
 
-  const classicCurrent =
+  const referenceCurrent =
     draft.image_render_version === IMAGE_RENDER_VERSION &&
     draft.image_style_template === IMAGE_STYLE_TEMPLATE &&
-    draft.image_headline_short;
+    draft.image_headline_short &&
+    draft.image_qa_report_path;
 
-  // Existing older articles are automatically queued into the single Classic
-  // renderer route when their Review page is opened.
-  if (!classicCurrent) {
+  // Existing older articles are automatically queued into the single
+  // Reference V2 route when their Review page is opened.
+  if (!referenceCurrent) {
     try {
       const image = await prepareEditorialImageJob({
         title: draft.title,
@@ -66,6 +68,11 @@ async function refreshStaleEditorialImages(supabase, id) {
           image_series_label: image.seriesLabel,
           image_asset_version: image.assetVersion,
           image_job_path: image.jobPath,
+          image_qa_report_path: image.qaReportPath,
+          image_generation_model: image.generationModel,
+          image_qa_model: image.qaModel,
+          image_brand_qa_score: null,
+          image_qa: null,
           image_last_error: null
         })
         .eq('id', id);
@@ -81,7 +88,7 @@ async function refreshStaleEditorialImages(supabase, id) {
           image_checked_at: new Date().toISOString()
         })
         .eq('id', id);
-      if (!(e instanceof EditorialImageError)) console.error('Classic image queue failed', e);
+      if (!(e instanceof EditorialImageError)) console.error('Reference V2 image queue failed', e);
       return;
     }
   }
@@ -113,6 +120,7 @@ async function refreshStaleEditorialImages(supabase, id) {
       image_asset_ready: true,
       image_checked_at: new Date().toISOString(),
       image_qa: readiness.qa,
+      image_brand_qa_score: Number(readiness.qa?.series_consistency ?? 0) || null,
       image_last_error: null
     })
     .eq('id', id);
