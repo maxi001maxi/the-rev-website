@@ -67,8 +67,8 @@ console.log('\n[5. editorial image planning]');
 assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2', 'Reference V2を画像Render Version正本に固定');
 assert(IMAGE_STYLE_TEMPLATE === 'rev-column-reference-v2', 'Reference V2を画像Style正本に固定');
 assert(REV_COLUMN_REFERENCE_V2.styleReferences.length === 5, '旧5記事すべてをStyle Referencesとして保持');
-assert(REV_COLUMN_REFERENCE_V2.generationModel === 'gpt-image-2.5-sunburst', '高品質画像編集モデルを既定化');
-assert(REV_COLUMN_REFERENCE_V2.qaModel === 'gpt-5.4-mini', 'Vision Brand QAモデルを既定化');
+assert(REV_COLUMN_REFERENCE_V2.generationModel === 'gpt-image-2', '高品質画像編集モデルを既定化');
+assert(REV_COLUMN_REFERENCE_V2.qaModel === 'gpt-5.6-luna', 'Vision Brand QAモデルを既定化');
 
 const fatigueArticle = {
   title: '仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安',
@@ -92,8 +92,8 @@ assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
 assert(plan.sourcePath === 'assets/images/photo-evolgear.jpg', 'THE REV.実写をContent Referenceへ設定');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
-assert(plan.generationModel === 'gpt-image-2.5-sunburst', 'JobにGPT Imageモデルを保持');
-assert(plan.qaModel === 'gpt-5.4-mini', 'JobにBrand QAモデルを保持');
+assert(plan.generationModel === 'gpt-image-2', 'JobにGPT Imageモデルを保持');
+assert(plan.qaModel === 'gpt-5.6-luna', 'JobにBrand QAモデルを保持');
 assert(plan.qaReportPath === qaReportPathFor(fatigueArticle.slug, plan.assetVersion), 'QA report pathをversioned assetと紐付け');
 assert(plan.job.style_references.length === 5 && plan.job.content_reference === plan.sourcePath, 'Style ReferencesとContent Referenceの役割を分離');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
