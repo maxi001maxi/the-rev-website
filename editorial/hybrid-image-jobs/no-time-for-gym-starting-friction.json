@@ -1,0 +1,28 @@
+{
+  "slug": "no-time-for-gym-starting-friction",
+  "article_title": "運動する時間がないのにジムが続かない人へ。見直すのは30分より「行く前後」かもしれません",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN 07",
+  "image_headline_short": "30分より、\n行く前後を整える。",
+  "image_style_template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+  "asset_version": "reference-v23-hybrid-3978-20",
+  "thumbnail": "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg",
+  "og_image": "assets/images/blog/og/og-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg",
+  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.json",
+  "publish_requires_human_approval": true,
+  "policy": {
+    "generated_customer_allowed": true,
+    "unknown_trainer_forbidden": true,
+    "real_the_rev_background_required": true,
+    "source_scope": "specified-drive-root-only",
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG"
+  },
+  "background_source": {
+    "cached_frame_drive_file_id": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+    "origin_video_file_id": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+    "origin_video_file_name": "IMG_3978.MOV",
+    "frame_position_ratio": 0.2
+  }
+}
