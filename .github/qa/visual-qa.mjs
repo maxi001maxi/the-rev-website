@@ -23,10 +23,11 @@ const VIEWPORTS = [
 ];
 const PAGES = [
   { name: 'blog-index', url: '/blog/' },
-  { name: 'training', url: '/blog/personal-training-frequency/' },
+  { name: 'frequency', url: '/blog/personal-training-frequency/' },
+  { name: 'push', url: '/blog/training-how-hard-to-push/' },
+  { name: 'trial', url: '/blog/personal-gym-trial-checkpoints/' },
   { name: 'boxing', url: '/blog/boxing-beginner-first-step/' },
-  { name: 'recovery', url: '/blog/recovery-after-training/' },
-  { name: 'formcheck', url: '/blog/self-training-form-check/' }
+  { name: 'recovery', url: '/blog/oxygen-room-what-is-it/' }
 ];
 
 const LITE = process.env.LITE_DIR || 'qa-lite';
