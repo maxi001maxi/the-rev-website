@@ -3263,3 +3263,151 @@ button:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
   outline:2px solid #E8D5B5; outline-offset:3px;
 }
 .trainer-page .trainer-history-wrap > summary:focus-visible{ outline-color:var(--ink); }
+
+
+/* ===================================================================
+   M1 — Website Marketing Optimization v1.1
+   Starting Point + How We Work
+   =================================================================== */
+.hero-approach-link{
+  margin-top:18px;
+  color:rgba(255,255,255,.9);
+  border-bottom-color:rgba(255,255,255,.58);
+  letter-spacing:.16em;
+}
+.hero-approach-link:hover{
+  color:#fff;
+  border-bottom-color:#fff;
+}
+.hero-approach-link:focus-visible{
+  outline:2px solid var(--cta-gold);
+  outline-offset:6px;
+}
+
+.empathy .pain-title{
+  text-wrap:balance;
+}
+
+.approach-block{
+  margin-top:clamp(72px,9vw,120px);
+  padding-top:clamp(56px,7vw,88px);
+  border-top:1px solid var(--line);
+  scroll-margin-top:96px;
+}
+.approach-heading{
+  text-wrap:balance;
+}
+.approach-lead{
+  max-width:760px;
+  margin:clamp(24px,3vw,34px) auto 0;
+  text-align:center;
+  color:var(--ink-soft);
+  font-size:clamp(15.5px,1.25vw,17.5px);
+  line-height:1.95;
+  letter-spacing:.04em;
+  text-wrap:pretty;
+}
+.approach-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(20px,3vw,40px);
+  margin-top:clamp(48px,6vw,76px);
+}
+.approach-step{
+  border-top:1px solid var(--line);
+  padding-top:22px;
+  min-width:0;
+}
+.approach-no{
+  margin:0 0 6px;
+  font-family:var(--latin);
+  font-weight:300;
+  font-size:clamp(24px,2.7vw,36px);
+  line-height:1;
+  color:var(--wood);
+  letter-spacing:.02em;
+}
+.approach-label{
+  margin:0 0 22px;
+  font-family:var(--latin);
+  font-weight:400;
+  font-size:11px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--wood-deep);
+}
+.approach-step h3{
+  margin:0 0 14px;
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(18px,1.65vw,22px);
+  line-height:1.55;
+  letter-spacing:.04em;
+  text-wrap:balance;
+}
+.approach-step > p:last-child{
+  margin:0;
+  color:var(--ink-soft);
+  font-size:clamp(14px,1.05vw,15.5px);
+  line-height:1.9;
+  letter-spacing:.03em;
+  text-wrap:pretty;
+}
+.approach-closing{
+  max-width:760px;
+  margin:clamp(52px,6.5vw,82px) auto 0;
+  padding-top:clamp(30px,4vw,46px);
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+.approach-closing p{
+  margin:0 auto clamp(24px,3vw,34px);
+  color:var(--ink-soft);
+  font-size:clamp(15px,1.2vw,17px);
+  line-height:1.95;
+  letter-spacing:.04em;
+  text-wrap:pretty;
+}
+.approach-closing strong{
+  color:var(--ink);
+  font-weight:500;
+}
+
+@media(max-width:900px){
+  .approach-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:34px 26px;
+  }
+}
+@media(max-width:640px){
+  .hero-approach-link{
+    margin-top:15px;
+    font-size:10.5px;
+    letter-spacing:.16em;
+  }
+  .approach-block{
+    margin-top:64px;
+    padding-top:52px;
+    scroll-margin-top:78px;
+  }
+  .approach-heading{
+    font-size:clamp(20px,6vw,26px);
+    line-height:1.65;
+  }
+  .approach-lead{
+    text-align:left;
+    margin-top:22px;
+  }
+  .approach-grid{
+    grid-template-columns:1fr;
+    gap:32px;
+    margin-top:42px;
+  }
+  .approach-step{
+    padding-top:20px;
+  }
+  .approach-closing{
+    margin-top:50px;
+    text-align:left;
+  }
+}
