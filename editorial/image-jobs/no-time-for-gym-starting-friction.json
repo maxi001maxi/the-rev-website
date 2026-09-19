@@ -13,8 +13,8 @@
     "assets/images/blog/columns/column-05-recovery-master.jpg"
   ],
   "content_reference": "assets/images/trainer-coaching.jpg",
-  "asset_version": "reference-v2-b2101455ba",
+  "asset_version": "reference-v2-02428bf8e0",
   "generation_model": "gpt-image-2",
   "qa_model": "gpt-5.6-luna",
-  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v2-b2101455ba.json"
+  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v2-02428bf8e0.json"
 }
