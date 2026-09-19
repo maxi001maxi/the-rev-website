@@ -22,11 +22,7 @@ const VIEWPORTS = [
   { name: '1440', width: 1440, height: 900, mobile: false }
 ];
 const PAGES = [
-  { name: 'blog-index', url: '/blog/' },
-  { name: 'training', url: '/blog/personal-training-frequency/' },
-  { name: 'boxing', url: '/blog/boxing-beginner-first-step/' },
-  { name: 'recovery', url: '/blog/recovery-after-training/' },
-  { name: 'formcheck', url: '/blog/self-training-form-check/' }
+  { name: 'top', url: '/' }
 ];
 
 const LITE = process.env.LITE_DIR || 'qa-lite';
