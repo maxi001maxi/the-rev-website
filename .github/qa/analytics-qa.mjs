@@ -48,8 +48,8 @@ page.on('response', async resp => {
   } catch {}
 });
 
-const response = await page.goto(BASE + '/', { waitUntil: 'load', timeout: 45000 });
-await page.waitForTimeout(2000);
+const response = await page.goto(BASE + '/', { waitUntil: 'domcontentloaded', timeout: 45000 });
+await page.waitForTimeout(3000);
 
 // Trigger section views by scrolling naturally through the page.
 await page.evaluate(() => new Promise(resolve => {
