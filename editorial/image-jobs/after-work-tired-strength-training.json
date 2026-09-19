@@ -13,8 +13,10 @@
     "assets/images/blog/columns/column-05-recovery-master.jpg"
   ],
   "content_reference": "assets/images/trainer-coaching.jpg",
-  "asset_version": "reference-v2-26485876b0",
+  "content_reference_intent": "state-check-coaching",
+  "content_reference_reason": "疲労・当日の状態判断を、設備単体ではなくトレーナーと状態を確認する実写で表現",
+  "asset_version": "reference-v2-1b425bd0a8",
   "generation_model": "gpt-image-2",
   "qa_model": "gpt-5.6-luna",
-  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-26485876b0.json"
+  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-1b425bd0a8.json"
 }
