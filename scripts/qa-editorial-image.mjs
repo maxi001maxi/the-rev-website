@@ -95,6 +95,12 @@ const content = [
   }
 ];
 
+const requestedQaModel = String(process.env.EDITORIAL_IMAGE_QA_MODEL || '').trim();
+const resolvedQaModel =
+  requestedQaModel && requestedQaModel !== 'gpt-5.4-mini'
+    ? requestedQaModel
+    : String(qa_model || 'gpt-5.6-luna');
+
 const controller = new AbortController();
 const timeout = setTimeout(() => controller.abort(), 120000);
 timeout.unref?.();
@@ -108,7 +114,7 @@ try {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: String(process.env.EDITORIAL_IMAGE_QA_MODEL || qa_model || 'gpt-5.4-mini'),
+      model: resolvedQaModel,
       store: false,
       reasoning: { effort: 'low' },
       input: [{
@@ -163,7 +169,7 @@ const report = {
   template: REV_COLUMN_REFERENCE_V2.id,
   render_version: REV_COLUMN_REFERENCE_V2.renderVersion,
   generation_model: job.generation_model || REV_COLUMN_REFERENCE_V2.generationModel,
-  qa_model: process.env.EDITORIAL_IMAGE_QA_MODEL || qa_model || REV_COLUMN_REFERENCE_V2.qaModel,
+  qa_model: resolvedQaModel,
   slug,
   asset_version,
   checked_at: new Date().toISOString()

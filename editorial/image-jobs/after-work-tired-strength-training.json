@@ -13,8 +13,8 @@
     "assets/images/blog/columns/column-05-recovery-master.jpg"
   ],
   "content_reference": "assets/images/photo-evolgear.jpg",
-  "asset_version": "reference-v2-b1b77ec983",
-  "generation_model": "gpt-image-2.5-sunburst",
-  "qa_model": "gpt-5.4-mini",
-  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-b1b77ec983.json"
+  "asset_version": "reference-v2-680884f683",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-680884f683.json"
 }
