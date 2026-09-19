@@ -51,5 +51,6 @@
   },
   "render_mode": "source-photo-lock-v1",
   "content_preservation": "crop-resize-only",
-  "publish_requires_human_approval": true
+  "publish_requires_human_approval": true,
+  "qa_policy_revision": "source-native-text-v1"
 }
