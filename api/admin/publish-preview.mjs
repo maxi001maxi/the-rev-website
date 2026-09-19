@@ -27,11 +27,23 @@ async function refreshStaleEditorialImages(supabase, id) {
 
   if (error || !draft || draft.editorial_source !== 'the-rev-editorial-ai') return;
 
-  const referenceCurrent =
+  const sourceLockCurrent =
     draft.image_render_version === IMAGE_RENDER_VERSION &&
+    String(draft.image_strategy || '').startsWith('reference-v2-source-lock-') &&
     draft.image_style_template === IMAGE_STYLE_TEMPLATE &&
     draft.image_headline_short &&
     draft.image_qa_report_path;
+
+  const hybridCurrent =
+    draft.image_render_version === 'rev-column-reference-v2.3-hybrid' &&
+    String(draft.image_strategy || '') === 'reference-v2-gpt-image-hybrid-drive-source' &&
+    draft.image_style_template === IMAGE_STYLE_TEMPLATE &&
+    draft.image_headline_short &&
+    draft.image_qa_report_path;
+
+  // Review must not downgrade an already-approved V2.3 hybrid asset back to
+  // the V2.2 source-lock route. Both are current publishable image routes.
+  const referenceCurrent = sourceLockCurrent || hybridCurrent;
 
   // Existing older articles are automatically queued into the single
   // Reference V2 route when their Review page is opened.
