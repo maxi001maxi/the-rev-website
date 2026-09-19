@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 8,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 8,
+  "article_visual_relevance": 10,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "too_promotional": false,
+  "comments": "Genuinely suitable as a sixth series member. It preserves the restrained Japanese editorial layout, warm neutral palette, fine border, left text field, and right-side photographic composition. The reception/entrance scene is especially relevant to the arrival-routine theme rather than reading as a generic gym image. Typography is harmonious and the expected category label and headline are present exactly. The foreground flowers and reception objects add some visual density, but they remain natural and do not undermine the premium mood.",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.1",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "slug": "no-time-for-gym-starting-friction",
+  "asset_version": "reference-v2-5bc8ed163b",
+  "checked_at": "2026-09-19T03:43:58.106Z"
+}
