@@ -102,10 +102,10 @@ const fatigueRecent = [
 ];
 const fatigueWithHistory = selectContentReferenceWithHistory(fatigueArticle, fatigueRecent);
 assert(
-  fatigueWithHistory.path === 'assets/images/trainer-coaching.jpg',
-  '重複回避だけを理由に記事関連性の高い疲労・状態確認写真を降格しない'
+  fatigueWithHistory.path === 'assets/images/trainer-top.jpg',
+  '同格候補が直近4記事ですべて使用済みなら最も久しく使っていない実写真を選ぶ'
 );
-assert(fatigueWithHistory.repeatedDueToRelevance === true, '関連性優先で再利用した理由を記録');
+assert(fatigueWithHistory.repeatedDueToRelevance === false, '過去使用Registryがない場合はhistorical reuse扱いにしない');
 
 const legacyUsage = [
   {
@@ -157,8 +157,8 @@ assert(plan.sourceIntent === 'state-check-guidance', 'Job planへContent Referen
 assert(plan.strategy === 'reference-v2-source-lock-auto-source', 'source-photo-lock自動選定をstrategyに記録');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
 assert(
-  plan.assetVersion === buildEditorialImagePlan(fatigueArticle).assetVersion,
-  '同じ入力は同じReference V2.2 asset versionへ決定論的に固定'
+  plan.assetVersion === buildEditorialImagePlan(fatigueArticle, { historicalUsage: legacyUsage }).assetVersion,
+  '同じ履歴入力は同じReference V2.2 asset versionへ決定論的に固定'
 );
 assert(plan.generationModel === 'source-photo-lock-playwright', 'Jobにsource-photo-lock rendererを保持');
 assert(plan.qaModel === 'gpt-5.6-luna', 'JobにBrand QAモデルを保持');
