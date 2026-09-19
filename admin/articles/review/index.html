@@ -308,8 +308,8 @@ async function loadPreflight() {
       imageReadyRetryCount = 0;
       btn.disabled = false;
       note.textContent = data.mode === 'create'
-        ? '画像を含む本番準備が完了しています。新規記事としてGitHubへ作成します。'
-        : '画像を含む本番準備が完了しています。既存のGitHubファイルを更新します（SHA一致を確認済み）。';
+        ? '本番準備は完了しています。ここで停止しています。Review & Publishを押すまで公開しません。'
+        : '本番準備は完了しています。ここで停止しています。Review & Publishを押すまで既存記事は変更しません。';
       $('blocker-box').classList.add('admin-hidden');
     } else {
       btn.disabled = true;
@@ -359,7 +359,10 @@ async function doPublish() {
   clearError();
 
   try {
-    const result = await AdminApi.publish(articleId);
+    const result = await AdminApi.publish(
+      articleId,
+      preflight?.article?.image_asset_version || ''
+    );
     closeConfirm();
     showSuccess(result);
   } catch (e) {
