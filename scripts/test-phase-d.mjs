@@ -38,6 +38,9 @@ const SAMPLE_DRAFT = {
   author_role: 'THE REV. CONDITIONING LAB.',
   thumbnail: '/assets/images/blog/thumb-training.jpg',
   og_image: '/assets/images/blog/og/og-training.jpg',
+  image_source_path: 'assets/images/trainer-top.jpg',
+  image_asset_version: 'reference-v2-test123456',
+  image_render_version: 'rev-column-reference-v2.2',
   status: 'draft',
   featured: true,
   cta_type: 'personal-training',
@@ -103,6 +106,9 @@ assert(parsed.data.status === 'published', 'GitHub出力statusはpublished');
 assert(parsed.data.category_label === categoryLabelFor(SAMPLE_DRAFT.category), 'category_labelをcategoryから算出');
 assert(parsed.data.thumbnail === SAMPLE_DRAFT.thumbnail, 'thumbnailをFront Matterへ出力');
 assert(parsed.data.og_image === SAMPLE_DRAFT.og_image, 'og_imageをFront Matterへ出力');
+assert(parsed.data.content_reference === SAMPLE_DRAFT.image_source_path, 'Content Reference lineageをFront Matterへ出力');
+assert(parsed.data.image_asset_version === SAMPLE_DRAFT.image_asset_version, 'image asset versionをFront Matterへ出力');
+assert(parsed.data.image_render_version === SAMPLE_DRAFT.image_render_version, 'image render versionをFront Matterへ出力');
 assert(parsed.data.canonical === `https://therev-lab.com/blog/${TEST_SLUG}/`, 'canonical自動生成');
 assert(Array.isArray(parsed.data.keywords) && parsed.data.keywords.length === 3, 'keywords配列を保持');
 assert(!parsed.content.includes('\r'), '本文CRLFをLFへ正規化');
