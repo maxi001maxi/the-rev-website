@@ -65,10 +65,13 @@ function html({ width, height, og = false }) {
   const labelSize = og ? style.overlay.label.sizeOg : style.overlay.label.sizeThumb;
   const headlineSize = og ? style.overlay.headline.sizeOg : style.overlay.headline.sizeThumb;
   const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
-  const top = og ? 72 : 78;
+  // V2.1: group the small label and headline into the same editorial block.
+  // The approved masters place this block noticeably lower than the first V2 render.
+  const top = og ? 165 : 210;
   const left = og ? 76 : 80;
-  const headlineTop = og ? 230 : 275;
-  const maxWidth = og ? 460 : 470;
+  const headlineTop = og ? 252 : 320;
+  const maxWidth = og ? 480 : 500;
+  const hairlineWidth = og ? 160 : 180;
 
   return `<!doctype html>
 <html lang="ja">
@@ -90,8 +93,8 @@ function html({ width, height, og = false }) {
     white-space:nowrap;
   }
   .hairline{
-    position:absolute;left:${left}px;top:${top + (og ? 43 : 46)}px;
-    width:30px;height:1px;background:${style.overlay.headline.color};opacity:.55;
+    position:absolute;left:${left}px;top:${top + (og ? 38 : 42)}px;
+    width:${hairlineWidth}px;height:1px;background:${style.overlay.headline.color};opacity:.45;
   }
   .headline{
     position:absolute;left:${left}px;top:${headlineTop}px;
