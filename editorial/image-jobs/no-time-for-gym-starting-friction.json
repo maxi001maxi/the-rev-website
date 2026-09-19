@@ -1,0 +1,20 @@
+{
+  "slug": "no-time-for-gym-starting-friction",
+  "article_title": "運動する時間がないのにジムが続かない人へ。見直すのは30分より「行く前後」かもしれません",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN",
+  "image_headline_short": "30分より、\n行く前後を整える。",
+  "image_style_template": "rev-column-reference-v2",
+  "style_references": [
+    "assets/images/blog/columns/column-01-frequency-master.jpg",
+    "assets/images/blog/columns/column-02-push-master.jpg",
+    "assets/images/blog/columns/column-03-trial-master.jpg",
+    "assets/images/blog/columns/column-04-boxing-master.jpg",
+    "assets/images/blog/columns/column-05-recovery-master.jpg"
+  ],
+  "content_reference": "assets/images/trainer-coaching.jpg",
+  "asset_version": "reference-v2-b2101455ba",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v2-b2101455ba.json"
+}
