@@ -51,5 +51,6 @@
     "selected_relevance_level": "primary",
     "avoided_repeat": false,
     "repeated_due_to_relevance": false
-  }
+  },
+  "qa_policy_revision": "source-native-text-v1"
 }
