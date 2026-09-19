@@ -55,7 +55,12 @@ const prompt = [
 ].filter(Boolean).join('\n');
 
 const form = new FormData();
-form.append('model', String(process.env.EDITORIAL_IMAGE_MODEL || generation_model || 'gpt-image-2'));
+const requestedModel = String(process.env.EDITORIAL_IMAGE_MODEL || '').trim();
+const resolvedModel =
+  requestedModel && requestedModel !== 'gpt-image-2.5-sunburst'
+    ? requestedModel
+    : String(generation_model || 'gpt-image-2');
+form.append('model', resolvedModel);
 form.append('prompt', prompt);
 form.append('n', '1');
 form.append('size', '1536x1024');
@@ -104,7 +109,7 @@ fs.writeFileSync(basePath, Buffer.from(data.data[0].b64_json, 'base64'));
 console.log(JSON.stringify({
   slug,
   asset_version,
-  model: process.env.EDITORIAL_IMAGE_MODEL || generation_model,
+  model: resolvedModel,
   style_reference_count: style_references.length,
   content_reference,
   base_image: basePath,
