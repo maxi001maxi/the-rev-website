@@ -9,7 +9,6 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
-import { publishedBlogPages } from './published-blog-pages.mjs';
 
 const BASE = process.env.BASE_URL?.replace(/\/$/, '');
 const BYPASS = process.env.VERCEL_BYPASS_SECRET || '';
@@ -24,7 +23,11 @@ const VIEWPORTS = [
 ];
 const PAGES = [
   { name: 'blog-index', url: '/blog/' },
-  ...publishedBlogPages()
+  { name: 'frequency', url: '/blog/personal-training-frequency/' },
+  { name: 'push', url: '/blog/training-how-hard-to-push/' },
+  { name: 'trial', url: '/blog/personal-gym-trial-checkpoints/' },
+  { name: 'boxing', url: '/blog/boxing-beginner-first-step/' },
+  { name: 'recovery', url: '/blog/oxygen-room-what-is-it/' }
 ];
 
 const LITE = process.env.LITE_DIR || 'qa-lite';
