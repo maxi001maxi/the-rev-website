@@ -1,4 +1,5 @@
-// POST /api/admin/publish   Body: { "articleId": "<uuid>" }
+// POST /api/admin/publish
+// Body: { "articleId": "<uuid>", "confirm": "REVIEW_AND_PUBLISH", "expectedImageAssetVersion": "..." }
 //
 // Supabase Working Draft → GitHub content/blog/{slug}.md へ書き込む。
 // 書き込み成功後にのみ、Supabase Draftへ source_path / source_sha を保存する。
@@ -40,6 +41,22 @@ export default async function handler(req, res) {
   const articleId = typeof body?.articleId === 'string' ? body.articleId.trim() : '';
   if (!articleId) return sendError(res, 400, 'bad_request', 'articleId が指定されていません。');
 
+  // Automation / continuation alone must never publish.
+  // The Review UI sends this only after the user opens the confirmation dialog
+  // and clicks the final Review & Publish button.
+  if (body?.confirm !== 'REVIEW_AND_PUBLISH') {
+    return sendError(
+      res,
+      409,
+      'human_review_required',
+      '公開にはReview画面でのユーザー確認が必要です。Review & Publishから実行してください。'
+    );
+  }
+  const expectedImageAssetVersion =
+    typeof body?.expectedImageAssetVersion === 'string'
+      ? body.expectedImageAssetVersion.trim()
+      : '';
+
   // --- Preflight再実行（Review時の結果は信用しない） ---
   let pre;
   try {
@@ -55,6 +72,18 @@ export default async function handler(req, res) {
 
   const draft = pre.draft;
   const mode = pre.mode;
+
+  if (draft?.editorial_source === 'the-rev-editorial-ai') {
+    const currentVersion = String(draft.image_asset_version || '').trim();
+    if (!expectedImageAssetVersion || expectedImageAssetVersion !== currentVersion) {
+      return sendError(
+        res,
+        409,
+        'review_stale',
+        'Review後に記事画像が変更されています。最新画像をReviewし直してからPublishしてください。'
+      );
+    }
+  }
   const targetPath = pre.targetPath;
   const markdown = pre.markdown;
 

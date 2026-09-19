@@ -8,11 +8,14 @@ import {
 import {
   IMAGE_RENDER_VERSION,
   IMAGE_STYLE_TEMPLATE,
+  RECENT_CONTENT_REFERENCE_WINDOW,
+  CONTENT_REFERENCE_SELECTION_POLICY,
   buildEditorialImagePlan,
   imagePathsForSlug,
   qaReportPathFor,
   selectBrandImageSource,
-  selectBrandImageSourceDecision
+  selectBrandImageSourceDecision,
+  selectContentReferenceWithHistory
 } from '../lib/editorialImage.mjs';
 import {
   buildImageHeadlineShort,
@@ -65,10 +68,10 @@ assert(h1 === h2, 'キー順に依存せず同内容は同じhash');
 assert(h1 !== h3, '本文変更でhashが変わる');
 
 console.log('\n[5. editorial image planning]');
-assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2.1', 'Reference V2.1を画像Render Version正本に固定');
+assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2.2', 'Reference V2.2を画像Render Version正本に固定');
 assert(IMAGE_STYLE_TEMPLATE === 'rev-column-reference-v2', 'Reference V2を画像Style正本に固定');
 assert(REV_COLUMN_REFERENCE_V2.styleReferences.length === 5, '旧5記事すべてをStyle Referencesとして保持');
-assert(REV_COLUMN_REFERENCE_V2.generationModel === 'gpt-image-2', '高品質画像編集モデルを既定化');
+assert(REV_COLUMN_REFERENCE_V2.generationModel === 'source-photo-lock-playwright', '提供実写を生成改変しないsource-photo-lockを既定化');
 assert(REV_COLUMN_REFERENCE_V2.qaModel === 'gpt-5.6-luna', 'Vision Brand QAモデルを既定化');
 
 const fatigueArticle = {
@@ -88,22 +91,66 @@ const fatigueDecision = selectBrandImageSourceDecision(fatigueArticle);
 assert(selectBrandImageSource(fatigueArticle) === 'assets/images/trainer-coaching.jpg', '疲労・判断系は設備単体よりコーチング実写を選ぶ');
 assert(fatigueDecision.intent === 'state-check-coaching', 'Content Referenceの選定意図を保持');
 assert(Boolean(fatigueDecision.reason), 'Content Referenceの選定理由を保持');
+assert(RECENT_CONTENT_REFERENCE_WINDOW === 4, 'Content Reference重複チェック窓を直近4記事へ固定');
+assert(CONTENT_REFERENCE_SELECTION_POLICY === 'relevance-first-recency-second-v1', '関連性優先・重複回避二次の正本ポリシーを固定');
 
-const plan = buildEditorialImagePlan(fatigueArticle);
+const fatigueRecent = [
+  { slug: 'prev-1', contentReference: 'assets/images/trainer-coaching.jpg', checkedAt: '2026-09-19T09:00:00Z' },
+  { slug: 'prev-2', contentReference: 'assets/images/photo-lobby.jpg', checkedAt: '2026-09-18T09:00:00Z' },
+  { slug: 'prev-3', contentReference: 'assets/images/photo-evolgear.jpg', checkedAt: '2026-09-17T09:00:00Z' },
+  { slug: 'prev-4', contentReference: 'assets/images/trainer-top.jpg', checkedAt: '2026-09-16T09:00:00Z' }
+];
+const fatigueWithHistory = selectContentReferenceWithHistory(fatigueArticle, fatigueRecent);
+assert(
+  fatigueWithHistory.path === 'assets/images/trainer-coaching.jpg',
+  '重複回避だけを理由に記事関連性の高い疲労・状態確認写真を降格しない'
+);
+assert(fatigueWithHistory.repeatedDueToRelevance === true, '関連性優先で再利用した理由を記録');
+
+const genericBodyArticle = {
+  title: '身体の状態を知るために大切なこと',
+  slug: 'body-state-basics',
+  description: '身体の状態と個別の見方を考える。',
+  bodyMarkdown: '身体を見ながら調整します。',
+  category: 'body-knowledge'
+};
+const genericRecent = [
+  { slug: 'prev-a', contentReference: 'assets/images/trainer-coaching.jpg', checkedAt: '2026-09-19T09:00:00Z' },
+  { slug: 'prev-b', contentReference: 'assets/images/photo-lobby.jpg', checkedAt: '2026-09-18T09:00:00Z' }
+];
+const genericDecision = selectContentReferenceWithHistory(genericBodyArticle, genericRecent);
+assert(
+  genericDecision.path === 'assets/images/trainer-top.jpg',
+  '同じ関連性レベル内では直近4記事で未使用のContent Referenceを優先'
+);
+assert(genericDecision.avoidedRecentRepeat === true, '同格候補での短期間再利用回避を記録');
+assert(genericDecision.selectionPolicy === CONTENT_REFERENCE_SELECTION_POLICY, '選定ポリシーを監査可能に保持');
+
+const plan = buildEditorialImagePlan(fatigueArticle, { recentHistory: fatigueRecent });
 assert(plan.styleTemplate === 'rev-column-reference-v2', 'Reference V2 templateで画像Jobを設計');
 assert(plan.imageHeadlineShort === shortCopy, 'Jobへ短い画像コピーを渡す');
 assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
 assert(plan.sourcePath === 'assets/images/trainer-coaching.jpg', '記事意味に近いTHE REV.実写をContent Referenceへ設定');
 assert(plan.sourceIntent === 'state-check-coaching', 'Job planへContent Reference intentを保持');
-assert(plan.strategy === 'reference-v2-gpt-image-hybrid-auto-source', '自動選定Content Referenceをstrategyに記録');
+assert(plan.strategy === 'reference-v2-source-lock-auto-source', 'source-photo-lock自動選定をstrategyに記録');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
-assert(plan.assetVersion === 'reference-v2-1b425bd0a8', 'Prompt revision・Content Reference intent・current modelを含むReference V2.1 asset versionを固定');
-assert(plan.generationModel === 'gpt-image-2', 'JobにGPT Imageモデルを保持');
+assert(
+  plan.assetVersion === buildEditorialImagePlan(fatigueArticle).assetVersion,
+  '同じ入力は同じReference V2.2 asset versionへ決定論的に固定'
+);
+assert(plan.generationModel === 'source-photo-lock-playwright', 'Jobにsource-photo-lock rendererを保持');
 assert(plan.qaModel === 'gpt-5.6-luna', 'JobにBrand QAモデルを保持');
 assert(plan.qaReportPath === qaReportPathFor(fatigueArticle.slug, plan.assetVersion), 'QA report pathをversioned assetと紐付け');
 assert(plan.job.style_references.length === 5 && plan.job.content_reference === plan.sourcePath, 'Style ReferencesとContent Referenceの役割を分離');
+assert(plan.job.render_mode === 'source-photo-lock-v1', 'Content Referenceは生成せずcrop/resizeのみで使用');
+assert(plan.job.content_preservation === 'crop-resize-only', '提供素材の保持ポリシーをJobへ固定');
+assert(plan.job.publish_requires_human_approval === true, '画像準備後もHuman Review & Publish必須');
 assert(plan.job.content_reference_intent === plan.sourceIntent && Boolean(plan.job.content_reference_reason), 'JobへContent Reference provenanceを保持');
+assert(plan.job.recent_reference_guard.window === 4, 'Jobへ直近4記事の参照窓を保持');
+assert(plan.job.recent_reference_guard.selection_policy === CONTENT_REFERENCE_SELECTION_POLICY, 'Jobへ関連性優先ポリシーを保持');
+assert(plan.job.recent_reference_guard.priority_order[0] === 'article_relevance', '記事関連性を最優先として記録');
+assert(plan.job.recent_reference_guard.recent_articles.length === 4, '直近4記事のContent Reference履歴をJobへ保持');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
 assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
 

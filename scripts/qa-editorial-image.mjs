@@ -13,13 +13,19 @@ const {
   slug,
   asset_version,
   style_references = [],
+  content_reference,
+  render_mode,
   qa_model = REV_COLUMN_REFERENCE_V2.qaModel,
   qa_report_path
 } = job;
 
-if (!slug || !asset_version || !qa_report_path) {
-  throw new Error('job requires slug, asset_version, qa_report_path');
+if (!slug || !asset_version || !qa_report_path || !content_reference) {
+  throw new Error('job requires slug, asset_version, qa_report_path, content_reference');
 }
+if (render_mode !== 'source-photo-lock-v1') {
+  throw new Error('Reference V2.2 QA only accepts source-photo-lock-v1 jobs.');
+}
+if (!fs.existsSync(content_reference)) throw new Error(`content reference missing: ${content_reference}`);
 
 const versionSuffix = asset_version ? `-${asset_version}` : '';
 const finalPath = path.resolve(`assets/images/blog/thumb-${slug}${versionSuffix}.jpg`);
@@ -59,6 +65,9 @@ const schema = {
     negative_space: { type: 'integer', minimum: 0, maximum: 10 },
     photo_treatment: { type: 'integer', minimum: 0, maximum: 10 },
     article_visual_relevance: { type: 'integer', minimum: 0, maximum: 10 },
+    source_identity_preservation: { type: 'integer', minimum: 0, maximum: 10 },
+    invented_people_or_objects: { type: 'boolean' },
+    source_photo_changed_materially: { type: 'boolean' },
     copy_legible: { type: 'boolean' },
     expected_copy_present: { type: 'boolean' },
     unexpected_readable_text: { type: 'boolean' },
@@ -74,6 +83,9 @@ const schema = {
     'negative_space',
     'photo_treatment',
     'article_visual_relevance',
+    'source_identity_preservation',
+    'invented_people_or_objects',
+    'source_photo_changed_materially',
     'copy_legible',
     'expected_copy_present',
     'unexpected_readable_text',
@@ -90,6 +102,11 @@ const content = [
     image_url: toDataUrl(ref),
     detail: 'high'
   })),
+  {
+    type: 'input_image',
+    image_url: toDataUrl(content_reference),
+    detail: 'high'
+  },
   {
     type: 'input_image',
     image_url: toDataUrl(finalPath),
@@ -161,6 +178,9 @@ const hardPass =
   qa.negative_space >= 7 &&
   qa.photo_treatment >= 7 &&
   qa.article_visual_relevance >= 8 &&
+  qa.source_identity_preservation >= 9 &&
+  qa.invented_people_or_objects === false &&
+  qa.source_photo_changed_materially === false &&
   qa.copy_legible === true &&
   qa.expected_copy_present === true &&
   qa.unexpected_readable_text === false &&
@@ -172,6 +192,9 @@ const report = {
   template: REV_COLUMN_REFERENCE_V2.id,
   render_version: REV_COLUMN_REFERENCE_V2.renderVersion,
   generation_model: job.generation_model || REV_COLUMN_REFERENCE_V2.generationModel,
+  render_mode: job.render_mode || null,
+  content_reference: job.content_reference || null,
+  recent_reference_guard: job.recent_reference_guard || null,
   qa_model: resolvedQaModel,
   slug,
   asset_version,

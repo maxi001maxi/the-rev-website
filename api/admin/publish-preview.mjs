@@ -181,6 +181,8 @@ export default async function handler(req, res) {
     publicUrl: result.publicUrl,
     canonical: result.canonical,
     commitMessage: result.draft ? commitMessageFor(result.draft, result.mode) : null,
-    github: result.github
+    github: result.github,
+    publish_requires_human_approval: true,
+    publish_boundary: 'REVIEW_AND_PUBLISH'
   });
 }

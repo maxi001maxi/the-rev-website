@@ -18,11 +18,19 @@ const {
   article_title = '',
   image_headline_short = '',
   image_style_template = REV_COLUMN_REFERENCE_V2.id,
-  asset_version = ''
+  asset_version = '',
+  content_reference = '',
+  render_mode = ''
 } = job;
 
-if (!slug || !image_headline_short || !asset_version) {
-  throw new Error('job requires slug, image_headline_short, asset_version');
+if (!slug || !image_headline_short || !asset_version || !content_reference) {
+  throw new Error('job requires slug, image_headline_short, asset_version, content_reference');
+}
+if (render_mode !== 'source-photo-lock-v1') {
+  throw new Error(`Reference V2.2 requires render_mode=source-photo-lock-v1, got: ${render_mode || '(missing)'}`);
+}
+if (!fs.existsSync(content_reference)) {
+  throw new Error(`source photo missing: ${content_reference}`);
 }
 
 const copyCheck = validateImageHeadlineShort(image_headline_short);
@@ -41,12 +49,15 @@ const safeVersion = String(asset_version)
   .replace(/[^a-z0-9-]+/g, '-')
   .replace(/^-+|-+$/g, '');
 
-const basePath = path.resolve('.editorial-tmp', `${slug}-${safeVersion}-base.jpg`);
-if (!fs.existsSync(basePath)) {
-  throw new Error(`Reference V2 generated base image missing: ${basePath}`);
+function mimeFor(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.png') return 'image/png';
+  if (ext === '.webp') return 'image/webp';
+  return 'image/jpeg';
 }
 
-const baseUrl = `data:image/jpeg;base64,${fs.readFileSync(basePath).toString('base64')}`;
+const sourcePhotoUrl =
+  `data:${mimeFor(content_reference)};base64,${fs.readFileSync(content_reference).toString('base64')}`;
 const versionSuffix = safeVersion ? `-${safeVersion}` : '';
 const outThumb = path.resolve(`assets/images/blog/thumb-${slug}${versionSuffix}.jpg`);
 const outOg = path.resolve(`assets/images/blog/og/og-${slug}${versionSuffix}.jpg`);
@@ -80,8 +91,19 @@ function html({ width, height, og = false }) {
 <style>
   *{box-sizing:border-box}
   html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden;background:#f6f2e9}
-  body{position:relative;color:${style.overlay.headline.color}}
-  .base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  body{position:relative;color:${style.overlay.headline.color};background:#f5f1e8}
+  .paper{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at 18% 84%, rgba(183,168,139,.08), transparent 36%),
+      linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%);
+  }
+  .photo{
+    position:absolute;right:0;top:0;width:50.8%;height:100%;
+    object-fit:cover;object-position:center;
+    filter:none;
+  }
+  .frame{position:absolute;inset:0;border:1px solid rgba(74,68,58,.16);pointer-events:none}
   .label{
     position:absolute;left:${left}px;top:${top}px;
     font-family:${style.overlay.label.family};
@@ -113,7 +135,9 @@ function html({ width, height, og = false }) {
 </style>
 </head>
 <body>
-  <img class="base" src="${baseUrl}" alt="">
+  <div class="paper"></div>
+  <img class="photo" src="${sourcePhotoUrl}" alt="">
+  <div class="frame"></div>
   <div class="label">${esc(category_label)}${column_label ? ' / ' + esc(column_label) : ''}</div>
   <div class="hairline"></div>
   <h1 class="headline">${headlineHtml}</h1>
@@ -153,7 +177,10 @@ console.log(JSON.stringify({
   image_headline_short,
   image_style_template: style.id,
   asset_version: safeVersion,
-  generated_base: basePath,
+  render_mode,
+  content_reference,
+  source_photo_locked: true,
+  allowed_photo_transforms: ['crop', 'resize'],
   thumbnail: outThumb,
   og: outOg,
   thumbnail_public: `/assets/images/blog/thumb-${slug}${versionSuffix}.jpg`,

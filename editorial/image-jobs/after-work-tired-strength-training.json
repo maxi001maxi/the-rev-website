@@ -15,8 +15,41 @@
   "content_reference": "assets/images/trainer-coaching.jpg",
   "content_reference_intent": "state-check-coaching",
   "content_reference_reason": "疲労・当日の状態判断を、設備単体ではなくトレーナーと状態を確認する実写で表現",
-  "asset_version": "reference-v2-1b425bd0a8",
-  "generation_model": "gpt-image-2",
+  "asset_version": "reference-v2-0f74d47cc8",
+  "generation_model": "source-photo-lock-playwright",
   "qa_model": "gpt-5.6-luna",
-  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-1b425bd0a8.json"
+  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-0f74d47cc8.json",
+  "render_mode": "source-photo-lock-v1",
+  "content_preservation": "crop-resize-only",
+  "publish_requires_human_approval": true,
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-recency-second-v1",
+    "priority_order": [
+      "article_relevance",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/photo-lobby.jpg",
+        "checked_at": "2026-09-19T03:43:58.106Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/photo-lobby.jpg"
+    ],
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/trainer-coaching.jpg",
+        "intent": "state-check-coaching",
+        "relevanceLevel": "primary"
+      }
+    ],
+    "selected_content_reference": "assets/images/trainer-coaching.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  }
 }
