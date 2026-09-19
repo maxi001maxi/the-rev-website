@@ -73,7 +73,10 @@ export default async function handler(req, res) {
           image_asset_ready: true,
           image_checked_at: new Date().toISOString(),
           image_qa: readiness.qa,
-          image_brand_qa_score: Number(readiness.qa?.series_consistency ?? 0) || null,
+          image_brand_qa_score: Math.min(
+            Number(readiness.qa?.series_consistency ?? 0),
+            Number(readiness.qa?.article_visual_relevance ?? readiness.qa?.series_consistency ?? 0)
+          ) || null,
           image_last_error: null
         })
         .eq('id', article.id)

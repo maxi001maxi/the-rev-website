@@ -58,6 +58,7 @@ const schema = {
     typography_harmony: { type: 'integer', minimum: 0, maximum: 10 },
     negative_space: { type: 'integer', minimum: 0, maximum: 10 },
     photo_treatment: { type: 'integer', minimum: 0, maximum: 10 },
+    article_visual_relevance: { type: 'integer', minimum: 0, maximum: 10 },
     copy_legible: { type: 'boolean' },
     expected_copy_present: { type: 'boolean' },
     unexpected_readable_text: { type: 'boolean' },
@@ -72,6 +73,7 @@ const schema = {
     'typography_harmony',
     'negative_space',
     'photo_treatment',
+    'article_visual_relevance',
     'copy_legible',
     'expected_copy_present',
     'unexpected_readable_text',
@@ -158,6 +160,7 @@ const hardPass =
   qa.typography_harmony >= 8 &&
   qa.negative_space >= 7 &&
   qa.photo_treatment >= 7 &&
+  qa.article_visual_relevance >= 8 &&
   qa.copy_legible === true &&
   qa.expected_copy_present === true &&
   qa.unexpected_readable_text === false &&

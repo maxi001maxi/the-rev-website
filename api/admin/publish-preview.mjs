@@ -47,7 +47,9 @@ async function refreshStaleEditorialImages(supabase, id) {
         imageHeadlineShort: draft.image_headline_short,
         imageCategoryLabel: draft.image_category_label,
         imageSeriesLabel: draft.image_series_label || (draft.slug === 'after-work-tired-strength-training' ? 'COLUMN 06' : ''),
-        sourceImage: draft.image_source_path
+        sourceImage: String(draft.image_strategy || '').includes('explicit-source')
+          ? draft.image_source_path
+          : ''
       });
 
       await supabase
@@ -120,7 +122,10 @@ async function refreshStaleEditorialImages(supabase, id) {
       image_asset_ready: true,
       image_checked_at: new Date().toISOString(),
       image_qa: readiness.qa,
-      image_brand_qa_score: Number(readiness.qa?.series_consistency ?? 0) || null,
+      image_brand_qa_score: Math.min(
+        Number(readiness.qa?.series_consistency ?? 0),
+        Number(readiness.qa?.article_visual_relevance ?? readiness.qa?.series_consistency ?? 0)
+      ) || null,
       image_last_error: null
     })
     .eq('id', id);
