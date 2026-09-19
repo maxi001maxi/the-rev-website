@@ -92,6 +92,7 @@ assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
 assert(plan.sourcePath === 'assets/images/photo-evolgear.jpg', 'THE REV.実写をContent Referenceへ設定');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
+assert(plan.assetVersion === 'reference-v2-680884f683', 'Prompt revisionとcurrent modelを含むReference V2 asset versionを固定');
 assert(plan.generationModel === 'gpt-image-2', 'JobにGPT Imageモデルを保持');
 assert(plan.qaModel === 'gpt-5.6-luna', 'JobにBrand QAモデルを保持');
 assert(plan.qaReportPath === qaReportPathFor(fatigueArticle.slug, plan.assetVersion), 'QA report pathをversioned assetと紐付け');
