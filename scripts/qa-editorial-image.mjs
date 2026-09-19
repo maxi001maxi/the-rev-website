@@ -108,7 +108,7 @@ try {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model: String(process.env.EDITORIAL_IMAGE_QA_MODEL || qa_model || 'gpt-5.4-mini'),
+      model: String(process.env.EDITORIAL_IMAGE_QA_MODEL || qa_model || 'gpt-5.6-luna'),
       store: false,
       reasoning: { effort: 'low' },
       input: [{
