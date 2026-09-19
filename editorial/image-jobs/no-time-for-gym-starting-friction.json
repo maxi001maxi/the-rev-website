@@ -15,16 +15,41 @@
   "content_reference": "assets/images/photo-lobby.jpg",
   "content_reference_intent": "arrival-routine",
   "content_reference_reason": "準備・移動・来店・帰宅までの生活動線をロビー実写で表現。直近のtrainer-coaching.jpg再利用を回避。",
-  "asset_version": "reference-v2-5bc8ed163b",
-  "generation_model": "gpt-image-2",
+  "asset_version": "reference-v2-6f7bb961a1",
+  "generation_model": "source-photo-lock-playwright",
   "qa_model": "gpt-5.6-luna",
-  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v2-5bc8ed163b.json",
+  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v2-6f7bb961a1.json",
   "recent_reference_guard": {
     "window": 4,
+    "selection_policy": "relevance-first-recency-second-v1",
+    "priority_order": [
+      "article_relevance",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "after-work-tired-strength-training",
+        "content_reference": "assets/images/trainer-coaching.jpg",
+        "checked_at": "2026-09-19T03:05:04.238Z"
+      }
+    ],
     "recent_content_references": [
       "assets/images/trainer-coaching.jpg"
     ],
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/photo-lobby.jpg",
+        "intent": "arrival-routine",
+        "relevanceLevel": "primary"
+      }
+    ],
     "selected_content_reference": "assets/images/photo-lobby.jpg",
-    "avoided_repeat": true
-  }
+    "selected_relevance_level": "primary",
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  },
+  "render_mode": "source-photo-lock-v1",
+  "content_preservation": "crop-resize-only",
+  "publish_requires_human_approval": true
 }
