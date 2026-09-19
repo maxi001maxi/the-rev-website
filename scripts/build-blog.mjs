@@ -1,3 +1,4 @@
+// Phase 10.1 recovery pass 2: use staged assets and verified backup artifact.
 // Phase 10.1 deploy recovery marker: safe no-op comment.
 // THE REV. CONDITIONING LAB. — Blog / Column ビルドスクリプト
 // /content/blog/*.md（Front Matter + Markdown）から /blog/ 配下の静的HTMLを生成する。
