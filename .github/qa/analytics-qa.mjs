@@ -11,7 +11,9 @@ if (!BASE) {
 
 const gaRequests = [];
 const gtmRequests = [];
+const googleTagRequests = [];
 const consoleErrors = [];
+let gtmContainerBody = '';
 
 const browser = await chromium.launch();
 const context = await browser.newContext({
@@ -26,6 +28,7 @@ page.on('console', msg => {
 page.on('request', req => {
   const url = req.url();
   if (url.includes('googletagmanager.com/gtm.js')) gtmRequests.push(url);
+  if (url.includes('googletagmanager.com/gtag/js')) googleTagRequests.push(url);
   if (/google-analytics\.com\/g\/collect|analytics\.google\.com\/g\/collect/.test(url)) {
     const u = new URL(url);
     gaRequests.push({
@@ -35,6 +38,14 @@ page.on('request', req => {
       page_location: u.searchParams.get('dl')
     });
   }
+});
+
+page.on('response', async resp => {
+  const url = resp.url();
+  if (!url.includes('googletagmanager.com/gtm.js')) return;
+  try {
+    gtmContainerBody = await resp.text();
+  } catch {}
 });
 
 const response = await page.goto(BASE + '/', { waitUntil: 'load', timeout: 45000 });
@@ -105,11 +116,18 @@ const gaReserve = gaEvents.includes('reserve_click');
 const gaSection = gaEvents.includes('section_view');
 const gaFaq = gaEvents.includes('faq_open');
 
+const containerMeasurementIds = [...new Set(gtmContainerBody.match(/G-[A-Z0-9]{6,}/g) || [])];
+const containerAdsIds = [...new Set(gtmContainerBody.match(/AW-[0-9]{6,}/g) || [])];
+
 const result = {
   target: BASE,
   expect_e2_runtime: EXPECT_E2_RUNTIME,
   http_status: response?.status() || null,
   gtm_script_requests: gtmRequests.length,
+  google_tag_script_requests: googleTagRequests,
+  gtm_container_bytes: gtmContainerBody.length,
+  gtm_container_ga4_ids: containerMeasurementIds,
+  gtm_container_ads_ids: containerAdsIds,
   data_layer_events: layer,
   missing_data_layer_events: missingDataLayer,
   ga4_requests: gaRequests,
@@ -134,6 +152,10 @@ console.log('');
 console.log('Target:', BASE);
 console.log('HTTP:', result.http_status);
 console.log('GTM script requests:', result.gtm_script_requests);
+console.log('Google tag script requests:', result.google_tag_script_requests.join(', ') || '(none)');
+console.log('GTM container bytes:', result.gtm_container_bytes);
+console.log('GA4 IDs visible in GTM container:', result.gtm_container_ga4_ids.join(', ') || '(none)');
+console.log('Ads IDs visible in GTM container:', result.gtm_container_ads_ids.join(', ') || '(none)');
 console.log('dataLayer events:', [...new Set(customNames)].join(', ') || '(none)');
 console.log('GA4 events:', [...new Set(gaEvents)].join(', ') || '(none)');
 console.log('');
