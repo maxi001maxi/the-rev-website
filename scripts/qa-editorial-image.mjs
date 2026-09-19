@@ -194,6 +194,7 @@ const report = {
   generation_model: job.generation_model || REV_COLUMN_REFERENCE_V2.generationModel,
   render_mode: job.render_mode || null,
   content_reference: job.content_reference || null,
+  recent_reference_guard: job.recent_reference_guard || null,
   qa_model: resolvedQaModel,
   slug,
   asset_version,
