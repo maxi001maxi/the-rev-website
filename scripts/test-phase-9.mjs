@@ -11,7 +11,8 @@ import {
   buildEditorialImagePlan,
   imagePathsForSlug,
   qaReportPathFor,
-  selectBrandImageSource
+  selectBrandImageSource,
+  selectBrandImageSourceDecision
 } from '../lib/editorialImage.mjs';
 import {
   buildImageHeadlineShort,
@@ -64,7 +65,7 @@ assert(h1 === h2, 'キー順に依存せず同内容は同じhash');
 assert(h1 !== h3, '本文変更でhashが変わる');
 
 console.log('\n[5. editorial image planning]');
-assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2', 'Reference V2を画像Render Version正本に固定');
+assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2.1', 'Reference V2.1を画像Render Version正本に固定');
 assert(IMAGE_STYLE_TEMPLATE === 'rev-column-reference-v2', 'Reference V2を画像Style正本に固定');
 assert(REV_COLUMN_REFERENCE_V2.styleReferences.length === 5, '旧5記事すべてをStyle Referencesとして保持');
 assert(REV_COLUMN_REFERENCE_V2.generationModel === 'gpt-image-2', '高品質画像編集モデルを既定化');
@@ -83,22 +84,36 @@ const shortCopy = buildImageHeadlineShort(fatigueArticle);
 assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事タイトルと分離した短いEditorial Copyを生成');
 assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
 assert(validateImageHeadlineShort(shortCopy).ok === true, '画像コピーが長さ・トーン規則を通過');
-assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真を選ぶ');
+const fatigueDecision = selectBrandImageSourceDecision(fatigueArticle);
+assert(selectBrandImageSource(fatigueArticle) === 'assets/images/trainer-coaching.jpg', '疲労・判断系は設備単体よりコーチング実写を選ぶ');
+assert(fatigueDecision.intent === 'state-check-coaching', 'Content Referenceの選定意図を保持');
+assert(Boolean(fatigueDecision.reason), 'Content Referenceの選定理由を保持');
 
 const plan = buildEditorialImagePlan(fatigueArticle);
 assert(plan.styleTemplate === 'rev-column-reference-v2', 'Reference V2 templateで画像Jobを設計');
 assert(plan.imageHeadlineShort === shortCopy, 'Jobへ短い画像コピーを渡す');
 assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
-assert(plan.sourcePath === 'assets/images/photo-evolgear.jpg', 'THE REV.実写をContent Referenceへ設定');
+assert(plan.sourcePath === 'assets/images/trainer-coaching.jpg', '記事意味に近いTHE REV.実写をContent Referenceへ設定');
+assert(plan.sourceIntent === 'state-check-coaching', 'Job planへContent Reference intentを保持');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
-assert(plan.assetVersion === 'reference-v2-680884f683', 'Prompt revisionとcurrent modelを含むReference V2 asset versionを固定');
+assert(plan.assetVersion === 'reference-v2-1b425bd0a8', 'Prompt revision・Content Reference intent・current modelを含むReference V2.1 asset versionを固定');
 assert(plan.generationModel === 'gpt-image-2', 'JobにGPT Imageモデルを保持');
 assert(plan.qaModel === 'gpt-5.6-luna', 'JobにBrand QAモデルを保持');
 assert(plan.qaReportPath === qaReportPathFor(fatigueArticle.slug, plan.assetVersion), 'QA report pathをversioned assetと紐付け');
 assert(plan.job.style_references.length === 5 && plan.job.content_reference === plan.sourcePath, 'Style ReferencesとContent Referenceの役割を分離');
+assert(plan.job.content_reference_intent === plan.sourceIntent && Boolean(plan.job.content_reference_reason), 'JobへContent Reference provenanceを保持');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
 assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
+
+const equipmentArticle = {
+  title: '筋トレの負荷はどう決める？ラックと重量設定の考え方',
+  slug: 'training-load-equipment',
+  description: '設備と負荷設定を考える。',
+  bodyMarkdown: 'ラックや重量、筋力に合わせて負荷を調整します。',
+  category: 'training'
+};
+assert(selectBrandImageSource(equipmentArticle) === 'assets/images/photo-evolgear.jpg', '設備・重量テーマはEVOLGEAR実写を選ぶ');
 
 const imgPaths = imagePathsForSlug(fatigueArticle.slug, plan.assetVersion);
 assert(imgPaths.thumbnailPublicPath === plan.thumbnail, 'Thumbnail公開パスをplanと一致');
