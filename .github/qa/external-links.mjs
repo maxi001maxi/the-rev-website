@@ -9,15 +9,19 @@
 //   UNVERIFIED    … タイムアウト・DNS・TLS等で判定できなかった
 //   BROKEN        … 404等の明確な不在、または5xx
 import fs from 'node:fs';
-import { publishedBlogPages } from './published-blog-pages.mjs';
 
 const BASE = process.env.BASE_URL?.replace(/\/$/, '');
 const BYPASS = process.env.VERCEL_BYPASS_SECRET || '';
 if (!BASE) { console.error('BASE_URL is required'); process.exit(1); }
 
 const PAGES = [
-  '/', '/solution.html', '/price.html', '/trainer.html', '/legal.html', '/privacy.html', '/terms.html', '/blog/',
-  ...publishedBlogPages().map((page) => page.url)
+  '/', '/solution.html', '/price.html', '/trainer.html', '/legal.html', '/privacy.html', '/terms.html',
+  '/blog/',
+  '/blog/personal-training-frequency/',
+  '/blog/training-how-hard-to-push/',
+  '/blog/personal-gym-trial-checkpoints/',
+  '/blog/boxing-beginner-first-step/',
+  '/blog/oxygen-room-what-is-it/'
 ];
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
