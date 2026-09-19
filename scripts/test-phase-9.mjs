@@ -96,6 +96,7 @@ assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
 assert(plan.sourcePath === 'assets/images/trainer-coaching.jpg', '記事意味に近いTHE REV.実写をContent Referenceへ設定');
 assert(plan.sourceIntent === 'state-check-coaching', 'Job planへContent Reference intentを保持');
+assert(plan.strategy === 'reference-v2-gpt-image-hybrid-auto-source', '自動選定Content Referenceをstrategyに記録');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
 assert(plan.assetVersion === 'reference-v2-1b425bd0a8', 'Prompt revision・Content Reference intent・current modelを含むReference V2.1 asset versionを固定');
 assert(plan.generationModel === 'gpt-image-2', 'JobにGPT Imageモデルを保持');
