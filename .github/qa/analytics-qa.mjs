@@ -69,11 +69,14 @@ await page.evaluate(() => {
   }, true);
 });
 
-const reserve = page.locator('a[data-track="reserve_click"]').first();
-if (await reserve.count()) {
-  await reserve.click();
-  await page.waitForTimeout(1500);
-}
+const reserveTriggered = await page.evaluate(() => {
+  const links = [...document.querySelectorAll('a[data-track="reserve_click"]')];
+  const link = links.find(a => a.offsetParent !== null) || links[0];
+  if (!link) return false;
+  link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+  return true;
+});
+if (reserveTriggered) await page.waitForTimeout(1500);
 
 const layer = await page.evaluate(() =>
   (window.dataLayer || [])
