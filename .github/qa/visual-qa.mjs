@@ -9,6 +9,7 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
+import { publishedBlogPages } from './published-blog-pages.mjs';
 
 const BASE = process.env.BASE_URL?.replace(/\/$/, '');
 const BYPASS = process.env.VERCEL_BYPASS_SECRET || '';
@@ -23,10 +24,7 @@ const VIEWPORTS = [
 ];
 const PAGES = [
   { name: 'blog-index', url: '/blog/' },
-  { name: 'training', url: '/blog/personal-training-frequency/' },
-  { name: 'boxing', url: '/blog/boxing-beginner-first-step/' },
-  { name: 'recovery', url: '/blog/recovery-after-training/' },
-  { name: 'formcheck', url: '/blog/self-training-form-check/' }
+  ...publishedBlogPages()
 ];
 
 const LITE = process.env.LITE_DIR || 'qa-lite';
