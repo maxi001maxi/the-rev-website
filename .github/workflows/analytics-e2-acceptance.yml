@@ -1,0 +1,73 @@
+name: Phase E2 Analytics Acceptance
+
+on:
+  push:
+    branches:
+      - 'claude/phase-e2-live-analytics-v1'
+
+permissions:
+  contents: read
+
+jobs:
+  local-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: npm i -D playwright@1.55.0 && npx playwright install --with-deps chromium
+
+      - name: Serve branch locally
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/the-rev-http.log 2>&1 &
+          echo $! > /tmp/the-rev-http.pid
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/the-rev-http.log
+          exit 1
+
+      - name: Verify E2 dataLayer runtime
+        env:
+          BASE_URL: http://127.0.0.1:4173
+          EXPECT_E2_RUNTIME: 'true'
+        run: node .github/qa/analytics-qa.mjs
+
+      - name: Upload local result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2-local-runtime
+          path: analytics-qa.json
+          retention-days: 7
+
+  production-tag-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: npm i -D playwright@1.55.0 && npx playwright install --with-deps chromium
+
+      - name: Audit live GTM and GA4 forwarding
+        env:
+          BASE_URL: https://therev-lab.com
+          EXPECT_E2_RUNTIME: 'false'
+        run: node .github/qa/analytics-qa.mjs
+
+      - name: Upload production result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2-production-tag-audit
+          path: analytics-qa.json
+          retention-days: 7
