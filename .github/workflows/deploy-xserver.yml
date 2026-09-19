@@ -44,7 +44,7 @@ permissions:
 
 concurrency:
   group: xserver-production-v2
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   NODE_VERSION: '22'
@@ -187,12 +187,6 @@ jobs:
           XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
         run: |
           set -u
-          # TEMP Phase 10.1 recovery: a verified recent backup artifact exists.
-          # Skip the slow fresh mirror for this recovery run; backup_safety below remains fail-closed.
-          echo "backup_dir=xserver-backup/recovery-skip" >> "$GITHUB_OUTPUT"
-          echo "backup_ok=false" >> "$GITHUB_OUTPUT"
-          echo "::warning::Phase 10.1 recovery: using recent non-expired backup artifact."
-          exit 0
           STAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
           BACKUP_DIR="xserver-backup/${STAMP}"
           mkdir -p "$BACKUP_DIR"
@@ -292,11 +286,6 @@ jobs:
           XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
         run: |
           set -euo pipefail
-          # TEMP Phase 10.1 recovery: generated/versioned image assets were already staged
-          # by Render Editorial Blog Images. The next byte gate verifies every published image.
-          echo "Phase 10.1 recovery: skipping redundant full asset mirror; byte gate remains mandatory."
-          exit 0
-
           DEPLOY_OK=0
           for ATTEMPT in 1 2 3; do
             echo "Asset deploy attempt ${ATTEMPT}/3"
