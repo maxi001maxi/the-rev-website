@@ -10,15 +10,15 @@ import {
   IMAGE_STYLE_TEMPLATE,
   buildEditorialImagePlan,
   imagePathsForSlug,
-  selectBrandImageSource,
-  selectColumnMaster
+  qaReportPathFor,
+  selectBrandImageSource
 } from '../lib/editorialImage.mjs';
 import {
   buildImageHeadlineShort,
   imageCopyIsArticleTitle,
   validateImageHeadlineShort
 } from '../lib/editorialImageCopy.mjs';
-import { REV_COLUMN_CLASSIC_V1 } from '../lib/editorialImageStyle.mjs';
+import { REV_COLUMN_REFERENCE_V2 } from '../lib/editorialImageStyle.mjs';
 
 let passed = 0;
 const failed = [];
@@ -64,10 +64,11 @@ assert(h1 === h2, 'キー順に依存せず同内容は同じhash');
 assert(h1 !== h3, '本文変更でhashが変わる');
 
 console.log('\n[5. editorial image planning]');
-assert(IMAGE_RENDER_VERSION === 'rev-column-classic-v1', 'Classic V1を画像Render Version正本に固定');
-assert(IMAGE_STYLE_TEMPLATE === 'rev-column-classic-v1', 'Classic V1を画像Style正本に固定');
-assert(REV_COLUMN_CLASSIC_V1.headline.weight === 400, '旧5記事準拠で見出しは明朝・標準ウェイト');
-assert(REV_COLUMN_CLASSIC_V1.panelRatio === 0.50, '旧5記事準拠で左右50/50');
+assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2', 'Reference V2を画像Render Version正本に固定');
+assert(IMAGE_STYLE_TEMPLATE === 'rev-column-reference-v2', 'Reference V2を画像Style正本に固定');
+assert(REV_COLUMN_REFERENCE_V2.styleReferences.length === 5, '旧5記事すべてをStyle Referencesとして保持');
+assert(REV_COLUMN_REFERENCE_V2.generationModel === 'gpt-image-2.5-sunburst', '高品質画像編集モデルを既定化');
+assert(REV_COLUMN_REFERENCE_V2.qaModel === 'gpt-5.4-mini', 'Vision Brand QAモデルを既定化');
 
 const fatigueArticle = {
   title: '仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安',
@@ -83,13 +84,18 @@ assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事�
 assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
 assert(validateImageHeadlineShort(shortCopy).ok === true, '画像コピーが長さ・トーン規則を通過');
 assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労系BODY KNOWLEDGEは実在する設備写真を選ぶ');
-assert(selectColumnMaster(fatigueArticle) === 'assets/images/blog/columns/column-02-push-master.jpg', '旧5記事master参照を保持');
 
 const plan = buildEditorialImagePlan(fatigueArticle);
-assert(plan.styleTemplate === 'rev-column-classic-v1', 'Classic V1 templateで画像Jobを設計');
+assert(plan.styleTemplate === 'rev-column-reference-v2', 'Reference V2 templateで画像Jobを設計');
 assert(plan.imageHeadlineShort === shortCopy, 'Jobへ短い画像コピーを渡す');
 assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
-assert(/^classic-v1-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionを内容ハッシュで固定');
+assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
+assert(plan.sourcePath === 'assets/images/photo-evolgear.jpg', 'THE REV.実写をContent Referenceへ設定');
+assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
+assert(plan.generationModel === 'gpt-image-2.5-sunburst', 'JobにGPT Imageモデルを保持');
+assert(plan.qaModel === 'gpt-5.4-mini', 'JobにBrand QAモデルを保持');
+assert(plan.qaReportPath === qaReportPathFor(fatigueArticle.slug, plan.assetVersion), 'QA report pathをversioned assetと紐付け');
+assert(plan.job.style_references.length === 5 && plan.job.content_reference === plan.sourcePath, 'Style ReferencesとContent Referenceの役割を分離');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
 assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
 
