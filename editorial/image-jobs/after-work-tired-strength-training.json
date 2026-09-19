@@ -12,16 +12,16 @@
     "assets/images/blog/columns/column-04-boxing-master.jpg",
     "assets/images/blog/columns/column-05-recovery-master.jpg"
   ],
-  "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
-  "content_reference_intent": "light-training-equipment",
-  "content_reference_reason": "指定Driveフォルダ内の実動画フレームを起点に、THE REV.の実設備が伝わる誌面表現へハイブリッド生成。未知のトレーナーは登場させない。",
-  "asset_version": "reference-v23-hybrid",
-  "generation_model": "chatgpt-image-hybrid",
-  "qa_model": "gpt-5.6-sol",
-  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v23-hybrid.json",
-  "render_mode": "gpt-image-hybrid-v1",
-  "content_preservation": "real-drive-source-grounded",
+  "content_reference": "assets/images/photo-lobby.jpg",
+  "content_reference_intent": "arrival-routine",
+  "content_reference_reason": "準備・移動・来店・帰宅までの生活動線をロビー実写で表現",
+  "asset_version": "reference-v2-e6510f00cd",
+  "render_mode": "source-photo-lock-v1",
+  "content_preservation": "crop-resize-only",
   "publish_requires_human_approval": true,
+  "generation_model": "source-photo-lock-playwright",
+  "qa_model": "gpt-5.6-luna",
+  "qa_report_path": "editorial/image-qa/after-work-tired-strength-training-reference-v2-e6510f00cd.json",
   "recent_reference_guard": {
     "window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
@@ -44,33 +44,19 @@
     "historical_usage_registry": "editorial/content-reference-usage.json",
     "historical_matching_articles": [],
     "ever_used_before": false,
-    "selected_content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/photo-lobby.jpg",
+        "intent": "arrival-routine",
+        "relevanceLevel": "primary",
+        "ever_used_before": false,
+        "recent_4_used": false
+      }
+    ],
+    "selected_content_reference": "assets/images/photo-lobby.jpg",
     "selected_relevance_level": "primary",
-    "avoided_historical_repeat": true,
-    "avoided_repeat": true,
+    "avoided_historical_repeat": false,
+    "avoided_repeat": false,
     "repeated_due_to_relevance": false
-  },
-  "qa_policy_revision": "source-native-text-v1",
-  "render_request_revision": "drive-source-nontrainer-final-20260919",
-  "lineage_policy_revision": "content-reference-lineage-v1",
-  "exclude_trainer_photos": true,
-  "drive_source": {
-    "root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
-    "cached_frame_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
-    "cached_frame_file_name": "AI_FRAME_IMG_4387_75.jpg",
-    "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
-    "origin_video_file_name": "IMG_4387.MOV",
-    "frame_position_ratio": 0.75,
-    "selection_scope": "specified-drive-root-only"
-  },
-  "hybrid_policy_revision": "rev-environment-customer-only-v1",
-  "hybrid_policy": {
-    "source_scope": "specified-drive-root-only",
-    "rev_environment_generation_allowed": true,
-    "customer_generation_allowed": true,
-    "unknown_trainer_forbidden": true,
-    "non_customer_people_forbidden": true,
-    "trainer_identity_requirement": "known-or-none",
-    "source_material_required": true
   }
 }
