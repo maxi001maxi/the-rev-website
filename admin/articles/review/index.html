@@ -32,7 +32,7 @@
 <div class="admin-page-head-row">
 <div>
 <h1 class="admin-page-title">Review &amp; Publish</h1>
-<p class="admin-page-lead">公開前の最終確認です。ここで「Publish Article」を押すと、GitHubの <code id="repo-label">content/blog/</code> へMarkdownがコミットされ、Xserver本番デプロイが始まります。文字入りThumbnail / OGPが揃っていない記事は公開できません。</p>
+<p class="admin-page-lead">公開前の最終確認です。ここで「Review &amp; Publish」を押すと、GitHubの <code id="repo-label">content/blog/</code> へMarkdownがコミットされ、Xserver本番デプロイが始まります。文字入りThumbnail / OGPが揃っていない記事は公開できません。</p>
 </div>
 </div>
 
@@ -171,16 +171,35 @@ function showError(message) {
 function clearError() { $('error-box').classList.add('admin-hidden'); }
 function text(id, value) { $(id).textContent = value === null || value === undefined || value === '' ? '—' : String(value); }
 
-function publicAssetUrl(src, publicUrl) {
+function publicAssetUrl(src, publicUrl, cacheKey = '') {
   const raw = String(src || '').trim();
   if (!raw) return '';
-  if (/^https?:\/\//i.test(raw)) return raw;
   try {
-    const origin = new URL(publicUrl || 'https://therev-lab.com').origin;
-    return new URL(raw.startsWith('/') ? raw : '/' + raw, origin).href;
+    const url = /^https?:\/\//i.test(raw)
+      ? new URL(raw)
+      : new URL(
+          raw.startsWith('/') ? raw : '/' + raw,
+          new URL(publicUrl || 'https://therev-lab.com').origin
+        );
+    if (cacheKey) url.searchParams.set('review_asset', String(cacheKey));
+    return url.href;
   } catch {
     return raw;
   }
+}
+
+function imageReviewCacheKey(a) {
+  return [
+    a?.image_asset_version || 'legacy',
+    a?.image_status || 'unknown',
+    a?.image_asset_ready ? 'ready' : 'pending',
+    a?.image_qa?.checked_at || a?.image_checked_at || Date.now()
+  ].join('-');
+}
+
+function imageReadyForReview(a) {
+  if (!a?.image_asset_version) return true;
+  return a.image_status === 'READY' && a.image_asset_ready === true;
 }
 
 /* ---------- Preflight結果の描画 ---------- */
@@ -234,11 +253,24 @@ function renderMeta(a, data) {
   const images = [];
   if (a.thumbnail) images.push({ label: 'THUMBNAIL', src: a.thumbnail });
   if (a.og_image) images.push({ label: 'OGP', src: a.og_image });
-  $('v-images').innerHTML = images.map((im) => `
+  const imageCacheKey = imageReviewCacheKey(a);
+  const canShowImages = imageReadyForReview(a);
+  $('v-images').innerHTML = images.map((im) => {
+    if (!canShowImages) {
+      return `
 <figure class="admin-review-image">
-<img src="${escapeHtml(publicAssetUrl(im.src, data.publicUrl))}" alt="" loading="lazy">
+<div class="admin-image-pending">画像準備中…</div>
 <figcaption>${im.label}</figcaption>
-</figure>`).join('');
+</figure>`;
+    }
+    return `
+<figure class="admin-review-image">
+<img src="${escapeHtml(publicAssetUrl(im.src, data.publicUrl, imageCacheKey))}" alt="" loading="eager"
+  onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+<div class="admin-image-load-error" hidden>画像を再取得できませんでした。Preflightを再読込してください。</div>
+<figcaption>${im.label}</figcaption>
+</figure>`;
+  }).join('');
 
   text('v-public-url', data.publicUrl);
   text('v-path', data.targetPath);
@@ -258,9 +290,9 @@ function renderPreview(a, publicUrl) {
   const updatedBlock = a.updated && a.updated !== a.published
     ? ` <time class="blog-update">UPDATE ${escapeHtml(String(a.updated).replace(/-/g, '.'))}</time>`
     : '';
-  const hero = a.thumbnail
-    ? `<figure class="blog-hero-media"><img src="${escapeHtml(publicAssetUrl(a.thumbnail, publicUrl))}" alt="${escapeHtml(a.title || '')}" width="1200" height="675"></figure>`
-    : '';
+  const hero = a.thumbnail && imageReadyForReview(a)
+    ? `<figure class="blog-hero-media"><img src="${escapeHtml(publicAssetUrl(a.thumbnail, publicUrl, imageReviewCacheKey(a)))}" alt="${escapeHtml(a.title || '')}" width="1200" height="675"></figure>`
+    : (a.thumbnail ? `<p style="margin:24px auto;max-width:980px;padding:16px;border:1px solid #d9d2c4;color:#7a7469;">画像準備中。READY後に自動表示されます。</p>` : '');
   const doc = `<!doctype html><html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
