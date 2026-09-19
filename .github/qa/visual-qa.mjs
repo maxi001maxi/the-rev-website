@@ -60,6 +60,11 @@ for (const vp of VIEWPORTS) {
       }, 30);
     }));
     await page.waitForTimeout(900);
+    // M1 visual review: force reveal elements visible so full-page screenshots
+    // represent layout/copy even when fast synthetic scrolling outruns IntersectionObserver.
+    await page.evaluate(() => {
+      document.querySelectorAll('.reveal, .plate').forEach(el => el.classList.add('in', 'is-in'));
+    });
 
     const m = await page.evaluate(() => {
       const q = s => document.querySelector(s);
