@@ -2,8 +2,8 @@
   "slug": "no-time-for-gym-starting-friction",
   "article_title": "運動する時間がないのにジムが続かない人へ。見直すのは30分より「行く前後」かもしれません",
   "category_label": "BODY KNOWLEDGE",
-  "column_label": "COLUMN",
-  "image_headline_short": "30分より、\n行く前後を整える。",
+  "column_label": "COLUMN 07",
+  "image_headline_short": "続かないなら、\n行く前後を見直す。",
   "image_style_template": "rev-column-reference-v2",
   "style_references": [
     "assets/images/blog/columns/column-01-frequency-master.jpg",
@@ -12,45 +12,62 @@
     "assets/images/blog/columns/column-04-boxing-master.jpg",
     "assets/images/blog/columns/column-05-recovery-master.jpg"
   ],
-  "content_reference": "assets/images/photo-lobby.jpg",
+  "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
   "content_reference_intent": "arrival-routine",
-  "content_reference_reason": "準備・移動・来店・帰宅までの生活動線をロビー実写で表現。直近のtrainer-coaching.jpg再利用を回避。",
-  "asset_version": "reference-v2-6f7bb961a1",
-  "generation_model": "source-photo-lock-playwright",
-  "qa_model": "gpt-5.6-luna",
-  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v2-6f7bb961a1.json",
+  "content_reference_reason": "指定Driveフォルダ内の実動画フレームを起点に、THE REV.受付・来店導線が伝わる誌面表現へハイブリッド生成。未知のトレーナーは登場させない。",
+  "asset_version": "reference-v23-hybrid",
+  "generation_model": "chatgpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol",
+  "qa_report_path": "editorial/image-qa/no-time-for-gym-starting-friction-reference-v23-hybrid.json",
   "recent_reference_guard": {
     "window": 4,
-    "selection_policy": "relevance-first-recency-second-v1",
+    "selection_policy": "relevance-first-lineage-recency-v2",
     "priority_order": [
       "article_relevance",
+      "never_used_in_past_articles",
       "not_used_in_recent_4",
       "least_recently_used"
     ],
     "recent_articles": [
       {
         "slug": "after-work-tired-strength-training",
-        "content_reference": "assets/images/trainer-coaching.jpg",
-        "checked_at": "2026-09-19T03:05:04.238Z"
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+        "checked_at": "2026-09-19T07:55:00Z"
       }
     ],
     "recent_content_references": [
-      "assets/images/trainer-coaching.jpg"
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg"
     ],
-    "relevant_candidate_pool": [
-      {
-        "path": "assets/images/photo-lobby.jpg",
-        "intent": "arrival-routine",
-        "relevanceLevel": "primary"
-      }
-    ],
-    "selected_content_reference": "assets/images/photo-lobby.jpg",
+    "historical_usage_registry": "editorial/content-reference-usage.json",
+    "historical_matching_articles": [],
+    "ever_used_before": false,
+    "selected_content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
     "selected_relevance_level": "primary",
-    "avoided_repeat": false,
+    "avoided_historical_repeat": true,
+    "avoided_repeat": true,
     "repeated_due_to_relevance": false
   },
-  "render_mode": "source-photo-lock-v1",
-  "content_preservation": "crop-resize-only",
+  "render_mode": "gpt-image-hybrid-v1",
+  "content_preservation": "real-drive-source-grounded",
   "publish_requires_human_approval": true,
-  "qa_policy_revision": "source-native-text-v1"
+  "qa_policy_revision": "source-native-text-v1",
+  "hybrid_policy_revision": "rev-environment-customer-only-v1",
+  "hybrid_policy": {
+    "source_scope": "specified-drive-root-only",
+    "rev_environment_generation_allowed": true,
+    "customer_generation_allowed": true,
+    "unknown_trainer_forbidden": true,
+    "non_customer_people_forbidden": true,
+    "trainer_identity_requirement": "known-or-none",
+    "source_material_required": true
+  },
+  "drive_source": {
+    "root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "cached_frame_file_id": "1fGGAW9QRXu3MInzeh2WjDdA-QyqY1WqY",
+    "cached_frame_file_name": "AI_FRAME_IMG_3978_20.jpg",
+    "origin_video_file_id": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+    "origin_video_file_name": "IMG_3978.MOV",
+    "frame_position_ratio": 0.2,
+    "selection_scope": "specified-drive-root-only"
+  }
 }
