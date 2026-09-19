@@ -93,6 +93,8 @@
 <div><dt>Image status</dt><dd id="v-image-status">—</dd></div>
 <div><dt>Image render</dt><dd id="v-image-render">—</dd></div>
 <div><dt>Image style</dt><dd id="v-image-style">—</dd></div>
+<div><dt>Content Reference</dt><dd><code id="v-image-source">—</code></dd></div>
+<div><dt>Recent-4 guard</dt><dd id="v-image-recent">—</dd></div>
 <div><dt>Image copy</dt><dd id="v-image-copy">—</dd></div>
 <div><dt>Image series</dt><dd id="v-image-series">—</dd></div>
 <div><dt>Image asset version</dt><dd id="v-image-version">—</dd></div>
@@ -122,7 +124,7 @@
 <div class="admin-publish-note" id="publish-note"></div>
 <div class="admin-publish-actions">
 <a id="edit-link" class="admin-btn-mini" href="/admin/articles/">Back to Editor</a>
-<button id="publish-btn" class="admin-btn-primary" type="button" disabled>Publish Article</button>
+<button id="publish-btn" class="admin-btn-primary" type="button" disabled>Review &amp; Publish</button>
 </div>
 </div>
 </div>
@@ -137,7 +139,7 @@
 <p class="admin-modal-sub"><code id="confirm-path"></code></p>
 <div class="admin-modal-actions">
 <button id="confirm-cancel" class="admin-btn-mini" type="button">Cancel</button>
-<button id="confirm-publish" class="admin-btn-primary" type="button">Publish</button>
+<button id="confirm-publish" class="admin-btn-primary" type="button">Review &amp; Publish</button>
 </div>
 </div>
 </div>
@@ -209,6 +211,11 @@ function renderMeta(a, data) {
     ? `${a.image_render_version} / asset_ready=${a.image_asset_ready ? 'true' : 'false'}`
     : '—');
   text('v-image-style', a.image_style_template || '—');
+  text('v-image-source', a.image_source_path || a.image_qa?.content_reference || '—');
+  const recentGuard = a.image_qa?.recent_reference_guard;
+  text('v-image-recent', recentGuard
+    ? `${recentGuard.selection_policy || '—'} / recent=${(recentGuard.recent_content_references || []).join(', ') || 'none'} / selected=${recentGuard.selected_content_reference || '—'}`
+    : '—');
   text('v-image-copy', a.image_headline_short || '—');
   text('v-image-series', [a.image_category_label, a.image_series_label].filter(Boolean).join(' / ') || '—');
   text('v-image-version', a.image_asset_version || '—');
@@ -216,7 +223,7 @@ function renderMeta(a, data) {
     ? `${a.image_generation_model} / QA: ${a.image_qa_model || '—'}`
     : '—');
   text('v-image-qa', a.image_qa
-    ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / relevance=${a.image_qa.article_visual_relevance ?? '—'} / editorial=${a.image_qa.editorial_quality ?? '—'}`
+    ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / relevance=${a.image_qa.article_visual_relevance ?? '—'} / source_fidelity=${a.image_qa.source_identity_preservation ?? '—'} / editorial=${a.image_qa.editorial_quality ?? '—'}`
     : '—');
   text('v-image-score', a.image_brand_qa_score ?? a.image_qa?.series_consistency ?? '—');
   text('v-cta', a.cta_type || 'general');
@@ -378,7 +385,7 @@ async function doPublish() {
   } finally {
     publishing = false;
     confirmBtn.disabled = false;
-    confirmBtn.textContent = 'Publish';
+    confirmBtn.textContent = 'Review & Publish';
   }
 }
 
