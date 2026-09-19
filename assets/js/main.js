@@ -505,7 +505,6 @@
     initSectionTracking();
   }
 
-  /* Phase E2 preview acceptance marker: tracking runtime verified on preview before merge. */
   /* ---------- 起動 ---------- */
   function boot() {
     restoreHomeTop();
