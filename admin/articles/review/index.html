@@ -204,7 +204,7 @@ function renderMeta(a, data) {
     ? `${a.image_generation_model} / QA: ${a.image_qa_model || '—'}`
     : '—');
   text('v-image-qa', a.image_qa
-    ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / editorial=${a.image_qa.editorial_quality ?? '—'}`
+    ? `${a.image_qa.pass ? 'PASS' : 'FAIL'} / consistency=${a.image_qa.series_consistency ?? '—'} / relevance=${a.image_qa.article_visual_relevance ?? '—'} / editorial=${a.image_qa.editorial_quality ?? '—'}`
     : '—');
   text('v-image-score', a.image_brand_qa_score ?? a.image_qa?.series_consistency ?? '—');
   text('v-cta', a.cta_type || 'general');
