@@ -3,6 +3,7 @@ import fs from 'node:fs';
 
 const BASE = (process.env.BASE_URL || '').replace(/\/$/, '');
 const BYPASS = process.env.VERCEL_BYPASS_SECRET || '';
+const EXPECT_E2_RUNTIME = process.env.EXPECT_E2_RUNTIME !== 'false';
 if (!BASE) {
   console.error('BASE_URL is required');
   process.exit(2);
@@ -92,7 +93,7 @@ const layer = await page.evaluate(() =>
 );
 
 const customNames = layer.map(x => x.event);
-const requiredDataLayer = ['section_view', 'faq_open', 'reserve_click'];
+const requiredDataLayer = EXPECT_E2_RUNTIME ? ['section_view', 'faq_open', 'reserve_click'] : ['reserve_click'];
 const missingDataLayer = requiredDataLayer.filter(x => !customNames.includes(x));
 
 const gaEvents = gaRequests.map(x => x.event).filter(Boolean);
@@ -103,6 +104,7 @@ const gaFaq = gaEvents.includes('faq_open');
 
 const result = {
   target: BASE,
+  expect_e2_runtime: EXPECT_E2_RUNTIME,
   http_status: response?.status() || null,
   gtm_script_requests: gtmRequests.length,
   data_layer_events: layer,
