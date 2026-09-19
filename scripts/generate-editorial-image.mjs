@@ -55,7 +55,7 @@ const prompt = [
 ].filter(Boolean).join('\n');
 
 const form = new FormData();
-form.append('model', String(process.env.EDITORIAL_IMAGE_MODEL || generation_model || 'gpt-image-2.5-sunburst'));
+form.append('model', String(process.env.EDITORIAL_IMAGE_MODEL || generation_model || 'gpt-image-2'));
 form.append('prompt', prompt);
 form.append('n', '1');
 form.append('size', '1536x1024');
