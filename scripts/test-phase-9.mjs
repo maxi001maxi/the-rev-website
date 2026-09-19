@@ -92,7 +92,7 @@ assert(selectBrandImageSource(fatigueArticle) === 'assets/images/trainer-coachin
 assert(fatigueDecision.intent === 'state-check-coaching', 'Content Referenceの選定意図を保持');
 assert(Boolean(fatigueDecision.reason), 'Content Referenceの選定理由を保持');
 assert(RECENT_CONTENT_REFERENCE_WINDOW === 4, 'Content Reference重複チェック窓を直近4記事へ固定');
-assert(CONTENT_REFERENCE_SELECTION_POLICY === 'relevance-first-recency-second-v1', '関連性優先・重複回避二次の正本ポリシーを固定');
+assert(CONTENT_REFERENCE_SELECTION_POLICY === 'relevance-first-lineage-recency-v2', '関連性優先・過去使用履歴・直近4記事の正本ポリシーを固定');
 
 const fatigueRecent = [
   { slug: 'prev-1', contentReference: 'assets/images/trainer-coaching.jpg', checkedAt: '2026-09-19T09:00:00Z' },
@@ -106,6 +106,24 @@ assert(
   '重複回避だけを理由に記事関連性の高い疲労・状態確認写真を降格しない'
 );
 assert(fatigueWithHistory.repeatedDueToRelevance === true, '関連性優先で再利用した理由を記録');
+
+const legacyUsage = [
+  {
+    slug: 'personal-gym-trial-checkpoints',
+    title: 'パーソナルジムの体験では何を見る？入会前に確認したい5つのこと',
+    contentReference: 'assets/images/trainer-coaching.jpg',
+    status: 'published',
+    published: '2026-09-13',
+    provenance: 'legacy-confirmed-by-owner'
+  }
+];
+const fatigueWithLegacy = selectContentReferenceWithHistory(fatigueArticle, [], legacyUsage);
+assert(
+  fatigueWithLegacy.path === 'assets/images/trainer-top.jpg',
+  '同じ関連性なら過去記事で未使用の実写真を優先し、trial記事とのtrainer-coaching重複を回避'
+);
+assert(fatigueWithLegacy.avoidedHistoricalRepeat === true, '過去記事との重複回避を監査情報へ記録');
+assert(fatigueWithLegacy.everUsedBefore === false, '選択画像が過去記事で未使用か判定');
 
 const genericBodyArticle = {
   title: '身体の状態を知るために大切なこと',
@@ -126,13 +144,16 @@ assert(
 assert(genericDecision.avoidedRecentRepeat === true, '同格候補での短期間再利用回避を記録');
 assert(genericDecision.selectionPolicy === CONTENT_REFERENCE_SELECTION_POLICY, '選定ポリシーを監査可能に保持');
 
-const plan = buildEditorialImagePlan(fatigueArticle, { recentHistory: fatigueRecent });
+const plan = buildEditorialImagePlan(fatigueArticle, {
+  recentHistory: [],
+  historicalUsage: legacyUsage
+});
 assert(plan.styleTemplate === 'rev-column-reference-v2', 'Reference V2 templateで画像Jobを設計');
 assert(plan.imageHeadlineShort === shortCopy, 'Jobへ短い画像コピーを渡す');
 assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
-assert(plan.sourcePath === 'assets/images/trainer-coaching.jpg', '記事意味に近いTHE REV.実写をContent Referenceへ設定');
-assert(plan.sourceIntent === 'state-check-coaching', 'Job planへContent Reference intentを保持');
+assert(plan.sourcePath === 'assets/images/trainer-top.jpg', '記事関連性を維持しつつ過去未使用のTHE REV.実写をContent Referenceへ設定');
+assert(plan.sourceIntent === 'state-check-guidance', 'Job planへContent Reference intentを保持');
 assert(plan.strategy === 'reference-v2-source-lock-auto-source', 'source-photo-lock自動選定をstrategyに記録');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
 assert(
@@ -150,7 +171,10 @@ assert(plan.job.content_reference_intent === plan.sourceIntent && Boolean(plan.j
 assert(plan.job.recent_reference_guard.window === 4, 'Jobへ直近4記事の参照窓を保持');
 assert(plan.job.recent_reference_guard.selection_policy === CONTENT_REFERENCE_SELECTION_POLICY, 'Jobへ関連性優先ポリシーを保持');
 assert(plan.job.recent_reference_guard.priority_order[0] === 'article_relevance', '記事関連性を最優先として記録');
-assert(plan.job.recent_reference_guard.recent_articles.length === 4, '直近4記事のContent Reference履歴をJobへ保持');
+assert(plan.job.recent_reference_guard.priority_order[1] === 'never_used_in_past_articles', '過去未使用を同格候補内の第2優先に設定');
+assert(plan.job.recent_reference_guard.avoided_historical_repeat === true, 'Jobへ過去記事重複回避結果を保持');
+assert(plan.job.recent_reference_guard.recent_articles.length === 0, '直近履歴なしでも選定可能');
+assert(plan.job.recent_reference_guard.historical_matching_articles.length === 0, '選択したtrainer-topには過去使用記事がない');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
 assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
 
