@@ -1,0 +1,100 @@
+{
+  "format_id": "rev-column-reference-v2.3-hybrid",
+  "status": "ACTIVE_DEFAULT",
+  "style_template": "rev-column-reference-v2",
+  "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+  "source_of_truth": {
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "scope": "specified-drive-root-only",
+    "full_drive_search": false,
+    "video_frame_allowed": true,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "recent_reference_window": 4
+  },
+  "generation_policy": {
+    "real_the_rev_environment_required": true,
+    "generated_customer_allowed": true,
+    "unknown_trainer_forbidden": true,
+    "non_customer_people_forbidden": true,
+    "fake_gym_environment_forbidden": true,
+    "background_treatment_allowed": [
+      "crop",
+      "resize",
+      "soften",
+      "blur",
+      "depth-adjustment",
+      "lighting-harmonization",
+      "editorial-color-grading"
+    ]
+  },
+  "design_grammar": {
+    "rigid_template": false,
+    "principle": "design grammar, not fixed coordinates",
+    "style": [
+      "premium editorial",
+      "quiet luxury",
+      "warm ivory",
+      "restrained Japanese typography",
+      "generous negative space"
+    ],
+    "copy": "short editorial copy, not full SEO title",
+    "composition": "article-specific composition allowed; do not force the same left/right split"
+  },
+  "outputs": {
+    "thumbnail": {
+      "width": 1200,
+      "height": 675,
+      "ratio": "16:9"
+    },
+    "ogp": {
+      "width": 1200,
+      "height": 630,
+      "ratio": "1.91:1"
+    }
+  },
+  "qc_gate": {
+    "series_consistency_min": 8,
+    "editorial_quality_min": 8,
+    "article_visual_relevance_min": 8,
+    "rev_environment_consistency_min": 8,
+    "brand_space_authenticity_min": 8,
+    "source_material_scope_pass": true,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "too_promotional": false
+  },
+  "accepted_references": [
+    {
+      "slug": "after-work-tired-strength-training",
+      "asset_version": "reference-v23-hybrid-4387-75",
+      "thumbnail": "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+      "ogp": "assets/images/blog/og/og-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+      "background_origin": "IMG_4387.MOV",
+      "frame_ratio": 0.75
+    },
+    {
+      "slug": "no-time-for-gym-starting-friction",
+      "asset_version": "reference-v23-hybrid-3978-20",
+      "thumbnail": "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg",
+      "ogp": "assets/images/blog/og/og-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg",
+      "background_origin": "IMG_3978.MOV",
+      "frame_ratio": 0.2
+    }
+  ],
+  "release_flow": [
+    "select scoped Drive source",
+    "check historical and recent-4 usage",
+    "generate hybrid editorial composition",
+    "render 1200x675 thumbnail and 1200x630 OGP",
+    "run visual QC",
+    "commit versioned assets, job and QA report to GitHub",
+    "stage assets to Xserver and verify",
+    "update Articles draft to READY",
+    "stop at Review & Publish",
+    "publish only after explicit human approval"
+  ],
+  "publish_boundary": "REVIEW_AND_PUBLISH"
+}

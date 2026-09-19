@@ -15,6 +15,7 @@ const { buildBlogMarkdown, validateDraftForPublish, categoryLabelFor, contentPat
 const github = await import('../lib/githubContent.mjs');
 const { checkPublisher, runPreflight } = await import('../lib/publishFlow.mjs');
 const { IMAGE_RENDER_VERSION, IMAGE_STYLE_TEMPLATE } = await import('../lib/editorialImage.mjs');
+const { HYBRID_IMAGE_FORMAT } = await import('../lib/editorialHybridImageFormat.mjs');
 const storage = await import('../admin/js/admin-storage.mjs');
 
 let passed = 0;
@@ -213,6 +214,77 @@ r = await runPreflight({
   articleId: 'a1'
 });
 assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', 'versioned filenameでないEditorial画像はpublish不可', JSON.stringify(r.blocker));
+
+r = await runPreflight({
+  supabase: fakeSupabase({
+    draft: {
+      ...BASE_DRAFT,
+      editorial_source: 'the-rev-editorial-ai',
+      image_status: 'READY',
+      image_asset_ready: true,
+      image_render_version: HYBRID_IMAGE_FORMAT.id,
+      image_strategy: HYBRID_IMAGE_FORMAT.strategy,
+      image_style_template: IMAGE_STYLE_TEMPLATE,
+      image_headline_short: '短いHybridコピー。',
+      image_asset_version: 'reference-v23-hybrid-test',
+      image_qa_report_path: 'editorial/image-qa/my-post-reference-v23-hybrid-test.json',
+      image_qa: {
+        pass: true,
+        series_consistency: 9,
+        editorial_quality: 9,
+        article_visual_relevance: 10,
+        rev_environment_consistency: 10,
+        brand_space_authenticity: 10,
+        source_material_scope_pass: true,
+        unknown_trainer_present: false,
+        non_customer_people_present: false,
+        customer_only_or_no_people: true,
+        expected_copy_present: true,
+        copy_legible: true,
+        too_promotional: false
+      },
+      thumbnail: '/assets/images/blog/thumb-my-post-reference-v23-hybrid-test.jpg',
+      og_image: '/assets/images/blog/og/og-my-post-reference-v23-hybrid-test.jpg'
+    }
+  }),
+  user: USER,
+  articleId: 'a1'
+});
+assert(checkOf(r, 'image_release')?.status === 'ok', 'V2.3 HybridのQC合格Draftは画像Release Gate通過', JSON.stringify(r.blocker));
+
+r = await runPreflight({
+  supabase: fakeSupabase({
+    draft: {
+      ...BASE_DRAFT,
+      editorial_source: 'the-rev-editorial-ai',
+      image_status: 'READY',
+      image_asset_ready: true,
+      image_render_version: HYBRID_IMAGE_FORMAT.id,
+      image_strategy: HYBRID_IMAGE_FORMAT.strategy,
+      image_style_template: IMAGE_STYLE_TEMPLATE,
+      image_headline_short: '短いHybridコピー。',
+      image_asset_version: 'reference-v23-hybrid-test',
+      image_qa_report_path: 'editorial/image-qa/my-post-reference-v23-hybrid-test.json',
+      image_qa: {
+        pass: true,
+        series_consistency: 9,
+        editorial_quality: 9,
+        article_visual_relevance: 10,
+        rev_environment_consistency: 10,
+        brand_space_authenticity: 10,
+        source_material_scope_pass: true,
+        unknown_trainer_present: true,
+        non_customer_people_present: false,
+        customer_only_or_no_people: true
+      },
+      thumbnail: '/assets/images/blog/thumb-my-post-reference-v23-hybrid-test.jpg',
+      og_image: '/assets/images/blog/og/og-my-post-reference-v23-hybrid-test.jpg'
+    }
+  }),
+  user: USER,
+  articleId: 'a1'
+});
+assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', '未知トレーナーありHybridはPublish Gateで拒否', JSON.stringify(r.blocker));
 
 r = await runPreflight({ supabase: fakeSupabase({ draft: null }), user: USER, articleId: 'a1' });
 assert(r.ok === false && r.blocker?.code === 'not_found', 'Draft無しは404');

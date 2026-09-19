@@ -15,6 +15,7 @@ import {
   IMAGE_RENDER_VERSION,
   IMAGE_STYLE_TEMPLATE
 } from '../../lib/editorialImage.mjs';
+import { isHybridImageFormat } from '../../lib/editorialHybridImageFormat.mjs';
 
 const IMAGE_RETRY_COOLDOWN_MS = 15 * 1000;
 
@@ -35,8 +36,7 @@ async function refreshStaleEditorialImages(supabase, id) {
     draft.image_qa_report_path;
 
   const hybridCurrent =
-    draft.image_render_version === 'rev-column-reference-v2.3-hybrid' &&
-    String(draft.image_strategy || '') === 'reference-v2-gpt-image-hybrid-drive-source' &&
+    isHybridImageFormat(draft) &&
     draft.image_style_template === IMAGE_STYLE_TEMPLATE &&
     draft.image_headline_short &&
     draft.image_qa_report_path;

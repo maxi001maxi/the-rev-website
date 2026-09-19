@@ -23,6 +23,14 @@ import {
   validateImageHeadlineShort
 } from '../lib/editorialImageCopy.mjs';
 import { REV_COLUMN_REFERENCE_V2 } from '../lib/editorialImageStyle.mjs';
+import {
+  HYBRID_IMAGE_FORMAT,
+  buildHybridImageJob,
+  hybridAssetPaths,
+  hybridGenerationBrief,
+  hybridQaReady,
+  isHybridImageFormat
+} from '../lib/editorialHybridImageFormat.mjs';
 
 let passed = 0;
 const failed = [];
@@ -177,6 +185,72 @@ assert(plan.job.recent_reference_guard.recent_articles.length === 0, '直近履�
 assert(plan.job.recent_reference_guard.historical_matching_articles.length === 0, '選択したtrainer-topには過去使用記事がない');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
 assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
+
+console.log('\n[6. Reference V2.3 Hybrid format]');
+assert(HYBRID_IMAGE_FORMAT.id === 'rev-column-reference-v2.3-hybrid', 'V2.3 Hybrid format IDを正本化');
+assert(HYBRID_IMAGE_FORMAT.strategy === 'reference-v2-gpt-image-hybrid-drive-source', 'Hybrid image strategyを正本化');
+assert(HYBRID_IMAGE_FORMAT.driveRootFolderId === '1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG', '指定DriveルートだけをContent Reference正本に固定');
+assert(HYBRID_IMAGE_FORMAT.sourcePolicy.fullDriveSearchAllowed === false, 'Drive全体検索を禁止');
+assert(HYBRID_IMAGE_FORMAT.sourcePolicy.videoFrameAllowed === true, '指定Drive動画のフレーム利用を許可');
+assert(HYBRID_IMAGE_FORMAT.generationPolicy.generatedCustomerAllowed === true, '生成人物は顧客役のみ許可');
+assert(HYBRID_IMAGE_FORMAT.generationPolicy.unknownTrainerForbidden === true, '未知トレーナー生成を禁止');
+assert(HYBRID_IMAGE_FORMAT.generationPolicy.nonCustomerPeopleForbidden === true, '顧客以外の第三者生成を禁止');
+assert(HYBRID_IMAGE_FORMAT.generationPolicy.realTheRevEnvironmentRequired === true, '実THE REV.環境を背景正本として必須化');
+assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'editorial-not-rigid-template', '固定座標テンプレではなくデザイン文法として運用');
+assert(HYBRID_IMAGE_FORMAT.output.thumbnail.width === 1200 && HYBRID_IMAGE_FORMAT.output.thumbnail.height === 675, 'Thumbnailを1200x675へ固定');
+assert(HYBRID_IMAGE_FORMAT.output.ogp.width === 1200 && HYBRID_IMAGE_FORMAT.output.ogp.height === 630, 'OGPを1200x630へ固定');
+assert(HYBRID_IMAGE_FORMAT.acceptedReferences.length >= 2, '承認済み2記事をStyle Referenceとして保持');
+assert(HYBRID_IMAGE_FORMAT.publishBoundary === 'REVIEW_AND_PUBLISH', '公開境界をReview & Publishへ固定');
+
+const hybridJob = buildHybridImageJob({
+  slug: 'sample-hybrid-article',
+  title: 'サンプル記事',
+  categoryLabel: 'BODY KNOWLEDGE',
+  columnLabel: 'COLUMN 08',
+  imageHeadlineShort: '実空間から、\n誌面をつくる。',
+  assetVersion: 'reference-v23-hybrid-sample',
+  qaReportPath: 'editorial/image-qa/sample-hybrid-article-reference-v23-hybrid-sample.json',
+  backgroundSource: {
+    cachedFrameDriveFileId: 'drive-frame-1',
+    originVideoFileId: 'video-1',
+    originVideoFileName: 'sample.mov',
+    framePositionRatio: 0.4
+  }
+});
+assert(hybridJob.render_version === HYBRID_IMAGE_FORMAT.id, 'Hybrid Jobへformat IDを保持');
+assert(hybridJob.image_strategy === HYBRID_IMAGE_FORMAT.strategy, 'Hybrid Jobへstrategyを保持');
+assert(hybridJob.policy.drive_root_folder_id === HYBRID_IMAGE_FORMAT.driveRootFolderId, 'Hybrid Jobへ指定Driveルートを保持');
+assert(hybridJob.policy.generated_customer_allowed === true && hybridJob.policy.unknown_trainer_forbidden === true, 'Hybrid Jobへ人物ルールを保持');
+assert(hybridJob.publish_requires_human_approval === true, 'Hybrid JobはHuman Reviewを必須化');
+const hybridPaths = hybridAssetPaths('sample-hybrid-article', 'reference-v23-hybrid-sample');
+assert(hybridJob.thumbnail === hybridPaths.thumbnailRepoPath && hybridJob.og_image === hybridPaths.ogRepoPath, 'Hybrid Jobのversioned asset pathを決定論的に生成');
+assert(isHybridImageFormat({ image_render_version: hybridJob.render_version, image_strategy: hybridJob.image_strategy }) === true, 'Hybrid format判定が正しい');
+const goodHybridQa = {
+  pass: true,
+  series_consistency: 9,
+  editorial_quality: 9,
+  article_visual_relevance: 10,
+  rev_environment_consistency: 10,
+  brand_space_authenticity: 10,
+  source_material_scope_pass: true,
+  unknown_trainer_present: false,
+  non_customer_people_present: false,
+  customer_only_or_no_people: true,
+  expected_copy_present: true,
+  copy_legible: true,
+  too_promotional: false
+};
+const hybridDraftForQa = { image_render_version: HYBRID_IMAGE_FORMAT.id, image_strategy: HYBRID_IMAGE_FORMAT.strategy, image_qa: goodHybridQa };
+assert(hybridQaReady(hybridDraftForQa) === true, '承認済みHybrid QCはREADY');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, unknown_trainer_present: true } }) === false, '未知トレーナーがいればHybrid QCを拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, rev_environment_consistency: 7 } }) === false, 'THE REV.環境整合が8未満なら拒否');
+const hybridBrief = hybridGenerationBrief({
+  articleTitle: 'サンプル記事',
+  editorialCopy: '実空間から、誌面をつくる。',
+  categoryLabel: 'BODY KNOWLEDGE',
+  columnLabel: 'COLUMN 08'
+});
+assert(hybridBrief.includes('未知のトレーナー') && hybridBrief.includes('固定テンプレ'), '生成Briefへ禁止事項と非固定テンプレ方針を含める');
 
 const equipmentArticle = {
   title: '筋トレの負荷はどう決める？ラックと重量設定の考え方',
