@@ -25,8 +25,6 @@ env:
   XSERVER_FTP_HOST: 'sv14602.xserver.jp'
   XSERVER_REMOTE_DIR: '/'
   PRODUCTION_URL: 'https://therev-lab.com'
-  EDITORIAL_IMAGE_MODEL: 'gpt-image-2'
-  EDITORIAL_IMAGE_QUALITY: 'high'
   EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6-luna'
 
 jobs:
@@ -52,10 +50,10 @@ jobs:
       - name: Validate automation secrets
         run: |
           set -euo pipefail
-          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY GitHub secret is required for Reference V2."; exit 1; }
+          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY GitHub secret is required for Reference V2.2 Vision QA."; exit 1; }
           test -n "${XSERVER_FTP_USER:-}" || { echo "::error::XSERVER_FTP_USER is required."; exit 1; }
           test -n "${XSERVER_FTP_PASSWORD:-}" || { echo "::error::XSERVER_FTP_PASSWORD is required."; exit 1; }
-          echo "Reference V2 secrets: configured"
+          echo "Reference V2.2 source-lock secrets: configured"
 
       - name: Install render dependencies
         run: |
@@ -73,22 +71,173 @@ jobs:
           set -euo pipefail
           : > .render-jobs
 
-          render_all=0
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            render_all=1
-          elif [ -z "${EVENT_BEFORE:-}" ] || [ "$EVENT_BEFORE" = "0000000000000000000000000000000000000000" ]; then
-            render_all=1
-          else
-            core_changes="$(git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" --               scripts/generate-editorial-image.mjs               scripts/render-blog-image.mjs               scripts/qa-editorial-image.mjs               lib/editorialImage.mjs               lib/editorialImageStyle.mjs               lib/editorialImageCopy.mjs               .github/workflows/render-editorial-images.yml || true)"
-            if [ -n "$core_changes" ]; then
-              render_all=1
-            fi
+            while IFS= read -r job; do
+              [ -z "$job" ] && continue
+              if [ "$(jq -r '.render_mode // ""' "$job")" = "source-photo-lock-v1" ]; then
+                printf '%s\n' "$job" >> .render-jobs
+              fi
+            done < <(find editorial/image-jobs -maxdepth 1 -type f -name '*.json' | sort)
+          elif [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            while IFS= read -r job; do
+              [ -z "$job" ] && continue
+              [ -f "$job" ] || continue
+              if [ "$(jq -r '.render_mode // ""' "$job")" = "source-photo-lock-v1" ]; then
+                printf '%s\n' "$job" >> .render-jobs
+              fi
+            done < <(git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" -- 'editorial/image-jobs/*.json' \
+              | grep -E '^editorial/image-jobs/[^/]+\.json
+
+          echo "Selected jobs:"
+          cat .render-jobs || true
+
+      - name: Render source-locked photos and brand-QA images
+        run: |
+          set -euo pipefail
+          : > .rendered-image-paths
+          : > .rendered-qa-paths
+
+          if [ ! -s .render-jobs ]; then
+            echo "No source-photo-lock editorial image jobs selected."
+            exit 0
           fi
 
-          if [ "$render_all" = "1" ]; then
-            find editorial/image-jobs -maxdepth 1 -type f -name '*.json' | sort > .render-jobs
+          while IFS= read -r job; do
+            [ -z "$job" ] && continue
+            echo "Reference V2.2 source-lock job: $job"
+
+            mode="$(jq -r '.render_mode // ""' "$job")"
+            [ "$mode" = "source-photo-lock-v1" ] || {
+              echo "::error::Refusing non-source-lock job: $job"
+              exit 1
+            }
+
+            node scripts/render-blog-image.mjs "$job"
+            if ! node scripts/qa-editorial-image.mjs "$job"; then
+              echo "::error::Reference V2.2 source-photo fidelity / Brand QA failed: $job"
+              exit 1
+            fi
+            echo "Source-photo fidelity + Brand QA PASS"
+
+            slug="$(jq -r '.slug' "$job")"
+            version="$(jq -r '.asset_version' "$job")"
+            qa_path="$(jq -r '.qa_report_path' "$job")"
+            thumb="assets/images/blog/thumb-${slug}-${version}.jpg"
+            og="assets/images/blog/og/og-${slug}-${version}.jpg"
+
+            test -f "$thumb"
+            test -f "$og"
+            test -f "$qa_path"
+
+            printf '%s\n' "$thumb" "$og" >> .rendered-image-paths
+            printf '%s\n' "$qa_path" >> .rendered-qa-paths
+          done < .render-jobs
+
+          sort -u .rendered-image-paths -o .rendered-image-paths
+          sort -u .rendered-qa-paths -o .rendered-qa-paths
+
+      - name: Commit Reference V2 assets and QA
+        id: commit_assets
+        run: |
+          set -euo pipefail
+
+          if [ ! -s .rendered-image-paths ]; then
+            echo "No rendered images to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git config user.name "THE REV Editorial Bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .rendered-image-paths
+          while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .rendered-qa-paths
+
+          if git diff --cached --quiet; then
+            echo "Reference V2 assets already match."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" -- 'editorial/image-jobs/*.json'               | grep -E '^editorial/image-jobs/[^/]+\.json$'               | sort -u > .render-jobs || true
+            git commit -m "Editorial Reference V2.2 source-locked images"
+            git push origin main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stage rendered images to Xserver
+        if: always() && success()
+        run: |
+          set -euo pipefail
+
+          if [ ! -s .rendered-image-paths ]; then
+            echo "No images to stage."
+            exit 0
+          fi
+
+          COMMANDS="$(mktemp)"
+          {
+            echo "set ftp:ssl-force true"
+            echo "set ftp:ssl-protect-data true"
+            echo "set ftp:passive-mode true"
+            echo "set ssl:verify-certificate yes"
+            echo "set net:max-retries 5"
+            echo "set net:timeout 30"
+            echo "set net:reconnect-interval-base 5"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog/og"
+            while IFS= read -r p; do
+              [ -z "$p" ] && continue
+              echo "put \"$p\" -o \"${XSERVER_REMOTE_DIR}$p\""
+            done < .rendered-image-paths
+            echo "bye"
+          } > "$COMMANDS"
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" < "$COMMANDS"
+          rm -f "$COMMANDS"
+
+      - name: Verify staged images are publicly byte-identical
+        if: always() && success()
+        run: |
+          set -euo pipefail
+
+          if [ ! -s .rendered-image-paths ]; then
+            echo "No images to verify."
+            exit 0
+          fi
+
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+          CACHE_BUST="reference-v2=${GITHUB_RUN_ID}"
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+
+            live_file="$TMP_DIR/$(basename "$image_path")"
+            local_sha="$(sha256sum "$image_path" | awk '{print $1}')"
+            ready=0
+
+            for attempt in $(seq 1 20); do
+              code="$(curl -sS -L -o "$live_file" -w '%{http_code}'                 --connect-timeout 8 --max-time 25                 "${PRODUCTION_URL}/${image_path}?${CACHE_BUST}&attempt=${attempt}" || echo '000')"
+
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "Reference V2 image ready ${attempt}/20: /${image_path}"
+                  ready=1
+                  break
+                fi
+              fi
+
+              echo "Waiting for /${image_path} (${attempt}/20, HTTP ${code})"
+              sleep 15
+            done
+
+            if [ "$ready" != "1" ]; then
+              echo "::error::Reference V2 image did not become publicly byte-identical: /${image_path}"
+              exit 1
+            fi
+          done < .rendered-image-paths
+
+          echo "Reference V2.2 source-locked assets are staged and publicly ready."
+ | sort -u || true)
           fi
 
           echo "Selected jobs:"
