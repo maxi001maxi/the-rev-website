@@ -107,10 +107,12 @@ export default async function handler(req, res) {
     }
   }
 
-  // Phase 10 Classic: one deterministic rendering route.
-  // The Bridge prepares a versioned image job and stores the expected paths.
-  // GitHub Actions renders/stages the assets; Review finalizes READY only after
-  // those exact assets are live on Xserver.
+  // Phase 10 Reference V2: one reference-based rendering route.
+  // The Bridge prepares a versioned job containing the five approved style
+  // references + one authentic THE REV. content reference. GitHub Actions
+  // generates the visual design with GPT Image, overlays exact Japanese text,
+  // runs brand QA, stages the assets, and Review finalizes READY only after
+  // the exact assets + QA report are live/available.
   let imageInfo = null;
   try {
     imageInfo = await prepareEditorialImageJob({
@@ -140,7 +142,7 @@ export default async function handler(req, res) {
     if (e instanceof EditorialImageError) {
       return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
     }
-    return send(res, 502, 'image_automation_failed', '旧5記事準拠のThumbnail / OGP準備中に予期しないエラーが発生しました。');
+    return send(res, 502, 'image_automation_failed', 'Reference V2のThumbnail / OGP準備中に予期しないエラーが発生しました。');
   }
 
   const thumbnail = imageInfo.thumbnail;
@@ -166,6 +168,10 @@ export default async function handler(req, res) {
     image_series_label: imageInfo.seriesLabel || null,
     image_asset_version: imageInfo.assetVersion || null,
     image_job_path: imageInfo.jobPath || null,
+    image_qa_report_path: imageInfo.qaReportPath || null,
+    image_generation_model: imageInfo.generationModel || null,
+    image_qa_model: imageInfo.qaModel || null,
+    image_brand_qa_score: null,
     image_last_error: null
   };
   const metadata = normalizeBridgeMetadata(body);
@@ -243,6 +249,10 @@ export default async function handler(req, res) {
       image_series_label: article.image_series_label || null,
       image_asset_version: article.image_asset_version || null,
       image_job_path: article.image_job_path || null,
+      image_qa_report_path: article.image_qa_report_path || null,
+      image_generation_model: article.image_generation_model || null,
+      image_qa_model: article.image_qa_model || null,
+      image_brand_qa_score: article.image_brand_qa_score ?? null,
       image_qa: article.image_qa || null,
       image_attempts: article.image_attempts || null
     },
