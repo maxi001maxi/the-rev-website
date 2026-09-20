@@ -27,8 +27,7 @@ const PAGES = [
   { name: 'push', url: '/blog/training-how-hard-to-push/' },
   { name: 'trial', url: '/blog/personal-gym-trial-checkpoints/' },
   { name: 'boxing', url: '/blog/boxing-beginner-first-step/' },
-  { name: 'recovery', url: '/blog/oxygen-room-what-is-it/' },
-  { name: 'after-work', url: '/blog/after-work-tired-strength-training/' }
+  { name: 'recovery', url: '/blog/oxygen-room-what-is-it/' }
 ];
 
 const LITE = process.env.LITE_DIR || 'qa-lite';
