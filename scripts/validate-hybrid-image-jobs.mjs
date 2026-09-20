@@ -69,6 +69,11 @@ function validateFormatMirror() {
   assertEqual(machine.validator, HYBRID_IMAGE_FORMAT.validatorScript, 'validator path drift');
   assertEqual(machine.style_template, HYBRID_IMAGE_FORMAT.styleTemplate, 'machine style_template drift');
   assertEqual(machine.image_strategy, HYBRID_IMAGE_FORMAT.strategy, 'machine image_strategy drift');
+  assertEqual(
+    JSON.stringify(machine.design_reference_assets),
+    JSON.stringify(HYBRID_IMAGE_FORMAT.designReferenceAssets),
+    'design reference assets drift'
+  );
   assertEqual(machine.source_of_truth.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'Drive root drift');
   assertEqual(machine.source_of_truth.full_drive_search, false, 'full Drive search must stay disabled');
   assertEqual(machine.source_of_truth.recent_reference_window, HYBRID_IMAGE_FORMAT.recentReferenceWindow, 'recent-reference window drift');
@@ -77,6 +82,9 @@ function validateFormatMirror() {
   assertEqual(machine.outputs.thumbnail.height, HYBRID_IMAGE_FORMAT.output.thumbnail.height, 'thumbnail height drift');
   assertEqual(machine.outputs.ogp.width, HYBRID_IMAGE_FORMAT.output.ogp.width, 'OGP width drift');
   assertEqual(machine.outputs.ogp.height, HYBRID_IMAGE_FORMAT.output.ogp.height, 'OGP height drift');
+  assertEqual(machine.qc_gate.typography_harmony_min, HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony, 'typography QC drift');
+  assertEqual(machine.qc_gate.negative_space_min, HYBRID_IMAGE_FORMAT.qc.minNegativeSpace, 'negative-space QC drift');
+  assertEqual(machine.qc_gate.photo_treatment_min, HYBRID_IMAGE_FORMAT.qc.minPhotoTreatment, 'photo-treatment QC drift');
 }
 
 function validateJob(jobPath) {
@@ -89,7 +97,14 @@ function validateJob(jobPath) {
   assertEqual(job.render_version, HYBRID_IMAGE_FORMAT.id, `${name}: render_version drift`);
   assertEqual(job.image_strategy, HYBRID_IMAGE_FORMAT.strategy, `${name}: image_strategy drift`);
   assertEqual(job.image_style_template, HYBRID_IMAGE_FORMAT.styleTemplate, `${name}: image_style_template drift`);
+  assertEqual(job.generation_model, HYBRID_IMAGE_FORMAT.generationModel, `${name}: generation model drift`);
+  assertEqual(job.qa_model, HYBRID_IMAGE_FORMAT.qaModel, `${name}: QA model drift`);
   assertEqual(job.publish_requires_human_approval, true, `${name}: human publish boundary removed`);
+  assertEqual(
+    JSON.stringify(job.style_references || []),
+    JSON.stringify(HYBRID_IMAGE_FORMAT.designReferenceAssets),
+    `${name}: approved style references missing or reordered`
+  );
 
   assertEqual(job.policy?.source_scope, HYBRID_IMAGE_FORMAT.sourcePolicy.scope, `${name}: source_scope drift`);
   assertEqual(job.policy?.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, `${name}: Drive root drift`);
@@ -162,6 +177,9 @@ function validateJob(jobPath) {
     qc: {
       series: qa.series_consistency,
       editorial: qa.editorial_quality,
+      typography: qa.typography_harmony,
+      negativeSpace: qa.negative_space,
+      photoTreatment: qa.photo_treatment,
       relevance: qa.article_visual_relevance,
       revEnvironment: qa.rev_environment_consistency,
       brandSpace: qa.brand_space_authenticity
@@ -182,6 +200,6 @@ const results = jobs.map((name) => validateJob(path.join(JOB_DIR, name)));
 console.log(`V2.3 Hybrid format validation: PASS (${results.length} jobs)`);
 for (const r of results) {
   console.log(
-    `- ${r.slug}: ${r.assetVersion} / thumb ${r.thumbnail.width}x${r.thumbnail.height} / OGP ${r.ogp.width}x${r.ogp.height} / QC ${r.qc.series}/${r.qc.editorial}/${r.qc.relevance}/${r.qc.revEnvironment}/${r.qc.brandSpace}`
+    `- ${r.slug}: ${r.assetVersion} / thumb ${r.thumbnail.width}x${r.thumbnail.height} / OGP ${r.ogp.width}x${r.ogp.height} / QC ${r.qc.series}/${r.qc.editorial}/${r.qc.typography}/${r.qc.negativeSpace}/${r.qc.photoTreatment}/${r.qc.relevance}/${r.qc.revEnvironment}/${r.qc.brandSpace}`
   );
 }
