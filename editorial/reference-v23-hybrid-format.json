@@ -55,6 +55,9 @@
   "qc_gate": {
     "series_consistency_min": 8,
     "editorial_quality_min": 8,
+    "typography_harmony_min": 8,
+    "negative_space_min": 8,
+    "photo_treatment_min": 8,
     "article_visual_relevance_min": 8,
     "rev_environment_consistency_min": 8,
     "brand_space_authenticity_min": 8,
@@ -87,6 +90,7 @@
   "release_flow": [
     "select scoped Drive source",
     "check historical and recent-4 usage",
+    "use approved V2.3 Hybrid cards as style references",
     "generate hybrid editorial composition",
     "render 1200x675 thumbnail and 1200x630 OGP",
     "run visual QC",
@@ -100,5 +104,9 @@
   "activation_mode": "gpt-operator-orchestrated",
   "fallback_before_hybrid_ready": "reference-v2.2-source-lock",
   "job_template": "editorial/hybrid-image-jobs/_template.json",
-  "validator": "scripts/validate-hybrid-image-jobs.mjs"
+  "validator": "scripts/validate-hybrid-image-jobs.mjs",
+  "design_reference_assets": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ]
 }
