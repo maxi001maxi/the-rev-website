@@ -361,6 +361,17 @@ assert(
   HYBRID_IMAGE_FORMAT.output.thumbnail.height === 675,
   '画像生成側Thumbnail正本も1200x675を維持'
 );
+const blogIndexTemplateSource = fs.readFileSync(new URL('../templates/blog-index.html', import.meta.url), 'utf8');
+const blogPostTemplateSource = fs.readFileSync(new URL('../templates/blog-post.html', import.meta.url), 'utf8');
+assert(
+  blogIndexTemplateSource.includes('/assets/css/blog.css?v={{BLOG_CSS_VERSION}}') &&
+  blogPostTemplateSource.includes('/assets/css/blog.css?v={{BLOG_CSS_VERSION}}'),
+  'Blog CSSは内容ハッシュ付きURLでブラウザキャッシュを更新'
+);
+assert(
+  buildBlogSource.includes("createHash('sha256')") && buildBlogSource.includes('BLOG_CSS_VERSION'),
+  'BlogビルドでCSS内容ハッシュを生成'
+);
 
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
