@@ -1,6 +1,6 @@
 {
   "format_id": "rev-column-reference-v2.3-hybrid",
-  "status": "ACTIVE_DEFAULT",
+  "status": "ACTIVE_STANDARD",
   "style_template": "rev-column-reference-v2",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
   "source_of_truth": {
@@ -96,5 +96,9 @@
     "stop at Review & Publish",
     "publish only after explicit human approval"
   ],
-  "publish_boundary": "REVIEW_AND_PUBLISH"
+  "publish_boundary": "REVIEW_AND_PUBLISH",
+  "activation_mode": "gpt-operator-orchestrated",
+  "fallback_before_hybrid_ready": "reference-v2.2-source-lock",
+  "job_template": "editorial/hybrid-image-jobs/_template.json",
+  "validator": "scripts/validate-hybrid-image-jobs.mjs"
 }
