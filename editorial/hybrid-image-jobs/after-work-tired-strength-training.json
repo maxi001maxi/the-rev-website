@@ -31,5 +31,9 @@
     "treatment": "real THE REV source; editorial soften/blur/depth allowed"
   },
   "generation_model": "gpt-image-hybrid",
-  "qa_model": "gpt-5.6-sol-visual-qc"
+  "qa_model": "gpt-5.6-sol-visual-qc",
+  "style_references": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ]
 }
