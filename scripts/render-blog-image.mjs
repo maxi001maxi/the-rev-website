@@ -78,9 +78,9 @@ function html({ width, height, og = false }) {
   const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
   // V2.1: group the small label and headline into the same editorial block.
   // The approved masters place this block noticeably lower than the first V2 render.
-  const top = og ? 165 : 210;
+  const top = og ? 165 : 177;
   const left = og ? 76 : 80;
-  const headlineTop = og ? 252 : 320;
+  const headlineTop = og ? 252 : 270;
   const maxWidth = og ? 480 : 500;
   const hairlineWidth = og ? 160 : 180;
 

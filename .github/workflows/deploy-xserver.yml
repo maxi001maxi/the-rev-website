@@ -475,6 +475,39 @@ jobs:
 
           fetch_page "Blog index" "${PRODUCTION_URL}/blog/?${CACHE_BUST}" "$TMP_DIR/blog.html"
 
+          BLOG_CSS_URL="$(grep -oE '/assets/css/blog\.css\?v=[a-f0-9]{12}' "$TMP_DIR/blog.html" | head -n1 || true)"
+          if [ -z "$BLOG_CSS_URL" ]; then
+            echo "::error::本番Blog HTMLにfingerprint付きblog.cssがありません。"
+            echo "| Blog CSS fingerprint | ❌ missing |" >> "$SUMMARY"
+            FAIL=1
+          else
+            CSS_LIVE="$TMP_DIR/blog.css"
+            CSS_CODE=$(curl -sS -L -o "$CSS_LIVE" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}${BLOG_CSS_URL}&${CACHE_BUST}" || echo '000')
+            if [ "$CSS_CODE" != "200" ]; then
+              echo "::error::本番blog.cssがHTTP ${CSS_CODE}です: ${BLOG_CSS_URL}"
+              echo "| Blog CSS live | ❌ HTTP ${CSS_CODE} |" >> "$SUMMARY"
+              FAIL=1
+            else
+              LIVE_CSS_SHA="$(sha256sum "$CSS_LIVE" | awk '{print $1}')"
+              LOCAL_CSS_SHA="$(sha256sum dist/assets/css/blog.css | awk '{print $1}')"
+              if [ "$LIVE_CSS_SHA" != "$LOCAL_CSS_SHA" ]; then
+                echo "::error::本番blog.cssが今回のdistと一致しません。"
+                echo "| Blog CSS bytes | ❌ SHA256 mismatch |" >> "$SUMMARY"
+                FAIL=1
+              elif ! grep -qF 'aspect-ratio:16/9' "$CSS_LIVE"; then
+                echo "::error::本番blog.cssに16:9カード指定がありません。"
+                echo "| Blog card ratio CSS | ❌ missing 16:9 |" >> "$SUMMARY"
+                FAIL=1
+              else
+                echo "| Blog CSS fingerprint | ✅ ${BLOG_CSS_URL} |" >> "$SUMMARY"
+                echo "| Blog CSS bytes | ✅ exact match |" >> "$SUMMARY"
+                echo "| Blog card ratio CSS | ✅ 16:9 |" >> "$SUMMARY"
+              fi
+            fi
+          fi
+
           while IFS= read -r image_path; do
             [ -z "$image_path" ] && continue
             image_label="${image_path#/}"

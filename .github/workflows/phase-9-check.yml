@@ -10,6 +10,8 @@ on:
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
       - 'assets/css/blog.css'
+      - 'templates/blog-index.html'
+      - 'templates/blog-post.html'
       - '.github/qa/visual-qa.mjs'
       - 'scripts/generate-editorial-image.mjs'
       - 'scripts/render-blog-image.mjs'
