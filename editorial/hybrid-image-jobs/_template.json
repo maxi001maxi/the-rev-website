@@ -34,5 +34,9 @@
     "origin_video_file_name": "",
     "frame_position_ratio": null,
     "treatment": "real THE REV source; editorial soften/blur/depth allowed"
-  }
+  },
+  "style_references": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ]
 }
