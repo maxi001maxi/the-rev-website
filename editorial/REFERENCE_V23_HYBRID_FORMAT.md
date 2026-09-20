@@ -7,7 +7,9 @@
 重要なのは、**固定テンプレートへの文字流し込みではなく「デザイン文法」を固定すること**です。毎回まったく同じ左右分割にするのではなく、記事内容に合わせて構図は変えてよい一方、THE REV.の実空間・誌面感・人物ルール・QC基準は変えません。
 
 正本コード: `lib/editorialHybridImageFormat.mjs`  
-機械可読仕様: `editorial/reference-v23-hybrid-format.json`
+機械可読仕様: `editorial/reference-v23-hybrid-format.json`  
+Jobテンプレート: `editorial/hybrid-image-jobs/_template.json`  
+自動検証: `npm run test:hybrid-images`
 
 ## 1. 素材選定
 
@@ -154,3 +156,48 @@ Publish
 10. Review & Publishで停止すること
 
 このフォーマットの目的は、**「嘘のないTHE REV.空間」と「毎回ちゃんとデザインされた誌面感」を両立すること**です。
+
+
+## 9. 再利用時の実行フォーマット
+
+今後の記事では、画像制作担当AIは `_template.json` を複製する考え方でJobを組み立てます。毎回ゼロから命名・QC項目・公開境界を考え直しません。
+
+1. 記事内容から短いEditorial Copyを決定
+2. 指定Driveルートの画像在庫から候補を選定
+3. 過去利用履歴と直近4記事を確認
+4. 静止画、または必要時のみ動画フレームをContent Referenceに確定
+5. `hybridGenerationBrief()` のデザイン文法でGPT Image Hybridを生成
+6. Thumbnail 1200×675 / OGP 1200×630へ確定
+7. Visual QCを実行
+8. versioned assets / Hybrid Job / QA reportをGitHubへ保存
+9. `npm run test:hybrid-images` でフォーマット、寸法、provenance、QCを自動検証
+10. Articles DraftをREADYへ反映し、Review & Publishで停止
+
+### Jobで必ず保持する情報
+
+- slug / article_title
+- Editorial Copy
+- CATEGORY / COLUMN
+- asset_version
+- Driveルート
+- 元素材のDrive File ID
+- 動画の場合は元動画ID・ファイル名・フレーム位置
+- 顧客生成の可否
+- 未知トレーナー禁止
+- THE REV.実空間必須
+- QA report path
+- Human Publish必須
+
+これにより「今回たまたま良い画像ができた」ではなく、**同じ判断方法を次の記事でも再現できる**状態にします。
+
+## 10. 自動化境界
+
+V2.3 Hybridは今後の**標準ターゲット**です。ただし、GitHub/Vercelだけで勝手に架空の画像を量産しないよう、画像生成そのものは `gpt-operator-orchestrated` とします。
+
+- GPT側が指定Drive素材を実際に確認してからHybrid画像を作る
+- Hybrid完成前は安全なV2.2 source-lockをフォールバックとして利用可能
+- 一度QC合格したV2.3 Hybridは本文再同期やReview表示でV2.2へ巻き戻さない
+- Hybrid Jobの変更はCIで `test:hybrid-images` を通す
+- Publishだけは引き続き人間の `Review & Publish` 承認を必要とする
+
+つまり、**デザインは柔軟、素材範囲・人物ルール・QC・公開境界は固定**が正本です。
