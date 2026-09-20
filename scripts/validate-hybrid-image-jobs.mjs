@@ -62,6 +62,11 @@ function assertTrue(value, message) {
 function validateFormatMirror() {
   const machine = readJson(FORMAT_JSON);
   assertEqual(machine.format_id, HYBRID_IMAGE_FORMAT.id, 'machine format_id drift');
+  assertEqual(machine.status, HYBRID_IMAGE_FORMAT.status, 'machine status drift');
+  assertEqual(machine.activation_mode, HYBRID_IMAGE_FORMAT.activationMode, 'activation mode drift');
+  assertEqual(machine.fallback_before_hybrid_ready, HYBRID_IMAGE_FORMAT.fallbackBeforeHybridReady, 'fallback route drift');
+  assertEqual(machine.job_template, HYBRID_IMAGE_FORMAT.jobTemplatePath, 'job template path drift');
+  assertEqual(machine.validator, HYBRID_IMAGE_FORMAT.validatorScript, 'validator path drift');
   assertEqual(machine.style_template, HYBRID_IMAGE_FORMAT.styleTemplate, 'machine style_template drift');
   assertEqual(machine.image_strategy, HYBRID_IMAGE_FORMAT.strategy, 'machine image_strategy drift');
   assertEqual(machine.source_of_truth.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'Drive root drift');
