@@ -9,6 +9,7 @@ on:
       - 'scripts/test-phase-9.mjs'
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
+      - 'assets/css/blog.css'
       - 'scripts/generate-editorial-image.mjs'
       - 'scripts/render-blog-image.mjs'
       - 'scripts/qa-editorial-image.mjs'
