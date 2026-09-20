@@ -1,4 +1,5 @@
 // THE REV. Phase 9/10 — Editorial AI bridge safety tests
+import fs from 'node:fs';
 import {
   bridgeConfig,
   computeEditorialSyncHash,
@@ -339,6 +340,27 @@ assert(selectBrandImageSource(equipmentArticle) === 'assets/images/photo-evolgea
 const imgPaths = imagePathsForSlug(fatigueArticle.slug, plan.assetVersion);
 assert(imgPaths.thumbnailPublicPath === plan.thumbnail, 'Thumbnail公開パスをplanと一致');
 assert(imgPaths.ogPublicPath === plan.ogImage, 'OGP公開パスをplanと一致');
+
+console.log('\n[7. Blog image ratio contract]');
+const blogCssSource = fs.readFileSync(new URL('../assets/css/blog.css', import.meta.url), 'utf8');
+const buildBlogSource = fs.readFileSync(new URL('./build-blog.mjs', import.meta.url), 'utf8');
+assert(
+  /\.blog-card-media\{\s*aspect-ratio:16\/9;/.test(blogCssSource),
+  'Blog一覧カードをHybrid Thumbnail正本16:9へ固定'
+);
+assert(
+  buildBlogSource.includes('width="640" height="360"'),
+  'Blog一覧imgのintrinsic寸法を16:9へ固定'
+);
+assert(
+  buildBlogSource.includes('width="1200" height="675"'),
+  'Blog記事Heroのintrinsic寸法を16:9へ固定'
+);
+assert(
+  HYBRID_IMAGE_FORMAT.output.thumbnail.width === 1200 &&
+  HYBRID_IMAGE_FORMAT.output.thumbnail.height === 675,
+  '画像生成側Thumbnail正本も1200x675を維持'
+);
 
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
