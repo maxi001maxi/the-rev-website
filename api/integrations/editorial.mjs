@@ -14,6 +14,10 @@ import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
 import { prepareEditorialImageJob, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
 import {
+  hybridImageInfoFromDraft,
+  shouldPreserveHybridImageOnEditorialSync
+} from '../../lib/editorialHybridImageFormat.mjs';
+import {
   BRIDGE_SOURCE,
   bridgeConfig,
   computeEditorialSyncHash,
@@ -107,26 +111,34 @@ export default async function handler(req, res) {
     }
   }
 
-  // Phase 10 Reference V2: one reference-based rendering route.
-  // The Bridge prepares a versioned job containing the five approved style
-  // references + one authentic THE REV. content reference. GitHub Actions
-  // generates the visual design with GPT Image, overlays exact Japanese text,
-  // runs brand QA, stages the assets, and Review finalizes READY only after
-  // the exact assets + QA report are live/available.
+  // Phase 10 image sync:
+  // - Approved Reference V2.3 Hybrid assets are durable. A routine Editorial
+  //   text re-sync must not silently downgrade them back to V2.2.
+  // - If the article identity or explicit image copy changes, the Bridge falls
+  //   back to the safe V2.2 preparation route until a new Hybrid asset is made.
+  const preserveHybrid = shouldPreserveHybridImageOnEditorialSync(article, {
+    slug: normalized.value.slug,
+    title: normalized.value.title,
+    category: normalized.value.category,
+    imageHeadlineShort: body.image_headline_short
+  });
+
   let imageInfo = null;
   try {
-    imageInfo = await prepareEditorialImageJob({
-      title: normalized.value.title,
-      slug: normalized.value.slug,
-      description: normalized.value.description,
-      category: normalized.value.category,
-      bodyMarkdown: normalized.value.body_markdown,
-      primaryQuery: body.primary_query,
-      imageHeadlineShort: body.image_headline_short,
-      imageCategoryLabel: body.image_category_label,
-      imageSeriesLabel: body.image_series_label,
-      sourceImage: body.image_source_path
-    });
+    imageInfo = preserveHybrid
+      ? hybridImageInfoFromDraft(article)
+      : await prepareEditorialImageJob({
+          title: normalized.value.title,
+          slug: normalized.value.slug,
+          description: normalized.value.description,
+          category: normalized.value.category,
+          bodyMarkdown: normalized.value.body_markdown,
+          primaryQuery: body.primary_query,
+          imageHeadlineShort: body.image_headline_short,
+          imageCategoryLabel: body.image_category_label,
+          imageSeriesLabel: body.image_series_label,
+          sourceImage: body.image_source_path
+        });
   } catch (e) {
     if (article?.id) {
       await supabase
@@ -153,15 +165,16 @@ export default async function handler(req, res) {
     thumbnail,
     og_image: ogImage
   };
+  const preservedHybridReady = preserveHybrid && imageInfo.preserveReady === true;
   const imageState = {
-    image_status: 'PREPARING',
+    image_status: preservedHybridReady ? 'READY' : 'PREPARING',
     image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,
     image_strategy: imageInfo.strategy || null,
     image_source_path: imageInfo.sourcePath || null,
-    image_asset_ready: false,
+    image_asset_ready: preservedHybridReady,
     image_checked_at: new Date().toISOString(),
     image_qa: imageInfo.qa || null,
-    image_attempts: null,
+    image_attempts: preservedHybridReady ? imageInfo.attempts : null,
     image_style_template: imageInfo.styleTemplate || null,
     image_headline_short: imageInfo.imageHeadlineShort || null,
     image_category_label: imageInfo.categoryLabel || null,
@@ -171,7 +184,7 @@ export default async function handler(req, res) {
     image_qa_report_path: imageInfo.qaReportPath || null,
     image_generation_model: imageInfo.generationModel || null,
     image_qa_model: imageInfo.qaModel || null,
-    image_brand_qa_score: null,
+    image_brand_qa_score: preservedHybridReady ? imageInfo.brandQaScore : null,
     image_last_error: null
   };
   const metadata = normalizeBridgeMetadata(body);

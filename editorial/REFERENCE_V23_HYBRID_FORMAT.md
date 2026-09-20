@@ -127,7 +127,7 @@ Review & Publish
 Publish
 ```
 
-## 7. Reviewの安全境界
+## 7. Review / Re-syncの安全境界
 
 `Review & Publish` を開いただけでは公開しません。
 
@@ -135,6 +135,10 @@ Publish
 - Reviewは画像・本文・Thumbnail・OGP・QCを確認する場所
 - Publishボタン操作は人間承認
 - 公開後はGitHub Markdownを正本とする
+- Editorial AIから本文だけ再同期されても、記事タイトル・slug・category・明示画像コピーが変わっていなければ承認済みHybrid画像を保持する
+- 記事タイトル・category・明示画像コピーが変わり、画像の意味が変わる可能性がある場合は既存Hybridを自動流用しない
+
+このルールにより、本文の軽微な修正だけでせっかく承認したV2.3 Hybrid画像がV2.2へ巻き戻ることを防ぎます。
 
 ## 8. 今後の制作時にAIへ渡す要点
 

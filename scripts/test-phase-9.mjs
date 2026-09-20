@@ -28,8 +28,10 @@ import {
   buildHybridImageJob,
   hybridAssetPaths,
   hybridGenerationBrief,
+  hybridImageInfoFromDraft,
   hybridQaReady,
-  isHybridImageFormat
+  isHybridImageFormat,
+  shouldPreserveHybridImageOnEditorialSync
 } from '../lib/editorialHybridImageFormat.mjs';
 
 let passed = 0;
@@ -244,6 +246,58 @@ const hybridDraftForQa = { image_render_version: HYBRID_IMAGE_FORMAT.id, image_s
 assert(hybridQaReady(hybridDraftForQa) === true, '承認済みHybrid QCはREADY');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, unknown_trainer_present: true } }) === false, '未知トレーナーがいればHybrid QCを拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, rev_environment_consistency: 7 } }) === false, 'THE REV.環境整合が8未満なら拒否');
+
+const readyHybridDraft = {
+  ...hybridDraftForQa,
+  slug: 'sample-hybrid-article',
+  title: 'サンプル記事',
+  category: 'body-knowledge',
+  image_status: 'READY',
+  image_asset_ready: true,
+  image_headline_short: '実空間から、\n誌面をつくる。',
+  image_style_template: HYBRID_IMAGE_FORMAT.styleTemplate,
+  image_source_path: 'assets/images/editorial-source/drive/sample.jpg',
+  image_asset_version: 'reference-v23-hybrid-sample',
+  image_job_path: 'editorial/hybrid-image-jobs/sample-hybrid-article.json',
+  image_qa_report_path: 'editorial/image-qa/sample-hybrid-article-reference-v23-hybrid-sample.json',
+  image_generation_model: HYBRID_IMAGE_FORMAT.generationModel,
+  image_qa_model: HYBRID_IMAGE_FORMAT.qaModel,
+  image_brand_qa_score: 9,
+  thumbnail: '/assets/images/blog/thumb-sample-hybrid-article-reference-v23-hybrid-sample.jpg',
+  og_image: '/assets/images/blog/og/og-sample-hybrid-article-reference-v23-hybrid-sample.jpg'
+};
+assert(
+  shouldPreserveHybridImageOnEditorialSync(readyHybridDraft, {
+    slug: readyHybridDraft.slug,
+    title: readyHybridDraft.title,
+    category: readyHybridDraft.category
+  }) === true,
+  'Editorial本文の再同期では承認済みHybrid画像を保持'
+);
+assert(
+  shouldPreserveHybridImageOnEditorialSync(readyHybridDraft, {
+    slug: readyHybridDraft.slug,
+    title: '画像意味が変わる別タイトル',
+    category: readyHybridDraft.category
+  }) === false,
+  '記事タイトルが変わればHybrid画像を自動保持しない'
+);
+assert(
+  shouldPreserveHybridImageOnEditorialSync(readyHybridDraft, {
+    slug: readyHybridDraft.slug,
+    title: readyHybridDraft.title,
+    category: readyHybridDraft.category,
+    imageHeadlineShort: '別の画像コピー'
+  }) === false,
+  '明示画像コピー変更時はHybrid画像を自動保持しない'
+);
+const preservedHybridInfo = hybridImageInfoFromDraft(readyHybridDraft);
+assert(
+  preservedHybridInfo.preserveReady === true &&
+  preservedHybridInfo.thumbnail === readyHybridDraft.thumbnail &&
+  preservedHybridInfo.assetVersion === readyHybridDraft.image_asset_version,
+  '既存Hybrid DraftからREADY imageInfoを再構成'
+);
 const hybridBrief = hybridGenerationBrief({
   articleTitle: 'サンプル記事',
   editorialCopy: '実空間から、誌面をつくる。',
