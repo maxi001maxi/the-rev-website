@@ -220,7 +220,7 @@ function findRelated(article, all) {
 
 function articleCardHtml(article, placement) {
   const thumb = article.thumbnail
-    ? `<div class="blog-card-media"><img src="${escapeHtml(article.thumbnail)}" alt="" width="640" height="427" loading="lazy" decoding="async"></div>`
+    ? `<div class="blog-card-media"><img src="${escapeHtml(article.thumbnail)}" alt="" width="640" height="360" loading="lazy" decoding="async"></div>`
     : '';
   return `<article class="blog-card">
 <a class="blog-card-link" href="/blog/${article.slug}/" data-track="article_click" data-placement="${placement}" data-article-slug="${article.slug}">
@@ -363,7 +363,7 @@ function buildArticlePages(published, all, postTemplate) {
       : '';
 
     const heroImage = article.thumbnail
-      ? `<figure class="blog-hero-media"><img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.imageAlt)}" width="1200" height="800" fetchpriority="high" decoding="async"></figure>`
+      ? `<figure class="blog-hero-media"><img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.imageAlt)}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>`
       : '';
 
     const breadcrumb = breadcrumbJsonLd([

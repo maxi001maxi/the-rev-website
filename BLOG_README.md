@@ -10,7 +10,7 @@
 1. `/content/blog/` フォルダに、新しいMarkdownファイル（例：`sample-article.md`）を作成する
 2. ファイルの先頭に「Front Matter」（下記2章参照）を書く
 3. その下に本文をMarkdown形式で書く
-4. 画像を使う場合は `/assets/images/blog/` に画像を追加する（3章参照）
+4. 画像を使う場合は `/assets/images/blog/` に画像を追加する（3章参照）。一覧サムネイルは **1200×675px（16:9）** を正本とし、OGPは **1200×630px** とする
 5. ターミナルで以下を実行する
 
 ```bash

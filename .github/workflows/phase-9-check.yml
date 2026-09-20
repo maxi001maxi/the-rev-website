@@ -9,6 +9,8 @@ on:
       - 'scripts/test-phase-9.mjs'
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
+      - 'assets/css/blog.css'
+      - '.github/qa/visual-qa.mjs'
       - 'scripts/generate-editorial-image.mjs'
       - 'scripts/render-blog-image.mjs'
       - 'scripts/qa-editorial-image.mjs'
@@ -43,6 +45,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: node --check .github/qa/visual-qa.mjs
       - run: npm run test:phase-9
       - run: npm run test:phase-d
       - run: npm run test:hybrid-images

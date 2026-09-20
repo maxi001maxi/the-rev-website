@@ -80,6 +80,20 @@ for (const vp of VIEWPORTS) {
         .filter(e => { const r = e.getBoundingClientRect(); return r.width > 0 && (r.right > innerWidth + 1 || r.left < -1); })
         .slice(0, 5).map(e => `${e.tagName.toLowerCase()}.${(e.className || '').toString().split(' ')[0]}`);
       const hero = q('.blog-hero-media img');
+      const cardMedia = [...document.querySelectorAll('.blog-card-media')].map((el) => {
+        const r = el.getBoundingClientRect();
+        const img = el.querySelector('img');
+        return {
+          w: Math.round(r.width),
+          h: Math.round(r.height),
+          ratio: r.height ? Math.round((r.width / r.height) * 1000) / 1000 : null,
+          naturalWidth: img?.naturalWidth || 0,
+          naturalHeight: img?.naturalHeight || 0,
+          objectFit: img ? getComputedStyle(img).objectFit : null
+        };
+      });
+      const targetCardRatio = 16 / 9;
+      const cardRatioMismatch = cardMedia.some((x) => x.ratio && Math.abs(x.ratio - targetCardRatio) > 0.02);
       const imgs = [...document.querySelectorAll('main img, article img')];
       return {
         docTitle: document.title,
@@ -89,6 +103,8 @@ for (const vp of VIEWPORTS) {
         h1Lines: q('h1') ? lineCount(q('h1')) : null,
         lead: txt('.blog-article-lead') || txt('.blog-lp-lead'),
         heroImg: hero ? { src: hero.currentSrc || hero.src, alt: hero.alt, w: Math.round(hero.getBoundingClientRect().width), natural: hero.naturalWidth } : null,
+        blogCardMedia: cardMedia,
+        blogCardRatioMismatch: cardRatioMismatch,
         bodyChars: (txt('.blog-body') || '').length,
         headings: [...document.querySelectorAll('.blog-body h2, .blog-body h3')].map(e => e.tagName + ':' + e.textContent.trim().slice(0, 24)),
         imagesBroken: imgs.filter(i => i.complete && i.naturalWidth === 0).map(i => i.src.slice(0, 120)),
@@ -169,15 +185,15 @@ w(`# Preview 実機ビジュアルQA`);
 w('');
 w(`Target: \`${BASE}\``);
 w('');
-w('| Page | VP | HTTP | h1 | Hero | 本文字数 | CTA行数 | Related | Footer links | 横スクロール | Console err | Network fail | 4xx/5xx | 壊れ画像 |');
-w('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
+w('| Page | VP | HTTP | h1 | Hero | Card 16:9 | 本文字数 | CTA行数 | Related | Footer links | 横スクロール | Console err | Network fail | 4xx/5xx | 壊れ画像 |');
+w('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
 let fail = 0;
 for (const r of results) {
   const fontFails = r.networkFailures.filter(x => x.includes('fonts.gstatic.com')).length;
   const otherNetFails = r.networkFailures.length - fontFails;
-  const bad = r.horizontalOverflow || otherNetFails || r.badResponses.length || r.imagesBroken.length || r.h1.length !== 1;
+  const bad = r.horizontalOverflow || r.blogCardRatioMismatch || otherNetFails || r.badResponses.length || r.imagesBroken.length || r.h1.length !== 1;
   if (bad) fail = 1;
-  w(`| ${r.page} | ${r.vp} | ${r.status} | ${r.h1.length} | ${r.heroImg ? (r.heroImg.natural > 0 ? '✅' : '❌') : '—'} | ${r.bodyChars || '—'} | ${r.cta.map(c => c.lines).join('/') || '—'} | ${r.related.length} | ${r.footerLinks} | ${r.horizontalOverflow ? '❌ ' + r.scrollWidth + '>' + r.clientWidth : '✅'} | ${r.consoleErrors.length} | ${otherNetFails} (+font ${fontFails}) | ${r.badResponses.length} | ${r.imagesBroken.length} |`);
+  w(`| ${r.page} | ${r.vp} | ${r.status} | ${r.h1.length} | ${r.heroImg ? (r.heroImg.natural > 0 ? '✅' : '❌') : '—'} | ${r.blogCardMedia.length ? (r.blogCardRatioMismatch ? '❌' : '✅') : '—'} | ${r.bodyChars || '—'} | ${r.cta.map(c => c.lines).join('/') || '—'} | ${r.related.length} | ${r.footerLinks} | ${r.horizontalOverflow ? '❌ ' + r.scrollWidth + '>' + r.clientWidth : '✅'} | ${r.consoleErrors.length} | ${otherNetFails} (+font ${fontFails}) | ${r.badResponses.length} | ${r.imagesBroken.length} |`);
 }
 w('');
 const allConsole = [...new Set(results.flatMap(r => r.consoleErrors))];
