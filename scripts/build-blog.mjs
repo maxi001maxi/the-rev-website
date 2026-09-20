@@ -7,6 +7,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
@@ -19,6 +20,11 @@ const CONTENT_DIR = path.join(ROOT, 'content', 'blog');
 const TEMPLATES_DIR = path.join(ROOT, 'templates');
 const PARTIALS_DIR = path.join(TEMPLATES_DIR, 'partials');
 const OUT_DIR = path.join(ROOT, 'blog');
+const BLOG_CSS_PATH = path.join(ROOT, 'assets', 'css', 'blog.css');
+const BLOG_CSS_VERSION = createHash('sha256')
+  .update(fs.readFileSync(BLOG_CSS_PATH))
+  .digest('hex')
+  .slice(0, 12);
 
 const PAGE_SIZE = 12;
 
@@ -374,6 +380,7 @@ function buildArticlePages(published, all, postTemplate) {
 
     const html = fill(postTemplate, {
       TITLE: escapeHtml(`${article.title}｜THE REV.`),
+      BLOG_CSS_VERSION,
       DESCRIPTION: escapeHtml(article.description),
       CANONICAL: article.canonical,
       ROBOTS_META: article.noindex ? '<meta name="robots" content="noindex,follow">\n' : '',
@@ -431,6 +438,7 @@ function buildIndexPages(published, indexTemplate) {
 
     const html = fill(indexTemplate, {
       TITLE: escapeHtml(page === 1 ? 'コラム｜THE REV. CONDITIONING LAB.' : `コラム（${page}ページ目）｜THE REV.`),
+      BLOG_CSS_VERSION,
       DESCRIPTION: escapeHtml('トレーニング、ボクシング、リカバリー。THE REV.で実際に聞かれる疑問や、身体づくりについての考え方をまとめたコラムです。'),
       CANONICAL: canonical,
       OG_IMAGE: `${SITE_URL}/assets/images/blog/og/og-default.jpg`,
