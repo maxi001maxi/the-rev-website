@@ -61,7 +61,12 @@ Content Referenceは以下のDriveルートだけから選びます。
 1. `after-work-tired-strength-training / reference-v23-hybrid-4387-75`
 2. `no-time-for-gym-starting-friction / reference-v23-hybrid-3978-20`
 
-この2枚を今後のStyle Referenceとして優先します。
+この2枚は単なる参考例ではなく、今後の**Design Reference正本**として毎回参照します。
+
+- `assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg`
+- `assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg`
+
+ただしレイアウトをコピーするためではありません。**余白、写真処理、静けさ、タイポグラフィ、誌面としての完成度**を揃えるための基準です。
 
 ## 4. 出力サイズ
 
@@ -81,6 +86,9 @@ Content Referenceは以下のDriveルートだけから選びます。
 
 - series_consistency >= 8
 - editorial_quality >= 8
+- typography_harmony >= 8
+- negative_space >= 8
+- photo_treatment >= 8
 - article_visual_relevance >= 8
 - rev_environment_consistency >= 8
 - brand_space_authenticity >= 8
@@ -166,12 +174,13 @@ Publish
 2. 指定Driveルートの画像在庫から候補を選定
 3. 過去利用履歴と直近4記事を確認
 4. 静止画、または必要時のみ動画フレームをContent Referenceに確定
-5. `hybridGenerationBrief()` のデザイン文法でGPT Image Hybridを生成
-6. Thumbnail 1200×675 / OGP 1200×630へ確定
-7. Visual QCを実行
-8. versioned assets / Hybrid Job / QA reportをGitHubへ保存
-9. `npm run test:hybrid-images` でフォーマット、寸法、provenance、QCを自動検証
-10. Articles DraftをREADYへ反映し、Review & Publishで停止
+5. 承認済み2枚のDesign Referenceを確認
+6. `hybridGenerationBrief()` のデザイン文法でGPT Image Hybridを生成
+7. Thumbnail 1200×675 / OGP 1200×630へ確定
+8. Visual QCを実行
+9. versioned assets / Hybrid Job / QA reportをGitHubへ保存
+10. `npm run test:hybrid-images` でフォーマット、寸法、provenance、Design Reference、QCを自動検証
+11. Articles DraftをREADYへ反映し、Review & Publishで停止
 
 ### Jobで必ず保持する情報
 
@@ -201,3 +210,23 @@ V2.3 Hybridは今後の**標準ターゲット**です。ただし、GitHub/Verc
 - Publishだけは引き続き人間の `Review & Publish` 承認を必要とする
 
 つまり、**デザインは柔軟、素材範囲・人物ルール・QC・公開境界は固定**が正本です。
+
+
+## 11. デザイン品質のFail-Closed
+
+V2.3 Hybridは「THE REV.っぽい場所ならOK」だけではありません。今回採用した2枚で評価された**誌面としてのデザイン性**も公開条件に含めます。
+
+次のどれかが8未満ならREADYにしません。
+
+- typography_harmony
+- negative_space
+- photo_treatment
+- series_consistency
+- editorial_quality
+- article_visual_relevance
+- rev_environment_consistency
+- brand_space_authenticity
+
+また、`expected_copy_present` と `copy_legible` は必ず明示的にtrue、`too_promotional` は明示的にfalseである必要があります。値が欠けている場合も合格扱いにしません。
+
+これにより、**安全なだけの無難なテンプレ画像へ後退すること**と、**見た目は良いがTHE REV.ではない生成画像へ逸脱すること**の両方を防ぎます。

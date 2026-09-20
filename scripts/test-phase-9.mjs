@@ -199,6 +199,10 @@ assert(HYBRID_IMAGE_FORMAT.generationPolicy.unknownTrainerForbidden === true, '�
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.nonCustomerPeopleForbidden === true, '顧客以外の第三者生成を禁止');
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.realTheRevEnvironmentRequired === true, '実THE REV.環境を背景正本として必須化');
 assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'editorial-not-rigid-template', '固定座標テンプレではなくデザイン文法として運用');
+assert(HYBRID_IMAGE_FORMAT.designReferenceAssets.length === 2, '承認済みV2.3 Hybrid 2枚をDesign Referenceへ固定');
+assert(HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony === 8, 'Typography QC下限を8へ固定');
+assert(HYBRID_IMAGE_FORMAT.qc.minNegativeSpace === 8, 'Negative Space QC下限を8へ固定');
+assert(HYBRID_IMAGE_FORMAT.qc.minPhotoTreatment === 8, 'Photo Treatment QC下限を8へ固定');
 assert(HYBRID_IMAGE_FORMAT.output.thumbnail.width === 1200 && HYBRID_IMAGE_FORMAT.output.thumbnail.height === 675, 'Thumbnailを1200x675へ固定');
 assert(HYBRID_IMAGE_FORMAT.output.ogp.width === 1200 && HYBRID_IMAGE_FORMAT.output.ogp.height === 630, 'OGPを1200x630へ固定');
 assert(HYBRID_IMAGE_FORMAT.acceptedReferences.length >= 2, '承認済み2記事をStyle Referenceとして保持');
@@ -221,6 +225,10 @@ const hybridJob = buildHybridImageJob({
 });
 assert(hybridJob.render_version === HYBRID_IMAGE_FORMAT.id, 'Hybrid Jobへformat IDを保持');
 assert(hybridJob.image_strategy === HYBRID_IMAGE_FORMAT.strategy, 'Hybrid Jobへstrategyを保持');
+assert(
+  JSON.stringify(hybridJob.style_references) === JSON.stringify(HYBRID_IMAGE_FORMAT.designReferenceAssets),
+  'Hybrid Jobへ承認済み2枚のStyle Referenceを保持'
+);
 assert(hybridJob.policy.drive_root_folder_id === HYBRID_IMAGE_FORMAT.driveRootFolderId, 'Hybrid Jobへ指定Driveルートを保持');
 assert(hybridJob.policy.generated_customer_allowed === true && hybridJob.policy.unknown_trainer_forbidden === true, 'Hybrid Jobへ人物ルールを保持');
 assert(hybridJob.publish_requires_human_approval === true, 'Hybrid JobはHuman Reviewを必須化');
@@ -231,6 +239,9 @@ const goodHybridQa = {
   pass: true,
   series_consistency: 9,
   editorial_quality: 9,
+  typography_harmony: 9,
+  negative_space: 9,
+  photo_treatment: 9,
   article_visual_relevance: 10,
   rev_environment_consistency: 10,
   brand_space_authenticity: 10,
@@ -246,6 +257,12 @@ const hybridDraftForQa = { image_render_version: HYBRID_IMAGE_FORMAT.id, image_s
 assert(hybridQaReady(hybridDraftForQa) === true, '承認済みHybrid QCはREADY');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, unknown_trainer_present: true } }) === false, '未知トレーナーがいればHybrid QCを拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, rev_environment_consistency: 7 } }) === false, 'THE REV.環境整合が8未満なら拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, typography_harmony: 7 } }) === false, 'Typographyが8未満なら拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, negative_space: 7 } }) === false, 'Negative Spaceが8未満なら拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, photo_treatment: 7 } }) === false, 'Photo Treatmentが8未満なら拒否');
+const missingCopyFlagQa = { ...goodHybridQa };
+delete missingCopyFlagQa.expected_copy_present;
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: missingCopyFlagQa }) === false, 'expected_copy_present未記録はfail-closed');
 
 const readyHybridDraft = {
   ...hybridDraftForQa,
@@ -305,6 +322,10 @@ const hybridBrief = hybridGenerationBrief({
   columnLabel: 'COLUMN 08'
 });
 assert(hybridBrief.includes('未知のトレーナー') && hybridBrief.includes('固定テンプレ'), '生成Briefへ禁止事項と非固定テンプレ方針を含める');
+assert(
+  HYBRID_IMAGE_FORMAT.designReferenceAssets.every((p) => hybridBrief.includes(p)),
+  '生成Briefへ承認済み2枚のStyle Referenceを明示'
+);
 
 const equipmentArticle = {
   title: '筋トレの負荷はどう決める？ラックと重量設定の考え方',
