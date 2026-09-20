@@ -359,7 +359,11 @@ assert(
 assert(
   HYBRID_IMAGE_FORMAT.output.thumbnail.width === 1200 &&
   HYBRID_IMAGE_FORMAT.output.thumbnail.height === 675,
-  '画像生成側Thumbnail正本も1200x675を維持'
+  'Hybrid画像生成側Thumbnail正本も1200x675を維持'
+);
+assert(
+  REV_COLUMN_REFERENCE_V2.thumb.width === 1200 && REV_COLUMN_REFERENCE_V2.thumb.height === 675,
+  'Source-lock fallbackも1200x675へ統一し比率ドリフトを防止'
 );
 const blogIndexTemplateSource = fs.readFileSync(new URL('../templates/blog-index.html', import.meta.url), 'utf8');
 const blogPostTemplateSource = fs.readFileSync(new URL('../templates/blog-post.html', import.meta.url), 'utf8');
