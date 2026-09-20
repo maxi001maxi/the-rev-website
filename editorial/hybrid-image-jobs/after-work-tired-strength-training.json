@@ -17,12 +17,19 @@
     "unknown_trainer_forbidden": true,
     "real_the_rev_background_required": true,
     "source_scope": "specified-drive-root-only",
-    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG"
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "non_customer_people_forbidden": true,
+    "recent_reference_window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "publish_boundary": "REVIEW_AND_PUBLISH"
   },
   "background_source": {
     "cached_frame_drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
     "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
     "origin_video_file_name": "IMG_4387.MOV",
-    "frame_position_ratio": 0.75
-  }
+    "frame_position_ratio": 0.75,
+    "treatment": "real THE REV source; editorial soften/blur/depth allowed"
+  },
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol-visual-qc"
 }
