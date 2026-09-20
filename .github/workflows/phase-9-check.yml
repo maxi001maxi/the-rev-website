@@ -15,7 +15,12 @@ on:
       - 'lib/editorialImage.mjs'
       - 'lib/editorialImageStyle.mjs'
       - 'lib/editorialImageCopy.mjs'
+      - 'lib/editorialHybridImageFormat.mjs'
       - 'editorial/image-jobs/**.json'
+      - 'editorial/hybrid-image-jobs/**.json'
+      - 'editorial/reference-v23-hybrid-format.json'
+      - 'editorial/REFERENCE_V23_HYBRID_FORMAT.md'
+      - 'scripts/validate-hybrid-image-jobs.mjs'
       - 'lib/publishFlow.mjs'
       - 'api/admin/publish-preview.mjs'
       - 'admin/articles/review/**'
@@ -40,4 +45,5 @@ jobs:
       - run: npm ci
       - run: npm run test:phase-9
       - run: npm run test:phase-d
+      - run: npm run test:hybrid-images
       - run: npm run build:blog
