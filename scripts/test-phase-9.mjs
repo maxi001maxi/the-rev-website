@@ -34,6 +34,7 @@ import {
   isHybridImageFormat,
   shouldPreserveHybridImageOnEditorialSync
 } from '../lib/editorialHybridImageFormat.mjs';
+import { evaluateEditorialImageReview } from '../lib/editorialImageReviewGate.mjs';
 
 let passed = 0;
 const failed = [];
@@ -252,7 +253,20 @@ const goodHybridQa = {
   customer_only_or_no_people: true,
   expected_copy_present: true,
   copy_legible: true,
-  too_promotional: false
+  too_promotional: false,
+  review_mode: 'HYBRID_GENERATED',
+  image_generation_used: true,
+  fallback_used: false,
+  fallback_reason: '',
+  trainer_present: false,
+  real_the_rev_background_confirmed: true,
+  background_source_recorded: true,
+  background_selection_reason_recorded: true,
+  same_image_as_recent_articles: false,
+  same_background_as_recent_articles: false,
+  trainer_photo_reused: false,
+  recent_similarity_window: 4,
+  recent_similarity_check_pass: true
 };
 const hybridDraftForQa = { image_render_version: HYBRID_IMAGE_FORMAT.id, image_strategy: HYBRID_IMAGE_FORMAT.strategy, image_qa: goodHybridQa };
 assert(hybridQaReady(hybridDraftForQa) === true, '承認済みHybrid QCはREADY');
@@ -327,6 +341,58 @@ assert(
   HYBRID_IMAGE_FORMAT.designReferenceAssets.every((p) => hybridBrief.includes(p)),
   '生成Briefへ承認済み2枚のStyle Referenceを明示'
 );
+
+console.log('\n[8. editorial image Review Gate]');
+const gateDraft = {
+  image_render_version: HYBRID_IMAGE_FORMAT.id,
+  image_strategy: HYBRID_IMAGE_FORMAT.strategy,
+  image_source_path: 'assets/images/editorial-source/drive/customer-free-background.jpg',
+  image_qa: goodHybridQa
+};
+assert(evaluateEditorialImageReview({ draft: gateDraft, qa: goodHybridQa }).ok === true, '正常Hybrid画像はReview Gate PASS');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, trainer_present: true }
+}).ok === false, 'trainer_present=trueはReview Gate FAIL');
+const qaMissingTrainer = { ...goodHybridQa };
+delete qaMissingTrainer.trainer_present;
+assert(evaluateEditorialImageReview({ draft: gateDraft, qa: qaMissingTrainer }).ok === false, 'trainer_present未記録もfail-closed');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, same_image_as_recent_articles: true }
+}).ok === false, '直近4記事と同一画像ならFAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, same_background_as_recent_articles: true }
+}).ok === false, '直近4記事と同一背景ならFAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, trainer_photo_reused: true }
+}).ok === false, 'トレーナー写真再利用ならFAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, image_generation_used: false }
+}).ok === false, 'Hybridなのに画像生成未実施ならFAIL');
+assert(evaluateEditorialImageReview({
+  draft: {
+    image_render_version: IMAGE_RENDER_VERSION,
+    image_strategy: 'reference-v2-source-lock-auto-source',
+    image_source_path: 'assets/images/photo-evolgear.jpg'
+  },
+  qa: {
+    ...goodHybridQa,
+    review_mode: 'SOURCE_LOCK_FALLBACK',
+    image_generation_used: false,
+    fallback_used: true,
+    fallback_reason: '',
+  }
+}).ok === false, 'fallback_reasonなしのsource-lockはFAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: goodHybridQa,
+  recentHistory: [{ contentReference: 'assets/images/editorial-source/drive/customer-free-background.jpg' }]
+}).ok === false, 'provenanceが直近記事と一致すれば自己申告に関係なくFAIL');
+
 
 const equipmentArticle = {
   title: '筋トレの負荷はどう決める？ラックと重量設定の考え方',
