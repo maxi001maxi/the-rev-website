@@ -25,7 +25,10 @@
       "depth-adjustment",
       "lighting-harmonization",
       "editorial-color-grading"
-    ]
+    ],
+    "trainer_present_forbidden": true,
+    "customer_only_or_no_people_required": true,
+    "hybrid_generation_required_by_default": true
   },
   "design_grammar": {
     "rigid_template": false,
@@ -67,7 +70,18 @@
     "customer_only_or_no_people": true,
     "expected_copy_present": true,
     "copy_legible": true,
-    "too_promotional": false
+    "too_promotional": false,
+    "trainer_present": false,
+    "real_the_rev_background_confirmed": true,
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "recent_similarity_check_pass": true,
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "recent_similarity_window": 4
   },
   "accepted_references": [
     {
