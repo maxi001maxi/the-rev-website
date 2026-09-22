@@ -6,7 +6,7 @@
 
 このフォーマットは、2026-09-19に採用した2記事の画像制作方法を今後のBlog / Column画像の標準として再利用するための正本です。
 
-重要なのは、**固定テンプレートへの文字流し込みではなく「デザイン文法」を固定すること**です。毎回まったく同じ左右分割にするのではなく、記事内容に合わせて構図は変えてよい一方、THE REV.の実空間・誌面感・人物ルール・QC基準は変えません。
+V2.3 Hybrid engineは継続利用しますが、2026-09-22以降の運用Policyは **V2.4** です。V2.4では、**記事ごとに変えるのは顧客の表情・姿勢・情景であり、文字・ラベル・ヘアライン・余白の骨格は固定Overlayへ寄せます。** THE REV.の実空間・人物ルール・QC基準も固定します。
 
 正本コード: `lib/editorialHybridImageFormat.mjs`  
 機械可読仕様: `editorial/reference-v23-hybrid-format.json`  
@@ -31,17 +31,20 @@ Content Referenceは以下のDriveルートだけから選びます。
 ### 許可
 
 - 実THE REV.素材を背景・空間の正本として使う
-- 顧客役の人物を生成する
+- 顧客役の人物を必ず生成する（原則1人、必要時のみ2人）
 - 背景のcrop / resize
 - 背景のsoften / blur
 - 奥行き・光・色調を誌面向けに整える
-- 記事ごとに構図を変える
+- 人物の表情・姿勢・動作・情景を記事ごとに変える
 
 ### 禁止
 
 - THE REV.ではない架空のジムへ置き換える
 - 知らないトレーナー、スタッフ、コーチを生成する
-- 顧客以外の第三者を意味なく追加する
+- 顧客以外の第三者を追加する
+- トレーナー / スタッフ / コーチ風人物を出す
+- 施設だけの画像で完成扱いにする
+- 画像生成モデルへ日本語文字を描かせる
 - 元のTHE REV.空間が分からなくなるほど背景構造を作り変える
 - 広告バナーのような強いCTAや過剰装飾
 
@@ -56,7 +59,8 @@ Content Referenceは以下のDriveルートだけから選びます。
 - SEO記事タイトル全文を画像に入れない
 - 画像用コピーは短いEditorial Copyに分離
 - カテゴリ / COLUMN番号は小さく整然と扱う
-- **構図は固定しない**
+- **文字レイアウトは `rev-column-v24-fixed-overlay-v1` で固定する**
+- 生成シーンは記事ごとに変えるが、最終Thumbnail / OGPの文字位置・ラベル位置・ヘアライン・テキスト領域は原則固定する
 
 採用例:
 
@@ -68,7 +72,7 @@ Content Referenceは以下のDriveルートだけから選びます。
 - `assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg`
 - `assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg`
 
-ただしレイアウトをコピーするためではありません。**余白、写真処理、静けさ、タイポグラフィ、誌面としての完成度**を揃えるための基準です。
+この2枚は人物情景・写真処理・静けさのDesign Referenceです。V2.4では最終タイポグラフィ自体は固定Overlay rendererが正本です。
 
 ## 4. 出力サイズ
 
@@ -98,6 +102,12 @@ Content Referenceは以下のDriveルートだけから選びます。
 - unknown_trainer_present = false
 - non_customer_people_present = false
 - customer_only_or_no_people = true
+- generated_customer_present = true
+- generated_customer_count = 1..2
+- facility_only_thumbnail = false
+- fixed_overlay_layout_confirmed = true
+- layout_template_id = rev-column-v24-fixed-overlay-v1
+- policy_revision = editorial-thumbnail-v2.4
 - expected_copy_present = true
 - copy_legible = true
 - too_promotional = false
@@ -115,8 +125,16 @@ QC不合格画像はArticlesへREADY反映しません。
   ↓
 GPT Image Hybrid
   - 実THE REV.背景
-  - 必要なら顧客役生成
-  - 未知トレーナー禁止
+  - 顧客役1人を基本に生成（最大2人）
+  - トレーナー / スタッフ / コーチ禁止
+  - 文字は生成しない
+  ↓
+generated scene asset
+  ↓
+rev-column-v24-fixed-overlay-v1
+  - CATEGORY / COLUMN
+  - hairline
+  - Editorial Copy
   ↓
 Thumbnail 1200×675
 OGP 1200×630
@@ -161,7 +179,7 @@ Publish
 5. その画像/動画を選んだ理由
 6. 過去使用状況
 7. 実THE REV.背景のどこを残すべきか
-8. 顧客役が必要か
+8. 顧客役のscene intentと人数（原則1、最大2）
 9. QC結果
 10. Review & Publishで停止すること
 
@@ -177,12 +195,13 @@ Publish
 3. 過去利用履歴と直近4記事を確認
 4. 静止画、または必要時のみ動画フレームをContent Referenceに確定
 5. 承認済み2枚のDesign Referenceを確認
-6. `hybridGenerationBrief()` のデザイン文法でGPT Image Hybridを生成
-7. Thumbnail 1200×675 / OGP 1200×630へ確定
-8. Visual QCを実行
-9. versioned assets / Hybrid Job / QA reportをGitHubへ保存
-10. `npm run test:hybrid-images` でフォーマット、寸法、provenance、Design Reference、QCを自動検証
-11. Articles DraftをREADYへ反映し、Review & Publishで停止
+6. `hybridGenerationBrief()` で文字なしの顧客シーンを生成し、`generated_scene_path` へ保存
+7. `npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/{slug}.json` で固定Overlayを適用
+8. Thumbnail 1200×675 / OGP 1200×630を確定
+9. Visual QCを実行
+10. generated scene / versioned assets / Hybrid Job / QA reportをGitHubへ保存
+11. `npm run test:hybrid-images` でフォーマット、寸法、provenance、Design Reference、QCを自動検証
+12. Articles DraftをREADYへ反映し、Review & Publishで停止
 
 ### Jobで必ず保持する情報
 
@@ -193,7 +212,9 @@ Publish
 - Driveルート
 - 元素材のDrive File ID
 - 動画の場合は元動画ID・ファイル名・フレーム位置
-- 顧客生成の可否
+- scene_intent / generated_customer_count（1〜2）
+- policy_revision / layout_template_id
+- generated_scene_path
 - 未知トレーナー禁止
 - THE REV.実空間必須
 - QA report path
@@ -206,12 +227,12 @@ Publish
 V2.3 Hybridは今後の**標準ターゲット**です。ただし、GitHub/Vercelだけで勝手に架空の画像を量産しないよう、画像生成そのものは `gpt-operator-orchestrated` とします。
 
 - GPT側が指定Drive素材を実際に確認してからHybrid画像を作る
-- Hybrid完成前は安全なV2.2 source-lockをフォールバックとして利用可能
+- Hybrid完成前にV2.2 source-lockを障害切り分け用fallbackとして使えるが、新規Editorial記事のPublish完成条件にはしない
 - 一度QC合格したV2.3 Hybridは本文再同期やReview表示でV2.2へ巻き戻さない
 - Hybrid Jobの変更はCIで `test:hybrid-images` を通す
 - Publishだけは引き続き人間の `Review & Publish` 承認を必要とする
 
-つまり、**デザインは柔軟、素材範囲・人物ルール・QC・公開境界は固定**が正本です。
+つまり、**人物情景は柔軟、最終文字レイアウト・素材範囲・人物ルール・QC・公開境界は固定**が正本です。
 
 
 ## 11. デザイン品質のFail-Closed
