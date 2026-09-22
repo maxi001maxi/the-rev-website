@@ -15,6 +15,7 @@ on:
       - '.github/qa/visual-qa.mjs'
       - 'scripts/generate-editorial-image.mjs'
       - 'scripts/render-blog-image.mjs'
+      - 'scripts/render-hybrid-editorial-overlay.mjs'
       - 'scripts/qa-editorial-image.mjs'
       - 'lib/editorialImage.mjs'
       - 'lib/editorialImageStyle.mjs'
@@ -57,6 +58,7 @@ jobs:
       - run: npm ci
       - run: node --check .github/qa/visual-qa.mjs
       - run: node --check scripts/compile-hybrid-image-job.mjs
+      - run: node --check scripts/render-hybrid-editorial-overlay.mjs
       - run: node --check scripts/validate-editorial-image-system.mjs
       - run: node --check lib/editorialImageReviewGate.mjs
       - run: npm run test:phase-9
