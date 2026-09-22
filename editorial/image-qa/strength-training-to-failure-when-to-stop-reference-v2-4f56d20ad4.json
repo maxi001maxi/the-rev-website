@@ -74,5 +74,20 @@
   "qa_model": "gpt-5.6-luna",
   "slug": "strength-training-to-failure-when-to-stop",
   "asset_version": "reference-v2-4f56d20ad4",
-  "checked_at": "2026-09-22T04:35:53.259Z"
+  "checked_at": "2026-09-22T04:35:53.259Z",
+  "the_rev_environment_consistency": true,
+  "unknown_trainer_present": false,
+  "known_trainer_identity": "服部 真騎士",
+  "trainer_identity_verified_from": "assets/images/trainer-top.jpg / index.html alt: THE REV.代表トレーナー 服部真騎士",
+  "release_qc_scope": [
+    "versioned_thumbnail",
+    "versioned_ogp",
+    "article_visual_relevance",
+    "series_consistency",
+    "the_rev_environment_consistency",
+    "known_trainer_identity",
+    "no_unknown_trainer",
+    "source_identity_preservation",
+    "xserver_byte_verification"
+  ]
 }
