@@ -25,11 +25,19 @@
       "depth-adjustment",
       "lighting-harmonization",
       "editorial-color-grading"
-    ]
+    ],
+    "trainer_present_forbidden": true,
+    "customer_only_or_no_people_required": true,
+    "hybrid_generation_required_by_default": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 2,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true
   },
   "design_grammar": {
-    "rigid_template": false,
-    "principle": "design grammar, not fixed coordinates",
+    "rigid_template": true,
+    "principle": "fixed editorial overlay, flexible generated customer scene",
     "style": [
       "premium editorial",
       "quiet luxury",
@@ -38,7 +46,8 @@
       "generous negative space"
     ],
     "copy": "short editorial copy, not full SEO title",
-    "composition": "article-specific composition allowed; do not force the same left/right split"
+    "scene": "article-specific customer scene generated from a real THE REV. background; default 1 customer, max 2",
+    "composition": "generated scene varies by article; label, hairline, headline and text-field geometry use the fixed V2.4 overlay"
   },
   "outputs": {
     "thumbnail": {
@@ -67,7 +76,25 @@
     "customer_only_or_no_people": true,
     "expected_copy_present": true,
     "copy_legible": true,
-    "too_promotional": false
+    "too_promotional": false,
+    "trainer_present": false,
+    "real_the_rev_background_confirmed": true,
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "recent_similarity_check_pass": true,
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "recent_similarity_window": 4,
+    "generated_customer_present": true,
+    "generated_customer_count_min": 1,
+    "generated_customer_count_max": 2,
+    "facility_only_thumbnail": false,
+    "fixed_overlay_layout_confirmed": true,
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "policy_revision": "editorial-thumbnail-v2.4"
   },
   "accepted_references": [
     {
@@ -90,11 +117,14 @@
   "release_flow": [
     "select scoped Drive source",
     "check historical and recent-4 usage",
-    "use approved V2.3 Hybrid cards as style references",
-    "generate hybrid editorial composition",
+    "define article-specific scene intent",
+    "generate 1 customer by default (max 2) inside the real THE REV. environment",
+    "reject trainer/staff/coach-like people and facility-only output",
+    "save generated scene asset",
+    "apply deterministic rev-column-v24-fixed-overlay-v1 typography/layout",
     "render 1200x675 thumbnail and 1200x630 OGP",
-    "run visual QC",
-    "commit versioned assets, job and QA report to GitHub",
+    "run visual QC and recent-4 reuse QC",
+    "commit versioned scene, final assets, job and QA report to GitHub",
     "stage assets to Xserver and verify",
     "update Articles draft to READY",
     "stop at Review & Publish",
@@ -108,5 +138,7 @@
   "design_reference_assets": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
-  ]
+  ],
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1"
 }

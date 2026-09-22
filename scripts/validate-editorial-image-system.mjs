@@ -37,8 +37,10 @@ const required = [
   'editorial/fixtures/hybrid-image-request.sample.json',
   'editorial/hybrid-image-jobs/_template.json',
   'scripts/compile-hybrid-image-job.mjs',
+  'scripts/render-hybrid-editorial-overlay.mjs',
   'scripts/validate-hybrid-image-jobs.mjs',
   'lib/editorialHybridImageFormat.mjs',
+  'lib/editorialImageReviewGate.mjs',
   'lib/editorialImageStyle.mjs',
   '.github/workflows/phase-9-check.yml',
   '.github/workflows/deploy-xserver.yml'
@@ -46,6 +48,8 @@ const required = [
 for (const rel of required) assertTrue(exists(rel), `required image-system file missing: ${rel}`);
 
 assertEqual(manifest.current_standard.format_id, HYBRID_IMAGE_FORMAT.id, 'manifest/current Hybrid format drift');
+assertEqual(manifest.current_standard.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'manifest V2.4 policy drift');
+assertEqual(manifest.current_standard.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'manifest fixed overlay drift');
 assertEqual(manifest.current_standard.code_contract, 'lib/editorialHybridImageFormat.mjs', 'manifest code contract drift');
 assertEqual(manifest.source_policy.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'manifest Drive root drift');
 assertEqual(manifest.release_boundary, HYBRID_IMAGE_FORMAT.publishBoundary, 'manifest publish boundary drift');
@@ -76,10 +80,12 @@ for (const rel of HYBRID_IMAGE_FORMAT.designReferenceAssets) {
 
 const packageJson = readJson('package.json');
 assertTrue(packageJson.scripts?.['image:compile-job'], 'package script image:compile-job missing');
+assertTrue(packageJson.scripts?.['image:render-hybrid-overlay'], 'package script image:render-hybrid-overlay missing');
 assertTrue(packageJson.scripts?.['test:editorial-images'], 'package script test:editorial-images missing');
 
 const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/phase-9-check.yml'), 'utf8');
 assertTrue(workflow.includes('npm run test:editorial-images'), 'Phase 9 CI must run canonical editorial image test');
+assertTrue(workflow.includes('lib/editorialImageReviewGate.mjs'), 'Phase 9 CI must watch Editorial Image Review Gate');
 
 const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
@@ -104,6 +110,10 @@ try {
 assertEqual(compiledFixture.render_version, HYBRID_IMAGE_FORMAT.id, 'compiled fixture render_version drift');
 assertEqual(compiledFixture.image_strategy, HYBRID_IMAGE_FORMAT.strategy, 'compiled fixture image_strategy drift');
 assertEqual(compiledFixture.publish_requires_human_approval, true, 'compiled fixture lost human publish gate');
+assertEqual(compiledFixture.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'compiled fixture V2.4 policy drift');
+assertEqual(compiledFixture.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'compiled fixture layout drift');
+assertEqual(compiledFixture.generated_customer_count, 1, 'compiled fixture customer count drift');
+assertTrue(Boolean(compiledFixture.scene_intent), 'compiled fixture scene_intent missing');
 assertTrue(compiledFixture.thumbnail.endsWith('-reference-v23-hybrid-fixture-50.jpg'), 'compiled fixture thumbnail path is not versioned');
 assertTrue(compiledFixture.background_source?.selection_reason === 'compiler contract test fixture', 'compiled fixture lost source selection rationale');
 
@@ -114,7 +124,9 @@ const child = spawnSync(process.execPath, ['scripts/validate-hybrid-image-jobs.m
 if (child.status !== 0) fail('Hybrid Job validator failed.');
 
 console.log('Editorial image system validation: PASS');
-console.log(`- standard: ${HYBRID_IMAGE_FORMAT.id}`);
+console.log(`- engine: ${HYBRID_IMAGE_FORMAT.id}`);
+console.log(`- policy: ${HYBRID_IMAGE_FORMAT.policyRevision}`);
+console.log(`- layout: ${HYBRID_IMAGE_FORMAT.layoutTemplateId}`);
 console.log(`- hybrid thumbnail: ${HYBRID_IMAGE_FORMAT.output.thumbnail.width}x${HYBRID_IMAGE_FORMAT.output.thumbnail.height}`);
 console.log(`- fallback thumbnail: ${REV_COLUMN_REFERENCE_V2.thumb.width}x${REV_COLUMN_REFERENCE_V2.thumb.height}`);
 console.log(`- publish boundary: ${HYBRID_IMAGE_FORMAT.publishBoundary}`);

@@ -82,11 +82,17 @@ Editorial AI管理の記事画像は、ここだけを読んで手動作成し�
 
 Current Truth:
 
-- 標準: `rev-column-reference-v2.3-hybrid`
+- Image engine: `rev-column-reference-v2.3-hybrid`
+- Current Policy: **`editorial-thumbnail-v2.4`**
+- 顧客役: **必須・原則1人・最大2人**
+- トレーナー / スタッフ / コーチ風人物: **禁止**
+- Facility-only thumbnail: **禁止**
+- 固定Overlay: `rev-column-v24-fixed-overlay-v1`
 - Thumbnail: **1200×675px / 16:9**
 - OGP: **1200×630px**
 - 最小入力: `editorial/hybrid-image-request.template.json`
 - Job生成: `npm run image:compile-job -- path/to/request.json`
+- 固定Overlay: `npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/{slug}.json`
 - 全体検証: `npm run test:editorial-images`
 - 最終Publish: 人間承認
 

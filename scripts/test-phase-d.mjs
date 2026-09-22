@@ -171,7 +171,7 @@ r = await runPreflight({
   user: USER,
   articleId: 'a1'
 });
-assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', '旧画像Render VersionのEditorial記事はpublish不可', JSON.stringify(r.blocker));
+assert(checkOf(r, 'image_release')?.status === 'error' && ['image_review_gate_failed','image_not_ready'].includes(r.blocker?.code), '旧画像Render VersionのEditorial記事はpublish不可', JSON.stringify(r.blocker));
 
 r = await runPreflight({
   supabase: fakeSupabase({
@@ -192,7 +192,7 @@ r = await runPreflight({
   user: USER,
   articleId: 'a1'
 });
-assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', 'Classic V1以外のテンプレートはpublish不可', JSON.stringify(r.blocker));
+assert(checkOf(r, 'image_release')?.status === 'error' && ['image_review_gate_failed','image_not_ready'].includes(r.blocker?.code), 'Classic V1以外のテンプレートはpublish不可', JSON.stringify(r.blocker));
 
 r = await runPreflight({
   supabase: fakeSupabase({
@@ -213,7 +213,7 @@ r = await runPreflight({
   user: USER,
   articleId: 'a1'
 });
-assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', 'versioned filenameでないEditorial画像はpublish不可', JSON.stringify(r.blocker));
+assert(checkOf(r, 'image_release')?.status === 'error' && ['image_review_gate_failed','image_not_ready'].includes(r.blocker?.code), 'versioned filenameでないEditorial画像はpublish不可', JSON.stringify(r.blocker));
 
 r = await runPreflight({
   supabase: fakeSupabase({
@@ -225,6 +225,7 @@ r = await runPreflight({
       image_render_version: HYBRID_IMAGE_FORMAT.id,
       image_strategy: HYBRID_IMAGE_FORMAT.strategy,
       image_style_template: IMAGE_STYLE_TEMPLATE,
+      image_source_path: 'assets/images/editorial-source/drive/customer-scene.jpg',
       image_headline_short: '短いHybridコピー。',
       image_asset_version: 'reference-v23-hybrid-test',
       image_qa_report_path: 'editorial/image-qa/my-post-reference-v23-hybrid-test.json',
@@ -239,9 +240,26 @@ r = await runPreflight({
         rev_environment_consistency: 10,
         brand_space_authenticity: 10,
         source_material_scope_pass: true,
+        trainer_present: false,
         unknown_trainer_present: false,
         non_customer_people_present: false,
         customer_only_or_no_people: true,
+        generated_customer_present: true,
+        generated_customer_count: 1,
+        facility_only_thumbnail: false,
+        fixed_overlay_layout_confirmed: true,
+        layout_template_id: HYBRID_IMAGE_FORMAT.layoutTemplateId,
+        policy_revision: HYBRID_IMAGE_FORMAT.policyRevision,
+        real_the_rev_background_confirmed: true,
+        background_source_recorded: true,
+        background_selection_reason_recorded: true,
+        image_generation_used: true,
+        fallback_used: false,
+        same_image_as_recent_articles: false,
+        same_background_as_recent_articles: false,
+        trainer_photo_reused: false,
+        recent_similarity_window: 4,
+        recent_similarity_check_pass: true,
         expected_copy_present: true,
         copy_legible: true,
         too_promotional: false
@@ -253,7 +271,7 @@ r = await runPreflight({
   user: USER,
   articleId: 'a1'
 });
-assert(checkOf(r, 'image_release')?.status === 'ok', 'V2.3 HybridのQC合格Draftは画像Release Gate通過', JSON.stringify(r.blocker));
+assert(checkOf(r, 'image_release')?.status === 'ok', 'V2.4 Policy準拠HybridのQC合格Draftは画像Release Gate通過', JSON.stringify(r.blocker));
 
 r = await runPreflight({
   supabase: fakeSupabase({
@@ -265,6 +283,7 @@ r = await runPreflight({
       image_render_version: HYBRID_IMAGE_FORMAT.id,
       image_strategy: HYBRID_IMAGE_FORMAT.strategy,
       image_style_template: IMAGE_STYLE_TEMPLATE,
+      image_source_path: 'assets/images/editorial-source/drive/customer-scene.jpg',
       image_headline_short: '短いHybridコピー。',
       image_asset_version: 'reference-v23-hybrid-test',
       image_qa_report_path: 'editorial/image-qa/my-post-reference-v23-hybrid-test.json',
@@ -276,9 +295,29 @@ r = await runPreflight({
         rev_environment_consistency: 10,
         brand_space_authenticity: 10,
         source_material_scope_pass: true,
+        trainer_present: false,
         unknown_trainer_present: true,
         non_customer_people_present: false,
-        customer_only_or_no_people: true
+        customer_only_or_no_people: true,
+        generated_customer_present: true,
+        generated_customer_count: 1,
+        facility_only_thumbnail: false,
+        fixed_overlay_layout_confirmed: true,
+        layout_template_id: HYBRID_IMAGE_FORMAT.layoutTemplateId,
+        policy_revision: HYBRID_IMAGE_FORMAT.policyRevision,
+        real_the_rev_background_confirmed: true,
+        background_source_recorded: true,
+        background_selection_reason_recorded: true,
+        image_generation_used: true,
+        fallback_used: false,
+        same_image_as_recent_articles: false,
+        same_background_as_recent_articles: false,
+        trainer_photo_reused: false,
+        recent_similarity_window: 4,
+        recent_similarity_check_pass: true,
+        expected_copy_present: true,
+        copy_legible: true,
+        too_promotional: false
       },
       thumbnail: '/assets/images/blog/thumb-my-post-reference-v23-hybrid-test.jpg',
       og_image: '/assets/images/blog/og/og-my-post-reference-v23-hybrid-test.jpg'
@@ -287,7 +326,7 @@ r = await runPreflight({
   user: USER,
   articleId: 'a1'
 });
-assert(checkOf(r, 'image_release')?.status === 'error' && r.blocker?.code === 'image_not_ready', '未知トレーナーありHybridはPublish Gateで拒否', JSON.stringify(r.blocker));
+assert(checkOf(r, 'image_release')?.status === 'error' && ['image_review_gate_failed','image_not_ready'].includes(r.blocker?.code), '未知トレーナーありHybridはPublish Gateで拒否', JSON.stringify(r.blocker));
 
 r = await runPreflight({ supabase: fakeSupabase({ draft: null }), user: USER, articleId: 'a1' });
 assert(r.ok === false && r.blocker?.code === 'not_found', 'Draft無しは404');

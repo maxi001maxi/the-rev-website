@@ -1,6 +1,6 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.0.0",
+  "schema_version": "1.2.0",
   "current_truth_date": "2026-09-22",
   "system_status": "REPRODUCIBLE_WITH_AI_OPERATOR",
   "fully_automated": false,
@@ -13,7 +13,10 @@
     "request_template": "editorial/hybrid-image-request.template.json",
     "job_template": "editorial/hybrid-image-jobs/_template.json",
     "job_compiler": "scripts/compile-hybrid-image-job.mjs",
-    "validator": "scripts/validate-hybrid-image-jobs.mjs"
+    "validator": "scripts/validate-hybrid-image-jobs.mjs",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "hybrid_overlay_renderer": "scripts/render-hybrid-editorial-overlay.mjs"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -36,7 +39,8 @@
     },
     "thumbnail_pattern": "assets/images/blog/thumb-{slug}-{asset_version}.jpg",
     "ogp_pattern": "assets/images/blog/og/og-{slug}-{asset_version}.jpg",
-    "qa_pattern": "editorial/image-qa/{slug}-{asset_version}.json"
+    "qa_pattern": "editorial/image-qa/{slug}-{asset_version}.json",
+    "generated_scene_pattern": "assets/images/editorial-generated/{slug}-{asset_version}-scene.jpg"
   },
   "design_reference_assets": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
@@ -68,7 +72,10 @@
       "source-lock fallback rendering and QA",
       "Xserver asset-first deployment and live-byte verification",
       "publish preflight and image READY gate",
-      "Blog CSS fingerprinting and live CSS verification"
+      "Blog CSS fingerprinting and live CSS verification",
+      "trainer-free Review Gate shared by READY, Review and Publish",
+      "recent-4 deterministic provenance reuse rejection",
+      "deterministic V2.4 typography/layout overlay after scene generation"
     ],
     "operator_required": [
       "read article context and decide short Editorial Copy",
@@ -96,14 +103,44 @@
   },
   "release_boundary": "REVIEW_AND_PUBLISH",
   "stop_conditions": [
+    "generated customer is missing, or more than 2 customers are present",
+    "trainer / coach / staff appears or looks like the subject role",
+    "thumbnail is facility-only",
+    "fixed V2.4 overlay was not applied",
+    "same image or same background provenance appears in the recent 4 articles",
+    "Hybrid generation is missing",
     "source is outside the specified Drive root",
     "article relevance is weak",
-    "unknown trainer/staff/coach is generated",
     "THE REV. environment is not recognizable",
     "thumbnail or OGP dimensions do not match the output contract",
     "Hybrid QC is below threshold or required boolean flags are missing",
     "GitHub asset is missing",
     "Xserver public asset does not match repository bytes",
     "publish would occur without explicit human approval"
+  ],
+  "review_policy": {
+    "standard_mode": "HYBRID_GENERATED",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "trainer_present_forbidden": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 2,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true,
+    "source_lock_publish_allowed_for_new_editorial": false,
+    "recent_similarity_window": 4,
+    "same_image_recent_forbidden": true,
+    "same_background_recent_forbidden": true,
+    "trainer_photo_reuse_forbidden": true,
+    "fail_closed_on_missing_fields": true
+  },
+  "operator_required": [
+    "read article context and decide short Editorial Copy",
+    "inspect only the scoped Drive source inventory and choose the most relevant source",
+    "define article-specific customer scene intent",
+    "generate the customer scene inside the selected real THE REV. environment (default 1 customer, max 2)",
+    "perform multimodal Visual QC against the real THE REV. source and approved references",
+    "commit generated scene, final Hybrid assets and QA result or otherwise hand them to the repository workflow"
   ]
 }

@@ -11,6 +11,7 @@
     "test:phase-9": "node scripts/test-phase-9.mjs",
     "test:hybrid-images": "node scripts/validate-hybrid-image-jobs.mjs",
     "image:compile-job": "node scripts/compile-hybrid-image-job.mjs",
+    "image:render-hybrid-overlay": "node scripts/render-hybrid-editorial-overlay.mjs",
     "test:editorial-images": "node scripts/validate-editorial-image-system.mjs"
   },
   "dependencies": {

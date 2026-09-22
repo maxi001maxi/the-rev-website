@@ -14,9 +14,11 @@ import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
 import { prepareEditorialImageJob, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
 import {
+  buildPendingHybridImageInfo,
   hybridImageInfoFromDraft,
   shouldPreserveHybridImageOnEditorialSync
 } from '../../lib/editorialHybridImageFormat.mjs';
+import { buildImageHeadlineShort } from '../../lib/editorialImageCopy.mjs';
 import {
   BRIDGE_SOURCE,
   bridgeConfig,
@@ -125,20 +127,38 @@ export default async function handler(req, res) {
 
   let imageInfo = null;
   try {
-    imageInfo = preserveHybrid
-      ? hybridImageInfoFromDraft(article)
-      : await prepareEditorialImageJob({
+    const explicitFallbackReason = String(body.image_fallback_reason || '').trim();
+    if (preserveHybrid) {
+      imageInfo = hybridImageInfoFromDraft(article);
+    } else if (explicitFallbackReason) {
+      imageInfo = await prepareEditorialImageJob({
+        title: normalized.value.title,
+        slug: normalized.value.slug,
+        description: normalized.value.description,
+        category: normalized.value.category,
+        bodyMarkdown: normalized.value.body_markdown,
+        primaryQuery: body.primary_query,
+        imageHeadlineShort: body.image_headline_short,
+        imageCategoryLabel: body.image_category_label,
+        imageSeriesLabel: body.image_series_label,
+        sourceImage: body.image_source_path,
+        fallbackReason: explicitFallbackReason
+      });
+    } else {
+      imageInfo = buildPendingHybridImageInfo({
+        title: normalized.value.title,
+        slug: normalized.value.slug,
+        categoryLabel: body.image_category_label || String(normalized.value.category || '').toUpperCase(),
+        columnLabel: body.image_series_label || '',
+        imageHeadlineShort: body.image_headline_short || buildImageHeadlineShort({
           title: normalized.value.title,
-          slug: normalized.value.slug,
           description: normalized.value.description,
           category: normalized.value.category,
           bodyMarkdown: normalized.value.body_markdown,
-          primaryQuery: body.primary_query,
-          imageHeadlineShort: body.image_headline_short,
-          imageCategoryLabel: body.image_category_label,
-          imageSeriesLabel: body.image_series_label,
-          sourceImage: body.image_source_path
-        });
+          primaryQuery: body.primary_query
+        })
+      });
+    }
   } catch (e) {
     if (article?.id) {
       await supabase
@@ -157,8 +177,8 @@ export default async function handler(req, res) {
     return send(res, 502, 'image_automation_failed', 'Reference V2のThumbnail / OGP準備中に予期しないエラーが発生しました。');
   }
 
-  const thumbnail = imageInfo.thumbnail;
-  const ogImage = imageInfo.ogImage;
+  const thumbnail = imageInfo.thumbnail || article?.thumbnail || null;
+  const ogImage = imageInfo.ogImage || article?.og_image || null;
 
   const articleValue = {
     ...normalized.value,
@@ -185,7 +205,9 @@ export default async function handler(req, res) {
     image_generation_model: imageInfo.generationModel || null,
     image_qa_model: imageInfo.qaModel || null,
     image_brand_qa_score: preservedHybridReady ? imageInfo.brandQaScore : null,
-    image_last_error: null
+    image_last_error: imageInfo.operatorRequired
+      ? 'V2.3 Hybrid画像をAI Operatorが生成・Visual QCするまでReview & Publishは停止します。'
+      : null
   };
   const metadata = normalizeBridgeMetadata(body);
   // Do not hash timestamps. The render version/strategy is stable and is enough
