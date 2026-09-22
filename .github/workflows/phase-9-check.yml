@@ -20,6 +20,12 @@ on:
       - 'lib/editorialImageStyle.mjs'
       - 'lib/editorialImageCopy.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'AGENTS.md'
+      - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
+      - 'editorial/editorial-image-system.json'
+      - 'editorial/hybrid-image-request.template.json'
+      - 'scripts/compile-hybrid-image-job.mjs'
+      - 'scripts/validate-editorial-image-system.mjs'
       - 'editorial/image-jobs/**.json'
       - 'editorial/hybrid-image-jobs/**.json'
       - 'editorial/reference-v23-hybrid-format.json'
@@ -48,7 +54,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node --check .github/qa/visual-qa.mjs
+      - run: node --check scripts/compile-hybrid-image-job.mjs
+      - run: node --check scripts/validate-editorial-image-system.mjs
       - run: npm run test:phase-9
       - run: npm run test:phase-d
-      - run: npm run test:hybrid-images
+      - run: npm run test:editorial-images
       - run: npm run build:blog
