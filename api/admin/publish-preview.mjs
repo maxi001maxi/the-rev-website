@@ -16,6 +16,7 @@ import {
   IMAGE_STYLE_TEMPLATE
 } from '../../lib/editorialImage.mjs';
 import { isHybridImageFormat } from '../../lib/editorialHybridImageFormat.mjs';
+import { evaluateEditorialImageReview } from '../../lib/editorialImageReviewGate.mjs';
 
 const IMAGE_RETRY_COOLDOWN_MS = 15 * 1000;
 
@@ -107,7 +108,13 @@ async function refreshStaleEditorialImages(supabase, id) {
     }
   }
 
-  if (draft.image_status === 'READY' && draft.image_asset_ready === true && draft.image_qa?.pass === true) return;
+  const reviewGate = evaluateEditorialImageReview({ draft, qa: draft.image_qa || {} });
+  if (
+    draft.image_status === 'READY' &&
+    draft.image_asset_ready === true &&
+    draft.image_qa?.pass === true &&
+    reviewGate.ok
+  ) return;
 
   const checkedAt = draft.image_checked_at ? new Date(draft.image_checked_at).getTime() : 0;
   const recentAttempt = Number.isFinite(checkedAt) && (Date.now() - checkedAt) < IMAGE_RETRY_COOLDOWN_MS;
