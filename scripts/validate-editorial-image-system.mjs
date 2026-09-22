@@ -34,6 +34,7 @@ const required = [
   'editorial/REFERENCE_V23_HYBRID_FORMAT.md',
   'editorial/reference-v23-hybrid-format.json',
   'editorial/hybrid-image-request.template.json',
+  'editorial/fixtures/hybrid-image-request.sample.json',
   'editorial/hybrid-image-jobs/_template.json',
   'scripts/compile-hybrid-image-job.mjs',
   'scripts/validate-hybrid-image-jobs.mjs',
@@ -84,6 +85,27 @@ const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
 assertTrue(agents.includes('editorial/EDITORIAL_IMAGE_RUNBOOK.md'), 'AGENTS.md must point to Editorial Image Runbook');
 assertTrue(readme.includes('editorial/EDITORIAL_IMAGE_RUNBOOK.md'), 'BLOG_README must point to Editorial Image Runbook');
+
+const compileSmoke = spawnSync(
+  process.execPath,
+  ['scripts/compile-hybrid-image-job.mjs', 'editorial/fixtures/hybrid-image-request.sample.json', '--stdout'],
+  { cwd: ROOT, encoding: 'utf8' }
+);
+if (compileSmoke.status !== 0) {
+  process.stderr.write(compileSmoke.stderr || '');
+  fail('Hybrid Job compiler smoke test failed.');
+}
+let compiledFixture;
+try {
+  compiledFixture = JSON.parse(compileSmoke.stdout);
+} catch {
+  fail('Hybrid Job compiler did not emit valid JSON in --stdout mode.');
+}
+assertEqual(compiledFixture.render_version, HYBRID_IMAGE_FORMAT.id, 'compiled fixture render_version drift');
+assertEqual(compiledFixture.image_strategy, HYBRID_IMAGE_FORMAT.strategy, 'compiled fixture image_strategy drift');
+assertEqual(compiledFixture.publish_requires_human_approval, true, 'compiled fixture lost human publish gate');
+assertTrue(compiledFixture.thumbnail.endsWith('-reference-v23-hybrid-fixture-50.jpg'), 'compiled fixture thumbnail path is not versioned');
+assertTrue(compiledFixture.background_source?.selection_reason === 'compiler contract test fixture', 'compiled fixture lost source selection rationale');
 
 const child = spawnSync(process.execPath, ['scripts/validate-hybrid-image-jobs.mjs'], {
   cwd: ROOT,
