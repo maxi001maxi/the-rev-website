@@ -450,3 +450,106 @@ Xserver反映とpublic asset bytes照合を確認します。Blog HTMLを先に�
 - Publishはまだ人間承認待ち
 
 ここまでをAIが担当し、最後のPublish判断だけを人間が担当します。
+
+
+---
+
+## 14. Review判定の追加ルール（人物・生成方式・再利用）
+
+### 14-1. 人物
+
+Blog / Columnサムネイルでは、**実在・生成を問わずトレーナー / スタッフ / コーチを使用しない**。
+
+許可:
+- 人物なし
+- 記事の状況説明に必要な顧客役の生成
+
+必須QA:
+- `trainer_present = false`
+- `unknown_trainer_present = false`
+- `non_customer_people_present = false`
+- `customer_only_or_no_people = true`
+
+この判定が欠けている場合もPASSにしない。
+
+### 14-2. 画像方式
+
+新規Editorial画像の標準は `HYBRID_GENERATED`。
+
+必須:
+- `review_mode = HYBRID_GENERATED`
+- `image_generation_used = true`
+- `fallback_used = false`
+
+Source-lockは障害時などの明示fallbackに限る。その場合:
+- `review_mode = SOURCE_LOCK_FALLBACK`
+- `fallback_used = true`
+- `fallback_reason` を空にしない
+
+「画像生成前提の記事へ既存写真を貼っただけ」はReview FAIL。
+
+### 14-3. THE REV.実背景
+
+必須:
+- `real_the_rev_background_confirmed = true`
+- `source_material_scope_pass = true`
+- `background_source_recorded = true`
+- `background_selection_reason_recorded = true`
+
+THE REV.ではない架空ジムへの置換は禁止。
+
+### 14-4. 直近4記事の再利用禁止
+
+Review時に直近4記事との重複を確認する。
+
+必須:
+- `recent_similarity_window >= 4`
+- `recent_similarity_check_pass = true`
+- `same_image_as_recent_articles = false`
+- `same_background_as_recent_articles = false`
+- `trainer_photo_reused = false`
+
+背景provenanceとして少なくとも以下を照合する:
+- content_reference
+- Drive source File ID
+- cached frame File ID
+- origin video File ID
+- origin video file name
+
+同一origin videoは、別フレームであっても直近4記事では原則同一背景扱いとする。
+
+### 14-5. Publish Gate
+
+Review UIの表示だけでなく、`lib/publishFlow.mjs` のサーバー側Preflightでも同じGateを再評価する。
+
+`lib/editorialImageReviewGate.mjs` を単一判定正本とし、
+Review / READY / Publishで判定基準を分岐させない。
+
+FAIL時はPublishボタンを無効にし、GitHub mainへの記事Publishを拒否する。
+
+### 14-6. 旧QA
+
+新しい必須フィールドが欠ける旧QAはfail-closedとする。
+「過去にpass=trueだったから」という理由で新Gateを迂回しない。
+
+### 14-7. 今回のAcceptance基準
+
+Draft:
+`f11add0c-3073-4e58-a4f6-ba050403b82e`
+
+Slug:
+`strength-training-to-failure-when-to-stop`
+
+旧画像 `assets/images/trainer-top.jpg` はトレーナー素材のため新GateではFAILでなければならない。
+
+修正版は:
+- THE REV.実背景
+- トレーナー不在
+- 顧客役のみ、または人物なし
+- Hybrid生成
+- 直近4記事と同一背景なし
+- 1200×675 Thumbnail
+- 1200×630 OGP
+- QA PASS
+
+を満たし、Review & Publish直前で停止する。
