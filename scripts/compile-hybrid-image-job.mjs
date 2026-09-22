@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   HYBRID_IMAGE_FORMAT,
-  hybridAssetPaths
+  buildHybridImageJob
 } from '../lib/editorialHybridImageFormat.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -75,46 +75,24 @@ if (bg.frame_position_ratio !== undefined && bg.frame_position_ratio !== null) {
   }
 }
 
-const paths = hybridAssetPaths(slug, assetVersion);
-
-const job = {
+const job = buildHybridImageJob({
   slug,
-  article_title: clean(request.article_title),
-  category_label: clean(request.category_label),
-  column_label: clean(request.column_label),
-  image_headline_short: clean(request.image_headline_short),
-  image_style_template: HYBRID_IMAGE_FORMAT.styleTemplate,
-  render_version: HYBRID_IMAGE_FORMAT.id,
-  image_strategy: HYBRID_IMAGE_FORMAT.strategy,
-  asset_version: assetVersion,
-  thumbnail: paths.thumbnailRepoPath,
-  og_image: paths.ogRepoPath,
-  qa_report_path: `editorial/image-qa/${slug}-${assetVersion}.json`,
-  generation_model: HYBRID_IMAGE_FORMAT.generationModel,
-  qa_model: HYBRID_IMAGE_FORMAT.qaModel,
-  publish_requires_human_approval: true,
-  policy: {
-    generated_customer_allowed: HYBRID_IMAGE_FORMAT.generationPolicy.generatedCustomerAllowed,
-    unknown_trainer_forbidden: HYBRID_IMAGE_FORMAT.generationPolicy.unknownTrainerForbidden,
-    non_customer_people_forbidden: HYBRID_IMAGE_FORMAT.generationPolicy.nonCustomerPeopleForbidden,
-    real_the_rev_background_required: HYBRID_IMAGE_FORMAT.generationPolicy.realTheRevEnvironmentRequired,
-    source_scope: HYBRID_IMAGE_FORMAT.sourcePolicy.scope,
-    drive_root_folder_id: HYBRID_IMAGE_FORMAT.driveRootFolderId,
-    recent_reference_window: HYBRID_IMAGE_FORMAT.recentReferenceWindow,
-    selection_policy: HYBRID_IMAGE_FORMAT.sourceSelectionPolicy,
-    publish_boundary: HYBRID_IMAGE_FORMAT.publishBoundary
-  },
-  background_source: {
-    drive_file_id: clean(bg.drive_file_id),
-    cached_frame_drive_file_id: clean(bg.cached_frame_drive_file_id),
-    origin_video_file_id: clean(bg.origin_video_file_id),
-    origin_video_file_name: clean(bg.origin_video_file_name),
-    frame_position_ratio: bg.frame_position_ratio ?? null,
-    selection_reason: clean(bg.selection_reason),
-    treatment: clean(bg.treatment) || 'real THE REV source; editorial soften/blur/depth allowed'
-  },
-  style_references: [...HYBRID_IMAGE_FORMAT.designReferenceAssets]
-};
+  title: clean(request.article_title),
+  categoryLabel: clean(request.category_label),
+  columnLabel: clean(request.column_label),
+  imageHeadlineShort: clean(request.image_headline_short),
+  assetVersion,
+  qaReportPath: `editorial/image-qa/${slug}-${assetVersion}.json`,
+  backgroundSource: {
+    driveFileId: clean(bg.drive_file_id),
+    cachedFrameDriveFileId: clean(bg.cached_frame_drive_file_id),
+    originVideoFileId: clean(bg.origin_video_file_id),
+    originVideoFileName: clean(bg.origin_video_file_name),
+    framePositionRatio: bg.frame_position_ratio ?? null,
+    selectionReason: clean(bg.selection_reason),
+    treatment: clean(bg.treatment)
+  }
+});
 
 const json = JSON.stringify(job, null, 2) + '\n';
 
