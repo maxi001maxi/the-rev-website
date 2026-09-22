@@ -1,6 +1,6 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "current_truth_date": "2026-09-22",
   "system_status": "REPRODUCIBLE_WITH_AI_OPERATOR",
   "fully_automated": false,
@@ -68,7 +68,9 @@
       "source-lock fallback rendering and QA",
       "Xserver asset-first deployment and live-byte verification",
       "publish preflight and image READY gate",
-      "Blog CSS fingerprinting and live CSS verification"
+      "Blog CSS fingerprinting and live CSS verification",
+      "trainer-free Review Gate shared by READY, Review and Publish",
+      "recent-4 deterministic provenance reuse rejection"
     ],
     "operator_required": [
       "read article context and decide short Editorial Copy",
@@ -96,6 +98,9 @@
   },
   "release_boundary": "REVIEW_AND_PUBLISH",
   "stop_conditions": [
+    "trainer / coach / staff appears in editorial thumbnail",
+    "same image or same background provenance appears in the recent 4 articles",
+    "Hybrid generation is missing without an explicit source-lock fallback reason",
     "source is outside the specified Drive root",
     "article relevance is weak",
     "unknown trainer/staff/coach is generated",
@@ -105,5 +110,17 @@
     "GitHub asset is missing",
     "Xserver public asset does not match repository bytes",
     "publish would occur without explicit human approval"
-  ]
+  ],
+  "review_policy": {
+    "standard_mode": "HYBRID_GENERATED",
+    "trainer_present_forbidden": true,
+    "generated_customer_allowed": true,
+    "customer_only_or_no_people_required": true,
+    "source_lock_requires_explicit_fallback_reason": true,
+    "recent_similarity_window": 4,
+    "same_image_recent_forbidden": true,
+    "same_background_recent_forbidden": true,
+    "trainer_photo_reuse_forbidden": true,
+    "fail_closed_on_missing_fields": true
+  }
 }
