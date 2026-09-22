@@ -21,7 +21,9 @@
     "non_customer_people_forbidden": true,
     "recent_reference_window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
-    "publish_boundary": "REVIEW_AND_PUBLISH"
+    "publish_boundary": "REVIEW_AND_PUBLISH",
+    "trainer_present_forbidden": true,
+    "customer_only_or_no_people_required": true
   },
   "background_source": {
     "cached_frame_drive_file_id": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
