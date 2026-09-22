@@ -6,14 +6,15 @@
 
 ## 0. 最初に結論
 
-現在の画像システムは、**再現可能な仕組みとしては実装済み**です。ただし、V2.3 Hybrid画像の「素材を見る → 記事に合う素材を選ぶ → 画像を生成する → 視覚QCする」は、品質と事実性を守るために **AI Operator必須**で、GitHub Actionsだけの完全無人生成にはしていません。
+現在の画像システムは、**再現可能な仕組みとしては実装済み**です。ただし、V2.4 Policyの「素材を見る → 記事に合う素材を選ぶ → 顧客シーンを生成する → 固定Overlayを適用する → 視覚QCする」は、品質と事実性を守るために **AI Operator必須**で、GitHub Actionsだけの完全無人生成にはしていません。
 
 したがって状態は次の通りです。
 
 - 仕様、命名、素材範囲、QC、出力サイズ、公開境界: 固定済み
 - Jobテンプレート、機械可読仕様、CI検証: 実装済み
 - V2.2 source-lock fallback: 自動化済み
-- V2.3 Hybrid生成: AI Operator orchestrated
+- V2.3 Hybrid engine + V2.4 Policy生成: AI Operator orchestrated
+- V2.4固定Overlay: `scripts/render-hybrid-editorial-overlay.mjs` で決定論的に適用
 - 最終Publish: 人間承認
 - このRunbook、manifest、Job compilerにより「何も知らないAI」への引き継ぎ: 実装済み
 
@@ -51,6 +52,7 @@
 | Hybrid Job validator | `scripts/validate-hybrid-image-jobs.mjs` |
 | システム全体validator | `scripts/validate-editorial-image-system.mjs` |
 | fallback仕様 | `lib/editorialImageStyle.mjs` |
+| Hybrid V2.4 fixed overlay | `scripts/render-hybrid-editorial-overlay.mjs` |
 | fallback renderer | `scripts/render-blog-image.mjs` |
 | fallback visual QA | `scripts/qa-editorial-image.mjs` |
 | Review preflight | `api/admin/publish-preview.mjs` |
@@ -65,9 +67,11 @@
 
 ## 3. 現行標準
 
-### V2.3 Hybrid
+### V2.3 Hybrid engine + V2.4 Policy
 
-- Format ID: `rev-column-reference-v2.3-hybrid`
+- Format ID: `rev-column-reference-v2.3-hybrid`（互換維持）
+- Policy revision: `editorial-thumbnail-v2.4`
+- Layout template: `rev-column-v24-fixed-overlay-v1`
 - Strategy: `reference-v2-gpt-image-hybrid-drive-source`
 - Thumbnail: **1200×675 / 16:9**
 - OGP: **1200×630**
@@ -78,11 +82,11 @@
 - `assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg`
 - `assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg`
 
-この2枚を「レイアウトのコピーテンプレ」として使ってはいけません。見るべきなのは、余白、静けさ、写真処理、タイポグラフィ、THE REV.実空間との整合です。
+この2枚は人物情景・写真処理・静けさのDesign Referenceです。V2.4の最終文字位置は固定Overlay rendererを正本とします。
 
 ### V2.2 fallback
 
-Hybrid生成前、または生成機能が使えないときだけ `rev-column-reference-v2.2` source-lockを使えます。
+Hybrid生成の障害切り分け時だけ `rev-column-reference-v2.2` source-lockを使えます。**新規Editorial記事はsource-lockのままPublish不可**です。
 
 - supplied THE REV. photoを生成編集しない
 - crop / resizeのみ
@@ -120,17 +124,21 @@ Content Referenceの探索範囲は指定Driveルートだけです。
 
 ## 5. 人物ルール
 
-許可:
+必須:
 
 - 顧客役の生成
-- 記事状況を伝えるために必要な一般利用者
+- 原則1人
+- 記事上必要な場合のみ2人まで
+- 記事状況を表情・姿勢・動作で伝える
 
 禁止:
 
 - 知らないトレーナー
 - 知らないスタッフ
 - 知らないコーチ
-- 顧客以外の意味のない第三者
+- 顧客以外の第三者
+- 実在・生成を問わずトレーナー / スタッフ / コーチ
+- 施設だけで完成させること
 
 生成顧客を使っても、背景のTHE REV.実空間が「どこか分からない架空のジム」へ変わってはいけません。
 
@@ -191,6 +199,8 @@ SEOタイトルを短く言い換えます。煽らず、静かで、記事の�
   "column_label": "COLUMN 08",
   "image_headline_short": "短い言葉で、\n意味を残す。",
   "asset_version": "reference-v23-hybrid-4387-50",
+  "scene_intent": "仕事終わりの顧客1人が、その日の状態を見ながら無理なく始める瞬間",
+  "generated_customer_count": 1,
   "background_source": {
     "cached_frame_drive_file_id": "DRIVE_FILE_ID",
     "origin_video_file_id": "ORIGIN_VIDEO_ID",
@@ -228,13 +238,20 @@ npm run image:compile-job -- path/to/request.json
 生成要件:
 
 - 背景のTHE REV.実空間を視覚アンカーにする
-- 構図は記事ごとに変えてよい
-- 生成顧客は必要なときだけ
-- 未知トレーナー禁止
+- 顧客役は必須。原則1人、最大2人
+- トレーナー / スタッフ / コーチ風人物は禁止
+- 人物の表情・姿勢・動作は記事内容に合わせる
+- 施設だけの完成画像は禁止
+- 生成シーンには日本語文字を入れない
 - premium editorial / quiet luxury / warm ivory
-- 広告CTAを入れない
-- Thumbnail 1200×675
-- OGP 1200×630
+
+生成シーンをJobの `generated_scene_path` へ保存した後、必ず:
+
+```bash
+npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/{slug}.json
+```
+
+を実行し、`rev-column-v24-fixed-overlay-v1` の固定文字レイアウトでThumbnail / OGPを作る。
 
 ### Step 7｜Visual QC
 
@@ -254,6 +271,12 @@ npm run image:compile-job -- path/to/request.json
 - unknown_trainer_present = false
 - non_customer_people_present = false
 - customer_only_or_no_people = true
+- generated_customer_present = true
+- generated_customer_count = 1..2
+- facility_only_thumbnail = false
+- fixed_overlay_layout_confirmed = true
+- layout_template_id = rev-column-v24-fixed-overlay-v1
+- policy_revision = editorial-thumbnail-v2.4
 - expected_copy_present = true
 - copy_legible = true
 - too_promotional = false
@@ -330,12 +353,13 @@ Review画面で:
 
 ## 9. GitHubへ必ず残すもの
 
-Hybrid 1記事につき最低4点です。
+Hybrid 1記事につき最低5点です。
 
-1. Thumbnail
-2. OGP
-3. `editorial/hybrid-image-jobs/{slug}.json`
-4. `editorial/image-qa/{slug}-{asset_version}.json`
+1. generated scene
+2. Thumbnail
+3. OGP
+4. `editorial/hybrid-image-jobs/{slug}.json`
+5. `editorial/image-qa/{slug}-{asset_version}.json`
 
 加えて記事側のthumbnail / og_image / image_asset_version / image_render_versionが一致している必要があります。
 
@@ -408,7 +432,7 @@ Xserver deployでは本番CSS bytesと `aspect-ratio:16/9` まで照合します
 
 ### E. Hybrid生成機能が使えない
 
-V2.2 source-lock fallbackへ進みます。ただし、既にV2.3 READYの画像をfallbackへ上書きしません。
+V2.2 source-lockで障害切り分けはできますが、新規Editorial記事はREADY / Publishへ進めません。Hybrid生成が復旧するまでPREPARINGで停止します。既に承認済みのHybrid画像もfallbackへ上書きしません。
 
 ### F. GitHubにはあるが本番で見えない
 
@@ -460,15 +484,18 @@ Xserver反映とpublic asset bytes照合を確認します。Blog HTMLを先に�
 
 Blog / Columnサムネイルでは、**実在・生成を問わずトレーナー / スタッフ / コーチを使用しない**。
 
-許可:
-- 人物なし
-- 記事の状況説明に必要な顧客役の生成
+必須:
+- 記事の状況説明に必要な顧客役
+- 原則1人、最大2人
 
 必須QA:
 - `trainer_present = false`
 - `unknown_trainer_present = false`
 - `non_customer_people_present = false`
 - `customer_only_or_no_people = true`
+- `generated_customer_present = true`
+- `generated_customer_count = 1..2`
+- `facility_only_thumbnail = false`
 
 この判定が欠けている場合もPASSにしない。
 
@@ -481,10 +508,7 @@ Blog / Columnサムネイルでは、**実在・生成を問わずトレーナ�
 - `image_generation_used = true`
 - `fallback_used = false`
 
-Source-lockは障害時などの明示fallbackに限る。その場合:
-- `review_mode = SOURCE_LOCK_FALLBACK`
-- `fallback_used = true`
-- `fallback_reason` を空にしない
+Source-lockは障害切り分け用の明示fallbackに限る。その場合でも新規Editorial記事のPublish完成条件にはしない。
 
 「画像生成前提の記事へ既存写真を貼っただけ」はReview FAIL。
 
@@ -545,8 +569,10 @@ Slug:
 修正版は:
 - THE REV.実背景
 - トレーナー不在
-- 顧客役のみ、または人物なし
+- 顧客役1人を基本（最大2人）
+- facility-onlyではない
 - Hybrid生成
+- V2.4固定Overlay適用
 - 直近4記事と同一背景なし
 - 1200×675 Thumbnail
 - 1200×630 OGP
