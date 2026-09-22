@@ -68,6 +68,12 @@ const schema = {
     source_identity_preservation: { type: 'integer', minimum: 0, maximum: 10 },
     invented_people_or_objects: { type: 'boolean' },
     source_photo_changed_materially: { type: 'boolean' },
+    trainer_present: { type: 'boolean' },
+    unknown_trainer_present: { type: 'boolean' },
+    non_customer_people_present: { type: 'boolean' },
+    customer_only_or_no_people: { type: 'boolean' },
+    real_the_rev_background_confirmed: { type: 'boolean' },
+    source_material_scope_pass: { type: 'boolean' },
     copy_legible: { type: 'boolean' },
     expected_copy_present: { type: 'boolean' },
     unexpected_readable_text: { type: 'boolean' },
@@ -87,6 +93,12 @@ const schema = {
     'source_identity_preservation',
     'invented_people_or_objects',
     'source_photo_changed_materially',
+    'trainer_present',
+    'unknown_trainer_present',
+    'non_customer_people_present',
+    'customer_only_or_no_people',
+    'real_the_rev_background_confirmed',
+    'source_material_scope_pass',
     'copy_legible',
     'expected_copy_present',
     'unexpected_readable_text',
@@ -183,6 +195,12 @@ const hardPass =
   qa.source_identity_preservation >= 9 &&
   qa.invented_people_or_objects === false &&
   qa.source_photo_changed_materially === false &&
+  qa.trainer_present === false &&
+  qa.unknown_trainer_present === false &&
+  qa.non_customer_people_present === false &&
+  qa.customer_only_or_no_people === true &&
+  qa.real_the_rev_background_confirmed === true &&
+  qa.source_material_scope_pass === true &&
   qa.copy_legible === true &&
   qa.expected_copy_present === true &&
   (
@@ -191,9 +209,34 @@ const hardPass =
   ) &&
   qa.too_promotional === false;
 
+const recentGuard = job.recent_reference_guard || {};
+const currentRef = String(job.content_reference || '');
+const recentRefs = Array.isArray(recentGuard.recent_content_references)
+  ? recentGuard.recent_content_references.map(String)
+  : [];
+const deterministicRepeat = Boolean(currentRef && recentRefs.includes(currentRef));
+const trainerSource = /(^|\/)(trainer-|career-boxing|career-asia|career-racing)/i.test(currentRef);
+const fallbackReason = String(job.fallback_reason || '').trim();
+const reviewHardPass =
+  hardPass &&
+  !deterministicRepeat &&
+  !trainerSource &&
+  Boolean(fallbackReason);
+
 const report = {
   ...qa,
-  pass: hardPass,
+  pass: reviewHardPass,
+  review_mode: 'SOURCE_LOCK_FALLBACK',
+  image_generation_used: false,
+  fallback_used: true,
+  fallback_reason: fallbackReason,
+  background_source_recorded: Boolean(currentRef),
+  background_selection_reason_recorded: Boolean(String(job.content_reference_reason || '').trim()),
+  recent_similarity_window: Number(recentGuard.window || 0),
+  recent_similarity_check_pass: !deterministicRepeat,
+  same_image_as_recent_articles: deterministicRepeat,
+  same_background_as_recent_articles: deterministicRepeat,
+  trainer_photo_reused: trainerSource,
   template: REV_COLUMN_REFERENCE_V2.id,
   render_version: REV_COLUMN_REFERENCE_V2.renderVersion,
   generation_model: job.generation_model || REV_COLUMN_REFERENCE_V2.generationModel,
@@ -215,4 +258,4 @@ const tmpQa = path.join(tmpDir, `${slug}-${asset_version}-qa.json`);
 fs.writeFileSync(tmpQa, JSON.stringify(report, null, 2) + '\n');
 
 console.log(JSON.stringify(report));
-process.exitCode = hardPass ? 0 : 2;
+process.exitCode = reviewHardPass ? 0 : 2;
