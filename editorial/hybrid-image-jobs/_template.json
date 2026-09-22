@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Canonical full Job example only. For a new article, fill editorial/hybrid-image-request.template.json and run npm run image:compile-job -- <request.json>; do not hand-author fixed policy fields.",
+  "_note": "Canonical full Job example. New articles use the request compiler. V2.4 requires a generated customer scene plus deterministic fixed overlay; do not hand-author fixed policy fields.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -27,7 +27,14 @@
     "selection_policy": "relevance-first-lineage-recency-v2",
     "publish_boundary": "REVIEW_AND_PUBLISH",
     "trainer_present_forbidden": true,
-    "customer_only_or_no_people_required": true
+    "customer_only_or_no_people_required": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 2,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true,
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "policy_revision": "editorial-thumbnail-v2.4"
   },
   "background_source": {
     "drive_file_id": "",
@@ -41,5 +48,10 @@
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
-  ]
+  ],
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "scene_intent": "記事内容に合わせた顧客役1人の情景",
+  "generated_customer_count": 1,
+  "generated_scene_path": "assets/images/editorial-generated/<slug>-<asset_version>-scene.jpg"
 }
