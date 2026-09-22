@@ -13,18 +13,20 @@
 
 ### 絶対に守ること
 
-- 現行標準は `rev-column-reference-v2.3-hybrid`
+- 現行画像engineは `rev-column-reference-v2.3-hybrid`、運用Policyは **`editorial-thumbnail-v2.4`**
 - Thumbnailは **1200×675 / 16:9**
 - OGPは **1200×630**
 - Content Referenceは指定Driveルートの範囲だけを使う
 - THE REV.ではない架空のジムへ置き換えない
 - 未知のトレーナー、スタッフ、コーチを生成しない
 - **実在トレーナー写真もBlog / Columnサムネイルには使わない**
-- 人物を出す場合は顧客役のみ。人物なしも可
+- **顧客役は必須。原則1人、記事上必要な場合のみ2人まで**
+- トレーナー / スタッフ / コーチ風人物は実在・生成を問わず禁止
+- **施設だけの完成サムネイルは禁止**
 - 直近4記事と同一画像・同一背景provenanceを再利用しない
-- 新規Editorial画像はV2.3 Hybrid生成が標準。source-lockは理由を記録した明示fallbackだけ
-- 人物生成は顧客役だけ許可
-- V2.3 Hybrid完成前のみV2.2 source-lockを安全なfallbackとして使える
+- 新規Editorial画像はHybrid生成が必須。source-lockは障害切り分け用fallbackとしてのみ残し、新規記事のPublish完成条件にはしない
+- 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する
+- V2.3 Hybrid完成前にV2.2 source-lockを診断用fallbackとして作ることはできるが、V2.4の新規Editorial記事はHybrid完成までPublish不可
 - 一度READYになったHybrid画像を本文再同期だけでsource-lockへ巻き戻さない
 - 最終Publishは必ず人間承認で停止する
 
