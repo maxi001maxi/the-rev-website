@@ -20,6 +20,7 @@ on:
       - 'lib/editorialImageStyle.mjs'
       - 'lib/editorialImageCopy.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialImageReviewGate.mjs'
       - 'AGENTS.md'
       - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
       - 'editorial/editorial-image-system.json'
@@ -57,6 +58,7 @@ jobs:
       - run: node --check .github/qa/visual-qa.mjs
       - run: node --check scripts/compile-hybrid-image-job.mjs
       - run: node --check scripts/validate-editorial-image-system.mjs
+      - run: node --check lib/editorialImageReviewGate.mjs
       - run: npm run test:phase-9
       - run: npm run test:phase-d
       - run: npm run test:editorial-images
