@@ -32,5 +32,19 @@
   "qa_method": "multimodal visual inspection against real Drive source and approved series",
   "slug": "no-time-for-gym-starting-friction",
   "asset_version": "reference-v23-hybrid-3978-20",
-  "checked_at": "2026-09-19T09:03:00Z"
+  "checked_at": "2026-09-19T09:03:00Z",
+  "review_mode": "HYBRID_GENERATED",
+  "image_generation_used": true,
+  "fallback_used": false,
+  "fallback_reason": "",
+  "trainer_present": false,
+  "real_the_rev_background_confirmed": true,
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_window": 4,
+  "recent_similarity_check_pass": true,
+  "recent_background_source_ids": []
 }
