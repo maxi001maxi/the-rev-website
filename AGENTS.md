@@ -19,6 +19,10 @@
 - Content Referenceは指定Driveルートの範囲だけを使う
 - THE REV.ではない架空のジムへ置き換えない
 - 未知のトレーナー、スタッフ、コーチを生成しない
+- **実在トレーナー写真もBlog / Columnサムネイルには使わない**
+- 人物を出す場合は顧客役のみ。人物なしも可
+- 直近4記事と同一画像・同一背景provenanceを再利用しない
+- 新規Editorial画像はV2.3 Hybrid生成が標準。source-lockは理由を記録した明示fallbackだけ
 - 人物生成は顧客役だけ許可
 - V2.3 Hybrid完成前のみV2.2 source-lockを安全なfallbackとして使える
 - 一度READYになったHybrid画像を本文再同期だけでsource-lockへ巻き戻さない
