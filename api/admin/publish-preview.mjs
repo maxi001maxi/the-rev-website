@@ -15,7 +15,7 @@ import {
   IMAGE_RENDER_VERSION,
   IMAGE_STYLE_TEMPLATE
 } from '../../lib/editorialImage.mjs';
-import { isHybridImageFormat } from '../../lib/editorialHybridImageFormat.mjs';
+import { buildPendingHybridImageInfo, isHybridImageFormat } from '../../lib/editorialHybridImageFormat.mjs';
 import { evaluateEditorialImageReview } from '../../lib/editorialImageReviewGate.mjs';
 
 const IMAGE_RETRY_COOLDOWN_MS = 15 * 1000;
@@ -46,66 +46,36 @@ async function refreshStaleEditorialImages(supabase, id) {
   // the V2.2 source-lock route. Both are current publishable image routes.
   const referenceCurrent = sourceLockCurrent || hybridCurrent;
 
-  // Existing older articles are automatically queued into the single
-  // Reference V2 route when their Review page is opened.
+  // Existing older/non-current image routes no longer auto-downgrade into
+  // source-lock. The current standard is V2.3 Hybrid and an AI Operator must
+  // choose the real THE REV. source, generate the customer-only/no-people
+  // composition and run Visual QC. Source-lock is allowed only as an explicit
+  // fallback with a recorded reason.
   if (!referenceCurrent) {
-    try {
-      const image = await prepareEditorialImageJob({
-        title: draft.title,
-        slug: draft.slug,
-        description: draft.description,
-        category: draft.category,
-        bodyMarkdown: draft.body_markdown,
-        primaryQuery: Array.isArray(draft.keywords) ? draft.keywords[0] : '',
-        imageHeadlineShort: draft.image_headline_short,
-        imageCategoryLabel: draft.image_category_label,
-        imageSeriesLabel: draft.image_series_label || (draft.slug === 'after-work-tired-strength-training' ? 'COLUMN 06' : ''),
-        sourceImage: String(draft.image_strategy || '').includes('explicit-source')
-          ? draft.image_source_path
-          : ''
-      });
-
-      await supabase
-        .from('admin_article_drafts')
-        .update({
-          thumbnail: image.thumbnail,
-          og_image: image.ogImage,
-          image_status: 'PREPARING',
-          image_render_version: image.renderVersion,
-          image_strategy: image.strategy,
-          image_source_path: image.sourcePath,
-          image_asset_ready: false,
-          image_checked_at: new Date().toISOString(),
-          image_qa: image.qa,
-          image_style_template: image.styleTemplate,
-          image_headline_short: image.imageHeadlineShort,
-          image_category_label: image.categoryLabel,
-          image_series_label: image.seriesLabel,
-          image_asset_version: image.assetVersion,
-          image_job_path: image.jobPath,
-          image_qa_report_path: image.qaReportPath,
-          image_generation_model: image.generationModel,
-          image_qa_model: image.qaModel,
-          image_brand_qa_score: null,
-          image_qa: null,
-          image_last_error: null
-        })
-        .eq('id', id);
-      return;
-    } catch (e) {
-      const message = e instanceof Error ? e.message : '記事画像Jobの自動準備に失敗しました。';
-      await supabase
-        .from('admin_article_drafts')
-        .update({
-          image_status: 'ERROR',
-          image_asset_ready: false,
-          image_last_error: String(message).slice(0, 1000),
-          image_checked_at: new Date().toISOString()
-        })
-        .eq('id', id);
-      if (!(e instanceof EditorialImageError)) console.error('Reference V2 image queue failed', e);
-      return;
-    }
+    const pending = buildPendingHybridImageInfo({
+      title: draft.title,
+      slug: draft.slug,
+      categoryLabel: draft.image_category_label || String(draft.category || '').toUpperCase(),
+      columnLabel: draft.image_series_label || '',
+      imageHeadlineShort: draft.image_headline_short || ''
+    });
+    await supabase
+      .from('admin_article_drafts')
+      .update({
+        image_status: 'PREPARING',
+        image_render_version: pending.renderVersion,
+        image_strategy: pending.strategy,
+        image_asset_ready: false,
+        image_checked_at: new Date().toISOString(),
+        image_style_template: pending.styleTemplate,
+        image_job_path: pending.jobPath,
+        image_generation_model: pending.generationModel,
+        image_qa_model: pending.qaModel,
+        image_brand_qa_score: null,
+        image_last_error: 'V2.3 Hybrid画像をAI Operatorが生成・Visual QCするまでReview & Publishは停止します。'
+      })
+      .eq('id', id);
+    return;
   }
 
   const reviewGate = evaluateEditorialImageReview({ draft, qa: draft.image_qa || {} });
