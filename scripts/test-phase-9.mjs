@@ -425,6 +425,24 @@ assert(evaluateEditorialImageReview({
   recentHistory: [{ contentReference: 'assets/images/editorial-source/drive/customer-free-background.jpg' }]
 }).ok === false, 'provenanceが直近記事と一致すれば自己申告に関係なくFAIL');
 
+const targetOldQa = JSON.parse(
+  fs.readFileSync(new URL('../editorial/image-qa/strength-training-to-failure-when-to-stop-reference-v2-4f56d20ad4.json', import.meta.url), 'utf8')
+);
+const targetOldGate = evaluateEditorialImageReview({
+  draft: {
+    image_render_version: 'rev-column-reference-v2.2',
+    image_strategy: 'reference-v2-source-lock-auto-source',
+    image_source_path: targetOldQa.content_reference,
+    image_asset_version: targetOldQa.asset_version
+  },
+  qa: targetOldQa
+});
+assert(targetOldGate.ok === false, '今回記事の旧trainer-top画像はV2.4 Review GateでFAIL');
+assert(
+  targetOldGate.errors.some((m) => m.includes('トレーナー')),
+  '今回記事の旧画像FAIL理由にトレーナー素材が含まれる'
+);
+
 
 const equipmentArticle = {
   title: '筋トレの負荷はどう決める？ラックと重量設定の考え方',
