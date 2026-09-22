@@ -1,0 +1,19 @@
+{
+  "_template": true,
+  "_note": "Copy this file, remove _template/_note, fill only the article/source-specific fields, then run npm run image:compile-job -- <request.json>.",
+  "slug": "replace-with-article-slug",
+  "article_title": "記事タイトル",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN XX",
+  "image_headline_short": "短いEditorial Copy",
+  "asset_version": "reference-v23-hybrid-<source-lineage>",
+  "background_source": {
+    "drive_file_id": "",
+    "cached_frame_drive_file_id": "",
+    "origin_video_file_id": "",
+    "origin_video_file_name": "",
+    "frame_position_ratio": null,
+    "selection_reason": "この記事にこのTHE REV.実素材が最も合う理由",
+    "treatment": "real THE REV source; editorial soften/blur/depth allowed"
+  }
+}
