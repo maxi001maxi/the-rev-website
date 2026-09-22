@@ -65,6 +65,8 @@ const schema = {
     negative_space: { type: 'integer', minimum: 0, maximum: 10 },
     photo_treatment: { type: 'integer', minimum: 0, maximum: 10 },
     article_visual_relevance: { type: 'integer', minimum: 0, maximum: 10 },
+    rev_environment_consistency: { type: 'integer', minimum: 0, maximum: 10 },
+    brand_space_authenticity: { type: 'integer', minimum: 0, maximum: 10 },
     source_identity_preservation: { type: 'integer', minimum: 0, maximum: 10 },
     invented_people_or_objects: { type: 'boolean' },
     source_photo_changed_materially: { type: 'boolean' },
@@ -90,6 +92,8 @@ const schema = {
     'negative_space',
     'photo_treatment',
     'article_visual_relevance',
+    'rev_environment_consistency',
+    'brand_space_authenticity',
     'source_identity_preservation',
     'invented_people_or_objects',
     'source_photo_changed_materially',
@@ -189,9 +193,11 @@ const hardPass =
   qa.series_consistency >= 8 &&
   qa.editorial_quality >= 8 &&
   qa.typography_harmony >= 8 &&
-  qa.negative_space >= 7 &&
-  qa.photo_treatment >= 7 &&
+  qa.negative_space >= 8 &&
+  qa.photo_treatment >= 8 &&
   qa.article_visual_relevance >= 8 &&
+  qa.rev_environment_consistency >= 8 &&
+  qa.brand_space_authenticity >= 8 &&
   qa.source_identity_preservation >= 9 &&
   qa.invented_people_or_objects === false &&
   qa.source_photo_changed_materially === false &&
