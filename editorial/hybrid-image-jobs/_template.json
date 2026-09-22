@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Copy this file for a new V2.3 Hybrid article. Do not commit placeholders as a real job.",
+  "_note": "Canonical full Job example only. For a new article, fill editorial/hybrid-image-request.template.json and run npm run image:compile-job -- <request.json>; do not hand-author fixed policy fields.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -33,7 +33,8 @@
     "origin_video_file_id": "",
     "origin_video_file_name": "",
     "frame_position_ratio": null,
-    "treatment": "real THE REV source; editorial soften/blur/depth allowed"
+    "treatment": "real THE REV source; editorial soften/blur/depth allowed",
+    "selection_reason": ""
   },
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
