@@ -100,22 +100,22 @@ assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事�
 assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
 assert(validateImageHeadlineShort(shortCopy).ok === true, '画像コピーが長さ・トーン規則を通過');
 const fatigueDecision = selectBrandImageSourceDecision(fatigueArticle);
-assert(selectBrandImageSource(fatigueArticle) === 'assets/images/trainer-coaching.jpg', '疲労・判断系は設備単体よりコーチング実写を選ぶ');
-assert(fatigueDecision.intent === 'state-check-coaching', 'Content Referenceの選定意図を保持');
+assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労・判断系でもトレーナー写真を自動選定せず実設備背景を選ぶ');
+assert(fatigueDecision.intent === 'state-check-training-space', 'Content Referenceの選定意図を保持');
 assert(Boolean(fatigueDecision.reason), 'Content Referenceの選定理由を保持');
 assert(RECENT_CONTENT_REFERENCE_WINDOW === 4, 'Content Reference重複チェック窓を直近4記事へ固定');
 assert(CONTENT_REFERENCE_SELECTION_POLICY === 'relevance-first-lineage-recency-v2', '関連性優先・過去使用履歴・直近4記事の正本ポリシーを固定');
 
 const fatigueRecent = [
-  { slug: 'prev-1', contentReference: 'assets/images/trainer-coaching.jpg', checkedAt: '2026-09-19T09:00:00Z' },
+  { slug: 'prev-1', contentReference: 'assets/images/photo-evolgear.jpg', checkedAt: '2026-09-19T09:00:00Z' },
   { slug: 'prev-2', contentReference: 'assets/images/photo-lobby.jpg', checkedAt: '2026-09-18T09:00:00Z' },
-  { slug: 'prev-3', contentReference: 'assets/images/photo-evolgear.jpg', checkedAt: '2026-09-17T09:00:00Z' },
-  { slug: 'prev-4', contentReference: 'assets/images/trainer-top.jpg', checkedAt: '2026-09-16T09:00:00Z' }
+  { slug: 'prev-3', contentReference: 'assets/images/photo-oxyroom.jpg', checkedAt: '2026-09-17T09:00:00Z' },
+  { slug: 'prev-4', contentReference: 'assets/images/photo-solution-denba.jpg', checkedAt: '2026-09-16T09:00:00Z' }
 ];
 const fatigueWithHistory = selectContentReferenceWithHistory(fatigueArticle, fatigueRecent);
 assert(
-  fatigueWithHistory.path === 'assets/images/trainer-top.jpg',
-  '同格候補が直近4記事ですべて使用済みなら最も久しく使っていない実写真を選ぶ'
+  fatigueWithHistory.path === 'assets/images/photo-evolgear.jpg',
+  '記事関連性を優先しつつトレーナー素材を候補に含めない'
 );
 assert(fatigueWithHistory.repeatedDueToRelevance === false, '過去使用Registryがない場合はhistorical reuse扱いにしない');
 
@@ -123,7 +123,7 @@ const legacyUsage = [
   {
     slug: 'personal-gym-trial-checkpoints',
     title: 'パーソナルジムの体験では何を見る？入会前に確認したい5つのこと',
-    contentReference: 'assets/images/trainer-coaching.jpg',
+    contentReference: 'assets/images/photo-lobby.jpg',
     status: 'published',
     published: '2026-09-13',
     provenance: 'legacy-confirmed-by-owner'
@@ -131,10 +131,10 @@ const legacyUsage = [
 ];
 const fatigueWithLegacy = selectContentReferenceWithHistory(fatigueArticle, [], legacyUsage);
 assert(
-  fatigueWithLegacy.path === 'assets/images/trainer-top.jpg',
-  '同じ関連性なら過去記事で未使用の実写真を優先し、trial記事とのtrainer-coaching重複を回避'
+  fatigueWithLegacy.path === 'assets/images/photo-evolgear.jpg',
+  '過去履歴があってもトレーナー素材へフォールバックしない'
 );
-assert(fatigueWithLegacy.avoidedHistoricalRepeat === true, '過去記事との重複回避を監査情報へ記録');
+assert(fatigueWithLegacy.avoidedHistoricalRepeat === false, '関連性優先で設備背景を維持');
 assert(fatigueWithLegacy.everUsedBefore === false, '選択画像が過去記事で未使用か判定');
 
 const genericBodyArticle = {
@@ -145,15 +145,15 @@ const genericBodyArticle = {
   category: 'body-knowledge'
 };
 const genericRecent = [
-  { slug: 'prev-a', contentReference: 'assets/images/trainer-coaching.jpg', checkedAt: '2026-09-19T09:00:00Z' },
+  { slug: 'prev-a', contentReference: 'assets/images/photo-evolgear.jpg', checkedAt: '2026-09-19T09:00:00Z' },
   { slug: 'prev-b', contentReference: 'assets/images/photo-lobby.jpg', checkedAt: '2026-09-18T09:00:00Z' }
 ];
 const genericDecision = selectContentReferenceWithHistory(genericBodyArticle, genericRecent);
 assert(
-  genericDecision.path === 'assets/images/trainer-top.jpg',
-  '同じ関連性レベル内では直近4記事で未使用のContent Referenceを優先'
+  genericDecision.path === 'assets/images/photo-evolgear.jpg',
+  '身体知識でもトレーナー写真を自動選定しない'
 );
-assert(genericDecision.avoidedRecentRepeat === true, '同格候補での短期間再利用回避を記録');
+assert(genericDecision.avoidedRecentRepeat === false, '重複時はReview Gateで止めるため関連性を優先した選定を維持');
 assert(genericDecision.selectionPolicy === CONTENT_REFERENCE_SELECTION_POLICY, '選定ポリシーを監査可能に保持');
 
 const plan = buildEditorialImagePlan(fatigueArticle, {
@@ -164,8 +164,8 @@ assert(plan.styleTemplate === 'rev-column-reference-v2', 'Reference V2 template�
 assert(plan.imageHeadlineShort === shortCopy, 'Jobへ短い画像コピーを渡す');
 assert(plan.seriesLabel === 'COLUMN 06', 'Column番号をJobへ保持');
 assert(plan.styleReferences.length === 5, 'Jobへ承認済み旧5記事をすべて渡す');
-assert(plan.sourcePath === 'assets/images/trainer-top.jpg', '記事関連性を維持しつつ過去未使用のTHE REV.実写をContent Referenceへ設定');
-assert(plan.sourceIntent === 'state-check-guidance', 'Job planへContent Reference intentを保持');
+assert(plan.sourcePath === 'assets/images/photo-evolgear.jpg', 'source-lock fallbackでもトレーナー写真を選ばない');
+assert(plan.sourceIntent === 'state-check-training-space', 'Job planへContent Reference intentを保持');
 assert(plan.strategy === 'reference-v2-source-lock-auto-source', 'source-photo-lock自動選定をstrategyに記録');
 assert(/^reference-v2-[a-f0-9]{10}$/.test(plan.assetVersion), '画像versionをReference V2内容ハッシュで固定');
 assert(
@@ -184,9 +184,9 @@ assert(plan.job.recent_reference_guard.window === 4, 'Jobへ直近4記事の参�
 assert(plan.job.recent_reference_guard.selection_policy === CONTENT_REFERENCE_SELECTION_POLICY, 'Jobへ関連性優先ポリシーを保持');
 assert(plan.job.recent_reference_guard.priority_order[0] === 'article_relevance', '記事関連性を最優先として記録');
 assert(plan.job.recent_reference_guard.priority_order[1] === 'never_used_in_past_articles', '過去未使用を同格候補内の第2優先に設定');
-assert(plan.job.recent_reference_guard.avoided_historical_repeat === true, 'Jobへ過去記事重複回避結果を保持');
+assert(plan.job.recent_reference_guard.avoided_historical_repeat === false, 'Jobへ選定結果を保持');
 assert(plan.job.recent_reference_guard.recent_articles.length === 0, '直近履歴なしでも選定可能');
-assert(plan.job.recent_reference_guard.historical_matching_articles.length === 0, '選択したtrainer-topには過去使用記事がない');
+assert(plan.job.recent_reference_guard.historical_matching_articles.length === 0, '選択した設備背景には過去使用記事がない');
 assert(plan.thumbnail.includes(`-${plan.assetVersion}.jpg`), 'Thumbnailはversioned filename');
 assert(plan.ogImage.includes(`-${plan.assetVersion}.jpg`), 'OGPはversioned filename');
 
