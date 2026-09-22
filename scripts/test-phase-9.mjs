@@ -200,7 +200,7 @@ assert(HYBRID_IMAGE_FORMAT.generationPolicy.generatedCustomerAllowed === true, '
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.unknownTrainerForbidden === true, '未知トレーナー生成を禁止');
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.nonCustomerPeopleForbidden === true, '顧客以外の第三者生成を禁止');
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.realTheRevEnvironmentRequired === true, '実THE REV.環境を背景正本として必須化');
-assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'editorial-not-rigid-template', '固定座標テンプレではなくデザイン文法として運用');
+assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'fixed-editorial-overlay-flexible-scene', 'V2.4は人物情景を可変、文字Overlayを固定');
 assert(HYBRID_IMAGE_FORMAT.designReferenceAssets.length === 2, '承認済みV2.3 Hybrid 2枚をDesign Referenceへ固定');
 assert(HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony === 8, 'Typography QC下限を8へ固定');
 assert(HYBRID_IMAGE_FORMAT.qc.minNegativeSpace === 8, 'Negative Space QC下限を8へ固定');
@@ -218,6 +218,8 @@ const hybridJob = buildHybridImageJob({
   imageHeadlineShort: '実空間から、\n誌面をつくる。',
   assetVersion: 'reference-v23-hybrid-sample',
   qaReportPath: 'editorial/image-qa/sample-hybrid-article-reference-v23-hybrid-sample.json',
+  sceneIntent: 'THE REV.実空間で顧客1人が自分の状態を見ながらトレーニングを始める',
+  generatedCustomerCount: 1,
   backgroundSource: {
     cachedFrameDriveFileId: 'drive-frame-1',
     originVideoFileId: 'video-1',
@@ -232,7 +234,11 @@ assert(
   'Hybrid Jobへ承認済み2枚のStyle Referenceを保持'
 );
 assert(hybridJob.policy.drive_root_folder_id === HYBRID_IMAGE_FORMAT.driveRootFolderId, 'Hybrid Jobへ指定Driveルートを保持');
-assert(hybridJob.policy.generated_customer_allowed === true && hybridJob.policy.unknown_trainer_forbidden === true, 'Hybrid Jobへ人物ルールを保持');
+assert(hybridJob.policy.generated_customer_allowed === true && hybridJob.policy.generated_customer_required === true && hybridJob.policy.unknown_trainer_forbidden === true, 'Hybrid JobへV2.4人物ルールを保持');
+assert(hybridJob.policy_revision === HYBRID_IMAGE_FORMAT.policyRevision, 'Hybrid JobへV2.4 policy revisionを保持');
+assert(hybridJob.layout_template_id === HYBRID_IMAGE_FORMAT.layoutTemplateId, 'Hybrid Jobへ固定Overlay IDを保持');
+assert(hybridJob.generated_customer_count === 1 && Boolean(hybridJob.scene_intent), 'Hybrid Jobへ顧客人数とscene intentを保持');
+assert(hybridJob.generated_scene_path.includes('assets/images/editorial-generated/'), 'Hybrid Jobへ中間generated scene pathを保持');
 assert(hybridJob.publish_requires_human_approval === true, 'Hybrid JobはHuman Reviewを必須化');
 const hybridPaths = hybridAssetPaths('sample-hybrid-article', 'reference-v23-hybrid-sample');
 assert(hybridJob.thumbnail === hybridPaths.thumbnailRepoPath && hybridJob.og_image === hybridPaths.ogRepoPath, 'Hybrid Jobのversioned asset pathを決定論的に生成');
@@ -251,6 +257,12 @@ const goodHybridQa = {
   unknown_trainer_present: false,
   non_customer_people_present: false,
   customer_only_or_no_people: true,
+  generated_customer_present: true,
+  generated_customer_count: 1,
+  facility_only_thumbnail: false,
+  fixed_overlay_layout_confirmed: true,
+  layout_template_id: 'rev-column-v24-fixed-overlay-v1',
+  policy_revision: 'editorial-thumbnail-v2.4',
   expected_copy_present: true,
   copy_legible: true,
   too_promotional: false,
@@ -268,13 +280,17 @@ const goodHybridQa = {
   recent_similarity_window: 4,
   recent_similarity_check_pass: true
 };
-const hybridDraftForQa = { image_render_version: HYBRID_IMAGE_FORMAT.id, image_strategy: HYBRID_IMAGE_FORMAT.strategy, image_qa: goodHybridQa };
+const hybridDraftForQa = { image_render_version: HYBRID_IMAGE_FORMAT.id, image_strategy: HYBRID_IMAGE_FORMAT.strategy, image_asset_version: 'reference-v23-hybrid-new-sample', image_qa: goodHybridQa };
 assert(hybridQaReady(hybridDraftForQa) === true, '承認済みHybrid QCはREADY');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, unknown_trainer_present: true } }) === false, '未知トレーナーがいればHybrid QCを拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, rev_environment_consistency: 7 } }) === false, 'THE REV.環境整合が8未満なら拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, typography_harmony: 7 } }) === false, 'Typographyが8未満なら拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, negative_space: 7 } }) === false, 'Negative Spaceが8未満なら拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, photo_treatment: 7 } }) === false, 'Photo Treatmentが8未満なら拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, generated_customer_count: 0 } }) === false, '顧客0人はV2.4 Hybrid QCを拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, generated_customer_count: 3 } }) === false, '顧客3人はV2.4 Hybrid QCを拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, facility_only_thumbnail: true } }) === false, '施設だけのThumbnailは拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, fixed_overlay_layout_confirmed: false } }) === false, '固定Overlay未適用は拒否');
 const missingCopyFlagQa = { ...goodHybridQa };
 delete missingCopyFlagQa.expected_copy_present;
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: missingCopyFlagQa }) === false, 'expected_copy_present未記録はfail-closed');
@@ -336,7 +352,7 @@ const hybridBrief = hybridGenerationBrief({
   categoryLabel: 'BODY KNOWLEDGE',
   columnLabel: 'COLUMN 08'
 });
-assert(hybridBrief.includes('未知のトレーナー') && hybridBrief.includes('固定テンプレ'), '生成Briefへ禁止事項と非固定テンプレ方針を含める');
+assert(hybridBrief.includes('顧客役を必ず') && hybridBrief.includes('固定Overlay'), '生成Briefへ顧客必須と固定Overlay方針を含める');
 assert(
   HYBRID_IMAGE_FORMAT.designReferenceAssets.every((p) => hybridBrief.includes(p)),
   '生成Briefへ承認済み2枚のStyle Referenceを明示'
@@ -373,6 +389,22 @@ assert(evaluateEditorialImageReview({
   draft: gateDraft,
   qa: { ...goodHybridQa, image_generation_used: false }
 }).ok === false, 'Hybridなのに画像生成未実施ならFAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, generated_customer_present: false, generated_customer_count: 0 }
+}).ok === false, '顧客役なしならReview Gate FAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, generated_customer_count: 3 }
+}).ok === false, '顧客役3人ならReview Gate FAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, facility_only_thumbnail: true }
+}).ok === false, '施設だけのThumbnailならReview Gate FAIL');
+assert(evaluateEditorialImageReview({
+  draft: gateDraft,
+  qa: { ...goodHybridQa, fixed_overlay_layout_confirmed: false }
+}).ok === false, '固定Overlay未適用ならReview Gate FAIL');
 assert(evaluateEditorialImageReview({
   draft: {
     image_render_version: IMAGE_RENDER_VERSION,
