@@ -42,15 +42,15 @@ async function refreshStaleEditorialImages(supabase, id) {
     draft.image_headline_short &&
     draft.image_qa_report_path;
 
-  // Review must not downgrade an already-approved V2.3 hybrid asset back to
-  // the V2.2 source-lock route. Both are current publishable image routes.
-  const referenceCurrent = sourceLockCurrent || hybridCurrent;
+  // V2.4 policy: Hybrid is the only publishable current route.
+  // Source-lock may exist for diagnostics, but opening Review must move it back
+  // to PREPARING until a generated Hybrid scene is completed.
+  const referenceCurrent = hybridCurrent;
 
   // Existing older/non-current image routes no longer auto-downgrade into
-  // source-lock. The current standard is V2.3 Hybrid and an AI Operator must
-  // choose the real THE REV. source, generate the customer-only/no-people
-  // composition and run Visual QC. Source-lock is allowed only as an explicit
-  // fallback with a recorded reason.
+  // source-lock. V2.4 requires an AI Operator to choose the real THE REV.
+  // source, generate a customer scene (normally one customer, max two),
+  // apply the fixed overlay, and run Visual QC.
   if (!referenceCurrent) {
     const pending = buildPendingHybridImageInfo({
       title: draft.title,
