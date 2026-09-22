@@ -54,13 +54,18 @@ if (!slug || slug !== clean(request.slug)) {
   fail('slug must already be lowercase kebab-case [a-z0-9-].');
 }
 
-for (const key of ['article_title', 'category_label', 'column_label', 'image_headline_short', 'asset_version']) {
+for (const key of ['article_title', 'category_label', 'column_label', 'image_headline_short', 'asset_version', 'scene_intent']) {
   if (!clean(request[key])) fail(`Missing required request field: ${key}`);
 }
 
 const assetVersion = slugSafe(request.asset_version);
 if (!assetVersion || assetVersion !== clean(request.asset_version)) {
   fail('asset_version must be lowercase kebab-case [a-z0-9-].');
+}
+
+const generatedCustomerCount = Number(request.generated_customer_count ?? 1);
+if (!Number.isInteger(generatedCustomerCount) || generatedCustomerCount < 1 || generatedCustomerCount > 2) {
+  fail('generated_customer_count must be an integer from 1 to 2.');
 }
 
 const bg = request.background_source || {};
@@ -83,6 +88,8 @@ const job = buildHybridImageJob({
   imageHeadlineShort: clean(request.image_headline_short),
   assetVersion,
   qaReportPath: `editorial/image-qa/${slug}-${assetVersion}.json`,
+  sceneIntent: clean(request.scene_intent),
+  generatedCustomerCount,
   backgroundSource: {
     driveFileId: clean(bg.drive_file_id),
     cachedFrameDriveFileId: clean(bg.cached_frame_drive_file_id),
