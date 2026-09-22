@@ -1,0 +1,78 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 8,
+  "article_visual_relevance": 8,
+  "source_identity_preservation": 10,
+  "invented_people_or_objects": false,
+  "source_photo_changed_materially": false,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "unexpected_text_is_source_native": true,
+  "too_promotional": false,
+  "comments": "The final card is a strong, coherent sixth member of the series. It preserves the supplied photograph faithfully with an acceptable crop, maintains the restrained cream text field and Japanese editorial typography, and presents the exact expected label and headline clearly. The source-native LYFT mark and equipment numbering are preserved rather than newly introduced. The seated, smiling post-set state is relevant to the article's guidance around judging limits by form and fatigue. The treatment is slightly less visibly framed than some references, but remains suitable for the live series.",
+  "correction": "No mandatory correction. If desired, add or confirm the very subtle outer keyline used in the reference cards for even tighter series continuity.",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.2",
+  "generation_model": "source-photo-lock-playwright",
+  "render_mode": "source-photo-lock-v1",
+  "content_reference": "assets/images/trainer-top.jpg",
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "priority_order": [
+      "article_relevance",
+      "never_used_in_past_articles",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "after-work-tired-strength-training",
+        "content_reference": "assets/images/photo-lobby.jpg",
+        "checked_at": "2026-09-19T08:51:32.105Z"
+      },
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+        "checked_at": "2026-09-19T07:55:00Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/photo-lobby.jpg",
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg"
+    ],
+    "historical_usage_registry": "editorial/content-reference-usage.json",
+    "historical_matching_articles": [],
+    "ever_used_before": false,
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/trainer-coaching.jpg",
+        "intent": "state-check-coaching",
+        "relevanceLevel": "primary",
+        "ever_used_before": true,
+        "recent_4_used": false
+      },
+      {
+        "path": "assets/images/trainer-top.jpg",
+        "intent": "state-check-guidance",
+        "relevanceLevel": "primary",
+        "ever_used_before": false,
+        "recent_4_used": false
+      }
+    ],
+    "selected_content_reference": "assets/images/trainer-top.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_historical_repeat": true,
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  },
+  "qa_model": "gpt-5.6-luna",
+  "slug": "strength-training-to-failure-when-to-stop",
+  "asset_version": "reference-v2-4f56d20ad4",
+  "checked_at": "2026-09-22T04:35:53.259Z"
+}
