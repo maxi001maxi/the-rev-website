@@ -24,6 +24,7 @@ on:
       - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
       - 'editorial/editorial-image-system.json'
       - 'editorial/hybrid-image-request.template.json'
+      - 'editorial/fixtures/**.json'
       - 'scripts/compile-hybrid-image-job.mjs'
       - 'scripts/validate-editorial-image-system.mjs'
       - 'editorial/image-jobs/**.json'
