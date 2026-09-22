@@ -1,0 +1,16 @@
+{
+  "slug": "handoff-fixture",
+  "article_title": "引き継ぎ検証用の記事タイトル",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN 99",
+  "image_headline_short": "正本から、\n迷わずつくる。",
+  "asset_version": "reference-v23-hybrid-fixture-50",
+  "background_source": {
+    "cached_frame_drive_file_id": "fixture-drive-frame-id",
+    "origin_video_file_id": "fixture-origin-video-id",
+    "origin_video_file_name": "FIXTURE.MOV",
+    "frame_position_ratio": 0.5,
+    "selection_reason": "compiler contract test fixture",
+    "treatment": "real THE REV source; editorial soften/blur/depth allowed"
+  }
+}
