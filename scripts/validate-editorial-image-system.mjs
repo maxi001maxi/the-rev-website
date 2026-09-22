@@ -39,6 +39,7 @@ const required = [
   'scripts/compile-hybrid-image-job.mjs',
   'scripts/validate-hybrid-image-jobs.mjs',
   'lib/editorialHybridImageFormat.mjs',
+  'lib/editorialImageReviewGate.mjs',
   'lib/editorialImageStyle.mjs',
   '.github/workflows/phase-9-check.yml',
   '.github/workflows/deploy-xserver.yml'
@@ -80,6 +81,7 @@ assertTrue(packageJson.scripts?.['test:editorial-images'], 'package script test:
 
 const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/phase-9-check.yml'), 'utf8');
 assertTrue(workflow.includes('npm run test:editorial-images'), 'Phase 9 CI must run canonical editorial image test');
+assertTrue(workflow.includes('lib/editorialImageReviewGate.mjs'), 'Phase 9 CI must watch Editorial Image Review Gate');
 
 const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
