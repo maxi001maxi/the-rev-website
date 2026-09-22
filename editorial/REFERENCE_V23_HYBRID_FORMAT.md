@@ -1,5 +1,7 @@
 # THE REV. Reference V2.3 Hybrid｜画像制作フォーマット
 
+> **初見の担当者・AIへ:** 実行手順、GitHub上の全ファイル役割、失敗時復旧、Current Truthは `editorial/EDITORIAL_IMAGE_RUNBOOK.md` から開始してください。機械向け入口は `editorial/editorial-image-system.json` です。
+
 ## 目的
 
 このフォーマットは、2026-09-19に採用した2記事の画像制作方法を今後のBlog / Column画像の標準として再利用するための正本です。

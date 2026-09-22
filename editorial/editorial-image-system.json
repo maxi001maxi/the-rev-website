@@ -1,0 +1,109 @@
+{
+  "system_id": "the-rev-editorial-image-system",
+  "schema_version": "1.0.0",
+  "current_truth_date": "2026-09-22",
+  "system_status": "REPRODUCIBLE_WITH_AI_OPERATOR",
+  "fully_automated": false,
+  "current_standard": {
+    "format_id": "rev-column-reference-v2.3-hybrid",
+    "code_contract": "lib/editorialHybridImageFormat.mjs",
+    "machine_spec": "editorial/reference-v23-hybrid-format.json",
+    "human_spec": "editorial/REFERENCE_V23_HYBRID_FORMAT.md",
+    "runbook": "editorial/EDITORIAL_IMAGE_RUNBOOK.md",
+    "request_template": "editorial/hybrid-image-request.template.json",
+    "job_template": "editorial/hybrid-image-jobs/_template.json",
+    "job_compiler": "scripts/compile-hybrid-image-job.mjs",
+    "validator": "scripts/validate-hybrid-image-jobs.mjs"
+  },
+  "source_policy": {
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "scope": "specified-drive-root-only",
+    "full_drive_search": false,
+    "video_frame_allowed": true,
+    "recent_reference_window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2"
+  },
+  "output_contract": {
+    "thumbnail": {
+      "width": 1200,
+      "height": 675,
+      "ratio": "16:9"
+    },
+    "ogp": {
+      "width": 1200,
+      "height": 630,
+      "ratio": "1.91:1"
+    },
+    "thumbnail_pattern": "assets/images/blog/thumb-{slug}-{asset_version}.jpg",
+    "ogp_pattern": "assets/images/blog/og/og-{slug}-{asset_version}.jpg",
+    "qa_pattern": "editorial/image-qa/{slug}-{asset_version}.json"
+  },
+  "design_reference_assets": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ],
+  "fallback": {
+    "id": "reference-v2.2-source-lock",
+    "render_version": "rev-column-reference-v2.2",
+    "code_contract": "lib/editorialImageStyle.mjs",
+    "renderer": "scripts/render-blog-image.mjs",
+    "qa": "scripts/qa-editorial-image.mjs",
+    "workflow": ".github/workflows/render-editorial-images.yml",
+    "thumbnail": {
+      "width": 1200,
+      "height": 675
+    },
+    "ogp": {
+      "width": 1200,
+      "height": 630
+    }
+  },
+  "automation": {
+    "automated": [
+      "fixed policy compilation from minimal request to full Hybrid Job",
+      "job naming and versioned output path construction",
+      "Hybrid Job / QA / JPEG dimension / provenance validation",
+      "code-spec and machine-spec drift detection",
+      "CI validation",
+      "source-lock fallback rendering and QA",
+      "Xserver asset-first deployment and live-byte verification",
+      "publish preflight and image READY gate",
+      "Blog CSS fingerprinting and live CSS verification"
+    ],
+    "operator_required": [
+      "read article context and decide short Editorial Copy",
+      "inspect only the scoped Drive source inventory and choose the most relevant source",
+      "generate the V2.3 Hybrid composition with image-generation capability",
+      "perform multimodal Visual QC against real THE REV. source and approved references",
+      "commit final Hybrid assets / QA result or otherwise hand them to the repository workflow"
+    ],
+    "human_required": [
+      "final Review & Publish approval"
+    ]
+  },
+  "canonical_commands": {
+    "install": "npm ci",
+    "compile_job": "npm run image:compile-job -- path/to/request.json",
+    "validate_images": "npm run test:editorial-images",
+    "validate_phase9": "npm run test:phase-9",
+    "build_blog": "npm run build:blog"
+  },
+  "workflows": {
+    "source_lock_render": ".github/workflows/render-editorial-images.yml",
+    "phase9_ci": ".github/workflows/phase-9-check.yml",
+    "xserver_deploy": ".github/workflows/deploy-xserver.yml",
+    "preview_qa": ".github/workflows/preview-qa.yml"
+  },
+  "release_boundary": "REVIEW_AND_PUBLISH",
+  "stop_conditions": [
+    "source is outside the specified Drive root",
+    "article relevance is weak",
+    "unknown trainer/staff/coach is generated",
+    "THE REV. environment is not recognizable",
+    "thumbnail or OGP dimensions do not match the output contract",
+    "Hybrid QC is below threshold or required boolean flags are missing",
+    "GitHub asset is missing",
+    "Xserver public asset does not match repository bytes",
+    "publish would occur without explicit human approval"
+  ]
+}

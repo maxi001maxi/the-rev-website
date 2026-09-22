@@ -78,12 +78,25 @@ keywords:
 
 ## 3. 画像の追加方法
 
-- 記事サムネイル・本文画像は `/assets/images/blog/` に置く
-- OGP画像（SNSシェア時の画像、推奨1200×630px）は `/assets/images/blog/og/` に置く
-- Front Matterの `thumbnail` / `og_image` に、`/assets/images/blog/xxx.jpg` のようにパスを書く
-- 実在しない写真を捏造しない。実写がない場合は、既存サイトの写真を流用するか、解説用の図解にする
+Editorial AI管理の記事画像は、ここだけを読んで手動作成しないでください。画像制作・素材範囲・人物ルール・QC・GitHub/Xserver反映・再発防止までを含む正本は **`editorial/EDITORIAL_IMAGE_RUNBOOK.md`** です。
 
-> 現在のサンプル記事は、既存サイトの実写（トレーニングフロア・ボクシング・酸素ルーム・トレーナー写真）を流用しています。記事が増えてきたら、記事ごとに専用の写真へ差し替えることをおすすめします。
+Current Truth:
+
+- 標準: `rev-column-reference-v2.3-hybrid`
+- Thumbnail: **1200×675px / 16:9**
+- OGP: **1200×630px**
+- 最小入力: `editorial/hybrid-image-request.template.json`
+- Job生成: `npm run image:compile-job -- path/to/request.json`
+- 全体検証: `npm run test:editorial-images`
+- 最終Publish: 人間承認
+
+手動記事で画像を直接追加する場合のみ、以下を守ります。
+
+- 記事サムネイル・本文画像は `/assets/images/blog/` に置く
+- OGP画像は `/assets/images/blog/og/` に置く
+- Front Matterの `thumbnail` / `og_image` に公開パスを書く
+- 実在しないTHE REV.の空間や人物を捏造しない
+- Blog一覧のサムネイルは16:9前提なので、3:2画像を新規正本にしない
 
 ---
 
