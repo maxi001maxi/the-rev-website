@@ -63,6 +63,8 @@ function validateFormatMirror() {
   const machine = readJson(FORMAT_JSON);
   assertEqual(machine.format_id, HYBRID_IMAGE_FORMAT.id, 'machine format_id drift');
   assertEqual(machine.status, HYBRID_IMAGE_FORMAT.status, 'machine status drift');
+  assertEqual(machine.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'machine V2.4 policy drift');
+  assertEqual(machine.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'machine layout template drift');
   assertEqual(machine.activation_mode, HYBRID_IMAGE_FORMAT.activationMode, 'activation mode drift');
   assertEqual(machine.fallback_before_hybrid_ready, HYBRID_IMAGE_FORMAT.fallbackBeforeHybridReady, 'fallback route drift');
   assertEqual(machine.job_template, HYBRID_IMAGE_FORMAT.jobTemplatePath, 'job template path drift');
@@ -85,6 +87,10 @@ function validateFormatMirror() {
   assertEqual(machine.qc_gate.typography_harmony_min, HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony, 'typography QC drift');
   assertEqual(machine.qc_gate.negative_space_min, HYBRID_IMAGE_FORMAT.qc.minNegativeSpace, 'negative-space QC drift');
   assertEqual(machine.qc_gate.photo_treatment_min, HYBRID_IMAGE_FORMAT.qc.minPhotoTreatment, 'photo-treatment QC drift');
+  assertEqual(machine.qc_gate.generated_customer_count_min, HYBRID_IMAGE_FORMAT.qc.minGeneratedCustomerCount, 'customer count min drift');
+  assertEqual(machine.qc_gate.generated_customer_count_max, HYBRID_IMAGE_FORMAT.qc.maxGeneratedCustomerCount, 'customer count max drift');
+  assertEqual(machine.qc_gate.facility_only_thumbnail, false, 'facility-only thumbnails must stay forbidden');
+  assertEqual(machine.qc_gate.fixed_overlay_layout_confirmed, true, 'fixed overlay requirement drift');
 }
 
 function validateJob(jobPath) {
@@ -100,6 +106,17 @@ function validateJob(jobPath) {
   assertEqual(job.generation_model, HYBRID_IMAGE_FORMAT.generationModel, `${name}: generation model drift`);
   assertEqual(job.qa_model, HYBRID_IMAGE_FORMAT.qaModel, `${name}: QA model drift`);
   assertEqual(job.publish_requires_human_approval, true, `${name}: human publish boundary removed`);
+  const legacyAccepted = HYBRID_IMAGE_FORMAT.acceptedReferences.some((ref) => ref.assetVersion === job.asset_version);
+  if (!legacyAccepted) {
+    assertEqual(job.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, `${name}: V2.4 policy revision missing`);
+    assertEqual(job.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, `${name}: fixed overlay template drift`);
+    assertTrue(clean(job.scene_intent), `${name}: scene_intent missing`);
+    assertTrue(Number.isInteger(Number(job.generated_customer_count)) && Number(job.generated_customer_count) >= 1 && Number(job.generated_customer_count) <= 2, `${name}: generated_customer_count must be 1..2`);
+    assertTrue(clean(job.generated_scene_path), `${name}: generated_scene_path missing`);
+    assertEqual(job.policy?.generated_customer_required, true, `${name}: generated customer must be required`);
+    assertEqual(job.policy?.facility_only_thumbnail_forbidden, true, `${name}: facility-only thumbnail policy drift`);
+    assertEqual(job.policy?.fixed_overlay_required, true, `${name}: fixed overlay policy drift`);
+  }
   assertEqual(
     JSON.stringify(job.style_references || []),
     JSON.stringify(HYBRID_IMAGE_FORMAT.designReferenceAssets),
@@ -149,12 +166,23 @@ function validateJob(jobPath) {
   const draftShape = {
     image_render_version: job.render_version,
     image_strategy: job.image_strategy,
+    image_asset_version: job.asset_version,
     image_qa: qa
   };
   assertTrue(hybridQaReady(draftShape, qa), `${name}: Hybrid QC gate failed`);
   if (qa.slug !== undefined) assertEqual(qa.slug, job.slug, `${name}: QA slug mismatch`);
   if (qa.asset_version !== undefined) assertEqual(qa.asset_version, job.asset_version, `${name}: QA asset_version mismatch`);
   if (qa.render_version !== undefined) assertEqual(qa.render_version, job.render_version, `${name}: QA render_version mismatch`);
+  if (!legacyAccepted) {
+    assertEqual(qa.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, `${name}: QA policy revision mismatch`);
+    assertEqual(qa.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, `${name}: QA layout template mismatch`);
+    assertEqual(qa.generated_customer_present, true, `${name}: generated customer missing`);
+    assertTrue(Number(qa.generated_customer_count) >= 1 && Number(qa.generated_customer_count) <= 2, `${name}: QA customer count invalid`);
+    assertEqual(qa.facility_only_thumbnail, false, `${name}: facility-only QA must be false`);
+    assertEqual(qa.fixed_overlay_layout_confirmed, true, `${name}: fixed overlay QA missing`);
+    const scenePath = path.join(ROOT, job.generated_scene_path);
+    assertTrue(fs.existsSync(scenePath), `${name}: generated scene missing: ${job.generated_scene_path}`);
+  }
 
   if (qa.background_origin_video_file_id && bg.origin_video_file_id) {
     assertEqual(
@@ -199,7 +227,7 @@ if (!jobs.length) fail('No V2.3 Hybrid jobs found.');
 
 const results = jobs.map((name) => validateJob(path.join(JOB_DIR, name)));
 
-console.log(`V2.3 Hybrid format validation: PASS (${results.length} jobs)`);
+console.log(`V2.3 Hybrid engine / V2.4 policy validation: PASS (${results.length} jobs)`);
 for (const r of results) {
   console.log(
     `- ${r.slug}: ${r.assetVersion} / thumb ${r.thumbnail.width}x${r.thumbnail.height} / OGP ${r.ogp.width}x${r.ogp.height} / QC ${r.qc.series}/${r.qc.editorial}/${r.qc.typography}/${r.qc.negativeSpace}/${r.qc.photoTreatment}/${r.qc.relevance}/${r.qc.revEnvironment}/${r.qc.brandSpace}`
