@@ -86,7 +86,11 @@
 <div><dt>Image generation</dt><dd id="v-gate-generation">—</dd></div>
 <div><dt>Real THE REV. background</dt><dd id="v-gate-background">—</dd></div>
 <div><dt>Trainer absent</dt><dd id="v-gate-trainer">—</dd></div>
-<div><dt>Customer only / no people</dt><dd id="v-gate-people">—</dd></div>
+<div><dt>Customer role</dt><dd id="v-gate-people">—</dd></div>
+<div><dt>Generated customer count</dt><dd id="v-gate-customer-count">—</dd></div>
+<div><dt>Facility-only</dt><dd id="v-gate-facility-only">—</dd></div>
+<div><dt>Fixed overlay</dt><dd id="v-gate-overlay">—</dd></div>
+<div><dt>Policy / Layout</dt><dd id="v-gate-policy">—</dd></div>
 <div><dt>Recent-4 same image</dt><dd id="v-gate-image-reuse">—</dd></div>
 <div><dt>Recent-4 same background</dt><dd id="v-gate-background-reuse">—</dd></div>
 <div><dt>Trainer photo reuse</dt><dd id="v-gate-trainer-reuse">—</dd></div>
@@ -248,17 +252,39 @@ function renderImageGate(a) {
   text('v-gate-background', pass(qa.real_the_rev_background_confirmed, true));
   text('v-gate-trainer', pass(qa.trainer_present, false));
   text('v-gate-people', pass(qa.customer_only_or_no_people, true));
+  const legacyAccepted = ['reference-v23-hybrid-4387-75', 'reference-v23-hybrid-3978-20']
+    .includes(String(a?.image_asset_version || qa.asset_version || ''));
+  text('v-gate-customer-count', legacyAccepted
+    ? 'LEGACY APPROVED REF'
+    : (qa.generated_customer_present === true && Number(qa.generated_customer_count) >= 1 && Number(qa.generated_customer_count) <= 2
+      ? `PASS / ${qa.generated_customer_count}`
+      : 'FAIL'));
+  text('v-gate-facility-only', legacyAccepted ? 'LEGACY APPROVED REF' : pass(qa.facility_only_thumbnail, false));
+  text('v-gate-overlay', legacyAccepted ? 'LEGACY APPROVED REF' : pass(qa.fixed_overlay_layout_confirmed, true));
+  text('v-gate-policy', legacyAccepted
+    ? 'V2.3 DESIGN REFERENCE'
+    : `${qa.policy_revision || 'MISSING'} / ${qa.layout_template_id || 'MISSING'}`);
   text('v-gate-image-reuse', pass(qa.same_image_as_recent_articles, false));
   text('v-gate-background-reuse', pass(qa.same_background_as_recent_articles, false));
   text('v-gate-trainer-reuse', pass(qa.trainer_photo_reused, false));
   text('v-gate-recent', qa.recent_similarity_check_pass === true
     ? `PASS / window=${qa.recent_similarity_window ?? '—'}`
     : 'FAIL');
+  const v24ScenePass = legacyAccepted || (
+    qa.generated_customer_present === true
+    && Number(qa.generated_customer_count) >= 1
+    && Number(qa.generated_customer_count) <= 2
+    && qa.facility_only_thumbnail === false
+    && qa.fixed_overlay_layout_confirmed === true
+    && qa.policy_revision === 'editorial-thumbnail-v2.4'
+    && qa.layout_template_id === 'rev-column-v24-fixed-overlay-v1'
+  );
   text('v-gate-final', qa.pass === true
     && qa.trainer_present === false
     && qa.unknown_trainer_present === false
     && qa.non_customer_people_present === false
     && qa.customer_only_or_no_people === true
+    && v24ScenePass
     && qa.real_the_rev_background_confirmed === true
     && qa.recent_similarity_check_pass === true
     && qa.same_image_as_recent_articles === false
