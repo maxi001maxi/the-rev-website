@@ -1,0 +1,70 @@
+{
+  "slug": "strength-training-to-failure-when-to-stop",
+  "article_title": "筋トレは毎回限界まで追い込むべき？フォームと翌日の疲労で決める目安",
+  "category_label": "TRAINING",
+  "column_label": "COLUMN 08",
+  "image_headline_short": "限界は、\n毎回じゃなくていい。",
+  "image_style_template": "rev-column-reference-v2",
+  "style_references": [
+    "assets/images/blog/columns/column-01-frequency-master.jpg",
+    "assets/images/blog/columns/column-02-push-master.jpg",
+    "assets/images/blog/columns/column-03-trial-master.jpg",
+    "assets/images/blog/columns/column-04-boxing-master.jpg",
+    "assets/images/blog/columns/column-05-recovery-master.jpg"
+  ],
+  "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+  "content_reference_intent": "training-quality-and-stop-judgment",
+  "content_reference_reason": "THE REV.実トレーニング空間の設備写真。予定回数の達成よりフォーム・動作の質を優先し、必要ならセットを止めるという記事テーマをトレーニング現場として表現する。",
+  "asset_version": "reference-v2-drive-4387-75-failure",
+  "render_mode": "source-photo-lock-v1",
+  "content_preservation": "crop-resize-only",
+  "publish_requires_human_approval": true,
+  "generation_model": "source-photo-lock-playwright",
+  "qa_model": "gpt-5.6-luna",
+  "qa_report_path": "editorial/image-qa/strength-training-to-failure-when-to-stop-reference-v2-drive-4387-75-failure.json",
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "priority_order": [
+      "article_relevance",
+      "never_used_in_past_articles",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "after-work-tired-strength-training",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+        "checked_at": "2026-09-22T04:20:00Z"
+      },
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+        "checked_at": "2026-09-22T04:20:00Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg"
+    ],
+    "historical_usage_registry": "editorial/content-reference-usage.json",
+    "historical_matching_articles": [
+      "after-work-tired-strength-training"
+    ],
+    "ever_used_before": true,
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+        "intent": "training-quality-and-stop-judgment",
+        "relevanceLevel": "primary",
+        "ever_used_before": true,
+        "recent_4_used": true
+      }
+    ],
+    "selected_content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_historical_repeat": false,
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": true
+  }
+}
