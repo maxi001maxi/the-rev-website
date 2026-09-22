@@ -109,8 +109,10 @@ function validateJob(jobPath) {
   assertEqual(job.policy?.source_scope, HYBRID_IMAGE_FORMAT.sourcePolicy.scope, `${name}: source_scope drift`);
   assertEqual(job.policy?.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, `${name}: Drive root drift`);
   assertEqual(job.policy?.generated_customer_allowed, true, `${name}: generated-customer policy drift`);
+  assertEqual(job.policy?.trainer_present_forbidden, true, `${name}: trainer-present policy drift`);
   assertEqual(job.policy?.unknown_trainer_forbidden, true, `${name}: unknown trainer policy drift`);
   assertEqual(job.policy?.non_customer_people_forbidden, true, `${name}: non-customer policy drift`);
+  assertEqual(job.policy?.customer_only_or_no_people_required, true, `${name}: customer-only policy drift`);
   assertEqual(job.policy?.real_the_rev_background_required, true, `${name}: real THE REV environment requirement drift`);
   if (job.policy?.publish_boundary !== undefined) {
     assertEqual(job.policy.publish_boundary, HYBRID_IMAGE_FORMAT.publishBoundary, `${name}: job publish boundary drift`);
