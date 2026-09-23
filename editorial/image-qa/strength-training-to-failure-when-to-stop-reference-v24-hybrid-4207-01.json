@@ -1,0 +1,105 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 9,
+  "article_visual_relevance": 10,
+  "rev_environment_consistency": 9,
+  "brand_space_authenticity": 9,
+  "source_material_scope_pass": true,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "generated_customer_allowed_under_policy": true,
+  "generated_customer_role": "customer",
+  "facility_only_thumbnail": false,
+  "fixed_overlay_layout_confirmed": true,
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "background_source_type": "real_the_rev_static_image",
+  "content_reference": "drive://1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU/IMG_4207.DNG",
+  "background_source_drive_file_id": "1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "IMG_4207.DNG",
+  "background_frame_position_ratio": null,
+  "background_treatment": "real THE REV static image used as reference; generated customer inserted; crop/depth/light harmonization only",
+  "real_the_rev_background_confirmed": true,
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "too_promotional": false,
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol-visual-qc",
+  "qa_method": "multimodal visual inspection against Drive source IMG_4207.DNG and approved V2.3 Hybrid references",
+  "slug": "strength-training-to-failure-when-to-stop",
+  "asset_version": "reference-v24-hybrid-4207-01",
+  "checked_at": "2026-09-23T07:05:00Z",
+  "review_mode": "HYBRID_GENERATED",
+  "image_generation_used": true,
+  "fallback_used": false,
+  "fallback_reason": "",
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_window": 4,
+  "recent_similarity_check_pass": true,
+  "recent_background_source_ids": [
+    "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+    "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+    "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+    "assets/images/blog/thumb-self-training-form-check.jpg",
+    "assets/images/blog/thumb-training-how-hard-to-push.jpg"
+  ],
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "recent_articles": [
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+        "asset_version": "reference-v23-hybrid-3978-20"
+      },
+      {
+        "slug": "after-work-tired-strength-training",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+        "asset_version": "reference-v23-hybrid-4387-75"
+      },
+      {
+        "slug": "self-training-form-check",
+        "content_reference": "assets/images/blog/thumb-self-training-form-check.jpg",
+        "asset_version": "legacy"
+      },
+      {
+        "slug": "training-how-hard-to-push",
+        "content_reference": "assets/images/blog/thumb-training-how-hard-to-push.jpg",
+        "asset_version": "legacy"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "assets/images/blog/thumb-self-training-form-check.jpg",
+      "assets/images/blog/thumb-training-how-hard-to-push.jpg"
+    ],
+    "selected_content_reference": "drive://1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU/IMG_4207.DNG",
+    "selected_drive_file_id": "1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU",
+    "selected_relevance_level": "primary",
+    "avoided_repeat": true,
+    "repeated_due_to_relevance": false
+  },
+  "generated_asset_drive_file_ids": {
+    "thumbnail": "1WTieKXnuI2f00fP9Z07YD0QLMtS1CqSn",
+    "og_image": "1FPnPa3u240vSzNGdUkPojRFEmNIP-pRr",
+    "scene": "1BlK4NhpNobpyFZ3pCTaikhrEm3KP2yFk"
+  },
+  "comments": "Drive root内のIMG_4207.DNGを実空間の正本として確認。最終画像は顧客役1人のみで、トレーナー/スタッフ/コーチ風人物は不在。EVOLGEARラック・窓・床の空間特徴がTHE REV.実素材と整合し、セット後に疲労とフォームを見極める情景が記事テーマと一致。直近HybridのIMG_4387 / IMG_3978とDrive provenanceが異なる。"
+}
