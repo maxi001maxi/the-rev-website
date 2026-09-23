@@ -80,6 +80,7 @@ function main() {
   }
 
   // TOPを含むルートHTMLはstyle.cssの内容ハッシュ付きURLを参照する。
+  // Xserver deploy側でもstyle.cssを明示上書きし、本番bytes一致を確認してからHTMLを切り替える。
   // Xserver/CDN/ブラウザに古いCSSが残り、REAL VOICE等のレイアウトだけ崩れる事故を防ぐ。
   fingerprintRootStylesheet();
 
