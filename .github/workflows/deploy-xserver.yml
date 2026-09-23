@@ -299,6 +299,9 @@ jobs:
           set net:reconnect-interval-base 5
           mkdir -p "${XSERVER_REMOTE_DIR}assets"
           mirror --reverse --verbose "deploy/assets/" "${XSERVER_REMOTE_DIR}assets/"
+          # TOP共通style.cssはmtime判定に任せず、必ず明示上書きする。
+          mkdir -p "${XSERVER_REMOTE_DIR}assets/css"
+          put -O "${XSERVER_REMOTE_DIR}assets/css/" "deploy/assets/css/style.css"
           bye
           EOF
             then
@@ -315,6 +318,39 @@ jobs:
           fi
 
           echo "Xserver assets upload complete."
+
+      - name: Wait until root stylesheet is live
+        run: |
+          set -euo pipefail
+          LOCAL_CSS="dist/assets/css/style.css"
+          LIVE_CSS="$(mktemp)"
+          trap 'rm -f "$LIVE_CSS"' EXIT
+
+          if [ ! -f "$LOCAL_CSS" ]; then
+            echo "::error::比較元のstyle.cssがありません: $LOCAL_CSS"
+            exit 1
+          fi
+
+          LOCAL_SHA="$(sha256sum "$LOCAL_CSS" | awk '{print $1}')"
+          for ATTEMPT in $(seq 1 20); do
+            CODE=$(curl -sS -L -o "$LIVE_CSS" -w '%{http_code}' \
+              --connect-timeout 8 --max-time 20 \
+              "${PRODUCTION_URL}/assets/css/style.css?root-css=${GITHUB_RUN_ID}&attempt=${ATTEMPT}" || echo '000')
+
+            if [ "$CODE" = "200" ] && [ -s "$LIVE_CSS" ]; then
+              LIVE_SHA="$(sha256sum "$LIVE_CSS" | awk '{print $1}')"
+              if [ "$LIVE_SHA" = "$LOCAL_SHA" ]; then
+                echo "Root style.css ready ${ATTEMPT}/20: exact SHA256 match"
+                exit 0
+              fi
+            fi
+
+            echo "Waiting for root style.css propagation ${ATTEMPT}/20 (HTTP ${CODE})"
+            sleep 15
+          done
+
+          echo "::error::本番style.cssが今回のdistと一致しません。TOP HTMLの切替を停止します。"
+          exit 1
 
       - name: Wait until published images are live
         run: |
@@ -471,6 +507,39 @@ jobs:
           if ! grep -qF 'THE REV' "$TMP_DIR/top.html"; then
             echo "::error::TOPページ本文に THE REV が見つかりません。"
             FAIL=1
+          fi
+
+          ROOT_CSS_URL="$(grep -oE 'assets/css/style\.css\?v=[a-f0-9]{12}' "$TMP_DIR/top.html" | head -n1 || true)"
+          if [ -z "$ROOT_CSS_URL" ]; then
+            echo "::error::本番TOP HTMLにfingerprint付きstyle.cssがありません。"
+            echo "| Root CSS fingerprint | ❌ missing |" >> "$SUMMARY"
+            FAIL=1
+          else
+            ROOT_CSS_LIVE="$TMP_DIR/style.css"
+            ROOT_CSS_CODE=$(curl -sS -L -o "$ROOT_CSS_LIVE" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}/${ROOT_CSS_URL}&${CACHE_BUST}" || echo '000')
+            if [ "$ROOT_CSS_CODE" != "200" ]; then
+              echo "::error::本番style.cssがHTTP ${ROOT_CSS_CODE}です: ${ROOT_CSS_URL}"
+              echo "| Root CSS live | ❌ HTTP ${ROOT_CSS_CODE} |" >> "$SUMMARY"
+              FAIL=1
+            else
+              ROOT_LIVE_SHA="$(sha256sum "$ROOT_CSS_LIVE" | awk '{print $1}')"
+              ROOT_LOCAL_SHA="$(sha256sum dist/assets/css/style.css | awk '{print $1}')"
+              if [ "$ROOT_LIVE_SHA" != "$ROOT_LOCAL_SHA" ]; then
+                echo "::error::本番style.cssが今回のdistと一致しません。"
+                echo "| Root CSS bytes | ❌ SHA256 mismatch |" >> "$SUMMARY"
+                FAIL=1
+              elif ! grep -qF '.voice-cards{' "$ROOT_CSS_LIVE" || ! grep -qF 'overflow-x:auto' "$ROOT_CSS_LIVE"; then
+                echo "::error::本番style.cssにREAL VOICE横スクロール指定がありません。"
+                echo "| REAL VOICE carousel CSS | ❌ missing |" >> "$SUMMARY"
+                FAIL=1
+              else
+                echo "| Root CSS fingerprint | ✅ ${ROOT_CSS_URL} |" >> "$SUMMARY"
+                echo "| Root CSS bytes | ✅ exact match |" >> "$SUMMARY"
+                echo "| REAL VOICE carousel CSS | ✅ present |" >> "$SUMMARY"
+              fi
+            fi
           fi
 
           fetch_page "Blog index" "${PRODUCTION_URL}/blog/?${CACHE_BUST}" "$TMP_DIR/blog.html"
