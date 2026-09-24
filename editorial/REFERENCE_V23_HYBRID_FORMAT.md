@@ -253,3 +253,36 @@ V2.3 Hybridは「THE REV.っぽい場所ならOK」だけではありません�
 また、`expected_copy_present` と `copy_legible` は必ず明示的にtrue、`too_promotional` は明示的にfalseである必要があります。値が欠けている場合も合格扱いにしません。
 
 これにより、**安全なだけの無難なテンプレ画像へ後退すること**と、**見た目は良いがTHE REV.ではない生成画像へ逸脱すること**の両方を防ぎます。
+
+
+---
+
+## Human-scene Realism Gate｜2026-09-24
+
+V2.4 Hybridでは、実THE REV.背景が正しいことだけではPASSにしない。生成顧客がその場所に**本当に存在して見えるか**を独立して判定する。
+
+### 全身トレーニング動作
+
+- 人物だけを切り抜いて後貼りする合成は禁止
+- 背景を含むscene-aware生成/編集を使用する
+- スクワット、ランジ、バーベル動作などは、縮尺・遠近・床接地・接触影・光・器具接触・関節角度が一体で成立すること
+- 受付・通路など、実際にトレーニングしない場所で運動させない
+- 高難度動作は **FLUX Kontext/Pro 等のscene-aware photoreal editor、または同等品質のモデル** を優先する
+- 適切なモデル/編集手段が使えない場合は、セット直後に立つ、ベンチで休む、記録を見る等の低難度シーンへ簡略化するか、PREPARINGで止める
+
+### Realism QC v1
+
+2026-09-24T01:00:00Z以降に新規・再生成するHybrid画像では以下を必須とする。
+
+- `realism_qc_version = v1`
+- `human_environment_integration >= 9`
+- `perspective_scale_consistency >= 9`
+- `ground_contact_shadow_consistency >= 9`
+- `lighting_consistency >= 9`
+- `anatomy_pose_realism >= 9`
+- `no_cutout_or_sticker_look = true`
+- `location_semantics_pass = true`
+- `exercise_pose_plausible = true`
+- `manual_visual_rejection != true`
+
+人間Reviewで違和感が出た場合は、既存の総合スコアが高くても `manual_visual_rejection = true` としてREJECTする。人間の違和感を「好み」として無視しない。
