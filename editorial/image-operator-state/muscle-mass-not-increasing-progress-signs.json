@@ -1,16 +1,10 @@
 {
   "slug": "muscle-mass-not-increasing-progress-signs",
-  "status": "READY_CANDIDATE",
-  "attempts_total": 2,
+  "status": "ERROR",
+  "attempts_total": 3,
   "max_attempts": 3,
+  "last_error": "OpenAI Responses API failed: HTTP 429 / You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
+  "last_qa": null,
   "job_path": "editorial/hybrid-image-jobs/muscle-mass-not-increasing-progress-signs.json",
-  "generated_scene_path": "assets/images/editorial-generated/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2-scene.png",
-  "thumbnail": "assets/images/blog/thumb-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2.jpg",
-  "og_image": "assets/images/blog/og/og-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2.jpg",
-  "qa_report_path": "editorial/image-qa/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2.json",
-  "asset_version": "reference-v24-auto-lobby-20260924-4db7de37-r2",
-  "updated_at": "2026-09-24T07:26:01.411Z",
-  "xserver_verified": true,
-  "xserver_verified_at": "2026-09-24T07:26:15Z"
+  "updated_at": "2026-09-24T08:40:15.064Z"
 }
