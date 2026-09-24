@@ -38,11 +38,15 @@ const required = [
   'editorial/hybrid-image-jobs/_template.json',
   'scripts/compile-hybrid-image-job.mjs',
   'scripts/render-hybrid-editorial-overlay.mjs',
+  'scripts/auto-editorial-hybrid-image.mjs',
   'scripts/validate-hybrid-image-jobs.mjs',
   'lib/editorialHybridImageFormat.mjs',
+  'lib/editorialAutomatedHybridImage.mjs',
+  'editorial/automated-image-sources.json',
   'lib/editorialImageReviewGate.mjs',
   'lib/editorialImageStyle.mjs',
   '.github/workflows/phase-9-check.yml',
+  '.github/workflows/auto-editorial-hybrid-images.yml',
   '.github/workflows/deploy-xserver.yml'
 ];
 for (const rel of required) assertTrue(exists(rel), `required image-system file missing: ${rel}`);
@@ -53,6 +57,9 @@ assertEqual(manifest.current_standard.layout_template_id, HYBRID_IMAGE_FORMAT.la
 assertEqual(manifest.current_standard.code_contract, 'lib/editorialHybridImageFormat.mjs', 'manifest code contract drift');
 assertEqual(manifest.source_policy.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'manifest Drive root drift');
 assertEqual(manifest.release_boundary, HYBRID_IMAGE_FORMAT.publishBoundary, 'manifest publish boundary drift');
+assertEqual(manifest.system_status, 'AUTOMATED_TO_REVIEW_READY', 'manifest automation status drift');
+assertEqual(manifest.fully_automated, true, 'Hybrid image generation must be automated to Review Ready');
+assertEqual(manifest.current_standard.automated_operator, HYBRID_IMAGE_FORMAT.activationMode, 'manifest automated operator drift');
 
 assertEqual(manifest.output_contract.thumbnail.width, HYBRID_IMAGE_FORMAT.output.thumbnail.width, 'manifest thumbnail width drift');
 assertEqual(manifest.output_contract.thumbnail.height, HYBRID_IMAGE_FORMAT.output.thumbnail.height, 'manifest thumbnail height drift');
@@ -86,6 +93,11 @@ assertTrue(packageJson.scripts?.['test:editorial-images'], 'package script test:
 const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/phase-9-check.yml'), 'utf8');
 assertTrue(workflow.includes('npm run test:editorial-images'), 'Phase 9 CI must run canonical editorial image test');
 assertTrue(workflow.includes('lib/editorialImageReviewGate.mjs'), 'Phase 9 CI must watch Editorial Image Review Gate');
+assertTrue(workflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Phase 9 CI must watch automated Hybrid runner');
+const autoWorkflow = fs.readFileSync(path.join(ROOT, '.github/workflows/auto-editorial-hybrid-images.yml'), 'utf8');
+assertTrue(autoWorkflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Automated Hybrid workflow must call the runner');
+assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow must require OPENAI_API_KEY');
+assertTrue(autoWorkflow.includes('XSERVER_FTP_USER'), 'Automated Hybrid workflow must stage assets to Xserver');
 
 const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
