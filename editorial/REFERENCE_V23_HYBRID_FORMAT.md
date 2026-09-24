@@ -286,3 +286,16 @@ V2.4 Hybridでは、実THE REV.背景が正しいことだけではPASSにしな
 - `manual_visual_rejection != true`
 
 人間Reviewで違和感が出た場合は、既存の総合スコアが高くても `manual_visual_rejection = true` としてREJECTする。人間の違和感を「好み」として無視しない。
+
+
+## v0.6.7 GBP 4:3 derivative
+
+- Automated Hybrid generation now emits three deterministic derivatives from the same approved generated scene:
+  - Thumbnail: 1200x675 (16:9)
+  - OGP: 1200x630
+  - GBP Latest Update image: 1200x900 (4:3)
+- GBP path: `assets/images/gbp/gbp-{slug}-{asset_version}.jpg`.
+- New Editorial jobs are fail-closed until the GBP image exists, passes GBP safe-area / copy-legibility QA, and is byte-identical on Xserver.
+- Existing pre-v0.6.7 jobs remain backward compatible unless `gbp_image_asset_version` is set.
+- GBP image uses the same real THE REV. background and generated customer scene as the Blog image set. It must not trigger a second unrelated customer/background generation.
+- Final website Publish remains human-only. GBP auto-posting is outside this patch.

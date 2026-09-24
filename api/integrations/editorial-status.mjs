@@ -82,6 +82,11 @@ export default async function handler(req, res) {
           .update({
             thumbnail: planned.thumbnail || article.thumbnail || null,
             og_image: planned.ogImage || article.og_image || null,
+            gbp_image: planned.gbpImage || article.gbp_image || null,
+            gbp_image_status: planned.gbpImage ? 'PREPARING' : (article.gbp_image_status || null),
+            gbp_image_asset_version: planned.gbpImageAssetVersion || article.gbp_image_asset_version || null,
+            gbp_image_checked_at: new Date().toISOString(),
+            gbp_image_last_error: null,
             image_status: 'PREPARING',
             image_asset_ready: false,
             image_render_version: planned.renderVersion || article.image_render_version,
@@ -120,6 +125,19 @@ export default async function handler(req, res) {
           image_asset_ready: true,
           image_checked_at: new Date().toISOString(),
           image_qa: readiness.qa,
+          gbp_image_status: article.gbp_image_asset_version ? 'READY' : (article.gbp_image_status || null),
+          gbp_image_checked_at: article.gbp_image_asset_version ? new Date().toISOString() : article.gbp_image_checked_at,
+          gbp_image_qa: article.gbp_image_asset_version ? {
+            pass: readiness.qa?.gbp_aspect_ratio_pass === true && readiness.qa?.gbp_safe_area_pass === true && readiness.qa?.gbp_copy_legible === true,
+            aspect_ratio_pass: readiness.qa?.gbp_aspect_ratio_pass === true,
+            safe_area_pass: readiness.qa?.gbp_safe_area_pass === true,
+            copy_legible: readiness.qa?.gbp_copy_legible === true,
+            width: readiness.qa?.gbp_image_width ?? 1200,
+            height: readiness.qa?.gbp_image_height ?? 900,
+            ratio: readiness.qa?.gbp_image_aspect_ratio || '4:3'
+          } : article.gbp_image_qa,
+          gbp_image_attempts: article.gbp_image_asset_version ? (article.gbp_image_attempts ?? article.image_attempts ?? 1) : article.gbp_image_attempts,
+          gbp_image_last_error: null,
           image_brand_qa_score: Math.min(
             Number(readiness.qa?.series_consistency ?? 0),
             Number(readiness.qa?.article_visual_relevance ?? readiness.qa?.series_consistency ?? 0)
@@ -141,7 +159,10 @@ export default async function handler(req, res) {
           image_status: 'PREPARING',
           image_asset_ready: false,
           image_checked_at: new Date().toISOString(),
-          image_last_error: null
+          image_last_error: null,
+          gbp_image_status: article.gbp_image_asset_version ? 'PREPARING' : article.gbp_image_status,
+          gbp_image_checked_at: article.gbp_image_asset_version ? new Date().toISOString() : article.gbp_image_checked_at,
+          gbp_image_last_error: null
         })
         .eq('id', article.id)
         .select('*')
@@ -157,7 +178,10 @@ export default async function handler(req, res) {
         image_status: 'ERROR',
         image_asset_ready: false,
         image_checked_at: new Date().toISOString(),
-        image_last_error: String(message).slice(0, 1000)
+        image_last_error: String(message).slice(0, 1000),
+        gbp_image_status: article.gbp_image_asset_version ? 'ERROR' : article.gbp_image_status,
+        gbp_image_checked_at: article.gbp_image_asset_version ? new Date().toISOString() : article.gbp_image_checked_at,
+        gbp_image_last_error: article.gbp_image_asset_version ? String(message).slice(0, 1000) : article.gbp_image_last_error
       })
       .eq('id', article.id);
 
@@ -182,7 +206,12 @@ export default async function handler(req, res) {
       image_brand_qa_score: article.image_brand_qa_score ?? null,
       image_qa: article.image_qa || null,
       thumbnail: article.thumbnail || null,
-      og_image: article.og_image || null
+      og_image: article.og_image || null,
+      gbp_image: article.gbp_image || null,
+      gbp_image_status: article.gbp_image_status || null,
+      gbp_image_asset_version: article.gbp_image_asset_version || null,
+      gbp_image_checked_at: article.gbp_image_checked_at || null,
+      gbp_image_qa: article.gbp_image_qa || null
     },
     readiness: {
       ready: readiness?.ready === true,

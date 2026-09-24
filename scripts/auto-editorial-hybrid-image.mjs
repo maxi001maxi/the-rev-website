@@ -236,21 +236,32 @@ function qaPass(qa) {
     qa.trainer_photo_reused === false &&
     qa.expected_copy_present === true &&
     qa.copy_legible === true &&
-    qa.too_promotional === false
+    qa.too_promotional === false &&
+    (
+      qa.gbp_image_required !== true ||
+      (
+        qa.gbp_aspect_ratio_pass === true &&
+        qa.gbp_safe_area_pass === true &&
+        qa.gbp_copy_legible === true
+      )
+    )
   );
 }
 
 async function visualQa(attempt) {
   const thumbPath = path.resolve(job.thumbnail);
+  const gbpPath = job.gbp_image ? path.resolve(job.gbp_image) : '';
   if (!fs.existsSync(thumbPath)) throw new Error(`Rendered thumbnail missing: ${job.thumbnail}`);
+  if (job.gbp_image && !fs.existsSync(gbpPath)) throw new Error(`Rendered GBP image missing: ${job.gbp_image}`);
 
   const prompt = [
     'You are the strict visual QA gate for THE REV. CONDITIONING LAB. editorial images.',
-    'Compare the FIRST image (real source environment) with the SECOND image (generated scene) and THIRD image (final thumbnail with deterministic overlay).',
+    'Compare the FIRST image (real source environment) with the SECOND image (generated scene), THIRD image (final 16:9 thumbnail), and when present the FOURTH image (final GBP 4:3 image).',
     'Return ONLY one JSON object. Do not use markdown.',
     '',
     'The source environment is authoritative. Fail if the final scene looks like another gym, if a person looks pasted in, if any trainer/staff/coach appears, if no customer appears, or if anatomy/perspective/contact shadows/lighting are not convincing.',
-    'The left-side typography in the final thumbnail is deterministic. Judge whether it is legible, quiet/editorial and consistent with the series.',
+    'The left-side typography in the final thumbnail and GBP image is deterministic. Judge whether it is legible, quiet/editorial and consistent with the series.',
+    'For the GBP 4:3 image, fail if the 4:3 crop cuts the customer, important equipment contact, or headline; important content must remain inside a comfortable central safe area.',
     'For non-exercise quiet scenes, exercise_pose_plausible should be true when the pose is naturally plausible for the intended activity.',
     '',
     'Required JSON fields:',
@@ -284,6 +295,9 @@ async function visualQa(attempt) {
     '  "expected_copy_present": boolean,',
     '  "copy_legible": boolean,',
     '  "too_promotional": boolean,',
+    '  "gbp_aspect_ratio_pass": boolean,',
+    '  "gbp_safe_area_pass": boolean,',
+    '  "gbp_copy_legible": boolean,',
     '  "comments": "short Japanese explanation"',
     '}',
     '',
@@ -301,7 +315,8 @@ async function visualQa(attempt) {
         { type: 'input_text', text: prompt },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
-        { type: 'input_image', image_url: dataUrl(thumbPath), detail: 'high' }
+        { type: 'input_image', image_url: dataUrl(thumbPath), detail: 'high' },
+        ...(job.gbp_image ? [{ type: 'input_image', image_url: dataUrl(gbpPath), detail: 'high' }] : [])
       ]
     }]
   });
@@ -370,13 +385,19 @@ async function visualQa(attempt) {
     asset_version: job.asset_version,
     checked_at: new Date().toISOString(),
     review_mode: 'HYBRID_GENERATED',
-    realism_qc_version: 'v1'
+    realism_qc_version: 'v1',
+    gbp_image_required: Boolean(job.gbp_image),
+    gbp_image_path: job.gbp_image || '',
+    gbp_image_width: Number(job.gbp_image_width || 1200),
+    gbp_image_height: Number(job.gbp_image_height || 900),
+    gbp_image_aspect_ratio: String(job.gbp_image_aspect_ratio || '4:3')
   };
 
   // Convert model booleans to strict booleans; omitted/ambiguous values fail closed.
   for (const key of [
     'no_cutout_or_sticker_look','location_semantics_pass','exercise_pose_plausible',
-    'real_the_rev_background_confirmed','expected_copy_present','copy_legible'
+    'real_the_rev_background_confirmed','expected_copy_present','copy_legible',
+    'gbp_aspect_ratio_pass','gbp_safe_area_pass','gbp_copy_legible'
   ]) {
     qa[key] = modelQa[key] === true;
   }
@@ -400,10 +421,62 @@ function writeState(state) {
 
 const previousState = readJson(statePath, {});
 let attemptsTotal = Math.max(0, Number(previousState?.attempts_total || 0));
+const gbpRequested = Boolean(String(job.gbp_image || '').trim());
+const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
+const needsGbpBackfill = previousState?.status === 'READY_CANDIDATE' && gbpRequested && !gbpAlreadyExists;
 
-if (previousState?.status === 'READY_CANDIDATE') {
+if (previousState?.status === 'READY_CANDIDATE' && !needsGbpBackfill) {
   console.log(JSON.stringify({ status: 'ALREADY_READY', slug: job.slug, state_path: path.relative(ROOT, statePath) }));
   process.exit(0);
+}
+
+let lastQa = null;
+let lastError = '';
+
+if (needsGbpBackfill) {
+  try {
+    const requiredExisting = [job.generated_scene_path, job.thumbnail, job.og_image, job.qa_report_path];
+    if (!requiredExisting.every((p) => p && fs.existsSync(path.resolve(p)))) {
+      throw new Error('GBP backfill requires existing generated scene, Thumbnail, OGP and QA assets.');
+    }
+    console.log(`GBP 4:3 backfill from existing approved scene: ${job.slug}`);
+    renderOverlay();
+    lastQa = await visualQa(Math.max(1, attemptsTotal || 1));
+    fs.writeFileSync(path.resolve(job.qa_report_path), JSON.stringify(lastQa, null, 2) + '\n');
+    if (lastQa.pass === true) {
+      writeState({
+        ...previousState,
+        slug: job.slug,
+        status: 'READY_CANDIDATE',
+        attempts_total: attemptsTotal,
+        max_attempts: MAX_TOTAL_ATTEMPTS,
+        job_path: jobPath,
+        generated_scene_path: job.generated_scene_path,
+        thumbnail: job.thumbnail,
+        og_image: job.og_image,
+        gbp_image: job.gbp_image,
+        qa_report_path: job.qa_report_path,
+        asset_version: job.asset_version,
+        xserver_verified: false,
+        updated_at: new Date().toISOString()
+      });
+      console.log(JSON.stringify({
+        status: 'READY_CANDIDATE',
+        route: 'GBP_BACKFILL',
+        slug: job.slug,
+        gbp_image: job.gbp_image,
+        qa_report_path: job.qa_report_path,
+        state_path: path.relative(ROOT, statePath)
+      }));
+      process.exit(0);
+    }
+    lastError = String(lastQa.comments || 'GBP Visual QC failed.');
+    try { fs.rmSync(path.resolve(job.gbp_image), { force: true }); } catch {}
+  } catch (e) {
+    lastError = String(e?.message || e);
+    console.error(`GBP backfill failed: ${lastError}`);
+    try { if (job.gbp_image) fs.rmSync(path.resolve(job.gbp_image), { force: true }); } catch {}
+  }
 }
 
 if (attemptsTotal >= MAX_TOTAL_ATTEMPTS) {
@@ -418,9 +491,6 @@ if (attemptsTotal >= MAX_TOTAL_ATTEMPTS) {
   console.log(JSON.stringify({ status: 'BLOCKED_MAX_ATTEMPTS', slug: job.slug, attempts_total: attemptsTotal }));
   process.exit(0);
 }
-
-let lastQa = null;
-let lastError = '';
 
 while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
   attemptsTotal += 1;
@@ -443,6 +513,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
         generated_scene_path: job.generated_scene_path,
         thumbnail: job.thumbnail,
         og_image: job.og_image,
+        gbp_image: job.gbp_image || null,
         qa_report_path: job.qa_report_path,
         asset_version: job.asset_version,
         updated_at: new Date().toISOString()
@@ -453,6 +524,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
         attempts_total: attemptsTotal,
         thumbnail: job.thumbnail,
         og_image: job.og_image,
+        gbp_image: job.gbp_image || null,
         qa_report_path: job.qa_report_path,
         state_path: path.relative(ROOT, statePath)
       }));
@@ -463,13 +535,13 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     console.warn(`Visual QC REJECT: ${lastError}`);
 
     // Never leave a rejected image where a later commit step can accidentally stage it.
-    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image]) {
+    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
   } catch (e) {
     lastError = String(e?.message || e);
     console.error(`Automated image attempt failed: ${lastError}`);
-    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image]) {
+    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
   }

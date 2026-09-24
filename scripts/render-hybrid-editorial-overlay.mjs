@@ -53,8 +53,10 @@ const sceneUrl = `data:${mimeFor(generated_scene_path)};base64,${fs.readFileSync
 const suffix = safeVersion ? `-${safeVersion}` : '';
 const outThumb = path.resolve(`assets/images/blog/thumb-${slug}${suffix}.jpg`);
 const outOg = path.resolve(`assets/images/blog/og/og-${slug}${suffix}.jpg`);
+const outGbp = path.resolve(`assets/images/gbp/gbp-${slug}${suffix}.jpg`);
 fs.mkdirSync(path.dirname(outThumb), { recursive: true });
 fs.mkdirSync(path.dirname(outOg), { recursive: true });
+fs.mkdirSync(path.dirname(outGbp), { recursive: true });
 
 function esc(value) {
   return String(value || '')
@@ -64,14 +66,14 @@ function esc(value) {
     .replaceAll('"', '&quot;');
 }
 
-function html({ width, height, og = false }) {
+function html({ width, height, og = false, gbp = false }) {
   const style = REV_COLUMN_REFERENCE_V2;
   const labelSize = og ? style.overlay.label.sizeOg : style.overlay.label.sizeThumb;
   const headlineSize = og ? style.overlay.headline.sizeOg : style.overlay.headline.sizeThumb;
   const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
-  const top = og ? 165 : 177;
+  const top = gbp ? 248 : (og ? 165 : 177);
   const left = og ? 76 : 80;
-  const headlineTop = og ? 252 : 270;
+  const headlineTop = gbp ? 350 : (og ? 252 : 270);
   const maxWidth = og ? 480 : 500;
   const hairlineWidth = og ? 160 : 180;
 
@@ -137,8 +139,9 @@ body{position:relative;color:${style.overlay.headline.color}}
 const browser = await chromium.launch({ headless: true });
 try {
   for (const spec of [
-    { width: 1200, height: 675, out: outThumb, og: false },
-    { width: 1200, height: 630, out: outOg, og: true }
+    { width: 1200, height: 675, out: outThumb, og: false, gbp: false },
+    { width: 1200, height: 630, out: outOg, og: true, gbp: false },
+    { width: 1200, height: 900, out: outGbp, og: false, gbp: true }
   ]) {
     const page = await browser.newPage({ viewport: { width: spec.width, height: spec.height }, deviceScaleFactor: 1 });
     await page.setContent(html(spec), { waitUntil: 'load' });
@@ -158,6 +161,8 @@ console.log(JSON.stringify({
   generated_scene_path,
   thumbnail: outThumb,
   og: outOg,
+  gbp: outGbp,
   thumbnail_public: `/assets/images/blog/thumb-${slug}${suffix}.jpg`,
-  og_public: `/assets/images/blog/og/og-${slug}${suffix}.jpg`
+  og_public: `/assets/images/blog/og/og-${slug}${suffix}.jpg`,
+  gbp_public: `/assets/images/gbp/gbp-${slug}${suffix}.jpg`
 }));

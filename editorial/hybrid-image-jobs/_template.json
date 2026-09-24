@@ -39,7 +39,9 @@
     "isolated_person_cutout_composite_forbidden_for_exercise": true,
     "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
     "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
-    "realism_qc_version": "v1"
+    "realism_qc_version": "v1",
+    "gbp_image_required": true,
+    "gbp_image_ratio": "4:3"
   },
   "background_source": {
     "drive_file_id": "",
@@ -58,5 +60,10 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "scene_intent": "記事内容に合わせた顧客役1人の情景",
   "generated_customer_count": 1,
-  "generated_scene_path": "assets/images/editorial-generated/<slug>-<asset_version>-scene.jpg"
+  "generated_scene_path": "assets/images/editorial-generated/<slug>-<asset_version>-scene.jpg",
+  "gbp_image": "assets/images/gbp/gbp-<slug>-<asset_version>.jpg",
+  "gbp_image_required": true,
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3"
 }

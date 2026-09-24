@@ -75,11 +75,17 @@ assertEqual(manifest.output_contract.thumbnail.width, HYBRID_IMAGE_FORMAT.output
 assertEqual(manifest.output_contract.thumbnail.height, HYBRID_IMAGE_FORMAT.output.thumbnail.height, 'manifest thumbnail height drift');
 assertEqual(manifest.output_contract.ogp.width, HYBRID_IMAGE_FORMAT.output.ogp.width, 'manifest OGP width drift');
 assertEqual(manifest.output_contract.ogp.height, HYBRID_IMAGE_FORMAT.output.ogp.height, 'manifest OGP height drift');
+assertEqual(manifest.output_contract.gbp.width, HYBRID_IMAGE_FORMAT.output.gbp.width, 'manifest GBP width drift');
+assertEqual(manifest.output_contract.gbp.height, HYBRID_IMAGE_FORMAT.output.gbp.height, 'manifest GBP height drift');
+assertEqual(manifest.output_contract.gbp.ratio, HYBRID_IMAGE_FORMAT.output.gbp.ratio, 'manifest GBP ratio drift');
 
 assertEqual(HYBRID_IMAGE_FORMAT.output.thumbnail.width, 1200, 'Hybrid thumbnail width must stay 1200');
 assertEqual(HYBRID_IMAGE_FORMAT.output.thumbnail.height, 675, 'Hybrid thumbnail height must stay 675');
 assertEqual(HYBRID_IMAGE_FORMAT.output.ogp.width, 1200, 'Hybrid OGP width must stay 1200');
 assertEqual(HYBRID_IMAGE_FORMAT.output.ogp.height, 630, 'Hybrid OGP height must stay 630');
+assertEqual(HYBRID_IMAGE_FORMAT.output.gbp.width, 1200, 'Hybrid GBP width must stay 1200');
+assertEqual(HYBRID_IMAGE_FORMAT.output.gbp.height, 900, 'Hybrid GBP height must stay 900');
+assertEqual(HYBRID_IMAGE_FORMAT.output.gbp.ratio, '4:3', 'Hybrid GBP ratio must stay 4:3');
 
 assertEqual(REV_COLUMN_REFERENCE_V2.thumb.width, 1200, 'source-lock thumbnail width must match site contract');
 assertEqual(REV_COLUMN_REFERENCE_V2.thumb.height, 675, 'source-lock thumbnail height must match site contract');
@@ -108,6 +114,7 @@ const autoWorkflow = fs.readFileSync(path.join(ROOT, '.github/workflows/auto-edi
 assertTrue(autoWorkflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Automated Hybrid workflow must call the runner');
 assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow must require OPENAI_API_KEY');
 assertTrue(autoWorkflow.includes('XSERVER_FTP_USER'), 'Automated Hybrid workflow must stage assets to Xserver');
+assertTrue(autoWorkflow.includes('assets/images/gbp'), 'Automated Hybrid workflow must stage GBP 4:3 assets');
 
 const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
@@ -137,6 +144,10 @@ assertEqual(compiledFixture.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTempla
 assertEqual(compiledFixture.generated_customer_count, 1, 'compiled fixture customer count drift');
 assertTrue(Boolean(compiledFixture.scene_intent), 'compiled fixture scene_intent missing');
 assertTrue(compiledFixture.thumbnail.endsWith('-reference-v23-hybrid-fixture-50.jpg'), 'compiled fixture thumbnail path is not versioned');
+assertTrue(compiledFixture.gbp_image?.includes('assets/images/gbp/gbp-'), 'compiled fixture GBP image path missing');
+assertEqual(compiledFixture.gbp_image_width, 1200, 'compiled fixture GBP width drift');
+assertEqual(compiledFixture.gbp_image_height, 900, 'compiled fixture GBP height drift');
+assertEqual(compiledFixture.gbp_image_aspect_ratio, '4:3', 'compiled fixture GBP ratio drift');
 assertTrue(compiledFixture.background_source?.selection_reason === 'compiler contract test fixture', 'compiled fixture lost source selection rationale');
 
 const child = spawnSync(process.execPath, ['scripts/validate-hybrid-image-jobs.mjs'], {
@@ -150,5 +161,6 @@ console.log(`- engine: ${HYBRID_IMAGE_FORMAT.id}`);
 console.log(`- policy: ${HYBRID_IMAGE_FORMAT.policyRevision}`);
 console.log(`- layout: ${HYBRID_IMAGE_FORMAT.layoutTemplateId}`);
 console.log(`- hybrid thumbnail: ${HYBRID_IMAGE_FORMAT.output.thumbnail.width}x${HYBRID_IMAGE_FORMAT.output.thumbnail.height}`);
+console.log(`- hybrid GBP: ${HYBRID_IMAGE_FORMAT.output.gbp.width}x${HYBRID_IMAGE_FORMAT.output.gbp.height} (${HYBRID_IMAGE_FORMAT.output.gbp.ratio})`);
 console.log(`- fallback thumbnail: ${REV_COLUMN_REFERENCE_V2.thumb.width}x${REV_COLUMN_REFERENCE_V2.thumb.height}`);
 console.log(`- publish boundary: ${HYBRID_IMAGE_FORMAT.publishBoundary}`);
