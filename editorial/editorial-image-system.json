@@ -1,7 +1,7 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.2.0",
-  "current_truth_date": "2026-09-22",
+  "schema_version": "1.3.0",
+  "current_truth_date": "2026-09-24",
   "system_status": "REPRODUCIBLE_WITH_AI_OPERATOR",
   "fully_automated": false,
   "current_standard": {
@@ -75,13 +75,16 @@
       "Blog CSS fingerprinting and live CSS verification",
       "trainer-free Review Gate shared by READY, Review and Publish",
       "recent-4 deterministic provenance reuse rejection",
-      "deterministic V2.4 typography/layout overlay after scene generation"
+      "deterministic V2.4 typography/layout overlay after scene generation",
+      "manual visual rejection is fail-closed in READY / Review / Publish"
     ],
     "operator_required": [
       "read article context and decide short Editorial Copy",
       "inspect only the scoped Drive source inventory and choose the most relevant source",
       "generate the V2.3 Hybrid composition with image-generation capability",
+      "for full-body exercise scenes, use scene-aware generation/editing rather than isolated-person cutout compositing",
       "perform multimodal Visual QC against real THE REV. source and approved references",
+      "perform human-scene realism QC: scale, perspective, ground contact, contact shadows, lighting, anatomy/pose and location semantics",
       "commit final Hybrid assets / QA result or otherwise hand them to the repository workflow"
     ],
     "human_required": [
@@ -108,6 +111,10 @@
     "thumbnail is facility-only",
     "fixed V2.4 overlay was not applied",
     "same image or same background provenance appears in the recent 4 articles",
+    "manual_visual_rejection is true",
+    "exercise is placed in a reception/circulation area rather than a plausible training area",
+    "exercise pose is anatomically or mechanically implausible",
+    "person looks pasted/cut out or does not share the background perspective, scale, ground contact, shadows or lighting",
     "Hybrid generation is missing",
     "source is outside the specified Drive root",
     "article relevance is weak",
@@ -133,14 +140,29 @@
     "same_image_recent_forbidden": true,
     "same_background_recent_forbidden": true,
     "trainer_photo_reuse_forbidden": true,
-    "fail_closed_on_missing_fields": true
+    "fail_closed_on_missing_fields": true,
+    "realism_qc_version": "v1",
+    "human_environment_integration_min": 9,
+    "perspective_scale_consistency_min": 9,
+    "ground_contact_shadow_consistency_min": 9,
+    "lighting_consistency_min": 9,
+    "anatomy_pose_realism_min": 9,
+    "no_cutout_or_sticker_look_required": true,
+    "location_semantics_pass_required": true,
+    "exercise_pose_plausible_required": true,
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; do not silently downgrade"
   },
   "operator_required": [
     "read article context and decide short Editorial Copy",
     "inspect only the scoped Drive source inventory and choose the most relevant source",
     "define article-specific customer scene intent",
     "generate the customer scene inside the selected real THE REV. environment (default 1 customer, max 2)",
+    "for full-body exercise scenes, use scene-aware generation/editing rather than isolated-person cutout compositing",
     "perform multimodal Visual QC against the real THE REV. source and approved references",
+    "perform realism QC for scale/perspective/ground-contact/shadows/lighting/anatomy/location semantics",
     "commit generated scene, final Hybrid assets and QA result or otherwise hand them to the repository workflow"
   ]
 }
