@@ -65,7 +65,13 @@
       "width": 1200,
       "height": 630,
       "ratio": "1.91:1"
-    }
+    },
+    "gbp": {
+      "width": 1200,
+      "height": 900,
+      "ratio": "4:3"
+    },
+    "gbp_pattern": "assets/images/gbp/gbp-{slug}-{asset_version}.jpg"
   },
   "qc_gate": {
     "series_consistency_min": 8,
