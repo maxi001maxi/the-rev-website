@@ -12,6 +12,7 @@ import {
   safeSecretEqual
 } from '../../lib/editorialBridge.mjs';
 import { checkEditorialImageReady } from '../../lib/editorialImage.mjs';
+import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
 
 export const config = { maxDuration: 300 };
 
@@ -63,6 +64,52 @@ export default async function handler(req, res) {
   let readiness = null;
 
   try {
+    // Self-heal legacy PREPARING drafts created before the unattended Hybrid
+    // operator existed. A planned path string alone is not a GitHub Job.
+    if (
+      String(article.image_status || '').toUpperCase() === 'PREPARING' &&
+      String(article.image_strategy || '') === 'reference-v2-gpt-image-hybrid-drive-source' &&
+      (
+        !String(article.image_asset_version || '').trim() ||
+        !String(article.thumbnail || '').trim() ||
+        !String(article.og_image || '').trim()
+      )
+    ) {
+      const planned = await ensureAutomatedHybridImageJob(article);
+      if (planned?.status !== 'EXISTS') {
+        const plannedUpdate = await supabase
+          .from('admin_article_drafts')
+          .update({
+            thumbnail: planned.thumbnail || article.thumbnail || null,
+            og_image: planned.ogImage || article.og_image || null,
+            image_status: 'PREPARING',
+            image_asset_ready: false,
+            image_render_version: planned.renderVersion || article.image_render_version,
+            image_strategy: planned.strategy || article.image_strategy,
+            image_source_path: planned.sourcePath || article.image_source_path,
+            image_checked_at: new Date().toISOString(),
+            image_style_template: planned.styleTemplate || article.image_style_template,
+            image_headline_short: planned.imageHeadlineShort || article.image_headline_short,
+            image_category_label: planned.categoryLabel || article.image_category_label,
+            image_series_label: planned.seriesLabel || article.image_series_label,
+            image_asset_version: planned.assetVersion || article.image_asset_version,
+            image_job_path: planned.jobPath || article.image_job_path,
+            image_qa_report_path: planned.qaReportPath || article.image_qa_report_path,
+            image_generation_model: planned.generationModel || article.image_generation_model,
+            image_qa_model: planned.qaModel || article.image_qa_model,
+            image_last_error: null
+          })
+          .eq('id', article.id)
+          .select('*')
+          .single();
+
+        if (plannedUpdate.error) {
+          throw new Error('Automated Hybrid image planのDraft反映に失敗しました。');
+        }
+        article = plannedUpdate.data;
+      }
+    }
+
     readiness = await checkEditorialImageReady(article);
 
     if (readiness.ready) {
