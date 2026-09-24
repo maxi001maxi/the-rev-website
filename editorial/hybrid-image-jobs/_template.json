@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Canonical full Job example. New articles use the request compiler. V2.4 requires a generated customer scene plus deterministic fixed overlay; do not hand-author fixed policy fields.",
+  "_note": "Canonical full Job example. New articles use the request compiler. V2.4 requires a generated customer scene plus deterministic fixed overlay. Full-body exercise scenes require scene-aware integration and Realism QC v1; do not hand-author fixed policy fields.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -34,7 +34,12 @@
     "facility_only_thumbnail_forbidden": true,
     "fixed_overlay_required": true,
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-    "policy_revision": "editorial-thumbnail-v2.4"
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
+    "realism_qc_version": "v1"
   },
   "background_source": {
     "drive_file_id": "",
