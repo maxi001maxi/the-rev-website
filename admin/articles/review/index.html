@@ -173,6 +173,17 @@ const params = new URLSearchParams(location.search);
 const articleId = params.get('id');
 
 const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'RECOVERY', 'body-knowledge': 'BODY KNOWLEDGE' };
+const PRODUCTION_ORIGIN = 'https://therev-lab.com';
+
+function productionPublicUrl(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return PRODUCTION_ORIGIN + '/blog/';
+  try {
+    return /^https?:\/\//i.test(raw) ? new URL(raw).href : new URL(raw.startsWith('/') ? raw : '/' + raw, PRODUCTION_ORIGIN).href;
+  } catch {
+    return PRODUCTION_ORIGIN + '/blog/';
+  }
+}
 
 let publishing = false;
 let preflight = null;
@@ -199,7 +210,7 @@ function publicAssetUrl(src, publicUrl, cacheKey = '') {
       ? new URL(raw)
       : new URL(
           raw.startsWith('/') ? raw : '/' + raw,
-          new URL(publicUrl || 'https://therev-lab.com').origin
+          PRODUCTION_ORIGIN
         );
     if (cacheKey) url.searchParams.set('review_asset', String(cacheKey));
     return url.href;
@@ -362,7 +373,7 @@ function renderMeta(a, data) {
 </figure>`;
   }).join('');
 
-  text('v-public-url', data.publicUrl);
+  text('v-public-url', productionPublicUrl(data.publicUrl));
   text('v-path', data.targetPath);
   text('v-repo', data.github?.repo ? `${data.github.repo} @ ${data.github.branch}` : '未設定');
   text('v-commit-message', data.commitMessage);
@@ -516,8 +527,9 @@ function showSuccess(result) {
   text('s-mode', result.mode === 'create' ? 'CREATE（新規作成）' : 'UPDATE（既存ファイルの更新）');
   text('s-path', `${result.repo}@${result.branch}:${result.path}`);
   text('s-commit', result.commitSha || '—');
-  text('s-url', result.publicUrl || '—');
-  $('s-open').href = result.publicUrl || '/blog/';
+  const liveUrl = productionPublicUrl(result.publicUrl);
+  text('s-url', liveUrl);
+  $('s-open').href = liveUrl;
   if (result.commitUrl) {
     const link = $('s-commit-link');
     link.href = result.commitUrl;
@@ -532,7 +544,7 @@ function showSuccess(result) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   if (result.mode === 'create' && result.publicUrl) {
-    pollNewArticle(result.publicUrl);
+    pollNewArticle(productionPublicUrl(result.publicUrl));
   } else {
     // 更新の場合、URLは公開前から200を返すため「200になった＝新しい内容が反映された」とは判定できない。
     $('s-poll').textContent = '既存記事の更新のため、URLの応答だけでは新しい内容が反映されたか判定できません。数分ほど待ってから「Open Live Article」で内容をご確認ください（ブラウザのキャッシュにご注意ください）。';
