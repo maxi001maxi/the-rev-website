@@ -1,0 +1,13 @@
+{
+  "slug": "health-check-results-before-starting-exercise",
+  "status": "READY_CANDIDATE",
+  "attempts_total": 1,
+  "max_attempts": 3,
+  "job_path": "editorial/hybrid-image-jobs/health-check-results-before-starting-exercise.json",
+  "generated_scene_path": "assets/images/editorial-generated/health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683-scene.png",
+  "thumbnail": "assets/images/blog/thumb-health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.jpg",
+  "og_image": "assets/images/blog/og/og-health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.jpg",
+  "qa_report_path": "editorial/image-qa/health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.json",
+  "asset_version": "reference-v24-auto-evolgear-20260922-2bd31683",
+  "updated_at": "2026-09-24T02:52:01.023Z"
+}
