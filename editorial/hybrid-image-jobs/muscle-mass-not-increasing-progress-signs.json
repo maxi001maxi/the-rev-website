@@ -99,7 +99,7 @@
         "assetVersion": "reference-v23-hybrid-4387-75"
       }
     ],
-    "requeue_token": "2026-09-24-v0683-semantic-qc-r5",
+    "requeue_token": "2026-09-24-v0683-r5-after-reset",
     "gbp_v067_backfill": true,
     "semantic_relevance_gate": "v3-umbrella-claim-plus-example",
     "output_safe_zone": "subject-center-60pct-dual-layout-v1"
