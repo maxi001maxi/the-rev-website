@@ -1,24 +1,27 @@
 # THE REV. Editorial Image System｜完全引き継ぎ・実行Runbook
 
-**Current Truth: 2026-09-22**
+**Current Truth: 2026-09-24**
 
 この文書は、過去チャットを一切知らない人・AIでも、THE REV. Blog / ColumnのサムネイルとOGPを同じ考え方で再現し、GitHubへ安全に接続し、Review & Publish直前まで進められる状態にするための正本です。
 
 ## 0. 最初に結論
 
-現在の画像システムは、**再現可能な仕組みとしては実装済み**です。ただし、V2.4 Policyの「素材を見る → 記事に合う素材を選ぶ → 顧客シーンを生成する → 固定Overlayを適用する → 視覚QCする」は、品質と事実性を守るために **AI Operator必須**で、GitHub Actionsだけの完全無人生成にはしていません。
+現在の画像システムは、**記事DraftがPREPARINGになってからReview Readyになるまで自動化済み**です。V2.4 Policyの「記事を読む → 検証済みTHE REV.実素材を選ぶ → 顧客シーンを生成する → 固定Overlayを適用する → 視覚QCする → GitHub/Xserverへ反映する」を、GitHub ActionsのAutomated Hybrid Image Operatorが実行します。
 
 したがって状態は次の通りです。
 
 - 仕様、命名、素材範囲、QC、出力サイズ、公開境界: 固定済み
-- Jobテンプレート、機械可読仕様、CI検証: 実装済み
-- V2.2 source-lock fallback: 自動化済み
-- V2.3 Hybrid engine + V2.4 Policy生成: AI Operator orchestrated
+- Editorial Bridgeが正規Hybrid Jobを自動作成
+- 検証済みsource registry: `editorial/automated-image-sources.json`
+- V2.3 Hybrid engine + V2.4 Policy生成: `github-actions-auto-operator-v1`
+- 生成runner: `scripts/auto-editorial-hybrid-image.mjs`
+- 自動Workflow: `.github/workflows/auto-editorial-hybrid-images.yml`
 - V2.4固定Overlay: `scripts/render-hybrid-editorial-overlay.mjs` で決定論的に適用
-- 最終Publish: 人間承認
-- このRunbook、manifest、Job compilerにより「何も知らないAI」への引き継ぎ: 実装済み
+- Multimodal Visual QC: fail-closed、最大試行回数を超えたら停止
+- GitHub assets → Xserver public bytes照合 → Supabase READY → LINE完了通知まで自動
+- 最終Publishだけは人間承認
 
-**完全自動化されていないことを、未実装と混同しないでください。** Hybrid生成を意図的にOperator境界へ残しています。
+通常運用で人間やチャットAIが画像を手作業する必要はありません。例外は、直近4記事と重複しない検証済み実素材が尽きた場合、または自動Visual QCが最大試行回数まで失敗した場合です。
 
 ---
 
@@ -59,6 +62,7 @@
 | Publish gate | `lib/publishFlow.mjs` |
 | Blog表示 | `scripts/build-blog.mjs` / `assets/css/blog.css` |
 | CI | `.github/workflows/phase-9-check.yml` |
+| automated Hybrid workflow | `.github/workflows/auto-editorial-hybrid-images.yml` |
 | source-lock workflow | `.github/workflows/render-editorial-images.yml` |
 | 本番deploy | `.github/workflows/deploy-xserver.yml` |
 | Preview実機QA | `.github/workflows/preview-qa.yml` |
@@ -158,6 +162,14 @@ Content Referenceの探索範囲は指定Driveルートだけです。
 ---
 
 ## 7. 新しい記事で実行する手順
+
+### 通常運用｜自動フロー
+
+通常は次が自動で進みます。
+
+`Editorial Bridge → verified source選定 → Hybrid Job作成 → GitHub Actions画像生成 → 固定Overlay → Multimodal Visual QC → GitHub commit → Xserver assets反映 → status poll → Review Ready → LINE通知`
+
+下記Step 1〜11は、手動復旧・品質監査・新しいsource追加時に使う詳細手順です。通常の日次運用で人間が毎回実行する手順ではありません。
 
 ### Step 1｜記事を読む
 

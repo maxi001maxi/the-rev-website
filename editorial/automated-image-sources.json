@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+  "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+  "note": "Only repo-local mirrors whose provenance is verified against the scoped THE REV Drive source root may be used by the unattended image operator.",
+  "sources": [
+    {
+      "source_id": "the-rev-evolgear-20260922",
+      "repo_path": "assets/images/photo-evolgear.jpg",
+      "drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+      "drive_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "evolgear-20260922",
+      "categories": ["training", "body-knowledge"],
+      "keywords": ["運動", "トレーニング", "筋トレ", "健康診断", "健診", "血圧", "血糖", "脂質", "体組成", "フォーム", "強度", "初心者", "再開"],
+      "scene_semantics": "THE REV.の実トレーニングフロア。EVOLGEARラックと床・窓・鏡の空間構造を維持する。",
+      "selection_reason": "THE REV.実店舗のトレーニング空間で、身体知識・運動開始・一般トレーニング記事に最も広く適合する。Drive root内のAI_SOURCE_photo-evolgear_20260922.jpgとrepo_pathは同一bytesとして検証済み。"
+    },
+    {
+      "source_id": "the-rev-frame-3978-20",
+      "repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+      "drive_file_id": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+      "drive_file_name": "AI_FRAME_IMG_3978_20.jpg",
+      "origin_video_file_id": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+      "origin_video_file_name": "IMG_3978.MOV",
+      "frame_position_ratio": 0.2,
+      "lineage_key": "3978-20",
+      "categories": ["training", "body-knowledge"],
+      "keywords": ["時間", "続かない", "習慣", "来店", "仕事", "生活", "始める", "初心者"],
+      "scene_semantics": "THE REV.実店舗の来店・トレーニング文脈が分かる実景。元動画の構造を維持する。",
+      "selection_reason": "生活導線・来店・習慣化テーマに適合する、指定Drive root由来の承認済みContent Reference。"
+    },
+    {
+      "source_id": "the-rev-frame-4387-75",
+      "repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+      "drive_file_name": "AI_FRAME_IMG_4387_75.jpg",
+      "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+      "origin_video_file_name": "IMG_4387.MOV",
+      "frame_position_ratio": 0.75,
+      "lineage_key": "4387-75",
+      "categories": ["training", "body-knowledge"],
+      "keywords": ["疲労", "疲れ", "仕事終わり", "状態", "判断", "軽く", "回復"],
+      "scene_semantics": "THE REV.実店舗で、その日の状態を見ながら運動する文脈に適した実景。元動画の構造を維持する。",
+      "selection_reason": "疲労・状態判断テーマに適合する、指定Drive root由来の承認済みContent Reference。"
+    }
+  ]
+}

@@ -14,6 +14,9 @@
 ### 絶対に守ること
 
 - 現行画像engineは `rev-column-reference-v2.3-hybrid`、運用Policyは **`editorial-thumbnail-v2.4`**
+- 通常の新規記事は **Automated Hybrid Image Operator (`github-actions-auto-operator-v1`)** がReview Readyまで進める
+- 検証済み自動source正本は `editorial/automated-image-sources.json`。registry外の画像を無人生成で使わない
+- `IMAGE_PREPARING` を単にAI Operator待ちとして放置しない。Job未作成ならBridge/statusが自動修復し、`.github/workflows/auto-editorial-hybrid-images.yml` が生成を担当する
 - Thumbnailは **1200×675 / 16:9**
 - OGPは **1200×630**
 - Content Referenceは指定Driveルートの範囲だけを使う
@@ -46,7 +49,8 @@ npm run build:blog
 
 ### 新規Hybrid Job
 
-Job JSONを手書きでゼロから作らないでください。
+通常の日次記事ではEditorial BridgeがJobを自動作成します。手動でJobをゼロから作らないでください。
+自動Operatorの例外復旧や検証用途では、
 `editorial/hybrid-image-request.template.json` を入力用に複製し、次で正規Jobへ変換します。
 
 ```bash

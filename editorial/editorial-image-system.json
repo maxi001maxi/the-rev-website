@@ -1,9 +1,9 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "current_truth_date": "2026-09-24",
-  "system_status": "REPRODUCIBLE_WITH_AI_OPERATOR",
-  "fully_automated": false,
+  "system_status": "AUTOMATED_TO_REVIEW_READY",
+  "fully_automated": true,
   "current_standard": {
     "format_id": "rev-column-reference-v2.3-hybrid",
     "code_contract": "lib/editorialHybridImageFormat.mjs",
@@ -16,7 +16,10 @@
     "validator": "scripts/validate-hybrid-image-jobs.mjs",
     "policy_revision": "editorial-thumbnail-v2.4",
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-    "hybrid_overlay_renderer": "scripts/render-hybrid-editorial-overlay.mjs"
+    "hybrid_overlay_renderer": "scripts/render-hybrid-editorial-overlay.mjs",
+    "automated_operator": "github-actions-auto-operator-v1",
+    "automated_source_registry": "editorial/automated-image-sources.json",
+    "automated_runner": "scripts/auto-editorial-hybrid-image.mjs"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -24,7 +27,9 @@
     "full_drive_search": false,
     "video_frame_allowed": true,
     "recent_reference_window": 4,
-    "selection_policy": "relevance-first-lineage-recency-v2"
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "verified_repo_mirror_registry": "editorial/automated-image-sources.json",
+    "repo_mirrors_must_have_scoped_drive_provenance": true
   },
   "output_contract": {
     "thumbnail": {
@@ -40,7 +45,7 @@
     "thumbnail_pattern": "assets/images/blog/thumb-{slug}-{asset_version}.jpg",
     "ogp_pattern": "assets/images/blog/og/og-{slug}-{asset_version}.jpg",
     "qa_pattern": "editorial/image-qa/{slug}-{asset_version}.json",
-    "generated_scene_pattern": "assets/images/editorial-generated/{slug}-{asset_version}-scene.jpg"
+    "generated_scene_pattern": "assets/images/editorial-generated/{slug}-{asset_version}-scene.png"
   },
   "design_reference_assets": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
@@ -64,28 +69,29 @@
   },
   "automation": {
     "automated": [
-      "fixed policy compilation from minimal request to full Hybrid Job",
-      "job naming and versioned output path construction",
+      "Editorial Bridge converts a PREPARING article into a canonical V2.4 Hybrid Job",
+      "verified THE REV source selection from the scoped Drive-provenance repo mirror registry",
+      "recent-4 background provenance hard exclusion",
+      "short Editorial Copy generation and deterministic validation",
+      "article-specific one-customer scene intent planning",
+      "GPT image-generation scene creation from the real THE REV source environment",
+      "deterministic V2.4 typography/layout overlay",
+      "multimodal visual QC against the real THE REV source and final thumbnail",
+      "realism QC for scale, perspective, floor contact, contact shadows, lighting, anatomy and location semantics",
+      "automatic retry up to the configured max attempts",
+      "generated scene / Thumbnail / OGP / QA / operator state commit to GitHub",
       "Hybrid Job / QA / JPEG dimension / provenance validation",
-      "code-spec and machine-spec drift detection",
-      "CI validation",
-      "source-lock fallback rendering and QA",
-      "Xserver asset-first deployment and live-byte verification",
+      "Xserver asset-first deployment and public byte verification",
+      "Editorial status polling to Supabase READY",
+      "LINE notification when Review Ready is reached",
       "publish preflight and image READY gate",
-      "Blog CSS fingerprinting and live CSS verification",
       "trainer-free Review Gate shared by READY, Review and Publish",
-      "recent-4 deterministic provenance reuse rejection",
-      "deterministic V2.4 typography/layout overlay after scene generation",
       "manual visual rejection is fail-closed in READY / Review / Publish"
     ],
     "operator_required": [
-      "read article context and decide short Editorial Copy",
-      "inspect only the scoped Drive source inventory and choose the most relevant source",
-      "generate the V2.3 Hybrid composition with image-generation capability",
-      "for full-body exercise scenes, use scene-aware generation/editing rather than isolated-person cutout compositing",
-      "perform multimodal Visual QC against real THE REV. source and approved references",
-      "perform human-scene realism QC: scale, perspective, ground contact, contact shadows, lighting, anatomy/pose and location semantics",
-      "commit final Hybrid assets / QA result or otherwise hand them to the repository workflow"
+      "add a newly verified THE REV source mirror when the recent-4-safe automated source pool is exhausted",
+      "investigate an image that exhausts automated QC retry attempts",
+      "override by rejection when a human reviewer sees a visual defect that automated QC missed"
     ],
     "human_required": [
       "final Review & Publish approval"
@@ -102,7 +108,8 @@
     "source_lock_render": ".github/workflows/render-editorial-images.yml",
     "phase9_ci": ".github/workflows/phase-9-check.yml",
     "xserver_deploy": ".github/workflows/deploy-xserver.yml",
-    "preview_qa": ".github/workflows/preview-qa.yml"
+    "preview_qa": ".github/workflows/preview-qa.yml",
+    "auto_hybrid_generation": ".github/workflows/auto-editorial-hybrid-images.yml"
   },
   "release_boundary": "REVIEW_AND_PUBLISH",
   "stop_conditions": [
@@ -156,13 +163,8 @@
     "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; do not silently downgrade"
   },
   "operator_required": [
-    "read article context and decide short Editorial Copy",
-    "inspect only the scoped Drive source inventory and choose the most relevant source",
-    "define article-specific customer scene intent",
-    "generate the customer scene inside the selected real THE REV. environment (default 1 customer, max 2)",
-    "for full-body exercise scenes, use scene-aware generation/editing rather than isolated-person cutout compositing",
-    "perform multimodal Visual QC against the real THE REV. source and approved references",
-    "perform realism QC for scale/perspective/ground-contact/shadows/lighting/anatomy/location semantics",
-    "commit generated scene, final Hybrid assets and QA result or otherwise hand them to the repository workflow"
+    "only exception handling: expand the verified source registry when no recent-4-safe source remains",
+    "only exception handling: investigate automated Visual QC failures after max retries",
+    "human Review may reject an image even after automated PASS"
   ]
 }

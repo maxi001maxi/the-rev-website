@@ -14,10 +14,10 @@ import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
 import { prepareEditorialImageJob, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
 import {
-  buildPendingHybridImageInfo,
   hybridImageInfoFromDraft,
   shouldPreserveHybridImageOnEditorialSync
 } from '../../lib/editorialHybridImageFormat.mjs';
+import { prepareAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
 import { buildImageHeadlineShort } from '../../lib/editorialImageCopy.mjs';
 import {
   BRIDGE_SOURCE,
@@ -145,18 +145,22 @@ export default async function handler(req, res) {
         fallbackReason: explicitFallbackReason
       });
     } else {
-      imageInfo = buildPendingHybridImageInfo({
+      imageInfo = await prepareAutomatedHybridImageJob({
         title: normalized.value.title,
         slug: normalized.value.slug,
-        categoryLabel: body.image_category_label || String(normalized.value.category || '').toUpperCase(),
-        columnLabel: body.image_series_label || '',
-        imageHeadlineShort: body.image_headline_short || buildImageHeadlineShort({
+        description: normalized.value.description,
+        category: normalized.value.category,
+        body_markdown: normalized.value.body_markdown,
+        primary_query: body.primary_query,
+        image_headline_short: body.image_headline_short || buildImageHeadlineShort({
           title: normalized.value.title,
           description: normalized.value.description,
           category: normalized.value.category,
           bodyMarkdown: normalized.value.body_markdown,
           primaryQuery: body.primary_query
-        })
+        }),
+        image_category_label: body.image_category_label,
+        image_series_label: body.image_series_label
       });
     }
   } catch (e) {

@@ -1,0 +1,287 @@
+name: Auto Editorial Hybrid Images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'editorial/hybrid-image-jobs/**.json'
+      - 'editorial/automated-image-sources.json'
+      - 'scripts/auto-editorial-hybrid-image.mjs'
+      - 'scripts/render-hybrid-editorial-overlay.mjs'
+      - 'lib/editorialAutomatedHybridImage.mjs'
+      - 'lib/editorialHybridImageFormat.mjs'
+      - '.github/workflows/auto-editorial-hybrid-images.yml'
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-editorial-hybrid-images
+  cancel-in-progress: false
+
+env:
+  PRODUCTION_URL: 'https://therev-lab.com'
+  XSERVER_FTP_HOST: 'sv14602.xserver.jp'
+  XSERVER_REMOTE_DIR: '/'
+  EDITORIAL_IMAGE_GENERATION_MODEL: 'gpt-5.6'
+  EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6'
+  EDITORIAL_IMAGE_MAX_ATTEMPTS: '3'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+      XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Validate required secrets
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY is required."; exit 1; }
+          test -n "${XSERVER_FTP_USER:-}" || { echo "::error::XSERVER_FTP_USER is required."; exit 1; }
+          test -n "${XSERVER_FTP_PASSWORD:-}" || { echo "::error::XSERVER_FTP_PASSWORD is required."; exit 1; }
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk lftp jq
+
+      - name: Select pending Hybrid jobs
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          : > .operator-jobs
+
+          if [ "$EVENT_NAME" = "push" ] && [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" -- 'editorial/hybrid-image-jobs/*.json'               | grep -E '^editorial/hybrid-image-jobs/[^/]+\.json$'               | grep -v '/_template\.json$'               | sort -u > .candidate-jobs || true
+          else
+            find editorial/hybrid-image-jobs -maxdepth 1 -type f -name '*.json'               ! -name '_template.json' | sort > .candidate-jobs
+          fi
+
+          while IFS= read -r job; do
+            [ -n "$job" ] || continue
+            [ -f "$job" ] || continue
+
+            slug="$(jq -r '.slug // ""' "$job")"
+            qa="$(jq -r '.qa_report_path // ""' "$job")"
+            thumb="$(jq -r '.thumbnail // ""' "$job")"
+            og="$(jq -r '.og_image // ""' "$job")"
+            state="editorial/image-operator-state/${slug}.json"
+
+            if [ -f "$state" ] && [ "$(jq -r '.xserver_verified // false' "$state")" = "true" ] \
+              && [ -n "$qa" ] && [ -f "$qa" ] && [ "$(jq -r '.pass // false' "$qa")" = "true" ] \
+              && [ -n "$thumb" ] && [ -f "$thumb" ] && [ -n "$og" ] && [ -f "$og" ]; then
+              echo "Already generated and Xserver-verified: $job"
+              continue
+            fi
+
+            printf '%s\n' "$job" >> .operator-jobs
+          done < .candidate-jobs
+
+          sort -u .operator-jobs -o .operator-jobs
+          echo "Pending automated Hybrid jobs:"
+          cat .operator-jobs || true
+
+      - name: Generate scenes, render overlay and run multimodal QC
+        id: generate
+        run: |
+          set -euo pipefail
+          : > .ready-paths
+          : > .ready-image-paths
+          : > .state-paths
+          failed=0
+
+          if [ ! -s .operator-jobs ]; then
+            echo "No pending Hybrid jobs."
+            echo "failed=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          while IFS= read -r job; do
+            [ -n "$job" ] || continue
+
+            slug="$(jq -r '.slug' "$job")"
+            scene="$(jq -r '.generated_scene_path' "$job")"
+            thumb="$(jq -r '.thumbnail' "$job")"
+            og="$(jq -r '.og_image' "$job")"
+            qa="$(jq -r '.qa_report_path' "$job")"
+            state="editorial/image-operator-state/${slug}.json"
+
+            node scripts/auto-editorial-hybrid-image.mjs "$job"
+
+            test -f "$state"
+            printf '%s\n' "$state" >> .state-paths
+            status="$(jq -r '.status // ""' "$state")"
+
+            if [ "$status" = "READY_CANDIDATE" ]; then
+              test -f "$scene"
+              test -f "$thumb"
+              test -f "$og"
+              test -f "$qa"
+              test "$(jq -r '.pass // false' "$qa")" = "true"
+
+              printf '%s\n' "$scene" "$thumb" "$og" "$qa" "$state" >> .ready-paths
+              printf '%s\n' "$thumb" "$og" >> .ready-image-paths
+            else
+              echo "::error::Hybrid image operator did not reach READY_CANDIDATE for $slug (status=$status)"
+              failed=1
+            fi
+          done < .operator-jobs
+
+          sort -u .ready-paths -o .ready-paths
+          sort -u .ready-image-paths -o .ready-image-paths
+          sort -u .state-paths -o .state-paths
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+
+      - name: Validate Hybrid image system
+        if: steps.generate.outputs.failed == '0'
+        run: |
+          set -euo pipefail
+          node scripts/validate-hybrid-image-jobs.mjs
+          node scripts/validate-editorial-image-system.mjs
+          npm run test:phase-9
+
+      - name: Commit operator output to main
+        run: |
+          set -euo pipefail
+          git config user.name "THE REV Editorial Image Operator"
+          git config user.email "actions@users.noreply.github.com"
+
+          if [ -s .ready-paths ]; then
+            while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .ready-paths
+          fi
+          if [ -s .state-paths ]; then
+            while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .state-paths
+          fi
+
+          if git diff --cached --quiet; then
+            echo "No operator output changes to commit."
+          else
+            git commit -m "Generate Editorial Hybrid image assets"
+            git push origin HEAD:main
+          fi
+
+      - name: Stage READY image assets to Xserver
+        if: steps.generate.outputs.failed == '0'
+        run: |
+          set -euo pipefail
+          if [ ! -s .ready-image-paths ]; then
+            echo "No new READY image assets to stage."
+            exit 0
+          fi
+
+          COMMANDS="$(mktemp)"
+          {
+            echo "set ftp:ssl-force true"
+            echo "set ftp:ssl-protect-data true"
+            echo "set ftp:passive-mode true"
+            echo "set ssl:verify-certificate yes"
+            echo "set net:max-retries 5"
+            echo "set net:timeout 30"
+            echo "set net:reconnect-interval-base 5"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog/og"
+            while IFS= read -r p; do
+              [ -n "$p" ] || continue
+              echo "put \"$p\" -o \"${XSERVER_REMOTE_DIR}$p\""
+            done < .ready-image-paths
+            echo "bye"
+          } > "$COMMANDS"
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" < "$COMMANDS"
+          rm -f "$COMMANDS"
+
+      - name: Verify Xserver assets are byte-identical
+        if: steps.generate.outputs.failed == '0'
+        run: |
+          set -euo pipefail
+          if [ ! -s .ready-image-paths ]; then
+            exit 0
+          fi
+
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+          CACHE_BUST="hybrid-auto=${GITHUB_RUN_ID}"
+
+          while IFS= read -r image_path; do
+            [ -n "$image_path" ] || continue
+            live_file="$TMP_DIR/$(basename "$image_path")"
+            local_sha="$(sha256sum "$image_path" | awk '{print $1}')"
+            ready=0
+
+            for attempt in $(seq 1 20); do
+              code="$(curl -sS -L -o "$live_file" -w '%{http_code}'                 --connect-timeout 8 --max-time 25                 "${PRODUCTION_URL}/${image_path}?${CACHE_BUST}&attempt=${attempt}" || echo '000')"
+
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "Hybrid asset ready ${attempt}/20: /${image_path}"
+                  ready=1
+                  break
+                fi
+              fi
+              sleep 15
+            done
+
+            if [ "$ready" != "1" ]; then
+              echo "::error::Hybrid asset did not become byte-identical: /${image_path}"
+              exit 1
+            fi
+          done < .ready-image-paths
+
+      - name: Mark Xserver verification in operator state
+        if: steps.generate.outputs.failed == '0'
+        run: |
+          set -euo pipefail
+          if [ ! -s .state-paths ]; then
+            exit 0
+          fi
+
+          changed=0
+          while IFS= read -r state; do
+            [ -n "$state" ] || continue
+            [ -f "$state" ] || continue
+            if [ "$(jq -r '.status // ""' "$state")" != "READY_CANDIDATE" ]; then
+              continue
+            fi
+            tmp="$(mktemp)"
+            jq '. + {xserver_verified:true, xserver_verified_at:(now | todateiso8601)}' "$state" > "$tmp"
+            mv "$tmp" "$state"
+            git add "$state"
+            changed=1
+          done < .state-paths
+
+          if [ "$changed" = "1" ] && ! git diff --cached --quiet; then
+            git commit -m "Mark Editorial Hybrid assets Xserver verified"
+            git push origin HEAD:main
+          fi
+
+      - name: Fail closed if any operator job was rejected
+        if: steps.generate.outputs.failed != '0'
+        run: |
+          echo "::error::At least one automated Hybrid image job failed Visual QC or exhausted attempts."
+          exit 1
