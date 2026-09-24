@@ -23,6 +23,11 @@
 - **顧客役は必須。原則1人、記事上必要な場合のみ2人まで**
 - トレーナー / スタッフ / コーチ風人物は実在・生成を問わず禁止
 - **施設だけの完成サムネイルは禁止**
+- **全身のトレーニング動作は人物切り抜きの後貼り合成を禁止。scene-aware生成/編集を使う**
+- 人物の縮尺・遠近・床接地・接触影・光・器具接触が背景と自然に一致しない画像はREJECT
+- 受付・通路など実際の利用として不自然な場所でトレーニングさせない
+- 高難度動作はFLUX Kontext/Pro等のscene-aware photoreal editorまたは同等品質を優先し、使えない場合は静的シーンへ簡略化するかPREPARINGで止める
+- 人間Reviewで違和感が出た場合は `manual_visual_rejection=true` として自動QAの高得点より優先してREJECT
 - 直近4記事と同一画像・同一背景provenanceを再利用しない
 - 新規Editorial画像はHybrid生成が必須。source-lockは障害切り分け用fallbackとしてのみ残し、新規記事のPublish完成条件にはしない
 - 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する
