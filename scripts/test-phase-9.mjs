@@ -242,6 +242,8 @@ assert(hybridJob.generated_scene_path.includes('assets/images/editorial-generate
 assert(hybridJob.publish_requires_human_approval === true, 'Hybrid JobはHuman Reviewを必須化');
 const hybridPaths = hybridAssetPaths('sample-hybrid-article', 'reference-v23-hybrid-sample');
 assert(hybridJob.thumbnail === hybridPaths.thumbnailRepoPath && hybridJob.og_image === hybridPaths.ogRepoPath, 'Hybrid Jobのversioned asset pathを決定論的に生成');
+assert(hybridJob.gbp_image === hybridPaths.gbpRepoPath, 'Hybrid JobのGBP 4:3 pathを決定論的に生成');
+assert(hybridJob.gbp_image_width === 1200 && hybridJob.gbp_image_height === 900 && hybridJob.gbp_image_aspect_ratio === '4:3', 'Hybrid JobのGBP 4:3 contractを保持');
 assert(isHybridImageFormat({ image_render_version: hybridJob.render_version, image_strategy: hybridJob.image_strategy }) === true, 'Hybrid format判定が正しい');
 const goodHybridQa = {
   pass: true,
