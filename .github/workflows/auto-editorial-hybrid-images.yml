@@ -86,15 +86,17 @@ jobs:
             [ -n "$job" ] || continue
             [ -f "$job" ] || continue
 
+            slug="$(jq -r '.slug // ""' "$job")"
             qa="$(jq -r '.qa_report_path // ""' "$job")"
             thumb="$(jq -r '.thumbnail // ""' "$job")"
             og="$(jq -r '.og_image // ""' "$job")"
+            state="editorial/image-operator-state/${slug}.json"
 
-            if [ -n "$qa" ] && [ -f "$qa" ] && [ -n "$thumb" ] && [ -f "$thumb" ] && [ -n "$og" ] && [ -f "$og" ]; then
-              if [ "$(jq -r '.pass // false' "$qa")" = "true" ]; then
-                echo "Already READY: $job"
-                continue
-              fi
+            if [ -f "$state" ] && [ "$(jq -r '.xserver_verified // false' "$state")" = "true" ] \
+              && [ -n "$qa" ] && [ -f "$qa" ] && [ "$(jq -r '.pass // false' "$qa")" = "true" ] \
+              && [ -n "$thumb" ] && [ -f "$thumb" ] && [ -n "$og" ] && [ -f "$og" ]; then
+              echo "Already generated and Xserver-verified: $job"
+              continue
             fi
 
             printf '%s\n' "$job" >> .operator-jobs
@@ -250,6 +252,33 @@ jobs:
               exit 1
             fi
           done < .ready-image-paths
+
+      - name: Mark Xserver verification in operator state
+        if: steps.generate.outputs.failed == '0'
+        run: |
+          set -euo pipefail
+          if [ ! -s .state-paths ]; then
+            exit 0
+          fi
+
+          changed=0
+          while IFS= read -r state; do
+            [ -n "$state" ] || continue
+            [ -f "$state" ] || continue
+            if [ "$(jq -r '.status // ""' "$state")" != "READY_CANDIDATE" ]; then
+              continue
+            fi
+            tmp="$(mktemp)"
+            jq '. + {xserver_verified:true, xserver_verified_at:(now | todateiso8601)}' "$state" > "$tmp"
+            mv "$tmp" "$state"
+            git add "$state"
+            changed=1
+          done < .state-paths
+
+          if [ "$changed" = "1" ] && ! git diff --cached --quiet; then
+            git commit -m "Mark Editorial Hybrid assets Xserver verified"
+            git push origin HEAD:main
+          fi
 
       - name: Fail closed if any operator job was rejected
         if: steps.generate.outputs.failed != '0'
