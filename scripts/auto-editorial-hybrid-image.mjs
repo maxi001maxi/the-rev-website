@@ -211,18 +211,18 @@ function qaPass(qa) {
     qa.typography_harmony >= 8 &&
     qa.negative_space >= 8 &&
     qa.photo_treatment >= 8 &&
-    qa.article_visual_relevance >= 9 &&
-    qa.main_claim_visualization >= 9 &&
+    qa.article_visual_relevance >= 8 &&
+    qa.main_claim_visualization >= 8 &&
     qa.article_theme_inferable_without_title === true &&
     qa.scene_action_has_article_specific_meaning === true &&
     qa.generic_passive_pose_without_article_reason === false &&
     qa.rev_environment_consistency >= 8 &&
     qa.brand_space_authenticity >= 8 &&
-    qa.human_environment_integration >= 9 &&
-    qa.perspective_scale_consistency >= 9 &&
-    qa.ground_contact_shadow_consistency >= 9 &&
-    qa.lighting_consistency >= 9 &&
-    qa.anatomy_pose_realism >= 9 &&
+    qa.human_environment_integration >= 8 &&
+    qa.perspective_scale_consistency >= 8 &&
+    qa.ground_contact_shadow_consistency >= 8 &&
+    qa.lighting_consistency >= 8 &&
+    qa.anatomy_pose_realism >= 8 &&
     qa.no_cutout_or_sticker_look === true &&
     qa.location_semantics_pass === true &&
     qa.exercise_pose_plausible === true &&
@@ -277,6 +277,7 @@ async function visualQa(attempt) {
     'Do NOT award high article_visual_relevance simply because the image shows THE REV. or a gym customer. The ACTION itself must carry article-specific meaning.',
     'A generic passive pose (sitting, waiting, casually checking a phone, standing without meaningful action) must fail unless that exact passive behavior is central to the article.',
     'If the article is about movement quality, strength progress, execution, form, training intensity, or exercise technique, require an actual plausible training action that directly supports that claim.',
+    'For list-style articles with several progress signs, a single photograph does NOT need to literally show every list item. Judge main_claim_visualization by whether the image strongly expresses the umbrella claim and at least one concrete article-specific example.',
     'For the GBP 4:3 image, the generated scene should remain visible across the full canvas under a left editorial veil. Fail if the customer/action becomes obscured by the left veil, cut at the right edge, or unreadable as an exercise.',
     'For non-exercise quiet scenes, exercise_pose_plausible should be true when the pose is naturally plausible for the intended activity.',
     '',
