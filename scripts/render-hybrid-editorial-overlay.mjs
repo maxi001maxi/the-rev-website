@@ -68,14 +68,23 @@ function esc(value) {
 
 function html({ width, height, og = false, gbp = false }) {
   const style = REV_COLUMN_REFERENCE_V2;
-  const labelSize = og ? style.overlay.label.sizeOg : style.overlay.label.sizeThumb;
-  const headlineSize = og ? style.overlay.headline.sizeOg : style.overlay.headline.sizeThumb;
+  const labelSize = og ? style.overlay.label.sizeOg : (gbp ? Math.max(13, style.overlay.label.sizeThumb - 1) : style.overlay.label.sizeThumb);
+  const headlineSize = og ? style.overlay.headline.sizeOg : (gbp ? Math.max(42, style.overlay.headline.sizeThumb - 6) : style.overlay.headline.sizeThumb);
   const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
-  const top = gbp ? 248 : (og ? 165 : 177);
-  const left = og ? 76 : 80;
-  const headlineTop = gbp ? 350 : (og ? 252 : 270);
-  const maxWidth = og ? 480 : 500;
-  const hairlineWidth = og ? 160 : 180;
+  const top = gbp ? 244 : (og ? 165 : 177);
+  const left = og ? 76 : (gbp ? 66 : 80);
+  const headlineTop = gbp ? 340 : (og ? 252 : 270);
+  const maxWidth = og ? 480 : (gbp ? 430 : 500);
+  const hairlineWidth = og ? 160 : (gbp ? 150 : 180);
+  const paperBackground = gbp
+    ? 'linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 38%,rgba(245,241,232,.97) 43%,rgba(245,241,232,.88) 47%,rgba(245,241,232,.56) 52%,rgba(245,241,232,.12) 58%,transparent 64%)'
+    : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)';
+  const sceneCss = gbp
+    ? 'position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:center;'
+    : 'position:absolute;right:0;top:0;width:50.8%;height:100%;object-fit:cover;object-position:center;';
+  const shadeCss = gbp
+    ? 'position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,241,232,.08),rgba(0,0,0,.025));pointer-events:none;'
+    : 'position:absolute;right:0;top:0;width:50.8%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));pointer-events:none;';
 
   return `<!doctype html>
 <html lang="ja">
@@ -86,31 +95,28 @@ function html({ width, height, og = false, gbp = false }) {
 html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden;background:#f5f1e8}
 body{position:relative;color:${style.overlay.headline.color}}
 .paper{
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%),
-    linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%);
+  position:absolute;inset:0;z-index:1;
+  background:${paperBackground};
 }
 .scene{
-  position:absolute;right:0;top:0;width:50.8%;height:100%;
-  object-fit:cover;object-position:center;
+  ${sceneCss}
+  z-index:0;
 }
 .scene-shade{
-  position:absolute;right:0;top:0;width:50.8%;height:100%;
-  background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));
-  pointer-events:none;
+  ${shadeCss}
+  z-index:1;
 }
-.frame{position:absolute;inset:0;border:1px solid rgba(74,68,58,.16);pointer-events:none}
+.frame{position:absolute;inset:0;border:1px solid rgba(74,68,58,.16);pointer-events:none;z-index:3}
 .label{
   position:absolute;left:${left}px;top:${top}px;
   font-family:${style.overlay.label.family};
   font-size:${labelSize}px;font-weight:${style.overlay.label.weight};
   letter-spacing:${style.overlay.label.letterSpacing};line-height:1.4;
-  color:${style.overlay.label.color};white-space:nowrap;
+  color:${style.overlay.label.color};white-space:nowrap;z-index:2;
 }
 .hairline{
   position:absolute;left:${left}px;top:${top + (og ? 38 : 42)}px;
-  width:${hairlineWidth}px;height:1px;background:${style.overlay.headline.color};opacity:.45;
+  width:${hairlineWidth}px;height:1px;background:${style.overlay.headline.color};opacity:.45;z-index:2;
 }
 .headline{
   position:absolute;left:${left}px;top:${headlineTop}px;margin:0;
@@ -120,7 +126,7 @@ body{position:relative;color:${style.overlay.headline.color}}
   line-height:${style.overlay.headline.lineHeight};
   letter-spacing:${style.overlay.headline.letterSpacing};
   color:${style.overlay.headline.color};
-  word-break:keep-all;overflow-wrap:anywhere;text-rendering:optimizeLegibility;
+  word-break:keep-all;overflow-wrap:anywhere;text-rendering:optimizeLegibility;z-index:2;
 }
 </style>
 </head>
