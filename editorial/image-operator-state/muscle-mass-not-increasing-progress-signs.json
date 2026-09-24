@@ -1,6 +1,6 @@
 {
   "slug": "muscle-mass-not-increasing-progress-signs",
-  "status": "ERROR",
+  "status": "BLOCKED_MAX_ATTEMPTS",
   "attempts_total": 3,
   "max_attempts": 3,
   "last_error": "生成シーンでは顧客のゴブレットスクワット、接地、フォーム、照明が概ね自然で、実店舗との整合性も高い。文字組みも静かで明瞭。ただしGBP画像では顧客が右端で大幅に切れ、運動動作と器具保持が判別できないため、安全域要件に違反して不合格。",
@@ -134,5 +134,5 @@
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/muscle-mass-not-increasing-progress-signs.json",
-  "updated_at": "2026-09-24T08:56:17.991Z"
+  "updated_at": "2026-09-24T08:56:59.137Z"
 }
