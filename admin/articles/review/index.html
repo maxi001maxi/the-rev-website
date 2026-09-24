@@ -110,6 +110,8 @@
 <div><dt>Author</dt><dd id="v-author">—</dd></div>
 <div><dt>Thumbnail</dt><dd id="v-thumbnail">—</dd></div>
 <div><dt>OGP</dt><dd id="v-og">—</dd></div>
+<div><dt>GBP 4:3</dt><dd id="v-gbp">—</dd></div>
+<div><dt>GBP image status</dt><dd id="v-gbp-status">—</dd></div>
 <div><dt>Image status</dt><dd id="v-image-status">—</dd></div>
 <div><dt>Image render</dt><dd id="v-image-render">—</dd></div>
 <div><dt>Image style</dt><dd id="v-image-style">—</dd></div>
@@ -315,6 +317,8 @@ function renderMeta(a, data) {
   text('v-author', a.author_role && a.author_role !== a.author ? `${a.author}（${a.author_role}）` : a.author);
   text('v-thumbnail', a.thumbnail);
   text('v-og', a.og_image);
+  text('v-gbp', a.gbp_image);
+  text('v-gbp-status', a.gbp_image_status || '—');
   text('v-image-status', a.image_status || '—');
   text('v-image-render', a.image_render_version
     ? `${a.image_render_version} / asset_ready=${a.image_asset_ready ? 'true' : 'false'}`
@@ -354,6 +358,7 @@ function renderMeta(a, data) {
   const images = [];
   if (a.thumbnail) images.push({ label: 'THUMBNAIL', src: a.thumbnail });
   if (a.og_image) images.push({ label: 'OGP', src: a.og_image });
+  if (a.gbp_image) images.push({ label: 'GBP 4:3', src: a.gbp_image });
   const imageCacheKey = imageReviewCacheKey(a);
   const canShowImages = imageReadyForReview(a);
   $('v-images').innerHTML = images.map((im) => {
