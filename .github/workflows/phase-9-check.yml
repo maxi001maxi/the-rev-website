@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'api/integrations/editorial.mjs'
+      - 'api/integrations/editorial-status.mjs'
       - 'lib/editorialBridge.mjs'
       - 'scripts/test-phase-9.mjs'
       - 'scripts/test-phase-d.mjs'
@@ -16,16 +17,19 @@ on:
       - 'scripts/generate-editorial-image.mjs'
       - 'scripts/render-blog-image.mjs'
       - 'scripts/render-hybrid-editorial-overlay.mjs'
+      - 'scripts/auto-editorial-hybrid-image.mjs'
       - 'scripts/qa-editorial-image.mjs'
       - 'lib/editorialImage.mjs'
       - 'lib/editorialImageStyle.mjs'
       - 'lib/editorialImageCopy.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialImageReviewGate.mjs'
       - 'AGENTS.md'
       - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
       - 'editorial/editorial-image-system.json'
       - 'editorial/hybrid-image-request.template.json'
+      - 'editorial/automated-image-sources.json'
       - 'editorial/fixtures/**.json'
       - 'scripts/compile-hybrid-image-job.mjs'
       - 'scripts/validate-editorial-image-system.mjs'
@@ -38,6 +42,7 @@ on:
       - 'api/admin/publish-preview.mjs'
       - 'admin/articles/review/**'
       - '.github/workflows/render-editorial-images.yml'
+      - '.github/workflows/auto-editorial-hybrid-images.yml'
       - '.github/workflows/deploy-xserver.yml'
       - 'package.json'
       - 'package-lock.json'
@@ -59,6 +64,8 @@ jobs:
       - run: node --check .github/qa/visual-qa.mjs
       - run: node --check scripts/compile-hybrid-image-job.mjs
       - run: node --check scripts/render-hybrid-editorial-overlay.mjs
+      - run: node --check scripts/auto-editorial-hybrid-image.mjs
+      - run: node --check lib/editorialAutomatedHybridImage.mjs
       - run: node --check scripts/validate-editorial-image-system.mjs
       - run: node --check lib/editorialImageReviewGate.mjs
       - run: npm run test:phase-9
