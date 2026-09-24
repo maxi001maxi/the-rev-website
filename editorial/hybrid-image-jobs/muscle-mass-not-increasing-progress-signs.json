@@ -46,7 +46,9 @@
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
     "recent_reference_window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
-    "publish_boundary": "REVIEW_AND_PUBLISH"
+    "publish_boundary": "REVIEW_AND_PUBLISH",
+    "gbp_image_required": true,
+    "gbp_image_ratio": "4:3"
   },
   "background_source": {
     "drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
@@ -97,6 +99,12 @@
         "assetVersion": "reference-v23-hybrid-4387-75"
       }
     ],
-    "requeue_token": "2026-09-24T04:54-safe-zone-r2"
-  }
+    "requeue_token": "2026-09-24-v067-gbp-muscle-mass-not-increasing-progress-signs",
+    "gbp_v067_backfill": true
+  },
+  "gbp_image": "assets/images/gbp/gbp-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2.jpg",
+  "gbp_image_required": true,
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3"
 }
