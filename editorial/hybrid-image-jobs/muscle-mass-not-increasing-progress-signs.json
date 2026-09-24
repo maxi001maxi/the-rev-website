@@ -9,17 +9,17 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が、トレーニングエリアで軽〜中重量のダンベルを胸の前に持ち、コントロールされたゴブレットスクワットを行っている場面。記事の主張は『筋肉量や体重が同じでも、フォームの安定・扱える負荷や回数・動作の質には進歩が現れる』こと。人物は休憩・待機・スマホ確認ではなく、明確にトレーニング動作中であること。足裏は床に自然に接地し、膝・股関節・体幹が無理のないフォームで、重すぎる重量や限界動作は避ける。THE REV.の実空間・器具配置を保ち、人物の視覚中心を生成画像幅の約60%付近に置き、顔・胴体・ダンベル・足元・動作全体を45〜76%の安全域内に収める。右端へ寄せない。トレーナー・スタッフ・コーチは出さない。",
   "generated_customer_count": 1,
-  "generated_scene_path": "assets/images/editorial-generated/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r4-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v24-auto-lobby-20260924-4db7de37-r4",
-  "thumbnail": "assets/images/blog/thumb-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r4.jpg",
-  "og_image": "assets/images/blog/og/og-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r4.jpg",
-  "qa_report_path": "editorial/image-qa/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r4.json",
+  "asset_version": "reference-v24-auto-lobby-20260924-4db7de37-r5",
+  "thumbnail": "assets/images/blog/thumb-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg",
+  "og_image": "assets/images/blog/og/og-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg",
+  "qa_report_path": "editorial/image-qa/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -56,7 +56,7 @@
     "origin_video_file_id": "",
     "origin_video_file_name": "AI_SOURCE_photo-lobby_20260924.jpg",
     "frame_position_ratio": null,
-    "selection_reason": "記事主張が『数字に出ない進歩＝フォーム・負荷・回数・動作の質』であるため、THE REV.実店舗背景を維持しつつ顧客を明確なゴブレットスクワット動作中として統合する。前回r3は意味整合自体は改善したが、GBP 4:3で人物が右端に切れたため不採用。r4では人物中心を約60%に固定し、Thumbnail右パネルとGBP全幅シーンの双方で動作全体が残るよう再生成する。",
+    "selection_reason": "記事主張が『体重計に出ない進歩』であるため、THE REV.実店舗背景で顧客が明確なゴブレットスクワットを行う。単一写真では3項目すべてを直写せず、記事全体の上位概念（数字以外の進歩）と具体例（フォーム・動作の質）を強く可視化する。r4でGBP安全域は解消済みだが、QCが多項目を1枚に要求しすぎたため、v0.6.8.3の意味整合QCへ再試行する。",
     "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
   },
   "automation": {
@@ -99,12 +99,12 @@
         "assetVersion": "reference-v23-hybrid-4387-75"
       }
     ],
-    "requeue_token": "2026-09-24-v0682-r4-after-attempt-reset",
+    "requeue_token": "2026-09-24-v0683-semantic-qc-r5",
     "gbp_v067_backfill": true,
-    "semantic_relevance_gate": "v2-main-claim-visualization",
+    "semantic_relevance_gate": "v3-umbrella-claim-plus-example",
     "output_safe_zone": "subject-center-60pct-dual-layout-v1"
   },
-  "gbp_image": "assets/images/gbp/gbp-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
