@@ -642,3 +642,16 @@ Slug:
 5. モデル名より完成品質を優先するが、FLUX Kontext/Pro級のscene-aware生成が使える場合は高難度の運動シーンで優先する。
 6. 適切な生成手段がない場合、品質を下げて埋めずにPREPARINGで止める。
 7. 人間Reviewで違和感があれば、数値QAより人間Reviewを優先してREJECTできる。
+
+
+## v0.6.7 GBP 4:3 derivative
+
+- Automated Hybrid generation now emits three deterministic derivatives from the same approved generated scene:
+  - Thumbnail: 1200x675 (16:9)
+  - OGP: 1200x630
+  - GBP Latest Update image: 1200x900 (4:3)
+- GBP path: `assets/images/gbp/gbp-{slug}-{asset_version}.jpg`.
+- New Editorial jobs are fail-closed until the GBP image exists, passes GBP safe-area / copy-legibility QA, and is byte-identical on Xserver.
+- Existing pre-v0.6.7 jobs remain backward compatible unless `gbp_image_asset_version` is set.
+- GBP image uses the same real THE REV. background and generated customer scene as the Blog image set. It must not trigger a second unrelated customer/background generation.
+- Final website Publish remains human-only. GBP auto-posting is outside this patch.
