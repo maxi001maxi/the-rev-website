@@ -244,6 +244,13 @@ npm run image:compile-job -- path/to/request.json
 - 施設だけの完成画像は禁止
 - 生成シーンには日本語文字を入れない
 - premium editorial / quiet luxury / warm ivory
+- **全身のトレーニング動作は、人物だけを切り抜いて後貼りしない**
+- スクワット、ランジ、バーベル動作など接地・器具接触・関節角度が重要な場面は、背景を含む **scene-aware編集/生成** を使う
+- 人物の縮尺、カメラ遠近、足裏の床接地、接触影、光源方向、色温度、器具との接触が一枚の写真として自然に一致すること
+- 受付・通路など、実際の店舗利用として不自然な場所でトレーニングさせない
+- 高難度の運動動作は **FLUX Kontext/Pro 等のscene-aware photoreal editor、または同等品質のモデル** を優先する
+- そのクラスの生成が利用できない場合は、セット直後に自然に立つ、ベンチで休む、記録を見る等の低難度シーンへ簡略化するか、`PREPARING` のまま止める
+- 「生成したから使う」は禁止。人物がステッカー/切り抜き合成に見える時点でREJECT
 
 生成シーンをJobの `generated_scene_path` へ保存した後、必ず:
 
@@ -267,6 +274,16 @@ npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/{slug}.json
 - article_visual_relevance >= 8
 - rev_environment_consistency >= 8
 - brand_space_authenticity >= 8
+- **realism_qc_version = v1（新規・再生成画像）**
+- **human_environment_integration >= 9**
+- **perspective_scale_consistency >= 9**
+- **ground_contact_shadow_consistency >= 9**
+- **lighting_consistency >= 9**
+- **anatomy_pose_realism >= 9**
+- **no_cutout_or_sticker_look = true**
+- **location_semantics_pass = true**
+- **exercise_pose_plausible = true**
+- **manual_visual_rejection != true**
 - source_material_scope_pass = true
 - unknown_trainer_present = false
 - non_customer_people_present = false
@@ -442,6 +459,21 @@ Xserver反映とpublic asset bytes照合を確認します。Blog HTMLを先に�
 
 禁止です。QCは実画像と実素材を見て判断します。validatorを通すためだけの数値改ざんはシステムの意味を壊します。
 
+### H. 人物が「貼り付け」に見える
+
+即REJECTです。特に以下のどれかがあれば、既存の総合点が高くても採用しません。
+
+- 人物のサイズが背景の遠近に合わない
+- 足裏が床へ接地して見えない
+- 人物だけ影がない / 影の方向が違う
+- 色温度やコントラストが背景と合わない
+- 手・足・関節・器具接触が不自然
+- 実際にはトレーニングしない受付・通路で運動している
+- 人物の輪郭がステッカーのように浮いて見える
+
+この場合は `manual_visual_rejection = true` とし、Draftを `PREPARING` へ戻す。
+複雑な運動シーンならscene-awareモデルへ切り替える。利用できなければ、静的で自然な顧客シーンへ簡略化する。
+
 ---
 
 ## 12. 新しいAIへの最短指示
@@ -579,3 +611,22 @@ Slug:
 - QA PASS
 
 を満たし、Review & Publish直前で停止する。
+
+
+---
+
+## 15. 2026-09-24 追加｜Human-scene Realism Gate
+
+今回、実THE REV.背景へ顧客役を合成した画像が、シリーズ整合・記事関連性・ブランド空間整合では高得点だった一方、人物の縮尺、床との接地、光、配置が不自然なままPASSした。
+
+この失敗を再発防止するため、**構造QCと人物リアリズムQCを別軸**として扱う。
+
+### 原則
+
+1. 実店舗背景が正しいだけではPASSにしない。
+2. 人物単体が綺麗なだけでもPASSにしない。
+3. 「人物がその場所に本当に存在して見えるか」を最優先で確認する。
+4. 複雑な運動姿勢は、切り抜き合成ではなくscene-aware編集を使う。
+5. モデル名より完成品質を優先するが、FLUX Kontext/Pro級のscene-aware生成が使える場合は高難度の運動シーンで優先する。
+6. 適切な生成手段がない場合、品質を下げて埋めずにPREPARINGで止める。
+7. 人間Reviewで違和感があれば、数値QAより人間Reviewを優先してREJECTできる。
