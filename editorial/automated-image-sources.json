@@ -3,7 +3,7 @@
   "policy_revision": "editorial-thumbnail-v2.4",
   "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
   "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
-  "note": "Only repo-local mirrors whose provenance is verified against the scoped THE REV Drive source root may be used by the unattended image operator.",
+  "note": "Only repo-local mirrors whose provenance is verified against the scoped THE REV Drive source root may be used by the unattended image operator. Official site photos copied into the scoped root are byte-verified against the repo asset before registry inclusion.",
   "sources": [
     {
       "source_id": "the-rev-evolgear-20260922",
@@ -14,8 +14,25 @@
       "origin_video_file_name": "",
       "frame_position_ratio": null,
       "lineage_key": "evolgear-20260922",
-      "categories": ["training", "body-knowledge"],
-      "keywords": ["運動", "トレーニング", "筋トレ", "健康診断", "健診", "血圧", "血糖", "脂質", "体組成", "フォーム", "強度", "初心者", "再開"],
+      "categories": [
+        "training",
+        "body-knowledge"
+      ],
+      "keywords": [
+        "運動",
+        "トレーニング",
+        "筋トレ",
+        "健康診断",
+        "健診",
+        "血圧",
+        "血糖",
+        "脂質",
+        "体組成",
+        "フォーム",
+        "強度",
+        "初心者",
+        "再開"
+      ],
       "scene_semantics": "THE REV.の実トレーニングフロア。EVOLGEARラックと床・窓・鏡の空間構造を維持する。",
       "selection_reason": "THE REV.実店舗のトレーニング空間で、身体知識・運動開始・一般トレーニング記事に最も広く適合する。Drive root内のAI_SOURCE_photo-evolgear_20260922.jpgとrepo_pathは同一bytesとして検証済み。"
     },
@@ -28,8 +45,20 @@
       "origin_video_file_name": "IMG_3978.MOV",
       "frame_position_ratio": 0.2,
       "lineage_key": "3978-20",
-      "categories": ["training", "body-knowledge"],
-      "keywords": ["時間", "続かない", "習慣", "来店", "仕事", "生活", "始める", "初心者"],
+      "categories": [
+        "training",
+        "body-knowledge"
+      ],
+      "keywords": [
+        "時間",
+        "続かない",
+        "習慣",
+        "来店",
+        "仕事",
+        "生活",
+        "始める",
+        "初心者"
+      ],
       "scene_semantics": "THE REV.実店舗の来店・トレーニング文脈が分かる実景。元動画の構造を維持する。",
       "selection_reason": "生活導線・来店・習慣化テーマに適合する、指定Drive root由来の承認済みContent Reference。"
     },
@@ -42,10 +71,147 @@
       "origin_video_file_name": "IMG_4387.MOV",
       "frame_position_ratio": 0.75,
       "lineage_key": "4387-75",
-      "categories": ["training", "body-knowledge"],
-      "keywords": ["疲労", "疲れ", "仕事終わり", "状態", "判断", "軽く", "回復"],
+      "categories": [
+        "training",
+        "body-knowledge"
+      ],
+      "keywords": [
+        "疲労",
+        "疲れ",
+        "仕事終わり",
+        "状態",
+        "判断",
+        "軽く",
+        "回復"
+      ],
       "scene_semantics": "THE REV.実店舗で、その日の状態を見ながら運動する文脈に適した実景。元動画の構造を維持する。",
       "selection_reason": "疲労・状態判断テーマに適合する、指定Drive root由来の承認済みContent Reference。"
+    },
+    {
+      "source_id": "the-rev-lobby-20260924",
+      "repo_path": "assets/images/photo-lobby.jpg",
+      "drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "drive_file_name": "AI_SOURCE_photo-lobby_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "lobby-20260924",
+      "categories": [
+        "training",
+        "body-knowledge"
+      ],
+      "keywords": [
+        "来店",
+        "初心者",
+        "体験",
+        "習慣",
+        "始める",
+        "運動",
+        "健康診断",
+        "健診",
+        "安心",
+        "継続"
+      ],
+      "scene_semantics": "THE REV.のロビーからトレーニング空間へつながる実景。ロゴ・床・窓・器具配置を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。来店・開始・初心者・生活導線テーマに適合する。"
+    },
+    {
+      "source_id": "the-rev-boxing-20260924",
+      "repo_path": "assets/images/photo-boxing.jpg",
+      "drive_file_id": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+      "drive_file_name": "AI_SOURCE_photo-boxing_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "boxing-20260924",
+      "categories": [
+        "boxing"
+      ],
+      "keywords": [
+        "ボクシング",
+        "ミット",
+        "パンチ",
+        "構え",
+        "フットワーク",
+        "初心者",
+        "パーソナルボクシング"
+      ],
+      "scene_semantics": "THE REV.の実ボクシングエリア。床・鏡・器具・空間構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。ボクシング記事専用の実環境として使用する。"
+    },
+    {
+      "source_id": "the-rev-oxyroom-20260924",
+      "repo_path": "assets/images/photo-oxyroom.jpg",
+      "drive_file_id": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+      "drive_file_name": "AI_SOURCE_photo-oxyroom_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "oxyroom-20260924",
+      "categories": [
+        "recovery"
+      ],
+      "keywords": [
+        "酸素",
+        "酸素ルーム",
+        "OXY",
+        "回復",
+        "リカバリー",
+        "疲労",
+        "休養",
+        "コンディショニング"
+      ],
+      "scene_semantics": "THE REV.の酸素ルーム実景。機器形状・壁・床・室内構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。酸素ルーム・回復テーマに適合する。"
+    },
+    {
+      "source_id": "the-rev-denba-20260924",
+      "repo_path": "assets/images/photo-solution-denba.jpg",
+      "drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+      "drive_file_name": "AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "denba-20260924",
+      "categories": [
+        "recovery"
+      ],
+      "keywords": [
+        "DENBA",
+        "電場",
+        "回復",
+        "リカバリー",
+        "疲労",
+        "休養",
+        "コンディショニング"
+      ],
+      "scene_semantics": "THE REV.のDENBA利用環境を示す実景。機器・室内構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。DENBA・回復記事に適合する。"
+    },
+    {
+      "source_id": "the-rev-oxy-solution-20260924",
+      "repo_path": "assets/images/photo-solution-oxyroom.jpg",
+      "drive_file_id": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+      "drive_file_name": "AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "oxy-solution-20260924",
+      "categories": [
+        "recovery"
+      ],
+      "keywords": [
+        "酸素",
+        "酸素ルーム",
+        "OXY",
+        "回復",
+        "リカバリー",
+        "運動後",
+        "休む",
+        "コンディショニング"
+      ],
+      "scene_semantics": "THE REV.の酸素ルーム周辺・回復導線を示す実景。空間構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。回復導線や酸素ルーム記事の背景バリエーションとして使用する。"
     }
   ]
 }
