@@ -90,11 +90,18 @@ jobs:
             qa="$(jq -r '.qa_report_path // ""' "$job")"
             thumb="$(jq -r '.thumbnail // ""' "$job")"
             og="$(jq -r '.og_image // ""' "$job")"
+            gbp="$(jq -r '.gbp_image // ""' "$job")"
             state="editorial/image-operator-state/${slug}.json"
+
+            gbp_ready=1
+            if [ -n "$gbp" ] && [ ! -f "$gbp" ]; then
+              gbp_ready=0
+            fi
 
             if [ -f "$state" ] && [ "$(jq -r '.xserver_verified // false' "$state")" = "true" ] \
               && [ -n "$qa" ] && [ -f "$qa" ] && [ "$(jq -r '.pass // false' "$qa")" = "true" ] \
-              && [ -n "$thumb" ] && [ -f "$thumb" ] && [ -n "$og" ] && [ -f "$og" ]; then
+              && [ -n "$thumb" ] && [ -f "$thumb" ] && [ -n "$og" ] && [ -f "$og" ] \
+              && [ "$gbp_ready" = "1" ]; then
               echo "Already generated and Xserver-verified: $job"
               continue
             fi
@@ -128,6 +135,7 @@ jobs:
             scene="$(jq -r '.generated_scene_path' "$job")"
             thumb="$(jq -r '.thumbnail' "$job")"
             og="$(jq -r '.og_image' "$job")"
+            gbp="$(jq -r '.gbp_image // ""' "$job")"
             qa="$(jq -r '.qa_report_path' "$job")"
             state="editorial/image-operator-state/${slug}.json"
 
@@ -141,11 +149,14 @@ jobs:
               test -f "$scene"
               test -f "$thumb"
               test -f "$og"
+              if [ -n "$gbp" ]; then test -f "$gbp"; fi
               test -f "$qa"
               test "$(jq -r '.pass // false' "$qa")" = "true"
 
               printf '%s\n' "$scene" "$thumb" "$og" "$qa" "$state" >> .ready-paths
+              if [ -n "$gbp" ]; then printf '%s\n' "$gbp" >> .ready-paths; fi
               printf '%s\n' "$thumb" "$og" >> .ready-image-paths
+              if [ -n "$gbp" ]; then printf '%s\n' "$gbp" >> .ready-image-paths; fi
             else
               echo "::error::Hybrid image operator did not reach READY_CANDIDATE for $slug (status=$status)"
               failed=1
@@ -205,6 +216,7 @@ jobs:
             echo "set net:reconnect-interval-base 5"
             echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog"
             echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog/og"
+            echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/gbp"
             while IFS= read -r p; do
               [ -n "$p" ] || continue
               echo "put \"$p\" -o \"${XSERVER_REMOTE_DIR}$p\""
