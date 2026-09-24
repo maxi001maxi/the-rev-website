@@ -112,7 +112,9 @@ function generationPrompt(attempt) {
     '- The person must clearly read as a customer, never a trainer, coach, employee, doctor or staff member.',
     '- Natural neutral training clothes. No logos or readable text.',
     '- Make the person physically integrated into the room: correct scale, perspective, floor contact, contact shadow, lighting direction and color temperature.',
-    '- Avoid difficult full-body exercise poses unless they are completely plausible. Prefer a quiet preparation, recovery, self-check or low-motion moment when that communicates the article.',
+    '- The scene must visually express the ARTICLE MAIN CLAIM, not merely match the gym mood. A generic customer who is only sitting, standing, checking a phone, or waiting is NOT acceptable unless that passive action is itself essential to the article.',
+    '- When the article is about movement quality, strength progress, exercise execution, or training technique, show a clearly relevant training action with believable form rather than a generic preparation/rest pose.',
+    '- Avoid difficult full-body exercise poses unless they are completely plausible. Prefer lower-complexity article-specific actions over visually impressive but semantically weak poses.',
     '- No pasted/cutout/sticker look.',
     '',
     'COMPOSITION:',
@@ -203,7 +205,11 @@ function qaPass(qa) {
     qa.typography_harmony >= 8 &&
     qa.negative_space >= 8 &&
     qa.photo_treatment >= 8 &&
-    qa.article_visual_relevance >= 8 &&
+    qa.article_visual_relevance >= 9 &&
+    qa.main_claim_visualization >= 9 &&
+    qa.article_theme_inferable_without_title === true &&
+    qa.scene_action_has_article_specific_meaning === true &&
+    qa.generic_passive_pose_without_article_reason === false &&
     qa.rev_environment_consistency >= 8 &&
     qa.brand_space_authenticity >= 8 &&
     qa.human_environment_integration >= 9 &&
@@ -261,6 +267,10 @@ async function visualQa(attempt) {
     '',
     'The source environment is authoritative. Fail if the final scene looks like another gym, if a person looks pasted in, if any trainer/staff/coach appears, if no customer appears, or if anatomy/perspective/contact shadows/lighting are not convincing.',
     'The left-side typography in the final thumbnail and GBP image is deterministic. Judge whether it is legible, quiet/editorial and consistent with the series.',
+    'SEMANTIC RELEVANCE GATE: Judge the image with the article title/copy mentally hidden. The customer action and scene should still give a reasonable clue about the article topic/main claim.',
+    'Do NOT award high article_visual_relevance simply because the image shows THE REV. or a gym customer. The ACTION itself must carry article-specific meaning.',
+    'A generic passive pose (sitting, waiting, casually checking a phone, standing without meaningful action) must fail unless that exact passive behavior is central to the article.',
+    'If the article is about movement quality, strength progress, execution, form, training intensity, or exercise technique, require an actual plausible training action that directly supports that claim.',
     'For the GBP 4:3 image, fail if the 4:3 crop cuts the customer, important equipment contact, or headline; important content must remain inside a comfortable central safe area.',
     'For non-exercise quiet scenes, exercise_pose_plausible should be true when the pose is naturally plausible for the intended activity.',
     '',
@@ -273,6 +283,10 @@ async function visualQa(attempt) {
     '  "negative_space": 0-10,',
     '  "photo_treatment": 0-10,',
     '  "article_visual_relevance": 0-10,',
+    '  "main_claim_visualization": 0-10,',
+    '  "article_theme_inferable_without_title": boolean,',
+    '  "scene_action_has_article_specific_meaning": boolean,',
+    '  "generic_passive_pose_without_article_reason": boolean,',
     '  "rev_environment_consistency": 0-10,',
     '  "brand_space_authenticity": 0-10,',
     '  "human_environment_integration": 0-10,',
@@ -325,7 +339,7 @@ async function visualQa(attempt) {
   const bg = job.background_source || {};
   const scores = [
     'series_consistency','editorial_quality','typography_harmony','negative_space',
-    'photo_treatment','article_visual_relevance','rev_environment_consistency',
+    'photo_treatment','article_visual_relevance','main_claim_visualization','rev_environment_consistency',
     'brand_space_authenticity','human_environment_integration',
     'perspective_scale_consistency','ground_contact_shadow_consistency',
     'lighting_consistency','anatomy_pose_realism'
@@ -397,13 +411,15 @@ async function visualQa(attempt) {
   for (const key of [
     'no_cutout_or_sticker_look','location_semantics_pass','exercise_pose_plausible',
     'real_the_rev_background_confirmed','expected_copy_present','copy_legible',
+    'article_theme_inferable_without_title','scene_action_has_article_specific_meaning',
     'gbp_aspect_ratio_pass','gbp_safe_area_pass','gbp_copy_legible'
   ]) {
     qa[key] = modelQa[key] === true;
   }
   for (const key of [
     'manual_visual_rejection','trainer_present','unknown_trainer_present',
-    'non_customer_people_present','facility_only_thumbnail','too_promotional'
+    'non_customer_people_present','facility_only_thumbnail','too_promotional',
+    'generic_passive_pose_without_article_reason'
   ]) {
     qa[key] = modelQa[key] === true;
   }
