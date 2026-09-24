@@ -99,7 +99,7 @@
         "assetVersion": "reference-v23-hybrid-4387-75"
       }
     ],
-    "requeue_token": "2026-09-24-v0681-provider-credit-resumable",
+    "requeue_token": "2026-09-24-v0682-api-restored-retry",
     "gbp_v067_backfill": true,
     "semantic_relevance_gate": "v2-main-claim-visualization"
   },
