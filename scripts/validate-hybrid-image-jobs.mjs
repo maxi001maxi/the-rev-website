@@ -84,6 +84,9 @@ function validateFormatMirror() {
   assertEqual(machine.outputs.thumbnail.height, HYBRID_IMAGE_FORMAT.output.thumbnail.height, 'thumbnail height drift');
   assertEqual(machine.outputs.ogp.width, HYBRID_IMAGE_FORMAT.output.ogp.width, 'OGP width drift');
   assertEqual(machine.outputs.ogp.height, HYBRID_IMAGE_FORMAT.output.ogp.height, 'OGP height drift');
+  assertEqual(machine.outputs.gbp.width, HYBRID_IMAGE_FORMAT.output.gbp.width, 'GBP width drift');
+  assertEqual(machine.outputs.gbp.height, HYBRID_IMAGE_FORMAT.output.gbp.height, 'GBP height drift');
+  assertEqual(machine.outputs.gbp.ratio, HYBRID_IMAGE_FORMAT.output.gbp.ratio, 'GBP ratio drift');
   assertEqual(machine.qc_gate.typography_harmony_min, HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony, 'typography QC drift');
   assertEqual(machine.qc_gate.negative_space_min, HYBRID_IMAGE_FORMAT.qc.minNegativeSpace, 'negative-space QC drift');
   assertEqual(machine.qc_gate.photo_treatment_min, HYBRID_IMAGE_FORMAT.qc.minPhotoTreatment, 'photo-treatment QC drift');
@@ -144,23 +147,37 @@ function validateJob(jobPath) {
   const expected = hybridAssetPaths(job.slug, job.asset_version);
   assertEqual(job.thumbnail, expected.thumbnailRepoPath, `${name}: thumbnail path mismatch`);
   assertEqual(job.og_image, expected.ogRepoPath, `${name}: OGP path mismatch`);
+  if (job.gbp_image) {
+    assertEqual(job.gbp_image, expected.gbpRepoPath, `${name}: GBP path mismatch`);
+    assertEqual(Number(job.gbp_image_width || 0), HYBRID_IMAGE_FORMAT.output.gbp.width, `${name}: GBP declared width mismatch`);
+    assertEqual(Number(job.gbp_image_height || 0), HYBRID_IMAGE_FORMAT.output.gbp.height, `${name}: GBP declared height mismatch`);
+    assertEqual(job.gbp_image_aspect_ratio, HYBRID_IMAGE_FORMAT.output.gbp.ratio, `${name}: GBP declared ratio mismatch`);
+  }
 
   const thumbPath = path.join(ROOT, job.thumbnail);
   const ogPath = path.join(ROOT, job.og_image);
+  const gbpPath = job.gbp_image ? path.join(ROOT, job.gbp_image) : null;
   const qaPath = path.join(ROOT, job.qa_report_path);
 
   assertTrue(fs.existsSync(thumbPath), `${name}: thumbnail asset missing: ${job.thumbnail}`);
   assertTrue(fs.existsSync(ogPath), `${name}: OGP asset missing: ${job.og_image}`);
+  if (gbpPath) assertTrue(fs.existsSync(gbpPath), `${name}: GBP asset missing: ${job.gbp_image}`);
   assertTrue(fs.existsSync(qaPath), `${name}: QA report missing: ${job.qa_report_path}`);
 
   const thumbSize = jpegSize(thumbPath);
   const ogSize = jpegSize(ogPath);
+  const gbpSize = gbpPath ? jpegSize(gbpPath) : null;
   assertTrue(thumbSize, `${name}: thumbnail is not readable JPEG`);
   assertTrue(ogSize, `${name}: OGP is not readable JPEG`);
   assertEqual(thumbSize.width, HYBRID_IMAGE_FORMAT.output.thumbnail.width, `${name}: thumbnail width mismatch`);
   assertEqual(thumbSize.height, HYBRID_IMAGE_FORMAT.output.thumbnail.height, `${name}: thumbnail height mismatch`);
   assertEqual(ogSize.width, HYBRID_IMAGE_FORMAT.output.ogp.width, `${name}: OGP width mismatch`);
   assertEqual(ogSize.height, HYBRID_IMAGE_FORMAT.output.ogp.height, `${name}: OGP height mismatch`);
+  if (gbpPath) {
+    assertTrue(gbpSize, `${name}: GBP image is not readable JPEG`);
+    assertEqual(gbpSize.width, HYBRID_IMAGE_FORMAT.output.gbp.width, `${name}: GBP width mismatch`);
+    assertEqual(gbpSize.height, HYBRID_IMAGE_FORMAT.output.gbp.height, `${name}: GBP height mismatch`);
+  }
 
   const qa = readJson(qaPath);
   const draftShape = {
@@ -180,6 +197,12 @@ function validateJob(jobPath) {
     assertTrue(Number(qa.generated_customer_count) >= 1 && Number(qa.generated_customer_count) <= 2, `${name}: QA customer count invalid`);
     assertEqual(qa.facility_only_thumbnail, false, `${name}: facility-only QA must be false`);
     assertEqual(qa.fixed_overlay_layout_confirmed, true, `${name}: fixed overlay QA missing`);
+    if (job.gbp_image) {
+      assertEqual(qa.gbp_image_required, true, `${name}: GBP QA required flag missing`);
+      assertEqual(qa.gbp_aspect_ratio_pass, true, `${name}: GBP aspect ratio QA failed`);
+      assertEqual(qa.gbp_safe_area_pass, true, `${name}: GBP safe-area QA failed`);
+      assertEqual(qa.gbp_copy_legible, true, `${name}: GBP copy legibility QA failed`);
+    }
     const scenePath = path.join(ROOT, job.generated_scene_path);
     assertTrue(fs.existsSync(scenePath), `${name}: generated scene missing: ${job.generated_scene_path}`);
   }
@@ -204,6 +227,7 @@ function validateJob(jobPath) {
     assetVersion: job.asset_version,
     thumbnail: thumbSize,
     ogp: ogSize,
+    gbp: gbpSize,
     qc: {
       series: qa.series_consistency,
       editorial: qa.editorial_quality,
@@ -230,6 +254,6 @@ const results = jobs.map((name) => validateJob(path.join(JOB_DIR, name)));
 console.log(`V2.3 Hybrid engine / V2.4 policy validation: PASS (${results.length} jobs)`);
 for (const r of results) {
   console.log(
-    `- ${r.slug}: ${r.assetVersion} / thumb ${r.thumbnail.width}x${r.thumbnail.height} / OGP ${r.ogp.width}x${r.ogp.height} / QC ${r.qc.series}/${r.qc.editorial}/${r.qc.typography}/${r.qc.negativeSpace}/${r.qc.photoTreatment}/${r.qc.relevance}/${r.qc.revEnvironment}/${r.qc.brandSpace}`
+    `- ${r.slug}: ${r.assetVersion} / thumb ${r.thumbnail.width}x${r.thumbnail.height} / OGP ${r.ogp.width}x${r.ogp.height}${r.gbp ? ` / GBP ${r.gbp.width}x${r.gbp.height}` : ''} / QC ${r.qc.series}/${r.qc.editorial}/${r.qc.typography}/${r.qc.negativeSpace}/${r.qc.photoTreatment}/${r.qc.relevance}/${r.qc.revEnvironment}/${r.qc.brandSpace}`
   );
 }
