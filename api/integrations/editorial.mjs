@@ -171,18 +171,22 @@ export default async function handler(req, res) {
           image_status: 'ERROR',
           image_asset_ready: false,
           image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
-          image_checked_at: new Date().toISOString()
+          image_checked_at: new Date().toISOString(),
+          gbp_image_status: 'ERROR',
+          gbp_image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
+          gbp_image_checked_at: new Date().toISOString()
         })
         .eq('id', article.id);
     }
     if (e instanceof EditorialImageError) {
       return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
     }
-    return send(res, 502, 'image_automation_failed', 'Reference V2のThumbnail / OGP準備中に予期しないエラーが発生しました。');
+    return send(res, 502, 'image_automation_failed', 'Reference V2のThumbnail / OGP / GBP 4:3画像準備中に予期しないエラーが発生しました。');
   }
 
   const thumbnail = imageInfo.thumbnail || article?.thumbnail || null;
   const ogImage = imageInfo.ogImage || article?.og_image || null;
+  const gbpImage = imageInfo.gbpImage || article?.gbp_image || null;
 
   const articleValue = {
     ...normalized.value,
@@ -211,7 +215,16 @@ export default async function handler(req, res) {
     image_brand_qa_score: preservedHybridReady ? imageInfo.brandQaScore : null,
     image_last_error: imageInfo.operatorRequired
       ? 'V2.3 Hybrid画像をAI Operatorが生成・Visual QCするまでReview & Publishは停止します。'
-      : null
+      : null,
+    gbp_image: gbpImage,
+    gbp_image_status: preservedHybridReady
+      ? (imageInfo.gbpImageStatus || article?.gbp_image_status || (gbpImage ? 'READY' : null))
+      : (gbpImage ? 'PREPARING' : null),
+    gbp_image_checked_at: new Date().toISOString(),
+    gbp_image_qa: preservedHybridReady ? (imageInfo.gbpImageQa || article?.gbp_image_qa || null) : null,
+    gbp_image_asset_version: imageInfo.gbpImageAssetVersion || (gbpImage ? imageInfo.assetVersion : null) || article?.gbp_image_asset_version || null,
+    gbp_image_last_error: null,
+    gbp_image_attempts: preservedHybridReady ? (article?.gbp_image_attempts ?? imageInfo.attempts ?? null) : null
   };
   const metadata = normalizeBridgeMetadata(body);
   // Do not hash timestamps. The render version/strategy is stable and is enough
@@ -276,6 +289,11 @@ export default async function handler(req, res) {
       source_path: article.source_path || null,
       thumbnail: article.thumbnail || null,
       og_image: article.og_image || null,
+      gbp_image: article.gbp_image || null,
+      gbp_image_status: article.gbp_image_status || null,
+      gbp_image_asset_version: article.gbp_image_asset_version || null,
+      gbp_image_checked_at: article.gbp_image_checked_at || null,
+      gbp_image_qa: article.gbp_image_qa || null,
       editorial_content_id: article.editorial_content_id,
       editorial_synced_at: article.editorial_synced_at,
       image_status: article.image_status || null,
