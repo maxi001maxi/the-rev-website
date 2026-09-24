@@ -1,6 +1,6 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.4.0",
+  "schema_version": "1.5.0",
   "current_truth_date": "2026-09-24",
   "system_status": "AUTOMATED_TO_REVIEW_READY",
   "fully_automated": true,
@@ -45,7 +45,13 @@
     "thumbnail_pattern": "assets/images/blog/thumb-{slug}-{asset_version}.jpg",
     "ogp_pattern": "assets/images/blog/og/og-{slug}-{asset_version}.jpg",
     "qa_pattern": "editorial/image-qa/{slug}-{asset_version}.json",
-    "generated_scene_pattern": "assets/images/editorial-generated/{slug}-{asset_version}-scene.png"
+    "generated_scene_pattern": "assets/images/editorial-generated/{slug}-{asset_version}-scene.png",
+    "gbp": {
+      "width": 1200,
+      "height": 900,
+      "ratio": "4:3"
+    },
+    "gbp_pattern": "assets/images/gbp/gbp-{slug}-{asset_version}.jpg"
   },
   "design_reference_assets": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
@@ -79,7 +85,8 @@
       "multimodal visual QC against the real THE REV source and final thumbnail",
       "realism QC for scale, perspective, floor contact, contact shadows, lighting, anatomy and location semantics",
       "automatic retry up to the configured max attempts",
-      "generated scene / Thumbnail / OGP / QA / operator state commit to GitHub",
+      "deterministic GBP 4:3 (1200x900) derivative from the same approved Hybrid scene",
+      "generated scene / Thumbnail / OGP / GBP 4:3 / QA / operator state commit to GitHub",
       "Hybrid Job / QA / JPEG dimension / provenance validation",
       "Xserver asset-first deployment and public byte verification",
       "Editorial status polling to Supabase READY",
@@ -127,10 +134,12 @@
     "article relevance is weak",
     "THE REV. environment is not recognizable",
     "thumbnail or OGP dimensions do not match the output contract",
+    "GBP image dimensions do not match 1200x900 / 4:3 when GBP image is required",
     "Hybrid QC is below threshold or required boolean flags are missing",
     "GitHub asset is missing",
     "Xserver public asset does not match repository bytes",
-    "publish would occur without explicit human approval"
+    "publish would occur without explicit human approval",
+    "GBP crop cuts the customer, important equipment contact or headline safe area"
   ],
   "review_policy": {
     "standard_mode": "HYBRID_GENERATED",
