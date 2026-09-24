@@ -1,0 +1,101 @@
+{
+  "slug": "health-check-results-before-starting-exercise",
+  "article_title": "健康診断の結果を見て運動を始める前に。受診を優先したいサインと最初の一歩",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN",
+  "image_headline_short": "健診のあとこそ、\n無理なく始める。",
+  "image_style_template": "rev-column-reference-v2",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が運動を始める前にベンチ付近で落ち着いて自分の状態を確認し、無理なく始めようとしている静かな場面。高強度運動の最中ではなく、準備・判断の瞬間にする。トレーナー、スタッフ、コーチ、医療従事者は出さない。",
+  "generated_customer_count": 1,
+  "generated_scene_path": "assets/images/editorial-generated/health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683-scene.png",
+  "style_references": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ],
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+  "asset_version": "reference-v24-auto-evolgear-20260922-2bd31683",
+  "thumbnail": "assets/images/blog/thumb-health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.jpg",
+  "og_image": "assets/images/blog/og/og-health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.jpg",
+  "qa_report_path": "editorial/image-qa/health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.json",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol-visual-qc",
+  "publish_requires_human_approval": true,
+  "policy": {
+    "generated_customer_allowed": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 2,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true,
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "trainer_present_forbidden": true,
+    "unknown_trainer_forbidden": true,
+    "non_customer_people_forbidden": true,
+    "customer_only_or_no_people_required": true,
+    "real_the_rev_background_required": true,
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
+    "realism_qc_version": "v1",
+    "source_scope": "specified-drive-root-only",
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "recent_reference_window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "publish_boundary": "REVIEW_AND_PUBLISH"
+  },
+  "background_source": {
+    "drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+    "cached_frame_drive_file_id": "",
+    "origin_video_file_id": "",
+    "origin_video_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
+    "frame_position_ratio": null,
+    "selection_reason": "THE REV.実店舗のトレーニング空間で、身体知識・運動開始・一般トレーニング記事に最も広く適合する。Drive root内のAI_SOURCE_photo-evolgear_20260922.jpgとrepo_pathは同一bytesとして検証済み。",
+    "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
+  },
+  "automation": {
+    "mode": "unattended-github-actions-v1",
+    "source_registry": "editorial/automated-image-sources.json",
+    "selected_source_id": "the-rev-evolgear-20260922",
+    "source_repo_path": "assets/images/photo-evolgear.jpg",
+    "recent_similarity_window": 4,
+    "recent_articles": [
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T00:10:00Z",
+        "driveFileId": "1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg",
+        "originVideoFileId": "",
+        "contentReference": "drive://1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg/IMG_4201.DNG.jpg",
+        "assetVersion": "reference-v24-hybrid-4201-01"
+      },
+      {
+        "slug": "strength-training-to-failure-when-to-stop",
+        "checkedAt": "2026-09-23T07:05:00Z",
+        "driveFileId": "1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU",
+        "originVideoFileId": "",
+        "contentReference": "drive://1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU/IMG_4207.DNG",
+        "assetVersion": "reference-v24-hybrid-4207-01"
+      },
+      {
+        "slug": "after-work-tired-strength-training",
+        "checkedAt": "2026-09-19T09:03:00Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "",
+        "assetVersion": "reference-v23-hybrid-4387-75"
+      },
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "checkedAt": "2026-09-19T09:03:00Z",
+        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+        "contentReference": "",
+        "assetVersion": "reference-v23-hybrid-3978-20"
+      }
+    ]
+  }
+}
