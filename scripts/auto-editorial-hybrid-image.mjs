@@ -117,10 +117,10 @@ function generationPrompt(attempt) {
     '',
     'COMPOSITION:',
     '- Landscape editorial photography suitable for a 16:9 card.',
-    '- The deterministic renderer places this generated scene into the RIGHT half of the final card using object-fit: cover and object-position: center.
-    - Because that renderer center-crops the generated scene into a relatively narrow panel, keep the customer's face, torso, hands and any meaningful body contact near the HORIZONTAL CENTER of the generated image, not at the far right edge.
-    - Keep the full important customer silhouette inside roughly the central 35%–65% horizontal band whenever possible, with comfortable margins around the subject.
-    - Do not rely on details placed in the outer left/right 20% of the generated image; those areas may be cropped out by the final overlay.',
+    '- The deterministic renderer places this generated scene into the RIGHT half of the final card using object-fit: cover and object-position: center.',
+    "- Because that renderer center-crops the generated scene into a relatively narrow panel, keep the customer's face, torso, hands and any meaningful body contact near the HORIZONTAL CENTER of the generated image, not at the far right edge.",
+    '- Keep the full important customer silhouette inside roughly the central 35%–65% horizontal band whenever possible, with comfortable margins around the subject.',
+    '- Do not rely on details placed in the outer left/right 20% of the generated image; those areas may be cropped out by the final overlay.',
     '- Premium, restrained, warm, calm, realistic. Not a commercial fitness advertisement.',
     '- Do not render Japanese or English typography into the scene. Text will be added later by a deterministic overlay.',
     '',
