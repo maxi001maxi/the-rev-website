@@ -28,7 +28,10 @@
   "expected_copy_present": true,
   "copy_legible": true,
   "too_promotional": false,
-  "comments": "実店舗の受付・植栽・器具構成が忠実で、顧客の着座姿勢、接地影、照明も自然。記録を静かに振り返る場面と記事内容が合致し、コピーも明瞭で落ち着いた編集表現になっている。",
+  "gbp_aspect_ratio_pass": true,
+  "gbp_safe_area_pass": true,
+  "gbp_copy_legible": true,
+  "comments": "実店舗の特徴が忠実に保たれ、顧客の姿勢・手元・着座・接地・照明も自然です。静かな振り返り場面として記事内容に合致し、文字組みも端正で読みやすいです。GBPは右足がやや端寄りですが、人物と座面・足元は切れず安全域内に収まっています。",
   "source_material_scope_pass": true,
   "generated_customer_allowed_under_policy": true,
   "generated_customer_role": "customer",
@@ -111,7 +114,12 @@
   "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
   "slug": "muscle-mass-not-increasing-progress-signs",
   "asset_version": "reference-v24-auto-lobby-20260924-4db7de37-r2",
-  "checked_at": "2026-09-24T04:55:52.195Z",
+  "checked_at": "2026-09-24T07:26:01.411Z",
   "review_mode": "HYBRID_GENERATED",
-  "realism_qc_version": "v1"
+  "realism_qc_version": "v1",
+  "gbp_image_required": true,
+  "gbp_image_path": "assets/images/gbp/gbp-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r2.jpg",
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3"
 }
