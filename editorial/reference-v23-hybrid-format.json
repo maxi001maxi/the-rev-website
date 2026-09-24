@@ -33,7 +33,11 @@
     "generated_customer_default_count": 1,
     "generated_customer_max_count": 2,
     "facility_only_thumbnail_forbidden": true,
-    "fixed_overlay_required": true
+    "fixed_overlay_required": true,
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite"
   },
   "design_grammar": {
     "rigid_template": true,
@@ -47,7 +51,9 @@
     ],
     "copy": "short editorial copy, not full SEO title",
     "scene": "article-specific customer scene generated from a real THE REV. background; default 1 customer, max 2",
-    "composition": "generated scene varies by article; label, hairline, headline and text-field geometry use the fixed V2.4 overlay"
+    "composition": "generated scene varies by article; label, hairline, headline and text-field geometry use the fixed V2.4 overlay",
+    "scene_realism": "full-body exercise scenes must preserve plausible scale, perspective, ground contact, contact shadows, lighting and equipment interaction",
+    "location_semantics": "exercise must occur in a plausible training area, not reception/circulation zones"
   },
   "outputs": {
     "thumbnail": {
@@ -94,7 +100,17 @@
     "facility_only_thumbnail": false,
     "fixed_overlay_layout_confirmed": true,
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-    "policy_revision": "editorial-thumbnail-v2.4"
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "realism_qc_version": "v1",
+    "human_environment_integration_min": 9,
+    "perspective_scale_consistency_min": 9,
+    "ground_contact_shadow_consistency_min": 9,
+    "lighting_consistency_min": 9,
+    "anatomy_pose_realism_min": 9,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": false
   },
   "accepted_references": [
     {
@@ -120,6 +136,8 @@
     "define article-specific scene intent",
     "generate 1 customer by default (max 2) inside the real THE REV. environment",
     "reject trainer/staff/coach-like people and facility-only output",
+    "for full-body exercise scenes, use scene-aware generation/editing; never isolated-person cutout compositing",
+    "run human-scene realism QC (scale/perspective/ground-contact/shadow/lighting/anatomy/location semantics) before overlay",
     "save generated scene asset",
     "apply deterministic rev-column-v24-fixed-overlay-v1 typography/layout",
     "render 1200x675 thumbnail and 1200x630 OGP",
