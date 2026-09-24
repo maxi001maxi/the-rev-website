@@ -1,9 +1,14 @@
 {
   "slug": "muscle-mass-not-increasing-progress-signs",
-  "status": "REQUEUED",
-  "attempts_total": 0,
+  "status": "READY_CANDIDATE",
+  "attempts_total": 1,
   "max_attempts": 3,
-  "last_error": "",
   "job_path": "editorial/hybrid-image-jobs/muscle-mass-not-increasing-progress-signs.json",
-  "updated_at": "2026-09-24T09:12:00.358Z"
+  "generated_scene_path": "assets/images/editorial-generated/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5-scene.png",
+  "thumbnail": "assets/images/blog/thumb-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg",
+  "og_image": "assets/images/blog/og/og-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg",
+  "gbp_image": "assets/images/gbp/gbp-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg",
+  "qa_report_path": "editorial/image-qa/muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.json",
+  "asset_version": "reference-v24-auto-lobby-20260924-4db7de37-r5",
+  "updated_at": "2026-09-24T09:14:25.201Z"
 }
