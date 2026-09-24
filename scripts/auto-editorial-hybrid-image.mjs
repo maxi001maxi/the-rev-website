@@ -421,10 +421,62 @@ function writeState(state) {
 
 const previousState = readJson(statePath, {});
 let attemptsTotal = Math.max(0, Number(previousState?.attempts_total || 0));
+const gbpRequested = Boolean(String(job.gbp_image || '').trim());
+const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
+const needsGbpBackfill = previousState?.status === 'READY_CANDIDATE' && gbpRequested && !gbpAlreadyExists;
 
-if (previousState?.status === 'READY_CANDIDATE') {
+if (previousState?.status === 'READY_CANDIDATE' && !needsGbpBackfill) {
   console.log(JSON.stringify({ status: 'ALREADY_READY', slug: job.slug, state_path: path.relative(ROOT, statePath) }));
   process.exit(0);
+}
+
+let lastQa = null;
+let lastError = '';
+
+if (needsGbpBackfill) {
+  try {
+    const requiredExisting = [job.generated_scene_path, job.thumbnail, job.og_image, job.qa_report_path];
+    if (!requiredExisting.every((p) => p && fs.existsSync(path.resolve(p)))) {
+      throw new Error('GBP backfill requires existing generated scene, Thumbnail, OGP and QA assets.');
+    }
+    console.log(`GBP 4:3 backfill from existing approved scene: ${job.slug}`);
+    renderOverlay();
+    lastQa = await visualQa(Math.max(1, attemptsTotal || 1));
+    fs.writeFileSync(path.resolve(job.qa_report_path), JSON.stringify(lastQa, null, 2) + '\n');
+    if (lastQa.pass === true) {
+      writeState({
+        ...previousState,
+        slug: job.slug,
+        status: 'READY_CANDIDATE',
+        attempts_total: attemptsTotal,
+        max_attempts: MAX_TOTAL_ATTEMPTS,
+        job_path: jobPath,
+        generated_scene_path: job.generated_scene_path,
+        thumbnail: job.thumbnail,
+        og_image: job.og_image,
+        gbp_image: job.gbp_image,
+        qa_report_path: job.qa_report_path,
+        asset_version: job.asset_version,
+        xserver_verified: false,
+        updated_at: new Date().toISOString()
+      });
+      console.log(JSON.stringify({
+        status: 'READY_CANDIDATE',
+        route: 'GBP_BACKFILL',
+        slug: job.slug,
+        gbp_image: job.gbp_image,
+        qa_report_path: job.qa_report_path,
+        state_path: path.relative(ROOT, statePath)
+      }));
+      process.exit(0);
+    }
+    lastError = String(lastQa.comments || 'GBP Visual QC failed.');
+    try { fs.rmSync(path.resolve(job.gbp_image), { force: true }); } catch {}
+  } catch (e) {
+    lastError = String(e?.message || e);
+    console.error(`GBP backfill failed: ${lastError}`);
+    try { if (job.gbp_image) fs.rmSync(path.resolve(job.gbp_image), { force: true }); } catch {}
+  }
 }
 
 if (attemptsTotal >= MAX_TOTAL_ATTEMPTS) {
@@ -439,9 +491,6 @@ if (attemptsTotal >= MAX_TOTAL_ATTEMPTS) {
   console.log(JSON.stringify({ status: 'BLOCKED_MAX_ATTEMPTS', slug: job.slug, attempts_total: attemptsTotal }));
   process.exit(0);
 }
-
-let lastQa = null;
-let lastError = '';
 
 while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
   attemptsTotal += 1;
@@ -464,6 +513,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
         generated_scene_path: job.generated_scene_path,
         thumbnail: job.thumbnail,
         og_image: job.og_image,
+        gbp_image: job.gbp_image || null,
         qa_report_path: job.qa_report_path,
         asset_version: job.asset_version,
         updated_at: new Date().toISOString()
@@ -474,6 +524,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
         attempts_total: attemptsTotal,
         thumbnail: job.thumbnail,
         og_image: job.og_image,
+        gbp_image: job.gbp_image || null,
         qa_report_path: job.qa_report_path,
         state_path: path.relative(ROOT, statePath)
       }));
@@ -484,13 +535,13 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     console.warn(`Visual QC REJECT: ${lastError}`);
 
     // Never leave a rejected image where a later commit step can accidentally stage it.
-    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image]) {
+    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
   } catch (e) {
     lastError = String(e?.message || e);
     console.error(`Automated image attempt failed: ${lastError}`);
-    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image]) {
+    for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
   }
