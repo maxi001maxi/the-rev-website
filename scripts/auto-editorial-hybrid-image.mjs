@@ -181,6 +181,11 @@ function requiredBool(value) {
   return value === true;
 }
 
+function isProviderCreditBlock(error) {
+  const s = String(error?.message || error || '');
+  return /HTTP\s*429/i.test(s) && /no credits remaining|add credits|billing/i.test(s);
+}
+
 function clampScore(value) {
   const n = Math.round(Number(value || 0));
   return Math.max(0, Math.min(10, n));
@@ -556,6 +561,29 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     }
   } catch (e) {
     lastError = String(e?.message || e);
+
+    if (isProviderCreditBlock(e)) {
+      attemptsTotal = Math.max(0, attemptsTotal - 1);
+      writeState({
+        slug: job.slug,
+        status: 'BLOCKED_PROVIDER_CREDITS',
+        attempts_total: attemptsTotal,
+        max_attempts: MAX_TOTAL_ATTEMPTS,
+        last_error: lastError,
+        job_path: jobPath,
+        updated_at: new Date().toISOString()
+      });
+      console.warn(`Provider credits blocked generation without consuming a QC attempt: ${job.slug}`);
+      console.log(JSON.stringify({
+        status: 'BLOCKED_PROVIDER_CREDITS',
+        slug: job.slug,
+        attempts_total: attemptsTotal,
+        error: lastError,
+        state_path: path.relative(ROOT, statePath)
+      }));
+      process.exit(0);
+    }
+
     console.error(`Automated image attempt failed: ${lastError}`);
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
