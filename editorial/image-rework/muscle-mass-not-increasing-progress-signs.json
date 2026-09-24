@@ -1,0 +1,45 @@
+{
+  "status": "PENDING_SCENE_AWARE_REGENERATION",
+  "created_at": "2026-09-24T10:12:00+09:00",
+  "article": {
+    "content_id": "BLOG-20260923-5a91c7",
+    "draft_id": "ff8d5381-bf18-453b-ab1b-5457452e3de0",
+    "slug": "muscle-mass-not-increasing-progress-signs",
+    "title": "筋肉量が増えないと筋トレは無駄？体重以外で見たい3つの変化"
+  },
+  "rejected_asset": {
+    "asset_version": "reference-v24-hybrid-4201-01",
+    "background_drive_file_id": "1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg",
+    "background_file_name": "IMG_4201.DNG.jpg",
+    "reasons": [
+      "人物の縮尺と背景遠近が噛み合っていない",
+      "足裏の床接地と接触影が弱く、貼り付け感がある",
+      "人物と背景で光・色温度が一致していない",
+      "受付/通路寄りの場所でゴブレットスクワットをしており空間意味が不自然"
+    ]
+  },
+  "replacement": {
+    "provider_preference": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "provider_requirement": "Use a real THE REV. source as the spatial image anchor. Do not generate a new generic gym.",
+    "background_selection": "Select an unused/recent-safe THE REV. source where the actual training zone and floor plane are clearly visible. Do not force IMG_4201 if spatial placement remains unnatural.",
+    "scene_intent": "成人女性の一般顧客役1人。実際のトレーニングエリア内で、セット直後に自然に立つ、軽いダンベルを身体の横で持つ、または記録を確認する程度の低難度シーン。スクワット/ランジ/バーベル動作など接地・関節・器具接触が難しい動作は今回使わない。トレーナー・スタッフ・コーチは出さない。",
+    "editorial_copy": "数字が同じでも、\n動きは変わる。",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "generated_customer_count": 1
+  },
+  "realism_qc": {
+    "version": "v1",
+    "human_environment_integration_min": 9,
+    "perspective_scale_consistency_min": 9,
+    "ground_contact_shadow_consistency_min": 9,
+    "lighting_consistency_min": 9,
+    "anatomy_pose_realism_min": 9,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": false
+  },
+  "fail_closed": true,
+  "if_provider_unavailable": "KEEP_PREPARING",
+  "publish_requires_human_approval": true
+}
