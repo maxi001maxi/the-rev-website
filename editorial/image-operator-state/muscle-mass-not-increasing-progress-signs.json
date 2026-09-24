@@ -1,10 +1,9 @@
 {
   "slug": "muscle-mass-not-increasing-progress-signs",
-  "status": "ERROR",
-  "attempts_total": 3,
+  "status": "BLOCKED_PROVIDER_CREDITS",
+  "attempts_total": 0,
   "max_attempts": 3,
-  "last_error": "OpenAI Responses API failed: HTTP 429 / You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
-  "last_qa": null,
+  "last_error": "OpenAI Responses API failed: HTTP 429 / no credits remaining. v0.6.8.1 preserves QC attempts and will resume on a later scheduled run after provider credits are restored.",
   "job_path": "editorial/hybrid-image-jobs/muscle-mass-not-increasing-progress-signs.json",
-  "updated_at": "2026-09-24T08:40:15.064Z"
+  "updated_at": "2026-09-24T08:44:27.249Z"
 }
