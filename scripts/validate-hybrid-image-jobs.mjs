@@ -161,11 +161,31 @@ function validateJob(jobPath) {
   const operatorStatePath = path.join(ROOT, 'editorial', 'image-operator-state', `${job.slug}.json`);
   const operatorState = fs.existsSync(operatorStatePath) ? readJson(operatorStatePath) : null;
   const gbpAssetReady = Boolean(gbpPath && fs.existsSync(gbpPath));
-  const gbpStateClaimsReady = Boolean(
-    job.gbp_image &&
+  const stateClaimsCurrentReady = Boolean(
     operatorState?.status === 'READY_CANDIDATE' &&
+    clean(operatorState?.asset_version) === clean(job.asset_version) &&
+    clean(operatorState?.thumbnail) === clean(job.thumbnail) &&
+    clean(operatorState?.og_image) === clean(job.og_image)
+  );
+  const gbpStateClaimsReady = Boolean(
+    stateClaimsCurrentReady &&
+    job.gbp_image &&
     clean(operatorState?.gbp_image) === clean(job.gbp_image)
   );
+
+  // A newly requeued job is allowed to exist before its generated assets do.
+  // Strict asset/QA validation starts only when the operator claims THIS asset_version is READY_CANDIDATE.
+  if (!stateClaimsCurrentReady) {
+    return {
+      slug: job.slug,
+      assetVersion: job.asset_version,
+      pending: true,
+      thumbnail: null,
+      ogp: null,
+      gbp: null,
+      qc: null
+    };
+  }
 
   assertTrue(fs.existsSync(thumbPath), `${name}: thumbnail asset missing: ${job.thumbnail}`);
   assertTrue(fs.existsSync(ogPath), `${name}: OGP asset missing: ${job.og_image}`);
@@ -262,6 +282,10 @@ const results = jobs.map((name) => validateJob(path.join(JOB_DIR, name)));
 
 console.log(`V2.3 Hybrid engine / V2.4 policy validation: PASS (${results.length} jobs)`);
 for (const r of results) {
+  if (r.pending) {
+    console.log(`- ${r.slug}: ${r.assetVersion} / PENDING_GENERATION (job contract valid; strict asset QA begins at READY_CANDIDATE)`);
+    continue;
+  }
   console.log(
     `- ${r.slug}: ${r.assetVersion} / thumb ${r.thumbnail.width}x${r.thumbnail.height} / OGP ${r.ogp.width}x${r.ogp.height}${r.gbp ? ` / GBP ${r.gbp.width}x${r.gbp.height}` : ''} / QC ${r.qc.series}/${r.qc.editorial}/${r.qc.typography}/${r.qc.negativeSpace}/${r.qc.photoTreatment}/${r.qc.relevance}/${r.qc.revEnvironment}/${r.qc.brandSpace}`
   );
