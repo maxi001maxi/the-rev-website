@@ -157,6 +157,8 @@ jobs:
               if [ -n "$gbp" ]; then printf '%s\n' "$gbp" >> .ready-paths; fi
               printf '%s\n' "$thumb" "$og" >> .ready-image-paths
               if [ -n "$gbp" ]; then printf '%s\n' "$gbp" >> .ready-image-paths; fi
+            elif [ "$status" = "BLOCKED_PROVIDER_CREDITS" ]; then
+              echo "::warning::Hybrid image generation is blocked by provider credits for $slug. QC attempts were preserved; a later scheduled run can resume after credits are restored."
             else
               echo "::error::Hybrid image operator did not reach READY_CANDIDATE for $slug (status=$status)"
               failed=1
