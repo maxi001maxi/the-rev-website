@@ -57,6 +57,16 @@ assertEqual(manifest.current_standard.layout_template_id, HYBRID_IMAGE_FORMAT.la
 assertEqual(manifest.current_standard.code_contract, 'lib/editorialHybridImageFormat.mjs', 'manifest code contract drift');
 assertEqual(manifest.source_policy.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'manifest Drive root drift');
 assertEqual(manifest.release_boundary, HYBRID_IMAGE_FORMAT.publishBoundary, 'manifest publish boundary drift');
+
+const sourceRegistry = readJson('editorial/automated-image-sources.json');
+assertEqual(sourceRegistry.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'automated source registry Drive root drift');
+assertTrue(Array.isArray(sourceRegistry.sources) && sourceRegistry.sources.length >= 3, 'automated source registry needs at least 3 verified THE REV sources');
+for (const source of sourceRegistry.sources) {
+  assertTrue(Boolean(source.source_id), 'automated source source_id missing');
+  assertTrue(Boolean(source.repo_path), `automated source repo_path missing: ${source.source_id || '(unknown)'}`);
+  assertTrue(Boolean(source.drive_file_id), `automated source Drive provenance missing: ${source.source_id || '(unknown)'}`);
+  assertTrue(exists(source.repo_path), `automated source repo mirror missing: ${source.repo_path}`);
+}
 assertEqual(manifest.system_status, 'AUTOMATED_TO_REVIEW_READY', 'manifest automation status drift');
 assertEqual(manifest.fully_automated, true, 'Hybrid image generation must be automated to Review Ready');
 assertEqual(manifest.current_standard.automated_operator, HYBRID_IMAGE_FORMAT.activationMode, 'manifest automated operator drift');
