@@ -100,7 +100,7 @@
       }
     ],
     "gbp_v067_backfill": true,
-    "requeue_token": "2026-09-24-v067-gbp-health-check-results-before-starting-exercise"
+    "requeue_token": "2026-09-24-v067-gbp-health-retry-validator-fix"
   },
   "gbp_image": "assets/images/gbp/gbp-health-check-results-before-starting-exercise-reference-v24-auto-evolgear-20260922-2bd31683.jpg",
   "gbp_image_required": true,
