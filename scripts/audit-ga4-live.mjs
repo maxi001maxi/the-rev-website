@@ -3,6 +3,7 @@ import { chromium } from 'playwright';
 
 const base = process.env.PRODUCTION_URL || 'https://therev-lab.com';
 const gtmId = process.env.GTM_ID || 'GTM-WFD7R8BT';
+const expectedGa4Id = process.env.GA4_MEASUREMENT_ID || 'G-Q6ZSSJMEZ2';
 
 const pages = [
   { name: 'TOP', path: '/' },
@@ -177,13 +178,19 @@ const result = {
   auditedAt: new Date().toISOString(),
   base,
   gtmId,
-  publishedContainer,
+  publishedContainer: {
+    ...publishedContainer,
+    expectedMeasurementId: expectedGa4Id,
+    expectedMeasurementIdPresent: publishedContainer.gaMeasurementIds.includes(expectedGa4Id)
+  },
   summary: {
     pagesAudited: pageResults.length,
     pagesWithGtm: pageResults.filter((p) => p.gtmLoaded).length,
     pagesWithAnalyticsCollect: pageResults.filter((p) => p.analyticsCollectCount > 0).length,
     totalAnalyticsCollectRequests: totalCollects,
-    observedMeasurementIds
+    observedMeasurementIds,
+    expectedMeasurementId: expectedGa4Id,
+    expectedMeasurementIdObserved: observedMeasurementIds.includes(expectedGa4Id)
   },
   pages: pageResults
 };
@@ -192,7 +199,7 @@ fs.writeFileSync('ga4-live-audit.json', JSON.stringify(result, null, 2) + '\n');
 
 console.log('GA4_LIVE_AUDIT_RESULT');
 console.log(JSON.stringify({
-  publishedContainer,
+  publishedContainer: result.publishedContainer,
   summary: result.summary,
   pages: pageResults.map((p) => ({
     name: p.name,
