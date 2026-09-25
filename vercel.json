@@ -3,6 +3,23 @@
   "trailingSlash": true,
   "cleanUrls": false,
   "rewrites": [
-    { "source": "/admin", "destination": "/admin/index.html" }
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/admin/login/",
+      "has": [
+        {
+          "type": "header",
+          "key": "host",
+          "value": "admin\\.therev-lab\\.com"
+        }
+      ],
+      "permanent": false
+    }
   ]
 }
