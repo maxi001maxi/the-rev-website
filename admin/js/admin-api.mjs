@@ -63,6 +63,9 @@ export const AdminApi = {
   updateArticle: (id, data) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(data) }),
   deleteArticle: (id) => authedFetch(`/api/admin/article?id=${encodeURIComponent(id)}`, { method: 'DELETE' }),
 
+  // Phase E: GA4 Data API。サーバー側APIのみを経由し、サービスアカウント鍵はブラウザへ出さない。
+  getAnalytics: (range = '7d') => authedFetch(`/api/admin/analytics?range=${encodeURIComponent(range)}`),
+
   // Phase D: Publish Review（Preflight）とPublish本体。
   // publishPreview は GitHubへの書き込みを行わない読み取り専用のPreflight。
   publishPreview: (id) => authedFetch(`/api/admin/publish-preview?id=${encodeURIComponent(id)}`),
