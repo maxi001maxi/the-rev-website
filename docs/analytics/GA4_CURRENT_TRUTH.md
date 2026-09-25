@@ -14,24 +14,34 @@ The Measurement ID is public configuration, not a secret.
 
 The site loads `GTM-WFD7R8BT` successfully on the audited public pages.
 
-However, the currently published GTM container does not expose or load
-`G-Q6ZSSJMEZ2`, and the audited pages do not issue GA4 collection requests.
+The Google tag for `G-Q6ZSSJMEZ2` was published in GTM on 2026-09-25.
 
-Therefore the current break is:
+Production acceptance after publish:
+
+- GTM loaded: 6 / 6 audited pages
+- `G-Q6ZSSJMEZ2` observed: 6 / 6
+- GA4 collect observed: 6 / 6
+- `page_view`: exactly 1 per audited page
+- duplicate `page_view`: 0 / 6
+
+Audited pages:
+TOP, Blog index, Price, Trainer, Solution, Blog article.
+
+Current base measurement path:
 
 ```
 therev-lab.com
   ↓ PASS
 GTM-WFD7R8BT
-  ↓ MISSING
+  ↓ PASS
 Google tag / G-Q6ZSSJMEZ2
-  ↓
-GA4
+  ↓ PASS
+GA4 page_view collection
 ```
 
-## Required GTM base tag
+## GTM base tag
 
-Create or repair one Google tag inside `GTM-WFD7R8BT`:
+Published Google tag inside `GTM-WFD7R8BT`:
 
 - Tag type: Google tag
 - Tag ID: `G-Q6ZSSJMEZ2`
@@ -62,12 +72,11 @@ Initial GA4 forwarding should prioritize:
 Do not send names, email addresses, phone numbers, form answers, medical information,
 health information, member identifiers, or free-text user input.
 
-## Acceptance gate
+## Acceptance status
 
-PASS only when all are true:
-
-1. `G-Q6ZSSJMEZ2` is observed on production.
-2. GA4 collection requests are observed from the audited pages.
-3. GA4 Realtime receives `page_view`.
-4. No duplicate page_view collection occurs.
-5. The same GA4 property is used by Admin Analytics.
+- PASS — `G-Q6ZSSJMEZ2` observed on production
+- PASS — GA4 collection requests observed on all six audited pages
+- PASS — one `page_view` per audited page
+- PASS — duplicate `page_view` not observed
+- PENDING — GA4 Realtime UI / Data API read-side confirmation
+- PENDING — Admin Analytics connected to the same GA4 property
