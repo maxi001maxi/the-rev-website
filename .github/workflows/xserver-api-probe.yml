@@ -1,0 +1,31 @@
+name: Xserver API Credential Probe
+
+on:
+  push:
+    branches:
+      - feature/admin-domain-cutover
+    paths:
+      - '.github/workflows/xserver-api-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check configured Xserver API secret names
+        env:
+          XSERVER_API_KEY: ${{ secrets.XSERVER_API_KEY }}
+          XSERVER_API_TOKEN: ${{ secrets.XSERVER_API_TOKEN }}
+          XSERVER_TOKEN: ${{ secrets.XSERVER_TOKEN }}
+          XSERVER_ACCESS_TOKEN: ${{ secrets.XSERVER_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          for name in XSERVER_API_KEY XSERVER_API_TOKEN XSERVER_TOKEN XSERVER_ACCESS_TOKEN; do
+            if [ -n "${!name:-}" ]; then
+              echo "${name}=configured"
+            else
+              echo "${name}=missing"
+            fi
+          done
