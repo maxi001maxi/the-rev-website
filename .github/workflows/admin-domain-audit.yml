@@ -51,7 +51,7 @@ jobs:
           grep -qF 'Dashboard' /tmp/dashboard.html
           grep -qF 'Analytics' /tmp/analytics.html
 
-          api_code=$(curl -sS -o /tmp/api.json -w '%{http_code}' --connect-timeout 10 --max-time 25 \
+          api_code=$(curl -sS -L -o /tmp/api.json -w '%{http_code}' --connect-timeout 10 --max-time 25 \
             -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" \
             "${VERCEL_PROJECT_URL}/api/admin/analytics?range=7d")
           echo "unauthenticated_analytics_api=${api_code}"
