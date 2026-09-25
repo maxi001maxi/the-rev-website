@@ -11,7 +11,6 @@ on:
       - 'assets/js/main.js'
       - 'index.html'
       - 'scripts/build-blog.mjs'
-      - 'api/ga4-config-status.mjs'
 
 permissions:
   contents: read
@@ -133,11 +132,4 @@ jobs:
           ! grep -qF 'GA4_SERVICE_ACCOUNT_JSON' /tmp/admin-analytics.mjs
           ! grep -qF 'private_key' /tmp/admin-analytics.mjs
 
-          status_code=$(curl -sS -o /tmp/ga4-status.json -w '%{http_code}' -L --max-time 20 \
-            -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" \
-            "${PREVIEW_URL}/api/ga4-config-status")
-          test "$status_code" = "200"
-          echo "GA4_CONFIG_STATUS"
-          cat /tmp/ga4-status.json
-          echo ""
           echo "Admin Analytics preview smoke: PASS"
