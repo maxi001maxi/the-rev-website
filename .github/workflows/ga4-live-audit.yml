@@ -6,13 +6,57 @@ on:
       - feature/ga4-admin-analytics
     paths:
       - '.github/workflows/ga4-live-audit.yml'
+      - '.github/qa/analytics-qa.mjs'
       - 'scripts/audit-ga4-live.mjs'
+      - 'assets/js/main.js'
+      - 'index.html'
+      - 'scripts/build-blog.mjs'
 
 permissions:
   contents: read
 
 jobs:
-  audit:
+  local-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm i --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Serve branch locally
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/the-rev-http.log 2>&1 &
+          echo $! > /tmp/the-rev-http.pid
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/the-rev-http.log
+          exit 1
+
+      - name: Verify Website Insights runtime
+        env:
+          BASE_URL: http://127.0.0.1:4173
+          GA4_MEASUREMENT_ID: G-Q6ZSSJMEZ2
+        run: node .github/qa/analytics-qa.mjs
+
+      - name: Upload runtime result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytics-runtime-qa
+          path: analytics-runtime-qa.json
+          retention-days: 7
+
+  production-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
