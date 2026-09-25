@@ -14,8 +14,7 @@
       "destination": "/admin/login/",
       "has": [
         {
-          "type": "header",
-          "key": "host",
+          "type": "host",
           "value": "admin\\.therev-lab\\.com"
         }
       ],
