@@ -1,8 +1,10 @@
 name: GA4 Live Audit
 
 on:
+  workflow_dispatch:
   push:
     branches:
+      - main
       - feature/ga4-admin-analytics
     paths:
       - '.github/workflows/ga4-live-audit.yml'
