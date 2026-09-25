@@ -40,6 +40,14 @@ on:
       - 'scripts/validate-hybrid-image-jobs.mjs'
       - 'lib/publishFlow.mjs'
       - 'api/admin/publish-preview.mjs'
+      - 'api/admin/analytics.mjs'
+      - 'lib/ga4Data.mjs'
+      - 'admin/analytics/**'
+      - 'admin/js/admin-api.mjs'
+      - 'scripts/test-phase-e.mjs'
+      - 'privacy.html'
+      - '.env.example'
+      - 'ADMIN_SETUP.md'
       - 'admin/articles/review/**'
       - '.github/workflows/render-editorial-images.yml'
       - '.github/workflows/auto-editorial-hybrid-images.yml'
@@ -70,5 +78,6 @@ jobs:
       - run: node --check lib/editorialImageReviewGate.mjs
       - run: npm run test:phase-9
       - run: npm run test:phase-d
+      - run: npm run test:phase-e
       - run: npm run test:editorial-images
       - run: npm run build:blog
