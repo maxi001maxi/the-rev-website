@@ -95,22 +95,76 @@ Admin（`/admin/`）のログイン機能はSupabase Authを使います。Ver.1
 
 ---
 
-## STEP 5｜GA4連携の準備（Phase Eで使用）
+## STEP 5｜GA4 Data API連携（Phase E / Admin Analytics）
 
-1. Google Cloud ConsoleでSupabaseとは別のプロジェクトを用意（または既存プロジェクトを利用）し、**Google Analytics Data API** を有効化する
-2. サービスアカウントを作成し、JSON形式のキーをダウンロードする
-3. GA4管理画面 → プロパティのアクセス管理 で、上記サービスアカウントのメールアドレスを「閲覧者」として追加する
-4. GA4のプロパティID（数字のみ、例: `123456789`）を確認する
-5. Vercelの Environment Variables に、
-   - `GA4_PROPERTY_ID`
-   - `GA4_SERVICE_ACCOUNT_JSON`（ダウンロードしたJSONの中身）
-   を登録する
+Adminの `/admin/analytics/` は、ブラウザからGoogleへ直接アクセスせず、認証済みの `/api/admin/analytics` を経由してGA4 Data APIを読み取ります。
+
+### 5-1. Google側の準備
+
+1. Google Cloudで利用するプロジェクトを選択し、**Google Analytics Data API** を有効化する
+2. 読み取り専用のサービスアカウントを作成し、JSONキーを発行する
+3. GA4 → 管理 → プロパティのアクセス管理で、そのサービスアカウントのメールアドレスを **閲覧者** として追加する
+4. GA4の **プロパティID（数字のみ）** を確認する
+
+> サービスアカウントのJSON鍵は秘密情報です。GitHub、HTML、ブラウザJS、`/api/config`、ログへ出してはいけません。
+
+### 5-2. Vercel Environment Variables
+
+Production（必要ならPreviewも）へ以下を登録します。
+
+- `GA4_PROPERTY_ID` … GA4の数字のみのプロパティID
+- `GA4_SERVICE_ACCOUNT_JSON` … サービスアカウントJSON。raw JSONまたはbase64で登録可能
+
+保存後は新しいDeploymentが必要です。既存Deploymentへは自動反映されません。
+
+### 5-3. Admin Analyticsで表示する内容
+
+- ユーザー数
+- セッション数
+- ページビュー
+- 新規ユーザー
+- 前期間比較
+- よく見られているページ
+- 流入元（source / medium）
+- 新規 / リピーター
+- デバイス
+- 主要CTAイベント
+- Realtime active users（取得できる場合）
+- 期間切替：今日 / 7日 / 28日
+
+Analytics APIはSupabase AuthのBearer tokenを必須とし、未ログインアクセスは401で拒否します。サービスアカウント鍵はサーバー側のみで使用します。
+
+### 5-4. 計測側（GTM / GA4）
+
+Admin Data APIは「すでにGA4へ入っているデータを読む」機能です。サイト計測そのものは、既存の `GTM-WFD7R8BT` からGoogleタグを全ページ発火させる構成を正本とします。
+
+サイト側 `assets/js/main.js` は `data-track` を持つリンクについて、以下のようなイベントを `dataLayer` へpushします。
+
+- `reserve_click`
+- `line_click`
+- `instagram_click`
+- `price_click`
+- `article_click`
+- `article_cta_click`
+- `map_click`（該当導線が実装されている場合）
+
+GTM側ではこれらのうち運営判断に必要なイベントをGA4 Eventへ接続します。個人情報、フォーム入力内容、健康情報は送信しません。
+
+### 5-5. 検証
+
+ローカルの安全性・正規化テスト：
+
+```bash
+npm run test:phase-e
+```
+
+本番接続後は、GA4 Realtime / DebugView等で `page_view` と主要イベントの受信を確認し、Admin Analyticsでも同じプロパティのデータが取得できることを確認します。
 
 ---
 
 ## ここまで終わったら
 
-STEP 1・2（GitHub + Vercel接続）が完了していれば、Phase B（Admin認証・共通画面）に着手できます。STEP 3・3bはPhase D（記事公開）、STEP 4はPhase B、STEP 5はPhase Eに入る直前までに完了していれば問題ありません。
+STEP 1・2（GitHub + Vercel接続）、STEP 4（Admin認証）がAdminの基盤です。STEP 3・3bは記事Publish、STEP 5はAdmin Analyticsを本番データへ接続するために必要です。
 
 ---
 
