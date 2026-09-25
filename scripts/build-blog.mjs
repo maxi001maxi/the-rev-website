@@ -408,6 +408,10 @@ function buildArticlePages(published, all, postTemplate) {
       SLUG: article.slug,
       ARTICLE_VIEW_PUSH: JSON.stringify({
         event: 'article_view',
+        event_version: 'e1_v1',
+        site_version: 'pre_m1',
+        page_path: `/blog/${article.slug}/`,
+        page_type: 'blog_article',
         article_slug: article.slug,
         article_category: article.category,
         article_title: article.title
