@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - feature/ga4-admin-analytics
+      - feature/admin-domain-cutover
     paths:
       - '.github/workflows/admin-domain-audit.yml'
       - 'vercel.json'
@@ -17,14 +17,49 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      ADMIN_DOMAIN: admin.therev-lab.com
+      APEX_DOMAIN: therev-lab.com
+      VERCEL_PROJECT_URL: https://the-rev-website.vercel.app
+      VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
     steps:
       - name: Install DNS tools
         run: sudo apt-get update -qq && sudo apt-get install -y -qq dnsutils
 
-      - name: Audit DNS and HTTPS
-        env:
-          ADMIN_DOMAIN: admin.therev-lab.com
-          APEX_DOMAIN: therev-lab.com
+      - name: Verify Vercel Admin deployment
+        run: |
+          set -euo pipefail
+          echo "VERCEL_ADMIN_SMOKE"
+
+          fetch() {
+            local path="$1"
+            local out="$2"
+            local code
+            code=$(curl -sS -L -o "$out" -w '%{http_code}' --connect-timeout 10 --max-time 25 \
+              -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" \
+              "${VERCEL_PROJECT_URL}${path}")
+            echo "${path}=${code}"
+            test "$code" = "200"
+          }
+
+          fetch "/admin/login/" /tmp/login.html
+          fetch "/admin/" /tmp/dashboard.html
+          fetch "/admin/analytics/" /tmp/analytics.html
+
+          grep -qF 'THE REV.' /tmp/login.html
+          grep -qF 'Editorial Console' /tmp/login.html
+          grep -qF 'Dashboard' /tmp/dashboard.html
+          grep -qF 'Analytics' /tmp/analytics.html
+
+          api_code=$(curl -sS -o /tmp/api.json -w '%{http_code}' --connect-timeout 10 --max-time 25 \
+            -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" \
+            "${VERCEL_PROJECT_URL}/api/admin/analytics?range=7d")
+          echo "unauthenticated_analytics_api=${api_code}"
+          test "$api_code" = "401"
+
+          echo "vercel_admin_static_and_auth_boundary=PASS"
+
+      - name: Audit Admin custom-domain DNS and HTTPS
         run: |
           set -u
           echo "ADMIN_DOMAIN_AUDIT"
