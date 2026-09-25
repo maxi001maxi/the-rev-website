@@ -148,6 +148,14 @@
         var open = item.classList.toggle('open');
         ans.style.maxHeight = open ? ans.scrollHeight + 'px' : '0px';
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+        // Phase E: FAQ本文や自由入力は送らず、管理されたID/Topicだけを送る。
+        if (open && typeof pushTrackingEvent === 'function') {
+          pushTrackingEvent('faq_open', {
+            faq_id: btn.dataset.faqId || ('faq_' + (i + 1)),
+            faq_topic: btn.dataset.faqTopic || 'unknown'
+          });
+        }
       });
     });
   }
@@ -338,10 +346,121 @@
     });
   }
 
-  /* ---------- 9. クリック計測（GTM dataLayer への送信下準備） ----------
-     GTM/GA4 の正式ID提供後に、GTM 側で下記イベント名をトリガーにして
-     GA4 イベントを送信する。ここでは dataLayer への push のみ行い、
-     個人情報・健康情報・フォーム入力内容は一切送信しない。 */
+  /* ---------- 9. Insights / GTM dataLayer ----------
+     - 既存data-trackイベントへ共通parameterを付与
+     - key section到達を section_view として1回だけ送信
+     - Blog予約CTAを canonical reserve_click にも正規化
+     - 個人情報・健康情報・フォーム内容は送信しない
+  ----------------------------------------------------- */
+
+  var TRACK_EVENT_VERSION = 'e1_v1';
+  var TRACK_DEFAULT_SITE_VERSION = 'pre_m1';
+
+  function trackingPageType() {
+    var p = window.location.pathname || '/';
+    if (p === '/' || /\/index\.html$/.test(p)) return 'home';
+    if (/\/price\.html$/.test(p)) return 'price';
+    if (/\/trainer\.html$/.test(p)) return 'trainer';
+    if (/\/solution\.html$/.test(p)) return 'recovery';
+    if (/\/access\.html$/.test(p)) return 'access';
+    if (p === '/blog/' || /\/blog\/index\.html$/.test(p)) return 'blog_index';
+    if (/^\/blog\/[^/]+\/?$/.test(p)) return 'blog_article';
+    if (/\/legal\.html$/.test(p)) return 'legal';
+    if (/\/privacy\.html$/.test(p)) return 'privacy';
+    if (/\/terms\.html$/.test(p)) return 'terms';
+    if (/\/404\.html$/.test(p)) return 'not_found';
+    return 'other';
+  }
+
+  function trackingSiteVersion() {
+    return document.documentElement.getAttribute('data-site-version') ||
+      TRACK_DEFAULT_SITE_VERSION;
+  }
+
+  function trackingBase() {
+    return {
+      event_version: TRACK_EVENT_VERSION,
+      site_version: trackingSiteVersion(),
+      page_path: window.location.pathname || '/',
+      page_type: trackingPageType()
+    };
+  }
+
+  function pushTrackingEvent(name, extra) {
+    window.dataLayer = window.dataLayer || [];
+    var payload = trackingBase();
+    payload.event = name;
+    if (extra) {
+      Object.keys(extra).forEach(function (key) {
+        if (extra[key] !== undefined && extra[key] !== null && extra[key] !== '') {
+          payload[key] = extra[key];
+        }
+      });
+    }
+    window.dataLayer.push(payload);
+  }
+
+  function trackingDestinationType(link, eventName) {
+    var href = link.href || '';
+    if (eventName === 'reserve_click' || /^https:\/\/cl\.gyms\.jp\//.test(href)) return 'reserve';
+    if (eventName === 'line_click' || /^https:\/\/lin\.ee\//.test(href)) return 'line';
+    if (eventName === 'instagram_click' || /instagram\.com/.test(href)) return 'instagram';
+    if (/google\.(com|co\.jp)\/maps|maps\.app\.goo\.gl/.test(href)) return 'map';
+    if (/^https?:/.test(href) && link.hostname !== window.location.hostname) return 'external';
+    return 'internal';
+  }
+
+  function initSectionTracking() {
+    if (trackingPageType() !== 'home') return;
+
+    var defs = [
+      { selector: '.trust-strip', id: 'trust' },
+      { selector: '#service', id: 'service' },
+      { selector: '.empathy', id: 'empathy' },
+      { selector: '#voice', id: 'voice' },
+      { selector: '#trainer', id: 'trainer' },
+      { selector: '#recovery', id: 'recovery' },
+      { selector: '.trial-guide', id: 'trial' },
+      { selector: '#pricing', id: 'pricing' },
+      { selector: '#faq', id: 'faq' },
+      { selector: '#access', id: 'access' },
+      { selector: '#contact', id: 'final_cta' }
+    ];
+
+    var targets = defs.map(function (def) {
+      return { el: document.querySelector(def.selector), id: def.id };
+    }).filter(function (x) { return !!x.el; });
+
+    if (!targets.length) return;
+
+    var seen = {};
+    function fire(target) {
+      if (seen[target.id]) return;
+      seen[target.id] = true;
+      pushTrackingEvent('section_view', { section_id: target.id });
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach(fire);
+      return;
+    }
+
+    var byElement = new Map();
+    targets.forEach(function (target) { byElement.set(target.el, target); });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting || entry.intersectionRatio < 0.25) return;
+        var target = byElement.get(entry.target);
+        if (!target) return;
+        fire(target);
+        io.unobserve(entry.target);
+      });
+    }, { threshold: [0.25], rootMargin: '0px 0px -10% 0px' });
+
+    targets.forEach(function (target) { io.observe(target.el); });
+  }
+
   function initTrackingDataLayer() {
     window.dataLayer = window.dataLayer || [];
 
@@ -349,26 +468,40 @@
       var link = event.target.closest('a[data-track]');
       if (!link) return;
 
-      var payload = {
-        event: link.dataset.track,
+      var eventName = link.dataset.track;
+      var extra = {
         placement: link.dataset.placement || 'unknown',
+        component: link.dataset.component || undefined,
+        destination_type: trackingDestinationType(link, eventName),
         link_url: link.href,
-        link_text: (link.textContent || '').trim().slice(0, 100),
-        page_path: window.location.pathname
+        link_text: (link.textContent || '').trim().slice(0, 100)
       };
 
-      // data-track / data-placement 以外にも data-* 属性があれば、
-      // snake_case に変換して自動的にpush内容へ含める
-      // （例: data-article-slug="x" → article_slug: "x"）。
-      // 既存リンク（data-track/data-placementのみ）の送信内容は変わらない。
       Object.keys(link.dataset).forEach(function (key) {
-        if (key === 'track' || key === 'placement') return;
+        if (key === 'track' || key === 'placement' || key === 'component') return;
         var snake = key.replace(/([A-Z])/g, '_$1').toLowerCase();
-        payload[snake] = link.dataset[key];
+        extra[snake] = link.dataset[key];
       });
 
-      window.dataLayer.push(payload);
+      pushTrackingEvent(eventName, extra);
+
+      // Blog記事内の予約CTAは記事分析イベントを残しつつ、
+      // Website全体のBooking Intent KPI用にreserve_clickも追加する。
+      if (eventName !== 'reserve_click' && extra.destination_type === 'reserve') {
+        pushTrackingEvent('reserve_click', {
+          placement: extra.placement,
+          component: extra.component,
+          destination_type: 'reserve',
+          link_url: extra.link_url,
+          link_text: extra.link_text,
+          article_slug: extra.article_slug,
+          cta_type: extra.cta_type,
+          source_event: eventName
+        });
+      }
     });
+
+    initSectionTracking();
   }
 
   /* ---------- 起動 ---------- */
