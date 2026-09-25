@@ -110,6 +110,28 @@ assert.ok(!adminPage.includes('private_key'));
 assert.ok(!adminClient.includes('private_key'));
 
 assert.match(privacy, /Google Analytics 4/);
+
+const mainJs = read('assets/js/main.js');
+const homeHtml = read('index.html');
+const buildBlog = read('scripts/build-blog.mjs');
+
+assert.match(mainJs, /TRACK_EVENT_VERSION = 'e1_v1'/);
+assert.match(mainJs, /event_version: TRACK_EVENT_VERSION/);
+assert.match(mainJs, /site_version: trackingSiteVersion\(\)/);
+assert.match(mainJs, /page_type: trackingPageType\(\)/);
+assert.match(mainJs, /pushTrackingEvent\('section_view'/);
+assert.match(mainJs, /pushTrackingEvent\('faq_open'/);
+assert.match(mainJs, /eventName !== 'reserve_click'.*destination_type === 'reserve'/s);
+assert.ok(!mainJs.includes('health_condition'));
+assert.ok(!mainJs.includes('injury_or_medical_information'));
+
+assert.match(homeHtml, /data-faq-id=/);
+assert.match(homeHtml, /data-faq-topic=/);
+
+assert.match(buildBlog, /event: 'article_view'/);
+assert.match(buildBlog, /event_version: 'e1_v1'/);
+assert.match(buildBlog, /page_type: 'blog_article'/);
+
 assert.match(privacy, /Google Tag Manager/);
 assert.match(privacy, /健康情報その他の要配慮個人情報をGoogle Analyticsへ送信しません/);
 
