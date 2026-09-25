@@ -1,0 +1,45 @@
+name: Admin Domain Audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/ga4-admin-analytics
+    paths:
+      - '.github/workflows/admin-domain-audit.yml'
+      - 'vercel.json'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Install DNS tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq dnsutils
+
+      - name: Audit DNS and HTTPS
+        env:
+          ADMIN_DOMAIN: admin.therev-lab.com
+          APEX_DOMAIN: therev-lab.com
+        run: |
+          set -u
+          echo "ADMIN_DOMAIN_AUDIT"
+          echo "apex_ns=$(dig +short NS "$APEX_DOMAIN" | tr '\n' ',' | sed 's/,$//')"
+          echo "admin_cname=$(dig +short CNAME "$ADMIN_DOMAIN" | tr '\n' ',' | sed 's/,$//')"
+          echo "admin_a=$(dig +short A "$ADMIN_DOMAIN" | tr '\n' ',' | sed 's/,$//')"
+          echo "admin_aaaa=$(dig +short AAAA "$ADMIN_DOMAIN" | tr '\n' ',' | sed 's/,$//')"
+
+          code=$(curl -sS -L -o /tmp/admin-body -w '%{http_code}' --connect-timeout 10 --max-time 20 "https://$ADMIN_DOMAIN/" || true)
+          location=$(curl -sSI --connect-timeout 10 --max-time 20 "https://$ADMIN_DOMAIN/" 2>/dev/null | tr -d '\r' | awk 'tolower($1)=="location:" {print $2; exit}')
+          echo "https_code=${code:-000}"
+          echo "location=${location:-}"
+          if [ -s /tmp/admin-body ]; then
+            if grep -qF 'THE REV.' /tmp/admin-body; then echo "the_rev_html=true"; else echo "the_rev_html=false"; fi
+            if grep -qF 'Editorial Console' /tmp/admin-body; then echo "editorial_console_html=true"; else echo "editorial_console_html=false"; fi
+          else
+            echo "the_rev_html=false"
+            echo "editorial_console_html=false"
+          fi
