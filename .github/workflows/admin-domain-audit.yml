@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - main
       - feature/ga4-admin-analytics
     paths:
       - '.github/workflows/admin-domain-audit.yml'
