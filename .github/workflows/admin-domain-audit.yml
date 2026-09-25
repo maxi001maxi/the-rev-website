@@ -26,6 +26,15 @@ jobs:
       - name: Install DNS tools
         run: sudo apt-get update -qq && sudo apt-get install -y -qq dnsutils
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm i --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
       - name: Verify Vercel Admin deployment
         run: |
           set -euo pipefail
@@ -46,6 +55,12 @@ jobs:
           fetch "/admin/" /tmp/dashboard.html
           fetch "/admin/analytics/" /tmp/analytics.html
 
+          config_code=$(curl -sS -L -o /tmp/config.json -w '%{http_code}' --connect-timeout 10 --max-time 25 \
+            -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" \
+            "${VERCEL_PROJECT_URL}/api/config")
+          echo "api_config=${config_code}"
+          test "$config_code" = "200"
+
           grep -qF 'THE REV.' /tmp/login.html
           grep -qF 'Editorial Console' /tmp/login.html
           grep -qF 'Dashboard' /tmp/dashboard.html
@@ -58,6 +73,30 @@ jobs:
           test "$api_code" = "401"
 
           echo "vercel_admin_static_and_auth_boundary=PASS"
+
+      - name: Verify unauthenticated browser redirect
+        run: |
+          cat > /tmp/admin-redirect-check.mjs <<'NODE'
+          import { chromium } from 'playwright';
+
+          const base = process.env.VERCEL_PROJECT_URL;
+          const bypass = process.env.VERCEL_BYPASS_SECRET;
+          const browser = await chromium.launch({ headless: true });
+          const context = await browser.newContext({
+            extraHTTPHeaders: {
+              'x-vercel-protection-bypass': bypass
+            }
+          });
+          const page = await context.newPage();
+          await page.goto(base + '/admin/', { waitUntil: 'domcontentloaded', timeout: 45000 });
+          await page.waitForURL(/\/admin\/login\/?$/, { timeout: 15000 });
+          const form = page.locator('#login-form');
+          if (await form.count() !== 1) throw new Error('Login form not found after redirect.');
+          console.log('unauthenticated_redirect=' + page.url());
+          console.log('login_form=PASS');
+          await browser.close();
+          NODE
+          node /tmp/admin-redirect-check.mjs
 
       - name: Audit Admin custom-domain DNS and HTTPS
         run: |
