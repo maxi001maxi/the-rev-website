@@ -1,0 +1,42 @@
+name: GA4 Live Audit
+
+on:
+  push:
+    branches:
+      - feature/ga4-admin-analytics
+    paths:
+      - '.github/workflows/ga4-live-audit.yml'
+      - 'scripts/audit-ga4-live.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright
+        run: |
+          npm i --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Audit production GA4 / GTM
+        env:
+          PRODUCTION_URL: https://therev-lab.com
+          GTM_ID: GTM-WFD7R8BT
+        run: node scripts/audit-ga4-live.mjs
+
+      - name: Upload audit result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ga4-live-audit
+          path: ga4-live-audit.json
+          retention-days: 7
