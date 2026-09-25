@@ -144,8 +144,7 @@ const adminDomainRedirect = (vercelConfig.redirects || []).find((rule) =>
   rule.destination === '/admin/login/' &&
   Array.isArray(rule.has) &&
   rule.has.some((cond) =>
-    cond.type === 'header' &&
-    cond.key === 'host' &&
+    cond.type === 'host' &&
     cond.value === 'admin\\.therev-lab\\.com'
   )
 );
