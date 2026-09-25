@@ -20,31 +20,50 @@ function uniq(values) {
 
 async function inspectPublishedContainer() {
   const url = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
-  const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 GA4-Live-Audit' } });
-  const text = await response.text();
-  const googleTagIds = uniq(text.match(/(?:G|GT|AW|DC)-[A-Z0-9]+/g) || []);
+  const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 THE-REV-GA4-AUDIT' } });
+  const body = await response.text();
+  const googleTagIds = uniq(body.match(/(?:G|GT|AW|DC)-[A-Z0-9]+/g) || []);
   const gaMeasurementIds = googleTagIds.filter((id) => /^G-[A-Z0-9]+$/.test(id));
   return {
     url,
     httpStatus: response.status,
-    bytes: Buffer.byteLength(text),
+    bytes: Buffer.byteLength(body),
     googleTagIds,
     gaMeasurementIds,
-    hasGaMeasurementId: gaMeasurementIds.length > 0
+    hasGaMeasurementId: gaMeasurementIds.length > 0,
+    expectedMeasurementId: expectedGa4Id,
+    expectedMeasurementIdPresent: gaMeasurementIds.includes(expectedGa4Id)
   };
 }
 
-const browser = await chromium.launch({ headless: true });
-const context = await browser.newContext({
-  locale: 'ja-JP',
-  userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/132 Safari/537.36 THE-REV-GA4-AUDIT'
-});
+function requestInfo(url) {
+  try {
+    const u = new URL(url);
+    return {
+      url: url.slice(0, 800),
+      host: u.hostname,
+      path: u.pathname,
+      tid: u.searchParams.get('tid') || u.searchParams.get('id'),
+      event: u.searchParams.get('en'),
+      page_location: u.searchParams.get('dl')
+    };
+  } catch {
+    return { url: url.slice(0, 800), host: '', path: '', tid: null, event: null, page_location: null };
+  }
+}
 
+const browser = await chromium.launch({ headless: true });
 const pageResults = [];
 
 for (const target of pages) {
+  // Fresh context per URL so caching/session state cannot hide page_view behavior.
+  const context = await browser.newContext({
+    locale: 'ja-JP',
+    userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36 THE-REV-GA4-AUDIT'
+  });
   const page = await context.newPage();
-  const requests = [];
+  const googleRequests = [];
+
   page.on('request', (request) => {
     const url = request.url();
     if (
@@ -52,98 +71,50 @@ for (const target of pages) {
       url.includes('google-analytics.com') ||
       url.includes('analytics.google.com')
     ) {
-      requests.push(url);
+      googleRequests.push(requestInfo(url));
     }
   });
 
   const url = new URL(target.path, base);
-  url.searchParams.set('rev_ga4_audit', String(Date.now()));
+  url.searchParams.set('rev_ga4_audit', `${Date.now()}-${Math.random().toString(36).slice(2,8)}`);
 
   let responseStatus = null;
   let navigationError = null;
   try {
-    const response = await page.goto(url.toString(), { waitUntil: 'networkidle', timeout: 45000 });
+    const response = await page.goto(url.toString(), { waitUntil: 'domcontentloaded', timeout: 45000 });
     responseStatus = response?.status() ?? null;
-    await page.waitForTimeout(2500);
+    await page.waitForTimeout(6000);
   } catch (error) {
     navigationError = error?.message || String(error);
   }
 
   const state = await page.evaluate(() => {
     const dl = Array.isArray(window.dataLayer) ? window.dataLayer : [];
-    const beforeEvents = dl
-      .map((item) => item && typeof item === 'object' ? item.event : null)
-      .filter(Boolean);
-
-    const trackedLinks = Array.from(document.querySelectorAll('a[data-track]'));
-    const dataTrackValues = [...new Set(trackedLinks.map((a) => a.dataset.track).filter(Boolean))];
-
-    // Runtime acceptance: navigation itselfは止めるが、サイト側のdocument click listenerは通す。
-    document.addEventListener('click', (event) => {
-      const link = event.target.closest && event.target.closest('a[data-track]');
-      if (link) event.preventDefault();
-    }, true);
-
-    const syntheticClicked = [];
-    for (const eventName of dataTrackValues) {
-      const link = trackedLinks.find((a) => a.dataset.track === eventName);
-      if (!link) continue;
-      link.dispatchEvent(new MouseEvent('click', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      }));
-      syntheticClicked.push(eventName);
-    }
-
-    const afterEvents = (Array.isArray(window.dataLayer) ? window.dataLayer : [])
-      .map((item) => item && typeof item === 'object' ? item.event : null)
-      .filter(Boolean);
-
-    const scripts = Array.from(document.scripts).map((s) => s.src).filter(Boolean);
     return {
       title: document.title,
       href: location.href,
-      dataLayerLength: (window.dataLayer || []).length,
-      dataLayerEvents: [...new Set(afterEvents)],
-      initialDataLayerEvents: [...new Set(beforeEvents)],
-      dataTrackValues,
-      syntheticClicked,
-      scripts
+      dataLayerLength: dl.length,
+      dataLayerEvents: [...new Set(dl.map((item) =>
+        item && typeof item === 'object' ? item.event : null
+      ).filter(Boolean))]
     };
   }).catch(() => ({
     title: '',
     href: url.toString(),
     dataLayerLength: 0,
-    dataLayerEvents: [],
-    initialDataLayerEvents: [],
-    dataTrackValues: [],
-    syntheticClicked: [],
-    scripts: []
+    dataLayerEvents: []
   }));
 
-  const googleRequests = uniq(requests);
-  const collectRequests = googleRequests.filter((u) =>
-    /google-analytics\.com\/(g\/collect|collect)/.test(u) ||
-    /googletagmanager\.com\/g\/collect/.test(u)
+  const exactGa4Requests = googleRequests.filter((r) => r.tid === expectedGa4Id);
+  const collectRequests = exactGa4Requests.filter((r) =>
+    /\/g\/collect$/.test(r.path) || /\/collect$/.test(r.path)
   );
-  const gtagConfigRequests = googleRequests.filter((u) =>
-    /googletagmanager\.com\/gtag\/js/.test(u)
+  const pageViewRequests = collectRequests.filter((r) => r.event === 'page_view');
+  const gtmRequests = googleRequests.filter((r) =>
+    r.host.includes('googletagmanager.com') && r.path.endsWith('/gtm.js')
   );
-  const gtmRequests = googleRequests.filter((u) =>
-    /googletagmanager\.com\/gtm\.js/.test(u)
-  );
-
-  const idsFromRequests = uniq(
-    googleRequests.flatMap((u) => {
-      try {
-        const parsed = new URL(u);
-        const ids = [parsed.searchParams.get('id'), parsed.searchParams.get('tid')].filter(Boolean);
-        return ids;
-      } catch {
-        return [];
-      }
-    })
+  const gtagRequests = googleRequests.filter((r) =>
+    r.host.includes('googletagmanager.com') && r.path.includes('/gtag/js')
   );
 
   pageResults.push({
@@ -152,46 +123,44 @@ for (const target of pages) {
     httpStatus: responseStatus,
     navigationError,
     title: state.title,
-    gtmLoaded: gtmRequests.some((u) => u.includes(gtmId)),
+    gtmLoaded: gtmRequests.some((r) => r.url.includes(gtmId)),
     gtmRequestCount: gtmRequests.length,
-    gtagConfigRequestCount: gtagConfigRequests.length,
+    gtagRequestCount: gtagRequests.length,
+    expectedGa4RequestCount: exactGa4Requests.length,
     analyticsCollectCount: collectRequests.length,
-    googleTagIdsObserved: idsFromRequests,
+    pageViewCount: pageViewRequests.length,
+    duplicatePageView: pageViewRequests.length > 1,
+    observedEvents: uniq(collectRequests.map((r) => r.event)),
     dataLayerLength: state.dataLayerLength,
-    initialDataLayerEvents: state.initialDataLayerEvents,
-    dataTrackValues: state.dataTrackValues,
-    syntheticClicked: state.syntheticClicked,
-    dataLayerEvents: state.dataLayerEvents
+    dataLayerEvents: state.dataLayerEvents,
+    requestSample: googleRequests.slice(0, 12)
   });
 
-  await page.close();
+  await context.close();
 }
 
 await browser.close();
 
 const publishedContainer = await inspectPublishedContainer();
-const allObservedIds = uniq(pageResults.flatMap((p) => p.googleTagIdsObserved));
-const observedMeasurementIds = allObservedIds.filter((id) => /^G-[A-Z0-9]+$/.test(id));
-const totalCollects = pageResults.reduce((sum, p) => sum + p.analyticsCollectCount, 0);
+const summary = {
+  pagesAudited: pageResults.length,
+  pagesWithGtm: pageResults.filter((p) => p.gtmLoaded).length,
+  pagesWithExpectedGa4Request: pageResults.filter((p) => p.expectedGa4RequestCount > 0).length,
+  pagesWithAnalyticsCollect: pageResults.filter((p) => p.analyticsCollectCount > 0).length,
+  pagesWithPageView: pageResults.filter((p) => p.pageViewCount === 1).length,
+  pagesWithDuplicatePageView: pageResults.filter((p) => p.duplicatePageView).length,
+  totalAnalyticsCollectRequests: pageResults.reduce((sum, p) => sum + p.analyticsCollectCount, 0),
+  totalPageViewRequests: pageResults.reduce((sum, p) => sum + p.pageViewCount, 0),
+  expectedMeasurementId: expectedGa4Id,
+  expectedMeasurementIdObserved: pageResults.some((p) => p.expectedGa4RequestCount > 0)
+};
 
 const result = {
   auditedAt: new Date().toISOString(),
   base,
   gtmId,
-  publishedContainer: {
-    ...publishedContainer,
-    expectedMeasurementId: expectedGa4Id,
-    expectedMeasurementIdPresent: publishedContainer.gaMeasurementIds.includes(expectedGa4Id)
-  },
-  summary: {
-    pagesAudited: pageResults.length,
-    pagesWithGtm: pageResults.filter((p) => p.gtmLoaded).length,
-    pagesWithAnalyticsCollect: pageResults.filter((p) => p.analyticsCollectCount > 0).length,
-    totalAnalyticsCollectRequests: totalCollects,
-    observedMeasurementIds,
-    expectedMeasurementId: expectedGa4Id,
-    expectedMeasurementIdObserved: observedMeasurementIds.includes(expectedGa4Id)
-  },
+  publishedContainer,
+  summary,
   pages: pageResults
 };
 
@@ -199,17 +168,16 @@ fs.writeFileSync('ga4-live-audit.json', JSON.stringify(result, null, 2) + '\n');
 
 console.log('GA4_LIVE_AUDIT_RESULT');
 console.log(JSON.stringify({
-  publishedContainer: result.publishedContainer,
-  summary: result.summary,
+  publishedContainer,
+  summary,
   pages: pageResults.map((p) => ({
     name: p.name,
     httpStatus: p.httpStatus,
     gtmLoaded: p.gtmLoaded,
+    expectedGa4RequestCount: p.expectedGa4RequestCount,
     analyticsCollectCount: p.analyticsCollectCount,
-    googleTagIdsObserved: p.googleTagIdsObserved,
-    initialDataLayerEvents: p.initialDataLayerEvents,
-    dataTrackValues: p.dataTrackValues,
-    syntheticClicked: p.syntheticClicked,
-    dataLayerEvents: p.dataLayerEvents
+    pageViewCount: p.pageViewCount,
+    duplicatePageView: p.duplicatePageView,
+    observedEvents: p.observedEvents
   }))
 }, null, 2));
