@@ -95,6 +95,7 @@ const adminClient = read('admin/js/admin-analytics.mjs');
 const adminApiClient = read('admin/js/admin-api.mjs');
 const privacy = read('privacy.html');
 const envExample = read('.env.example');
+const vercelConfig = JSON.parse(read('vercel.json'));
 
 assert.match(api, /getAuthedContext\(req\)/, 'Analytics API must require Admin auth.');
 assert.match(api, /GA4_PROPERTY_ID/, 'Server API must read GA4 property ID.');
@@ -137,5 +138,19 @@ assert.match(privacy, /健康情報その他の要配慮個人情報をGoogle An
 
 assert.match(envExample, /^GA4_PROPERTY_ID=/m);
 assert.match(envExample, /^GA4_SERVICE_ACCOUNT_JSON=/m);
+
+const adminDomainRedirect = (vercelConfig.redirects || []).find((rule) =>
+  rule.source === '/' &&
+  rule.destination === '/admin/login/' &&
+  Array.isArray(rule.has) &&
+  rule.has.some((cond) =>
+    cond.type === 'header' &&
+    cond.key === 'host' &&
+    cond.value === 'admin\\.therev-lab\\.com'
+  )
+);
+assert.ok(adminDomainRedirect, 'admin.therev-lab.com root must redirect to /admin/login/.');
+assert.equal(adminDomainRedirect.permanent, false);
+
 
 console.log('Phase E Analytics checks passed.');
