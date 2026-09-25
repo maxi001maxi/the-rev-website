@@ -70,18 +70,56 @@ for (const target of pages) {
 
   const state = await page.evaluate(() => {
     const dl = Array.isArray(window.dataLayer) ? window.dataLayer : [];
-    const eventNames = dl
+    const beforeEvents = dl
       .map((item) => item && typeof item === 'object' ? item.event : null)
       .filter(Boolean);
+
+    const trackedLinks = Array.from(document.querySelectorAll('a[data-track]'));
+    const dataTrackValues = [...new Set(trackedLinks.map((a) => a.dataset.track).filter(Boolean))];
+
+    // Runtime acceptance: navigation itselfは止めるが、サイト側のdocument click listenerは通す。
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest && event.target.closest('a[data-track]');
+      if (link) event.preventDefault();
+    }, true);
+
+    const syntheticClicked = [];
+    for (const eventName of dataTrackValues) {
+      const link = trackedLinks.find((a) => a.dataset.track === eventName);
+      if (!link) continue;
+      link.dispatchEvent(new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      }));
+      syntheticClicked.push(eventName);
+    }
+
+    const afterEvents = (Array.isArray(window.dataLayer) ? window.dataLayer : [])
+      .map((item) => item && typeof item === 'object' ? item.event : null)
+      .filter(Boolean);
+
     const scripts = Array.from(document.scripts).map((s) => s.src).filter(Boolean);
     return {
       title: document.title,
       href: location.href,
-      dataLayerLength: dl.length,
-      dataLayerEvents: [...new Set(eventNames)],
+      dataLayerLength: (window.dataLayer || []).length,
+      dataLayerEvents: [...new Set(afterEvents)],
+      initialDataLayerEvents: [...new Set(beforeEvents)],
+      dataTrackValues,
+      syntheticClicked,
       scripts
     };
-  }).catch(() => ({ title: '', href: url.toString(), dataLayerLength: 0, dataLayerEvents: [], scripts: [] }));
+  }).catch(() => ({
+    title: '',
+    href: url.toString(),
+    dataLayerLength: 0,
+    dataLayerEvents: [],
+    initialDataLayerEvents: [],
+    dataTrackValues: [],
+    syntheticClicked: [],
+    scripts: []
+  }));
 
   const googleRequests = uniq(requests);
   const collectRequests = googleRequests.filter((u) =>
@@ -119,6 +157,9 @@ for (const target of pages) {
     analyticsCollectCount: collectRequests.length,
     googleTagIdsObserved: idsFromRequests,
     dataLayerLength: state.dataLayerLength,
+    initialDataLayerEvents: state.initialDataLayerEvents,
+    dataTrackValues: state.dataTrackValues,
+    syntheticClicked: state.syntheticClicked,
     dataLayerEvents: state.dataLayerEvents
   });
 
@@ -159,6 +200,9 @@ console.log(JSON.stringify({
     gtmLoaded: p.gtmLoaded,
     analyticsCollectCount: p.analyticsCollectCount,
     googleTagIdsObserved: p.googleTagIdsObserved,
+    initialDataLayerEvents: p.initialDataLayerEvents,
+    dataTrackValues: p.dataTrackValues,
+    syntheticClicked: p.syntheticClicked,
     dataLayerEvents: p.dataLayerEvents
   }))
 }, null, 2));
