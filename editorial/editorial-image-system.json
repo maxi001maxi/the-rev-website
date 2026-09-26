@@ -174,7 +174,9 @@
     "main_claim_visualization_min": 8,
     "article_theme_inferable_without_title_required": true,
     "scene_action_has_article_specific_meaning_required": true,
-    "generic_passive_pose_without_article_reason_required": false
+    "generic_passive_pose_without_article_reason_required": false,
+    "semantic_qc_cutover": "2026-09-26T00:00:00.000Z",
+    "semantic_qc_legacy_pre_cutover_allowed": true
   },
   "operator_required": [
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",
