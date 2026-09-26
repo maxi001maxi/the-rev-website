@@ -7,6 +7,8 @@ on:
       - 'api/integrations/editorial.mjs'
       - 'api/integrations/editorial-status.mjs'
       - 'lib/editorialBridge.mjs'
+      - 'lib/supabaseAdmin.mjs'
+      - 'lib/blogMarkdown.mjs'
       - 'scripts/test-phase-9.mjs'
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
