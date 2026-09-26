@@ -695,7 +695,6 @@ body:has(.hero) .site-header:not(.scrolled) .nav .cta-mini{ color:var(--ink); te
 .parking-guide-media .plate-cap p{ font-size:12px !important; }
 
 .parking-guide-next{
-  display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
   margin-top:clamp(22px,3vw,34px);
   padding-top:clamp(18px,2.4vw,26px);
   border-top:1px solid var(--line);
@@ -706,10 +705,6 @@ body:has(.hero) .site-header:not(.scrolled) .nav .cta-mini{ color:var(--ink); te
   line-height:1.8;
   color:var(--ink-soft);
 }
-@media(max-width:640px){
-  .parking-guide-next{ align-items:flex-start; }
-}
-
 /* ---------- bottom CTA ---------- */
 .bottom-cta{ background:var(--paper-3); text-align:center; }
 .bottom-cta .h-sec{ max-width:20ch; margin-inline:auto; }
