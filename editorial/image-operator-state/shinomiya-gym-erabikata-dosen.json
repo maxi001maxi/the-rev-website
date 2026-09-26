@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r3.jpg",
   "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r3.json",
   "asset_version": "reference-v24-auto-3978-20-033c0cab-r3",
-  "updated_at": "2026-09-26T02:10:32.570Z"
+  "updated_at": "2026-09-26T02:10:32.570Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-09-26T02:10:47Z"
 }
