@@ -79,6 +79,9 @@ jobs:
       - run: node --check lib/editorialAutomatedHybridImage.mjs
       - run: node --check scripts/validate-editorial-image-system.mjs
       - run: node --check lib/editorialImageReviewGate.mjs
+      - run: node --check admin/js/admin-analytics.mjs
+      - run: node --check api/admin/analytics.mjs
+      - run: node --check lib/ga4Data.mjs
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:phase-d
