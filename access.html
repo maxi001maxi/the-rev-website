@@ -186,33 +186,87 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="parking-guide-label">Parking Guide</p>
 <div class="parking-guide-body">
 <div class="parking-guide-media">
-<div class="access-photo-placeholder" data-photo-slot="parking-approach">
-<svg class="app-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16h6l3-5h10l3 5h6a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2z"></path><circle cx="24" cy="27" r="7"></circle></svg>
-<p class="app-label">Parking 01 / Approach</p>
-<p class="app-title">川沿い道路から駐車場へ入る場所</p>
-<p class="app-copy">道路と入口が同時に分かる、少し引いた横向き写真を入れます。</p>
-<p class="app-spec"><span class="app-spec-tag">Shot</span>横向き／1×／昼間／道路と進入口を同時に写す</p>
+
+<!-- PARKING 01 -->
+<figure class="parking-photo-slot" data-photo-slot="parking-approach">
+<div class="pps-frame">
+<!--
+  実写真が確定したら、下の .pps-media を <picture> ごと差し替えてください。
+  SP用縦画像がない場合は max-width:640px の <source> を省略すれば、Desktop画像がそのままMobileでも使われます。
+
+  <picture>
+    <source media="(max-width:640px)" srcset="assets/images/access-parking-approach-sp.webp" type="image/webp">
+    <source srcset="assets/images/access-parking-approach.webp" type="image/webp">
+    <img class="pps-img" src="assets/images/access-parking-approach.jpg" alt="川沿い道路から駐車場へ入る場所" width="1200" height="900" loading="lazy" decoding="async">
+  </picture>
+-->
+<div class="pps-media">
+<p class="pps-no">Parking 01</p>
+<p class="pps-desc">川沿い道路から<br>駐車場へ入る場所</p>
 </div>
-<div class="access-photo-placeholder" data-photo-slot="parking-space">
-<svg class="app-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16h6l3-5h10l3 5h6a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2z"></path><circle cx="24" cy="27" r="7"></circle></svg>
-<p class="app-label">Parking 02 / Parking Space</p>
-<p class="app-title">THE REV.専用駐車スペース</p>
-<p class="app-copy">実際に停める区画と周囲の位置関係が分かる写真を入れます。</p>
-<p class="app-spec"><span class="app-spec-tag">Shot</span>横向き／区画全体／番号や目印があれば画角内へ</p>
 </div>
-<div class="access-photo-placeholder" data-photo-slot="parking-to-entrance">
-<svg class="app-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16h6l3-5h10l3 5h6a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2z"></path><circle cx="24" cy="27" r="7"></circle></svg>
-<p class="app-label">Parking 03 / To Entrance</p>
-<p class="app-title">駐車場から店舗入口までの導線</p>
-<p class="app-copy">車を降りてから、どちらへ歩くのか分かる写真を入れます。既存素材で十分な場合は、既存写真に差し替えてください。</p>
-<p class="app-spec"><span class="app-spec-tag">Shot</span>駐車位置側から店舗方向へ撮影</p>
+<figcaption class="pps-cap">横向き／1×／昼間／道路と進入口を同時に写す</figcaption>
+</figure>
+
+<!-- PARKING 02 -->
+<figure class="parking-photo-slot" data-photo-slot="parking-space">
+<div class="pps-frame">
+<!--
+  <picture>
+    <source media="(max-width:640px)" srcset="assets/images/access-parking-space-sp.webp" type="image/webp">
+    <source srcset="assets/images/access-parking-space.webp" type="image/webp">
+    <img class="pps-img" src="assets/images/access-parking-space.jpg" alt="THE REV.専用駐車スペース" width="1200" height="900" loading="lazy" decoding="async">
+  </picture>
+-->
+<div class="pps-media">
+<p class="pps-no">Parking 02</p>
+<p class="pps-desc">THE REV.<br>専用駐車スペース</p>
 </div>
-<div class="access-photo-placeholder" data-photo-slot="parking-bike">
-<svg class="app-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16h6l3-5h10l3 5h6a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2z"></path><circle cx="24" cy="27" r="7"></circle></svg>
-<p class="app-label">Parking 04 / Bike</p>
-<p class="app-title">自転車・バイク置き場</p>
-<p class="app-copy">専用の置き場所が分かる場合のみ写真を入れます。</p>
 </div>
+<figcaption class="pps-cap">横向き／区画全体／番号や目印があれば画角内へ</figcaption>
+</figure>
+
+<!-- PARKING 03（縦位置のSP画像を積極的に使える枠） -->
+<figure class="parking-photo-slot" data-photo-slot="parking-to-entrance">
+<div class="pps-frame pps-frame--portrait-sp">
+<!--
+  縦構図と相性が良い箇所です。SP用に縦写真を用意できる場合は
+  下記のように source を追加してください（.pps-frame--portrait-sp が
+  Mobile幅で枠を縦長 3:4 に自動的に切り替えます）。既存素材で十分な場合は
+  この枠自体を既存写真に差し替えても構いません。
+
+  <picture>
+    <source media="(max-width:640px)" srcset="assets/images/access-parking-to-entrance-sp.webp" type="image/webp">
+    <source srcset="assets/images/access-parking-to-entrance.webp" type="image/webp">
+    <img class="pps-img" src="assets/images/access-parking-to-entrance.jpg" alt="駐車場から店舗入口までの導線" width="1200" height="900" loading="lazy" decoding="async">
+  </picture>
+-->
+<div class="pps-media">
+<p class="pps-no">Parking 03</p>
+<p class="pps-desc">駐車場から<br>店舗入口へ</p>
+</div>
+</div>
+<figcaption class="pps-cap">駐車位置側から店舗方向へ撮影</figcaption>
+</figure>
+
+<!-- PARKING 04 -->
+<figure class="parking-photo-slot" data-photo-slot="parking-bike">
+<div class="pps-frame">
+<!--
+  <picture>
+    <source media="(max-width:640px)" srcset="assets/images/access-parking-bike-sp.webp" type="image/webp">
+    <source srcset="assets/images/access-parking-bike.webp" type="image/webp">
+    <img class="pps-img" src="assets/images/access-parking-bike.jpg" alt="自転車・バイク置き場" width="1200" height="900" loading="lazy" decoding="async">
+  </picture>
+-->
+<div class="pps-media">
+<p class="pps-no">Parking 04</p>
+<p class="pps-desc">自転車・バイク<br>置き場</p>
+</div>
+</div>
+<figcaption class="pps-cap">専用の置き場所が分かる場合のみ</figcaption>
+</figure>
+
 </div>
 <div class="parking-guide-info">
 <dl>
