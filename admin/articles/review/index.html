@@ -48,7 +48,7 @@
 <div><dt>Commit SHA</dt><dd><code id="s-commit">—</code></dd></div>
 <div><dt>公開予定URL</dt><dd><code id="s-url">—</code></dd></div>
 </dl>
-<p id="s-deploy" class="admin-success-note">Xserver deploy started — GitHub mainへのコミットを検知して本番デプロイが開始されます。画像を先に配置し、最後にBlogを切り替えるため、記事だけ先に見えて画像が欠ける状態を防ぎます。<strong>この時点ではまだ本番反映完了ではありません。</strong></p>
+<p id="s-deploy" class="admin-success-note"><strong>GitHubへのPublish commitは完了しましたが、本番公開はまだ完了していません。</strong> Xserver deployが続けて実行されます。バックアップ・画像先行配置・Blog切替・本番検証まで行うため、10分前後かかる場合があります。下の確認表示が「公開URLが応答しました」になるまで本番反映待ちです。</p>
 <p id="s-poll" class="admin-success-poll"></p>
 <p id="s-warning" class="admin-success-warning admin-hidden"></p>
 <div class="admin-success-actions">
@@ -558,12 +558,14 @@ function showSuccess(result) {
 
 // 新規記事のみ、公開URLが200を返すまで軽くポーリングする。無限ループにはしない。
 async function pollNewArticle(url) {
-  const MAX_ATTEMPTS = 12;   // 5秒間隔 × 12回 ≒ 最大60秒でおしまい
+  // Xserver本番deployはバックアップ→全体build→assets先行→Blog切替→検証のため、
+  // 実測で10分超かかることがある。60秒で「未反映」と打ち切らない。
+  const MAX_ATTEMPTS = 180;  // 5秒間隔 × 180回 = 最大15分
   const INTERVAL_MS = 5000;
   const poll = $('s-poll');
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-    poll.textContent = `Xserver本番反映を確認しています…（${attempt}/${MAX_ATTEMPTS}）`;
+    poll.textContent = `GitHub commit完了。Xserver本番反映を確認しています…（${attempt}/${MAX_ATTEMPTS} / 最大15分）`;
     await new Promise((r) => setTimeout(r, INTERVAL_MS));
     try {
       const res = await fetch(`${url}?_=${Date.now()}`, { method: 'GET', cache: 'no-store' });
@@ -573,7 +575,7 @@ async function pollNewArticle(url) {
       }
     } catch (e) { /* デプロイ中は失敗しうる。次の試行へ */ }
   }
-  poll.textContent = 'まだ本番反映を確認できていません。Xserverデプロイ完了後に「Open Live Article」で確認できます。';
+  poll.textContent = '15分以内に本番反映を確認できませんでした。GitHubのXserverデプロイ状況を確認してください。GitHub commit成功だけでは本番公開完了ではありません。';
 }
 
 /* ---------- 初期化 ---------- */
