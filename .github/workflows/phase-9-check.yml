@@ -10,6 +10,7 @@ on:
       - 'lib/supabaseAdmin.mjs'
       - 'lib/blogMarkdown.mjs'
       - 'scripts/test-phase-9.mjs'
+      - 'scripts/test-editorial-brand-qc.mjs'
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
       - 'assets/css/blog.css'
@@ -79,6 +80,7 @@ jobs:
       - run: node --check scripts/validate-editorial-image-system.mjs
       - run: node --check lib/editorialImageReviewGate.mjs
       - run: npm run test:phase-9
+      - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:phase-d
       - run: npm run test:phase-e
       - run: npm run test:editorial-images
