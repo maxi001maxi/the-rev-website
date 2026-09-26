@@ -465,6 +465,7 @@ function buildSitemap(published) {
     { loc: `${SITE_URL}/`, priority: '1.0' },
     { loc: `${SITE_URL}/solution.html`, priority: '0.9' },
     { loc: `${SITE_URL}/price.html`, priority: '0.9' },
+    { loc: `${SITE_URL}/access.html`, priority: '0.8' },
     { loc: `${SITE_URL}/trainer.html`, priority: '0.8' },
     { loc: `${SITE_URL}/legal.html`, priority: '0.4' },
     { loc: `${SITE_URL}/privacy.html`, priority: '0.4' },
