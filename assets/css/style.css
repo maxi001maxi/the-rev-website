@@ -687,42 +687,28 @@ body:has(.hero) .site-header:not(.scrolled) .nav .cta-mini{ color:var(--ink); te
   .parking-guide-media{ grid-template-columns:1fr; }
 }
 
-/* ---------- parking photo slot (the frame IS the future photo; not a text card) ---------- */
+/* ---------- confirmed parking photos ---------- */
 .parking-photo-slot{ margin:0; }
-.pps-frame{ position:relative; }
-.pps-frame::before{
-  content:""; position:absolute; z-index:0;
-  top:8px; left:8px; right:-8px; bottom:-8px;
-  border:1px solid var(--wood);
-  pointer-events:none;
-}
-.pps-media{
-  position:relative; z-index:1; overflow:hidden;
-  aspect-ratio:3/4;
-  background:var(--paper-2);
-  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
-  padding:clamp(16px,2.4vw,28px);
-}
-.pps-img{ position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; display:block; }
-.pps-media > *{ position:relative; z-index:1; }
-.pps-no{
-  margin:0 0 10px; font-family:var(--latin); font-weight:400; font-size:clamp(10.5px,1vw,12px);
-  letter-spacing:.2em; text-transform:uppercase; color:var(--wood-deep); white-space:nowrap;
-}
-.pps-desc{
-  margin:0; font-family:var(--serif); font-weight:600; font-size:clamp(14px,1.5vw,18px);
-  letter-spacing:.02em; color:var(--ink); line-height:1.6; max-width:16ch;
-}
-.pps-cap{
-  margin:14px 0 0; font-family:var(--sans); font-size:12px; letter-spacing:.02em;
-  color:var(--ink-faint); line-height:1.75;
-}
-/* real photos in this grid (.plate reused directly) render at the same 3:4 rhythm
-   as the still-placeholder slots, via each photo's own intrinsic width/height */
 .parking-guide-media .plate{ margin:0; }
 .parking-guide-media .plate-frame::before{ top:8px; left:8px; right:-8px; bottom:-8px; }
 .parking-guide-media .plate-cap{ margin-top:clamp(10px,1.4vw,14px); }
 .parking-guide-media .plate-cap p{ font-size:12px !important; }
+
+.parking-guide-next{
+  display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+  margin-top:clamp(22px,3vw,34px);
+  padding-top:clamp(18px,2.4vw,26px);
+  border-top:1px solid var(--line);
+}
+.parking-guide-next p{
+  margin:0;
+  font-size:13.5px;
+  line-height:1.8;
+  color:var(--ink-soft);
+}
+@media(max-width:640px){
+  .parking-guide-next{ align-items:flex-start; }
+}
 
 /* ---------- bottom CTA ---------- */
 .bottom-cta{ background:var(--paper-3); text-align:center; }
