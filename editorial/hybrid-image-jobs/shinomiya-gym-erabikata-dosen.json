@@ -3,28 +3,28 @@
   "article_title": "新大宮でジムを選ぶなら｜設備より「帰宅までの流れ」を見る理由",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN",
-  "image_headline_short": "疲れた日は、\n軽く始めて決める。",
+  "image_headline_short": "設備より、\n帰り道を見る。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が仕事終わりに来店し、その日の疲労を見ながら軽く始めるか判断している静かな場面。トレーナー、スタッフ、コーチは出さない。",
+  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が仕事帰りにそのまま立ち寄り、コンパクトな通勤バッグを足元近くに置いて、トレーニングを始める直前の自然な場面。記事の主張は『新大宮でジムを選ぶときは設備数だけでなく、仕事帰りの移動・荷物・着替え・運動後・帰宅までを一続きの生活動線として見て、毎週繰り返せるかで判断する』こと。人物はただ待つ・スマホを見るのではなく、仕事帰りから運動へ移る行動が明確に読み取れること。トレーナー、スタッフ、コーチは出さない。人物の視覚中心は生成画像幅の約60%付近、重要な身体・バッグ・開始動作は45〜76%の安全域に収め、Thumbnail右パネルとGBP全幅の両方で意味が残るようにする。",
   "generated_customer_count": 1,
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v24-auto-3978-20-033c0cab",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab.jpg",
+  "asset_version": "reference-v24-auto-3978-20-033c0cab-r2",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r2.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab.json",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v24-auto-3978-20-033c0cab-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -61,7 +61,7 @@
     "origin_video_file_id": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
     "origin_video_file_name": "IMG_3978.MOV",
     "frame_position_ratio": 0.2,
-    "selection_reason": "生活導線・来店・習慣化テーマに適合する、指定Drive root由来の承認済みContent Reference。",
+    "selection_reason": "新大宮でのジム選びを『設備の多さ』ではなく『仕事帰りから帰宅までの生活動線』で考える記事。指定Drive root由来の実THE REV.背景を使い、仕事帰りから運動へ移る顧客の行動を視覚化する。旧scene intentの『疲労を見ながら軽く始める』は別テーマ寄りだったため修正。",
     "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
   },
   "automation": {
@@ -103,6 +103,8 @@
         "contentReference": "drive://1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg/IMG_4201.DNG.jpg",
         "assetVersion": "reference-v24-hybrid-4201-01"
       }
-    ]
+    ],
+    "requeue_token": "2026-09-26-v0684-semantic-contract-r2",
+    "semantic_relevance_gate": "v4-contract-aligned"
   }
 }

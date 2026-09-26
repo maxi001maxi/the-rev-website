@@ -108,15 +108,19 @@
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
     "policy_revision": "editorial-thumbnail-v2.4",
     "realism_qc_version": "v1",
-    "human_environment_integration_min": 9,
-    "perspective_scale_consistency_min": 9,
-    "ground_contact_shadow_consistency_min": 9,
-    "lighting_consistency_min": 9,
-    "anatomy_pose_realism_min": 9,
+    "human_environment_integration_min": 8,
+    "perspective_scale_consistency_min": 8,
+    "ground_contact_shadow_consistency_min": 8,
+    "lighting_consistency_min": 8,
+    "anatomy_pose_realism_min": 8,
     "no_cutout_or_sticker_look": true,
     "location_semantics_pass": true,
     "exercise_pose_plausible": true,
-    "manual_visual_rejection": false
+    "manual_visual_rejection": false,
+    "main_claim_visualization_min": 8,
+    "article_theme_inferable_without_title": true,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false
   },
   "accepted_references": [
     {
