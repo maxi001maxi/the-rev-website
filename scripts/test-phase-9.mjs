@@ -35,6 +35,8 @@ import {
   shouldPreserveHybridImageOnEditorialSync
 } from '../lib/editorialHybridImageFormat.mjs';
 import { evaluateEditorialImageReview } from '../lib/editorialImageReviewGate.mjs';
+import { normalizeArticleInput } from '../lib/supabaseAdmin.mjs';
+import { validateDraftForPublish } from '../lib/blogMarkdown.mjs';
 
 let passed = 0;
 const failed = [];
@@ -78,6 +80,51 @@ const h2 = computeEditorialSyncHash({ slug: 'a', category: 'training', title: 'A
 const h3 = computeEditorialSyncHash({ ...article, body_markdown: 'changed' }, meta);
 assert(h1 === h2, 'キー順に依存せず同内容は同じhash');
 assert(h1 !== h3, '本文変更でhashが変わる');
+
+console.log('\n[4b. Markdown newline boundary]');
+
+const normalizedEscapedMarkdown = normalizeArticleInput({
+  title: '改行テスト',
+  slug: 'markdown-newline-test',
+  description: 'test',
+  category: 'training',
+  body_markdown: '## 見出し\\n\\n本文です。\\n\\n### 次の見出し\\n\\n続きです。'
+});
+assert(
+  !normalizedEscapedMarkdown.errors &&
+  normalizedEscapedMarkdown.value.body_markdown.includes('\n\n') &&
+  !normalizedEscapedMarkdown.value.body_markdown.includes('\\n\\n'),
+  '二重escapeされたMarkdown改行をBridge保存前に実改行へ正規化'
+);
+
+const preservedLiteralSlashN = normalizeArticleInput({
+  title: 'コード例テスト',
+  slug: 'markdown-literal-code-test',
+  description: 'test',
+  category: 'training',
+  body_markdown: 'インラインコード `\\n` は文字として残す。'
+});
+assert(
+  preservedLiteralSlashN.value.body_markdown.includes('\\n'),
+  '単発のliteral \\nはコード例として保持'
+);
+
+const malformedPublishErrors = validateDraftForPublish({
+  title: '壊れた本文',
+  slug: 'broken-markdown-test',
+  description: 'test',
+  published: '2026-09-26',
+  updated: '2026-09-26',
+  category: 'training',
+  author: 'THE REV.',
+  thumbnail: '/assets/images/blog/test.jpg',
+  og_image: '/assets/images/blog/og/test.jpg',
+  body_markdown: '## 見出し\\n\\n本文'
+});
+assert(
+  malformedPublishErrors.some((m) => m.includes('文字列 "\\n"')),
+  '未修復のliteral \\n本文はPublish Preflightでfail-closed'
+);
 
 console.log('\n[5. editorial image planning]');
 assert(IMAGE_RENDER_VERSION === 'rev-column-reference-v2.2', 'Reference V2.2を画像Render Version正本に固定');
