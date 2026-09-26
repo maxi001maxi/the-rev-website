@@ -115,6 +115,9 @@ assertTrue(autoWorkflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Au
 assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow must require OPENAI_API_KEY');
 assertTrue(autoWorkflow.includes('XSERVER_FTP_USER'), 'Automated Hybrid workflow must stage assets to Xserver');
 assertTrue(autoWorkflow.includes('assets/images/gbp'), 'Automated Hybrid workflow must stage GBP 4:3 assets');
+assertTrue(autoWorkflow.includes('unattended-github-actions-v1'), 'Automated Hybrid workflow must ignore legacy/manual Hybrid jobs');
+assertTrue(autoWorkflow.includes('.automation.source_repo_path'), 'Automated Hybrid workflow must require a verified repo source before generation');
+assertTrue(autoWorkflow.includes('Skipping legacy/manual Hybrid job'), 'Automated Hybrid workflow must skip legacy/manual jobs without failing the run');
 
 const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
