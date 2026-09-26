@@ -86,6 +86,28 @@ jobs:
             [ -n "$job" ] || continue
             [ -f "$job" ] || continue
 
+            # This scheduled operator must only consume jobs created by the
+            # unattended Editorial Bridge. Legacy/manual Hybrid jobs may be
+            # intentionally incomplete and must never be treated as runnable.
+            automation_mode="$(jq -r '.automation.mode // ""' "$job")"
+            source_repo_path="$(jq -r '.automation.source_repo_path // ""' "$job")"
+            scene="$(jq -r '.generated_scene_path // ""' "$job")"
+
+            if [ "$automation_mode" != "unattended-github-actions-v1" ]; then
+              echo "Skipping legacy/manual Hybrid job (not owned by automated operator): $job"
+              continue
+            fi
+
+            if [ -z "$source_repo_path" ] || [ ! -f "$source_repo_path" ]; then
+              echo "::warning::Skipping automated Hybrid job waiting for verified repo source: $job (${source_repo_path:-empty})"
+              continue
+            fi
+
+            if [ -z "$scene" ]; then
+              echo "::warning::Skipping automated Hybrid job missing generated_scene_path: $job"
+              continue
+            fi
+
             slug="$(jq -r '.slug // ""' "$job")"
             qa="$(jq -r '.qa_report_path // ""' "$job")"
             thumb="$(jq -r '.thumbnail // ""' "$job")"
