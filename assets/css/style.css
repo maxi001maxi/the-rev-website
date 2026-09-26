@@ -698,7 +698,7 @@ body:has(.hero) .site-header:not(.scrolled) .nav .cta-mini{ color:var(--ink); te
 }
 .pps-media{
   position:relative; z-index:1; overflow:hidden;
-  aspect-ratio:4/3;
+  aspect-ratio:3/4;
   background:var(--paper-2);
   display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
   padding:clamp(16px,2.4vw,28px);
@@ -717,10 +717,12 @@ body:has(.hero) .site-header:not(.scrolled) .nav .cta-mini{ color:var(--ink); te
   margin:14px 0 0; font-family:var(--sans); font-size:12px; letter-spacing:.02em;
   color:var(--ink-faint); line-height:1.75;
 }
-/* slots where a portrait shot suits the space better (e.g. parking → entrance) */
-@media(max-width:640px){
-  .pps-frame--portrait-sp .pps-media{ aspect-ratio:3/4; }
-}
+/* real photos in this grid (.plate reused directly) render at the same 3:4 rhythm
+   as the still-placeholder slots, via each photo's own intrinsic width/height */
+.parking-guide-media .plate{ margin:0; }
+.parking-guide-media .plate-frame::before{ top:8px; left:8px; right:-8px; bottom:-8px; }
+.parking-guide-media .plate-cap{ margin-top:clamp(10px,1.4vw,14px); }
+.parking-guide-media .plate-cap p{ font-size:12px !important; }
 
 /* ---------- bottom CTA ---------- */
 .bottom-cta{ background:var(--paper-3); text-align:center; }

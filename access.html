@@ -192,57 +192,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="parking-guide-media">
 
 <!-- PARKING 01 -->
-<figure class="parking-photo-slot" data-photo-slot="parking-approach">
-<div class="pps-frame">
-<!--
-  実写真が確定したら、下の .pps-media を <picture> ごと差し替えてください。
-  SP用縦画像がない場合は max-width:640px の <source> を省略すれば、Desktop画像がそのままMobileでも使われます。
-
-  <picture>
-    <source media="(max-width:640px)" srcset="assets/images/access-parking-approach-sp.webp" type="image/webp">
-    <source srcset="assets/images/access-parking-approach.webp" type="image/webp">
-    <img class="pps-img" src="assets/images/access-parking-approach.jpg" alt="川沿い道路から駐車場へ入る場所" width="1200" height="900" loading="lazy" decoding="async">
-  </picture>
--->
-<div class="pps-media">
-<p class="pps-no">Parking 01</p>
-<p class="pps-desc">川沿い道路から<br>駐車場へ入る場所</p>
+<figure class="plate parking-photo-slot" data-photo-slot="parking-approach">
+<div class="plate-frame">
+<span class="plate-tag">Parking 01 — Approach</span>
+<picture><source srcset="assets/images/access-parking-approach.webp" type="image/webp"/><img alt="川沿い道路側から見たTHE REV.駐車場の入口。建物脇の開口部から奥へ進みます" class="plate-img" decoding="async" height="1467" loading="lazy" src="assets/images/access-parking-approach.jpg" width="1100"/></picture>
 </div>
-</div>
-<figcaption class="pps-cap">横向き／1×／昼間／道路と進入口を同時に写す</figcaption>
+<figcaption class="plate-cap"><span class="no">01</span><p>建物脇の開口部が駐車場の入口です。奥へお進みください。</p></figcaption>
 </figure>
 
 <!-- PARKING 02 -->
-<figure class="parking-photo-slot" data-photo-slot="parking-space">
-<div class="pps-frame">
-<!--
-  <picture>
-    <source media="(max-width:640px)" srcset="assets/images/access-parking-space-sp.webp" type="image/webp">
-    <source srcset="assets/images/access-parking-space.webp" type="image/webp">
-    <img class="pps-img" src="assets/images/access-parking-space.jpg" alt="THE REV.専用駐車スペース" width="1200" height="900" loading="lazy" decoding="async">
-  </picture>
--->
-<div class="pps-media">
-<p class="pps-no">Parking 02</p>
-<p class="pps-desc">THE REV.<br>専用駐車スペース</p>
+<figure class="plate parking-photo-slot" data-photo-slot="parking-space">
+<div class="plate-frame">
+<span class="plate-tag">Parking 02 — Space</span>
+<picture><source srcset="assets/images/access-parking-space.webp" type="image/webp"/><img alt="「THE REV.」の表示があるTHE REV.専用駐車スペース" class="plate-img" decoding="async" height="1467" loading="lazy" src="assets/images/access-parking-space.jpg" width="1100"/></picture>
 </div>
-</div>
-<figcaption class="pps-cap">横向き／区画全体／番号や目印があれば画角内へ</figcaption>
+<figcaption class="plate-cap"><span class="no">02</span><p>「THE REV.」の表示がある区画が専用駐車スペースです。</p></figcaption>
 </figure>
 
-<!-- PARKING 03（縦位置のSP画像を積極的に使える枠） -->
+<!-- PARKING 03 -->
 <figure class="parking-photo-slot" data-photo-slot="parking-to-entrance">
-<div class="pps-frame pps-frame--portrait-sp">
+<div class="pps-frame">
 <!--
-  縦構図と相性が良い箇所です。SP用に縦写真を用意できる場合は
-  下記のように source を追加してください（.pps-frame--portrait-sp が
-  Mobile幅で枠を縦長 3:4 に自動的に切り替えます）。既存素材で十分な場合は
-  この枠自体を既存写真に差し替えても構いません。
-
+  実写真（縦位置 3:4 目安）が確定したら、下の .pps-media を
+  .plate-frame に差し替えてください（PARKING 01/02と同じ構造）。
+  例：
+  <span class="plate-tag">Parking 03 — To Entrance</span>
   <picture>
-    <source media="(max-width:640px)" srcset="assets/images/access-parking-to-entrance-sp.webp" type="image/webp">
     <source srcset="assets/images/access-parking-to-entrance.webp" type="image/webp">
-    <img class="pps-img" src="assets/images/access-parking-to-entrance.jpg" alt="駐車場から店舗入口までの導線" width="1200" height="900" loading="lazy" decoding="async">
+    <img class="plate-img" src="assets/images/access-parking-to-entrance.jpg" alt="駐車場から店舗入口までの導線" width="1100" height="1467" loading="lazy" decoding="async">
   </picture>
 -->
 <div class="pps-media">
@@ -257,10 +234,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <figure class="parking-photo-slot" data-photo-slot="parking-bike">
 <div class="pps-frame">
 <!--
+  <span class="plate-tag">Parking 04 — Bike</span>
   <picture>
-    <source media="(max-width:640px)" srcset="assets/images/access-parking-bike-sp.webp" type="image/webp">
     <source srcset="assets/images/access-parking-bike.webp" type="image/webp">
-    <img class="pps-img" src="assets/images/access-parking-bike.jpg" alt="自転車・バイク置き場" width="1200" height="900" loading="lazy" decoding="async">
+    <img class="plate-img" src="assets/images/access-parking-bike.jpg" alt="自転車・バイク置き場" width="1100" height="1467" loading="lazy" decoding="async">
   </picture>
 -->
 <div class="pps-media">
