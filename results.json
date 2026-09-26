@@ -1,0 +1,115 @@
+[
+  {
+    "vp": "390",
+    "status": 200,
+    "consoleErrors": [],
+    "title": "Insights｜THE REV. Admin",
+    "appVisible": true,
+    "horizontalOverflow": false,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "overflow": [
+      "svg.[object",
+      "line.[object",
+      "line.[object",
+      "line.[object",
+      "path.[object",
+      "polyline.[object",
+      "circle.[object",
+      "circle.[object"
+    ],
+    "metricCardWidths": [
+      178,
+      178,
+      178,
+      178
+    ],
+    "snapshotCount": 4,
+    "trendWidth": 317
+  },
+  {
+    "vp": "430",
+    "status": 200,
+    "consoleErrors": [],
+    "title": "Insights｜THE REV. Admin",
+    "appVisible": true,
+    "horizontalOverflow": false,
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "overflow": [
+      "svg.[object",
+      "line.[object",
+      "line.[object",
+      "line.[object",
+      "path.[object",
+      "polyline.[object",
+      "circle.[object",
+      "circle.[object"
+    ],
+    "metricCardWidths": [
+      197,
+      197,
+      197,
+      197
+    ],
+    "snapshotCount": 4,
+    "trendWidth": 354
+  },
+  {
+    "vp": "768",
+    "status": 200,
+    "consoleErrors": [],
+    "title": "Insights｜THE REV. Admin",
+    "appVisible": true,
+    "horizontalOverflow": false,
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "overflow": [],
+    "metricCardWidths": [
+      352,
+      352,
+      352,
+      352
+    ],
+    "snapshotCount": 4,
+    "trendWidth": 672
+  },
+  {
+    "vp": "1024",
+    "status": 200,
+    "consoleErrors": [],
+    "title": "Insights｜THE REV. Admin",
+    "appVisible": true,
+    "horizontalOverflow": false,
+    "scrollWidth": 1024,
+    "clientWidth": 1024,
+    "overflow": [],
+    "metricCardWidths": [
+      227,
+      227,
+      227,
+      227
+    ],
+    "snapshotCount": 4,
+    "trendWidth": 899
+  },
+  {
+    "vp": "1440",
+    "status": 200,
+    "consoleErrors": [],
+    "title": "Insights｜THE REV. Admin",
+    "appVisible": true,
+    "horizontalOverflow": false,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "overflow": [],
+    "metricCardWidths": [
+      282,
+      282,
+      282,
+      282
+    ],
+    "snapshotCount": 4,
+    "trendWidth": 1110
+  }
+]
