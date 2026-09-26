@@ -10,6 +10,7 @@ import {
   normalizeNewReturning,
   normalizeEvents,
   normalizeRealtime,
+  normalizeTrend,
   percentChange
 } from '../lib/ga4Data.mjs';
 
@@ -38,12 +39,20 @@ assert.equal(resolveDateRange('nonsense').key, '7d');
 const summaryReport = {
   rows: [{
     metricValues: [
-      { value: '12' }, { value: '20' }, { value: '44' }, { value: '7' }, { value: '15' }
+      { value: '12' }, { value: '20' }, { value: '44' }, { value: '7' }, { value: '15' },
+      { value: '11' }, { value: '0.55' }, { value: '83.4' }
     ]
   }]
 };
 assert.deepEqual(normalizeSummary(summaryReport), {
-  users: 12, sessions: 20, views: 44, newUsers: 7, totalUsers: 15
+  users: 12,
+  sessions: 20,
+  views: 44,
+  newUsers: 7,
+  totalUsers: 15,
+  engagedSessions: 11,
+  engagementRate: 0.55,
+  averageSessionDuration: 83.4
 });
 assert.equal(percentChange(120, 100), 20);
 assert.equal(percentChange(90, 100), -10);
@@ -89,6 +98,13 @@ assert.deepEqual(normalizeRealtime({
   rows: [{ metricValues: [{ value: '1' }, { value: '3' }, { value: '2' }] }]
 }), { activeUsers: 1, eventCount: 3, views: 2 });
 
+assert.deepEqual(normalizeTrend({
+  rows: [{
+    dimensionValues: [{ value: '20260926' }],
+    metricValues: [{ value: '5' }, { value: '8' }, { value: '14' }]
+  }]
+})[0], { date: '2026-09-26', users: 5, sessions: 8, views: 14 });
+
 const api = read('api/admin/analytics.mjs');
 const adminPage = read('admin/analytics/index.html');
 const adminClient = read('admin/js/admin-analytics.mjs');
@@ -101,8 +117,16 @@ assert.match(api, /getAuthedContext\(req\)/, 'Analytics API must require Admin a
 assert.match(api, /GA4_PROPERTY_ID/, 'Server API must read GA4 property ID.');
 assert.match(api, /GA4_SERVICE_ACCOUNT_JSON/, 'Server API must read service account only server-side.');
 assert.match(api, /Cache-Control.*no-store/, 'Analytics API must prevent caching.');
+assert.match(api, /engagementRate/, 'Analytics API must request engagement metrics.');
+assert.match(api, /dimensionName: 'date'/, 'Analytics API must return daily trend data.');
 
 assert.match(adminPage, /requireSession|admin-analytics\.mjs/, 'Analytics page must load the authenticated client.');
+assert.match(adminPage, /今の状況/);
+assert.match(adminPage, /アクセス推移/);
+assert.match(adminPage, /主要CTA/);
+assert.match(adminClient, /renderInsightSummary/);
+assert.match(adminClient, /renderTrend/);
+assert.match(adminClient, /EVENT_LABELS/);
 assert.match(adminClient, /requireSession\(\)/, 'Analytics client must require a session.');
 assert.match(adminApiClient, /getAnalytics/, 'Admin API client must expose Analytics.');
 assert.ok(!adminPage.includes('GA4_SERVICE_ACCOUNT_JSON'));
