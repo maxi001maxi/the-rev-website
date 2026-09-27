@@ -7,24 +7,24 @@
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-  "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が入口・ロビー側からトレーニングエリアへ自然に移り、実際のEVOLGEAR設備を見ながらグリップや設定位置を確認して使い始めようとしている場面。小さな通勤・ジムバッグを邪魔にならない位置へ置き、仕事帰りにも立ち寄れる生活動線と本格設備の両方が一枚で伝わるようにする。受付で待つ・スマホを見るだけの受動的ポーズは禁止。THE REV.壁面ロゴ、受付から奥へ抜ける導線、実設備の位置関係を空間の正本として維持し、架空のジムへ置き換えない。トレーナー、スタッフ、コーチは出さない。",
+  "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が仕事帰りに来店し、受付側からトレーニングエリアへ自然に移って、実際のトレーニング設備のグリップや設定位置を確認しながら使い始めようとしている場面。記事の主張は『設備の豪華さだけでなく、目的に合う設備・使い方・生活の中で続けられる動線を一緒に見る』こと。小さな通勤・ジムバッグを邪魔にならない位置へ置き、THE REV.固有の空間と本格設備が同時に読み取れること。受付だけ、人物だけ、広い無地床だけを主役にしない。トレーナー、スタッフ、コーチは出さない。Impact V1の広い写真領域で、人物の行動・設備・THE REV.らしさが一覧サイズでも一目で分かる構図にする。",
   "generated_customer_count": 1,
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v25-impact-3978-20-20260927-r1-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v25-auto-lobby-sp-20260927-impact-r1",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1.jpg",
+  "asset_version": "reference-v25-impact-3978-20-20260927-r1",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v25-impact-3978-20-20260927-r1.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v25-impact-3978-20-20260927-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v25-impact-3978-20-20260927-r1.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1.json",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v25-impact-3978-20-20260927-r1.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -106,16 +106,16 @@
         "assetVersion": "reference-v24-hybrid-4201-01"
       }
     ],
-    "requeue_token": "2026-09-27-thumbnail-impact-v25-r1",
+    "requeue_token": "2026-09-27-impact-v25-r1",
     "semantic_relevance_gate": "v6-impact-thumbnail"
   },
   "design_revision": "editorial-thumbnail-v2.5-impact",
   "layout_variant": "impact-v1",
-  "visual_claim": "THE REV.の実在する入口・ロビーからトレーニング設備へ続く動線と、顧客が実設備を確認して使い始める行動を同時に見せる。『設備がある』だけでも『駅から近い』だけでもなく、自分の生活の中でその設備を使い続けられるかを見る記事だと、タイトルを隠しても推測できる場面にする。",
-  "composition_hint": "実THE REV.壁面ロゴまたは固有のロビー構造と、奥のEVOLGEAR設備を両方残す。人物は受付前で待たせず、ロビーからトレーニングエリアへ移動した先で設備のグリップ・設定位置などを確認する自然な顧客行動にする。最終Thumbnailは写真が約62%を占めるimpact-v1なので、人物・設備・THE REV.らしい空間の3要素を右側写真領域で重ねすぎず明確に読ませる。",
+  "visual_claim": "THE REV.固有の実空間、本格的な設備、仕事帰りの顧客が『ここなら続けられるか』を確かめながら使い始める具体的行動を一枚で見せる。",
+  "composition_hint": "Impact V1。写真を視覚の主役にする。顧客の視覚中心は生成画像幅58〜68%付近、人物・操作中の設備・THE REV.を示す空間アンカーを45〜86%の安全域に収める。広い空床・無地壁を余白として残しすぎない。",
   "scene_object_position": {
-    "thumbnail": "56% center",
-    "og": "56% center",
-    "gbp": "58% center"
+    "thumbnail": "57% center",
+    "og": "57% center",
+    "gbp": "60% center"
   }
 }
