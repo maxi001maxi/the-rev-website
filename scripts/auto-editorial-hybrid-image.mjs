@@ -453,7 +453,11 @@ const previousState = readJson(statePath, {});
 let attemptsTotal = Math.max(0, Number(previousState?.attempts_total || 0));
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
-const needsGbpBackfill = previousState?.status === 'READY_CANDIDATE' && gbpRequested && !gbpAlreadyExists;
+const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
+const needsGbpBackfill = gbpRequested && (
+  forceGbpBackfill ||
+  (previousState?.status === 'READY_CANDIDATE' && !gbpAlreadyExists)
+);
 
 if (previousState?.status === 'READY_CANDIDATE' && !needsGbpBackfill) {
   console.log(JSON.stringify({ status: 'ALREADY_READY', slug: job.slug, state_path: path.relative(ROOT, statePath) }));

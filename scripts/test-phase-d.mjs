@@ -17,6 +17,7 @@ const { checkPublisher, runPreflight } = await import('../lib/publishFlow.mjs');
 const { IMAGE_RENDER_VERSION, IMAGE_STYLE_TEMPLATE } = await import('../lib/editorialImage.mjs');
 const { HYBRID_IMAGE_FORMAT } = await import('../lib/editorialHybridImageFormat.mjs');
 const storage = await import('../admin/js/admin-storage.mjs');
+const { resolveEditorialCtaType } = await import('../lib/editorialBridge.mjs');
 
 let passed = 0;
 const failures = [];
@@ -122,6 +123,57 @@ assert(validateDraftForPublish({ ...SAMPLE_DRAFT, thumbnail: '' }).some((x) => x
 assert(validateDraftForPublish({ ...SAMPLE_DRAFT, og_image: '' }).some((x) => x.includes('OGP')), 'OGP未設定を検出');
 assert(validateDraftForPublish({ ...SAMPLE_DRAFT, slug: 'Bad Slug' }).some((x) => x.startsWith('Slug ')), '不正slugを検出');
 
+const editorialGenericClosing = {
+  ...SAMPLE_DRAFT,
+  editorial_source: 'the-rev-editorial-ai',
+  body_markdown: '読者に役立つ一般的な説明です。\n\n無理なく続けられる形を探してみてください。'
+};
+assert(
+  validateDraftForPublish(editorialGenericClosing).some((x) => x.includes('Editorial Closing QC')),
+  'Editorial AI記事の一般論だけの締めを拒否'
+);
+const editorialRevClosing = {
+  ...SAMPLE_DRAFT,
+  editorial_source: 'the-rev-editorial-ai',
+  body_markdown: '読者に役立つ説明です。\n\nTHE REV.では、その日の状態と翌日の生活まで見ながら負荷を調整します。'
+};
+assert(
+  !validateDraftForPublish(editorialRevClosing).some((x) => x.includes('Editorial Closing QC')),
+  'THE REV.固有の判断へ接続した締めを許可'
+);
+
+const noCtaMd = buildBlogMarkdown({ ...SAMPLE_DRAFT, cta_type: null });
+const noCtaParsed = matter(noCtaMd);
+assert(noCtaParsed.data.cta_type === '', 'CTAなしをFront Matterで保持');
+
+assert(
+  resolveEditorialCtaType({
+    title: '運動を始めたい。でも疲れそうで続かない人へ',
+    primary_query: '運動 始めたい 疲れそう 続かない 不安',
+    article_type: 'STANDARD',
+    cta_type: 'personal-training'
+  }, { ctaType: 'personal-training' }) === null,
+  '情報収集型STANDARDはCTAなしを自動選択'
+);
+assert(
+  resolveEditorialCtaType({
+    title: '新大宮でジムを選ぶなら',
+    primary_query: '新大宮 ジム 選び方',
+    article_type: 'COMPARISON_GUIDE',
+    cta_type: 'personal-training'
+  }, { ctaType: 'personal-training' }) === 'personal-training',
+  '比較・意思決定型記事は関連CTAを保持'
+);
+assert(
+  resolveEditorialCtaType({
+    title: '運動の基礎知識',
+    article_type: 'STANDARD',
+    cta_type: 'personal-training',
+    cta_mode: 'FORCE'
+  }, { ctaType: 'personal-training' }) === 'personal-training',
+  '明示FORCEはCTAを保持'
+);
+
 section('4. Real build compatibility');
 const tmpMdPath = path.join(ROOT, 'content', 'blog', `${TEST_SLUG}.md`);
 const outIndexPath = path.join(ROOT, 'blog', TEST_SLUG, 'index.html');
@@ -147,7 +199,14 @@ if (fs.existsSync(tmpMdPath)) {
 
 section('5. Preflight branches');
 const USER = { id: 'publisher-uuid', email: 'owner@example.com' };
-const BASE_DRAFT = { ...SAMPLE_DRAFT, id: 'a1', slug: 'my-post', source_path: null, source_sha: null };
+const BASE_DRAFT = {
+  ...SAMPLE_DRAFT,
+  id: 'a1',
+  slug: 'my-post',
+  source_path: null,
+  source_sha: null,
+  body_markdown: SAMPLE_DRAFT.body_markdown + '\nTHE REV.では、その日の状態と生活に合わせて負荷を調整します。\n'
+};
 function checkOf(result, id) { return result.checks.find((c) => c.id === id); }
 
 delete process.env.GITHUB_TOKEN;

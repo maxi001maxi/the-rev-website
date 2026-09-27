@@ -66,16 +66,75 @@ function esc(value) {
     .replaceAll('"', '&quot;');
 }
 
+function boundedNumber(value, fallback, min, max) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
+
+function typographySpec({ og = false, gbp = false }) {
+  const style = REV_COLUMN_REFERENCE_V2;
+  const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
+  const override = job?.typography_override?.[variant] || {};
+
+  const defaults = gbp
+    ? {
+        labelSize: Math.max(17, style.overlay.label.sizeThumb),
+        headlineSize: Math.max(56, style.overlay.headline.sizeThumb + 4),
+        lineHeight: 1.38,
+        top: 224,
+        left: 66,
+        headlineTop: 326,
+        maxWidth: 480,
+        hairlineWidth: 170
+      }
+    : og
+      ? {
+          labelSize: style.overlay.label.sizeOg,
+          headlineSize: style.overlay.headline.sizeOg,
+          lineHeight: style.overlay.headline.lineHeight,
+          top: 165,
+          left: 76,
+          headlineTop: 252,
+          maxWidth: 480,
+          hairlineWidth: 160
+        }
+      : {
+          labelSize: style.overlay.label.sizeThumb,
+          headlineSize: style.overlay.headline.sizeThumb,
+          lineHeight: style.overlay.headline.lineHeight,
+          top: 177,
+          left: 80,
+          headlineTop: 270,
+          maxWidth: 500,
+          hairlineWidth: 180
+        };
+
+  return {
+    labelSize: boundedNumber(override.label_size, defaults.labelSize, 12, 28),
+    headlineSize: boundedNumber(override.headline_size, defaults.headlineSize, 36, 76),
+    lineHeight: boundedNumber(override.line_height, defaults.lineHeight, 1.15, 1.7),
+    top: boundedNumber(override.top, defaults.top, 80, 360),
+    left: boundedNumber(override.left, defaults.left, 40, 140),
+    headlineTop: boundedNumber(override.headline_top, defaults.headlineTop, 180, 520),
+    maxWidth: boundedNumber(override.max_width, defaults.maxWidth, 320, 560),
+    hairlineWidth: boundedNumber(override.hairline_width, defaults.hairlineWidth, 60, 240)
+  };
+}
+
 function html({ width, height, og = false, gbp = false }) {
   const style = REV_COLUMN_REFERENCE_V2;
-  const labelSize = og ? style.overlay.label.sizeOg : (gbp ? Math.max(13, style.overlay.label.sizeThumb - 1) : style.overlay.label.sizeThumb);
-  const headlineSize = og ? style.overlay.headline.sizeOg : (gbp ? Math.max(42, style.overlay.headline.sizeThumb - 6) : style.overlay.headline.sizeThumb);
+  const {
+    labelSize,
+    headlineSize,
+    lineHeight,
+    top,
+    left,
+    headlineTop,
+    maxWidth,
+    hairlineWidth
+  } = typographySpec({ og, gbp });
   const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
-  const top = gbp ? 244 : (og ? 165 : 177);
-  const left = og ? 76 : (gbp ? 66 : 80);
-  const headlineTop = gbp ? 340 : (og ? 252 : 270);
-  const maxWidth = og ? 480 : (gbp ? 430 : 500);
-  const hairlineWidth = og ? 160 : (gbp ? 150 : 180);
   const paperBackground = gbp
     ? 'linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 38%,rgba(245,241,232,.97) 43%,rgba(245,241,232,.88) 47%,rgba(245,241,232,.56) 52%,rgba(245,241,232,.12) 58%,transparent 64%)'
     : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)';
@@ -123,7 +182,7 @@ body{position:relative;color:${style.overlay.headline.color}}
   max-width:${maxWidth}px;
   font-family:${style.overlay.headline.family};
   font-size:${headlineSize}px;font-weight:${style.overlay.headline.weight};
-  line-height:${style.overlay.headline.lineHeight};
+  line-height:${lineHeight};
   letter-spacing:${style.overlay.headline.letterSpacing};
   color:${style.overlay.headline.color};
   word-break:keep-all;overflow-wrap:anywhere;text-rendering:optimizeLegibility;z-index:2;

@@ -69,10 +69,14 @@ keywords:
 | `thumbnail` | 一覧・カード用の画像パス |
 | `og_image` | SNSシェア用の画像パス（未指定時は共通のデフォルトOGP画像） |
 | `featured` | 注目記事フラグ（現状は表示上の特別扱いはなし） |
-| `cta_type` | 記事末尾のCTA種類：`personal-training` / `boxing` / `recovery` / `general` |
+| `cta_type` | 任意。記事末尾の変換CTA種類：`personal-training` / `boxing` / `recovery` / `general`。空欄ならCTAブロックを表示しない。本文のTHE REV.固有の締めとは別管理 |
 | `keywords` | 関連記事の判定に使うキーワード一覧 |
 | `canonical` | 通常は不要（自動設定される） |
 | `noindex` | `true` にすると検索エンジンに登録されない（社外秘の下書き公開時などに使用） |
+
+### Editorial closing と CTA の境界
+
+Editorial AIの記事は、予約導線の有無にかかわらず、本文末尾をその記事テーマに対応するTHE REV.の判断・見方・指導・運用へ自然に接続して終える。CTAは別レイヤーで、比較・見学・体験・予約など意思決定段階の記事にだけ表示する。情報収集型の記事では `cta_type` を空欄にしてよい。
 
 ---
 

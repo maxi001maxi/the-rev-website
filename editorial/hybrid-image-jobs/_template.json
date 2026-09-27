@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Canonical full Job example. New articles use the request compiler. V2.4 requires a generated customer scene plus deterministic fixed overlay. Full-body exercise scenes require scene-aware integration and Realism QC v1; do not hand-author fixed policy fields.",
+  "_note": "Canonical full Job example. New articles use the request compiler. V2.4 requires a generated customer scene plus deterministic fixed overlay. GBP defaults are larger for mobile readability; typography_override is optional and should be used only when article-specific copy needs stronger tuning. Full-body exercise scenes require scene-aware integration and Realism QC v1; do not hand-author fixed policy fields.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -65,5 +65,17 @@
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
-  "gbp_image_aspect_ratio": "4:3"
+  "gbp_image_aspect_ratio": "4:3",
+  "typography_override": {
+    "gbp": {
+      "label_size": 18,
+      "headline_size": 60,
+      "line_height": 1.36,
+      "top": 218,
+      "left": 66,
+      "headline_top": 320,
+      "max_width": 500,
+      "hairline_width": 180
+    }
+  }
 }
