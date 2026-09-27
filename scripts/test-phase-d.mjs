@@ -199,7 +199,14 @@ if (fs.existsSync(tmpMdPath)) {
 
 section('5. Preflight branches');
 const USER = { id: 'publisher-uuid', email: 'owner@example.com' };
-const BASE_DRAFT = { ...SAMPLE_DRAFT, id: 'a1', slug: 'my-post', source_path: null, source_sha: null };
+const BASE_DRAFT = {
+  ...SAMPLE_DRAFT,
+  id: 'a1',
+  slug: 'my-post',
+  source_path: null,
+  source_sha: null,
+  body_markdown: SAMPLE_DRAFT.body_markdown + '\nTHE REV.では、その日の状態と生活に合わせて負荷を調整します。\n'
+};
 function checkOf(result, id) { return result.checks.find((c) => c.id === id); }
 
 delete process.env.GITHUB_TOKEN;
