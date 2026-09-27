@@ -79,6 +79,9 @@
 - Strategy: `reference-v2-gpt-image-hybrid-drive-source`
 - Thumbnail: **1200×675 / 16:9**
 - OGP: **1200×630**
+- GBP: **1200×900 / 4:3**
+- GBP typography default: label **17px以上** / headline **56px以上**。モバイル可読性を優先し、記事固有の必要があれば Job の `typography_override.gbp` で安全範囲内に上書きする
+- Thumbnail / OGPの既存タイポ比率は維持し、GBPだけを小さく縮小しない
 - Publish boundary: **REVIEW_AND_PUBLISH**
 
 承認済みDesign Reference:
@@ -270,7 +273,28 @@ npm run image:compile-job -- path/to/request.json
 npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/{slug}.json
 ```
 
-を実行し、`rev-column-v24-fixed-overlay-v1` の固定文字レイアウトでThumbnail / OGPを作る。
+を実行し、`rev-column-v24-fixed-overlay-v1` の固定文字レイアウトでThumbnail / OGP / GBPを作る。
+
+GBP 4:3はSNS・Google Business Profile上で相対的に文字が小さく見えやすいため、rendererの既定値をThumbnailより小さくしない。通常は既定値を使い、短いコピーでさらに可読性を上げる必要がある記事だけ、Jobへ次の任意overrideを追加できる。
+
+```json
+{
+  "typography_override": {
+    "gbp": {
+      "label_size": 18,
+      "headline_size": 60,
+      "line_height": 1.36,
+      "top": 218,
+      "left": 66,
+      "headline_top": 320,
+      "max_width": 500,
+      "hairline_width": 180
+    }
+  }
+}
+```
+
+overrideでQC基準を下げてはいけない。`copy_legible` / `gbp_safe_area_pass` / `gbp_copy_legible` は従来どおりfail-closedで判定する。
 
 ### Step 7｜Visual QC
 
