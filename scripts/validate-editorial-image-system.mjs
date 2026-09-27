@@ -110,6 +110,12 @@ const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/phase-9-chec
 assertTrue(workflow.includes('npm run test:editorial-images'), 'Phase 9 CI must run canonical editorial image test');
 assertTrue(workflow.includes('lib/editorialImageReviewGate.mjs'), 'Phase 9 CI must watch Editorial Image Review Gate');
 assertTrue(workflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Phase 9 CI must watch automated Hybrid runner');
+const hybridRenderer = fs.readFileSync(path.join(ROOT, 'scripts/render-hybrid-editorial-overlay.mjs'), 'utf8');
+assertTrue(hybridRenderer.includes('typography_override'), 'Hybrid renderer must support per-article typography overrides');
+assertTrue(hybridRenderer.includes('headline_size'), 'Hybrid renderer typography override must support headline_size');
+assertTrue(hybridRenderer.includes('label_size'), 'Hybrid renderer typography override must support label_size');
+assertTrue(hybridRenderer.includes('headlineSize: Math.max(56'), 'Hybrid GBP default headline must stay at least 56px for mobile legibility');
+
 const autoWorkflow = fs.readFileSync(path.join(ROOT, '.github/workflows/auto-editorial-hybrid-images.yml'), 'utf8');
 assertTrue(autoWorkflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Automated Hybrid workflow must call the runner');
 assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow must require OPENAI_API_KEY');
