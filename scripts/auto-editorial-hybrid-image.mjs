@@ -454,18 +454,101 @@ let attemptsTotal = Math.max(0, Number(previousState?.attempts_total || 0));
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
+const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED';
 const needsGbpBackfill = gbpRequested && (
   forceGbpBackfill ||
   (previousState?.status === 'READY_CANDIDATE' && !gbpAlreadyExists)
 );
 
-if (previousState?.status === 'READY_CANDIDATE' && !needsGbpBackfill) {
+if (previousState?.status === 'READY_CANDIDATE' && !needsGbpBackfill && !forceOverlayRerender) {
   console.log(JSON.stringify({ status: 'ALREADY_READY', slug: job.slug, state_path: path.relative(ROOT, statePath) }));
   process.exit(0);
 }
 
 let lastQa = null;
 let lastError = '';
+
+if (forceOverlayRerender) {
+  try {
+    if (!job.generated_scene_path || !fs.existsSync(path.resolve(job.generated_scene_path))) {
+      throw new Error('Overlay rerender requires the existing approved generated scene.');
+    }
+
+    console.log(`Full deterministic overlay rerender from existing approved scene: ${job.slug}`);
+    renderOverlay();
+    lastQa = await visualQa(Math.max(1, attemptsTotal || 1));
+
+    fs.mkdirSync(path.dirname(path.resolve(job.qa_report_path)), { recursive: true });
+    fs.writeFileSync(path.resolve(job.qa_report_path), JSON.stringify(lastQa, null, 2) + '\n');
+
+    if (lastQa.pass === true) {
+      writeState({
+        ...previousState,
+        slug: job.slug,
+        status: 'READY_CANDIDATE',
+        attempts_total: attemptsTotal,
+        max_attempts: MAX_TOTAL_ATTEMPTS,
+        job_path: jobPath,
+        generated_scene_path: job.generated_scene_path,
+        thumbnail: job.thumbnail,
+        og_image: job.og_image,
+        gbp_image: job.gbp_image || null,
+        qa_report_path: job.qa_report_path,
+        asset_version: job.asset_version,
+        xserver_verified: false,
+        updated_at: new Date().toISOString()
+      });
+      console.log(JSON.stringify({
+        status: 'READY_CANDIDATE',
+        route: 'OVERLAY_RERENDER',
+        slug: job.slug,
+        asset_version: job.asset_version,
+        thumbnail: job.thumbnail,
+        og_image: job.og_image,
+        gbp_image: job.gbp_image || null,
+        qa_report_path: job.qa_report_path,
+        state_path: path.relative(ROOT, statePath)
+      }));
+      process.exit(0);
+    }
+
+    lastError = String(lastQa.comments || 'Overlay Visual QC failed.');
+    for (const p of [job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
+      try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
+    }
+  } catch (e) {
+    lastError = String(e?.message || e);
+    console.error(`Overlay rerender failed: ${lastError}`);
+    for (const p of [job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
+      try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
+    }
+  }
+
+  writeState({
+    ...previousState,
+    slug: job.slug,
+    status: 'OVERLAY_QC_REJECTED',
+    attempts_total: attemptsTotal,
+    max_attempts: MAX_TOTAL_ATTEMPTS,
+    last_error: lastError,
+    job_path: jobPath,
+    generated_scene_path: job.generated_scene_path,
+    thumbnail: job.thumbnail,
+    og_image: job.og_image,
+    gbp_image: job.gbp_image || null,
+    qa_report_path: job.qa_report_path,
+    asset_version: job.asset_version,
+    xserver_verified: false,
+    updated_at: new Date().toISOString()
+  });
+  console.log(JSON.stringify({
+    status: 'OVERLAY_QC_REJECTED',
+    slug: job.slug,
+    error: lastError,
+    state_path: path.relative(ROOT, statePath)
+  }));
+  process.exit(0);
+}
 
 if (needsGbpBackfill) {
   try {
