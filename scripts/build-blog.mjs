@@ -1,3 +1,4 @@
+// 2026-09-27 V2.5 Impact asset sync trigger: generated Editorial assets are mirrored by Xserver deploy.
 // Phase 10.1 recovery pass 2: use staged assets and verified backup artifact.
 // Phase 10.1 deploy recovery marker: safe no-op comment.
 // THE REV. CONDITIONING LAB. — Blog / Column ビルドスクリプト
