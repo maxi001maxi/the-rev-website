@@ -1,0 +1,108 @@
+{
+  "slug": "exercise-start-fatigue-anxiety-next-day-plan",
+  "article_title": "運動を始めたい。でも疲れそうで続かない人へ｜最初に決めるのは翌日の予定です",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN",
+  "image_headline_short": "疲れた日は、\n軽く始めて決める。",
+  "image_style_template": "rev-column-reference-v2",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が仕事終わりに来店し、その日の疲労を見ながら軽く始めるか判断している静かな場面。トレーナー、スタッフ、コーチは出さない。",
+  "generated_customer_count": 1,
+  "generated_scene_path": "assets/images/editorial-generated/exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997-scene.png",
+  "style_references": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ],
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+  "asset_version": "reference-v24-auto-4387-75-16028997",
+  "thumbnail": "assets/images/blog/thumb-exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997.jpg",
+  "og_image": "assets/images/blog/og/og-exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997.jpg",
+  "gbp_image": "assets/images/gbp/gbp-exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997.jpg",
+  "gbp_image_required": true,
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3",
+  "qa_report_path": "editorial/image-qa/exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997.json",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol-visual-qc",
+  "publish_requires_human_approval": true,
+  "policy": {
+    "generated_customer_allowed": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 2,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true,
+    "gbp_image_required": true,
+    "gbp_image_ratio": "4:3",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "trainer_present_forbidden": true,
+    "unknown_trainer_forbidden": true,
+    "non_customer_people_forbidden": true,
+    "customer_only_or_no_people_required": true,
+    "real_the_rev_background_required": true,
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
+    "realism_qc_version": "v1",
+    "source_scope": "specified-drive-root-only",
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "recent_reference_window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "publish_boundary": "REVIEW_AND_PUBLISH"
+  },
+  "background_source": {
+    "drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "cached_frame_drive_file_id": "",
+    "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+    "origin_video_file_name": "IMG_4387.MOV",
+    "frame_position_ratio": 0.75,
+    "selection_reason": "疲労・状態判断テーマに適合する、指定Drive root由来の承認済みContent Reference。",
+    "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
+  },
+  "automation": {
+    "mode": "unattended-github-actions-v1",
+    "source_registry": "editorial/automated-image-sources.json",
+    "selected_source_id": "the-rev-frame-4387-75",
+    "source_repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+    "recent_similarity_window": 4,
+    "recent_articles": [
+      {
+        "slug": "shinomiya-gym-erabikata-dosen",
+        "checkedAt": "2026-09-26T02:10:32.570Z",
+        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+        "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+        "assetVersion": "reference-v24-auto-3978-20-033c0cab-r3"
+      },
+      {
+        "slug": "shinomiya-gym-erabikata-dosen",
+        "checkedAt": "2026-09-26T00:33:17.799Z",
+        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+        "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+        "assetVersion": "reference-v24-auto-3978-20-033c0cab-r2"
+      },
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T09:14:25.201Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v24-auto-lobby-20260924-4db7de37-r5"
+      },
+      {
+        "slug": "health-check-results-before-starting-exercise",
+        "checkedAt": "2026-09-24T07:29:18.413Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v24-auto-evolgear-20260922-2bd31683"
+      }
+    ]
+  }
+}
