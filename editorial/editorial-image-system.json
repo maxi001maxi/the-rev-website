@@ -1,6 +1,6 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "current_truth_date": "2026-09-27",
   "system_status": "AUTOMATED_TO_REVIEW_READY",
   "fully_automated": true,
@@ -20,9 +20,10 @@
     "automated_operator": "github-actions-auto-operator-v1",
     "automated_source_registry": "editorial/automated-image-sources.json",
     "automated_runner": "scripts/auto-editorial-hybrid-image.mjs",
-    "design_revision": "editorial-thumbnail-v2.5-impact",
-    "default_layout_variant": "impact-v1",
-    "legacy_layout_variant": "legacy-v24"
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "default_layout_variant": "human-first-v1",
+    "legacy_layout_variant": "legacy-v24",
+    "impact_layout_variant": "impact-v1"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -32,7 +33,8 @@
     "recent_reference_window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
     "verified_repo_mirror_registry": "editorial/automated-image-sources.json",
-    "repo_mirrors_must_have_scoped_drive_provenance": true
+    "repo_mirrors_must_have_scoped_drive_provenance": true,
+    "recent_thumbnail_copy_window": 12
   },
   "output_contract": {
     "thumbnail": {
@@ -81,10 +83,11 @@
       "Editorial Bridge converts a PREPARING article into a canonical V2.4 Hybrid Job",
       "verified THE REV source selection from the scoped Drive-provenance repo mirror registry",
       "recent-4 background provenance hard exclusion",
-      "short Editorial Copy generation and deterministic validation",
+      "short Editorial Copy generation, recent-12 exact/near-duplicate rejection and deterministic validation",
       "article-specific one-customer scene intent planning",
+      "single-customer male/female presentation rotation from recent history",
       "GPT image-generation scene creation from the real THE REV source environment",
-      "deterministic V2.5 Impact typography/layout overlay with legacy-v24 compatibility",
+      "deterministic V2.6 Human First typography/layout overlay with impact-v1 and legacy-v24 compatibility",
       "multimodal visual QC against the real THE REV source and final thumbnail",
       "realism QC for scale, perspective, floor contact, contact shadows, lighting, anatomy and location semantics",
       "automatic retry up to the configured max attempts",
@@ -123,29 +126,30 @@
   },
   "release_boundary": "REVIEW_AND_PUBLISH",
   "stop_conditions": [
-    "generated customer is missing, or more than 2 customers are present",
+    "generated customer is missing, or customer count is not exactly 1 for V2.6 Human First",
     "trainer / coach / staff appears or looks like the subject role",
     "thumbnail is facility-only",
     "fixed V2.4 overlay was not applied",
     "same image or same background provenance appears in the recent 4 articles",
+    "Thumbnail Copy is exact or near-duplicate of the recent 12 editorial headlines",
     "manual_visual_rejection is true",
+    "person does not carry roughly 60-70% of visual attention in human-first-v1",
+    "face / expression / article-specific action is not readable at blog-card size",
+    "THE REV. background is either unrecognizable or too sharp/dominant to remain a supporting layer",
     "exercise is placed in a reception/circulation area rather than a plausible training area",
     "exercise pose is anatomically or mechanically implausible",
     "person looks pasted/cut out or does not share the background perspective, scale, ground contact, shadows or lighting",
     "Hybrid generation is missing",
     "source is outside the specified Drive root",
     "article relevance is weak",
-    "THE REV. environment is not recognizable",
     "thumbnail or OGP dimensions do not match the output contract",
     "GBP image dimensions do not match 1200x900 / 4:3 when GBP image is required",
     "Hybrid QC is below threshold or required boolean flags are missing",
     "GitHub asset is missing",
     "Xserver public asset does not match repository bytes",
     "publish would occur without explicit human approval",
-    "GBP crop cuts the customer, important equipment contact or headline safe area",
     "headline is too small to read at live blog-card size",
-    "negative space becomes a large dead ivory field with no hierarchy purpose",
-    "impact-v1 photograph does not remain the visual majority of the thumbnail"
+    "negative space becomes a large dead ivory field with no hierarchy purpose"
   ],
   "review_policy": {
     "standard_mode": "HYBRID_GENERATED",
@@ -154,7 +158,7 @@
     "trainer_present_forbidden": true,
     "generated_customer_required": true,
     "generated_customer_default_count": 1,
-    "generated_customer_max_count": 2,
+    "generated_customer_max_count": 1,
     "facility_only_thumbnail_forbidden": true,
     "fixed_overlay_required": true,
     "source_lock_publish_allowed_for_new_editorial": false,
@@ -182,7 +186,16 @@
     "scene_action_has_article_specific_meaning_required": true,
     "generic_passive_pose_without_article_reason_required": false,
     "semantic_qc_cutover": "2026-09-26T00:00:00.000Z",
-    "semantic_qc_legacy_pre_cutover_allowed": true
+    "semantic_qc_legacy_pre_cutover_allowed": true,
+    "human_first_design_revision": "editorial-thumbnail-v2.6-human-first",
+    "human_subject_prominence_min": 8,
+    "human_visual_attention_share_min": 58,
+    "human_visual_attention_share_max": 75,
+    "face_expression_readable_required": true,
+    "background_secondary_pass_required": true,
+    "background_soft_blur_pass_required": true,
+    "the_rev_anchor_visible_required": true,
+    "customer_presentation_matches_plan_required": true
   },
   "operator_required": [
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",

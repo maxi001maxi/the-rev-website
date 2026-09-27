@@ -737,3 +737,48 @@ V2.4までの「静か・上質・余白を取る」という方向性を残し�
 - asset version: `reference-v25-auto-lobby-sp-20260927-impact-r1`
 
 このAcceptanceは、V2.5 Impactの「写真の存在感 / headline hierarchy / controlled negative space / THE REV.実環境 / 顧客行動」の基準例として扱う。
+
+
+---
+
+## 17. 2026-09-27追加｜V2.6 Human First Thumbnail
+
+V2.5で文字サイズと写真面積を改善した後、背景を精密に作り込みすぎると実店舗との微細な差が違和感として目立つ課題が残ったため、構図の主従を人物中心へ変更する。
+
+### Current Design
+- design_revision: `editorial-thumbnail-v2.6-human-first`
+- default layout_variant: `human-first-v1`
+- overlay contract: `rev-column-v24-fixed-overlay-v1` を互換維持
+- safety policy: `editorial-thumbnail-v2.4` を維持
+
+### 人物
+- 顧客役は常に1人だけ。
+- 男性/女性は記事ジャンルへ固定せず、最近の生成履歴を見て偏りを避ける。
+- 人物は視覚的注意の約60〜70%を担う。
+- 顔、表情、姿勢、記事タイトルに対応する行動がBlog一覧サイズでも分かること。
+- genericなモデル立ち・広告ポーズではなく、記事固有の意味を持つ自然な来店者の瞬間にする。
+
+### 背景
+- THE REV.実素材は空間の正本として使うが、背景自体を主役にしない。
+- ロゴ、受付、特徴的設備、素材感など最低1つのブランドアンカーでTHE REV.と分かる状態を保つ。
+- shallow depth of field / soft blurを許可・推奨し、実レイアウトとの微細な差を目立たせない。
+- 背景がシャープすぎて人物より設備や内装へ先に目が行く場合はREJECT。
+
+### Thumbnail Copyの重複防止
+- 比較窓は直近12投稿。
+- 完全一致だけでなく、4文字以上の主要共通フレーズや近似度の高い言い回しを重複として扱う。
+- 既知テーマでは複数のEditorial Copy候補を持ち、直近と重なる候補を飛ばして次案を使う。
+- 全候補が近似重複になる場合は `image_copy_recently_repeated` でfail-closedし、無理に似たコピーを公開候補へ進めない。
+- 十分に古い投稿は比較窓から外れるため、長期的な再利用は可能。
+
+### Human First追加QC
+- human_subject_prominence >= 8
+- human_visual_attention_share: 58〜75
+- face_expression_readable = true
+- background_secondary_pass = true
+- background_soft_blur_pass = true
+- the_rev_anchor_visible = true
+- customer_presentation_matches_plan = true
+- generated_customer_count = 1
+
+最終Publishは従来どおり人間承認のみ。

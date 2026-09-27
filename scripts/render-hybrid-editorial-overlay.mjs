@@ -22,7 +22,8 @@ const {
   layout_variant = 'legacy-v24'
 } = job;
 
-const impactLayout = layout_variant === 'impact-v1';
+const humanFirstLayout = layout_variant === 'human-first-v1';
+const impactLayout = layout_variant === 'impact-v1' || humanFirstLayout;
 
 if (!slug || !image_headline_short || !asset_version || !generated_scene_path) {
   throw new Error('Hybrid V2.4 job requires slug, image_headline_short, asset_version and generated_scene_path.');
@@ -179,8 +180,12 @@ function html({ width, height, og = false, gbp = false }) {
     .join('');
   const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
   const scenePosition = esc(job?.scene_object_position?.[variant] || (typeof job?.scene_object_position === 'string' ? job.scene_object_position : '') || 'center');
-  const paperBackground = impactLayout
+  const paperBackground = humanFirstLayout
     ? (gbp
+        ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 28%,rgba(247,244,236,.92) 34%,rgba(247,244,236,.68) 40%,rgba(247,244,236,.28) 47%,rgba(247,244,236,.04) 54%,transparent 60%)'
+        : 'radial-gradient(ellipse at 13% 88%,rgba(161,128,72,.07),transparent 30%),linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 31%,rgba(245,241,232,.98) 36%,rgba(245,241,232,.78) 42%,rgba(245,241,232,.30) 48%,rgba(245,241,232,.04) 53%,transparent 58%)')
+    : impactLayout
+      ? (gbp
         ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 31%,rgba(247,244,236,.93) 36%,rgba(247,244,236,.72) 43%,rgba(247,244,236,.34) 51%,rgba(247,244,236,.06) 59%,transparent 65%)'
         : 'radial-gradient(ellipse at 14% 88%,rgba(161,128,72,.08),transparent 32%),linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 34%,rgba(245,241,232,.98) 39%,rgba(245,241,232,.83) 44%,rgba(245,241,232,.35) 50%,rgba(245,241,232,.06) 55%,transparent 59%)')
     : (gbp
@@ -188,14 +193,18 @@ function html({ width, height, og = false, gbp = false }) {
         : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)');
   const sceneCss = gbp
     ? `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};`
-    : impactLayout
-      ? `position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:${scenePosition};`
-      : `position:absolute;right:0;top:0;width:50.8%;height:100%;object-fit:cover;object-position:${scenePosition};`;
+    : humanFirstLayout
+      ? `position:absolute;right:0;top:0;width:66%;height:100%;object-fit:cover;object-position:${scenePosition};`
+      : impactLayout
+        ? `position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:${scenePosition};`
+        : `position:absolute;right:0;top:0;width:50.8%;height:100%;object-fit:cover;object-position:${scenePosition};`;
   const shadeCss = gbp
     ? 'position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
-    : impactLayout
-      ? 'position:absolute;right:0;top:0;width:62%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
-      : 'position:absolute;right:0;top:0;width:50.8%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));pointer-events:none;';
+    : humanFirstLayout
+      ? 'position:absolute;right:0;top:0;width:66%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.01),rgba(0,0,0,.025));pointer-events:none;'
+      : impactLayout
+        ? 'position:absolute;right:0;top:0;width:62%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
+        : 'position:absolute;right:0;top:0;width:50.8%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));pointer-events:none;';
 
   return `<!doctype html>
 <html lang="ja">

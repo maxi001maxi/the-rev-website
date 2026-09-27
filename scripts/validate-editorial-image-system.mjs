@@ -54,6 +54,9 @@ for (const rel of required) assertTrue(exists(rel), `required image-system file 
 assertEqual(manifest.current_standard.format_id, HYBRID_IMAGE_FORMAT.id, 'manifest/current Hybrid format drift');
 assertEqual(manifest.current_standard.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'manifest V2.4 policy drift');
 assertEqual(manifest.current_standard.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'manifest fixed overlay drift');
+assertEqual(manifest.current_standard.design_revision, HYBRID_IMAGE_FORMAT.designRevision, 'manifest design revision drift');
+assertEqual(manifest.current_standard.default_layout_variant, HYBRID_IMAGE_FORMAT.defaultLayoutVariant, 'manifest layout variant drift');
+assertEqual(manifest.source_policy.recent_thumbnail_copy_window, HYBRID_IMAGE_FORMAT.recentThumbnailCopyWindow, 'thumbnail-copy recent window drift');
 assertEqual(manifest.current_standard.code_contract, 'lib/editorialHybridImageFormat.mjs', 'manifest code contract drift');
 assertEqual(manifest.source_policy.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'manifest Drive root drift');
 assertEqual(manifest.release_boundary, HYBRID_IMAGE_FORMAT.publishBoundary, 'manifest publish boundary drift');
@@ -151,6 +154,9 @@ assertEqual(compiledFixture.publish_requires_human_approval, true, 'compiled fix
 assertEqual(compiledFixture.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'compiled fixture V2.4 policy drift');
 assertEqual(compiledFixture.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'compiled fixture layout drift');
 assertEqual(compiledFixture.generated_customer_count, 1, 'compiled fixture customer count drift');
+assertEqual(compiledFixture.customer_presentation, 'female', 'compiled fixture customer presentation drift');
+assertEqual(compiledFixture.design_revision, HYBRID_IMAGE_FORMAT.designRevision, 'compiled fixture design revision drift');
+assertEqual(compiledFixture.layout_variant, HYBRID_IMAGE_FORMAT.defaultLayoutVariant, 'compiled fixture Human First layout drift');
 assertTrue(Boolean(compiledFixture.scene_intent), 'compiled fixture scene_intent missing');
 assertTrue(compiledFixture.thumbnail.endsWith('-reference-v23-hybrid-fixture-50.jpg'), 'compiled fixture thumbnail path is not versioned');
 assertTrue(compiledFixture.gbp_image?.includes('assets/images/gbp/gbp-'), 'compiled fixture GBP image path missing');

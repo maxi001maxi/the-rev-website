@@ -64,8 +64,12 @@ if (!assetVersion || assetVersion !== clean(request.asset_version)) {
 }
 
 const generatedCustomerCount = Number(request.generated_customer_count ?? 1);
-if (!Number.isInteger(generatedCustomerCount) || generatedCustomerCount < 1 || generatedCustomerCount > 2) {
-  fail('generated_customer_count must be an integer from 1 to 2.');
+if (!Number.isInteger(generatedCustomerCount) || generatedCustomerCount !== 1) {
+  fail('V2.6 Human First requires generated_customer_count=1.');
+}
+const customerPresentation = clean(request.customer_presentation).toLowerCase();
+if (!['male', 'female'].includes(customerPresentation)) {
+  fail('V2.6 Human First requires customer_presentation to be male or female.');
 }
 
 const bg = request.background_source || {};
@@ -90,6 +94,7 @@ const job = buildHybridImageJob({
   qaReportPath: `editorial/image-qa/${slug}-${assetVersion}.json`,
   sceneIntent: clean(request.scene_intent),
   generatedCustomerCount,
+  customerPresentation,
   backgroundSource: {
     driveFileId: clean(bg.drive_file_id),
     cachedFrameDriveFileId: clean(bg.cached_frame_drive_file_id),

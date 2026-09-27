@@ -99,9 +99,19 @@ function generationPrompt(attempt) {
   const treatment = String(job.background_source?.treatment || '');
   const visualClaim = String(job.visual_claim || '').trim();
   const compositionHint = String(job.composition_hint || '').trim();
+  const humanFirstLayout = String(job.layout_variant || '') === 'human-first-v1';
   const impactLayout = String(job.layout_variant || '') === 'impact-v1';
-  const layoutNotes = impactLayout
+  const layoutNotes = humanFirstLayout
     ? [
+        '- HUMAN FIRST V1: the customer is the visual hero. Aim for roughly 60-70% of visual attention to come from the person, face, expression and article-specific action.',
+        '- Prefer a medium / medium-wide editorial portrait rather than a distant full-room composition. The face and action must remain readable at small blog-card size.',
+        '- Keep THE REV. identifiable through one or two authentic anchors such as the wall logo, reception geometry, characteristic machine/rack or material palette, but make the background clearly secondary.',
+        '- Use natural shallow depth of field / soft background blur. Do NOT render every background detail razor-sharp; small spatial differences should recede rather than become the subject.',
+        '- The person should be sharp and believable, while THE REV. remains recognizable but visually quieter.',
+        '- Thumbnail/OGP use a wide photo field with the deterministic ivory text overlay entering from the left. Keep the customer mostly in the center-right safe area.'
+      ]
+    : impactLayout
+      ? [
         '- IMPACT V1: Thumbnail/OGP devote roughly 62% of the canvas to the photographic scene, with a soft ivory editorial veil entering from the left.',
         '- Keep the customer and article-specific action in the center-right safe area, but also preserve enough recognizable THE REV. equipment and architecture to make the facility identity obvious.',
         '- Do not compose for a tiny right-hand photo panel. The photograph is the visual majority and must remain interesting after the left typography overlay is applied.',
@@ -124,8 +134,10 @@ function generationPrompt(attempt) {
     `- Scene intent: ${job.scene_intent}`,
     visualClaim ? `- Concrete visual claim to express in the photograph: ${visualClaim}` : '',
     compositionHint ? `- Composition override for this article: ${compositionHint}` : '',
-    `- Generate exactly ${job.generated_customer_count} adult customer.`,
+    '- Generate exactly ONE adult customer. No second person, no crowd, no staff in the background.',
+    `- Planned customer presentation: ${String(job.customer_presentation || 'adult customer')}. Render an adult ${job.customer_presentation === 'male' ? 'man' : job.customer_presentation === 'female' ? 'woman' : 'customer'} without turning the scene into a stereotype.`,
     '- The person must clearly read as a customer, never a trainer, coach, employee, doctor or staff member.',
+    '- Make the face, expression and body language legible. The emotional cue must support the article rather than being a generic stock-photo smile.',
     '- Natural neutral training clothes. No logos or readable text.',
     '- Make the person physically integrated into the room: correct scale, perspective, floor contact, contact shadow, lighting direction and color temperature.',
     '- The scene must visually express the ARTICLE MAIN CLAIM, not merely match the gym mood. A generic customer who is only sitting, standing, checking a phone, or waiting is NOT acceptable unless that passive action is itself essential to the article.',
@@ -137,7 +149,7 @@ function generationPrompt(attempt) {
     '- Landscape editorial photography suitable for a 16:9 card.',
     ...layoutNotes,
     "- Compose ONE scene that survives both the 16:9 Thumbnail/OGP treatment and the GBP 4:3 full-scene layout.",
-    "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–66% of the generated image width and keep the meaningful action inside roughly the 44%–80% horizontal band.",
+    "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–68% of the generated image width and keep the face/action inside roughly the 44%–84% horizontal band.",
     '- When an article-specific composition override is supplied, follow it instead of the default band while keeping the full meaningful action readable in both the right-panel crop and the GBP 4:3 full-scene layout.',
     '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
     '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
@@ -221,7 +233,20 @@ function deterministicRecentIds() {
 }
 
 function qaPass(qa) {
+  const humanFirstRequired = String(job.layout_variant || '') === 'human-first-v1';
+  const humanFirstPass = !humanFirstRequired || (
+    Number(qa.human_subject_prominence || 0) >= 8 &&
+    Number(qa.human_visual_attention_share || 0) >= 58 &&
+    Number(qa.human_visual_attention_share || 0) <= 75 &&
+    qa.face_expression_readable === true &&
+    qa.background_secondary_pass === true &&
+    qa.background_soft_blur_pass === true &&
+    qa.the_rev_anchor_visible === true &&
+    qa.customer_presentation_matches_plan === true &&
+    Number(qa.generated_customer_count) === 1
+  );
   return (
+    humanFirstPass &&
     qa.pass === true &&
     qa.series_consistency >= 8 &&
     qa.editorial_quality >= 8 &&
@@ -250,8 +275,7 @@ function qaPass(qa) {
     qa.non_customer_people_present === false &&
     qa.customer_only_or_no_people === true &&
     qa.generated_customer_present === true &&
-    Number(qa.generated_customer_count) >= 1 &&
-    Number(qa.generated_customer_count) <= 2 &&
+    Number(qa.generated_customer_count) === 1 &&
     qa.facility_only_thumbnail === false &&
     qa.fixed_overlay_layout_confirmed === true &&
     qa.real_the_rev_background_confirmed === true &&
@@ -294,6 +318,10 @@ async function visualQa(attempt) {
     'Score typography_harmony <= 7 if the main headline reads like a small caption once the 1200px image is mentally reduced to a typical two-column blog card.',
     'Score editorial_quality <= 7 if the result feels like a museum label, brochure placeholder, or generic template instead of a compelling article thumbnail.',
     'When layout_variant is impact-v1, the photograph should feel like the visual majority while the enlarged headline remains a clear second focal point. Premium restraint must come from hierarchy, not tiny type.',
+    'HUMAN FIRST V1: fail if the room/equipment feels like the hero and the customer feels small. The customer should carry roughly 60-70% of visual attention, with face/expression/action readable at card size.',
+    'HUMAN FIRST V1: the THE REV. background must remain recognizable through at least one authentic brand/location anchor, but it should be visually secondary with natural soft blur / shallow depth of field.',
+    'HUMAN FIRST V1: do not reward hyper-detailed background reconstruction. If small spatial/layout discrepancies become visually prominent because the background is too sharp, background_secondary_pass or background_soft_blur_pass must be false.',
+    'HUMAN FIRST V1: exactly one customer only. Any second person, crowd, trainer, staff member or ambiguous human figure fails.',
     'SEMANTIC RELEVANCE GATE: Judge the image with the article title/copy mentally hidden. The customer action and scene should still give a reasonable clue about the article topic/main claim.',
     'Do NOT award high article_visual_relevance simply because the image shows THE REV. or a gym customer. The ACTION itself must carry article-specific meaning.',
     'A generic passive pose (sitting, waiting, casually checking a phone, standing without meaningful action) must fail unless that exact passive behavior is central to the article.',
@@ -313,6 +341,13 @@ async function visualQa(attempt) {
     '  "photo_treatment": 0-10,',
     '  "article_visual_relevance": 0-10,',
     '  "main_claim_visualization": 0-10,',
+    '  "human_subject_prominence": 0-10,',
+    '  "human_visual_attention_share": 0-100,',
+    '  "face_expression_readable": boolean,',
+    '  "background_secondary_pass": boolean,',
+    '  "background_soft_blur_pass": boolean,',
+    '  "the_rev_anchor_visible": boolean,',
+    '  "customer_presentation_matches_plan": boolean,',
     '  "article_theme_inferable_without_title": boolean,',
     '  "scene_action_has_article_specific_meaning": boolean,',
     '  "generic_passive_pose_without_article_reason": boolean,',
@@ -348,6 +383,7 @@ async function visualQa(attempt) {
     `Scene intent: ${job.scene_intent}`,
     `Concrete visual claim: ${String(job.visual_claim || '').trim()}`,
     `Expected copy: ${job.image_headline_short}`,
+    `Planned customer presentation: ${String(job.customer_presentation || '')}`,
     `Design revision: ${String(job.design_revision || '')}`,
     `Layout variant: ${String(job.layout_variant || 'legacy-v24')}`,
     `Attempt: ${attempt}`
@@ -371,12 +407,13 @@ async function visualQa(attempt) {
   const bg = job.background_source || {};
   const scores = [
     'series_consistency','editorial_quality','typography_harmony','negative_space',
-    'photo_treatment','article_visual_relevance','main_claim_visualization','rev_environment_consistency',
+    'photo_treatment','article_visual_relevance','main_claim_visualization','human_subject_prominence','rev_environment_consistency',
     'brand_space_authenticity','human_environment_integration',
     'perspective_scale_consistency','ground_contact_shadow_consistency',
     'lighting_consistency','anatomy_pose_realism'
   ];
   for (const key of scores) modelQa[key] = clampScore(modelQa[key]);
+  modelQa.human_visual_attention_share = Math.max(0, Math.min(100, Math.round(Number(modelQa.human_visual_attention_share || 0))));
 
   const recentIds = deterministicRecentIds();
   const selectedIds = [
@@ -392,6 +429,8 @@ async function visualQa(attempt) {
     source_material_scope_pass: true,
     generated_customer_allowed_under_policy: true,
     generated_customer_role: 'customer',
+    customer_presentation: String(job.customer_presentation || ''),
+    image_headline_short: String(job.image_headline_short || ''),
     fixed_overlay_layout_confirmed: true,
     policy_revision: job.policy_revision,
     layout_template_id: job.layout_template_id,
@@ -446,6 +485,8 @@ async function visualQa(attempt) {
     'no_cutout_or_sticker_look','location_semantics_pass','exercise_pose_plausible',
     'real_the_rev_background_confirmed','expected_copy_present','copy_legible',
     'article_theme_inferable_without_title','scene_action_has_article_specific_meaning',
+    'face_expression_readable','background_secondary_pass','background_soft_blur_pass',
+    'the_rev_anchor_visible','customer_presentation_matches_plan',
     'gbp_aspect_ratio_pass','gbp_safe_area_pass','gbp_copy_legible'
   ]) {
     qa[key] = modelQa[key] === true;

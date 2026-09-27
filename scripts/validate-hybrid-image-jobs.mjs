@@ -114,7 +114,17 @@ function validateJob(jobPath) {
     assertEqual(job.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, `${name}: V2.4 policy revision missing`);
     assertEqual(job.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, `${name}: fixed overlay template drift`);
     assertTrue(clean(job.scene_intent), `${name}: scene_intent missing`);
-    assertTrue(Number.isInteger(Number(job.generated_customer_count)) && Number(job.generated_customer_count) >= 1 && Number(job.generated_customer_count) <= 2, `${name}: generated_customer_count must be 1..2`);
+    const isHumanFirst = clean(job.design_revision) === HYBRID_IMAGE_FORMAT.designRevision;
+    assertTrue(
+      isHumanFirst
+        ? Number.isInteger(Number(job.generated_customer_count)) && Number(job.generated_customer_count) === 1
+        : Number.isInteger(Number(job.generated_customer_count)) && Number(job.generated_customer_count) >= 1 && Number(job.generated_customer_count) <= 2,
+      isHumanFirst ? `${name}: V2.6 generated_customer_count must be exactly 1` : `${name}: generated_customer_count must be 1..2`
+    );
+    if (isHumanFirst) {
+      assertTrue(['male', 'female'].includes(clean(job.customer_presentation).toLowerCase()), `${name}: V2.6 customer_presentation must be male/female`);
+      assertEqual(job.layout_variant, HYBRID_IMAGE_FORMAT.defaultLayoutVariant, `${name}: V2.6 layout variant drift`);
+    }
     assertTrue(clean(job.generated_scene_path), `${name}: generated_scene_path missing`);
     assertEqual(job.policy?.generated_customer_required, true, `${name}: generated customer must be required`);
     assertEqual(job.policy?.facility_only_thumbnail_forbidden, true, `${name}: facility-only thumbnail policy drift`);
@@ -223,7 +233,20 @@ function validateJob(jobPath) {
     assertEqual(qa.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, `${name}: QA policy revision mismatch`);
     assertEqual(qa.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, `${name}: QA layout template mismatch`);
     assertEqual(qa.generated_customer_present, true, `${name}: generated customer missing`);
-    assertTrue(Number(qa.generated_customer_count) >= 1 && Number(qa.generated_customer_count) <= 2, `${name}: QA customer count invalid`);
+    const qaHumanFirst = clean(qa.design_revision) === HYBRID_IMAGE_FORMAT.designRevision;
+    assertTrue(
+      qaHumanFirst ? Number(qa.generated_customer_count) === 1 : (Number(qa.generated_customer_count) >= 1 && Number(qa.generated_customer_count) <= 2),
+      `${name}: QA customer count invalid`
+    );
+    if (qaHumanFirst) {
+      assertTrue(Number(qa.human_subject_prominence || 0) >= 8, `${name}: Human First subject prominence failed`);
+      assertTrue(Number(qa.human_visual_attention_share || 0) >= 58 && Number(qa.human_visual_attention_share || 0) <= 75, `${name}: Human First visual attention share failed`);
+      assertEqual(qa.face_expression_readable, true, `${name}: Human First face readability failed`);
+      assertEqual(qa.background_secondary_pass, true, `${name}: Human First background hierarchy failed`);
+      assertEqual(qa.background_soft_blur_pass, true, `${name}: Human First background blur failed`);
+      assertEqual(qa.the_rev_anchor_visible, true, `${name}: Human First THE REV anchor missing`);
+      assertEqual(qa.customer_presentation_matches_plan, true, `${name}: Human First presentation mismatch`);
+    }
     assertEqual(qa.facility_only_thumbnail, false, `${name}: facility-only QA must be false`);
     assertEqual(qa.fixed_overlay_layout_confirmed, true, `${name}: fixed overlay QA missing`);
     if (gbpAssetReady) {

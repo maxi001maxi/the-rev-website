@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Copy this file, remove _template/_note, fill the article/source-specific fields, then run npm run image:compile-job -- <request.json>. V2.4 requires an article-specific generated customer scene (normally 1 customer, max 2) and the fixed overlay renderer.",
+  "_note": "Copy this file, remove _template/_note, fill the article/source-specific fields, then run npm run image:compile-job -- <request.json>. V2.4 requires an article-specific generated customer scene (normally 1 customer, max 2) and the fixed overlay renderer. V2.6 Human First requires exactly one customer and customer_presentation=male/female.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -17,5 +17,6 @@
     "treatment": "real THE REV source; editorial soften/blur/depth allowed"
   },
   "scene_intent": "記事内容を一場面で伝える顧客の表情・姿勢・動作。トレーナー/スタッフ/コーチは出さない",
-  "generated_customer_count": 1
+  "generated_customer_count": 1,
+  "customer_presentation": "female"
 }

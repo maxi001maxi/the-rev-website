@@ -21,6 +21,8 @@ import {
 import {
   buildImageHeadlineShort,
   imageCopyIsArticleTitle,
+  imageHeadlineIsRecentRepeat,
+  selectUniqueImageHeadlineShort,
   validateImageHeadlineShort
 } from '../lib/editorialImageCopy.mjs';
 import { REV_COLUMN_REFERENCE_V2 } from '../lib/editorialImageStyle.mjs';
@@ -146,6 +148,11 @@ const shortCopy = buildImageHeadlineShort(fatigueArticle);
 assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事タイトルと分離した短いEditorial Copyを生成');
 assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
 assert(validateImageHeadlineShort(shortCopy).ok === true, '画像コピーが長さ・トーン規則を通過');
+assert(imageHeadlineIsRecentRepeat('設備だけで、\n決めない。', ['体験で見るのは、\n設備だけじゃない。']) === true, '主要フレーズが近いThumbnail Copyを近似重複として検出');
+const uniqueGymCopy = selectUniqueImageHeadlineShort({
+  title: '新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント'
+}, ['体験で見るのは、\n設備だけじゃない。'], { window: 12 });
+assert(uniqueGymCopy.copy === '通いやすさまで、\n選ぶ基準に。', '直近と意味が近いCopyを避けて次候補へ切り替える');
 const fatigueDecision = selectBrandImageSourceDecision(fatigueArticle);
 assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労・判断系でもトレーナー写真を自動選定せず実設備背景を選ぶ');
 assert(fatigueDecision.intent === 'state-check-training-space', 'Content Referenceの選定意図を保持');
@@ -247,7 +254,11 @@ assert(HYBRID_IMAGE_FORMAT.generationPolicy.generatedCustomerAllowed === true, '
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.unknownTrainerForbidden === true, '未知トレーナー生成を禁止');
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.nonCustomerPeopleForbidden === true, '顧客以外の第三者生成を禁止');
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.realTheRevEnvironmentRequired === true, '実THE REV.環境を背景正本として必須化');
-assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'fixed-editorial-overlay-flexible-scene', 'V2.4は人物情景を可変、文字Overlayを固定');
+assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'fixed-editorial-overlay-flexible-scene', '人物情景を可変、文字Overlayを固定');
+assert(HYBRID_IMAGE_FORMAT.designRevision === 'editorial-thumbnail-v2.6-human-first', 'V2.6 Human Firstをデザイン正本化');
+assert(HYBRID_IMAGE_FORMAT.defaultLayoutVariant === 'human-first-v1', 'Human First layoutを新規標準化');
+assert(HYBRID_IMAGE_FORMAT.generationPolicy.maxGeneratedCustomerCount === 1, 'V2.6は顧客役1人だけ');
+assert(HYBRID_IMAGE_FORMAT.recentThumbnailCopyWindow === 12, 'Thumbnail Copy重複監視を直近12投稿へ拡張');
 assert(HYBRID_IMAGE_FORMAT.designReferenceAssets.length === 2, '承認済みV2.3 Hybrid 2枚をDesign Referenceへ固定');
 assert(HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony === 8, 'Typography QC下限を8へ固定');
 assert(HYBRID_IMAGE_FORMAT.qc.minNegativeSpace === 8, 'Negative Space QC下限を8へ固定');
@@ -267,6 +278,7 @@ const hybridJob = buildHybridImageJob({
   qaReportPath: 'editorial/image-qa/sample-hybrid-article-reference-v23-hybrid-sample.json',
   sceneIntent: 'THE REV.実空間で顧客1人が自分の状態を見ながらトレーニングを始める',
   generatedCustomerCount: 1,
+  customerPresentation: 'female',
   backgroundSource: {
     cachedFrameDriveFileId: 'drive-frame-1',
     originVideoFileId: 'video-1',
@@ -285,6 +297,8 @@ assert(hybridJob.policy.generated_customer_allowed === true && hybridJob.policy.
 assert(hybridJob.policy_revision === HYBRID_IMAGE_FORMAT.policyRevision, 'Hybrid JobへV2.4 policy revisionを保持');
 assert(hybridJob.layout_template_id === HYBRID_IMAGE_FORMAT.layoutTemplateId, 'Hybrid Jobへ固定Overlay IDを保持');
 assert(hybridJob.generated_customer_count === 1 && Boolean(hybridJob.scene_intent), 'Hybrid Jobへ顧客人数とscene intentを保持');
+assert(hybridJob.customer_presentation === 'female', 'Hybrid Jobへ男性/女性の顧客表現計画を保持');
+assert(hybridJob.layout_variant === 'human-first-v1', 'Hybrid JobへHuman First layoutを保持');
 assert(hybridJob.generated_scene_path.includes('assets/images/editorial-generated/'), 'Hybrid Jobへ中間generated scene pathを保持');
 assert(hybridJob.publish_requires_human_approval === true, 'Hybrid JobはHuman Reviewを必須化');
 const hybridPaths = hybridAssetPaths('sample-hybrid-article', 'reference-v23-hybrid-sample');
@@ -344,6 +358,22 @@ assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, generat
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, generated_customer_count: 3 } }) === false, '顧客3人はV2.4 Hybrid QCを拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, facility_only_thumbnail: true } }) === false, '施設だけのThumbnailは拒否');
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...goodHybridQa, fixed_overlay_layout_confirmed: false } }) === false, '固定Overlay未適用は拒否');
+const humanFirstQa = {
+  ...goodHybridQa,
+  design_revision: 'editorial-thumbnail-v2.6-human-first',
+  human_subject_prominence: 9,
+  human_visual_attention_share: 66,
+  face_expression_readable: true,
+  background_secondary_pass: true,
+  background_soft_blur_pass: true,
+  the_rev_anchor_visible: true,
+  customer_presentation_matches_plan: true,
+  generated_customer_count: 1
+};
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: humanFirstQa }) === true, 'V2.6 Human First QCを通過');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...humanFirstQa, human_visual_attention_share: 40 } }) === false, '人物が小さすぎるHuman First画像を拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...humanFirstQa, background_secondary_pass: false } }) === false, '背景が主張しすぎるHuman First画像を拒否');
+assert(hybridQaReady({ ...hybridDraftForQa, image_qa: { ...humanFirstQa, generated_customer_count: 2 } }) === false, 'V2.6 Human Firstは2人生成を拒否');
 const missingCopyFlagQa = { ...goodHybridQa };
 delete missingCopyFlagQa.expected_copy_present;
 assert(hybridQaReady({ ...hybridDraftForQa, image_qa: missingCopyFlagQa }) === false, 'expected_copy_present未記録はfail-closed');
