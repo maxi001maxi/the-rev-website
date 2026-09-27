@@ -97,6 +97,8 @@ function extractJson(text) {
 function generationPrompt(attempt) {
   const sourceNote = String(job.background_source?.selection_reason || '');
   const treatment = String(job.background_source?.treatment || '');
+  const visualClaim = String(job.visual_claim || '').trim();
+  const compositionHint = String(job.composition_hint || '').trim();
   return [
     'Create one photorealistic editorial photograph for THE REV. CONDITIONING LAB. Blog / Column.',
     '',
@@ -108,6 +110,8 @@ function generationPrompt(attempt) {
     '',
     'CUSTOMER SCENE:',
     `- Scene intent: ${job.scene_intent}`,
+    visualClaim ? `- Concrete visual claim to express in the photograph: ${visualClaim}` : '',
+    compositionHint ? `- Composition override for this article: ${compositionHint}` : '',
     `- Generate exactly ${job.generated_customer_count} adult customer.`,
     '- The person must clearly read as a customer, never a trainer, coach, employee, doctor or staff member.',
     '- Natural neutral training clothes. No logos or readable text.',
@@ -121,7 +125,8 @@ function generationPrompt(attempt) {
     '- Landscape editorial photography suitable for a 16:9 card.',
     '- The deterministic renderer places this generated scene into the RIGHT half of the final card using object-fit: cover and object-position: center.',
     "- Thumbnail/OGP use a right-side crop, while GBP 4:3 uses the full generated scene underneath a left editorial veil. Compose ONE scene that survives both.",
-    "- Place the customer's visual center around 58%–63% of the generated image width. Keep the face, torso, hands, held equipment, feet and meaningful body contact inside roughly the 45%–76% horizontal band.",
+    "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–63% of the generated image width and keep the meaningful action inside roughly the 45%–76% horizontal band.",
+    '- When an article-specific composition override is supplied, follow it instead of the default band while keeping the full meaningful action readable in both the right-panel crop and the GBP 4:3 full-scene layout.',
     '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
     '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
     '- Premium, restrained, warm, calm, realistic. Not a commercial fitness advertisement.',
@@ -278,6 +283,7 @@ async function visualQa(attempt) {
     'A generic passive pose (sitting, waiting, casually checking a phone, standing without meaningful action) must fail unless that exact passive behavior is central to the article.',
     'If the article is about movement quality, strength progress, execution, form, training intensity, or exercise technique, require an actual plausible training action that directly supports that claim.',
     'For list-style articles with several progress signs, a single photograph does NOT need to literally show every list item. Judge main_claim_visualization by whether the image strongly expresses the umbrella claim and at least one concrete article-specific example.',
+    'For abstract planning, habit, recovery, or lifestyle articles, do not require the photograph to literally depict invisible concepts such as tomorrow, a schedule, intention, or future fatigue. When the job provides a Concrete visual claim, judge article relevance against that claim as the photograph-level embodiment of the article, while still requiring the action to be specific and meaningful rather than generic.',
     'For the GBP 4:3 image, the generated scene should remain visible across the full canvas under a left editorial veil. Fail if the customer/action becomes obscured by the left veil, cut at the right edge, or unreadable as an exercise.',
     'For non-exercise quiet scenes, exercise_pose_plausible should be true when the pose is naturally plausible for the intended activity.',
     '',
@@ -324,6 +330,7 @@ async function visualQa(attempt) {
     '',
     `Article: ${job.article_title}`,
     `Scene intent: ${job.scene_intent}`,
+    `Concrete visual claim: ${String(job.visual_claim || '').trim()}`,
     `Expected copy: ${job.image_headline_short}`,
     `Attempt: ${attempt}`
   ].join('\n');
