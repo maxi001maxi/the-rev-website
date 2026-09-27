@@ -1,7 +1,7 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.5.1",
-  "current_truth_date": "2026-09-26",
+  "schema_version": "1.6.0",
+  "current_truth_date": "2026-09-27",
   "system_status": "AUTOMATED_TO_REVIEW_READY",
   "fully_automated": true,
   "current_standard": {
@@ -19,7 +19,10 @@
     "hybrid_overlay_renderer": "scripts/render-hybrid-editorial-overlay.mjs",
     "automated_operator": "github-actions-auto-operator-v1",
     "automated_source_registry": "editorial/automated-image-sources.json",
-    "automated_runner": "scripts/auto-editorial-hybrid-image.mjs"
+    "automated_runner": "scripts/auto-editorial-hybrid-image.mjs",
+    "design_revision": "editorial-thumbnail-v2.5-impact",
+    "default_layout_variant": "impact-v1",
+    "legacy_layout_variant": "legacy-v24"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -81,7 +84,7 @@
       "short Editorial Copy generation and deterministic validation",
       "article-specific one-customer scene intent planning",
       "GPT image-generation scene creation from the real THE REV source environment",
-      "deterministic V2.4 typography/layout overlay",
+      "deterministic V2.5 Impact typography/layout overlay with legacy-v24 compatibility",
       "multimodal visual QC against the real THE REV source and final thumbnail",
       "realism QC for scale, perspective, floor contact, contact shadows, lighting, anatomy and location semantics",
       "automatic retry up to the configured max attempts",
@@ -139,7 +142,10 @@
     "GitHub asset is missing",
     "Xserver public asset does not match repository bytes",
     "publish would occur without explicit human approval",
-    "GBP crop cuts the customer, important equipment contact or headline safe area"
+    "GBP crop cuts the customer, important equipment contact or headline safe area",
+    "headline is too small to read at live blog-card size",
+    "negative space becomes a large dead ivory field with no hierarchy purpose",
+    "impact-v1 photograph does not remain the visual majority of the thumbnail"
   ],
   "review_policy": {
     "standard_mode": "HYBRID_GENERATED",
