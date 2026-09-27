@@ -99,6 +99,18 @@ function generationPrompt(attempt) {
   const treatment = String(job.background_source?.treatment || '');
   const visualClaim = String(job.visual_claim || '').trim();
   const compositionHint = String(job.composition_hint || '').trim();
+  const impactLayout = String(job.layout_variant || '') === 'impact-v1';
+  const layoutNotes = impactLayout
+    ? [
+        '- IMPACT V1: Thumbnail/OGP devote roughly 62% of the canvas to the photographic scene, with a soft ivory editorial veil entering from the left.',
+        '- Keep the customer and article-specific action in the center-right safe area, but also preserve enough recognizable THE REV. equipment and architecture to make the facility identity obvious.',
+        '- Do not compose for a tiny right-hand photo panel. The photograph is the visual majority and must remain interesting after the left typography overlay is applied.',
+        '- For this layout, a clearly readable facility anchor plus a meaningful customer action is preferred over large empty floor/wall areas.'
+      ]
+    : [
+        '- LEGACY V2.4: The deterministic renderer places this generated scene into the RIGHT half of the final card using object-fit: cover and object-position: center.',
+        '- Thumbnail/OGP use a right-side crop, while GBP 4:3 uses the full generated scene underneath a left editorial veil.'
+      ];
   return [
     'Create one photorealistic editorial photograph for THE REV. CONDITIONING LAB. Blog / Column.',
     '',
@@ -123,9 +135,9 @@ function generationPrompt(attempt) {
     '',
     'COMPOSITION:',
     '- Landscape editorial photography suitable for a 16:9 card.',
-    '- The deterministic renderer places this generated scene into the RIGHT half of the final card using object-fit: cover and object-position: center.',
-    "- Thumbnail/OGP use a right-side crop, while GBP 4:3 uses the full generated scene underneath a left editorial veil. Compose ONE scene that survives both.",
-    "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–63% of the generated image width and keep the meaningful action inside roughly the 45%–76% horizontal band.",
+    ...layoutNotes,
+    "- Compose ONE scene that survives both the 16:9 Thumbnail/OGP treatment and the GBP 4:3 full-scene layout.",
+    "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–66% of the generated image width and keep the meaningful action inside roughly the 44%–80% horizontal band.",
     '- When an article-specific composition override is supplied, follow it instead of the default band while keeping the full meaningful action readable in both the right-panel crop and the GBP 4:3 full-scene layout.',
     '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
     '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
@@ -277,7 +289,11 @@ async function visualQa(attempt) {
     'Return ONLY one JSON object. Do not use markdown.',
     '',
     'The source environment is authoritative. Fail if the final scene looks like another gym, if a person looks pasted in, if any trainer/staff/coach appears, if no customer appears, or if anatomy/perspective/contact shadows/lighting are not convincing.',
-    'The left-side typography in the final thumbnail and GBP image is deterministic. Judge whether it is legible, quiet/editorial and consistent with the series.',
+    'The typography in the final thumbnail and GBP image is deterministic. Judge whether it is immediately legible at blog-card size, editorial rather than ad-like, and consistent with THE REV.',
+    'NEGATIVE SPACE DOES NOT MEAN EMPTY SPACE. Reward intentional breathing room, but score negative_space <= 7 if a large plain ivory region has no hierarchy purpose and makes the thumbnail feel unfinished.',
+    'Score typography_harmony <= 7 if the main headline reads like a small caption once the 1200px image is mentally reduced to a typical two-column blog card.',
+    'Score editorial_quality <= 7 if the result feels like a museum label, brochure placeholder, or generic template instead of a compelling article thumbnail.',
+    'When layout_variant is impact-v1, the photograph should feel like the visual majority while the enlarged headline remains a clear second focal point. Premium restraint must come from hierarchy, not tiny type.',
     'SEMANTIC RELEVANCE GATE: Judge the image with the article title/copy mentally hidden. The customer action and scene should still give a reasonable clue about the article topic/main claim.',
     'Do NOT award high article_visual_relevance simply because the image shows THE REV. or a gym customer. The ACTION itself must carry article-specific meaning.',
     'A generic passive pose (sitting, waiting, casually checking a phone, standing without meaningful action) must fail unless that exact passive behavior is central to the article.',
@@ -332,6 +348,8 @@ async function visualQa(attempt) {
     `Scene intent: ${job.scene_intent}`,
     `Concrete visual claim: ${String(job.visual_claim || '').trim()}`,
     `Expected copy: ${job.image_headline_short}`,
+    `Design revision: ${String(job.design_revision || '')}`,
+    `Layout variant: ${String(job.layout_variant || 'legacy-v24')}`,
     `Attempt: ${attempt}`
   ].join('\n');
 
@@ -377,6 +395,8 @@ async function visualQa(attempt) {
     fixed_overlay_layout_confirmed: true,
     policy_revision: job.policy_revision,
     layout_template_id: job.layout_template_id,
+    design_revision: job.design_revision || '',
+    layout_variant: job.layout_variant || 'legacy-v24',
     background_source_type: 'verified_the_rev_repo_mirror',
     content_reference: `drive://${bg.cached_frame_drive_file_id || bg.drive_file_id || ''}/${bg.origin_video_file_name || ''}`,
     background_source_drive_file_id: bg.cached_frame_drive_file_id || bg.drive_file_id || '',
