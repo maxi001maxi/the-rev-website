@@ -1,6 +1,6 @@
 {
   "slug": "shinomiya-gym-erabikata-dosen",
-  "status": "READY_CANDIDATE",
+  "status": "BLOCKED_MAX_ATTEMPTS",
   "attempts_total": 3,
   "max_attempts": 3,
   "job_path": "editorial/hybrid-image-jobs/shinomiya-gym-erabikata-dosen.json",
@@ -10,7 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1.jpg",
   "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v25-auto-lobby-sp-20260927-impact-r1.json",
   "asset_version": "reference-v25-auto-lobby-sp-20260927-impact-r1",
-  "updated_at": "2026-09-27T02:04:18.143Z",
+  "updated_at": "2026-09-27T03:00:25.313Z",
   "xserver_verified": true,
   "xserver_verified_at": "2026-09-27T02:37:11Z"
 }
