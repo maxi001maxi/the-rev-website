@@ -25,6 +25,21 @@ const {
 const humanFirstLayout = layout_variant === 'human-first-v1';
 const impactLayout = layout_variant === 'impact-v1' || humanFirstLayout;
 
+function headlineTier(value) {
+  const lines = String(value || '')
+    .split(/\r?\n/)
+    .map((line) => line.replace(/\s+/g, '').trim())
+    .filter(Boolean);
+  const totalCharacters = lines.join('').length;
+  const longestLine = Math.max(0, ...lines.map((line) => line.length));
+
+  if (lines.length === 2 && totalCharacters <= 14 && longestLine <= 8) return 'XL';
+  if (totalCharacters <= 22 && longestLine <= 12) return 'L';
+  return 'M';
+}
+
+const resolvedHeadlineTier = headlineTier(image_headline_short);
+
 if (!slug || !image_headline_short || !asset_version || !generated_scene_path) {
   throw new Error('Hybrid V2.4 job requires slug, image_headline_short, asset_version and generated_scene_path.');
 }
@@ -148,7 +163,27 @@ function typographySpec({ og = false, gbp = false }) {
           hairlineWidth: 122
         };
 
-  const defaults = impactLayout ? impactDefaults : legacyDefaults;
+  const responsiveHeadline = {
+    XL: gbp
+      ? { headlineSize: 76, lineHeight: 1.18, maxWidth: 520 }
+      : og
+        ? { headlineSize: 72, lineHeight: 1.18, maxWidth: 500 }
+        : { headlineSize: 76, lineHeight: 1.16, maxWidth: 500 },
+    L: gbp
+      ? { headlineSize: 68, lineHeight: 1.24, maxWidth: 500 }
+      : og
+        ? { headlineSize: 64, lineHeight: 1.22, maxWidth: 470 }
+        : { headlineSize: 68, lineHeight: 1.20, maxWidth: 480 },
+    M: gbp
+      ? { headlineSize: 62, lineHeight: 1.30, maxWidth: 500 }
+      : og
+        ? { headlineSize: 58, lineHeight: 1.28, maxWidth: 470 }
+        : { headlineSize: 60, lineHeight: 1.26, maxWidth: 480 }
+  }[resolvedHeadlineTier];
+
+  const defaults = impactLayout
+    ? { ...impactDefaults, ...responsiveHeadline }
+    : legacyDefaults;
 
   return {
     labelSize: boundedNumber(override.label_size, defaults.labelSize, 12, 28),
@@ -295,6 +330,7 @@ console.log(JSON.stringify({
   layout_template_id,
   design_revision,
   layout_variant,
+  headline_tier: resolvedHeadlineTier,
   generated_scene_path,
   thumbnail: outThumb,
   og: outOg,

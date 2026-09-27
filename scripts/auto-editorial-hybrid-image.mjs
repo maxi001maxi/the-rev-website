@@ -11,7 +11,10 @@ const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
 const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
 const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 'gpt-5.6').trim();
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
-const MAX_TOTAL_ATTEMPTS = Math.max(1, Number(process.env.EDITORIAL_IMAGE_MAX_ATTEMPTS || 3));
+const MAX_TOTAL_ATTEMPTS = Math.max(
+  1,
+  Math.min(2, Number(job?.max_generation_attempts || process.env.EDITORIAL_IMAGE_MAX_ATTEMPTS || 2))
+);
 
 if (!OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
 
@@ -94,11 +97,14 @@ function extractJson(text) {
   throw new Error('Visual QA did not return valid JSON.');
 }
 
-function generationPrompt(attempt) {
+function generationPrompt(attempt, previousQa = null) {
   const sourceNote = String(job.background_source?.selection_reason || '');
   const treatment = String(job.background_source?.treatment || '');
   const visualClaim = String(job.visual_claim || '').trim();
   const compositionHint = String(job.composition_hint || '').trim();
+  const thumbnailClaim = String(job.thumbnail_claim || '').trim();
+  const visibleAction = String(job.visible_action || '').trim();
+  const emotionalState = String(job.emotional_state || '').trim();
   const humanFirstLayout = String(job.layout_variant || '') === 'human-first-v1';
   const impactLayout = String(job.layout_variant || '') === 'impact-v1';
   const layoutNotes = humanFirstLayout
@@ -132,6 +138,9 @@ function generationPrompt(attempt) {
     '',
     'CUSTOMER SCENE:',
     `- Scene intent: ${job.scene_intent}`,
+    thumbnailClaim ? `- Thumbnail claim: ${thumbnailClaim}` : '',
+    visibleAction ? `- Visible action that must communicate the claim: ${visibleAction}` : '',
+    emotionalState ? `- Emotional state that must be readable: ${emotionalState}` : '',
     visualClaim ? `- Concrete visual claim to express in the photograph: ${visualClaim}` : '',
     compositionHint ? `- Composition override for this article: ${compositionHint}` : '',
     '- Generate exactly ONE adult customer. No second person, no crowd, no staff in the background.',
@@ -164,13 +173,14 @@ function generationPrompt(attempt) {
     `Editorial copy that will be added later: ${job.image_headline_short}`,
     `Source selection reason: ${sourceNote}`,
     `Allowed treatment: ${treatment}`,
-    attempt > 1 ? `This is retry ${attempt}. Improve realism and source-environment fidelity over the prior attempt.` : ''
+    attempt > 1 ? `This is the final allowed retry (${attempt}/2). Correct the prior rejection without changing the article claim.` : '',
+    attempt > 1 && previousQa?.comments ? `Previous Visual QC rejection: ${String(previousQa.comments).slice(0, 600)}` : ''
   ].filter(Boolean).join('\n');
 }
 
-async function generateScene(attempt) {
+async function generateScene(attempt, previousQa = null) {
   const content = [
-    { type: 'input_text', text: generationPrompt(attempt) },
+    { type: 'input_text', text: generationPrompt(attempt, previousQa) },
     { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' }
   ];
 
@@ -381,6 +391,9 @@ async function visualQa(attempt) {
     '',
     `Article: ${job.article_title}`,
     `Scene intent: ${job.scene_intent}`,
+    `Thumbnail claim: ${String(job.thumbnail_claim || '').trim()}`,
+    `Required visible action: ${String(job.visible_action || '').trim()}`,
+    `Required emotional state: ${String(job.emotional_state || '').trim()}`,
     `Concrete visual claim: ${String(job.visual_claim || '').trim()}`,
     `Expected copy: ${job.image_headline_short}`,
     `Planned customer presentation: ${String(job.customer_presentation || '')}`,
@@ -699,7 +712,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
   attemptsTotal += 1;
   try {
     console.log(`Automated Hybrid image attempt ${attemptsTotal}/${MAX_TOTAL_ATTEMPTS}: ${job.slug}`);
-    await generateScene(attemptsTotal);
+    await generateScene(attemptsTotal, lastQa);
     renderOverlay();
     lastQa = await visualQa(attemptsTotal);
 

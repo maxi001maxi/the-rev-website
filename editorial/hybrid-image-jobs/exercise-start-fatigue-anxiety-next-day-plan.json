@@ -3,36 +3,40 @@
   "article_title": "運動を始めたい。でも疲れそうで続かない人へ｜最初に決めるのは翌日の予定です",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN",
-  "image_headline_short": "疲れた日は、\nまず軽く始める。",
+  "image_headline_short": "軽く動いて、\n調子を見る。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が仕事終わりに来店し、ケーブルまたはウェイトスタックの重量ピンを明確に軽い位置へ差し替えている瞬間。片手でセレクターピンを操作し、もう片方の手は次に使うハンドルまたは機器へ自然に添える。休憩・待機ではなく『今日は軽く始めるために負荷を下げた』ことが人物の動作だけで分かる場面にする。小さなジムバッグを足元の邪魔にならない位置へ置いて仕事帰りの文脈を補助してよい。トレーナー、スタッフ、コーチは出さない。",
+  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人男性1人が、少し疲れているものの背中を丸めて休み込まず、軽い負荷に設定したケーブルを使って最初のゆっくりしたウォームアップ動作を行っている瞬間。姿勢は起き、呼吸と身体の反応を確かめるように丁寧に動く。高重量、激しい運動、元気いっぱいの笑顔、ぐったりした休憩姿勢は禁止。顔・軽い負荷での動作・THE REV.設備がBlog一覧でも読み取れる。トレーナー、スタッフ、コーチ、他の顧客は出さない。",
+  "thumbnail_claim": "少し疲れている日は、全力か休むかを先に決めず、軽く動いてその日の調子を確かめてから判断する。",
+  "visible_action": "一般顧客が軽い負荷にしたケーブルで、姿勢を起こしたまま最初のゆっくりしたウォームアップを行い、呼吸と身体の反応を確かめる。重量ピンを触ってうなだれるだけの場面にはしない。",
+  "emotional_state": "少し疲れはあるが、無理をせず落ち着いて自分の状態へ注意を向けている。元気いっぱいでも、ぐったりでもない。",
   "generated_customer_count": 1,
-  "generated_scene_path": "assets/images/editorial-generated/exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997-r3-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v24-auto-4387-75-16028997-r4",
-  "thumbnail": "assets/images/blog/thumb-exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997-r4.jpg",
-  "og_image": "assets/images/blog/og/og-exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997-r4.jpg",
-  "gbp_image": "assets/images/gbp/gbp-exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997-r4.jpg",
+  "asset_version": "reference-v26-semantic-xl-20260927-r1",
+  "thumbnail": "assets/images/blog/thumb-exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.jpg",
+  "og_image": "assets/images/blog/og/og-exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/exercise-start-fatigue-anxiety-next-day-plan-reference-v24-auto-4387-75-16028997-r4.json",
+  "qa_report_path": "editorial/image-qa/exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
+  "max_generation_attempts": 2,
   "policy": {
     "generated_customer_allowed": true,
     "generated_customer_required": true,
     "generated_customer_default_count": 1,
-    "generated_customer_max_count": 2,
+    "generated_customer_max_count": 1,
     "facility_only_thumbnail_forbidden": true,
     "fixed_overlay_required": true,
     "gbp_image_required": true,
@@ -53,7 +57,12 @@
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
     "recent_reference_window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
-    "publish_boundary": "REVIEW_AND_PUBLISH"
+    "publish_boundary": "REVIEW_AND_PUBLISH",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "customer_presentation": "male",
+    "human_visual_attention_share_target": "60-70%",
+    "background_role": "secondary-recognizable-the-rev-soft-blur"
   },
   "background_source": {
     "drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
@@ -103,20 +112,28 @@
         "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
         "assetVersion": "reference-v24-auto-evolgear-20260922-2bd31683"
       }
+    ],
+    "recent_thumbnail_copy_window": 12,
+    "recent_thumbnail_headlines": [
+      "設備だけで、\n決めない。",
+      "体重計に出ない、\n進歩がある。",
+      "健診のあとこそ、\n無理なく始める。",
+      "疲れた日は、\n軽く始めて決める。",
+      "限界まで追い込むかは、\nフォームと翌日の\n疲労で決める。",
+      "続かないなら、\n行く前後を見直す。"
+    ],
+    "recent_customer_presentations": [
+      "female"
     ]
   },
-  "visual_claim": "疲れている日は、全力か休むかの二択にせず、まず負荷を下げて軽く始め、身体の反応を見て続けるか決める。写真では『軽い負荷へ自分で調整する』という具体行動を中心に表現する。",
-  "composition_hint": "GBP左ベールを避けるため、顔・上半身・セレクターピンを操作する手・重量スタックまたはハンドルという意味のある要素を生成画像の右寄り、概ね横位置66%〜78%の帯にまとめる。人物の視覚中心は約70%前後。16:9の右半分クロップでも身体と操作が切れないよう、意味のある要素を横位置58%〜79%以内に収め、極端な右端には寄せない。",
-  "typography_override": {
-    "gbp": {
-      "label_size": 18,
-      "headline_size": 60,
-      "line_height": 1.36,
-      "top": 218,
-      "left": 66,
-      "headline_top": 320,
-      "max_width": 500,
-      "hairline_width": 180
-    }
+  "visual_claim": "疲れている日は、全力か休むかの二択にせず、まず軽く動いて身体の反応を見てから続けるか決める。写真では『軽いウォームアップで調子を見る』具体行動を中心に表現する。",
+  "composition_hint": "V2.6 Human First。人物の顔・上半身・軽いケーブル動作が右寄りの安全域で同時に読めるmedium構図。人物の視覚中心は約64〜70%。姿勢を起こし、うなだれた休憩に見せない。THE REV.設備はsoft blurの背景アンカーに下げ、人物と動作を主役にする。",
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "customer_presentation": "male",
+  "scene_object_position": {
+    "thumbnail": "62% center",
+    "og": "62% center",
+    "gbp": "64% center"
   }
 }
