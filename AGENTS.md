@@ -13,7 +13,7 @@
 
 ### 絶対に守ること
 
-- 現行画像engineは `rev-column-reference-v2.3-hybrid`、運用Policyは **`editorial-thumbnail-v2.4`**
+- 現行画像engineは `rev-column-reference-v2.3-hybrid`、安全Policyは **`editorial-thumbnail-v2.4`**、デザイン正本は **`editorial-thumbnail-v2.5-impact` / `impact-v1`**
 - 通常の新規記事は **Automated Hybrid Image Operator (`github-actions-auto-operator-v1`)** がReview Readyまで進める
 - 検証済み自動source正本は `editorial/automated-image-sources.json`。registry外の画像を無人生成で使わない
 - `IMAGE_PREPARING` を単にAI Operator待ちとして放置しない。Job未作成ならBridge/statusが自動修復し、`.github/workflows/auto-editorial-hybrid-images.yml` が生成を担当する
@@ -33,7 +33,8 @@
 - 人間Reviewで違和感が出た場合は `manual_visual_rejection=true` として自動QAの高得点より優先してREJECT
 - 直近4記事と同一画像・同一背景provenanceを再利用しない
 - 新規Editorial画像はHybrid生成が必須。source-lockは障害切り分け用fallbackとしてのみ残し、新規記事のPublish完成条件にはしない
-- 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する
+- 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する。新規/再生成は `layout_variant=impact-v1` を標準とし、旧画像は `legacy-v24` 互換で保持する
+- Impact V1では写真を視覚の過半にし、見出しをBlog一覧の2カラム表示でも即読できるサイズにする。『余白が多い=上質』とは扱わず、意味のない広い空白はREJECTする
 - V2.3 Hybrid完成前にV2.2 source-lockを診断用fallbackとして作ることはできるが、V2.4の新規Editorial記事はHybrid完成までPublish不可
 - 一度READYになったHybrid画像を本文再同期だけでsource-lockへ巻き戻さない
 - 最終Publishは必ず人間承認で停止する

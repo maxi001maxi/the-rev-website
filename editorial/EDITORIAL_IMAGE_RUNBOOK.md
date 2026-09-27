@@ -6,7 +6,7 @@
 
 ## 0. 最初に結論
 
-現在の画像システムは、**記事DraftがPREPARINGになってからReview Readyになるまで自動化済み**です。V2.4 Policyの「記事を読む → 検証済みTHE REV.実素材を選ぶ → 顧客シーンを生成する → 固定Overlayを適用する → 視覚QCする → GitHub/Xserverへ反映する」を、GitHub ActionsのAutomated Hybrid Image Operatorが実行します。
+現在の画像システムは、**記事DraftがPREPARINGになってからReview Readyになるまで自動化済み**です。安全PolicyはV2.4を維持しつつ、サムネイルのデザイン正本は **V2.5 Impact (`editorial-thumbnail-v2.5-impact` / `impact-v1`)** です。「記事を読む → 検証済みTHE REV.実素材を選ぶ → 顧客シーンを生成する → Impact Overlayを適用する → 視覚QCする → GitHub/Xserverへ反映する」を、GitHub ActionsのAutomated Hybrid Image Operatorが実行します。
 
 したがって状態は次の通りです。
 
@@ -16,7 +16,7 @@
 - V2.3 Hybrid engine + V2.4 Policy生成: `github-actions-auto-operator-v1`
 - 生成runner: `scripts/auto-editorial-hybrid-image.mjs`
 - 自動Workflow: `.github/workflows/auto-editorial-hybrid-images.yml`
-- V2.4固定Overlay: `scripts/render-hybrid-editorial-overlay.mjs` で決定論的に適用
+- 決定論的Overlay: `scripts/render-hybrid-editorial-overlay.mjs`。新規/再生成は `impact-v1`、既存資産は `legacy-v24` 互換
 - Multimodal Visual QC: fail-closed、最大試行回数を超えたら停止
 - GitHub assets → Xserver public bytes照合 → Supabase READY → LINE完了通知まで自動
 - 最終Publishだけは人間承認
@@ -679,3 +679,61 @@ Slug:
 - Existing pre-v0.6.7 jobs remain backward compatible unless `gbp_image_asset_version` is set.
 - GBP image uses the same real THE REV. background and generated customer scene as the Blog image set. It must not trigger a second unrelated customer/background generation.
 - Final website Publish remains human-only. GBP auto-posting is outside this patch.
+
+
+---
+
+## 16. 2026-09-27追加｜V2.5 Impact Thumbnail
+
+### 目的
+
+V2.4までの「静か・上質・余白を取る」という方向性を残しながら、Blog一覧の実表示では弱く見えていた以下を改善する。
+
+- 見出しが小さく、サムネイルとして一読しにくい
+- Ivoryの無地領域が広すぎ、完成画像が薄く見える
+- 実THE REV.背景と顧客シーンの品質が高くても、写真が右半分に閉じ込められて存在感が弱い
+
+### Current Design
+
+- design_revision: `editorial-thumbnail-v2.5-impact`
+- default layout_variant: `impact-v1`
+- legacy compatibility: `legacy-v24`
+- overlay contract IDは互換性のため `rev-column-v24-fixed-overlay-v1` を維持
+- safety policyは `editorial-thumbnail-v2.4` を維持
+
+### Impact V1の原則
+
+1. **写真を視覚の主役にする**  
+   Thumbnail / OGPでは写真領域をおよそ62%まで広げ、実THE REV.空間・設備・顧客行動が一覧サイズでも分かるようにする。
+
+2. **見出しを縮めて上質に見せない**  
+   1200px原寸で綺麗でも、Blogの2カラムカードへ縮小してキャプションのように見えるものはFAIL。見出しは即読できる大きさを確保する。
+
+3. **余白は量ではなく役割で評価する**  
+   意図のある呼吸は残すが、広い無地Ivoryが階層上の意味を持たず画像を未完成に見せる場合はFAIL。
+
+4. **写真と文字を分断しない**  
+   左のIvoryから写真へソフトにブレンドし、写真を小さな右パネルとして隔離しない。
+
+5. **広告バナーにはしない**  
+   大きい文字 = 煽りではない。Mincho系の落ち着いた書体、少数の要素、THE REV.実空間を使い、広告臭いバッジ・派手な装飾・過剰なコピーは避ける。
+
+### V2.5追加QC
+
+次のどれかがあれば、総合点が高くても再生成または再レンダーする。
+
+- main headlineがBlog一覧サイズで一読できない
+- 大きな無地Ivoryが視線の逃げ場ではなく「死んだ空白」になっている
+- `impact-v1`なのに写真が視覚の過半を占めない
+- THE REV.空間が見えるだけで、人物行動が記事固有の意味を持たない
+- 人物・設備・THE REV.らしい空間アンカーの3つが重なりすぎ、縮小時に読めない
+
+### Acceptance Article
+
+初回Acceptanceは:
+
+- slug: `shinomiya-gym-erabikata-dosen`
+- copy: `設備だけで、\n決めない。`
+- asset version: `reference-v25-auto-lobby-sp-20260927-impact-r1`
+
+このAcceptanceは、V2.5 Impactの「写真の存在感 / headline hierarchy / controlled negative space / THE REV.実環境 / 顧客行動」の基準例として扱う。
