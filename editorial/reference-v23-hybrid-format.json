@@ -31,7 +31,7 @@
     "hybrid_generation_required_by_default": true,
     "generated_customer_required": true,
     "generated_customer_default_count": 1,
-    "generated_customer_max_count": 2,
+    "generated_customer_max_count": 1,
     "facility_only_thumbnail_forbidden": true,
     "fixed_overlay_required": true,
     "scene_aware_integration_required_for_exercise": true,
@@ -48,11 +48,11 @@
       "warm ivory",
       "restrained but immediately legible Japanese typography",
       "controlled negative space without dead blank zones",
-      "photograph as visual majority"
+      "human-first subject hierarchy"
     ],
     "copy": "short editorial copy, not full SEO title",
-    "scene": "article-specific customer scene generated from a real THE REV. background; default 1 customer, max 2",
-    "composition": "new/requeued jobs use impact-v1: photo-majority scene plus soft ivory overlay, larger headline and compact text field; legacy jobs remain legacy-v24 compatible under the same layout_template_id",
+    "scene": "article-specific single customer scene generated from a real THE REV. background; exactly 1 customer; male/female presentation rotates from recent history",
+    "composition": "new/requeued jobs use human-first-v1: customer carries roughly 60-70% of visual attention, face/expression/action stay readable, THE REV. remains recognizable but background is secondary and softly blurred; legacy jobs remain impact-v1/legacy-v24 compatible",
     "scene_realism": "full-body exercise scenes must preserve plausible scale, perspective, ground contact, contact shadows, lighting and equipment interaction",
     "location_semantics": "exercise must occur in a plausible training area, not reception/circulation zones"
   },
@@ -103,7 +103,7 @@
     "recent_similarity_window": 4,
     "generated_customer_present": true,
     "generated_customer_count_min": 1,
-    "generated_customer_count_max": 2,
+    "generated_customer_count_max": 1,
     "facility_only_thumbnail": false,
     "fixed_overlay_layout_confirmed": true,
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -124,7 +124,16 @@
     "generic_passive_pose_without_article_reason": false,
     "small_card_headline_legibility_required": true,
     "dead_blank_space_forbidden": true,
-    "impact_photo_visual_majority_required": true
+    "impact_photo_visual_majority_required": true,
+    "human_subject_prominence_min": 8,
+    "human_visual_attention_share_min": 58,
+    "human_visual_attention_share_max": 75,
+    "face_expression_readable": true,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": true,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "human_first_photo_visual_majority_required": true
   },
   "accepted_references": [
     {
@@ -146,7 +155,8 @@
   ],
   "release_flow": [
     "Editorial Bridge selects a verified scoped THE REV source mirror and creates the canonical Hybrid Job",
-    "GitHub Actions generates 1 customer by default (max 2) inside the real THE REV environment",
+    "GitHub Actions generates exactly 1 customer inside the real THE REV environment; male/female presentation is rotated from recent history",
+    "choose Thumbnail Copy against the recent 12 editorial headlines and reject exact/near-duplicate wording",
     "reject trainer/staff/coach-like people and facility-only output",
     "for full-body exercise scenes, use scene-aware generation/editing; never isolated-person cutout compositing",
     "run multimodal human-scene realism QC against the real THE REV source",
@@ -172,7 +182,14 @@
   ],
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-  "design_revision": "editorial-thumbnail-v2.5-impact",
-  "default_layout_variant": "impact-v1",
-  "legacy_layout_variant": "legacy-v24"
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "default_layout_variant": "human-first-v1",
+  "legacy_layout_variant": "legacy-v24",
+  "impact_layout_variant": "impact-v1",
+  "thumbnail_copy_policy": {
+    "recent_window": 12,
+    "exact_repeat_forbidden": true,
+    "near_repeat_forbidden": true,
+    "long_common_phrase_guard": true
+  }
 }
