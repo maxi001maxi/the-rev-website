@@ -192,7 +192,7 @@ function loadArticles() {
       imageAlt: fm.alt || fm.title,
       status: fm.status,
       featured: !!fm.featured,
-      ctaType: fm.cta_type || 'general',
+      ctaType: fm.cta_type ? String(fm.cta_type) : null,
       keywords: Array.isArray(fm.keywords) ? fm.keywords : [],
       canonical: fm.canonical || `${SITE_URL}/blog/${fm.slug}/`,
       noindex: !!fm.noindex,
@@ -279,6 +279,7 @@ function authorBlockHtml(article) {
 }
 
 function ctaBlockHtml(article) {
+  if (!article.ctaType) return '';
   const preset = CTA_PRESETS[article.ctaType] || CTA_PRESETS.general;
   const secondary = preset.secondaryLabel
     ? `<a class="btn-outline-gold" href="${RESERVE_URL}?utm_source=website&amp;utm_medium=referral&amp;utm_campaign=trial&amp;utm_content=blog_article_bottom&amp;utm_term=${encodeURIComponent(article.slug)}" data-track="article_cta_click" data-article-slug="${article.slug}" data-cta-type="${article.ctaType}" data-placement="article_bottom_secondary" rel="noopener" target="_blank">${escapeHtml(preset.secondaryLabel)}<span class="bog-arrow"></span></a>`
