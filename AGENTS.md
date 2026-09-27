@@ -13,7 +13,7 @@
 
 ### 絶対に守ること
 
-- 現行画像engineは `rev-column-reference-v2.3-hybrid`、安全Policyは **`editorial-thumbnail-v2.4`**、デザイン正本は **`editorial-thumbnail-v2.5-impact` / `impact-v1`**
+- 現行画像engineは `rev-column-reference-v2.3-hybrid`、安全Policyは **`editorial-thumbnail-v2.4`**、デザイン正本は **`editorial-thumbnail-v2.6-human-first` / `human-first-v1`**
 - 通常の新規記事は **Automated Hybrid Image Operator (`github-actions-auto-operator-v1`)** がReview Readyまで進める
 - 検証済み自動source正本は `editorial/automated-image-sources.json`。registry外の画像を無人生成で使わない
 - `IMAGE_PREPARING` を単にAI Operator待ちとして放置しない。Job未作成ならBridge/statusが自動修復し、`.github/workflows/auto-editorial-hybrid-images.yml` が生成を担当する
@@ -23,7 +23,7 @@
 - THE REV.ではない架空のジムへ置き換えない
 - 未知のトレーナー、スタッフ、コーチを生成しない
 - **実在トレーナー写真もBlog / Columnサムネイルには使わない**
-- **顧客役は必須。原則1人、記事上必要な場合のみ2人まで**
+- **顧客役は必須かつ1人だけ。男性・女性は直近履歴を見ながら偏らせない**
 - トレーナー / スタッフ / コーチ風人物は実在・生成を問わず禁止
 - **施設だけの完成サムネイルは禁止**
 - **全身のトレーニング動作は人物切り抜きの後貼り合成を禁止。scene-aware生成/編集を使う**
@@ -32,9 +32,10 @@
 - 高難度動作はFLUX Kontext/Pro等のscene-aware photoreal editorまたは同等品質を優先し、使えない場合は静的シーンへ簡略化するかPREPARINGで止める
 - 人間Reviewで違和感が出た場合は `manual_visual_rejection=true` として自動QAの高得点より優先してREJECT
 - 直近4記事と同一画像・同一背景provenanceを再利用しない
+- Thumbnail Copyは直近12投稿を比較し、完全一致だけでなく主要フレーズが近い言い回しも避ける。安全な候補がない場合は自動生成を止める
 - 新規Editorial画像はHybrid生成が必須。source-lockは障害切り分け用fallbackとしてのみ残し、新規記事のPublish完成条件にはしない
-- 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する。新規/再生成は `layout_variant=impact-v1` を標準とし、旧画像は `legacy-v24` 互換で保持する
-- Impact V1では写真を視覚の過半にし、見出しをBlog一覧の2カラム表示でも即読できるサイズにする。『余白が多い=上質』とは扱わず、意味のない広い空白はREJECTする
+- 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する。新規/再生成は `layout_variant=human-first-v1` を標準とし、`impact-v1` / `legacy-v24` は既存資産互換で保持する
+- Human First V1では人物が視覚的注意の約60〜70%を担う主役。顔・表情・記事固有の行動を小さいカードでも読ませ、THE REV.背景はロゴ/受付/設備などで場所が分かる程度に残しつつ自然にぼかしてサブへ下げる。見出しは2カラム表示でも即読できる大きさを維持する
 - V2.3 Hybrid完成前にV2.2 source-lockを診断用fallbackとして作ることはできるが、V2.4の新規Editorial記事はHybrid完成までPublish不可
 - 一度READYになったHybrid画像を本文再同期だけでsource-lockへ巻き戻さない
 - 最終Publishは必ず人間承認で停止する
