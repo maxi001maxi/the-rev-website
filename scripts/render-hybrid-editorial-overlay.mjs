@@ -17,8 +17,12 @@ const {
   asset_version = '',
   generated_scene_path = '',
   layout_template_id = '',
-  policy_revision = ''
+  policy_revision = '',
+  design_revision = '',
+  layout_variant = 'legacy-v24'
 } = job;
+
+const impactLayout = layout_variant === 'impact-v1';
 
 if (!slug || !image_headline_short || !asset_version || !generated_scene_path) {
   throw new Error('Hybrid V2.4 job requires slug, image_headline_short, asset_version and generated_scene_path.');
@@ -77,7 +81,7 @@ function typographySpec({ og = false, gbp = false }) {
   const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
   const override = job?.typography_override?.[variant] || {};
 
-  const defaults = gbp
+  const legacyDefaults = gbp
     ? {
         labelSize: Math.max(17, style.overlay.label.sizeThumb),
         headlineSize: Math.max(56, style.overlay.headline.sizeThumb + 4),
@@ -110,6 +114,41 @@ function typographySpec({ og = false, gbp = false }) {
           hairlineWidth: 180
         };
 
+  const impactDefaults = gbp
+    ? {
+        labelSize: 18,
+        headlineSize: 68,
+        lineHeight: 1.24,
+        top: 176,
+        left: 68,
+        headlineTop: 274,
+        maxWidth: 450,
+        hairlineWidth: 124
+      }
+    : og
+      ? {
+          labelSize: 17,
+          headlineSize: 62,
+          lineHeight: 1.24,
+          top: 102,
+          left: 64,
+          headlineTop: 184,
+          maxWidth: 430,
+          hairlineWidth: 116
+        }
+      : {
+          labelSize: 18,
+          headlineSize: 68,
+          lineHeight: 1.22,
+          top: 112,
+          left: 64,
+          headlineTop: 202,
+          maxWidth: 440,
+          hairlineWidth: 122
+        };
+
+  const defaults = impactLayout ? impactDefaults : legacyDefaults;
+
   return {
     labelSize: boundedNumber(override.label_size, defaults.labelSize, 12, 28),
     headlineSize: boundedNumber(override.headline_size, defaults.headlineSize, 36, 76),
@@ -134,16 +173,29 @@ function html({ width, height, og = false, gbp = false }) {
     maxWidth,
     hairlineWidth
   } = typographySpec({ og, gbp });
-  const headlineHtml = esc(image_headline_short).replaceAll('\n', '<br>');
-  const paperBackground = gbp
-    ? 'linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 38%,rgba(245,241,232,.97) 43%,rgba(245,241,232,.88) 47%,rgba(245,241,232,.56) 52%,rgba(245,241,232,.12) 58%,transparent 64%)'
-    : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)';
+  const headlineHtml = esc(image_headline_short)
+    .split('\n')
+    .map((line) => `<span class="headline-line">${line}</span>`)
+    .join('');
+  const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
+  const scenePosition = esc(job?.scene_object_position?.[variant] || (typeof job?.scene_object_position === 'string' ? job.scene_object_position : '') || 'center');
+  const paperBackground = impactLayout
+    ? (gbp
+        ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 31%,rgba(247,244,236,.93) 36%,rgba(247,244,236,.72) 43%,rgba(247,244,236,.34) 51%,rgba(247,244,236,.06) 59%,transparent 65%)'
+        : 'radial-gradient(ellipse at 14% 88%,rgba(161,128,72,.08),transparent 32%),linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 34%,rgba(245,241,232,.98) 39%,rgba(245,241,232,.83) 44%,rgba(245,241,232,.35) 50%,rgba(245,241,232,.06) 55%,transparent 59%)')
+    : (gbp
+        ? 'linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 38%,rgba(245,241,232,.97) 43%,rgba(245,241,232,.88) 47%,rgba(245,241,232,.56) 52%,rgba(245,241,232,.12) 58%,transparent 64%)'
+        : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)');
   const sceneCss = gbp
-    ? 'position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:center;'
-    : 'position:absolute;right:0;top:0;width:50.8%;height:100%;object-fit:cover;object-position:center;';
+    ? `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};`
+    : impactLayout
+      ? `position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:${scenePosition};`
+      : `position:absolute;right:0;top:0;width:50.8%;height:100%;object-fit:cover;object-position:${scenePosition};`;
   const shadeCss = gbp
-    ? 'position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,241,232,.08),rgba(0,0,0,.025));pointer-events:none;'
-    : 'position:absolute;right:0;top:0;width:50.8%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));pointer-events:none;';
+    ? 'position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
+    : impactLayout
+      ? 'position:absolute;right:0;top:0;width:62%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
+      : 'position:absolute;right:0;top:0;width:50.8%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));pointer-events:none;';
 
   return `<!doctype html>
 <html lang="ja">
@@ -187,6 +239,14 @@ body{position:relative;color:${style.overlay.headline.color}}
   color:${style.overlay.headline.color};
   word-break:keep-all;overflow-wrap:anywhere;text-rendering:optimizeLegibility;z-index:2;
 }
+.headline-line{display:block}
+.journal-mark{
+  display:${impactLayout ? 'block' : 'none'};
+  position:absolute;left:${left}px;bottom:${gbp ? 54 : 42}px;
+  font-family:${style.overlay.label.family};
+  font-size:${gbp ? 13 : 12}px;font-weight:500;
+  letter-spacing:.20em;color:#8b6e3e;z-index:2;
+}
 </style>
 </head>
 <body>
@@ -197,6 +257,7 @@ body{position:relative;color:${style.overlay.headline.color}}
 <div class="label">${esc(category_label)}${column_label ? ' / ' + esc(column_label) : ''}</div>
 <div class="hairline"></div>
 <h1 class="headline">${headlineHtml}</h1>
+<div class="journal-mark">THE REV. / JOURNAL</div>
 </body>
 </html>`;
 }
@@ -223,6 +284,8 @@ console.log(JSON.stringify({
   asset_version: safeVersion,
   policy_revision,
   layout_template_id,
+  design_revision,
+  layout_variant,
   generated_scene_path,
   thumbnail: outThumb,
   og: outOg,
