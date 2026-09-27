@@ -88,11 +88,11 @@ Current Truth:
 
 - Image engine: `rev-column-reference-v2.3-hybrid`
 - Safety Policy: **`editorial-thumbnail-v2.4`**
-- Current Design: **`editorial-thumbnail-v2.5-impact` / `impact-v1`**
-- 顧客役: **必須・原則1人・最大2人**
+- Current Design: **`editorial-thumbnail-v2.6-human-first` / `human-first-v1`**
+- 顧客役: **必須・1人だけ。男性/女性を直近履歴から偏りなく使い分ける**
 - トレーナー / スタッフ / コーチ風人物: **禁止**
 - Facility-only thumbnail: **禁止**
-- 固定Overlay: `rev-column-v24-fixed-overlay-v1`（`impact-v1` が新規標準、`legacy-v24` は既存資産互換）
+- 固定Overlay: `rev-column-v24-fixed-overlay-v1`（`human-first-v1` が新規標準、`impact-v1` / `legacy-v24` は既存資産互換）
 - Thumbnail: **1200×675px / 16:9**
 - OGP: **1200×630px**
 - 最小入力: `editorial/hybrid-image-request.template.json`
@@ -100,7 +100,8 @@ Current Truth:
 - 固定Overlay: `npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/{slug}.json`
 - 全体検証: `npm run test:editorial-images`
 - 最終Publish: 人間承認
-- Impact V1の狙い: 写真を主役にしつつ、見出しを一覧カードサイズでも一読可能にする。意味のない大きな無地余白は作らない
+- Human First V1の狙い: 人物を視覚の約60〜70%の主役にし、表情・行動を読みやすくする。THE REV.背景は認識可能なアンカーを残しつつsoft blurでサブへ下げる
+- Thumbnail Copy: 直近12投稿と完全一致・近似フレーズを避け、同じ話を繰り返して見えないようにする
 
 手動記事で画像を直接追加する場合のみ、以下を守ります。
 
