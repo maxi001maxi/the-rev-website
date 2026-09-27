@@ -26,6 +26,7 @@ import {
   extractBearerSecret,
   normalizeBridgeMetadata,
   originFromRequest,
+  resolveEditorialCtaType,
   safeSecretEqual,
   validateBridgeEnvelope
 } from '../../lib/editorialBridge.mjs';
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
     slug: body.slug,
     description: body.description,
     category: body.category,
-    cta_type: body.cta_type,
+    cta_type: resolveEditorialCtaType(body, envelope.value),
     body_markdown: body.body_markdown,
     author: body.author,
     author_role: body.author_role,
