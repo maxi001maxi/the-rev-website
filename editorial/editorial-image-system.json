@@ -145,7 +145,10 @@
     "GBP crop cuts the customer, important equipment contact or headline safe area",
     "headline is too small to read at live blog-card size",
     "negative space becomes a large dead ivory field with no hierarchy purpose",
-    "impact-v1 photograph does not remain the visual majority of the thumbnail"
+    "impact-v1 photograph does not remain the visual majority of the thumbnail",
+    "main headline becomes too small to read at live two-column blog-card size",
+    "large blank ivory area dominates without a clear hierarchy purpose",
+    "photo no longer reads as the visual majority in impact-v1"
   ],
   "review_policy": {
     "standard_mode": "HYBRID_GENERATED",
