@@ -101,6 +101,7 @@
 <div class="admin-field">
 <label for="f-cta">CTA Type</label>
 <select id="f-cta">
+<option value="">なし（本文のTHE REV.締めのみ）</option>
 <option value="general">general</option>
 <option value="personal-training">personal-training</option>
 <option value="boxing">boxing</option>
@@ -356,7 +357,7 @@ function fillForm(a) {
   els.authorRole.value = a.author_role || '';
   els.published.value = a.published || '';
   els.updated.value = a.updated || '';
-  els.cta.value = a.cta_type || 'general';
+  els.cta.value = a.cta_type || '';
   els.thumbnail.value = a.thumbnail || '';
   els.og.value = a.og_image || '';
   els.keywords.value = Array.isArray(a.keywords) ? a.keywords.join(', ') : '';
@@ -378,7 +379,7 @@ function collectForm() {
     author_role: els.authorRole.value.trim(),
     published: els.published.value || null,
     updated: els.updated.value || null,
-    cta_type: els.cta.value,
+    cta_type: els.cta.value || null,
     thumbnail: els.thumbnail.value.trim(),
     og_image: els.og.value.trim(),
     keywords: els.keywords.value.split(',').map((k) => k.trim()).filter(Boolean),
