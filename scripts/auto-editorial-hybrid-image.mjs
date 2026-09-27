@@ -510,8 +510,33 @@ function writeState(state) {
   fs.writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
 }
 
-const previousState = readJson(statePath, {});
-let attemptsTotal = Math.max(0, Number(previousState?.attempts_total || 0));
+const rawPreviousState = readJson(statePath, {});
+const previousAssetVersion = String(rawPreviousState?.asset_version || '').trim();
+const currentAssetVersion = String(job?.asset_version || '').trim();
+const sameAssetVersion = Boolean(
+  previousAssetVersion &&
+  currentAssetVersion &&
+  previousAssetVersion === currentAssetVersion
+);
+
+// Operator state belongs to an asset version, not merely to a slug.
+// A newly versioned image is a fresh generation lifecycle and must never
+// inherit attempts/backfill/rerender flags or Xserver verification from the
+// previous image. Otherwise an approved old asset can block its replacement.
+const previousState = sameAssetVersion ? rawPreviousState : {};
+let attemptsTotal = sameAssetVersion
+  ? Math.max(0, Number(previousState?.attempts_total || 0))
+  : 0;
+
+if (!sameAssetVersion && Object.keys(rawPreviousState || {}).length) {
+  console.log(JSON.stringify({
+    status: 'RESET_STATE_FOR_NEW_ASSET_VERSION',
+    slug: job.slug,
+    previous_asset_version: previousAssetVersion || null,
+    current_asset_version: currentAssetVersion || null
+  }));
+}
+
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
