@@ -14,5 +14,6 @@
     "treatment": "real THE REV source; editorial soften/blur/depth allowed"
   },
   "scene_intent": "THE REV.実空間で顧客1人が自分の状態を確認しながらトレーニングを始める",
-  "generated_customer_count": 1
+  "generated_customer_count": 1,
+  "customer_presentation": "female"
 }
