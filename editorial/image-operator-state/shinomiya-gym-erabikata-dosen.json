@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
   "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.json",
   "asset_version": "reference-v26-semantic-xl-20260927-r1",
-  "updated_at": "2026-09-27T04:24:58.457Z"
+  "updated_at": "2026-09-27T04:24:58.457Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-09-27T04:25:22Z"
 }
