@@ -177,7 +177,8 @@ function html({ width, height, og = false, gbp = false }) {
     .split('\n')
     .map((line) => `<span class="headline-line">${line}</span>`)
     .join('');
-  const scenePosition = esc(job?.scene_object_position?.[variant] || job?.scene_object_position || 'center');
+  const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
+  const scenePosition = esc(job?.scene_object_position?.[variant] || (typeof job?.scene_object_position === 'string' ? job.scene_object_position : '') || 'center');
   const paperBackground = impactLayout
     ? (gbp
         ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 31%,rgba(247,244,236,.93) 36%,rgba(247,244,236,.72) 43%,rgba(247,244,236,.34) 51%,rgba(247,244,236,.06) 59%,transparent 65%)'
