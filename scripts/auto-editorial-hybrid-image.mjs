@@ -212,6 +212,9 @@ function clampScore(value) {
 function deterministicRecentIds() {
   const ids = [];
   for (const row of job?.automation?.recent_articles || []) {
+    // Re-rendering the same article must not count its own previous asset as a
+    // recent-background collision. The guard is for cross-article repetition.
+    if (String(row?.slug || '').trim() === String(job?.slug || '').trim()) continue;
     for (const v of [row?.driveFileId, row?.originVideoFileId, row?.contentReference]) {
       const s = String(v || '').trim();
       if (s && !ids.includes(s)) ids.push(s);
