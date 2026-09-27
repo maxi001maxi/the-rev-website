@@ -127,6 +127,9 @@ assertTrue(autoWorkflow.includes('assets/images/gbp'), 'Automated Hybrid workflo
 assertTrue(autoWorkflow.includes('unattended-github-actions-v1'), 'Automated Hybrid workflow must ignore legacy/manual Hybrid jobs');
 assertTrue(autoWorkflow.includes('.automation.source_repo_path'), 'Automated Hybrid workflow must require a verified repo source before generation');
 assertTrue(autoWorkflow.includes('Skipping legacy/manual Hybrid job'), 'Automated Hybrid workflow must skip legacy/manual jobs without failing the run');
+const autoRunner = fs.readFileSync(path.join(ROOT, 'scripts/auto-editorial-hybrid-image.mjs'), 'utf8');
+assertTrue(autoRunner.includes("previousAssetVersion === currentAssetVersion"), 'Automated Hybrid runner must scope operator state to the current asset version');
+assertTrue(autoRunner.includes("RESET_STATE_FOR_NEW_ASSET_VERSION"), 'Automated Hybrid runner must visibly reset stale state when a new asset version is queued');
 
 const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
 const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
