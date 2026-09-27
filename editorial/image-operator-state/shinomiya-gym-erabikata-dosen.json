@@ -2,15 +2,13 @@
   "slug": "shinomiya-gym-erabikata-dosen",
   "status": "READY_CANDIDATE",
   "attempts_total": 1,
-  "max_attempts": 3,
+  "max_attempts": 2,
   "job_path": "editorial/hybrid-image-jobs/shinomiya-gym-erabikata-dosen.json",
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v26-auto-lobby-sp-20260927-eb52ce32-scene.png",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v26-auto-lobby-sp-20260927-eb52ce32.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v26-auto-lobby-sp-20260927-eb52ce32.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v26-auto-lobby-sp-20260927-eb52ce32.jpg",
-  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v26-auto-lobby-sp-20260927-eb52ce32.json",
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-eb52ce32",
-  "updated_at": "2026-09-27T03:05:31.904Z",
-  "xserver_verified": true,
-  "xserver_verified_at": "2026-09-27T03:05:48Z"
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1-scene.png",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.json",
+  "asset_version": "reference-v26-semantic-xl-20260927-r1",
+  "updated_at": "2026-09-27T04:24:58.457Z"
 }
