@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Canonical full Job example. V2.5 Impact keeps the deterministic V2.4 overlay contract ID for compatibility, but defaults new/requeued jobs to impact-v1: larger headline, photo-majority composition, controlled negative space. Generated customer and Realism QC remain mandatory.",
+  "_note": "Canonical full Job example. V2.6 Human First keeps the deterministic V2.4 overlay contract ID for compatibility, but defaults new/requeued jobs to human-first-v1: exactly one customer, person-led composition, soft THE REV. background, large readable headline, and recent-copy de-duplication.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -9,7 +9,7 @@
   "image_style_template": "rev-column-reference-v2",
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v23-hybrid-<source-lineage>",
+  "asset_version": "reference-v26-hybrid-<source-lineage>",
   "thumbnail": "assets/images/blog/thumb-<slug>-<asset_version>.jpg",
   "og_image": "assets/images/blog/og/og-<slug>-<asset_version>.jpg",
   "qa_report_path": "editorial/image-qa/<slug>-<asset_version>.json",
@@ -30,7 +30,7 @@
     "customer_only_or_no_people_required": true,
     "generated_customer_required": true,
     "generated_customer_default_count": 1,
-    "generated_customer_max_count": 2,
+    "generated_customer_max_count": 1,
     "facility_only_thumbnail_forbidden": true,
     "fixed_overlay_required": true,
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -42,8 +42,11 @@
     "realism_qc_version": "v1",
     "gbp_image_required": true,
     "gbp_image_ratio": "4:3",
-    "design_revision": "editorial-thumbnail-v2.5-impact",
-    "layout_variant": "impact-v1"
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "customer_presentation": "female",
+    "human_visual_attention_share_target": "60-70%",
+    "background_role": "secondary-recognizable-the-rev-soft-blur"
   },
   "background_source": {
     "drive_file_id": "",
@@ -80,6 +83,13 @@
       "hairline_width": 124
     }
   },
-  "design_revision": "editorial-thumbnail-v2.5-impact",
-  "layout_variant": "impact-v1"
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "customer_presentation": "female",
+  "automation": {
+    "mode": "unattended-github-actions-v1",
+    "recent_thumbnail_copy_window": 12,
+    "recent_thumbnail_headlines": [],
+    "recent_customer_presentations": []
+  }
 }
