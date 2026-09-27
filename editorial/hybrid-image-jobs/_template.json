@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Canonical full Job example. New articles use the request compiler. V2.4 requires a generated customer scene plus deterministic fixed overlay. GBP defaults are larger for mobile readability; typography_override is optional and should be used only when article-specific copy needs stronger tuning. Full-body exercise scenes require scene-aware integration and Realism QC v1; do not hand-author fixed policy fields.",
+  "_note": "Canonical full Job example. V2.5 Impact keeps the deterministic V2.4 overlay contract ID for compatibility, but defaults new/requeued jobs to impact-v1: larger headline, photo-majority composition, controlled negative space. Generated customer and Realism QC remain mandatory.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -41,7 +41,9 @@
     "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
     "realism_qc_version": "v1",
     "gbp_image_required": true,
-    "gbp_image_ratio": "4:3"
+    "gbp_image_ratio": "4:3",
+    "design_revision": "editorial-thumbnail-v2.5-impact",
+    "layout_variant": "impact-v1"
   },
   "background_source": {
     "drive_file_id": "",
@@ -69,13 +71,15 @@
   "typography_override": {
     "gbp": {
       "label_size": 18,
-      "headline_size": 60,
-      "line_height": 1.36,
-      "top": 218,
-      "left": 66,
-      "headline_top": 320,
-      "max_width": 500,
-      "hairline_width": 180
+      "headline_size": 68,
+      "line_height": 1.24,
+      "top": 176,
+      "left": 68,
+      "headline_top": 274,
+      "max_width": 450,
+      "hairline_width": 124
     }
-  }
+  },
+  "design_revision": "editorial-thumbnail-v2.5-impact",
+  "layout_variant": "impact-v1"
 }
