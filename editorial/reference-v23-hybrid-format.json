@@ -46,12 +46,13 @@
       "premium editorial",
       "quiet luxury",
       "warm ivory",
-      "restrained Japanese typography",
-      "generous negative space"
+      "restrained but immediately legible Japanese typography",
+      "controlled negative space without dead blank zones",
+      "photograph as visual majority"
     ],
     "copy": "short editorial copy, not full SEO title",
     "scene": "article-specific customer scene generated from a real THE REV. background; default 1 customer, max 2",
-    "composition": "generated scene varies by article; label, hairline, headline and text-field geometry use the fixed V2.4 overlay",
+    "composition": "new/requeued jobs use impact-v1: photo-majority scene plus soft ivory overlay, larger headline and compact text field; legacy jobs remain legacy-v24 compatible under the same layout_template_id",
     "scene_realism": "full-body exercise scenes must preserve plausible scale, perspective, ground contact, contact shadows, lighting and equipment interaction",
     "location_semantics": "exercise must occur in a plausible training area, not reception/circulation zones"
   },
@@ -120,7 +121,10 @@
     "main_claim_visualization_min": 8,
     "article_theme_inferable_without_title": true,
     "scene_action_has_article_specific_meaning": true,
-    "generic_passive_pose_without_article_reason": false
+    "generic_passive_pose_without_article_reason": false,
+    "small_card_headline_legibility_required": true,
+    "dead_blank_space_forbidden": true,
+    "impact_photo_visual_majority_required": true
   },
   "accepted_references": [
     {
@@ -167,5 +171,8 @@
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "policy_revision": "editorial-thumbnail-v2.4",
-  "layout_template_id": "rev-column-v24-fixed-overlay-v1"
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "design_revision": "editorial-thumbnail-v2.5-impact",
+  "default_layout_variant": "impact-v1",
+  "legacy_layout_variant": "legacy-v24"
 }
