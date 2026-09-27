@@ -106,7 +106,7 @@
         "assetVersion": "reference-v24-hybrid-4201-01"
       }
     ],
-    "requeue_token": "2026-09-27-v25-ftps-verify-r2",
+    "requeue_token": "2026-09-27-v25-ftps-verify-r3",
     "semantic_relevance_gate": "v6-impact-thumbnail"
   },
   "design_revision": "editorial-thumbnail-v2.5-impact",
