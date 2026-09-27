@@ -230,13 +230,15 @@ jobs:
           fi
 
           COMMANDS="$(mktemp)"
+          trap 'rm -f "$COMMANDS"' EXIT
           {
+            echo "set cmd:fail-exit yes"
             echo "set ftp:ssl-force true"
             echo "set ftp:ssl-protect-data true"
             echo "set ftp:passive-mode true"
             echo "set ssl:verify-certificate yes"
-            echo "set net:max-retries 5"
-            echo "set net:timeout 30"
+            echo "set net:max-retries 3"
+            echo "set net:timeout 25"
             echo "set net:reconnect-interval-base 5"
             echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog"
             echo "mkdir -p ${XSERVER_REMOTE_DIR}assets/images/blog/og"
@@ -248,8 +250,24 @@ jobs:
             echo "bye"
           } > "$COMMANDS"
 
-          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" < "$COMMANDS"
+          STAGE_OK=0
+          for ATTEMPT in 1 2 3; do
+            echo "Editorial asset stage attempt ${ATTEMPT}/3"
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" < "$COMMANDS"; then
+              STAGE_OK=1
+              break
+            fi
+            echo "::warning::Editorial asset stage attempt ${ATTEMPT}/3 failed; retrying with a fresh FTPS session."
+            sleep $((ATTEMPT * 15))
+          done
+
+          if [ "$STAGE_OK" != "1" ]; then
+            echo "::error::Editorial image assets could not be staged to Xserver after 3 independent FTPS sessions."
+            exit 1
+          fi
+
           rm -f "$COMMANDS"
+          trap - EXIT
 
       - name: Verify Xserver assets are byte-identical
         if: steps.generate.outputs.failed == '0'
