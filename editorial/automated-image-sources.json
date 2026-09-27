@@ -1,10 +1,39 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "policy_revision": "editorial-thumbnail-v2.4",
   "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
-  "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+  "selection_policy": "relevance-first-recent4-hard-exclusion-v2",
   "note": "Only repo-local mirrors whose provenance is verified against the scoped THE REV Drive source root may be used by the unattended image operator. Official site photos copied into the scoped root are byte-verified against the repo asset before registry inclusion.",
   "sources": [
+    {
+      "source_id": "the-rev-lobby-sp-20260927",
+      "repo_path": "assets/images/photo-lobby-sp.jpg",
+      "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "drive_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "lobby-sp-20260927",
+      "categories": [
+        "training",
+        "body-knowledge"
+      ],
+      "keywords": [
+        "新大宮",
+        "ジム",
+        "パーソナルジム",
+        "設備",
+        "マシン",
+        "選び方",
+        "比較",
+        "通いやすさ",
+        "来店",
+        "仕事帰り",
+        "生活動線"
+      ],
+      "scene_semantics": "THE REV.実店舗の入口・ロビーから実トレーニングエリアへ視線と動線がつながる縦構図。THE REV.壁面ロゴ、受付まわり、奥のEVOLGEAR設備という実在構造を維持する。",
+      "selection_reason": "新大宮でのジム選びを、通いやすい入口動線と実設備の両方で見せられるTHE REV.実素材。公式サイト写真と同一bytesのコピーを指定Editorial Drive rootへ保存し、2026-09-27に自動生成sourceとして登録。"
+    },
     {
       "source_id": "the-rev-evolgear-20260922",
       "repo_path": "assets/images/photo-evolgear.jpg",
