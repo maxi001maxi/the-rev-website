@@ -19,7 +19,7 @@
 <nav class="admin-shell-nav" aria-label="Admin navigation">
 <a href="/admin/" aria-current="page">Dashboard</a>
 <a href="/admin/articles/">Articles</a>
-<a href="/admin/analytics/">Analytics</a>
+<a href="/admin/analytics/">Insights</a>
 </nav>
 <div class="admin-shell-user">
 <span id="user-email" class="admin-shell-email"></span>
@@ -29,7 +29,7 @@
 
 <main class="admin-main">
 <h1 class="admin-page-title">Dashboard</h1>
-<p class="admin-page-lead">記事の下書き作成・編集・公開に加えて、AnalyticsからTHE REV.サイトの主要なアクセス指標を確認できます。</p>
+<p class="admin-page-lead">記事の下書き作成・編集・公開に加えて、InsightsからTHE REV.サイトのアクセス・流入・主要導線を確認できます。</p>
 
 <div class="admin-status-grid">
 <div class="admin-status-item">
@@ -45,8 +45,8 @@
 <p class="admin-status-value">Phase D</p>
 </div>
 <div class="admin-status-item">
-<p class="admin-status-label">Analytics</p>
-<p class="admin-status-value">GA4 Insights</p>
+<p class="admin-status-label">Insights</p>
+<p class="admin-status-value">GA4 Web</p>
 </div>
 </div>
 
@@ -55,6 +55,12 @@
 <p>下書きの作成・編集・プレビュー・削除に加えて、「Review &amp; Publish」からGitHubの <code>content/blog/{slug}.md</code> へ公開できます。Publishボタンは確認ダイアログを経由し、Publish前にはGitHub接続・slug衝突・SHA競合などのPreflightを必ず実行します。</p>
 <p style="margin-top:10px;">公開済みの記事はSlug変更とAdminからの削除ができません（GitHub側と同期情報がずれる事故を防ぐため）。</p>
 <p style="margin-top:16px;"><a class="admin-btn-primary" href="/admin/articles/">Articles を開く</a></p>
+</div>
+
+<div class="admin-card">
+<h2>Web Insights</h2>
+<p>ユーザー数・セッション・ページビューだけでなく、人気ページ、流入元、デバイス、主要CTA、前期間比較をTHE REV.の運営判断向けにまとめて確認できます。</p>
+<p style="margin-top:16px;"><a class="admin-btn-primary" href="/admin/analytics/">Insights を開く</a></p>
 </div>
 </main>
 </div>

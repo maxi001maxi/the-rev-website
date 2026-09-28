@@ -12,6 +12,7 @@ import {
   normalizeNewReturning,
   normalizeEvents,
   normalizeRealtime,
+  normalizeTrend,
   percentChange
 } from '../../lib/ga4Data.mjs';
 
@@ -59,7 +60,10 @@ export default async function handler(req, res) {
         { name: 'sessions' },
         { name: 'screenPageViews' },
         { name: 'newUsers' },
-        { name: 'totalUsers' }
+        { name: 'totalUsers' },
+        { name: 'engagedSessions' },
+        { name: 'engagementRate' },
+        { name: 'averageSessionDuration' }
       ]
     });
 
@@ -70,7 +74,8 @@ export default async function handler(req, res) {
       trafficReport,
       deviceReport,
       newReturningReport,
-      eventReport
+      eventReport,
+      trendReport
     ] = await Promise.all([
       runGa4Report({ propertyId, accessToken, body: summaryBody(range.current) }),
       runGa4Report({ propertyId, accessToken, body: summaryBody(range.previous) }),
@@ -134,6 +139,21 @@ export default async function handler(req, res) {
           orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
           limit: 20
         }
+      }),
+      runGa4Report({
+        propertyId,
+        accessToken,
+        body: {
+          dateRanges: [range.current],
+          dimensions: [{ name: 'date' }],
+          metrics: [
+            { name: 'activeUsers' },
+            { name: 'sessions' },
+            { name: 'screenPageViews' }
+          ],
+          orderBys: [{ dimension: { dimensionName: 'date' }, desc: false }],
+          limit: 100
+        }
       })
     ]);
 
@@ -176,7 +196,8 @@ export default async function handler(req, res) {
       traffic: normalizeTraffic(trafficReport),
       devices: normalizeDevice(deviceReport),
       audience: normalizeNewReturning(newReturningReport),
-      events: normalizeEvents(eventReport)
+      events: normalizeEvents(eventReport),
+      trend: normalizeTrend(trendReport)
     });
   } catch (error) {
     console.error('[admin/analytics] GA4 request failed:', error?.message || 'unknown');

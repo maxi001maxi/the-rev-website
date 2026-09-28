@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Analytics｜THE REV. Editorial Console</title>
+<title>Insights｜THE REV. Admin</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
 <nav class="admin-shell-nav" aria-label="Admin navigation">
 <a href="/admin/">Dashboard</a>
 <a href="/admin/articles/">Articles</a>
-<a href="/admin/analytics/" aria-current="page">Analytics</a>
+<a href="/admin/analytics/" aria-current="page">Insights</a>
 </nav>
 <div class="admin-shell-user">
 <span id="user-email" class="admin-shell-email"></span>
@@ -31,25 +31,28 @@
 <main class="admin-main admin-analytics-main">
 <div class="admin-analytics-head">
 <div>
-<p class="admin-analytics-kicker">Site Insights</p>
-<h1 class="admin-page-title">Analytics</h1>
-<p class="admin-page-lead">THE REV.の運営判断に必要なWeb指標だけを、GA4からまとめて表示します。</p>
+<p class="admin-analytics-kicker">Operations / Web</p>
+<h1 class="admin-page-title">Web Insights</h1>
+<p class="admin-page-lead">アクセスを見るだけで終わらず、何が伸びていて、どのページ・流入・導線が動いているかを運営判断しやすい形で確認します。</p>
 </div>
+<div class="admin-analytics-controls">
+<span id="data-source-status" class="admin-data-source">GA4</span>
 <div class="admin-range-switch" role="group" aria-label="表示期間">
 <button type="button" data-range="today">今日</button>
 <button type="button" data-range="7d" aria-pressed="true">7日</button>
 <button type="button" data-range="28d">28日</button>
 </div>
 </div>
+</div>
 
 <div id="analytics-error" class="admin-error admin-hidden" role="alert"></div>
-<div id="analytics-loading" class="admin-card">GA4データを読み込み中…</div>
+<div id="analytics-loading" class="admin-card admin-analytics-loading">GA4データを読み込み中…</div>
 
 <div id="analytics-content" class="admin-hidden">
 <section class="admin-realtime" aria-labelledby="realtime-heading">
 <div>
 <p class="admin-status-label">Realtime</p>
-<h2 id="realtime-heading">現在のアクセス</h2>
+<h2 id="realtime-heading">いまサイトを見ている人</h2>
 </div>
 <div class="admin-realtime-value"><strong id="realtime-users">—</strong><span>active users</span></div>
 <div class="admin-realtime-meta"><span id="realtime-views">— views</span><span id="realtime-events">— events</span></div>
@@ -59,29 +62,65 @@
 <article class="admin-metric-card">
 <p class="admin-status-label">Users</p>
 <p class="admin-metric-value" id="metric-users">—</p>
+<p class="admin-metric-caption">ユーザー</p>
 <p class="admin-metric-change" id="change-users">—</p>
 </article>
 <article class="admin-metric-card">
 <p class="admin-status-label">Sessions</p>
 <p class="admin-metric-value" id="metric-sessions">—</p>
+<p class="admin-metric-caption">訪問回数</p>
 <p class="admin-metric-change" id="change-sessions">—</p>
 </article>
 <article class="admin-metric-card">
 <p class="admin-status-label">Page Views</p>
 <p class="admin-metric-value" id="metric-views">—</p>
+<p class="admin-metric-caption">ページ閲覧</p>
 <p class="admin-metric-change" id="change-views">—</p>
 </article>
 <article class="admin-metric-card">
 <p class="admin-status-label">New Users</p>
 <p class="admin-metric-value" id="metric-new-users">—</p>
+<p class="admin-metric-caption">新規ユーザー</p>
 <p class="admin-metric-change" id="change-new-users">—</p>
 </article>
+</section>
+
+<section class="admin-card admin-snapshot-card" aria-labelledby="snapshot-heading">
+<div class="admin-card-head">
+<div>
+<p class="admin-status-label">At a Glance</p>
+<h2 id="snapshot-heading">今の状況</h2>
+<p class="admin-card-note">数字を読む手間を減らすため、期間内の変化・人気ページ・流入・CTAを短く要約します。</p>
+</div>
+</div>
+<div id="insight-summary" class="admin-insight-summary"></div>
+</section>
+
+<section class="admin-card admin-trend-card" aria-labelledby="trend-heading">
+<div class="admin-card-head admin-trend-head">
+<div>
+<p class="admin-status-label">Trend</p>
+<h2 id="trend-heading">アクセス推移</h2>
+<p class="admin-card-note">日別のページビュー。極端な増減があった日を見つけるための簡易トレンドです。</p>
+</div>
+<div class="admin-support-metrics">
+<div><span>平均滞在</span><strong id="metric-duration">—</strong></div>
+<div><span>Engagement</span><strong id="metric-engagement">—</strong></div>
+<div><span>CTA</span><strong id="metric-cta-total">—</strong></div>
+<div><span>予約Click</span><strong id="metric-reserve">—</strong></div>
+</div>
+</div>
+<div id="trend-chart" class="admin-trend-chart" aria-live="polite"></div>
 </section>
 
 <section class="admin-analytics-grid">
 <article class="admin-card admin-analytics-card">
 <div class="admin-card-head">
-<div><p class="admin-status-label">Content</p><h2>よく見られているページ</h2></div>
+<div>
+<p class="admin-status-label">Content</p>
+<h2>よく見られているページ</h2>
+<p class="admin-card-note">どのページが入口・検討材料として機能しているかを確認します。</p>
+</div>
 </div>
 <div class="admin-table-scroll">
 <table class="admin-insight-table">
@@ -93,7 +132,11 @@
 
 <article class="admin-card admin-analytics-card">
 <div class="admin-card-head">
-<div><p class="admin-status-label">Acquisition</p><h2>流入元</h2></div>
+<div>
+<p class="admin-status-label">Acquisition</p>
+<h2>流入元</h2>
+<p class="admin-card-note">Google検索、直接流入、SNSなど、来店前の接点を確認します。</p>
+</div>
 </div>
 <div class="admin-table-scroll">
 <table class="admin-insight-table">
@@ -105,17 +148,24 @@
 
 <article class="admin-card admin-analytics-card">
 <div class="admin-card-head">
-<div><p class="admin-status-label">Audience</p><h2>新規 / リピーター</h2></div>
+<div>
+<p class="admin-status-label">Audience</p>
+<h2>新規 / リピーター</h2>
+</div>
 </div>
 <div class="admin-audience-split">
-<div><span>New</span><strong id="audience-new">—</strong></div>
-<div><span>Returning</span><strong id="audience-returning">—</strong></div>
+<div><span>New</span><strong id="audience-new">—</strong><small id="audience-new-share">—</small></div>
+<div><span>Returning</span><strong id="audience-returning">—</strong><small id="audience-returning-share">—</small></div>
 </div>
 </article>
 
 <article class="admin-card admin-analytics-card">
 <div class="admin-card-head">
-<div><p class="admin-status-label">Device</p><h2>デバイス</h2></div>
+<div>
+<p class="admin-status-label">Device</p>
+<h2>デバイス</h2>
+<p class="admin-card-note">スマホ中心かPC中心かで、サイト改善の優先順位を判断します。</p>
+</div>
 </div>
 <div id="devices-list" class="admin-device-list"></div>
 </article>
@@ -124,13 +174,13 @@
 <div class="admin-card-head">
 <div>
 <p class="admin-status-label">Key Actions</p>
-<h2>主要CTAイベント</h2>
-<p class="admin-card-note">予約・LINE・料金・記事CTAなど、サイト側で明示的に計測している操作です。</p>
+<h2>主要CTA</h2>
+<p class="admin-card-note">予約・LINE・料金・記事CTAなど、集客判断に直結する操作です。個人情報やフォーム内容は含みません。</p>
 </div>
 </div>
 <div class="admin-table-scroll">
 <table class="admin-insight-table">
-<thead><tr><th>Event</th><th>Count</th></tr></thead>
+<thead><tr><th>Action</th><th>Count</th><th>Sessions比</th></tr></thead>
 <tbody id="events-body"></tbody>
 </table>
 </div>
