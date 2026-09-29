@@ -1,0 +1,76 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {metric,unavailable,delta,overallStatus} from '../lib/siteInsights/status.mjs';
+import {wizardCtr,ga4Rate,canonicalPath,dateList,ga4Rows} from '../lib/siteInsights/normalize.mjs';
+import {searchDaily,searchTotal,searchDimension} from '../lib/siteInsights/providers/search.mjs';
+import {blend} from '../lib/siteInsights/providers/blended.mjs';
+import {insightRules,anomalies} from '../lib/siteInsights/rules.mjs';
+import {wizard} from '../lib/siteInsights/providers/wizard.mjs';
+import handler from '../api/admin/site-insights.mjs';
+const m=v=>metric(v,'count','gsc');
+test('status truth: zero is only an observed zero; unavailable never contains a value',()=>{
+  assert.deepEqual([m(3).status,m(0).status,m(undefined).status],['VALUE','ZERO','UNKNOWN']);
+  for(const status of ['UNKNOWN','NOT_CONFIGURED','DELAYED','ERROR','STALE']) assert.equal(unavailable(status,'count','gsc','test').value,null);
+  assert.equal(delta(m(3),m(0)).percent.status,'UNKNOWN');
+  assert.equal(delta(m(0),m(0)).absolute.value,0);
+  assert.equal(delta(m(3),unavailable('ERROR','count','gsc')).absolute.status,'UNKNOWN');
+});
+test('partial provider failure preserves the healthy source',()=>{
+  assert.equal(overallStatus({search:{status:'ERROR'},ga4:{status:'VALUE'}}),'PARTIAL');
+  assert.equal(overallStatus({search:{status:'ZERO'},ga4:{status:'VALUE'}}),'OK');
+  assert.equal(overallStatus({search:{status:'ERROR'},ga4:{status:'NOT_CONFIGURED'}}),'UNAVAILABLE');
+});
+test('GSC percent points and GA4 fraction stay distinct',()=>{
+  assert.equal(wizardCtr(2),.02);assert.equal(ga4Rate(.348837),.348837);
+  assert.equal(wizardCtr(null),null);assert.equal(ga4Rate(undefined),null);
+});
+test('complete GSC date rows, missing day zero, weighted position and incomplete pagination',()=>{
+  const raw={settledThrough:'2026-09-26',pagination:{hasMore:false},rows:[{keys:['2026-09-25'],clicks:0,impressions:10,position:4},{keys:['2026-09-26'],clicks:5,impressions:90,position:2}]};
+  const days=searchDaily(raw,'2026-09-24','2026-09-26');assert.equal(days[0].clicks,0);assert.equal(searchTotal(days).position,2.2);assert.equal(searchTotal(days).ctr,.05);
+  assert.throws(()=>searchDaily({...raw,pagination:{hasMore:true}},'2026-09-24','2026-09-26'));
+  assert.equal(searchTotal([{clicks:0,impressions:0,position:null}]).ctr,null);
+});
+test('path join preserves GSC-only and GA4-only and keeps arbitrary hosts out',()=>{
+  assert.equal(canonicalPath('https://therev-lab.com//blog/x/?utm=1'),'/blog/x');
+  assert.equal(canonicalPath('https://evil.example/blog/x'),null);
+  const rows=blend([{key:'/blog/x',clicks:2,impressions:50}], [{path:'/price/',sessions:3}]);
+  assert.deepEqual(rows.map(x=>x.sourceFlags),[['gsc'],['ga4']]);
+  assert.equal(rows[0].ga4,null);
+});
+test('query top rows cannot replace site total and CTR semantics remain explicit',()=>{
+  const q=searchDimension({rows:[{keys:['training'],clicks:2,impressions:100,ctr:2,position:5}]},'query');assert.equal(q[0].ctr,.02);
+  assert.equal(q[0].clicks,2);
+  assert.equal(ga4Rows({metricHeaders:[{name:'sessions'}],rows:[{metricValues:[]} ]})[0].metrics.sessions,null);
+});
+test('low volume anomaly suppression; high material weekday change only',()=>{
+  const dates=dateList('2026-07-01','2026-08-10');
+  const rows=dates.map((date,i)=>({date,searchClicks:m(i===35?3:1)}));
+  assert.equal(anomalies(rows,'searchClicks').length,0);
+  rows[35].searchClicks=m(20);assert.equal(anomalies(rows,'searchClicks').length,1);
+  rows[28].searchClicks=unavailable('DELAYED','count','gsc');assert.equal(anomalies(rows,'searchClicks').length,0);
+});
+test('CTA pre-instrumentation and incomplete comparison suppress trend claims',()=>{
+  const summary={sessions:{...m(40),previous:m(20)},searchClicks:{...m(30),previous:m(20)},bookingIntent:{...unavailable('NOT_CONFIGURED','count','ga4'),previous:m(0)},lineIntent:unavailable('UNKNOWN','count','ga4')};
+  const result=insightRules(summary,28,{ga4:{status:'VALUE'},search:{status:'VALUE'}});
+  assert.equal(result.header.ruleId,'H_DATA');assert.ok(result.insights.every(x=>!x.ruleId.startsWith('I_INTENT')));
+});
+test('Wizard adapter fixes endpoint, uses key only in header, and parses structured response',async()=>{
+  const calls=[];
+  const response=(data,session='session')=>({ok:true,status:200,headers:{get:name=>name.toLowerCase()==='content-type'?'application/json':name.toLowerCase()==='mcp-session-id'?session:null},text:async()=>JSON.stringify(data)});
+  const fetchImpl=async(url,options)=>{calls.push({url,options});const payload=JSON.parse(options.body);if(payload.method==='initialize')return response({jsonrpc:'2.0',id:1,result:{protocolVersion:'2025-03-26'}});if(payload.method==='tools/call')return response({jsonrpc:'2.0',id:2,result:{structuredContent:{rows:[],settledThrough:'2026-09-26'}}});return response({});};
+  const result=await wizard('query_search_analytics',{siteUrl:'https://therev-lab.com/'},{fetchImpl,key:'test_secret'});
+  assert.equal(result.settledThrough,'2026-09-26');assert.equal(calls.length,3);assert.ok(calls.every(c=>c.url==='https://mcp.gscwizard.com/mcp'));
+  assert.ok(calls.every(c=>!c.options.body.includes('test_secret')));
+  await assert.rejects(()=>wizard('arbitrary_outbound',{}, {fetchImpl,key:'test_secret'}));
+});
+test('canonical API rejects anonymous and invalid methods before any provider call',async()=>{
+  const oldUrl=process.env.SUPABASE_URL,oldKey=process.env.SUPABASE_PUBLISHABLE_KEY;
+  process.env.SUPABASE_URL='https://example.supabase.co';process.env.SUPABASE_PUBLISHABLE_KEY='dummy';
+  const response=()=>({headers:{},setHeader(k,v){this.headers[k]=v;},status(n){this.code=n;return this;},json(v){this.body=v;return this;}});
+  try {
+    const r=response();await handler({method:'GET',headers:{},query:{}},r);
+    assert.equal(r.code,401);assert.equal(r.headers['Cache-Control'],'private, no-store, max-age=0');
+    assert.ok(!JSON.stringify(r.body).includes('dummy'));
+    const r2=response();await handler({method:'POST',headers:{},query:{}},r2);assert.equal(r2.code,405);
+  } finally {if(oldUrl===undefined)delete process.env.SUPABASE_URL;else process.env.SUPABASE_URL=oldUrl;if(oldKey===undefined)delete process.env.SUPABASE_PUBLISHABLE_KEY;else process.env.SUPABASE_PUBLISHABLE_KEY=oldKey;}
+});
