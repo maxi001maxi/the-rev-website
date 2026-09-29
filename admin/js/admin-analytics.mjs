@@ -1,5 +1,6 @@
 import { requireSession, signOut } from './admin-auth.mjs';
 import { AdminApi } from './admin-api.mjs';
+import { pagePresentation, sourcePresentation, sourceKindLabel } from './analytics-presentation.mjs';
 
 const fmt = new Intl.NumberFormat('ja-JP');
 const count = (value) => Number.isFinite(Number(value)) ? fmt.format(Number(value)) : '—';
@@ -52,11 +53,20 @@ function renderPages(items) {
     const row = document.createElement('tr');
     const first = document.createElement('td');
     first.className = 'admin-insight-page';
+    const meta = pagePresentation(item.path);
+
     const title = document.createElement('strong');
-    title.textContent = item.title || item.path || 'Untitled';
+    title.textContent = meta.title;
+
+    const summary = document.createElement('span');
+    summary.className = 'admin-insight-summary';
+    summary.textContent = meta.summary;
+
     const path = document.createElement('small');
-    path.textContent = item.path || '/';
-    first.append(title, path);
+    path.className = 'admin-insight-technical';
+    path.textContent = meta.path;
+
+    first.append(title, summary, path);
     row.append(first, td(count(item.views)), td(count(item.users)));
     tbody.appendChild(row);
   }
@@ -68,7 +78,29 @@ function renderTraffic(items) {
   if (!items?.length) return emptyRow(tbody, 3);
   for (const item of items) {
     const row = document.createElement('tr');
-    row.append(td(item.sourceMedium || '—'), td(count(item.sessions)), td(count(item.users)));
+    const first = document.createElement('td');
+    first.className = 'admin-insight-source';
+    const meta = sourcePresentation(item.sourceMedium);
+
+    const head = document.createElement('div');
+    head.className = 'admin-insight-source-head';
+    const title = document.createElement('strong');
+    title.textContent = meta.label;
+    const badge = document.createElement('span');
+    badge.className = 'admin-source-badge ' + (meta.kind === 'internal' ? 'is-internal' : meta.kind === 'unknown' ? 'is-unknown' : 'is-acquisition');
+    badge.textContent = sourceKindLabel(meta.kind);
+    head.append(title, badge);
+
+    const detail = document.createElement('span');
+    detail.className = 'admin-insight-summary';
+    detail.textContent = meta.detail;
+
+    const technical = document.createElement('small');
+    technical.className = 'admin-insight-technical';
+    technical.textContent = meta.sourceMedium || '—';
+
+    first.append(head, detail, technical);
+    row.append(first, td(count(item.sessions)), td(count(item.users)));
     tbody.appendChild(row);
   }
 }
