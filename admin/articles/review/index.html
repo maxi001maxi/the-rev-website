@@ -48,7 +48,7 @@
 <div><dt>Commit SHA</dt><dd><code id="s-commit">—</code></dd></div>
 <div><dt>公開予定URL</dt><dd><code id="s-url">—</code></dd></div>
 </dl>
-<p id="s-deploy" class="admin-success-note"><strong>GitHubへのPublish commitは完了しましたが、本番公開はまだ完了していません。</strong> Xserver deployが続けて実行されます。バックアップ・画像先行配置・Blog切替・本番検証まで行うため、10分前後かかる場合があります。下の確認表示が「公開URLが応答しました」になるまで本番反映待ちです。</p>
+<p id="s-deploy" class="admin-success-note"><strong>GitHubへのPublish commitは完了しましたが、本番公開はまだ完了していません。</strong> Xserver deployが続けて実行されます。バックアップ・画像先行配置・Blog切替・本番検証まで行うため、10分前後かかる場合があります。下の確認表示が「本番公開完了」になるまで反映待ちです。</p>
 <p id="s-poll" class="admin-success-poll"></p>
 <p id="s-warning" class="admin-success-warning admin-hidden"></p>
 <div class="admin-success-actions">
@@ -548,34 +548,87 @@ function showSuccess(result) {
   $('success-panel').classList.remove('admin-hidden');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  if (result.mode === 'create' && result.publicUrl) {
-    pollNewArticle(productionPublicUrl(result.publicUrl));
-  } else {
-    // 更新の場合、URLは公開前から200を返すため「200になった＝新しい内容が反映された」とは判定できない。
-    $('s-poll').textContent = '既存記事の更新のため、URLの応答だけでは新しい内容が反映されたか判定できません。数分ほど待ってから「Open Live Article」で内容をご確認ください（ブラウザのキャッシュにご注意ください）。';
-  }
+  pollPublication(result);
 }
 
-// 新規記事のみ、公開URLが200を返すまで軽くポーリングする。無限ループにはしない。
-async function pollNewArticle(url) {
-  // Xserver本番deployはバックアップ→全体build→assets先行→Blog切替→検証のため、
-  // 実測で10分超かかることがある。60秒で「未反映」と打ち切らない。
-  const MAX_ATTEMPTS = 180;  // 5秒間隔 × 180回 = 最大15分
-  const INTERVAL_MS = 5000;
+function deploymentSummary(deployment) {
+  if (!deployment) return 'Actions: 確認待ち';
+  if (deployment.found === false) return 'Actions: 対応runの生成待ち';
+  if (deployment.found === null) return 'Actions: 状態取得待ち';
+  const status = deployment.status || 'unknown';
+  const conclusion = deployment.conclusion ? `/${deployment.conclusion}` : '';
+  return `Actions: ${status}${conclusion}`;
+}
+
+function renderFinalPublicationState(payload) {
+  const publication = payload?.publication || {};
+  const deployment = publication.deployment || {};
+  const poll = $('s-poll');
+
+  if (publication.state === 'PUBLISHED') {
+    poll.textContent = '本番公開完了。GitHub Actionsの成功とXserver本番URLの応答を確認しました。';
+    return true;
+  }
+
+  if (
+    deployment.found === true
+    && deployment.status === 'completed'
+    && deployment.conclusion
+    && deployment.conclusion !== 'success'
+  ) {
+    poll.textContent = `Xserverデプロイが ${deployment.conclusion} で終了しました。GitHub commitは保持されていますが、本番公開完了にはしていません。`;
+    return true;
+  }
+
+  return false;
+}
+
+async function pollPublication(result) {
+  // commit SHAに紐づくDeploy to Xserver workflow runをサーバー側で照合する。
+  // URLが200というだけでは既存記事の更新反映を証明できないため、CREATE/UPDATE共通で同じ判定を使う。
+  const MAX_ATTEMPTS = 90;  // 10秒間隔 × 90回 = 最大15分
+  const INTERVAL_MS = 10000;
   const poll = $('s-poll');
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-    poll.textContent = `GitHub commit完了。Xserver本番反映を確認しています…（${attempt}/${MAX_ATTEMPTS} / 最大15分）`;
-    await new Promise((r) => setTimeout(r, INTERVAL_MS));
     try {
-      const res = await fetch(`${url}?_=${Date.now()}`, { method: 'GET', cache: 'no-store' });
-      if (res.ok) {
-        poll.textContent = '公開URLが応答しました。画像を含む本番表示を「Open Live Article」から確認できます。';
-        return;
-      }
-    } catch (e) { /* デプロイ中は失敗しうる。次の試行へ */ }
+      const payload = await AdminApi.publishStatus(articleId);
+      if (renderFinalPublicationState(payload)) return;
+
+      const publication = payload?.publication || {};
+      poll.textContent = `GitHub commit完了。Xserver本番公開を確認しています…（${attempt}/${MAX_ATTEMPTS} / 最大15分） ${deploymentSummary(publication.deployment)}`;
+    } catch (e) {
+      if (e.status === 401) { location.replace('/admin/login/'); return; }
+      poll.textContent = `公開状態の確認通信に一時失敗しました。自動再確認します…（${attempt}/${MAX_ATTEMPTS}）`;
+    }
+
+    await new Promise((r) => setTimeout(r, INTERVAL_MS));
   }
-  poll.textContent = '15分以内に本番反映を確認できませんでした。GitHubのXserverデプロイ状況を確認してください。GitHub commit成功だけでは本番公開完了ではありません。';
+
+  // 15分到達時も「失敗」と決めつけない。最後にActionsの実状態を再照会して表示を分ける。
+  try {
+    const payload = await AdminApi.publishStatus(articleId);
+    if (renderFinalPublicationState(payload)) return;
+
+    const publication = payload?.publication || {};
+    const deployment = publication.deployment || {};
+    if (deployment.found === true && deployment.status !== 'completed') {
+      poll.textContent = `15分を超えていますが、Xserverデプロイはまだ ${deployment.status || '進行中'} です。公開失敗とは確定していません。ページを再読み込みすると最新状態を再確認します。`;
+      return;
+    }
+    if (deployment.found === true && deployment.status === 'completed' && deployment.conclusion === 'success') {
+      poll.textContent = 'GitHub Actionsは成功していますが、本番URLの最終確認がまだ取れていません。公開失敗とは確定していません。ページを再読み込みすると再検証します。';
+      return;
+    }
+    if (deployment.found === false) {
+      poll.textContent = 'Publish commitに対応するDeploy to Xserver runを確認できませんでした。公開失敗とは確定せず、Actionsの起動状況を確認してください。';
+      return;
+    }
+    poll.textContent = 'GitHub Actionsの状態を取得できませんでした。公開失敗とは確定していません。ページを再読み込みすると再確認します。';
+  } catch (e) {
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    poll.textContent = '15分経過後の最終状態確認に失敗しました。公開失敗とは確定していません。GitHub Actionsの実状態を確認してください。';
+  }
 }
 
 /* ---------- 初期化 ---------- */

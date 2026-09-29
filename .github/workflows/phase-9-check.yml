@@ -6,6 +6,9 @@ on:
     paths:
       - 'api/integrations/editorial.mjs'
       - 'api/integrations/editorial-status.mjs'
+      - 'api/admin/publish-status.mjs'
+      - 'lib/editorialPublicationStatus.mjs'
+      - 'lib/githubContent.mjs'
       - 'lib/editorialBridge.mjs'
       - 'lib/supabaseAdmin.mjs'
       - 'lib/blogMarkdown.mjs'
