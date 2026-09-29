@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { buildDailyManagerSnapshot, jstDateKey } from '../../lib/dailyManager.mjs';
+import { buildDailyManagerSnapshot, jstDateKey, isBusinessDay } from '../../lib/dailyManager.mjs';
 
 function send(res, status, body) {
   res.setHeader('Cache-Control', 'private, no-store, max-age=0');
@@ -27,6 +27,9 @@ export default async function handler(req, res) {
   });
 
   const businessDate = jstDateKey();
+  if (!isBusinessDay()) {
+    return send(res, 200, { ok: true, skipped: true, businessDate, reason: 'closed_day' });
+  }
   try {
     const snapshot = await buildDailyManagerSnapshot({ supabase, businessDate, finalize: false });
     return send(res, 200, {
