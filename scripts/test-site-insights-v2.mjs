@@ -9,6 +9,7 @@ import {clearCache} from '../lib/siteInsights/cache.mjs';
 import {insightRules,anomalies} from '../lib/siteInsights/rules.mjs';
 import {wizard} from '../lib/siteInsights/providers/wizard.mjs';
 import handler from '../api/admin/site-insights.mjs';
+import fs from 'node:fs';
 const m=v=>metric(v,'count','gsc');
 test('status truth: zero is only an observed zero; unavailable never contains a value',()=>{
   assert.deepEqual([m(3).status,m(0).status,m(undefined).status],['VALUE','ZERO','UNKNOWN']);
@@ -55,6 +56,20 @@ test('CTA pre-instrumentation and incomplete comparison suppress trend claims',(
   const summary={sessions:{...m(40),previous:m(20)},searchClicks:{...m(30),previous:m(20)},bookingIntent:{...unavailable('NOT_CONFIGURED','count','ga4'),previous:m(0)},lineIntent:unavailable('UNKNOWN','count','ga4')};
   const result=insightRules(summary,28,{ga4:{status:'VALUE'},search:{status:'VALUE'}});
   assert.equal(result.header.ruleId,'H_DATA');assert.ok(result.insights.every(x=>!x.ruleId.startsWith('I_INTENT')));
+});
+test('incomplete GSC history is UNKNOWN rather than ERROR while observed dates remain usable',()=>{
+  const source=fs.readFileSync(new URL('../lib/siteInsights/assemble.mjs',import.meta.url),'utf8');
+  assert.match(source,/gcObserved=searchDaily\(get\(gCurrent\),firstObserved,anchor\)/);
+  assert.match(source,/unavailable\('UNKNOWN',unit,'gsc','incomplete_history'\)/);
+  assert.doesNotMatch(source,/g\?m\(g\.clicks[^\n]+:failure\(gError,'gsc'\)/);
+});
+test('operator UI identifies connection health and renders traceable insight evidence',()=>{
+  const client=fs.readFileSync(new URL('../admin/js/site-insights.mjs',import.meta.url),'utf8');
+  const css=fs.readFileSync(new URL('../admin/css/site-insights.css',import.meta.url),'utf8');
+  assert.match(client,/接続状態 \$\{data\.status\}/);
+  assert.match(client,/根拠: \$\{changeEvidence\(insight\)\}/);
+  assert.match(client,/前期間比/);
+  assert.match(css,/overflow-wrap:anywhere/);
 });
 test('Wizard adapter fixes endpoint, uses key only in header, and parses structured response',async()=>{
   const calls=[];
