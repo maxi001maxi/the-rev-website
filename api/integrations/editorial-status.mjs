@@ -13,13 +13,8 @@ import {
 } from '../../lib/editorialBridge.mjs';
 import { checkEditorialImageReady } from '../../lib/editorialImage.mjs';
 import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
-import { getFile } from '../../lib/githubContent.mjs';
-import {
-  PUBLISH_STATUS,
-  isPublishedMarkdown,
-  publishedUrlForSlug,
-  targetPathForDraft
-} from '../../lib/editorialPublication.mjs';
+import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
+import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
 
 export const config = { maxDuration: 300 };
 
@@ -249,96 +244,4 @@ export default async function handler(req, res) {
       : null,
     publish_requires_human_approval: true
   });
-}
-
-
-async function reconcilePublication({ supabase, article }) {
-  const path = targetPathForDraft(article);
-  const publicUrl = article.published_url || publishedUrlForSlug(article.slug);
-  const currentState = article.publish_status || PUBLISH_STATUS.NOT_PUBLISHED;
-
-  if (!path || !publicUrl) {
-    return { state: currentState, published: false, github: { exists: false, published: false }, live: { ok: false, status: null }, article };
-  }
-
-  let file;
-  try {
-    file = await getFile(path);
-  } catch {
-    return {
-      state: currentState,
-      published: currentState === PUBLISH_STATUS.PUBLISHED,
-      github: { exists: null, published: null },
-      live: { ok: false, status: null },
-      verify_error: 'github_unavailable',
-      article
-    };
-  }
-
-  const githubPublished = file.exists === true && isPublishedMarkdown(file.content);
-  if (!githubPublished) {
-    return {
-      state: currentState,
-      published: currentState === PUBLISH_STATUS.PUBLISHED,
-      github: { exists: file.exists === true, published: false, sha: file.sha || null },
-      live: { ok: false, status: null },
-      article
-    };
-  }
-
-  const live = await verifyLiveArticle(publicUrl);
-  const nextState = live.ok ? PUBLISH_STATUS.PUBLISHED : PUBLISH_STATUS.PUBLISH_COMMITTED;
-  const now = new Date().toISOString();
-  const patch = {
-    source_path: file.path || path,
-    source_sha: file.sha || article.source_sha || null,
-    publish_status: nextState,
-    published_content_sha: file.sha || article.published_content_sha || null,
-    published_url: publicUrl,
-    publish_committed_at: article.publish_committed_at || now,
-    publish_verified_at: now,
-    ...(live.ok ? { published_at: article.published_at || now } : {})
-  };
-
-  const updated = await supabase
-    .from('admin_article_drafts')
-    .update(patch)
-    .eq('id', article.id)
-    .select('*')
-    .single();
-
-  const nextArticle = !updated.error && updated.data ? updated.data : article;
-  return {
-    state: nextState,
-    published: nextState === PUBLISH_STATUS.PUBLISHED,
-    queue_status_recommendation: nextState === PUBLISH_STATUS.PUBLISHED ? 'PUBLISHED' : null,
-    github: { exists: true, published: true, sha: file.sha || null },
-    live,
-    article: nextArticle,
-    repair_error: updated.error ? 'db_update_failed' : null
-  };
-}
-
-async function verifyLiveArticle(url) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 12000);
-  timer.unref?.();
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      redirect: 'follow',
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache',
-        'User-Agent': 'therev-editorial-publish-reconciler'
-      },
-      signal: controller.signal
-    });
-    try { await response.body?.cancel(); } catch { /* no-op */ }
-    return { ok: response.ok, status: response.status };
-  } catch {
-    return { ok: false, status: null };
-  } finally {
-    clearTimeout(timer);
-  }
 }
