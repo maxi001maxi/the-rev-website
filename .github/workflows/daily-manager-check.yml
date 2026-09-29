@@ -1,0 +1,91 @@
+name: Daily Manager Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'api/**'
+      - 'lib/dailyManager.mjs'
+      - 'admin/daily-manager/**'
+      - 'admin/js/admin-api.mjs'
+      - 'admin/index.html'
+      - 'supabase/migrations/*daily_manager*.sql'
+      - 'vercel.json'
+      - '.env.example'
+      - 'scripts/test-daily-manager.mjs'
+      - 'scripts/check-vercel-functions.mjs'
+      - 'package.json'
+      - '.github/workflows/daily-manager-check.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: daily-manager-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  VERCEL_TEAM_ID: team_Tr078zaEJtEFM8mC2epaOchj
+  VERCEL_PROJECT: the-rev-website
+
+jobs:
+  verify-and-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Local-equivalent validation
+        run: npm run verify:daily-manager
+
+      - name: Resolve Vercel token
+        shell: bash
+        env:
+          TOKEN_1: ${{ secrets.VERCEL_TOKEN }}
+          TOKEN_2: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+          TOKEN_3: ${{ secrets.VERCEL_AUTH_TOKEN }}
+          TOKEN_4: ${{ secrets.VERCEL_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          TOKEN=''
+          for candidate in "$TOKEN_1" "$TOKEN_2" "$TOKEN_3" "$TOKEN_4"; do
+            if [ -n "$candidate" ]; then
+              TOKEN="$candidate"
+              break
+            fi
+          done
+          if [ -z "$TOKEN" ]; then
+            echo 'No Vercel token secret is configured.' >&2
+            exit 1
+          fi
+          echo "::add-mask::$TOKEN"
+          echo "VERCEL_TOKEN_SELECTED=$TOKEN" >> "$GITHUB_ENV"
+
+      - name: Pull Vercel preview configuration
+        run: >-
+          npx --yes vercel@latest pull --yes --environment=preview
+          --token="$VERCEL_TOKEN_SELECTED"
+          --scope="$VERCEL_TEAM_ID"
+          --project="$VERCEL_PROJECT"
+
+      - name: Vercel-equivalent build
+        run: >-
+          npx --yes vercel@latest build --yes --target=preview
+          --token="$VERCEL_TOKEN_SELECTED"
+          --scope="$VERCEL_TEAM_ID"
+          --project="$VERCEL_PROJECT"
+
+      - name: Deploy preview only after every gate passes
+        run: >-
+          npx --yes vercel@latest deploy --prebuilt
+          --token="$VERCEL_TOKEN_SELECTED"
+          --scope="$VERCEL_TEAM_ID"
+          --project="$VERCEL_PROJECT"

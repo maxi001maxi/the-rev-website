@@ -66,6 +66,12 @@ export const AdminApi = {
   // Phase E: GA4 Data API。サーバー側APIのみを経由し、サービスアカウント鍵はブラウザへ出さない。
   getAnalytics: (range = '7d') => authedFetch(`/api/admin/analytics?range=${encodeURIComponent(range)}`),
   getSiteInsights: (range = '28d', date = '') => authedFetch(`/api/admin/site-insights?range=${encodeURIComponent(range)}${date ? `&date=${encodeURIComponent(date)}` : ''}`),
+  getDailyManager: (date = '') => authedFetch(`/api/admin/daily-manager${date ? `?date=${encodeURIComponent(date)}` : ''}`),
+  saveDailyManagerInput: (data) => authedFetch('/api/admin/daily-manager', { method: 'POST', body: JSON.stringify({ action: 'save_input', ...data }) }),
+  runDailyManager: (date, finalize = false) => authedFetch('/api/admin/daily-manager', {
+    method: 'POST',
+    body: JSON.stringify({ action: finalize ? 'finalize' : 'run', business_date: date })
+  }),
 
   // Phase D: Publish Review（Preflight）とPublish本体。
   // publishPreview は GitHubへの書き込みを行わない読み取り専用のPreflight。

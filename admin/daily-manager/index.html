@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daily Manager｜THE REV. Admin</title>
+<link rel="stylesheet" href="/admin/css/admin.css">
+<link rel="stylesheet" href="/admin/daily-manager/daily-manager.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">Checking session...</div>
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Admin</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/daily-manager/" aria-current="page">Daily Manager</a>
+<a href="/admin/articles/">Articles</a>
+<a href="/admin/analytics/">Analytics</a>
+<a href="/admin/site-insights/">Site Insights</a>
+</nav>
+<div class="admin-shell-user"><span id="user-email" class="admin-shell-email"></span><button id="logout-btn" class="admin-logout">Logout</button></div>
+</header>
+
+<main class="admin-main daily-manager-main">
+<div class="admin-page-head-row">
+<div>
+<h1 class="admin-page-title">Daily Manager</h1>
+<p class="admin-page-lead">朝は予定セッション数を1つ入れるだけ。変更があった日だけ補正し、19:00に軽い店長レビューを作ります。</p>
+</div>
+<div class="daily-date-wrap"><label for="business-date">対象日</label><input id="business-date" type="date"></div>
+</div>
+
+<div id="message" class="daily-message admin-hidden" role="status"></div>
+
+<section class="admin-card">
+<h2>朝の入力</h2>
+<div class="daily-primary-input">
+<label for="planned-sessions">予定セッション数</label>
+<input id="planned-sessions" type="number" min="0" step="1" inputmode="numeric" placeholder="例 5">
+<button id="save-input" class="admin-btn-primary">保存</button>
+</div>
+<p class="daily-help">0件の日は0。GYM'sの予定表を見て、この数字だけ入れれば通常日は終わりです。</p>
+
+<details class="daily-details">
+<summary>変更があった日だけ入力</summary>
+<div class="admin-field-grid daily-grid">
+<div class="admin-field"><label for="cancel-count">キャンセル</label><input id="cancel-count" type="number" min="0" step="1" value="0"></div>
+<div class="admin-field"><label for="same-day-additions">当日追加</label><input id="same-day-additions" type="number" min="0" step="1" value="0"></div>
+<div class="admin-field"><label for="actual-sessions">実施数（分かる場合だけ）</label><input id="actual-sessions" type="number" min="0" step="1"></div>
+<div class="admin-field"><label for="trial-sessions">体験数（任意）</label><input id="trial-sessions" type="number" min="0" step="1"></div>
+</div>
+<div class="admin-field"><label for="notes">メモ（任意）</label><textarea id="notes" rows="3" maxlength="1000"></textarea></div>
+</details>
+</section>
+
+<section class="admin-card">
+<div class="daily-brief-head">
+<div><h2>今日の店長レビュー</h2><p id="snapshot-meta" class="daily-help">まだ生成されていません。</p></div>
+<div class="daily-actions">
+<button id="refresh-brief" class="admin-btn-mini">今すぐ再生成</button>
+<button id="finalize-brief" class="admin-btn-primary">日次締め済み → FINAL更新</button>
+</div>
+</div>
+
+<div id="empty-brief" class="daily-empty">19:00の自動集計、または「今すぐ再生成」で表示されます。</div>
+<div id="brief" class="admin-hidden">
+<div class="daily-kpi-grid">
+<div class="daily-kpi"><span>セッション</span><strong id="kpi-sessions">—</strong></div>
+<div class="daily-kpi"><span>キャンセル</span><strong id="kpi-cancels">—</strong></div>
+<div class="daily-kpi"><span>Web訪問</span><strong id="kpi-web">—</strong></div>
+<div class="daily-kpi"><span>高意図行動</span><strong id="kpi-intent">—</strong></div>
+</div>
+
+<div class="daily-section"><h3>Web / GA4</h3><p id="web-summary"></p></div>
+<div class="daily-section"><h3>Search / SEO</h3><p id="search-summary"></p></div>
+<div class="daily-section"><h3>Marketing / Content</h3><p id="content-summary"></p></div>
+<div class="daily-section"><h3>店長所見</h3><p id="manager-comment" class="daily-comment"></p></div>
+<div class="daily-section"><h3>明日の重点</h3><ol id="priorities" class="daily-priorities"></ol></div>
+<div class="daily-section"><h3>データ品質</h3><p id="quality-summary"></p></div>
+</div>
+</section>
+
+<section class="admin-card daily-note-card">
+<h2>日次と週次の役割</h2>
+<p>Dailyは異常検知と明日の準備だけ。単日の上下で経営戦略を変えません。売上・顧客詳細はGYM's非接続のため日次では未計測のまま残し、週次AI経営会議で既存KPI正本と統合します。</p>
+</section>
+</main>
+</div>
+<script type="module" src="/admin/daily-manager/daily-manager.mjs"></script>
+</body>
+</html>
