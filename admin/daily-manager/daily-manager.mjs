@@ -50,7 +50,7 @@ async function load(){
     current=data; fillInput(data.input); renderSnapshot(data.snapshot);
   }catch(e){ message(e.message||'読み込みに失敗しました。',true); }
 }
-async function saveInput(){
+async function saveInput({quiet=false}={}){
   clearMessage(); $('save-input').disabled=true;
   try{
     const data=await AdminApi.saveDailyManagerInput({
@@ -62,20 +62,25 @@ async function saveInput(){
       trial_sessions:val('trial-sessions'),
       notes:$('notes').value
     });
-    current.input=data.input; fillInput(data.input); message('日次入力を保存しました。');
-  }catch(e){ message(e.message||'保存に失敗しました。',true); }
-  finally{$('save-input').disabled=false;}
+    current.input=data.input; fillInput(data.input);
+    if(!quiet) message('日次入力を保存しました。');
+    return true;
+  }catch(e){
+    message(e.message||'保存に失敗しました。',true);
+    throw e;
+  }finally{$('save-input').disabled=false;}
 }
 async function run(finalize=false){
   clearMessage();
   const btn=finalize?$('finalize-brief'):$('refresh-brief'); btn.disabled=true;
   try{
-    await saveInput();
+    await saveInput({quiet:true});
     const data=await AdminApi.runDailyManager($('business-date').value,finalize);
     renderSnapshot(data.snapshot);
     message(finalize?'FINALへ更新しました。':'Daily Managerを再生成しました。');
-  }catch(e){ message(e.message||'集計に失敗しました。',true); }
-  finally{btn.disabled=false;}
+  }catch(e){
+    if(!$('message').textContent) message(e.message||'集計に失敗しました。',true);
+  }finally{btn.disabled=false;}
 }
 
 (async()=>{
