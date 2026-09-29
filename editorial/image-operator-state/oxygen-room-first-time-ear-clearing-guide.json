@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-solution-20260929-r2.jpg",
   "qa_report_path": "editorial/image-qa/oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-solution-20260929-r2.json",
   "asset_version": "reference-v26-auto-oxy-solution-20260929-r2",
-  "updated_at": "2026-09-29T06:55:58.079Z"
+  "updated_at": "2026-09-29T06:55:58.079Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-09-29T06:56:13Z"
 }
