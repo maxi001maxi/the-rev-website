@@ -70,6 +70,7 @@ export const AdminApi = {
   // Phase D: Publish Review（Preflight）とPublish本体。
   // publishPreview は GitHubへの書き込みを行わない読み取り専用のPreflight。
   publishPreview: (id) => authedFetch(`/api/admin/publish-preview?id=${encodeURIComponent(id)}`),
+  publishStatus: (id) => authedFetch(`/api/admin/publish-status?id=${encodeURIComponent(id)}`),
   publish: (articleId, expectedImageAssetVersion = '') => authedFetch('/api/admin/publish', {
     method: 'POST',
     body: JSON.stringify({
