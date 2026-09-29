@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実際のDENBA Health本体・利用環境を背景に、DENBAを初めて見る一般顧客役の成人1人が、黒いDENBA Health本体を見ながら『これは何だろう？』と自然に興味を持っている場面。人物を主役として60〜70％の視覚的注目度にし、DENBA Health本体とTHE REV.ロゴは背景アンカーとして明確に認識できるが二次的にする。EMSのような強い刺激、治療行為、トレーニング動作、トレーナー・スタッフは出さない。",
+  "scene_intent": "THE REV.の実際のDENBA Health本体・利用環境を背景に、DENBAを初めて見る一般顧客役の成人1人が、黒いDENBA Health本体の画面を明確に見ながら『これは何だろう？』と自然に興味を持っている場面。人物の視線は必ずDENBA本体へ向ける。人物を主役として60〜70％の視覚的注目度にし、DENBA Health本体とTHE REV.ロゴは認識できるが背景として柔らかくぼかす。EMSのような強い刺激、治療行為、トレーニング動作、トレーナー・スタッフは出さない。",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r2-scene.jpg",
+  "generated_scene_path": "assets/images/editorial-generated/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3-scene.jpg",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-denba-intro-20260929-r2",
-  "thumbnail": "assets/images/blog/thumb-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r2.jpg",
-  "og_image": "assets/images/blog/og/og-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r2.jpg",
+  "asset_version": "reference-v26-auto-denba-intro-20260929-r3",
+  "thumbnail": "assets/images/blog/thumb-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3.jpg",
+  "og_image": "assets/images/blog/og/og-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r2.json",
+  "qa_report_path": "editorial/image-qa/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -143,12 +143,12 @@
       "male",
       "male"
     ],
-    "force_regeneration_requested_at": "2026-09-29T16:38:00+09:00",
-    "force_regeneration_reason": "User Visual QC feedback: avoid awkward manual line break. Use compact one-line headline and require new typography-break QC."
+    "force_regeneration_requested_at": "2026-09-29T16:47:00+09:00",
+    "force_regeneration_reason": "Visual QC self-heal: prior r2 failed because punctuation wrapped alone, background blur was weak, and gaze drifted toward floor. Renderer now auto-fits semantic lines; regenerate with explicit DENBA gaze and GBP safe-area composition."
   },
   "visual_claim": "DENBA Healthは、THE REV.で酸素ルーム内の休息環境の一部として使っている健康機器であることを初見ユーザーへ伝える。",
   "thumbnail_claim": "DENBAって何？",
-  "visible_action": "一般顧客役がTHE REV.のDENBA Health本体を見ながら、初めて設備を知ろうとしている。",
+  "visible_action": "一般顧客役がDENBA Health本体の画面を目で見て、片手で自然に本体を示しながら設備について知ろうとしている。視線は床ではなく必ずDENBA本体。",
   "emotional_state": "初めて見る設備への軽い興味と安心感。怖さ、痛み、電気刺激は演出しない。",
-  "composition_hint": "人物の顔・上半身を中〜大きめに配置。DENBA Health本体とTHE REV.ロゴを背景に残すが、人物が視覚の主役。背景は柔らかくぼかし、医療機器のような硬い印象にしない。"
+  "composition_hint": "人物の顔・上半身を中〜大きめに配置し、顔と視線が小さいカードでも読めること。DENBA本体は右側の安全領域に十分な余白を残して配置し、GBP 4:3でも右端で窮屈に切れない。背景は人物より明確に浅い被写界深度でぼかし、THE REV.ロゴとDENBA本体だけが識別できる程度に残す。"
 }
