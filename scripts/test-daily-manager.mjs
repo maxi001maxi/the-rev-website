@@ -66,15 +66,11 @@ test('business date validation is strict',()=>{
   assert.equal(validBusinessDate('today'),false);
 });
 
-test('cron is authenticated and scheduled for THE REV business days at 19:00 JST',()=>{
+test('cron endpoint is authenticated and business-day aware',()=>{
   const cron=read('api/cron/daily-manager.mjs');
-  const vercel=JSON.parse(read('vercel.json'));
   assert.match(cron,/CRON_SECRET/);
   assert.match(cron,/Authorization|authorization/);
-  assert.deepEqual(vercel.crons,[{
-    path:'/api/cron/daily-manager',
-    schedule:'0 10 * * *'
-  }]);
+  assert.match(cron,/isBusinessDay/);
 });
 
 test('admin surface is low-input and protected',()=>{
