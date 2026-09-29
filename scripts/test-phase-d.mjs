@@ -26,6 +26,10 @@ const {
   isPublishedMarkdown,
   publicationFieldsFromGitHubWrite
 } = await import('../lib/editorialPublication.mjs');
+const {
+  deploymentSucceededForCommit,
+  publicationCanPromote
+} = await import('../lib/editorialPublicationStatus.mjs');
 
 let passed = 0;
 const failures = [];
@@ -202,6 +206,57 @@ const publishEvidence = publicationFieldsFromGitHubWrite({
 assert(publishEvidence.publish_status === PUBLISH_STATUS.PUBLISH_COMMITTED, 'GitHub成功直後はPUBLISH_COMMITTED');
 assert(publishEvidence.source_sha === 'content-sha-1' && publishEvidence.publish_commit_sha === 'commit-sha-1', 'GitHub commit/content SHAを永続化');
 assert(publishEvidence.published_at === null && publishEvidence.publish_verified_at === null, '本番確認前はPUBLISHEDに昇格しない');
+const successfulDeployment = {
+  found: true,
+  headSha: 'commit-sha-1',
+  commitSha: 'commit-sha-1',
+  status: 'completed',
+  conclusion: 'success'
+};
+assert(
+  deploymentSucceededForCommit(successfulDeployment, 'commit-sha-1') === true,
+  '同一commitのDeploy to Xserver successを公開成功条件として認識'
+);
+assert(
+  publicationCanPromote({
+    deployment: successfulDeployment,
+    commitSha: 'commit-sha-1',
+    live: { ok: true, status: 200 }
+  }) === true,
+  'Actions success + 本番200でPUBLISHED昇格可能'
+);
+assert(
+  publicationCanPromote({
+    deployment: { ...successfulDeployment, headSha: 'different-commit' },
+    commitSha: 'commit-sha-1',
+    live: { ok: true, status: 200 }
+  }) === false,
+  '別commitのActions successではPUBLISHEDにしない'
+);
+assert(
+  publicationCanPromote({
+    deployment: { ...successfulDeployment, status: 'in_progress', conclusion: null },
+    commitSha: 'commit-sha-1',
+    live: { ok: true, status: 200 }
+  }) === false,
+  'Actions進行中はURLが200でもPUBLISHEDにしない'
+);
+assert(
+  publicationCanPromote({
+    deployment: { ...successfulDeployment, conclusion: 'failure' },
+    commitSha: 'commit-sha-1',
+    live: { ok: true, status: 200 }
+  }) === false,
+  'Actions failureはURLが200でもPUBLISHEDにしない'
+);
+assert(
+  publicationCanPromote({
+    deployment: successfulDeployment,
+    commitSha: 'commit-sha-1',
+    live: { ok: false, status: 503 }
+  }) === false,
+  'Actions successでも本番URL未確認ならPUBLISHEDにしない'
+);
 
 section('4. Real build compatibility');
 const tmpMdPath = path.join(ROOT, 'content', 'blog', `${TEST_SLUG}.md`);
