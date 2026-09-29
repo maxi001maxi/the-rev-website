@@ -9,6 +9,6 @@ export default async function handler(req,res){
   if(memberError||!member?.active)return sendError(res,403,'forbidden','Site Insightsの閲覧権限がありません。');
   const q=req.query||{};
   if(Object.keys(q).some(k=>!['range','view','date'].includes(k))||!['7d','28d','90d'].includes(q.range||'28d')||(q.view&&!['search','content','funnel','technical'].includes(q.view))||(q.date&&!/^\d{4}-\d{2}-\d{2}$/.test(q.date)))return sendError(res,400,'invalid_query','指定された条件が不正です。');
-  try{const data=await assemble(q.range||'28d',{date:q.date});return res.status(200).json(data);}
+  try{const data=await assemble(q.range||'28d',{date:q.date,userId:ctx.user.id});return res.status(200).json(data);}
   catch{return sendError(res,503,'insights_unavailable','データを読み込めませんでした。');}
 }

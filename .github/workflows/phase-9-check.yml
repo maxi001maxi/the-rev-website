@@ -47,10 +47,20 @@ on:
       - 'lib/publishFlow.mjs'
       - 'api/admin/publish-preview.mjs'
       - 'api/admin/analytics.mjs'
+      - 'api/admin/site-insights.mjs'
+      - 'api/admin/google-business.mjs'
+      - 'api/admin/google-business/**'
+      - 'lib/googleBusiness.mjs'
+      - 'admin/google-business/**'
+      - 'admin/js/google-business.mjs'
+      - 'admin/site-insights/**'
+      - 'admin/js/site-insights.mjs'
       - 'lib/ga4Data.mjs'
+      - 'lib/siteInsights/**'
       - 'admin/analytics/**'
       - 'admin/js/admin-api.mjs'
       - 'scripts/test-phase-e.mjs'
+      - 'scripts/test-google-business.mjs'
       - 'privacy.html'
       - '.env.example'
       - 'ADMIN_SETUP.md'
@@ -87,5 +97,6 @@ jobs:
       - run: npm run test:phase-d
       - run: npm run test:phase-e
       - run: npm run test:site-insights
+      - run: npm run test:google-business
       - run: npm run test:editorial-images
       - run: npm run build:blog
