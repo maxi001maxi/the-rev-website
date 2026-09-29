@@ -20,11 +20,5 @@
       ],
       "permanent": false
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/cron/daily-manager",
-      "schedule": "0 10 * * *"
-    }
   ]
 }
