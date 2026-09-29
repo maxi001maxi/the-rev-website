@@ -67,7 +67,7 @@ test('business date validation is strict',()=>{
 });
 
 test('cron endpoint is authenticated and business-day aware',()=>{
-  const cron=read('api/cron/daily-manager.mjs');
+  const cron=read('api/daily-manager-cron.mjs');
   assert.match(cron,/CRON_SECRET/);
   assert.match(cron,/Authorization|authorization/);
   assert.match(cron,/isBusinessDay/);
