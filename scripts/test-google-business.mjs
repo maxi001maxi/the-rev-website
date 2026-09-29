@@ -47,6 +47,9 @@ test('GBP performance keeps observed zero distinct from missing metrics',async()
     const u=new URL(url);
     assert.equal(u.hostname,'businessprofileperformance.googleapis.com');
     assert.equal(u.searchParams.getAll('dailyMetrics').length,8);
+    assert.equal(u.searchParams.get('daily_range.start_date.year'),'2026');
+    assert.equal(u.searchParams.get('daily_range.end_date.day'),'28');
+    assert.equal(u.searchParams.get('dailyRange.start_date.year'),null);
     return {
       ok:true,
       status:200,
