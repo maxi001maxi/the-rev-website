@@ -1,33 +1,33 @@
 {
-  "slug": "oxygen-room-first-time-ear-clearing-guide",
-  "article_title": "酸素ルームって何をする場所？｜THE REV.が「休む時間」を用意した理由",
+  "slug": "denba-health-what-is-it-the-rev",
+  "article_title": "酸素ルームの中にあるDENBAって何？｜THE REV.での使い方をやさしく紹介",
   "category_label": "RECOVERY",
   "column_label": "COLUMN",
-  "image_headline_short": "酸素ルームって、\n何する場所？",
+  "image_headline_short": "DENBAって、\n何するもの？",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実際の酸素ルームを背景に、酸素ルームを初めて見る一般顧客役の成人1人が、扉の閉じたOXYROOMの前で落ち着いて設備を見ている場面。人物を主役として60〜70％の視覚的注目度にし、酸素ルーム本体とTHE REV.ロゴは背景アンカーとして認識できるが二次的にする。耳に手を当てる動作、トレーニング動作、ラックや筋トレ空間、トレーナー・スタッフは出さない。『頑張る場所』ではなく『静かに休むための場所』だと初見でも伝わる穏やかな雰囲気。",
+  "scene_intent": "THE REV.の実際のDENBA Health本体・利用環境を背景に、DENBAを初めて見る一般顧客役の成人1人が、黒いDENBA Health本体を見ながら『これは何だろう？』と自然に興味を持っている場面。人物を主役として60〜70％の視覚的注目度にし、DENBA Health本体とTHE REV.ロゴは背景アンカーとして明確に認識できるが二次的にする。EMSのような強い刺激、治療行為、トレーニング動作、トレーナー・スタッフは出さない。",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3-scene.jpg",
+  "generated_scene_path": "assets/images/editorial-generated/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1-scene.jpg",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-oxy-overview-20260929-r3",
-  "thumbnail": "assets/images/blog/thumb-oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3.jpg",
-  "og_image": "assets/images/blog/og/og-oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3.jpg",
+  "asset_version": "reference-v26-auto-denba-intro-20260929-r1",
+  "thumbnail": "assets/images/blog/thumb-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
+  "og_image": "assets/images/blog/og/og-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3.json",
+  "qa_report_path": "editorial/image-qa/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -64,19 +64,19 @@
     "publish_boundary": "REVIEW_AND_PUBLISH"
   },
   "background_source": {
-    "drive_file_id": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+    "drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
     "cached_frame_drive_file_id": "",
     "origin_video_file_id": "",
-    "origin_video_file_name": "AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+    "origin_video_file_name": "AI_SOURCE_photo-solution-denba_20260924.jpg",
     "frame_position_ratio": null,
-    "selection_reason": "THE REV.公式サイト実写と一致する酸素ルーム正面寄りのDriveコピー。扉が閉じ、トレーニング器具がほぼ写らないため、初回利用・耳抜き記事の背景として適合する。",
-    "treatment": "preserve real THE REV oxygen-room geometry and closed-door state; generate one customer in foreground; keep OXYROOM and THE REV identifiers recognizable but secondary"
+    "selection_reason": "THE REV.公式サイト実写と一致するDENBA Health本体・THE REV.ロゴのDriveコピー。DENBA初心者向け入口記事に適合する。",
+    "treatment": "preserve real THE REV DENBA device and wall logo; generate one customer in foreground; keep DENBA and THE REV identifiers recognizable but secondary"
   },
   "automation": {
     "mode": "unattended-github-actions-v1",
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-oxy-solution-20260924",
-    "source_repo_path": "assets/images/photo-solution-oxyroom.jpg",
+    "selected_source_id": "the-rev-denba-20260924",
+    "source_repo_path": "assets/images/photo-solution-denba.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
@@ -143,12 +143,12 @@
       "male",
       "male"
     ],
-    "force_regeneration_requested_at": "2026-09-29T16:15:00+09:00",
-    "force_regeneration_reason": "User feedback: first oxygen-room article should be newcomer overview, not ear-clearing detail. Reframe image to 'what is this place?' while preserving approved visual system."
+    "force_regeneration_requested_at": "2026-09-29T16:35:00+09:00",
+    "force_regeneration_reason": "User feedback: avoid repeating oxygen-room overview and avoid ear-clearing as first-touch topic. Pivot current article to DENBA beginner foundation and regenerate matching image."
   },
-  "visual_claim": "酸素ルームは何か特別な運動をする場所ではなく、静かに過ごすための設備であることを初見ユーザーへ伝える。",
-  "thumbnail_claim": "酸素ルームって、何する場所？",
-  "visible_action": "一般顧客役が閉じた酸素ルームを見ながら、利用前に設備を知ろうとしている。",
-  "emotional_state": "初めて見る設備への軽い興味と安心感。怖さや体調不良は演出しない。",
-  "composition_hint": "人物の顔・上半身を中〜大きめに配置。OXYROOM本体とTHE REV.ロゴを背景に残すが、人物が視覚の主役。トレーニングエリアはフレーム外。"
+  "visual_claim": "DENBA Healthは、THE REV.で酸素ルーム内の休息環境の一部として使っている健康機器であることを初見ユーザーへ伝える。",
+  "thumbnail_claim": "DENBAって、何するもの？",
+  "visible_action": "一般顧客役がTHE REV.のDENBA Health本体を見ながら、初めて設備を知ろうとしている。",
+  "emotional_state": "初めて見る設備への軽い興味と安心感。怖さ、痛み、電気刺激は演出しない。",
+  "composition_hint": "人物の顔・上半身を中〜大きめに配置。DENBA Health本体とTHE REV.ロゴを背景に残すが、人物が視覚の主役。背景は柔らかくぼかし、医療機器のような硬い印象にしない。"
 }
