@@ -1,0 +1,42 @@
+name: Daily Manager Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'api/admin/daily-manager.mjs'
+      - 'api/cron/daily-manager.mjs'
+      - 'lib/dailyManager.mjs'
+      - 'admin/daily-manager/**'
+      - 'admin/js/admin-api.mjs'
+      - 'admin/index.html'
+      - 'supabase/migrations/*daily_manager*.sql'
+      - 'vercel.json'
+      - '.env.example'
+      - 'scripts/test-daily-manager.mjs'
+      - 'package.json'
+      - '.github/workflows/daily-manager-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --check lib/dailyManager.mjs
+      - run: node --check api/admin/daily-manager.mjs
+      - run: node --check api/cron/daily-manager.mjs
+      - run: node --check admin/daily-manager/daily-manager.mjs
+      - run: npm run test:daily-manager
+      - run: npm run test:phase-e
+      - run: npm run test:site-insights
+      - run: npm run build:blog
