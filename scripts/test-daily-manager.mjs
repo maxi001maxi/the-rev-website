@@ -1,0 +1,91 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {
+  normalizeDailyInput,
+  sessionSummary,
+  buildManagerAssessment,
+  validBusinessDate
+} from '../lib/dailyManager.mjs';
+
+const read=(path)=>fs.readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
+
+test('daily input keeps unknown distinct from zero',()=>{
+  const input=normalizeDailyInput(null);
+  assert.equal(input.planned_sessions,null);
+  assert.equal(input.cancel_count,0);
+  assert.equal(input.same_day_additions,0);
+  assert.equal(sessionSummary(input).quality,'UNKNOWN');
+});
+
+test('actual sessions override estimate',()=>{
+  const input=normalizeDailyInput({
+    planned_sessions:5,cancel_count:2,same_day_additions:1,actual_sessions:3
+  });
+  assert.deepEqual(sessionSummary(input),{completed:3,quality:'MANUAL_ACTUAL'});
+});
+
+test('planned minus cancel plus additions gives estimate',()=>{
+  const input=normalizeDailyInput({
+    planned_sessions:5,cancel_count:1,same_day_additions:1,actual_sessions:null
+  });
+  assert.deepEqual(sessionSummary(input),{completed:5,quality:'ESTIMATED_FROM_INPUT'});
+});
+
+test('manager assessment never invents GYMs-connected sales',()=>{
+  const result=buildManagerAssessment({
+    planned_sessions:5,completed_sessions:4,cancel_count:1,
+    web_sessions:12,high_intent_events:0,reserve_click:0,line_click:0,
+    snapshot_status:'PRELIMINARY'
+  });
+  assert.match(result.manager_comment,/GYM’sが外部正本/);
+  assert.ok(result.priorities.some((p)=>p.key==='finalize'));
+  assert.ok(result.priorities.length<=3);
+});
+
+test('missing morning count becomes an action rather than zero',()=>{
+  const result=buildManagerAssessment({
+    planned_sessions:null,completed_sessions:null,cancel_count:0,
+    web_sessions:2,high_intent_events:0,reserve_click:0,line_click:0,
+    snapshot_status:'PRELIMINARY'
+  });
+  assert.match(result.manager_comment,/未入力/);
+  assert.equal(result.priorities[0].key,'session_input');
+});
+
+test('business date validation is strict',()=>{
+  assert.equal(validBusinessDate('2026-09-29'),true);
+  assert.equal(validBusinessDate('2026/09/29'),false);
+  assert.equal(validBusinessDate('today'),false);
+});
+
+test('cron is authenticated and scheduled for THE REV business days at 19:00 JST',()=>{
+  const cron=read('api/cron/daily-manager.mjs');
+  const vercel=JSON.parse(read('vercel.json'));
+  assert.match(cron,/CRON_SECRET/);
+  assert.match(cron,/Authorization|authorization/);
+  assert.deepEqual(vercel.crons,[{
+    path:'/api/cron/daily-manager',
+    schedule:'0 10 * * 0,2,3,4,6'
+  }]);
+});
+
+test('admin surface is low-input and protected',()=>{
+  const api=read('api/admin/daily-manager.mjs');
+  const page=read('admin/daily-manager/index.html');
+  const client=read('admin/js/admin-api.mjs');
+  assert.match(api,/getAuthedContext/);
+  assert.match(page,/予定セッション数/);
+  assert.match(page,/日次締め済み → FINAL更新/);
+  assert.match(client,/getDailyManager/);
+  assert.match(client,/saveDailyManagerInput/);
+  assert.match(client,/runDailyManager/);
+});
+
+test('schema keeps input and snapshots separate with RLS',()=>{
+  const sql=read('supabase/migrations/20260929080934_daily_manager_v1.sql');
+  assert.match(sql,/daily_manager_inputs/);
+  assert.match(sql,/daily_manager_snapshots/);
+  assert.match(sql,/enable row level security/);
+  assert.match(sql,/snapshot_status in \('PRELIMINARY','FINAL'\)/);
+});
