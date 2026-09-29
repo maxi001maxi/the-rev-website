@@ -98,8 +98,9 @@ const envExample = read('.env.example');
 const vercelConfig = JSON.parse(read('vercel.json'));
 
 assert.match(api, /getAuthedContext\(req\)/, 'Analytics API must require Admin auth.');
-assert.match(api, /GA4_PROPERTY_ID/, 'Server API must read GA4 property ID.');
-assert.match(api, /GA4_SERVICE_ACCOUNT_JSON/, 'Server API must read service account only server-side.');
+assert.match(api, /GSC_WIZARD_API_KEY/, 'Analytics API must use the shared read-only Wizard credential.');
+assert.match(api, /ga4Dataset/, 'Analytics API must use the shared Wizard GA4 provider.');
+assert.doesNotMatch(api, /GA4_PROPERTY_ID|GA4_SERVICE_ACCOUNT_JSON/, 'Analytics API must not require the legacy direct GA4 credentials.');
 assert.match(api, /Cache-Control.*no-store/, 'Analytics API must prevent caching.');
 
 assert.match(adminPage, /requireSession|admin-analytics\.mjs/, 'Analytics page must load the authenticated client.');
@@ -138,6 +139,7 @@ assert.match(privacy, /健康情報その他の要配慮個人情報をGoogle An
 
 assert.match(envExample, /^GA4_PROPERTY_ID=/m);
 assert.match(envExample, /^GA4_SERVICE_ACCOUNT_JSON=/m);
+assert.match(envExample, /^GSC_WIZARD_API_KEY=/m);
 
 const adminDomainRedirect = (vercelConfig.redirects || []).find((rule) =>
   rule.source === '/' &&
