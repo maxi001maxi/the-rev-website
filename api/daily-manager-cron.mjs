@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { buildDailyManagerSnapshot, jstDateKey, isBusinessDay } from '../../lib/dailyManager.mjs';
+import { buildDailyManagerSnapshot, jstDateKey, isBusinessDay } from '../lib/dailyManager.mjs';
 
 function send(res, status, body) {
   res.setHeader('Cache-Control', 'private, no-store, max-age=0');
