@@ -1,0 +1,14 @@
+{
+  "slug": "denba-health-what-is-it-the-rev",
+  "status": "READY_CANDIDATE",
+  "attempts_total": 1,
+  "max_attempts": 2,
+  "job_path": "editorial/hybrid-image-jobs/oxygen-room-first-time-ear-clearing-guide.json",
+  "generated_scene_path": "assets/images/editorial-generated/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1-scene.jpg",
+  "thumbnail": "assets/images/blog/thumb-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
+  "og_image": "assets/images/blog/og/og-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
+  "qa_report_path": "editorial/image-qa/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.json",
+  "asset_version": "reference-v26-auto-denba-intro-20260929-r1",
+  "updated_at": "2026-09-29T07:25:07.454Z"
+}
