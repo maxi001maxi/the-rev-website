@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
-import { buildDailyManagerSnapshot, jstDateKey, validBusinessDate } from '../../lib/dailyManager.mjs';
+import { buildDailyManagerSnapshot, jstDateKey, validBusinessDate, isBusinessDay } from '../../lib/dailyManager.mjs';
 
 function optionalInt(value, field) {
   if (value === '' || value === null || value === undefined) return null;
@@ -37,6 +37,39 @@ async function requireActiveAdmin(req, res) {
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'private, no-store, max-age=0');
+
+  // Vercel Cron reuses this route so the project does not consume an extra
+  // Serverless Function slot. Browser/admin requests still follow normal JWT auth.
+  const cronSecret = String(process.env.CRON_SECRET || '').trim();
+  const authHeader = String(req.headers.authorization || '');
+  const isCronRequest = req.method === 'GET' && cronSecret && authHeader === `Bearer ${cronSecret}`;
+  if (isCronRequest) {
+    const businessDate = jstDateKey();
+    if (!isBusinessDay()) {
+      return res.status(200).json({ ok: true, skipped: true, businessDate, reason: 'closed_day' });
+    }
+    const service = serviceClient();
+    if (!service || !String(process.env.GSC_WIZARD_API_KEY || '').trim()) {
+      return sendError(res, 503, 'cron_not_configured', 'Daily Manager cronのサーバー設定が未完了です。');
+    }
+    try {
+      const snapshot = await buildDailyManagerSnapshot({
+        supabase: service,
+        businessDate,
+        finalize: false
+      });
+      return res.status(200).json({
+        ok: true,
+        businessDate,
+        status: snapshot.snapshot_status,
+        generatedAt: snapshot.generated_at
+      });
+    } catch (error) {
+      console.error('[daily-manager/cron] snapshot failed:', error?.code || error?.message || 'unknown');
+      return sendError(res, 500, 'cron_snapshot_failed', 'Daily Manager cronの集計に失敗しました。');
+    }
+  }
+
   const ctx = await requireActiveAdmin(req, res);
   if (!ctx) return;
 
