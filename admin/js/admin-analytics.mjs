@@ -2,6 +2,7 @@ import { requireSession, signOut } from './admin-auth.mjs';
 import { AdminApi } from './admin-api.mjs';
 
 const fmt = new Intl.NumberFormat('ja-JP');
+const count = (value) => Number.isFinite(Number(value)) ? fmt.format(Number(value)) : '—';
 
 function setText(id, value) {
   const node = document.getElementById(id);
@@ -56,7 +57,7 @@ function renderPages(items) {
     const path = document.createElement('small');
     path.textContent = item.path || '/';
     first.append(title, path);
-    row.append(first, td(fmt.format(item.views || 0)), td(fmt.format(item.users || 0)));
+    row.append(first, td(count(item.views)), td(count(item.users)));
     tbody.appendChild(row);
   }
 }
@@ -67,7 +68,7 @@ function renderTraffic(items) {
   if (!items?.length) return emptyRow(tbody, 3);
   for (const item of items) {
     const row = document.createElement('tr');
-    row.append(td(item.sourceMedium || '—'), td(fmt.format(item.sessions || 0)), td(fmt.format(item.users || 0)));
+    row.append(td(item.sourceMedium || '—'), td(count(item.sessions)), td(count(item.users)));
     tbody.appendChild(row);
   }
 }
@@ -78,7 +79,7 @@ function renderEvents(items) {
   if (!items?.length) return emptyRow(tbody, 2, '主要CTAイベントはまだ受信されていません。');
   for (const item of items) {
     const row = document.createElement('tr');
-    row.append(td(item.event || '—'), td(fmt.format(item.count || 0)));
+    row.append(td(item.event || '—'), td(count(item.count)));
     tbody.appendChild(row);
   }
 }
@@ -111,7 +112,7 @@ function renderDevices(items) {
 
     const value = document.createElement('span');
     value.className = 'admin-device-value';
-    value.textContent = `${fmt.format(item.users || 0)} users`;
+    value.textContent = `${count(item.users)} users`;
 
     row.append(name, track, value);
     root.appendChild(row);
@@ -122,10 +123,10 @@ function render(payload) {
   const current = payload.summary?.current || {};
   const change = payload.summary?.change || {};
 
-  setText('metric-users', fmt.format(current.users || 0));
-  setText('metric-sessions', fmt.format(current.sessions || 0));
-  setText('metric-views', fmt.format(current.views || 0));
-  setText('metric-new-users', fmt.format(current.newUsers || 0));
+  setText('metric-users', count(current.users));
+  setText('metric-sessions', count(current.sessions));
+  setText('metric-views', count(current.views));
+  setText('metric-new-users', count(current.newUsers));
 
   renderChange('change-users', change.users);
   renderChange('change-sessions', change.sessions);
@@ -133,17 +134,17 @@ function render(payload) {
   renderChange('change-new-users', change.newUsers);
 
   if (payload.realtime) {
-    setText('realtime-users', fmt.format(payload.realtime.activeUsers || 0));
-    setText('realtime-views', `${fmt.format(payload.realtime.views || 0)} views`);
-    setText('realtime-events', `${fmt.format(payload.realtime.eventCount || 0)} events`);
+    setText('realtime-users', count(payload.realtime.activeUsers));
+    setText('realtime-views', `${count(payload.realtime.views)} views`);
+    setText('realtime-events', `${count(payload.realtime.eventCount)} events`);
   } else {
     setText('realtime-users', '—');
-    setText('realtime-views', 'Realtime unavailable');
+    setText('realtime-views', 'GSC Wizard接続ではRealtime未対応');
     setText('realtime-events', '');
   }
 
-  setText('audience-new', fmt.format(payload.audience?.new || 0));
-  setText('audience-returning', fmt.format(payload.audience?.returning || 0));
+  setText('audience-new', count(payload.audience?.new));
+  setText('audience-active', count(payload.audience?.active));
 
   renderPages(payload.topPages);
   renderTraffic(payload.traffic);
@@ -180,7 +181,7 @@ async function load(range) {
       return;
     }
     error.textContent = e.code === 'analytics_not_configured'
-      ? 'GA4 Data APIはまだ接続されていません。計測側の正常化後、GA4_PROPERTY_ID とサーバー側サービスアカウント設定を完了すると表示されます。'
+      ? 'AnalyticsのGA4接続を利用できません。Site Insightsの接続状態を確認してください。'
       : (e.message || 'Analyticsの取得に失敗しました。');
     error.classList.remove('admin-hidden');
   }
