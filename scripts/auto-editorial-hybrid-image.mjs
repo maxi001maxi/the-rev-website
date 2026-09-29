@@ -299,6 +299,8 @@ function qaPass(qa) {
     qa.trainer_photo_reused === false &&
     qa.expected_copy_present === true &&
     qa.copy_legible === true &&
+    qa.headline_line_break_quality === true &&
+    Number(qa.headline_balance_score || 0) >= 8 &&
     qa.too_promotional === false &&
     (
       qa.gbp_image_required !== true ||
@@ -326,6 +328,8 @@ async function visualQa(attempt) {
     'The typography in the final thumbnail and GBP image is deterministic. Judge whether it is immediately legible at blog-card size, editorial rather than ad-like, and consistent with THE REV.',
     'NEGATIVE SPACE DOES NOT MEAN EMPTY SPACE. Reward intentional breathing room, but score negative_space <= 7 if a large plain ivory region has no hierarchy purpose and makes the thumbnail feel unfinished.',
     'Score typography_harmony <= 7 if the main headline reads like a small caption once the 1200px image is mentally reduced to a typical two-column blog card.',
+    'TYPOGRAPHY BREAK QC: inspect the FINAL rendered headline, not only whether the expected words are present. Fail headline_line_break_quality if a manual break splits a grammatical unit at a weak connective/particle such as って/とは/の/を/が/に/と/で without phrase-closing punctuation, if a short headline is fragmented into floating pieces, or if line spacing/balance feels accidental.',
+    'For short Japanese headlines, prefer one compact line when it comfortably fits. If multiple lines are needed, break at a semantic phrase boundary and keep the visual lengths/hierarchy intentionally balanced. Set headline_balance_score <= 7 for awkward or amateur-looking breaks even when every character is legible.',
     'Score editorial_quality <= 7 if the result feels like a museum label, brochure placeholder, or generic template instead of a compelling article thumbnail.',
     'When layout_variant is impact-v1, the photograph should feel like the visual majority while the enlarged headline remains a clear second focal point. Premium restraint must come from hierarchy, not tiny type.',
     'HUMAN FIRST V1: fail if the room/equipment feels like the hero and the customer feels small. The customer should carry roughly 60-70% of visual attention, with face/expression/action readable at card size.',
@@ -382,6 +386,8 @@ async function visualQa(attempt) {
     '  "real_the_rev_background_confirmed": boolean,',
     '  "expected_copy_present": boolean,',
     '  "copy_legible": boolean,',
+    '  "headline_line_break_quality": boolean,',
+    '  "headline_balance_score": 0-10,',
     '  "too_promotional": boolean,',
     '  "gbp_aspect_ratio_pass": boolean,',
     '  "gbp_safe_area_pass": boolean,',
@@ -419,7 +425,7 @@ async function visualQa(attempt) {
   const modelQa = extractJson(outputText(response));
   const bg = job.background_source || {};
   const scores = [
-    'series_consistency','editorial_quality','typography_harmony','negative_space',
+    'series_consistency','editorial_quality','typography_harmony','headline_balance_score','negative_space',
     'photo_treatment','article_visual_relevance','main_claim_visualization','human_subject_prominence','rev_environment_consistency',
     'brand_space_authenticity','human_environment_integration',
     'perspective_scale_consistency','ground_contact_shadow_consistency',
@@ -496,7 +502,7 @@ async function visualQa(attempt) {
   // Convert model booleans to strict booleans; omitted/ambiguous values fail closed.
   for (const key of [
     'no_cutout_or_sticker_look','location_semantics_pass','exercise_pose_plausible',
-    'real_the_rev_background_confirmed','expected_copy_present','copy_legible',
+    'real_the_rev_background_confirmed','expected_copy_present','copy_legible','headline_line_break_quality',
     'article_theme_inferable_without_title','scene_action_has_article_specific_meaning',
     'face_expression_readable','background_secondary_pass','background_soft_blur_pass',
     'the_rev_anchor_visible','customer_presentation_matches_plan',
