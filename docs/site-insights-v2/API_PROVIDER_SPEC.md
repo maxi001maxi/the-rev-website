@@ -30,13 +30,13 @@ One failed provider must not erase successful sources. Bound outbound concurrenc
 | Capability | Gate 1 observed path | Gate 2 adapter policy |
 |---|---|---|
 | GSC daily/date/query/page | Wizard `query_search_analytics`; `dataSource:api`, `settledThrough` | Use service-side read-only key under `GSC_WIZARD_API_KEY`; if official API chosen later, preserve normalized contract. Ensure complete daily pagination and distinguish privacy-filtered query lists. |
-| GA4 summary/event/page/landing | Wizard GA4 overview/report; property `properties/552679302`, timezone Asia/Tokyo | Prefer typed official GA4 Data API via existing `lib/ga4Data.mjs` service account when configured; Wizard GA4 adapter can satisfy supported reads. No claim of stable `kpis` labels as raw schema. |
-| GA4 day series and event by page | Not established by Gate 1 Wizard response | Implement official `runReport` `date` and validated `eventName × pagePath` where supported, or return UNKNOWN for unavailable dimensions. Do not use event-filtered page sessions as unfiltered denominator. |
+| GA4 summary/event/page/landing | Wizard `get_ga4_overview` and `query_ga4_report`; property `properties/552679302`, timezone Asia/Tokyo | Use the same server-side Wizard read-only key. Validate the complete JSON tool result rather than the presentation-only `kpis` projection. Legacy `/api/admin/analytics` keeps its official GA4 Data API path. |
+| GA4 day series and event by page | Wizard overview daily `timeseries`; scoped event report for day detail | Use overview timeseries for daily sessions/page views and exact event filters for P0 counts. Event-by-page attribution remains UNKNOWN. Do not use event-filtered sessions as an unfiltered denominator. |
 | Blended landing | Wizard `get_blended_landing_pages` table, outer join | Add source flags; if no impressions field, merge GSC page aggregate by canonical key with separate provenance or return UNKNOWN. Do not equate blended keyEvents with reserve clicks. |
 | Realtime | GA4 Realtime | Independent optional short-lived block; not mixed with settled period. |
 | Indexing / 404 | No Gate 1 source acceptance for these metrics | Technical view NOT_CONFIGURED/UNKNOWN until appropriate, explicitly authorized source. Never infer 404 from a sitemap. |
 
-The connected GSC Wizard MCP is an analysis path, **not automatically a deployable server SDK**. Before writing the server adapter, confirm the read-only API's supported endpoints, authentication header, quotas, pagination and field semantics from its official documentation using secure server credentials. If it cannot supply a required dimension, use the existing authorized official Google API route or mark it UNKNOWN; no browser-side key and no invented endpoint. No API key is needed to finish Gate 1.
+Site Insights v2 uses GSC Wizard's documented Streamable HTTP MCP endpoint with a fixed read-tool allowlist. The read-only key is sent only as a server-side bearer credential. Unsupported dimensions remain UNKNOWN; the browser never receives the key.
 
 ## Internal cache and freshness
 
@@ -57,7 +57,7 @@ On upstream failure, server may expose an optional last-good snapshot with times
 ## Auth and secrets
 
 - Use existing browser `AdminApi` bearer path and server `getAuthedContext(req)` for **every** v2 route, including detail. Verify authorization policy for Site Insights access before accepting an arbitrary Supabase account; follow established Admin member roles rather than treating any valid JWT as universal authorization. No service-role key for read-only browser operations.
-- Environment: `GSC_WIZARD_API_KEY` (read-only secret, server only), `GA4_PROPERTY_ID=552679302`, `GA4_SERVICE_ACCOUNT_JSON` (existing server-only route when used), `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` (existing Auth config). Only names and dummy values go in `.env.example`; production secrets go through secure host environment settings. Measurement ID and GTM ID are public identifiers; no need to ship the read-only key to clients.
+- Environment for Site Insights v2: `GSC_WIZARD_API_KEY` (read-only secret, server only), plus existing Admin Auth configuration. `GA4_PROPERTY_ID` and `GA4_SERVICE_ACCOUNT_JSON` remain supported only by legacy `/api/admin/analytics` and `lib/ga4Data.mjs`; they are not v2 prerequisites. Only names and dummy values go in `.env.example`; host secrets use secure environment settings. Measurement ID and GTM ID are public identifiers; the read-only key is never shipped to clients.
 - Scope outbound hosts to documented Wizard and official Google API endpoints; forbid user-controlled URL fetch, open redirects and SSRF. Never expose keys, access tokens, complete provider error bodies or raw personal/health input in HTML, JS, API payload or logs. Parameter allowlists exclude `link_text`, arbitrary `link_url` and form answers.
 - Browser response `Cache-Control: private, no-store`; bounded query/cursor values, strict date validation, escaped text and rate limiting. Provider error maps to safe code and message. No cross-user cache leakage (source data is site aggregate, but cache is only server-internal and endpoint remains authenticated).
 

@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import {metric,unavailable,delta,overallStatus} from '../lib/siteInsights/status.mjs';
 import {wizardCtr,ga4Rate,canonicalPath,dateList,ga4Rows} from '../lib/siteInsights/normalize.mjs';
 import {searchDaily,searchTotal,searchDimension} from '../lib/siteInsights/providers/search.mjs';
-import {blend} from '../lib/siteInsights/providers/blended.mjs';
+import {blend,blendedLanding} from '../lib/siteInsights/providers/blended.mjs';
+import {ga4Dataset} from '../lib/siteInsights/providers/ga4.mjs';
+import {clearCache} from '../lib/siteInsights/cache.mjs';
 import {insightRules,anomalies} from '../lib/siteInsights/rules.mjs';
 import {wizard} from '../lib/siteInsights/providers/wizard.mjs';
 import handler from '../api/admin/site-insights.mjs';
@@ -62,6 +64,40 @@ test('Wizard adapter fixes endpoint, uses key only in header, and parses structu
   assert.equal(result.settledThrough,'2026-09-26');assert.equal(calls.length,3);assert.ok(calls.every(c=>c.url==='https://mcp.gscwizard.com/mcp'));
   assert.ok(calls.every(c=>!c.options.body.includes('test_secret')));
   await assert.rejects(()=>wizard('arbitrary_outbound',{}, {fetchImpl,key:'test_secret'}));
+});
+test('Wizard is the sole v2 GA4 credential and normalizes overview, CTA and blended raw data',async()=>{
+  const originalFetch=globalThis.fetch,oldKey=process.env.GSC_WIZARD_API_KEY,oldProperty=process.env.GA4_PROPERTY_ID,oldService=process.env.GA4_SERVICE_ACCOUNT_JSON;
+  delete process.env.GA4_PROPERTY_ID;delete process.env.GA4_SERVICE_ACCOUNT_JSON;process.env.GSC_WIZARD_API_KEY='test_secret';clearCache();
+  const reports={
+    event:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'event',rows:[{key:'reserve_click',eventCount:2}]},
+    page:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'page',rows:[{key:'/price.html',screenPageViews:4,activeUsers:3}]},
+    landingPage:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'landingPage',rows:[{key:'/price.html',sessions:2}]},
+    sourceMedium:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'sourceMedium',rows:[{key:'google / organic',sessions:2}]},
+    device:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'device',rows:[{key:'mobile',sessions:2}]}
+  };
+  const overview={propertyId:'properties/552679302',timeZone:'Asia/Tokyo',summary:{sessions:3,activeUsers:2,screenPageViews:4,newUsers:2,engagementRate:.5,bounceRate:.5},timeseries:[{date:'2026-09-29',sessions:3,screenPageViews:4}]};
+  const blended={propertyId:'properties/552679302',organicOnly:true,rows:[{key:'/price.html',clicks:1,impressions:20,ctr:5,position:3,sessions:2,activeUsers:2,bounceRate:.5,keyEvents:0,ga4Matched:true}]};
+  const response=data=>({ok:true,status:200,headers:{get:name=>name.toLowerCase()==='mcp-session-id'?'session':'application/json'},text:async()=>JSON.stringify(data)});
+  globalThis.fetch=async(_url,options)=>{
+    const payload=JSON.parse(options.body);
+    if(payload.method==='initialize')return response({jsonrpc:'2.0',id:1,result:{protocolVersion:'2025-03-26'}});
+    if(payload.method==='tools/call'){
+      const {name,arguments:a}=payload.params;
+      const raw=name==='get_ga4_overview'?overview:name==='query_ga4_report'?reports[a.dimension]:name==='get_blended_landing_pages'?blended:{annotations:[]};
+      return response({jsonrpc:'2.0',id:2,result:{content:[{type:'text',text:JSON.stringify(raw)}],structuredContent:{kind:'presentation-only'}}});
+    }
+    return response({});
+  };
+  try {
+    const range={startDate:'2026-09-29',endDate:'2026-09-29'};
+    const ga4=await ga4Dataset(range);assert.equal(ga4.total.sessions,3);assert.equal(ga4.events.reserve_click,2);assert.equal(ga4.pages[0].path,'/price.html');
+    const joined=await blendedLanding(range,[{key:'/price.html'}]);assert.equal(joined[0].search.ctr,.05);assert.deepEqual(joined[0].sourceFlags,['gsc','ga4']);
+  } finally {
+    globalThis.fetch=originalFetch;clearCache();
+    if(oldKey===undefined)delete process.env.GSC_WIZARD_API_KEY;else process.env.GSC_WIZARD_API_KEY=oldKey;
+    if(oldProperty===undefined)delete process.env.GA4_PROPERTY_ID;else process.env.GA4_PROPERTY_ID=oldProperty;
+    if(oldService===undefined)delete process.env.GA4_SERVICE_ACCOUNT_JSON;else process.env.GA4_SERVICE_ACCOUNT_JSON=oldService;
+  }
 });
 test('canonical API rejects anonymous and invalid methods before any provider call',async()=>{
   const oldUrl=process.env.SUPABASE_URL,oldKey=process.env.SUPABASE_PUBLISHABLE_KEY;
