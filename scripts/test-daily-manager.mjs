@@ -5,7 +5,8 @@ import {
   normalizeDailyInput,
   sessionSummary,
   buildManagerAssessment,
-  validBusinessDate
+  validBusinessDate,
+  isBusinessDay
 } from '../lib/dailyManager.mjs';
 
 const read=(path)=>fs.readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
@@ -53,6 +54,12 @@ test('missing morning count becomes an action rather than zero',()=>{
   assert.equal(result.priorities[0].key,'session_input');
 });
 
+test('THE REV business-day guard skips Monday and Friday',()=>{
+  assert.equal(isBusinessDay(new Date('2026-09-29T10:00:00Z')),true);
+  assert.equal(isBusinessDay(new Date('2026-09-28T10:00:00Z')),false);
+  assert.equal(isBusinessDay(new Date('2026-10-02T10:00:00Z')),false);
+});
+
 test('business date validation is strict',()=>{
   assert.equal(validBusinessDate('2026-09-29'),true);
   assert.equal(validBusinessDate('2026/09/29'),false);
@@ -66,7 +73,7 @@ test('cron is authenticated and scheduled for THE REV business days at 19:00 JST
   assert.match(cron,/Authorization|authorization/);
   assert.deepEqual(vercel.crons,[{
     path:'/api/cron/daily-manager',
-    schedule:'0 10 * * 0,2,3,4,6'
+    schedule:'0 10 * * *'
   }]);
 });
 
