@@ -3,19 +3,19 @@
   "article_title": "酸素ルームが初めての方へ｜耳抜きのやり方と利用前に知っておきたいこと",
   "category_label": "RECOVERY",
   "column_label": "COLUMN",
-  "image_headline_short": "疲れた日は、\n軽く始めて決める。",
+  "image_headline_short": "耳抜きは、\n我慢しない。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が仕事終わりに来店し、その日の疲労を見ながら軽く始めるか判断している静かな場面。トレーナー、スタッフ、コーチは出さない。",
+  "scene_intent": "THE REV.の実際の酸素ルーム内で、一般顧客役の成人1人が横になって落ち着いて初回利用している場面。酸素ルーム本体・室内がTHE REV.実施設として認識できること。耳に軽い違和感を感じた瞬間を大げさに演出せず、片手を耳の近くに添える程度は可。トレーナー、スタッフ、コーチは出さない。トレーニング空間や筋トレ動作は出さない。",
   "generated_customer_count": 1,
   "customer_presentation": "male",
   "generated_scene_path": "assets/images/editorial-generated/oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxyroom-20260924-2ed7d52e-scene.png",
   "style_references": [
-    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
-    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+    "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+    "assets/images/blog/thumb-exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
@@ -52,8 +52,8 @@
     "non_customer_people_forbidden": true,
     "customer_only_or_no_people_required": true,
     "real_the_rev_background_required": true,
-    "scene_aware_integration_required_for_exercise": true,
-    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "scene_aware_integration_required_for_exercise": false,
+    "isolated_person_cutout_composite_forbidden_for_exercise": false,
     "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
     "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
     "realism_qc_version": "v1",
@@ -142,6 +142,8 @@
       "female",
       "male",
       "male"
-    ]
+    ],
+    "force_regeneration_requested_at": "2026-09-29T15:33:00+09:00",
+    "force_regeneration_reason": "Correct stale training-scene/headline metadata and trigger immediate oxygen-room-specific asset generation for same-day Editorial Review Ready."
   }
 }
