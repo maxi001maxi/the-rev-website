@@ -13,6 +13,7 @@ import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
 import { runPreflight, checkPublisher } from '../../lib/publishFlow.mjs';
 import { GithubError, putFile, sendGithubError } from '../../lib/githubContent.mjs';
 import { commitMessageFor } from '../../lib/blogMarkdown.mjs';
+import { publicationFieldsFromGitHubWrite } from '../../lib/editorialPublication.mjs';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -117,14 +118,19 @@ export default async function handler(req, res) {
 
   // --- GitHub成功後にのみ Supabase Draft の同期情報を更新する ---
   let syncWarning = null;
+  const publicationFields = publicationFieldsFromGitHubWrite({
+    draft,
+    written,
+    publicUrl: pre.canonical || (pre.publicUrl ? `https://therev-lab.com${pre.publicUrl}` : null)
+  });
   const { error: updateError } = await supabase
     .from('admin_article_drafts')
-    .update({ source_path: written.path, source_sha: written.contentSha })
+    .update(publicationFields)
     .eq('id', articleId);
 
   if (updateError) {
     // GitHubへは書き込み済み。Draftは削除も破壊もせず、警告として返す。
-    syncWarning = 'GitHubへの反映は成功しましたが、Admin側の同期情報（source_sha）の保存に失敗しました。'
+    syncWarning = 'GitHubへの反映は成功しましたが、Admin側の同期情報（source_sha / publish state）の保存に失敗しました。'
       + 'このまま続けて更新すると競合検知が働くため、Review画面を再読み込みして状態を確認してください。';
   }
 
@@ -137,6 +143,8 @@ export default async function handler(req, res) {
     contentSha: written.contentSha,
     commitUrl: written.commitUrl,
     publicUrl: pre.publicUrl,
+    publishStatus: publicationFields.publish_status,
+    publishedUrl: publicationFields.published_url,
     repo: pre.github.repo,
     branch: pre.github.branch,
     syncWarning

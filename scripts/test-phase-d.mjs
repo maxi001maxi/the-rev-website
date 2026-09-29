@@ -18,6 +18,14 @@ const { IMAGE_RENDER_VERSION, IMAGE_STYLE_TEMPLATE } = await import('../lib/edit
 const { HYBRID_IMAGE_FORMAT } = await import('../lib/editorialHybridImageFormat.mjs');
 const storage = await import('../admin/js/admin-storage.mjs');
 const { resolveEditorialCtaType } = await import('../lib/editorialBridge.mjs');
+const {
+  ACTIVE_QUEUE_STATUSES,
+  TERMINAL_QUEUE_STATUSES,
+  PUBLISH_STATUS,
+  isActiveQueueStatus,
+  isPublishedMarkdown,
+  publicationFieldsFromGitHubWrite
+} = await import('../lib/editorialPublication.mjs');
 
 let passed = 0;
 const failures = [];
@@ -173,6 +181,27 @@ assert(
   }, { ctaType: 'personal-training' }) === 'personal-training',
   '明示FORCEはCTAを保持'
 );
+
+section('3b. Editorial publication / queue policy');
+assert(ACTIVE_QUEUE_STATUSES.includes('REVIEW_READY'), 'REVIEW_READYはactive queueに含む');
+assert(!ACTIVE_QUEUE_STATUSES.includes('PUBLISHED'), 'PUBLISHEDはactive queueに含めない');
+assert(TERMINAL_QUEUE_STATUSES.includes('PUBLISHED') && TERMINAL_QUEUE_STATUSES.includes('SKIPPED'), 'PUBLISHED/SKIPPEDをterminalとして固定');
+assert(isActiveQueueStatus('ERROR') === true, 'ERRORは未解決activeとして数える');
+assert(isActiveQueueStatus('PUBLISHED') === false, '公開済み過去記事はactiveから除外');
+assert(isPublishedMarkdown(md) === true, 'serializerのpublished Markdownを公開済みとして判定');
+const publishEvidence = publicationFieldsFromGitHubWrite({
+  draft: SAMPLE_DRAFT,
+  written: {
+    path: `content/blog/${TEST_SLUG}.md`,
+    contentSha: 'content-sha-1',
+    commitSha: 'commit-sha-1'
+  },
+  publicUrl: `https://therev-lab.com/blog/${TEST_SLUG}/`,
+  now: new Date('2026-09-29T00:00:00Z')
+});
+assert(publishEvidence.publish_status === PUBLISH_STATUS.PUBLISH_COMMITTED, 'GitHub成功直後はPUBLISH_COMMITTED');
+assert(publishEvidence.source_sha === 'content-sha-1' && publishEvidence.publish_commit_sha === 'commit-sha-1', 'GitHub commit/content SHAを永続化');
+assert(publishEvidence.published_at === null && publishEvidence.publish_verified_at === null, '本番確認前はPUBLISHEDに昇格しない');
 
 section('4. Real build compatibility');
 const tmpMdPath = path.join(ROOT, 'content', 'blog', `${TEST_SLUG}.md`);
