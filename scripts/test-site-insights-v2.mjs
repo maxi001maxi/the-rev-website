@@ -87,8 +87,8 @@ test('Wizard is the sole v2 GA4 credential and normalizes overview, CTA and blen
     event:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'event',rows:[{key:'reserve_click',eventCount:2}]},
     page:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'page',rows:[{key:'/price.html',screenPageViews:4,activeUsers:3}]},
     landingPage:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'landingPage',rows:[{key:'/price.html',sessions:2}]},
-    sourceMedium:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'sourceMedium',rows:[{key:'google / organic',sessions:2}]},
-    device:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'device',rows:[{key:'mobile',sessions:2}]}
+    sourceMedium:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'sourceMedium',rows:[{key:'google / organic',sessions:2,activeUsers:2}]},
+    device:{propertyId:'properties/552679302',timeZone:'Asia/Tokyo',dimension:'device',rows:[{key:'mobile',sessions:2,activeUsers:2}]}
   };
   const overview={propertyId:'properties/552679302',timeZone:'Asia/Tokyo',summary:{sessions:3,activeUsers:2,screenPageViews:4,newUsers:2,engagementRate:.5,bounceRate:.5},timeseries:[{date:'2026-09-29',sessions:3,screenPageViews:4}]};
   const blended={propertyId:'properties/552679302',organicOnly:true,rows:[{key:'/price.html',clicks:1,impressions:20,ctr:5,position:3,sessions:2,activeUsers:2,bounceRate:.5,keyEvents:0,ga4Matched:true}]};
@@ -113,6 +113,17 @@ test('Wizard is the sole v2 GA4 credential and normalizes overview, CTA and blen
     if(oldProperty===undefined)delete process.env.GA4_PROPERTY_ID;else process.env.GA4_PROPERTY_ID=oldProperty;
     if(oldService===undefined)delete process.env.GA4_SERVICE_ACCOUNT_JSON;else process.env.GA4_SERVICE_ACCOUNT_JSON=oldService;
   }
+});
+test('legacy Analytics shares the Wizard GA4 provider and no longer requires a service account',()=>{
+  const api=fs.readFileSync(new URL('../api/admin/analytics.mjs',import.meta.url),'utf8');
+  const client=fs.readFileSync(new URL('../admin/js/admin-analytics.mjs',import.meta.url),'utf8');
+  const html=fs.readFileSync(new URL('../admin/analytics/index.html',import.meta.url),'utf8');
+  assert.match(api,/ga4Dataset/);
+  assert.match(api,/GSC_WIZARD_API_KEY/);
+  assert.doesNotMatch(api,/GA4_SERVICE_ACCOUNT_JSON|parseServiceAccount|getServiceAccountAccessToken/);
+  assert.doesNotMatch(client,/GA4_PROPERTY_ID|サービスアカウント/);
+  assert.match(html,/audience-active/);
+  assert.doesNotMatch(html,/audience-returning/);
 });
 test('canonical API rejects anonymous and invalid methods before any provider call',async()=>{
   const oldUrl=process.env.SUPABASE_URL,oldKey=process.env.SUPABASE_PUBLISHABLE_KEY;
