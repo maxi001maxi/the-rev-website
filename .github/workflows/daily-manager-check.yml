@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'api/admin/daily-manager.mjs'
-      - 'api/cron/daily-manager.mjs'
+      - 'api/daily-manager-cron.mjs'
       - 'lib/dailyManager.mjs'
       - 'admin/daily-manager/**'
       - 'admin/js/admin-api.mjs'
@@ -34,7 +34,7 @@ jobs:
       - run: npm ci
       - run: node --check lib/dailyManager.mjs
       - run: node --check api/admin/daily-manager.mjs
-      - run: node --check api/cron/daily-manager.mjs
+      - run: node --check api/daily-manager-cron.mjs
       - run: node --check admin/daily-manager/daily-manager.mjs
       - run: npm run test:daily-manager
       - run: npm run test:phase-e
