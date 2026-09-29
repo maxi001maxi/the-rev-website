@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {
   GBP_SCOPE,
   authorizationUrl,
@@ -67,15 +69,23 @@ test('GBP performance keeps observed zero distinct from missing metrics',async()
   }finally{globalThis.fetch=oldFetch;}
 });
 
-test('browser and status endpoints do not expose stored refresh tokens or OAuth client secret',()=>{
-  const files=[
-    '../api/admin/google-business/status.mjs',
+test('browser and consolidated admin endpoint do not expose stored secrets',()=>{
+  const browser=[
     '../admin/js/google-business.mjs',
     '../admin/google-business/index.html'
   ].map(p=>fs.readFileSync(new URL(p,import.meta.url),'utf8')).join('\n');
-  assert.doesNotMatch(files,/refresh_token/);
-  assert.doesNotMatch(files,/GBP_GOOGLE_CLIENT_SECRET/);
-  const callback=fs.readFileSync(new URL('../api/admin/google-business/callback.mjs',import.meta.url),'utf8');
-  assert.match(callback,/verifyOAuthState/);
-  assert.match(callback,/saveConnection/);
+  assert.doesNotMatch(browser,/refresh_token/);
+  assert.doesNotMatch(browser,/GBP_GOOGLE_CLIENT_SECRET/);
+  const endpoint=fs.readFileSync(new URL('../api/admin/google-business.mjs',import.meta.url),'utf8');
+  assert.match(endpoint,/verifyOAuthState/);
+  assert.match(endpoint,/saveConnection/);
+  assert.match(endpoint,/action==='callback'/);
+  assert.doesNotMatch(endpoint,/refresh_token/);
+});
+
+test('Vercel API function count stays within the 12-function limit',()=>{
+  const root=fileURLToPath(new URL('../api/',import.meta.url));
+  const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(path.join(dir,entry.name)):[path.join(dir,entry.name)]);
+  const functions=walk(root).filter(file=>file.endsWith('.mjs'));
+  assert.ok(functions.length<=12,'API function count is '+functions.length+', expected <= 12: '+functions.join(', '));
 });
