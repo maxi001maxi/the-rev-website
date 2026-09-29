@@ -66,11 +66,15 @@ test('business date validation is strict',()=>{
   assert.equal(validBusinessDate('today'),false);
 });
 
-test('cron endpoint is authenticated and business-day aware',()=>{
-  const cron=read('api/daily-manager-cron.mjs');
-  assert.match(cron,/CRON_SECRET/);
-  assert.match(cron,/Authorization|authorization/);
-  assert.match(cron,/isBusinessDay/);
+test('cron reuses the Daily Manager function and waits for the CI preview gate',()=>{
+  const api=read('api/admin/daily-manager.mjs');
+  const config=JSON.parse(read('vercel.json'));
+  assert.match(api,/CRON_SECRET/);
+  assert.match(api,/Authorization|authorization/);
+  assert.match(api,/isBusinessDay/);
+  assert.equal(fs.existsSync(new URL('../api/daily-manager-cron.mjs',import.meta.url)),false);
+  assert.deepEqual(config.crons,[{path:'/api/admin/daily-manager',schedule:'0 10 * * *'}]);
+  assert.equal(config.git?.deploymentEnabled?.['feature/daily-manager-v1'],false);
 });
 
 test('admin surface is low-input and protected',()=>{

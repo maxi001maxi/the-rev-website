@@ -15,7 +15,9 @@
     "image:compile-job": "node scripts/compile-hybrid-image-job.mjs",
     "image:render-hybrid-overlay": "node scripts/render-hybrid-editorial-overlay.mjs",
     "test:editorial-images": "node scripts/validate-editorial-image-system.mjs",
-    "test:daily-manager": "node --test scripts/test-daily-manager.mjs"
+    "test:daily-manager": "node --test scripts/test-daily-manager.mjs",
+    "test:vercel-functions": "node scripts/check-vercel-functions.mjs",
+    "verify:daily-manager": "node --check lib/dailyManager.mjs && node --check api/admin/daily-manager.mjs && node --check admin/daily-manager/daily-manager.mjs && npm run test:daily-manager && npm run test:phase-e && npm run test:site-insights && npm run test:vercel-functions && npm run vercel-build"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

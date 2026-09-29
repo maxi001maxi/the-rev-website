@@ -1,7 +1,19 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "dist",
   "trailingSlash": true,
   "cleanUrls": false,
+  "git": {
+    "deploymentEnabled": {
+      "feature/daily-manager-v1": false
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/admin/daily-manager",
+      "schedule": "0 10 * * *"
+    }
+  ],
   "rewrites": [
     {
       "source": "/admin",
