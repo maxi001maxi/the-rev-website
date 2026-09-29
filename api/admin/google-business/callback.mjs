@@ -17,12 +17,12 @@ export default async function handler(req,res){
   res.setHeader('Cache-Control','private, no-store, max-age=0');
   if(req.method!=='GET'){res.statusCode=405;return res.end('GET only');}
   const query=req.query||{};
-  if(query.error)return redirect(res,'/admin/site-insights/?gbp=cancelled');
-  if(!query.code||!query.state)return redirect(res,'/admin/site-insights/?gbp=invalid');
+  if(query.error)return redirect(res,'/admin/google-business/?status=cancelled');
+  if(!query.code||!query.state)return redirect(res,'/admin/google-business/?status=invalid');
 
   let state;
   try{state=verifyOAuthState(query.state);}
-  catch{return redirect(res,'/admin/site-insights/?gbp=invalid');}
+  catch{return redirect(res,'/admin/google-business/?status=invalid');}
 
   try{
     const tokenData=await exchangeCode(query.code);
@@ -30,9 +30,9 @@ export default async function handler(req,res){
     try{discovery=await discoverBusiness(tokenData.access_token);}
     catch(error){discovery={error:classify(error),verified:false};}
     await saveConnection(state.userId,tokenData,discovery);
-    return redirect(res,discovery?.locationResource?'/admin/site-insights/?gbp=connected':'/admin/site-insights/?gbp=connected-needs-discovery');
+    return redirect(res,discovery?.locationResource?'/admin/google-business/?status=connected':'/admin/google-business/?status=connected-needs-discovery');
   }catch(error){
     console.error('[google-business/callback]',error?.code||error?.status||'error');
-    return redirect(res,'/admin/site-insights/?gbp=error');
+    return redirect(res,'/admin/google-business/?status=error');
   }
 }
