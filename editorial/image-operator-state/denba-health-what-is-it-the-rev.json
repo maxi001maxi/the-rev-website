@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.jpg",
   "qa_report_path": "editorial/image-qa/denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r1.json",
   "asset_version": "reference-v26-auto-denba-intro-20260929-r1",
-  "updated_at": "2026-09-29T07:25:07.454Z"
+  "updated_at": "2026-09-29T07:25:07.454Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-09-29T07:25:22Z"
 }
