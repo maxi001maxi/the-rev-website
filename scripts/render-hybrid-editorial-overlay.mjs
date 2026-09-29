@@ -283,7 +283,7 @@ body{position:relative;color:${style.overlay.headline.color}}
   color:${style.overlay.headline.color};
   word-break:keep-all;overflow-wrap:anywhere;text-rendering:optimizeLegibility;z-index:2;
 }
-.headline-line{display:block}
+.headline-line{display:block;white-space:nowrap}
 .journal-mark{
   display:${impactLayout ? 'block' : 'none'};
   position:absolute;left:${left}px;bottom:${gbp ? 54 : 42}px;
@@ -316,6 +316,19 @@ try {
     const page = await browser.newPage({ viewport: { width: spec.width, height: spec.height }, deviceScaleFactor: 1 });
     await page.setContent(html(spec), { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(() => {
+      const headline = document.querySelector('.headline');
+      const lines = [...document.querySelectorAll('.headline-line')];
+      if (!headline || !lines.length) return;
+      const maxWidth = parseFloat(getComputedStyle(headline).maxWidth || '0');
+      let size = parseFloat(getComputedStyle(headline).fontSize || '0');
+      const minSize = 36;
+      const fits = () => lines.every((line) => line.scrollWidth <= maxWidth + 0.5);
+      while (!fits() && size > minSize) {
+        size -= 1;
+        headline.style.fontSize = `${size}px`;
+      }
+    });
     await page.screenshot({ path: spec.out, type: 'jpeg', quality: 94, fullPage: false });
     await page.close();
   }
