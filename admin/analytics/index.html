@@ -32,9 +32,9 @@
 <main class="admin-main admin-analytics-main">
 <div class="admin-analytics-head">
 <div>
-<p class="admin-analytics-kicker">Site Insights</p>
+<p class="admin-analytics-kicker">GA4 DETAIL</p>
 <h1 class="admin-page-title">Analytics</h1>
-<p class="admin-page-lead">THE REV.の運営判断に必要なWeb指標だけを、GA4からまとめて表示します。</p>
+<p class="admin-page-lead">THE REV.のGA4指標を、Site Insightsと同じ安全なサーバー接続から表示します。</p>
 </div>
 <div class="admin-range-switch" role="group" aria-label="表示期間">
 <button type="button" data-range="today">今日</button>
@@ -53,7 +53,7 @@
 <h2 id="realtime-heading">現在のアクセス</h2>
 </div>
 <div class="admin-realtime-value"><strong id="realtime-users">—</strong><span>active users</span></div>
-<div class="admin-realtime-meta"><span id="realtime-views">— views</span><span id="realtime-events">— events</span></div>
+<div class="admin-realtime-meta"><span id="realtime-views">—</span><span id="realtime-events"></span></div>
 </section>
 
 <section class="admin-metric-grid" aria-label="主要指標">
@@ -106,11 +106,11 @@
 
 <article class="admin-card admin-analytics-card">
 <div class="admin-card-head">
-<div><p class="admin-status-label">Audience</p><h2>新規 / リピーター</h2></div>
+<div><p class="admin-status-label">Audience</p><h2>ユーザー</h2></div>
 </div>
 <div class="admin-audience-split">
 <div><span>New</span><strong id="audience-new">—</strong></div>
-<div><span>Returning</span><strong id="audience-returning">—</strong></div>
+<div><span>Active</span><strong id="audience-active">—</strong></div>
 </div>
 </article>
 
@@ -126,7 +126,7 @@
 <div>
 <p class="admin-status-label">Key Actions</p>
 <h2>主要CTAイベント</h2>
-<p class="admin-card-note">予約・LINE・料金・記事CTAなど、サイト側で明示的に計測している操作です。</p>
+<p class="admin-card-note">予約画面・LINE・料金・記事CTAなど、サイト側で明示的に計測している操作です。</p>
 </div>
 </div>
 <div class="admin-table-scroll">
