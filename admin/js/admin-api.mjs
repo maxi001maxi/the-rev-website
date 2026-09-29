@@ -66,6 +66,8 @@ export const AdminApi = {
   // Phase E: GA4 Data API。サーバー側APIのみを経由し、サービスアカウント鍵はブラウザへ出さない。
   getAnalytics: (range = '7d') => authedFetch(`/api/admin/analytics?range=${encodeURIComponent(range)}`),
   getSiteInsights: (range = '28d', date = '') => authedFetch(`/api/admin/site-insights?range=${encodeURIComponent(range)}${date ? `&date=${encodeURIComponent(date)}` : ''}`),
+  getGoogleBusinessStatus: () => authedFetch('/api/admin/google-business/status'),
+  getGoogleBusinessConnect: () => authedFetch('/api/admin/google-business/connect'),
 
   // Phase D: Publish Review（Preflight）とPublish本体。
   // publishPreview は GitHubへの書き込みを行わない読み取り専用のPreflight。
