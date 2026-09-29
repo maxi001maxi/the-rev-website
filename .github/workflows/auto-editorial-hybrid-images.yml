@@ -12,7 +12,10 @@ on:
       - 'lib/editorialHybridImageFormat.mjs'
       - '.github/workflows/auto-editorial-hybrid-images.yml'
   schedule:
-    - cron: '*/15 * * * *'
+    # Daily safety windows for the morning editorial pipeline.
+    # 06:00 / 07:00 / 08:00 JST = 21:00 / 22:00 / 23:00 UTC.
+    # Push remains the primary event-driven trigger when a new image job is created.
+    - cron: '0 21,22,23 * * *'
   workflow_dispatch:
 
 permissions:
