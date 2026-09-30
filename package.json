@@ -10,6 +10,7 @@
     "test:phase-d": "node scripts/test-phase-d.mjs",
     "test:phase-e": "node scripts/test-phase-e.mjs",
     "test:phase-9": "node scripts/test-phase-9.mjs",
+    "test:daily-editorial-contract": "node scripts/test-daily-editorial-contract.mjs",
     "test:site-insights": "node --test scripts/test-site-insights-v2.mjs",
     "test:hybrid-images": "node scripts/validate-hybrid-image-jobs.mjs",
     "image:compile-job": "node scripts/compile-hybrid-image-job.mjs",

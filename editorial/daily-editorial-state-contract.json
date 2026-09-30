@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "the-rev-daily-editorial-state-contract-v1",
+  "source_of_truth": {
+    "settings_sheet": "08_SETTINGS",
+    "queue_sheet": "26_DAILY_EDITORIAL_QUEUE",
+    "automation_log_sheet": "18_AUTOMATION_LOG",
+    "gas_supervisor_version": "v0.6.5.2"
+  },
+  "new_queue_no_interview": {
+    "queue_status": "DRAFTING",
+    "knowledge_gate": "SUFFICIENT",
+    "interview_required": false,
+    "interview_status": "NOT_REQUIRED",
+    "draft_status": "NOT_STARTED",
+    "image_status": "NOT_STARTED",
+    "forbidden_draft_statuses": ["PENDING"]
+  },
+  "handoffs": [
+    {
+      "name": "draft_to_image",
+      "from_queue_status": "DRAFTING",
+      "when": "draft_ready_and_image_job_created",
+      "required_before_handoff": {
+        "draft_status": "READY"
+      },
+      "to_queue_status": "IMAGE_PREPARING",
+      "to_image_status": "PREPARING",
+      "to_web_bridge_status": "IMAGE_PREPARING"
+    },
+    {
+      "name": "image_to_review",
+      "from_queue_status": "IMAGE_PREPARING",
+      "when": "thumbnail_ogp_gbp_ready_visual_qc_pass_and_xserver_verified",
+      "required_before_handoff": {
+        "draft_status": "READY",
+        "image_status": "READY",
+        "gbp_image_status": "READY"
+      },
+      "to_queue_status": "REVIEW_READY",
+      "to_web_bridge_status": "PREVIEW_READY",
+      "review_url_required": true
+    }
+  ],
+  "completion": {
+    "silent_stop_forbidden": true,
+    "success_requires_notification_evidence": true,
+    "intermediate_states_never_success": [
+      "NEW",
+      "KNOWLEDGE_CHECK",
+      "DRAFTING",
+      "QC",
+      "IMAGE_PREPARING",
+      "NOT_SYNCED"
+    ],
+    "allowed_end_states": [
+      {
+        "state": "REVIEW_READY",
+        "notification_type": "REVIEW_READY",
+        "notification_required": true
+      },
+      {
+        "state": "INTERVIEW_WAITING",
+        "notification_type": "INTERVIEW_QUESTIONS",
+        "notification_required": true
+      },
+      {
+        "state": "ERROR_BLOCKED",
+        "notification_type": "ERROR_BLOCKED",
+        "notification_required": true
+      },
+      {
+        "state": "NO_ACTION",
+        "notification_type": "NO_ACTION",
+        "notification_required": true
+      }
+    ]
+  },
+  "resume": {
+    "enabled": true,
+    "stuck_timeout_minutes": 10,
+    "required_fields_on_stop": [
+      "last_successful_stage",
+      "next_stage",
+      "human_action_required"
+    ]
+  },
+  "publish_boundary": {
+    "auto_publish": false,
+    "human_approval_required": true
+  }
+}
