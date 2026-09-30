@@ -52,16 +52,16 @@
   padding:8px 10px; text-align:left; border-bottom:1px solid var(--line);
   font-family:var(--latin); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);
 }
-.admin-insight-table td{ padding:10px; border-bottom:1px solid var(--line); font-size:12.5px; color:var(--ink); vertical-align:top; }
+.admin-insight-table td{ padding:11px 10px; border-bottom:1px solid var(--line); font-size:12.5px; color:var(--ink-soft); vertical-align:top; }
 .admin-insight-table tr:last-child td{ border-bottom:0; }
 .admin-insight-table th:not(:first-child),.admin-insight-table td:not(:first-child){ text-align:right; white-space:nowrap; }
 .admin-insight-page{ max-width:420px; }
 .admin-insight-page,.admin-insight-source{ max-width:430px; }
-.admin-insight-page strong,.admin-insight-source strong{ display:block; font-size:13px; font-weight:600; line-height:1.45; }
-.admin-insight-summary{ display:block; margin-top:4px; color:var(--ink-soft); font-size:11.5px; line-height:1.55; }
+.admin-insight-page strong,.admin-insight-source strong{ display:block; color:var(--ink-soft); font-size:12.5px; font-weight:500; line-height:1.5; letter-spacing:.01em; }
+.admin-insight-summary{ display:block; margin-top:4px; color:#777064; font-size:11.25px; line-height:1.6; }
 .admin-insight-technical{ display:block; margin-top:4px; color:var(--ink-faint); font-family:var(--latin); font-size:9.5px; line-height:1.4; word-break:break-all; }
-.admin-insight-source-head{ display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
-.admin-source-badge{ display:inline-flex; align-items:center; min-height:20px; padding:2px 6px; border:1px solid var(--line); font-size:9px; letter-spacing:.04em; color:var(--ink-faint); background:var(--paper); }
+.admin-insight-source-head{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.admin-source-badge{ display:inline-flex; align-items:center; min-height:18px; padding:1px 5px; border:1px solid var(--line); font-size:8.5px; letter-spacing:.04em; color:var(--ink-faint); background:var(--paper); }
 .admin-source-badge.is-acquisition{ color:#3F6B3A; border-color:#B9CCB5; background:#F4F8F3; }
 .admin-source-badge.is-internal{ color:#755A36; border-color:#D7C6AD; background:#FBF7EF; }
 .admin-source-badge.is-unknown{ color:#6C6660; border-color:#D9D3CD; background:#F8F6F3; }
