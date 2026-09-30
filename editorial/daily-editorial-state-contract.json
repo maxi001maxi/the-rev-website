@@ -1,9 +1,10 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.0.1",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
     "queue_sheet": "26_DAILY_EDITORIAL_QUEUE",
+    "gbp_sheet": "22_GBP_POST",
     "automation_log_sheet": "18_AUTOMATION_LOG",
     "gas_supervisor_version": "v0.6.5.2"
   },
@@ -31,9 +32,11 @@
     {
       "name": "image_to_review",
       "from_queue_status": "IMAGE_PREPARING",
-      "when": "thumbnail_ogp_gbp_ready_visual_qc_pass_and_xserver_verified",
+      "when": "blog_gbp_row_thumbnail_ogp_gbp_ready_visual_qc_pass_and_xserver_verified",
       "required_before_handoff": {
         "draft_status": "READY",
+        "gbp_post_row_exists": true,
+        "gbp_parent_blog_id_matches": true,
         "image_status": "READY",
         "gbp_image_status": "READY"
       },
