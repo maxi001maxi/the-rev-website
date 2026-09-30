@@ -1,0 +1,14 @@
+{
+  "slug": "oxygen-room-how-to-spend-time",
+  "status": "READY_CANDIDATE",
+  "attempts_total": 1,
+  "max_attempts": 2,
+  "job_path": "editorial/hybrid-image-jobs/oxygen-room-how-to-spend-time.json",
+  "generated_scene_path": "assets/images/editorial-generated/oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-scene.png",
+  "thumbnail": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg",
+  "og_image": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg",
+  "gbp_image": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg",
+  "qa_report_path": "editorial/image-qa/oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.json",
+  "asset_version": "reference-v26-auto-oxyroom-20260924-ef33bf94",
+  "updated_at": "2026-09-30T00:58:19.712Z"
+}
