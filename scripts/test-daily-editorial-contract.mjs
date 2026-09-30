@@ -7,8 +7,9 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.0.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.0.1', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
+assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
 const noInterview = contract.new_queue_no_interview || {};
 assert(noInterview.queue_status === 'DRAFTING', 'No-interview queue must start in DRAFTING.');
@@ -31,6 +32,8 @@ assert(draftToImage.to_web_bridge_status === 'IMAGE_PREPARING', 'Image job creat
 const imageToReview = handoffs.get('image_to_review');
 assert(imageToReview, 'image_to_review handoff missing.');
 assert(imageToReview.from_queue_status === 'IMAGE_PREPARING', 'image_to_review must originate from IMAGE_PREPARING.');
+assert(imageToReview.required_before_handoff?.gbp_post_row_exists === true, 'Review handoff requires a real 22_GBP_POST row.');
+assert(imageToReview.required_before_handoff?.gbp_parent_blog_id_matches === true, 'GBP row must match the parent Blog content_id.');
 assert(imageToReview.required_before_handoff?.image_status === 'READY', 'Review handoff requires image_status=READY.');
 assert(imageToReview.required_before_handoff?.gbp_image_status === 'READY', 'Review handoff requires GBP 4:3 READY.');
 assert(imageToReview.to_queue_status === 'REVIEW_READY', 'Ready images must advance Queue to REVIEW_READY.');
