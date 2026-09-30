@@ -37,6 +37,7 @@ on:
       - 'package-lock.json'
       - 'favicon.ico'
       - 'robots.txt'
+      - '.github/workflows/deploy-xserver.yml'
 
 permissions:
   contents: read
@@ -133,15 +134,28 @@ jobs:
             throw new Error('公開記事が0件です。デプロイを停止します。');
           }
 
-          const blogIndex = fs.readFileSync(indexPath, 'utf8');
+          const indexPaths = [indexPath];
+          const paginatedDir = path.join(distBlogDir, 'page');
+          if (fs.existsSync(paginatedDir)) {
+            for (const entry of fs.readdirSync(paginatedDir, { withFileTypes: true })) {
+              if (!entry.isDirectory() || !/^\\d+$/.test(entry.name)) continue;
+              const pageIndex = path.join(paginatedDir, entry.name, 'index.html');
+              if (fs.existsSync(pageIndex)) indexPaths.push(pageIndex);
+            }
+          }
+          const blogIndexCorpus = indexPaths
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+            .map((p) => fs.readFileSync(p, 'utf8'))
+            .join('\\n');
+
           for (const slug of published) {
-            if (!blogIndex.includes(`/blog/${slug}/`)) {
-              throw new Error(`Blog一覧に公開記事がありません: ${slug}`);
+            if (!blogIndexCorpus.includes(`/blog/${slug}/`)) {
+              throw new Error(`Blog一覧（全ページ）に公開記事がありません: ${slug}`);
             }
           }
           for (const slug of drafts) {
-            if (blogIndex.includes(`/blog/${slug}/`)) {
-              throw new Error(`Blog一覧に下書き記事が混入しています: ${slug}`);
+            if (blogIndexCorpus.includes(`/blog/${slug}/`)) {
+              throw new Error(`Blog一覧（全ページ）に下書き記事が混入しています: ${slug}`);
             }
           }
 
@@ -543,6 +557,16 @@ jobs:
           fi
 
           fetch_page "Blog index" "${PRODUCTION_URL}/blog/?${CACHE_BUST}" "$TMP_DIR/blog.html"
+          BLOG_INDEX_CORPUS="$TMP_DIR/blog-index-all.html"
+          cp "$TMP_DIR/blog.html" "$BLOG_INDEX_CORPUS"
+
+          while IFS= read -r local_page; do
+            [ -z "$local_page" ] && continue
+            page_num="$(basename "$(dirname "$local_page")")"
+            live_page="$TMP_DIR/blog-page-${page_num}.html"
+            fetch_page "Blog page ${page_num}" "${PRODUCTION_URL}/blog/page/${page_num}/?${CACHE_BUST}" "$live_page"
+            cat "$live_page" >> "$BLOG_INDEX_CORPUS"
+          done < <(find dist/blog/page -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)
 
           BLOG_CSS_URL="$(grep -oE '/assets/css/blog\.css\?v=[a-f0-9]{12}' "$TMP_DIR/blog.html" | head -n1 || true)"
           if [ -z "$BLOG_CSS_URL" ]; then
@@ -606,7 +630,7 @@ jobs:
 
           while IFS= read -r slug; do
             [ -z "$slug" ] && continue
-            if ! grep -qF "/blog/${slug}/" "$TMP_DIR/blog.html"; then
+            if ! grep -qF "/blog/${slug}/" "$BLOG_INDEX_CORPUS"; then
               echo "::error::本番Blog一覧に公開記事がありません: ${slug}"
               echo "| Blog link: ${slug} | ❌ missing |" >> "$SUMMARY"
               FAIL=1
@@ -618,7 +642,7 @@ jobs:
 
           while IFS= read -r slug; do
             [ -z "$slug" ] && continue
-            if grep -qF "/blog/${slug}/" "$TMP_DIR/blog.html"; then
+            if grep -qF "/blog/${slug}/" "$BLOG_INDEX_CORPUS"; then
               echo "::error::本番Blog一覧に下書き記事が表示されています: ${slug}"
               echo "| Draft hidden: ${slug} | ❌ listed |" >> "$SUMMARY"
               FAIL=1
