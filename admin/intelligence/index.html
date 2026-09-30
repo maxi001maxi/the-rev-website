@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>THE REV. Intelligence｜Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/admin/css/admin.css">
+<link rel="stylesheet" href="/admin/css/intelligence.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+  <div class="admin-shell-brand">THE REV.<span>Admin</span></div>
+  <nav class="admin-shell-nav" aria-label="Admin navigation">
+    <a href="/admin/">Dashboard</a>
+    <a href="/admin/intelligence/" aria-current="page">Intelligence</a>
+    <a href="/admin/articles/">Articles</a>
+    <a href="/admin/analytics/">Analytics</a>
+    <a href="/admin/site-insights/">Site Insights</a>
+  </nav>
+  <div class="admin-shell-user"><span id="user-email" class="admin-shell-email"></span><button id="logout-btn" class="admin-logout" type="button">ログアウト</button></div>
+</header>
+
+<main class="admin-main intelligence-main">
+  <div class="intelligence-head">
+    <div>
+      <p class="intelligence-eyebrow">THE REV. / ONE VIEW</p>
+      <h1>THE REV. Intelligence</h1>
+      <p>経営・Web・Editorial・AI分析を、正本を変えずに一つの画面へまとめます。</p>
+    </div>
+    <div id="ranges" class="intelligence-ranges" role="group" aria-label="Web表示期間">
+      <button type="button" data-range="7d">7日</button>
+      <button type="button" data-range="28d">28日</button>
+      <button type="button" data-range="90d">90日</button>
+    </div>
+  </div>
+  <div id="error" class="admin-error admin-hidden" role="alert"></div>
+  <div id="loading" class="admin-card" role="status">データを読み込み中…</div>
+  <div id="content" class="admin-hidden">
+    <section id="overall" class="intelligence-overall" aria-live="polite"></section>
+
+    <section class="intelligence-section" aria-labelledby="management-title">
+      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">01 / MANAGEMENT</p><h2 id="management-title">経営</h2></div><div id="management-meta"></div></div>
+      <div id="management-cards" class="intelligence-card-grid"></div>
+      <div id="management-note" class="intelligence-note"></div>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="web-title">
+      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">02 / WEB &amp; SEARCH</p><h2 id="web-title">Web / Search</h2></div><div id="web-meta"></div></div>
+      <div id="web-cards" class="intelligence-card-grid"></div>
+      <div id="web-changes" class="intelligence-list"></div>
+      <p class="intelligence-section-link"><a href="/admin/site-insights/">Site Insightsで詳細を見る →</a></p>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="editorial-title">
+      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">03 / EDITORIAL</p><h2 id="editorial-title">Editorial</h2></div><div id="editorial-meta"></div></div>
+      <div id="editorial-cards" class="intelligence-card-grid"></div>
+      <div id="editorial-schedule" class="intelligence-list"></div>
+      <p class="intelligence-section-link"><a href="/admin/articles/">Articlesを開く →</a></p>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="analysis-title">
+      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">04 / AI ANALYSIS</p><h2 id="analysis-title">AI Analysis</h2></div><div id="analysis-meta"></div></div>
+      <div id="reports" class="intelligence-report-grid"></div>
+      <div id="priorities" class="intelligence-list"></div>
+    </section>
+  </div>
+</main>
+</div>
+<script type="module" src="/admin/js/intelligence.mjs"></script>
+</body>
+</html>

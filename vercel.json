@@ -10,6 +10,10 @@
     {
       "source": "/api/admin/google-business/callback",
       "destination": "/api/admin/google-business?action=callback"
+    },
+    {
+      "source": "/api/admin/intelligence",
+      "destination": "/api/admin/site-insights?mode=intelligence"
     }
   ],
   "redirects": [
