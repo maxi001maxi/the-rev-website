@@ -13,6 +13,7 @@ on:
       - 'lib/supabaseAdmin.mjs'
       - 'lib/blogMarkdown.mjs'
       - 'scripts/test-phase-9.mjs'
+      - 'scripts/test-daily-editorial-contract.mjs'
       - 'scripts/test-editorial-brand-qc.mjs'
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
@@ -34,6 +35,7 @@ on:
       - 'AGENTS.md'
       - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
       - 'editorial/editorial-image-system.json'
+      - 'editorial/daily-editorial-state-contract.json'
       - 'editorial/hybrid-image-request.template.json'
       - 'editorial/automated-image-sources.json'
       - 'editorial/fixtures/**.json'
@@ -92,6 +94,8 @@ jobs:
       - run: node --check lib/editorialAutomatedHybridImage.mjs
       - run: node --check scripts/validate-editorial-image-system.mjs
       - run: node --check lib/editorialImageReviewGate.mjs
+      - run: node --check scripts/test-daily-editorial-contract.mjs
+      - run: npm run test:daily-editorial-contract
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:phase-d
