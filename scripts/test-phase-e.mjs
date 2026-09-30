@@ -12,6 +12,7 @@ import {
   normalizeRealtime,
   percentChange
 } from '../lib/ga4Data.mjs';
+import { pagePresentation, sourcePresentation, sourceKindLabel } from '../admin/js/analytics-presentation.mjs';
 
 function read(path) {
   return fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -49,6 +50,14 @@ assert.equal(percentChange(120, 100), 20);
 assert.equal(percentChange(90, 100), -10);
 assert.equal(percentChange(5, 0), null);
 assert.equal(percentChange(0, 0), 0);
+
+assert.equal(pagePresentation('/price.html').title, '料金・プラン');
+assert.match(pagePresentation('/blog/shinomiya-gym-erabikata-dosen/').title, /新大宮/);
+assert.equal(sourcePresentation('google / organic').label, 'Google検索');
+assert.equal(sourcePresentation('l.instagram.com / referral').label, 'Instagram');
+assert.equal(sourcePresentation('chatgpt.com / ai-assistant').label, 'ChatGPT');
+assert.equal(sourceKindLabel(sourcePresentation('tagassistant.google.com / referral').kind), '内部・テスト');
+assert.equal(sourceKindLabel(sourcePresentation('(direct) / (none)').kind), '判別不能');
 
 assert.deepEqual(normalizeTopPages({
   rows: [{
@@ -104,6 +113,10 @@ assert.doesNotMatch(api, /GA4_PROPERTY_ID|GA4_SERVICE_ACCOUNT_JSON/, 'Analytics 
 assert.match(api, /Cache-Control.*no-store/, 'Analytics API must prevent caching.');
 
 assert.match(adminPage, /requireSession|admin-analytics\.mjs/, 'Analytics page must load the authenticated client.');
+assert.match(adminPage, /どこからサイトに来たか/);
+assert.match(adminPage, /ページ名・内容/);
+assert.match(adminClient, /pagePresentation/);
+assert.match(adminClient, /sourcePresentation/);
 assert.match(adminClient, /requireSession\(\)/, 'Analytics client must require a session.');
 assert.match(adminApiClient, /getAnalytics/, 'Admin API client must expose Analytics.');
 assert.ok(!adminPage.includes('GA4_SERVICE_ACCOUNT_JSON'));
