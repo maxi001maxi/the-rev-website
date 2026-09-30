@@ -6,7 +6,8 @@ export function createIntelligenceHandler({getContext=getAuthedContext,assembleD
   return async function intelligenceHandler(req,res){
     res.setHeader('Cache-Control','private, no-store, max-age=0');
     if(req.method!=='GET'){res.setHeader('Allow','GET');return sendError(res,405,'method_not_allowed','GETのみ利用できます。');}
-    const query=req.query||{};
+    const {mode,...query}=req.query||{};
+    if(mode&&mode!=='intelligence')return sendError(res,400,'invalid_query','指定された条件が不正です。');
     if(Object.keys(query).some(key=>key!=='range')||!['7d','28d','90d'].includes(query.range||'28d'))return sendError(res,400,'invalid_query','表示期間は7d、28d、90dのいずれかを指定してください。');
     const context=await getContext(req);
     if(context.error)return sendError(res,context.status,context.error,context.error==='unauthorized'?'ログインが必要です。':'Admin認証が未設定です。');
@@ -21,10 +22,7 @@ export function createIntelligenceHandler({getContext=getAuthedContext,assembleD
 
 const intelligenceHandler=createIntelligenceHandler();
 export default async function handler(req,res){
-  if(req.query?.mode==='intelligence'){
-    const {mode,...query}=req.query;
-    return intelligenceHandler({...req,query},res);
-  }
+  if(req.query?.mode==='intelligence')return intelligenceHandler(req,res);
   res.setHeader('Cache-Control','private, no-store, max-age=0');
   if(req.method!=='GET'){res.setHeader('Allow','GET');return sendError(res,405,'method_not_allowed','GETのみ利用できます。');}
   const ctx=await getAuthedContext(req);
