@@ -138,7 +138,7 @@ jobs:
           const paginatedDir = path.join(distBlogDir, 'page');
           if (fs.existsSync(paginatedDir)) {
             for (const entry of fs.readdirSync(paginatedDir, { withFileTypes: true })) {
-              if (!entry.isDirectory() || !/^\\d+$/.test(entry.name)) continue;
+              if (!entry.isDirectory() || !/^\d+$/.test(entry.name)) continue;
               const pageIndex = path.join(paginatedDir, entry.name, 'index.html');
               if (fs.existsSync(pageIndex)) indexPaths.push(pageIndex);
             }
