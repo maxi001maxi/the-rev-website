@@ -1,0 +1,559 @@
+{
+  "pass": true,
+  "thumbnail_typography_visual": {
+    "thumbnail": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "og": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "gbp": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    }
+  },
+  "visual_art_direction": {
+    "pass": true,
+    "variants": {
+      "thumbnail": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true
+      },
+      "og": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true
+      },
+      "gbp": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true
+      }
+    },
+    "comments": "全形式でゴールデン参照の文法を維持している。暖色の「静かに」が明確な焦点となり、墨色の補助行、控えめなラベル、柔らかな紙面状フェードが自然に連携している。320px・400pxでも見出しは即読可能で、「中では、／静かに／休むだけ。」の改行も意味単位として自然。GBPは横長版の単純流用ではなく、人物を大きく保ちながら左側に独立した縦位置を確保しており、顔を覆わない。余白は文字階層と写真への移行に使われ、未完成な白板には見えない。"
+  },
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 8,
+  "article_visual_relevance": 10,
+  "main_claim_visualization": 10,
+  "human_subject_prominence": 9,
+  "human_visual_attention_share": 66,
+  "face_expression_readable": true,
+  "background_secondary_pass": true,
+  "background_soft_blur_pass": true,
+  "the_rev_anchor_visible": true,
+  "customer_presentation_matches_plan": true,
+  "article_theme_inferable_without_title": true,
+  "scene_action_has_article_specific_meaning": true,
+  "generic_passive_pose_without_article_reason": false,
+  "rev_environment_consistency": 9,
+  "brand_space_authenticity": 9,
+  "human_environment_integration": 9,
+  "perspective_scale_consistency": 9,
+  "ground_contact_shadow_consistency": 9,
+  "lighting_consistency": 9,
+  "anatomy_pose_realism": 9,
+  "no_cutout_or_sticker_look": true,
+  "location_semantics_pass": true,
+  "exercise_pose_plausible": true,
+  "manual_visual_rejection": false,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "facility_only_thumbnail": false,
+  "real_the_rev_background_confirmed": true,
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "headline_line_break_quality": true,
+  "headline_balance_score": 9,
+  "too_promotional": false,
+  "gbp_aspect_ratio_pass": true,
+  "gbp_safe_area_pass": true,
+  "gbp_copy_legible": true,
+  "comments": "実環境の白い酸素ルーム、黒い開口シール、木床、奥のラックと窓配置が生成場面でも一貫しており、別施設には見えない。女性顧客1名が目を閉じて脱力し、横になって休む行動がコピーなしでも明確で、記事固有の主張を直接表現している。表情は穏やかで広告的な笑顔ではない。身体、手指、寝台との接触、陰影、室内照明はいずれも自然で、貼り付け感もない。背景は認識可能だが人物より視覚的に抑えられている。",
+  "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+  "thumbnail_typography_acceptance": {
+    "pass": true,
+    "deterministic": {
+      "revision": "thumbnail-golden-typography-v1",
+      "slug": "oxygen-room-how-to-spend-time",
+      "asset_version": "reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1",
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "lines": [
+            "中では、",
+            "静かに",
+            "休むだけ。"
+          ],
+          "text_preserved": true,
+          "font_size": 78,
+          "font_size_at_320": 20.8,
+          "line_count": 3,
+          "line_height": 1.12,
+          "line_balance": 0.6831166035917623,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            78,
+            136,
+            92.03999999999999
+          ],
+          "focus_line": 1,
+          "focus_text": "静かに",
+          "focus_scale": 1.7435897435897436,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.8849156698843149,
+          "block_area_ratio": 0.20834847827609593,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "fade_start": 547,
+          "fade_end": 713,
+          "fade_vertical_tail": null,
+          "contrast_floor": 5.586785391534058,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 141,
+              "right": 379.125,
+              "bottom": 253,
+              "width": 315.125
+            },
+            {
+              "left": 64,
+              "top": 231.359375,
+              "right": 474.34375,
+              "bottom": 427.359375,
+              "width": 410.34375
+            },
+            {
+              "left": 64,
+              "top": 402.671875,
+              "right": 524.375,
+              "bottom": 534.671875,
+              "width": 460.375
+            }
+          ],
+          "asset_path": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1.jpg",
+          "asset_sha256": "b4a6303d8495d350615b1d9a15de0ab32500a4d262d2f364a608063f9604423c",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1-preview-320.jpg",
+              "sha256": "51d56b82bfc82c91a1af5d91a7aa7c30e4698aba7ef1606d57bd0354e678c8fd"
+            },
+            "400": {
+              "path": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1-preview-400.jpg",
+              "sha256": "2f59be1ea12eed78c03ef2a77e63c567f94605f3a350f9b18271aebd48b8d7f0"
+            }
+          }
+        },
+        "og": {
+          "pass": true,
+          "lines": [
+            "中では、",
+            "静かに",
+            "休むだけ。"
+          ],
+          "text_preserved": true,
+          "font_size": 78,
+          "font_size_at_320": 20.8,
+          "line_count": 3,
+          "line_height": 1.12,
+          "line_balance": 0.6831166035917623,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            78,
+            136,
+            92.03999999999999
+          ],
+          "focus_line": 1,
+          "focus_text": "静かに",
+          "focus_scale": 1.7435897435897436,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.8849156698843149,
+          "block_area_ratio": 0.2232305124386742,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "fade_start": 547,
+          "fade_end": 713,
+          "fade_vertical_tail": null,
+          "contrast_floor": 5.586785391534058,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 119,
+              "right": 379.125,
+              "bottom": 231,
+              "width": 315.125
+            },
+            {
+              "left": 64,
+              "top": 209.359375,
+              "right": 474.34375,
+              "bottom": 405.359375,
+              "width": 410.34375
+            },
+            {
+              "left": 64,
+              "top": 380.671875,
+              "right": 524.375,
+              "bottom": 512.671875,
+              "width": 460.375
+            }
+          ],
+          "asset_path": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1.jpg",
+          "asset_sha256": "989894643001a9a2c787fc4e25919bb6c28ec32d6627955392759f61814bda98",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1-preview-320.jpg",
+              "sha256": "f656b714e94cc86dee94b287224390ce811fed097dc84896fadf7b749dc7372c"
+            },
+            "400": {
+              "path": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1-preview-400.jpg",
+              "sha256": "c95f41a7b7b71e351cb572704e6ed7ca9979ca04433cd43c3fbd117a81050954"
+            }
+          }
+        },
+        "gbp": {
+          "pass": true,
+          "lines": [
+            "中では、",
+            "静かに",
+            "休むだけ。"
+          ],
+          "text_preserved": true,
+          "font_size": 68,
+          "font_size_at_320": 18.133333333333333,
+          "line_count": 3,
+          "line_height": 1.12,
+          "line_balance": 0.7196801075410624,
+          "layout_rule": "golden-gbp-v1",
+          "line_font_sizes": [
+            68,
+            112,
+            76.16000000000001
+          ],
+          "focus_line": 1,
+          "focus_text": "静かに",
+          "focus_scale": 1.6470588235294117,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.865410713556463,
+          "block_area_ratio": 0.10819637184996428,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "fade_start": 463,
+          "fade_end": 571,
+          "fade_vertical_tail": 150,
+          "contrast_floor": 5.586785391534058,
+          "line_rects": [
+            {
+              "left": 60,
+              "top": 189,
+              "right": 334.734375,
+              "bottom": 286,
+              "width": 274.734375
+            },
+            {
+              "left": 60,
+              "top": 268.15625,
+              "right": 398.046875,
+              "bottom": 429.15625,
+              "width": 338.046875
+            },
+            {
+              "left": 60,
+              "top": 408.59375,
+              "right": 441.140625,
+              "bottom": 518.59375,
+              "width": 381.140625
+            }
+          ],
+          "asset_path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1.jpg",
+          "asset_sha256": "08e3af417ead4d9fbee514385d065c41c06ad0f8b3a7a5e7cf586b02f29ea793",
+          "previews": {
+            "320": {
+              "path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1-preview-320.jpg",
+              "sha256": "7a1248c4997aab2aadf1fb775796ab6f93c7703920632c84293ecc3fb671c1b6"
+            },
+            "400": {
+              "path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1-preview-400.jpg",
+              "sha256": "cd60fc6c0817916bddc2d3f47588bf323f6000dfa06d71af61838410e435d8b9"
+            }
+          }
+        }
+      }
+    },
+    "visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true
+        }
+      },
+      "comments": "全形式でゴールデン参照の文法を維持している。暖色の「静かに」が明確な焦点となり、墨色の補助行、控えめなラベル、柔らかな紙面状フェードが自然に連携している。320px・400pxでも見出しは即読可能で、「中では、／静かに／休むだけ。」の改行も意味単位として自然。GBPは横長版の単純流用ではなく、人物を大きく保ちながら左側に独立した縦位置を確保しており、顔を覆わない。余白は文字階層と写真への移行に使われ、未完成な白板には見えない。"
+    },
+    "golden_reference": {
+      "revision": "approved-typography-20261001-v1",
+      "assets": [
+        {
+          "variant": "wide",
+          "path": "editorial/typography-golden-reference/reference-16x9.png",
+          "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+        },
+        {
+          "variant": "gbp",
+          "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+          "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+        },
+        {
+          "variant": "list",
+          "path": "editorial/typography-golden-reference/reference-list-view.png",
+          "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+        }
+      ]
+    }
+  },
+  "source_material_scope_pass": true,
+  "generated_customer_allowed_under_policy": true,
+  "generated_customer_role": "customer",
+  "customer_presentation": "female",
+  "image_headline_short": "中では、静かに休むだけ。",
+  "fixed_overlay_layout_confirmed": true,
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "background_source_type": "verified_the_rev_repo_mirror",
+  "content_reference": "drive://1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c/AI_SOURCE_photo-oxyroom_20260924.jpg",
+  "background_source_drive_file_id": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "AI_SOURCE_photo-oxyroom_20260924.jpg",
+  "background_frame_position_ratio": null,
+  "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "image_generation_used": true,
+  "fallback_used": false,
+  "fallback_reason": "",
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_window": 4,
+  "recent_similarity_check_pass": true,
+  "recent_background_source_ids": [
+    "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+    "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+    "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+    "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+    "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+    "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg"
+  ],
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+    "recent_articles": [
+      {
+        "slug": "denba-health-what-is-it-the-rev",
+        "checkedAt": "2026-09-29T07:50:00Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-auto-denba-intro-20260929-r3",
+        "imageHeadlineShort": "DENBAって何？",
+        "customerPresentation": "male"
+      },
+      {
+        "slug": "shinomiya-gym-erabikata-dosen",
+        "checkedAt": "2026-09-27T04:24:58.456Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-semantic-xl-20260927-r1",
+        "imageHeadlineShort": "設備だけで、\n決めない。",
+        "customerPresentation": "female"
+      },
+      {
+        "slug": "exercise-start-fatigue-anxiety-next-day-plan",
+        "checkedAt": "2026-09-27T04:23:55.287Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-semantic-xl-20260927-r1",
+        "imageHeadlineShort": "軽く動いて、\n調子を見る。",
+        "customerPresentation": "male"
+      },
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T09:14:25.201Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v24-auto-lobby-20260924-4db7de37-r5",
+        "imageHeadlineShort": "体重計に出ない、\n進歩がある。",
+        "customerPresentation": "female"
+      }
+    ],
+    "selected_content_reference": "drive://1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c/AI_SOURCE_photo-oxyroom_20260924.jpg",
+    "selected_drive_file_id": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+    "avoided_repeat": true,
+    "repeated_due_to_relevance": false
+  },
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6",
+  "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+  "slug": "oxygen-room-how-to-spend-time",
+  "asset_version": "reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1",
+  "checked_at": "2026-10-01T07:25:36.444Z",
+  "review_mode": "HYBRID_GENERATED",
+  "realism_qc_version": "v1",
+  "gbp_image_required": true,
+  "gbp_image_path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1.jpg",
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3"
+}

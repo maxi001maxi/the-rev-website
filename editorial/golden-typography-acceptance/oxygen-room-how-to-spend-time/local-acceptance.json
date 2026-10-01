@@ -1,7 +1,7 @@
 {
   "inspector": "Codex inspection of actual native / 320px / 400px JPEGs and approved original references",
   "local_acceptance": "PASS",
-  "production_api_acceptance": "PENDING",
+  "production_api_acceptance": "PASS",
   "copy_preserved": true,
   "scene_preserved": true,
   "variants": {
@@ -302,5 +302,8 @@
     "GBP is compact with its own vertical placement and horizontal/vertical fade. Face and body remain visible.",
     "Approved sample photos are only typography QA references. The production scene and crop have not been replaced.",
     "Visual invitation is an editorial assessment; click-through performance has not been measured."
-  ]
+  ],
+  "production_api_workflow": "https://github.com/maxi001maxi/the-rev-website/actions/runs/36830141831",
+  "production_api_qa_report": "editorial/image-qa/oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-golden-r1.json",
+  "ci_pixels_match_local_sha256": true
 }
