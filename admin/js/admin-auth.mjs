@@ -1,6 +1,7 @@
 // THE REV. Editorial Console — Supabase Auth 共有ヘルパー。
 // Reactやビルドツールは使わず、Supabase JS SDKをESM CDNから直接importする。
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { loginUrlFor } from './admin-navigation.mjs';
 
 let clientPromise = null;
 
@@ -32,12 +33,12 @@ export async function requireSession() {
   try {
     const { supabase, session } = await getSession();
     if (!session) {
-      location.replace('/admin/login/');
+      location.replace(loginUrlFor(location));
       return null;
     }
     return { supabase, session };
   } catch (e) {
-    location.replace('/admin/login/');
+    location.replace(loginUrlFor(location));
     return null;
   }
 }

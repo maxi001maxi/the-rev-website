@@ -107,6 +107,11 @@ jobs:
           check "Publish — unauth"           POST "/api/admin/publish"                   401
           check "TOP page regression"        GET  "/"                                    200 'THE REV'
           check "Blog index regression"      GET  "/blog/"                               200
+          check "Admin login delivery"        GET  "/admin/login/"                        200 'THE REV.'
+          check "Google Business route"       GET  "/admin/google-business/"              200 '店舗インサイト接続'
+          check "Google Business index"       GET  "/admin/google-business/index.html"    200 '店舗インサイト接続'
+          check "Google Business JS"          GET  "/admin/js/google-business.mjs"        200 'getGoogleBusinessStatus'
+          check "Admin CSS"                   GET  "/admin/css/admin.css"                200
 
           # Phase D.1診断：ブラウザへ配信される静的ファイルにGitHub Token等の秘匿値が
           # 紛れ込んでいないかを、実際に配信されているバイト列で確認する
