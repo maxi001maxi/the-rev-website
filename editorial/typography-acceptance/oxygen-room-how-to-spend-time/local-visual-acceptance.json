@@ -2,7 +2,7 @@
   "scope": "thumbnail typography only; actual file visual inspection",
   "inspector": "Codex visual inspection of native JPEG and actual 320px/400px JPEG",
   "local_typography_visual_acceptance": "PASS",
-  "production_api_visual_qc": "NOT_RUN_PUSH_APPROVAL_BLOCKED",
+  "production_api_visual_qc": "PASS",
   "original_scene_preserved": true,
   "copy_preserved": true,
   "variants": {
@@ -204,5 +204,8 @@
         }
       }
     }
-  }
+  },
+  "production_api_qa_report": "editorial/image-qa/oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1.json",
+  "production_api_workflow_run": "https://github.com/maxi001maxi/the-rev-website/actions/runs/36814687582",
+  "ci_native_and_preview_hashes_match_local": true
 }
