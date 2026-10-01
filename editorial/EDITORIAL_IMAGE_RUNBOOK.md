@@ -782,3 +782,28 @@ V2.5で文字サイズと写真面積を改善した後、背景を精密に作�
 - generated_customer_count = 1
 
 最終Publishは従来どおり人間承認のみ。
+
+
+## 18. Thumbnail Typography Acceptance｜2026-10-01
+
+写真生成・人物・素材・色調・基本crop・コピー生成は変更しない。文字組みの正本は
+`lib/editorialThumbnailTypography.mjs` / `thumbnail-typography-v1`。
+
+- Playwrightの実フォント幅と日本語word segmentationで意味単位の改行を探索する。
+- 原則2〜4行。十分短いコピーだけは読みやすい1行を許可する。
+- Thumbnail/OGPは60px未満、GBPは64px未満へ縮めない。320px表示時16px未満はFAIL。
+- 字間0.01em、行高1.16、既存明朝を700 weightで描画し、短いコピーは90px（GBP 96px）まで拡大する。
+- 実測した文字端より22px外側まで96%の白ベールを確保し、その先をフェードする。
+- GBPの白ベールは文字領域の下で縦方向にもフェードし、人物を覆い続けない。
+- 1文字・助詞だけの行、動詞の語尾の分断、行バランス不足、領域外の文字はFAIL。
+- 読めるサイズで成立しない長文はFAILにする。文言を勝手に変更せず、36pxまで押し込む旧挙動には戻さない。
+- 最終JPEG自体を320px/400pxへ縮小して、3サイズ全てをVisual QCへ送る。OGPも省略しない。
+- 各画像について即読・タイトル階層・余白・改行・フェード内包・コントラスト・埋没・記事認識を独立判定する。1枚でも不合格/未記録ならセット全体がFAIL。
+- QAへ実測値、原寸/縮小JPEGのSHA-256、各サイズのVisual判定を保存する。画像bytesと一致しない証拠は拒否する。
+- READY/Review/Publishは同じTypography Gateを共有する。2026-10-01T03:39:13Z以降のQA、またはTypography revision付きQAに必須化する。過去の承認済み画像は自動再生成しない。
+- 文字組みだけがFAILの場合は写真を再生成して解決しようとせず停止する。
+
+検証: `npm run test:thumbnail-typography`。Playwright/Noto CJKを本番と同じように導入後、
+`node scripts/test-thumbnail-typography-browser.mjs` で実コピーの組版と長文FAILを検証する。
+今回専用の `thumbnail-typography-acceptance.yml` はfeature branchのみで本番operatorの
+OVERLAY_RERENDER経路とAPI Visual QCを実行する。contentsはreadのみ。commit/deploy/通知/記事公開は行わない。

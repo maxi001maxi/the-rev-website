@@ -10,6 +10,7 @@ on:
       - 'scripts/render-hybrid-editorial-overlay.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialThumbnailTypography.mjs'
       - '.github/workflows/auto-editorial-hybrid-images.yml'
   schedule:
     # Daily safety windows for the morning editorial pipeline.
@@ -179,6 +180,12 @@ jobs:
               test "$(jq -r '.pass // false' "$qa")" = "true"
 
               printf '%s\n' "$scene" "$thumb" "$og" "$qa" "$state" >> .ready-paths
+              # Retain actual small-size QC evidence without deploying previews.
+              if [ "$(jq -r '.thumbnail_typography_revision // ""' "$qa")" = "thumbnail-typography-v1" ]; then
+                test -f "${thumb}.typography.json"
+                printf '%s\n' "${thumb}.typography.json" >> .ready-paths
+                jq -r '.thumbnail_typography_acceptance.deterministic.variants[].previews[].path' "$qa" >> .ready-paths
+              fi
               if [ -n "$gbp" ]; then printf '%s\n' "$gbp" >> .ready-paths; fi
               printf '%s\n' "$thumb" "$og" >> .ready-image-paths
               if [ -n "$gbp" ]; then printf '%s\n' "$gbp" >> .ready-image-paths; fi

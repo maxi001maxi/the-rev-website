@@ -1,0 +1,208 @@
+{
+  "scope": "thumbnail typography only; actual file visual inspection",
+  "inspector": "Codex visual inspection of native JPEG and actual 320px/400px JPEG",
+  "local_typography_visual_acceptance": "PASS",
+  "production_api_visual_qc": "NOT_RUN_PUSH_APPROVAL_BLOCKED",
+  "original_scene_preserved": true,
+  "copy_preserved": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true,
+      "metrics": {
+        "pass": true,
+        "lines": [
+          "中では、",
+          "静かに",
+          "休むだけ。"
+        ],
+        "text_preserved": true,
+        "font_size": 90,
+        "font_size_at_320": 24,
+        "line_count": 3,
+        "line_height": 1.16,
+        "line_balance": 0.6040000122612974,
+        "width_occupancy": 0.8653837233323318,
+        "block_area_ratio": 0.17398419565412734,
+        "safe_area_pass": true,
+        "fade_contains_text": true,
+        "fade_start": 526,
+        "contrast_floor": 11,
+        "line_rects": [
+          {
+            "left": 54,
+            "top": 161,
+            "right": 417.609375,
+            "bottom": 291,
+            "width": 363.609375
+          },
+          {
+            "left": 54,
+            "top": 265.390625,
+            "right": 326.703125,
+            "bottom": 395.390625,
+            "width": 272.703125
+          },
+          {
+            "left": 54,
+            "top": 369.78125,
+            "right": 504.90625,
+            "bottom": 499.78125,
+            "width": 450.90625
+          }
+        ],
+        "asset_path": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1.jpg",
+        "asset_sha256": "a4da1274bf40b70b687d085a8bed7a4a2358caf0d78803b07e7340cecb7a0881",
+        "previews": {
+          "320": {
+            "path": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1-preview-320.jpg",
+            "sha256": "5af1aef21a00db77870b49675617ffd5ab26127cd76b70c17749180df5c9f441"
+          },
+          "400": {
+            "path": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1-preview-400.jpg",
+            "sha256": "6018f0d90cb12b24b5fdef62b75ba1549f119942fd4e52c842565bbc282423c4"
+          }
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true,
+      "metrics": {
+        "pass": true,
+        "lines": [
+          "中では、",
+          "静かに",
+          "休むだけ。"
+        ],
+        "text_preserved": true,
+        "font_size": 90,
+        "font_size_at_320": 24,
+        "line_count": 3,
+        "line_height": 1.16,
+        "line_balance": 0.6040000122612974,
+        "width_occupancy": 0.8653837233323318,
+        "block_area_ratio": 0.18641163820085072,
+        "safe_area_pass": true,
+        "fade_contains_text": true,
+        "fade_start": 526,
+        "contrast_floor": 11,
+        "line_rects": [
+          {
+            "left": 54,
+            "top": 139,
+            "right": 417.609375,
+            "bottom": 269,
+            "width": 363.609375
+          },
+          {
+            "left": 54,
+            "top": 243.390625,
+            "right": 326.703125,
+            "bottom": 373.390625,
+            "width": 272.703125
+          },
+          {
+            "left": 54,
+            "top": 347.78125,
+            "right": 504.90625,
+            "bottom": 477.78125,
+            "width": 450.90625
+          }
+        ],
+        "asset_path": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1.jpg",
+        "asset_sha256": "5c54a90303e59158239c17e7d3a0b801c16785d052bfb20d5d0c885a60494a84",
+        "previews": {
+          "320": {
+            "path": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1-preview-320.jpg",
+            "sha256": "fc4f075869f0d42cbf6883a498764a4dfbdf2a266bc38e21aaa19d0d9669ada4"
+          },
+          "400": {
+            "path": "assets/images/blog/og/og-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1-preview-400.jpg",
+            "sha256": "461ec345c491a4f059cf21af4b73453e3e6649152017ad56389a18b9c90b9823"
+          }
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true,
+      "metrics": {
+        "pass": true,
+        "lines": [
+          "中では、",
+          "静かに",
+          "休むだけ。"
+        ],
+        "text_preserved": true,
+        "font_size": 83,
+        "font_size_at_320": 22.133333333333333,
+        "line_count": 3,
+        "line_height": 1.16,
+        "line_balance": 0.6040000136012904,
+        "width_occupancy": 0.9880944940476191,
+        "block_area_ratio": 0.11097278969997829,
+        "safe_area_pass": true,
+        "fade_contains_text": true,
+        "fade_start": 491,
+        "contrast_floor": 11,
+        "line_rects": [
+          {
+            "left": 54,
+            "top": 120,
+            "right": 389.328125,
+            "bottom": 240,
+            "width": 335.328125
+          },
+          {
+            "left": 54,
+            "top": 216.265625,
+            "right": 305.5,
+            "bottom": 336.265625,
+            "width": 251.5
+          },
+          {
+            "left": 54,
+            "top": 312.53125,
+            "right": 469.84375,
+            "bottom": 432.53125,
+            "width": 415.84375
+          }
+        ],
+        "asset_path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1.jpg",
+        "asset_sha256": "fdbdcb2c39dab504b3ebcff5687fef6155c62ed252417fe2028878811403d864",
+        "previews": {
+          "320": {
+            "path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1-preview-320.jpg",
+            "sha256": "fbc2e278d7c4d44b11e3f2013374752c25ac5057d9dec78b261c2ad674263415"
+          },
+          "400": {
+            "path": "assets/images/gbp/gbp-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-typography-r1-preview-400.jpg",
+            "sha256": "5bc26b21235d1f62db0d632ef5cd42b1ade8df4a8dab33bd50ccbc0187241fc4"
+          }
+        }
+      }
+    }
+  }
+}

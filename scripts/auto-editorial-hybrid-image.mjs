@@ -1,5 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
+import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
 
 const jobPath = process.argv[2];
@@ -210,11 +212,15 @@ async function generateScene(attempt, previousQa = null) {
 }
 
 function renderOverlay() {
-  execFileSync(
+  try { execFileSync(
     process.execPath,
     ['scripts/render-hybrid-editorial-overlay.mjs', jobPath],
     { stdio: 'inherit', env: process.env }
-  );
+  ); } catch (cause) {
+    const error = new Error('Thumbnail Typography FAIL: deterministic overlay rejected the layout.', { cause });
+    error.code = 'THUMBNAIL_TYPOGRAPHY_FAILED';
+    throw error;
+  }
 }
 
 function requiredBool(value) {
@@ -256,6 +262,7 @@ function qaPass(qa) {
     Number(qa.generated_customer_count) === 1
   );
   return (
+    typographyAcceptancePass(qa) &&
     humanFirstPass &&
     qa.pass === true &&
     qa.series_consistency >= 8 &&
@@ -316,20 +323,41 @@ function qaPass(qa) {
 async function visualQa(attempt) {
   const thumbPath = path.resolve(job.thumbnail);
   const gbpPath = job.gbp_image ? path.resolve(job.gbp_image) : '';
+  const typography = readJson(`${thumbPath}.typography.json`);
+  if (typography?.revision !== THUMBNAIL_TYPOGRAPHY_REVISION || typography?.pass !== true ||
+      typography.slug !== job.slug || typography.asset_version !== job.asset_version) {
+    throw new Error('Thumbnail Typography FAIL: missing/current-set measurement evidence.');
+  }
+  const typographyImages = [];
+  for (const [variant, file] of [['thumbnail', job.thumbnail], ['og', job.og_image], ['gbp', job.gbp_image]]) {
+    const metric = typography.variants?.[variant];
+    const hash = (p) => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+    if (!file || metric?.asset_path !== file || hash(file) !== metric.asset_sha256) {
+      throw new Error(`Thumbnail Typography FAIL: stale ${variant} evidence.`);
+    }
+    typographyImages.push({ type: 'input_text', text: `${variant}: original, then actual 320px and 400px JPEG previews.` });
+    typographyImages.push({ type: 'input_image', image_url: dataUrl(path.resolve(file)), detail: 'high' });
+    for (const width of [320, 400]) {
+      const preview = metric.previews?.[width];
+      if (!preview?.path || hash(preview.path) !== preview.sha256) throw new Error(`Thumbnail Typography FAIL: stale ${variant} preview.`);
+      typographyImages.push({ type: 'input_image', image_url: dataUrl(path.resolve(preview.path)), detail: 'high' });
+    }
+  }
   if (!fs.existsSync(thumbPath)) throw new Error(`Rendered thumbnail missing: ${job.thumbnail}`);
   if (job.gbp_image && !fs.existsSync(gbpPath)) throw new Error(`Rendered GBP image missing: ${job.gbp_image}`);
 
   const prompt = [
     'You are the strict visual QA gate for THE REV. CONDITIONING LAB. editorial images.',
-    'Compare the FIRST image (real source environment) with the SECOND image (generated scene), THIRD image (final 16:9 thumbnail), and when present the FOURTH image (final GBP 4:3 image).',
+    'Compare the FIRST image (real source environment) with the SECOND image (generated scene), then the labeled thumbnail, OGP and GBP originals and their actual 320px/400px previews.',
     'Return ONLY one JSON object. Do not use markdown.',
     '',
     'The source environment is authoritative. Fail if the final scene looks like another gym, if a person looks pasted in, if any trainer/staff/coach appears, if no customer appears, or if anatomy/perspective/contact shadows/lighting are not convincing.',
     'The typography in the final thumbnail and GBP image is deterministic. Judge whether it is immediately legible at blog-card size, editorial rather than ad-like, and consistent with THE REV.',
     'NEGATIVE SPACE DOES NOT MEAN EMPTY SPACE. Reward intentional breathing room, but score negative_space <= 7 if a large plain ivory region has no hierarchy purpose and makes the thumbnail feel unfinished.',
-    'Score typography_harmony <= 7 if the main headline reads like a small caption once the 1200px image is mentally reduced to a typical two-column blog card.',
-    'TYPOGRAPHY BREAK QC: inspect the FINAL rendered headline, not only whether the expected words are present. Fail headline_line_break_quality if a manual break splits a grammatical unit at a weak connective/particle such as って/とは/の/を/が/に/と/で without phrase-closing punctuation, if a short headline is fragmented into floating pieces, or if line spacing/balance feels accidental.',
-    'For short Japanese headlines, prefer one compact line when it comfortably fits. If multiple lines are needed, break at a semantic phrase boundary and keep the visual lengths/hierarchy intentionally balanced. Set headline_balance_score <= 7 for awkward or amateur-looking breaks even when every character is legible.',
+    'Score typography_harmony <= 7 if the main headline reads like a small caption in the supplied actual 320px preview.',
+    'TYPOGRAPHY BREAK QC: inspect the FINAL rendered headline. Fail isolated characters or particles, splitting a word/verb ending, separating a connective from its phrase, or accidental spacing. Complete semantic phrases such as 静かに / 休むだけ。 or 行く前後を / 整える。 are allowed; do not reject a complete phrase merely because it ends with a particle.',
+    'Prefer a compact 2-4 line title block with natural Japanese phrase boundaries; a genuinely short title may remain one line. Never reward tiny text to fit one line. Fail isolated characters/particles, accidental line lengths or excessive line spacing.',
+    'THUMBNAIL TYPOGRAPHY ACCEPTANCE: inspect every labeled 320px and 400px preview at its supplied size. Do not imagine enlargement. Fail if the title must be searched for, is secondary like a caption, has wasted dominant ivory space, extends beyond its fade, lacks contrast, is buried in the photo, or does not convey the article. ALL THREE variants must pass every check. Set overall pass=false if ANY variant fails.',
     'Score editorial_quality <= 7 if the result feels like a museum label, brochure placeholder, or generic template instead of a compelling article thumbnail.',
     'When layout_variant is impact-v1, the photograph should feel like the visual majority while the enlarged headline remains a clear second focal point. Premium restraint must come from hierarchy, not tiny type.',
     'HUMAN FIRST V1: fail if the room/equipment feels like the hero and the customer feels small. The customer should carry roughly 60-70% of visual attention, with face/expression/action readable at card size.',
@@ -348,6 +376,7 @@ async function visualQa(attempt) {
     'Required JSON fields:',
     '{',
     '  "pass": boolean,',
+    `  "thumbnail_typography_visual": { ${['thumbnail', 'og', 'gbp'].map((v) => `"${v}": { "pass": boolean, ${TYPOGRAPHY_VISUAL_CHECKS.map((k) => `"${k}": boolean`).join(', ')} }`).join(', ')} },`,
     '  "series_consistency": 0-10,',
     '  "editorial_quality": 0-10,',
     '  "typography_harmony": 0-10,',
@@ -416,8 +445,7 @@ async function visualQa(attempt) {
         { type: 'input_text', text: prompt },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
-        { type: 'input_image', image_url: dataUrl(thumbPath), detail: 'high' },
-        ...(job.gbp_image ? [{ type: 'input_image', image_url: dataUrl(gbpPath), detail: 'high' }] : [])
+        ...typographyImages
       ]
     }]
   });
@@ -444,6 +472,13 @@ async function visualQa(attempt) {
 
   const qa = {
     ...modelQa,
+    thumbnail_typography_revision: THUMBNAIL_TYPOGRAPHY_REVISION,
+    thumbnail_typography_acceptance: {
+      pass: ['thumbnail', 'og', 'gbp'].every((v) => modelQa.thumbnail_typography_visual?.[v]?.pass === true &&
+        TYPOGRAPHY_VISUAL_CHECKS.every((k) => modelQa.thumbnail_typography_visual?.[v]?.[k] === true)),
+      deterministic: typography,
+      visual: modelQa.thumbnail_typography_visual || {}
+    },
     pass: requiredBool(modelQa.pass) && !recentRepeat,
     source_material_scope_pass: true,
     generated_customer_allowed_under_policy: true,
@@ -755,6 +790,15 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
 
     lastError = String(lastQa.comments || 'Visual QC failed.');
     console.warn(`Visual QC REJECT: ${lastError}`);
+    // A typography-only failure must not spend another image-generation attempt.
+    if (!typographyAcceptancePass(lastQa)) {
+      for (const file of [job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
+        fs.rmSync(file, { force: true });
+        for (const width of [320, 400]) fs.rmSync(file.replace(/\.jpg$/, `-preview-${width}.jpg`), { force: true });
+      }
+      fs.rmSync(`${job.thumbnail}.typography.json`, { force: true });
+      break;
+    }
 
     // Never leave a rejected image where a later commit step can accidentally stage it.
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
@@ -786,6 +830,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     }
 
     console.error(`Automated image attempt failed: ${lastError}`);
+    if (e.code === 'THUMBNAIL_TYPOGRAPHY_FAILED') break;
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }

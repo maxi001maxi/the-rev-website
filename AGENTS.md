@@ -40,6 +40,13 @@
 - 一度READYになったHybrid画像を本文再同期だけでsource-lockへ巻き戻さない
 - 最終Publishは必ず人間承認で停止する
 
+### Typography Acceptance（2026-10-01）
+
+- 新規QAでは `lib/editorialThumbnailTypography.mjs` のGateを必須とする。写真生成・コピー生成は維持する。
+- 3枚全てを原寸と実際の320px/400px JPEGで判定する。原寸だけの可読性PASSは禁止。
+- 読めるサイズで自然な改行ができない場合はFAIL。文字だけのFAILで写真を再生成しない。
+- 既存承認済み画像へ遡及して自動変更しない。
+
 ### 変更後に必ず実行する検証
 
 ```bash

@@ -23,7 +23,9 @@
     "design_revision": "editorial-thumbnail-v2.6-human-first",
     "default_layout_variant": "human-first-v1",
     "legacy_layout_variant": "legacy-v24",
-    "impact_layout_variant": "impact-v1"
+    "impact_layout_variant": "impact-v1",
+    "thumbnail_typography_revision": "thumbnail-typography-v1",
+    "thumbnail_typography_contract": "lib/editorialThumbnailTypography.mjs"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -195,7 +197,13 @@
     "background_secondary_pass_required": true,
     "background_soft_blur_pass_required": true,
     "the_rev_anchor_visible_required": true,
-    "customer_presentation_matches_plan_required": true
+    "customer_presentation_matches_plan_required": true,
+    "thumbnail_typography_qc_cutover": "2026-10-01T03:39:13.000Z",
+    "thumbnail_typography_requires_all_three_variants": true,
+    "thumbnail_typography_preview_widths": [
+      320,
+      400
+    ]
   },
   "operator_required": [
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",
