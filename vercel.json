@@ -8,6 +8,14 @@
       "destination": "/admin/index.html"
     },
     {
+      "source": "/admin/google-business",
+      "destination": "/admin/google-business/index.html"
+    },
+    {
+      "source": "/admin/google-business/",
+      "destination": "/admin/google-business/index.html"
+    },
+    {
       "source": "/api/admin/google-business/callback",
       "destination": "/api/admin/google-business?action=callback"
     }

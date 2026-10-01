@@ -142,7 +142,12 @@ export default async function handler(req, res) {
       events: Object.entries(currentDataset.events).map(([event, count]) => ({ event, count }))
     });
   } catch (error) {
-    console.error('[admin/analytics] GSC Wizard GA4 request failed:', error?.code || error?.message || 'unknown');
+    const safeCodes = new Set([
+      'not_configured', 'invalid_response', 'wizard_timeout', 'wizard_dns_error',
+      'wizard_connection_error', 'wizard_upstream_5xx', 'wizard_rate_limited',
+      'wizard_permission_denied', 'wizard_upstream_error', 'property_mismatch', 'timezone_mismatch'
+    ]);
+    console.error('[admin/analytics] GSC Wizard GA4 request failed:', safeCodes.has(error?.code) ? error.code : 'wizard_unknown_error');
     return sendError(
       res,
       502,

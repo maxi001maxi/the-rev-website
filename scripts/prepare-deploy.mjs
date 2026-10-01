@@ -12,6 +12,11 @@ const DIST = path.join(ROOT, 'dist');
 
 const ROOT_FILES = ['favicon.ico', 'robots.txt', 'sitemap.xml'];
 const ROOT_DIRS = ['assets', 'blog', 'admin'];
+const REQUIRED_ADMIN_ARTIFACTS = [
+  'admin/google-business/index.html',
+  'admin/js/google-business.mjs',
+  'admin/css/admin.css'
+];
 
 function copyRecursive(src, dest) {
   const stat = fs.statSync(src);
@@ -83,6 +88,13 @@ function main() {
   // Xserver deploy側でもstyle.cssを明示上書きし、本番bytes一致を確認してからHTMLを切り替える。
   // Xserver/CDN/ブラウザに古いCSSが残り、REAL VOICE等のレイアウトだけ崩れる事故を防ぐ。
   fingerprintRootStylesheet();
+
+  for (const relativePath of REQUIRED_ADMIN_ARTIFACTS) {
+    const artifact = path.join(DIST, relativePath);
+    if (!fs.statSync(artifact, { throwIfNoEntry: false })?.isFile()) {
+      throw new Error(`[prepare-deploy] 必須成果物がdistにありません: ${relativePath}`);
+    }
+  }
 
   console.log('[prepare-deploy] dist/ を作成しました（公開対象ファイルのみ）');
 }
