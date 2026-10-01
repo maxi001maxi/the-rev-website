@@ -1,0 +1,93 @@
+name: Google Business Preview Smoke
+
+on:
+  push:
+    branches:
+      - fix/google-business-ga4-production
+    paths:
+      - '.github/workflows/google-business-preview-smoke.yml'
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Resolve Vercel preview for this commit and probe Google Business delivery
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${VERCEL_BYPASS_SECRET:-}" ]; then
+            echo "::error::VERCEL_AUTOMATION_BYPASS_SECRET is not configured."
+            exit 2
+          fi
+
+          base_url=""
+          for i in $(seq 1 36); do
+            ids=$(gh api "repos/${REPO}/deployments?sha=${SHA}&per_page=10" --jq '.[].id' 2>/dev/null || true)
+            for id in $ids; do
+              url=$(gh api "repos/${REPO}/deployments/${id}/statuses?per_page=20" \
+                --jq '[.[] | select(.state=="success") | .environment_url // empty] | first // empty' 2>/dev/null || true)
+              if [ -n "$url" ]; then
+                base_url="$url"
+                break
+              fi
+            done
+            [ -n "$base_url" ] && break
+            echo "waiting for preview deployment (${i}/36)"
+            sleep 10
+          done
+
+          if [ -z "$base_url" ]; then
+            echo "::error::Preview deployment URL could not be resolved for ${SHA}."
+            exit 3
+          fi
+
+          echo "preview_url=$base_url"
+          FAIL=0
+
+          probe() {
+            name="$1"
+            path="$2"
+            expected="$3"
+            body_match="${4:-}"
+            body=$(mktemp)
+            headers=$(mktemp)
+            code=$(curl -sS -L --max-time 20 \
+              -H "x-vercel-protection-bypass: ${VERCEL_BYPASS_SECRET}" \
+              -D "$headers" -o "$body" -w '%{http_code}' "${base_url}${path}" || echo 000)
+            location=$(tr -d '\r' < "$headers" | awk 'tolower($1)=="location:" {print $2; exit}')
+            vercel_id=$(tr -d '\r' < "$headers" | awk 'tolower($1)=="x-vercel-id:" {print $2; exit}')
+            content_type=$(tr -d '\r' < "$headers" | awk 'tolower($1)=="content-type:" {$1=""; sub(/^ /,""); print; exit}')
+            echo "PROBE name=${name} path=${path} code=${code} location=${location:-} content_type=${content_type:-} x_vercel_id=${vercel_id:-}"
+            if [ "$code" != "$expected" ]; then
+              echo "BODY_HEAD_START ${name}"
+              head -c 500 "$body" | tr '\n' ' '
+              echo
+              echo "BODY_HEAD_END ${name}"
+              FAIL=1
+            elif [ -n "$body_match" ] && ! grep -qF "$body_match" "$body"; then
+              echo "::error::${name} body mismatch"
+              FAIL=1
+            fi
+            rm -f "$body" "$headers"
+          }
+
+          probe "admin-login" "/admin/login/" "200" "THE REV."
+          probe "gb-route" "/admin/google-business/" "200" "店舗インサイト接続"
+          probe "gb-index" "/admin/google-business/index.html" "200" "店舗インサイト接続"
+          probe "gb-js" "/admin/js/google-business.mjs" "200" "getGoogleBusinessStatus"
+          probe "admin-css" "/admin/css/admin.css" "200"
+
+          if [ "$FAIL" -ne 0 ]; then
+            echo "::error::Google Business preview delivery smoke failed."
+            exit 1
+          fi
+          echo "GOOGLE_BUSINESS_PREVIEW_SMOKE_PASS"
