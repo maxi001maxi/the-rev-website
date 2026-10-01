@@ -782,3 +782,25 @@ V2.5で文字サイズと写真面積を改善した後、背景を精密に作�
 - generated_customer_count = 1
 
 最終Publishは従来どおり人間承認のみ。
+
+## 18. 2026-10-01｜Typography Golden Reference Lock
+
+この節は文字組み・装飾・fadeの最新正本。写真生成のV2.6 Human First、素材範囲、被写体、scene intent、写真cropは変更しない。過去の固定文字位置・均一font tierより、今回承認された見本のデザイン文法を優先する。
+
+- 承認済み実ファイルとprovenance: `editorial/typography-golden-reference/lock.json`。16:9、4:3 GBP、一覧見本の原本をSHA256で固定。生成モデルへ写真の新しい基準として渡さず、完成画像の文字組みQAだけに渡す。
+- 実装: `lib/editorialThumbnailTypography.mjs`。原文を保ち、日本語の意味単位と実フォント幅で2〜3行を優先。4行は自然な意味単位で必要な場合のみ。短い1行は既存の語だけをinlineで強調する。
+- `golden-wide-v1`: 520px以内の左文字領域、補助60〜78px・中心語最大136px・締めの行は補助より少し強く。タイトルblockを675/630pxそれぞれの高さで配置し、幅166pxのsoft fadeで写真へつなぐ。
+- `golden-gbp-v1`: 通常440pxのコンパクトな領域、補助60〜68px・中心語最大112px、専用の縦位置200px、横fade幅108pxと縦fade150px。自然に分けられない長い日本語句はGBP固有の上限500px（短い英字語と日本語の混在は512px）まで広げ、文字を極小化しない。人物・顔・身体との競合はVisual QCで拒否する。
+- 中心語は落ち着いた金茶色、補助はink。カテゴリーlabelは小さく従属、細線は抑え、無意味な下部 `THE REV. / JOURNAL` は外す。
+- 写真は同じgenerated sceneと既存object-position / scene CSSを使用。Typography FAIL時は写真を再生成せず保持する。
+
+### 二層QC（READY / Review / Publish共通）
+
+1. **機械QC**: 320pxで補助16px以上、文字切れなし、安全余白40px、自然な改行、文字占有率・行長、中心語の強弱、dark inkとgold ink両方の保守的contrast >=4.5:1。最終JPEGから320/400px JPEGを生成し、原寸とpreviewのhashをsidecarへ記録してQC送信前に照合。
+2. **Visual Art Direction QC**: 原寸・実際の縮小画像・承認済みgolden referenceを並べ、単なる拡大でない、写真と文字の主従、意味のある空白、白板感なし、中心語の強弱、各比率の独立性、テンプレ感なし、THE REV.の上質感、一覧での魅力、サムネイルとしての機能、golden文法との一致を全3形式で明示判定する。
+
+縮小可読性PASSだけで完了にしない。第2層の欠落や1形式のFAILでも進めない。`inviting_at_list_size` は視覚的な編集判断であり、実測CTR改善を意味しない。過去の承認済み資産は維持し、2026-10-01T06:59:53Z以後の新しいQAとrevision付きQAに新gateを適用する。
+
+### 非公開Acceptance
+
+`editorial/golden-typography-acceptance/oxygen-room-how-to-spend-time/job.json` は実記事と承認済みsceneの検証用version。同じ本番overlay rerenderとVisual QC経路で3枚を生成する。`.github/workflows/golden-typography-acceptance.yml` は専用feature branch限定・contents:readで、QAとartifact保存のみ。main merge、Xserver/Vercel deploy、記事publish、通知は含まない。

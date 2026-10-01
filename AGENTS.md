@@ -40,6 +40,14 @@
 - 一度READYになったHybrid画像を本文再同期だけでsource-lockへ巻き戻さない
 - 最終Publishは必ず人間承認で停止する
 
+### 2026-10-01｜承認済みTypography Golden Reference
+
+- 文字組みの正本は `editorial/typography-golden-reference/lock.json` と、そのSHA256で固定した16:9・GBP 4:3・一覧見本。写真側のV2.6生成ルールは維持する。
+- `lib/editorialThumbnailTypography.mjs` の `golden-wide-v1` と `golden-gbp-v1` は独立ルール。見本の中心語を大きさ・金茶色で立て、前後を補助にする。全行を均一に拡大しただけではPASSにしない。
+- READY / Review / Publishでは、原寸と実320px/400px画像の機械QCに加え、見本を直接参照した全3形式のVisual Art Direction QCを必須にする。欠落・1形式のFAIL・referenceのhash変更はfail-closed。
+- Typography FAILで写真を作り直さない。同じgenerated sceneを保持し、overlay修正へ戻す。最終Publishは人間承認。
+- 検証には以下に加え `npm run test:thumbnail-typography` と、Playwright環境で `node scripts/test-thumbnail-typography-browser.mjs` を実行する。
+
 ### 変更後に必ず実行する検証
 
 ```bash

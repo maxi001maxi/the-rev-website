@@ -1,0 +1,28 @@
+{
+  "revision": "approved-typography-20261001-v1",
+  "approval": "User instruction GOLDEN REFERENCE LOCK / THUMBNAIL TYPOGRAPHY IMPLEMENTATION, 2026-10-01",
+  "scope": "Typography / Layout / Fade / Spacing / Readability only. Do not inherit golden sample photo generation, scene, subject or crop.",
+  "layout_rules": "lib/editorialThumbnailTypography.mjs#GOLDEN_LAYOUT_RULES",
+  "wide_grammar": "2-3 semantic lines; central keyword larger and warm ochre; preceding/closing phrases subordinate; quiet small label; soft horizontal paper-to-photo blend",
+  "gbp_grammar": "Independent compact block, narrower text field, dedicated vertical position and vertical fade; preserve face and body; no stretching wide layout",
+  "assets": [
+    {
+      "variant": "wide",
+      "path": "editorial/typography-golden-reference/reference-16x9.png",
+      "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e",
+      "source_library_file_id": "libfile_5654eea9b3848191a001f52d0ea7c033"
+    },
+    {
+      "variant": "gbp",
+      "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+      "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640",
+      "source_library_file_id": "libfile_e3a67dac6fd88191a8188e264d5943f0"
+    },
+    {
+      "variant": "list",
+      "path": "editorial/typography-golden-reference/reference-list-view.png",
+      "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7",
+      "source_library_file_id": "libfile_209660ffb7b08191b1f2536167d538d8"
+    }
+  ]
+}

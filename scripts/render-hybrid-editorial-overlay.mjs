@@ -1,5 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
+import { fitThumbnailHeadline, THUMBNAIL_TYPOGRAPHY_REVISION, GOLDEN_LAYOUT_RULES } from '../lib/editorialThumbnailTypography.mjs';
 import { chromium } from 'playwright';
 import { REV_COLUMN_REFERENCE_V2 } from '../lib/editorialImageStyle.mjs';
 import { HYBRID_IMAGE_FORMAT } from '../lib/editorialHybridImageFormat.mjs';
@@ -307,31 +309,60 @@ body{position:relative;color:${style.overlay.headline.color}}
 }
 
 const browser = await chromium.launch({ headless: true });
+const typographyReport = {
+  revision: THUMBNAIL_TYPOGRAPHY_REVISION,
+  slug, asset_version: safeVersion, pass: false, variants: {}
+};
+const hashFile = (file) => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const created = [];
 try {
   for (const spec of [
-    { width: 1200, height: 675, out: outThumb, og: false, gbp: false },
-    { width: 1200, height: 630, out: outOg, og: true, gbp: false },
-    { width: 1200, height: 900, out: outGbp, og: false, gbp: true }
+    { width: 1200, height: 675, out: outThumb, og: false, gbp: false, variant: 'thumbnail' },
+    { width: 1200, height: 630, out: outOg, og: true, gbp: false, variant: 'og' },
+    { width: 1200, height: 900, out: outGbp, og: false, gbp: true, variant: 'gbp' }
   ]) {
     const page = await browser.newPage({ viewport: { width: spec.width, height: spec.height }, deviceScaleFactor: 1 });
-    await page.setContent(html(spec), { waitUntil: 'load' });
-    await page.evaluate(() => document.fonts.ready);
-    await page.evaluate(() => {
-      const headline = document.querySelector('.headline');
-      const lines = [...document.querySelectorAll('.headline-line')];
-      if (!headline || !lines.length) return;
-      const maxWidth = parseFloat(getComputedStyle(headline).maxWidth || '0');
-      let size = parseFloat(getComputedStyle(headline).fontSize || '0');
-      const minSize = 36;
-      const fits = () => lines.every((line) => line.scrollWidth <= maxWidth + 0.5);
-      while (!fits() && size > minSize) {
-        size -= 1;
-        headline.style.fontSize = `${size}px`;
+    try {
+      await page.setContent(html(spec), { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      const metrics = await page.evaluate(fitThumbnailHeadline, {
+        text: image_headline_short, width: spec.width, height: spec.height,
+        gbp: spec.gbp, override: job?.typography_override?.[spec.variant] || {},
+        rule: GOLDEN_LAYOUT_RULES[spec.gbp ? 'gbp' : 'wide']
+      });
+      await page.screenshot({ path: spec.out, type: 'jpeg', quality: 94 });
+      created.push(spec.out);
+      metrics.asset_path = path.relative(process.cwd(), spec.out);
+      metrics.asset_sha256 = hashFile(spec.out);
+      metrics.previews = {};
+      // Downsample actual JPEG bytes, not an imagined CSS/font-size reduction.
+      for (const displayWidth of [320, 400]) {
+        const previewPath = spec.out.replace(/\.jpg$/, `-preview-${displayWidth}.jpg`);
+        const preview = await page.evaluate(async ({ url, width, height }) => {
+          const image = new Image(); image.src = url; await image.decode();
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(image, 0, 0, width, height);
+          return canvas.toDataURL('image/jpeg', 0.94).split(',')[1];
+        }, { url: `data:image/jpeg;base64,${fs.readFileSync(spec.out).toString('base64')}`,
+          width: displayWidth, height: Math.round(spec.height * displayWidth / spec.width) });
+        fs.writeFileSync(previewPath, Buffer.from(preview, 'base64'));
+        created.push(previewPath);
+        metrics.previews[displayWidth] = {
+          path: path.relative(process.cwd(), previewPath), sha256: hashFile(previewPath)
+        };
       }
-    });
-    await page.screenshot({ path: spec.out, type: 'jpeg', quality: 94, fullPage: false });
-    await page.close();
+      typographyReport.variants[spec.variant] = metrics;
+    } finally { await page.close(); }
   }
+  typographyReport.pass = Object.values(typographyReport.variants).every((m) => m.pass === true);
+  fs.writeFileSync(`${outThumb}.typography.json`, JSON.stringify(typographyReport, null, 2) + '\n');
+} catch (error) {
+  for (const file of created) fs.rmSync(file, { force: true });
+  fs.rmSync(`${outThumb}.typography.json`, { force: true });
+  throw error;
 } finally {
   await browser.close();
 }
@@ -344,6 +375,9 @@ console.log(JSON.stringify({
   design_revision,
   layout_variant,
   headline_tier: resolvedHeadlineTier,
+  thumbnail_typography_revision: THUMBNAIL_TYPOGRAPHY_REVISION,
+  typography_report: `${outThumb}.typography.json`,
+  typography: typographyReport,
   generated_scene_path,
   thumbnail: outThumb,
   og: outOg,

@@ -32,6 +32,9 @@ on:
       - 'lib/editorialHybridImageFormat.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialImageReviewGate.mjs'
+      - 'lib/editorialThumbnailTypography.mjs'
+      - 'editorial/typography-golden-reference/**'
+      - 'scripts/test-thumbnail-typography.mjs'
       - 'AGENTS.md'
       - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
       - 'editorial/editorial-image-system.json'
@@ -98,6 +101,7 @@ jobs:
       - run: npm run test:daily-editorial-contract
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
+      - run: npm run test:thumbnail-typography
       - run: npm run test:phase-d
       - run: npm run test:phase-e
       - run: npm run test:site-insights

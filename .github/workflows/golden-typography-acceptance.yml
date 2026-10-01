@@ -1,0 +1,81 @@
+name: Golden Typography Acceptance
+
+on:
+  push:
+    branches: [feature/golden-reference-typography-20261001]
+    paths:
+      - 'lib/editorialThumbnailTypography.mjs'
+      - 'editorial/typography-golden-reference/**'
+      - 'scripts/*editorial*image*.mjs'
+      - 'scripts/render-hybrid-editorial-overlay.mjs'
+      - 'editorial/golden-typography-acceptance/**'
+      - '.github/workflows/golden-typography-acceptance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    if: github.ref == 'refs/heads/feature/golden-reference-typography-20261001'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install production renderer dependencies
+        run: |
+          npm ci
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+      - name: Re-render the approved scene and run the production Visual QC
+        run: |
+          test -n "$OPENAI_API_KEY"
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const jobPath = 'editorial/golden-typography-acceptance/oxygen-room-how-to-spend-time/job.json';
+          const job = JSON.parse(fs.readFileSync(jobPath));
+          fs.writeFileSync(`editorial/image-operator-state/${job.slug}.json`, JSON.stringify({
+            slug: job.slug, asset_version: job.asset_version,
+            status: 'OVERLAY_RERENDER_REQUESTED', attempts_total: 1
+          }));
+          JS
+          node scripts/auto-editorial-hybrid-image.mjs editorial/golden-typography-acceptance/oxygen-room-how-to-spend-time/job.json
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import assert from 'node:assert/strict';
+          import { typographyAcceptancePass } from './lib/editorialThumbnailTypography.mjs';
+          const job = JSON.parse(fs.readFileSync('editorial/golden-typography-acceptance/oxygen-room-how-to-spend-time/job.json'));
+          const state = JSON.parse(fs.readFileSync(`editorial/image-operator-state/${job.slug}.json`));
+          const qa = JSON.parse(fs.readFileSync(job.qa_report_path));
+          assert.equal(state.status, 'READY_CANDIDATE');
+          assert.equal(qa.pass, true);
+          assert.equal(typographyAcceptancePass(qa), true);
+          console.log(JSON.stringify(qa, null, 2));
+          JS
+      - name: Targeted regression and build
+        run: |
+          node scripts/test-thumbnail-typography-browser.mjs
+          npm run test:thumbnail-typography
+          npm run test:editorial-images
+          npm run test:phase-9
+          npm run build:blog
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: golden-typography-acceptance
+          path: |
+            assets/images/blog/*golden-r1*
+            assets/images/blog/og/*golden-r1*
+            assets/images/gbp/*golden-r1*
+            editorial/image-qa/*golden-r1*
+            editorial/image-operator-state/oxygen-room-how-to-spend-time.json
+          retention-days: 14

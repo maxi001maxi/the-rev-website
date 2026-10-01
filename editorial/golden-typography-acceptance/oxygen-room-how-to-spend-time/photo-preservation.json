@@ -1,0 +1,31 @@
+{
+  "base_main": "16482afe30ea75434988ed93b5c63679619a00a6",
+  "scene": {
+    "unchanged": true,
+    "sha256": "e8296311fa2107989023250feae0c9f9c19e59c4ee7ae574ad7a418ed4ea8fb4"
+  },
+  "generation_prompt_and_provider": {
+    "unchanged": true,
+    "sha256": "998b487cd6444c400da4b8a913ff31f87eaba35c4ea52ff68e3ce1b9fb9ecfd8"
+  },
+  "scene_crop_and_photo_shading": {
+    "unchanged": true,
+    "sha256": "e0f9ec68770682d5093dbd149fc2daae2eadbf13dadb9ca9db3931d423c00f75"
+  },
+  "hybrid_generation_brief": {
+    "unchanged": true,
+    "sha256": "907790abb0e6e010085d8ad0cfca6050c97988a5602c5e6505439ec6d1785c39"
+  },
+  "lib/editorialImageCopy.mjs": {
+    "unchanged": true,
+    "sha256": "10c27757c1fbdd02cc49a5ea817555acac7073c1273ee32023e33f2b0bbd2e0f"
+  },
+  "lib/editorialAutomatedHybridImage.mjs": {
+    "unchanged": true,
+    "sha256": "524c7eeef2e8abefddc826a3a8994dda66356984085953da69cefc8548c329f8"
+  },
+  "api/integrations/editorial.mjs": {
+    "unchanged": true,
+    "sha256": "88583b3408597e6f36d7b9d670dbff1e2bbaef1b31a958d448d9353e9dbb3c28"
+  }
+}

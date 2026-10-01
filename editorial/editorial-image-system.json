@@ -23,7 +23,13 @@
     "design_revision": "editorial-thumbnail-v2.6-human-first",
     "default_layout_variant": "human-first-v1",
     "legacy_layout_variant": "legacy-v24",
-    "impact_layout_variant": "impact-v1"
+    "impact_layout_variant": "impact-v1",
+    "typography_revision": "thumbnail-golden-typography-v1",
+    "typography_golden_reference_lock": "editorial/typography-golden-reference/lock.json",
+    "typography_layout_rules": {
+      "wide": "golden-wide-v1",
+      "gbp": "golden-gbp-v1"
+    }
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -115,14 +121,16 @@
     "compile_job": "npm run image:compile-job -- path/to/request.json",
     "validate_images": "npm run test:editorial-images",
     "validate_phase9": "npm run test:phase-9",
-    "build_blog": "npm run build:blog"
+    "build_blog": "npm run build:blog",
+    "validate_typography": "npm run test:thumbnail-typography"
   },
   "workflows": {
     "source_lock_render": ".github/workflows/render-editorial-images.yml",
     "phase9_ci": ".github/workflows/phase-9-check.yml",
     "xserver_deploy": ".github/workflows/deploy-xserver.yml",
     "preview_qa": ".github/workflows/preview-qa.yml",
-    "auto_hybrid_generation": ".github/workflows/auto-editorial-hybrid-images.yml"
+    "auto_hybrid_generation": ".github/workflows/auto-editorial-hybrid-images.yml",
+    "golden_typography_acceptance": ".github/workflows/golden-typography-acceptance.yml"
   },
   "release_boundary": "REVIEW_AND_PUBLISH",
   "stop_conditions": [
@@ -149,7 +157,9 @@
     "Xserver public asset does not match repository bytes",
     "publish would occur without explicit human approval",
     "headline is too small to read at live blog-card size",
-    "negative space becomes a large dead ivory field with no hierarchy purpose"
+    "negative space becomes a large dead ivory field with no hierarchy purpose",
+    "any of thumbnail / OGP / GBP fails machine typography or Visual Art Direction QC",
+    "approved typography golden reference hash changes or direct golden comparison is missing"
   ],
   "review_policy": {
     "standard_mode": "HYBRID_GENERATED",
@@ -195,7 +205,12 @@
     "background_secondary_pass_required": true,
     "background_soft_blur_pass_required": true,
     "the_rev_anchor_visible_required": true,
-    "customer_presentation_matches_plan_required": true
+    "customer_presentation_matches_plan_required": true,
+    "thumbnail_typography_acceptance_required": true,
+    "visual_art_direction_acceptance_required": true,
+    "thumbnail_typography_cutover": "2026-10-01T06:59:53.000Z",
+    "typography_qa_original_and_preview_hash_required": true,
+    "golden_reference_qa_hash_required": true
   },
   "operator_required": [
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",
