@@ -7,7 +7,7 @@
 <title>THE REV. Intelligence｜Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap">
 <link rel="stylesheet" href="/admin/css/admin.css">
 <link rel="stylesheet" href="/admin/css/intelligence.css">
 </head>
@@ -17,60 +17,86 @@
 <header class="admin-shell-header">
   <div class="admin-shell-brand">THE REV.<span>Admin</span></div>
   <nav class="admin-shell-nav" aria-label="Admin navigation">
-    <a href="/admin/">Dashboard</a>
-    <a href="/admin/intelligence/" aria-current="page">Intelligence</a>
-    <a href="/admin/articles/">Articles</a>
-    <a href="/admin/analytics/">Analytics</a>
-    <a href="/admin/site-insights/">Site Insights</a>
+    <a href="/admin/">Dashboard</a><a href="/admin/intelligence/" aria-current="page">Intelligence</a>
+    <a href="/admin/articles/">Articles</a><a href="/admin/analytics/">Analytics</a><a href="/admin/site-insights/">Site Insights</a>
   </nav>
   <div class="admin-shell-user"><span id="user-email" class="admin-shell-email"></span><button id="logout-btn" class="admin-logout" type="button">ログアウト</button></div>
 </header>
 
 <main class="admin-main intelligence-main">
-  <div class="intelligence-head">
-    <div>
-      <p class="intelligence-eyebrow">THE REV. / ONE VIEW</p>
-      <h1>THE REV. Intelligence</h1>
-      <p>経営・Web・Editorial・AI分析を、正本を変えずに一つの画面へまとめます。</p>
+  <header class="intelligence-hero">
+    <div><p class="intelligence-eyebrow">EXECUTIVE OPERATING SYSTEM</p><h1>THE REV. Intelligence</h1><p id="period-caption">今の経営状態と、次に取るべき行動を30秒で。</p></div>
+    <div id="modes" class="intelligence-modes" role="group" aria-label="経営表示期間">
+      <button type="button" data-mode="today">TODAY</button><button type="button" data-mode="week">THIS WEEK</button><button type="button" data-mode="month">THIS MONTH</button>
     </div>
-    <div id="ranges" class="intelligence-ranges" role="group" aria-label="Web表示期間">
-      <button type="button" data-range="7d">7日</button>
-      <button type="button" data-range="28d">28日</button>
-      <button type="button" data-range="90d">90日</button>
-    </div>
-  </div>
-  <div id="error" class="admin-error admin-hidden" role="alert"></div>
-  <div id="loading" class="admin-card" role="status">データを読み込み中…</div>
-  <div id="content" class="admin-hidden">
-    <section id="overall" class="intelligence-overall" aria-live="polite"></section>
+  </header>
 
-    <section class="intelligence-section" aria-labelledby="management-title">
-      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">01 / MANAGEMENT</p><h2 id="management-title">経営</h2></div><div id="management-meta"></div></div>
-      <div id="management-cards" class="intelligence-card-grid"></div>
-      <div id="management-note" class="intelligence-note"></div>
+  <div id="error" class="admin-error admin-hidden" role="alert"></div>
+  <div id="loading" class="intelligence-loading" role="status"><span></span>Intelligenceを構成中…</div>
+  <div id="content" class="admin-hidden">
+    <section class="intelligence-section intelligence-pulse-section" aria-labelledby="pulse-title">
+      <div class="section-kicker"><span>01</span><div><p>EXECUTIVE PULSE</p><h2 id="pulse-title">経営状態</h2></div><p id="generated-at" class="section-meta"></p></div>
+      <div id="pulse" class="pulse-grid"></div>
     </section>
 
-    <section class="intelligence-section" aria-labelledby="web-title">
-      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">02 / WEB &amp; SEARCH</p><h2 id="web-title">Web / Search</h2></div><div id="web-meta"></div></div>
-      <div id="web-cards" class="intelligence-card-grid"></div>
-      <div id="web-changes" class="intelligence-list"></div>
-      <p class="intelligence-section-link"><a href="/admin/site-insights/">Site Insightsで詳細を見る →</a></p>
+    <section class="executive-grid" aria-label="Executive Brief and Priority Actions">
+      <article class="intelligence-section brief-panel">
+        <div class="section-kicker"><span>02</span><div><p>EXECUTIVE BRIEF</p><h2>今、何を見るべきか</h2></div></div>
+        <div id="brief" class="brief-lines"></div>
+        <button id="brief-evidence" class="text-button" type="button">Evidenceを見る →</button>
+      </article>
+      <article class="intelligence-section priority-panel">
+        <div class="section-kicker"><span>03</span><div><p>PRIORITY ACTIONS</p><h2>次の行動</h2></div></div>
+        <div id="priorities" class="priority-list"></div>
+      </article>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="revenue-title">
+      <div class="section-kicker"><span>04</span><div><p>REVENUE ENGINE</p><h2 id="revenue-title">売上の現在地</h2></div><p id="revenue-meta" class="section-meta"></p></div>
+      <div id="revenue-cards" class="metric-strip"></div>
+      <div class="visual-grid"><div><h3>Current vs Previous Comparable</h3><div id="revenue-chart" class="comparison-chart"></div></div><div><h3>Customer Pipeline</h3><div id="customer-pipeline" class="customer-pipeline"></div></div></div>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="funnel-title">
+      <div class="section-kicker"><span>05</span><div><p>GROWTH FUNNEL</p><h2 id="funnel-title">集客から有料化まで</h2></div></div>
+      <div id="funnel" class="funnel"></div>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="growth-title">
+      <div class="section-kicker"><span>06</span><div><p>SEARCH / WEB OPPORTUNITIES</p><h2 id="growth-title">伸びと取りこぼし</h2></div><div id="search-ranges" class="search-ranges" role="group" aria-label="Search詳細期間"><button data-range="7d">7d</button><button data-range="28d">28d</button><button data-range="90d">90d</button></div></div>
+      <div id="growth-trends" class="trend-grid"></div>
+      <div class="visual-grid"><div><h3>Ranked Opportunities</h3><div id="opportunities" class="ranked-list"></div></div><div><h3>Top Search Queries</h3><div id="queries" class="query-list"></div></div></div>
+      <p class="section-link"><a href="/admin/site-insights/">Site Insightsで詳細を見る →</a></p>
     </section>
 
     <section class="intelligence-section" aria-labelledby="editorial-title">
-      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">03 / EDITORIAL</p><h2 id="editorial-title">Editorial</h2></div><div id="editorial-meta"></div></div>
-      <div id="editorial-cards" class="intelligence-card-grid"></div>
-      <div id="editorial-schedule" class="intelligence-list"></div>
-      <p class="intelligence-section-link"><a href="/admin/articles/">Articlesを開く →</a></p>
+      <div class="section-kicker"><span>07</span><div><p>EDITORIAL IMPACT</p><h2 id="editorial-title">公開とその後の変化</h2></div></div>
+      <div id="editorial-metrics" class="metric-strip"></div><div id="editorial-impact" class="editorial-impact"></div><div id="editorial-schedule" class="timeline"></div>
+      <p class="section-link"><a href="/admin/articles/">Editorial Adminを開く →</a></p>
     </section>
 
-    <section class="intelligence-section" aria-labelledby="analysis-title">
-      <div class="intelligence-section-head"><div><p class="intelligence-eyebrow">04 / AI ANALYSIS</p><h2 id="analysis-title">AI Analysis</h2></div><div id="analysis-meta"></div></div>
-      <div id="reports" class="intelligence-report-grid"></div>
-      <div id="priorities" class="intelligence-list"></div>
+    <section class="intelligence-section" aria-labelledby="stream-title">
+      <div class="section-kicker"><span>08</span><div><p>INTELLIGENCE STREAM</p><h2 id="stream-title">検出された変化と機会</h2></div></div>
+      <div id="stream" class="stream-grid"></div>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="reports-title">
+      <div class="section-kicker"><span>09</span><div><p>REPORT EVIDENCE</p><h2 id="reports-title">最新レポート</h2></div></div>
+      <div id="reports" class="report-grid"></div>
+    </section>
+
+    <section class="intelligence-section" aria-labelledby="health-title">
+      <div class="section-kicker"><span>10</span><div><p>DATA HEALTH</p><h2 id="health-title">判断材料の状態</h2></div></div>
+      <div id="data-health" class="health-grid"></div>
     </section>
   </div>
 </main>
+
+<div id="drawer-backdrop" class="drawer-backdrop admin-hidden"></div>
+<aside id="evidence-drawer" class="evidence-drawer" aria-hidden="true" aria-labelledby="drawer-title">
+  <div class="drawer-head"><div><p class="intelligence-eyebrow">EVIDENCE</p><h2 id="drawer-title">根拠</h2></div><button id="drawer-close" type="button" aria-label="閉じる">×</button></div>
+  <div id="drawer-body" class="drawer-body"></div>
+</aside>
 </div>
 <script type="module" src="/admin/js/intelligence.mjs"></script>
 </body>

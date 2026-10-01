@@ -6,15 +6,19 @@ export function createIntelligenceHandler({getContext=getAuthedContext,assembleD
   return async function intelligenceHandler(req,res){
     res.setHeader('Cache-Control','private, no-store, max-age=0');
     if(req.method!=='GET'){res.setHeader('Allow','GET');return sendError(res,405,'method_not_allowed','GETのみ利用できます。');}
-    const {mode,...query}=req.query||{};
-    if(mode&&mode!=='intelligence')return sendError(res,400,'invalid_query','指定された条件が不正です。');
-    if(Object.keys(query).some(key=>key!=='range')||!['7d','28d','90d'].includes(query.range||'28d'))return sendError(res,400,'invalid_query','表示期間は7d、28d、90dのいずれかを指定してください。');
+    const {mode:routeMode,...query}=req.query||{};
+    if(routeMode&&routeMode!=='intelligence')return sendError(res,400,'invalid_query','指定された条件が不正です。');
+    if(Object.keys(query).some(key=>!['period','searchRange','range'].includes(key)))return sendError(res,400,'invalid_query','指定された条件が不正です。');
+    const period=query.period||'week';
+    const searchRange=query.searchRange||query.range||(period==='month'?'28d':'7d');
+    if(!['today','week','month'].includes(period)||!['7d','28d','90d'].includes(searchRange))return sendError(res,400,'invalid_query','期間はtoday、week、month、Search期間は7d、28d、90dから指定してください。');
     const context=await getContext(req);
     if(context.error)return sendError(res,context.status,context.error,context.error==='unauthorized'?'ログインが必要です。':'Admin認証が未設定です。');
     const {data:member,error:memberError}=await context.supabase.from('admin_members').select('active').eq('user_id',context.user.id).maybeSingle();
     if(memberError||!member?.active)return sendError(res,403,'forbidden','Intelligenceの閲覧権限がありません。');
     try{
-      const data=await assembleData(query.range||'28d',{supabase:context.supabase,userId:context.user.id});
+      const request=query.range&&!query.period&&!query.searchRange?query.range:{mode:period,searchRange};
+      const data=await assembleData(request,{supabase:context.supabase,userId:context.user.id});
       return res.status(200).json(data);
     }catch{return sendError(res,503,'intelligence_unavailable','Intelligenceを読み込めませんでした。');}
   };
