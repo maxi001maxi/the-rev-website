@@ -782,3 +782,32 @@ V2.5で文字サイズと写真面積を改善した後、背景を精密に作�
 - generated_customer_count = 1
 
 最終Publishは従来どおり人間承認のみ。
+
+
+## 18. Golden Typography V1｜2026-10-03
+
+写真生成・被写体・世界観・scene cropはV2.6を維持。後段Overlayだけに、承認済みGolden Referenceの階層・改行・余白・fadeを適用する。
+
+- Thumbnail / OGP: `golden-wide-v1`。左64px、最大520pxの意味単位block。
+- GBP: `golden-gbp-v1`。左60px、通常440px、専用縦位置と曲線fadeで顔・身体を残す。
+- 中心語は金茶色・大きい文字、前後はinkの補助行。下部JOURNAL装飾は削減。
+- 原文は保持し、収まらないコピーは小文字へ押し込まず停止する。
+- Jobに `typography_emphasis_text: "静かに"` のように既存コピー内の中心語を指定できる。未指定は意味単位の候補から選ぶが、必ず実画像で妥当性を確認する。
+- 原寸3枚と実320px/400px previewをVisual QCへ送る。参照画像hash、各JPEG hash、preview hashを照合する。
+- 単なる拡大、焦点不在、不自然な写真と文字の主従、巨大白板、意味のない白場、GBPの単純伸長、テンプレ感があればFAIL。
+- 新operator結果はREADY / Review / Publishの共通Typography Gateで検証する。旧画像は日時だけで失効させない。
+- Typographyの失敗で写真sceneを再生成しない。既存sceneを保持してOverlayへ戻す。
+
+Acceptance: `editorial/golden-typography-v1-acceptance/`。main mergeとProduction反映はこの実装作業に含まない。
+
+### 2026-10-03｜構図バランス改善 `centered-organic-v1`
+
+「通いやすさまで、選ぶ基準に。」の旧生成物は、左上の白いパネルと人物の重心が合わないというユーザー指摘で却下。原寸・320pxで読めることと、構図が成立することを分けて判定する。
+
+- GBPは文字の実測高さに応じ、見出しの中心を画面高さ48%へ配置。wide / OGPは各高さ50%に専用配置。
+- 英字カテゴリ・hairlineは省く。補助行は400 weight、中心語は700 weightと金茶色。原文と読みやすさの下限は保持。
+- 文字の実測範囲を支える局所的な曲線veil。上端から一面に白をかけたり、横一直線に写真を戻したりしない。wideは既存写真の開始位置だけをbase blendでつなぐ。
+- 実際のSVG veilをラスタライズし、全glyph矩形での最小不透明度から黒背景に対する保守的なcontrast floorを算出。>=4.5が必要。CSS stopの仮定値だけで判定しない。
+- Visual Art Directionに `composition_balanced`（見出しと人物の重心）/ `fade_integrated`（白いパネルに見えない自然な接続）を追加。いずれかfalseならFAIL。顔や手へfadeが侵入していないかも実画像で確認。
+- 承認済みGolden画像のhashは保持し、今回のユーザー指示を配置・fadeの改良として記録。新画像の人間最終承認を取得済みと扱わない。
+- 実画像確認: `editorial/golden-typography-v1-acceptance/shinomiya-personal-gym-reservation-facility-the-rev/balance-r2/`。酸素ルームの別コピーも `editorial/golden-typography-v1-acceptance/balance-r2/` で回帰確認。

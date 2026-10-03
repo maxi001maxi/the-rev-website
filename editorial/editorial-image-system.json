@@ -23,7 +23,11 @@
     "design_revision": "editorial-thumbnail-v2.6-human-first",
     "default_layout_variant": "human-first-v1",
     "legacy_layout_variant": "legacy-v24",
-    "impact_layout_variant": "impact-v1"
+    "impact_layout_variant": "impact-v1",
+    "typography_revision": "thumbnail-golden-typography-v1",
+    "typography_contract": "lib/editorialThumbnailTypography.mjs",
+    "typography_reference_lock": "editorial/typography-golden-reference/lock.json",
+    "typography_balance_revision": "centered-organic-v1"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",

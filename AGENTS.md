@@ -86,3 +86,13 @@ npm run image:compile-job -- path/to/request.json
 ```
 
 詳細、失敗時の復旧、GitHub/Xserver/Reviewまでの流れは `editorial/EDITORIAL_IMAGE_RUNBOOK.md` を正本とします。
+
+## Golden Typography V1（文字組みのみ）
+
+- 文字契約: `lib/editorialThumbnailTypography.mjs`。承認済み見本: `editorial/typography-golden-reference/lock.json`。写真生成ルール・scene・cropは変更しない。
+- wide / OGPは `golden-wide-v1`、GBPは独立した `golden-gbp-v1`。中心語を強調し、前後行・カテゴリは補助にする。
+- 2026-10-03のユーザー指摘を反映した `centered-organic-v1`: GBPの文字は実測高さから左中央へ配置し、wideは専用中央配置。英字ラベルを省き、文字周辺の曲線fadeを使う。左上の白い枠へ戻さない。
+- `composition_balanced` / `fade_integrated` を独立したVisual QC項目として必ず確認する。文字の可読性PASSだけでは構図の完成扱いにしない。人間による却下はPASSより優先。
+- 任意の `typography_emphasis_text` は既存コピー内の中心語のみを指定する。比率ごとの `typography_override.<variant>.emphasis_text` も利用可。コピーは書き換えない。
+- 新レンダーは原寸と実JPEGからの320px/400px previewを作り、機械QCとVisual Art Direction QCの両方が必須。旧承認済み画像は日時だけで失効させない。
+- 追加検証: `npm run test:thumbnail-typography` / `npm run test:thumbnail-typography-browser`（Playwright 1.55.0 / Chromium / Noto CJK必須）。

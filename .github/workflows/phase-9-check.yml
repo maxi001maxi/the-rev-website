@@ -37,6 +37,9 @@ on:
       - 'scripts/qa-editorial-image.mjs'
       - 'lib/editorialImage.mjs'
       - 'lib/editorialImageStyle.mjs'
+      - 'lib/editorialThumbnailTypography.mjs'
+      - 'scripts/test-thumbnail-typography*.mjs'
+      - 'editorial/typography-golden-reference/**'
       - 'lib/editorialImageCopy.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
@@ -115,5 +118,6 @@ jobs:
       - run: npm run test:phase-e
       - run: npm run test:site-insights
       - run: npm run test:google-business
+      - run: npm run test:thumbnail-typography
       - run: npm run test:editorial-images
       - run: npm run build:blog

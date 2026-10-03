@@ -1,0 +1,17 @@
+{
+  "parent_head": "1a121fcb414432249f153cc8bb9f43e3c7c1d1c2",
+  "scene_path": "assets/images/editorial-generated/oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94-scene.png",
+  "scene_sha256": "e8296311fa2107989023250feae0c9f9c19e59c4ee7ae574ad7a418ed4ea8fb4",
+  "byte_identical_to_parent": true,
+  "photo_generation_calls": 0,
+  "code_checks": {
+    "scripts/auto-editorial-hybrid-image.mjs": {
+      "unchanged": true,
+      "sha256": "998b487cd6444c400da4b8a913ff31f87eaba35c4ea52ff68e3ce1b9fb9ecfd8"
+    },
+    "scripts/render-hybrid-editorial-overlay.mjs": {
+      "unchanged": true,
+      "sha256": "e0f9ec68770682d5093dbd149fc2daae2eadbf13dadb9ca9db3931d423c00f75"
+    }
+  }
+}

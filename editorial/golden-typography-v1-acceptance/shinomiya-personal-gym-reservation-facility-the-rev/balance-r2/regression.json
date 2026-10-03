@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "command": "npm ci",
+      "pass": true,
+      "exit_code": 0
+    },
+    {
+      "command": "npm run test:thumbnail-typography",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run test:editorial-images",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run test:phase-9",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run test:daily-editorial-contract",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run test:daily-editorial-state-machine",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run test:daily-creator",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run build:blog",
+      "exit_code": 0,
+      "pass": true
+    },
+    {
+      "command": "npm run test:thumbnail-typography-browser",
+      "pass": true,
+      "exit_code": 0,
+      "layouts": 30,
+      "successful": 27,
+      "expected_readability_failures": 3
+    }
+  ],
+  "pass": true
+}
