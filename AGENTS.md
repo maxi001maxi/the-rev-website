@@ -7,6 +7,7 @@
 - 判定エンジン: `lib/dailyEditorialStateMachine.mjs`（`planDailyEditorial`）
 - 判定API: `POST /api/integrations/editorial-status` `{ "action": "daily_plan", "rows": [...] }`
 - GAS Gate正本: `editorial/gas/DailyEditorialGate_v0.6.9.gs`（04時台Gate / 08時台Watchdog）
+- Daily Creator正本: `editorial/gas/DailyEditorialCreator_v0.6.9.gs`（05〜11時台 毎時）/ 選定エンジン `lib/dailyEditorialCreator.mjs` / 一次情報の登録 `lib/dailyEditorialKnowledge.mjs` / 運用 `editorial/DAILY_CREATOR_RUNBOOK.md`
 - 契約と再発防止テスト: `editorial/daily-editorial-state-contract.json` / `npm run test:daily-editorial-state-machine`
 
 ### 絶対に守ること
@@ -17,6 +18,9 @@
 - active件数を数える前に、公開済みの取りこぼし（stale `REVIEW_READY`）を上記証拠で自己修復する
 - 通知（LINE等）の失敗は記録するが、記事生成の停止条件にしない。未確認の通知をSENT扱いしない
 - 営業日に今日の行が作られなかった場合は `ERROR_BLOCKED` として通知する（無通知停止禁止）
+- **新規記事を作り始める判断はGateのdecisionだけ**。外部のChatGPT Scheduled Task等が独自に作る/止める判断をしてはならない。`REVIEW_READY` やactive件数を理由にした独自停止は禁止。残す場合は `DAILY_CREATOR_RUNBOOK.md` §5 の機械的フォールバックのみ
+- 「CREATE_NEWを記録した」「Watchdogが失敗を通知した」は成功ではない。成功は当日のQueue行を読み戻して確認できた時だけ
+- 一次情報が未登録のレーンを「既存知識で十分」と推測しない（`dailyEditorialKnowledge.mjs` の登録が必要。無ければInterview）
 - 最終PublishとGBP投稿は人間承認で停止する
 
 ## Blog / Column画像を扱うAIへの必須ルール
@@ -67,6 +71,7 @@ npm run test:editorial-images
 npm run test:phase-9
 npm run test:daily-editorial-contract
 npm run test:daily-editorial-state-machine
+npm run test:daily-creator
 npm run build:blog
 ```
 

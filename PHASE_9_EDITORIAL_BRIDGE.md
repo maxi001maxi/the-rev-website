@@ -165,3 +165,12 @@ npm run build:blog
 
 GAS導入: `DailyEditorialGate_v0.6.9.gs` をBound Apps Scriptへ追加し、`installDailyEditorialGateV069()` を1回実行する。
 
+### Daily Creator（`action: "daily_create"`）
+
+`daily_plan` の内容に加えて `shortlist`（`23_BLOG_TOPIC_SHORTLIST` の行）を受け取り、`creation` を返す。
+
+- `creation.status`: `READY_TO_CREATE`（`creation.queue_row` を追記する）/ `NOT_REQUIRED` / `INTERVIEW_REQUIRED` / `NO_ELIGIBLE_CANDIDATE`
+- `stuck`: 進行が止まったQueue行（Supervisor未取得 / 工程停滞 / 画像停滞 / ERROR）
+- Sheets書込みはGAS（`DailyEditorialCreator_v0.6.9.gs`）のみ。APIは書込みも公開もしない
+- 詳細: `editorial/DAILY_CREATOR_RUNBOOK.md`
+

@@ -4,6 +4,7 @@ import {
   TERMINAL_QUEUE_STATUSES
 } from '../lib/editorialPublication.mjs';
 import { planDailyEditorial } from '../lib/dailyEditorialStateMachine.mjs';
+import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
 
 const CONTRACT_PATH = new URL('../editorial/daily-editorial-state-contract.json', import.meta.url);
 const contract = JSON.parse(fs.readFileSync(CONTRACT_PATH, 'utf8'));
@@ -12,7 +13,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.1.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.2.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
@@ -101,6 +102,21 @@ assert(reconciliation.gbp_auto_post === false, 'Reconciliation must never post t
 // contract cannot pass while the implementation disagrees with it.
 for (const scenario of contract.regression_scenarios || []) {
   const fixture = JSON.parse(fs.readFileSync(new URL(`../${scenario.fixture}`, import.meta.url), 'utf8'));
+  if (scenario.kind === 'creation') {
+    const shortlist = JSON.parse(fs.readFileSync(new URL(`../${scenario.shortlist_fixture}`, import.meta.url), 'utf8'));
+    const out = planDailyCreation({
+      rows: fixture.rows,
+      shortlist: shortlist.rows,
+      now: new Date(scenario.now),
+      evidenceByContentId: scenario.evidence || {}
+    });
+    const e = scenario.expect;
+    assert(out.plan.decision.action === e.action, `${scenario.name}: expected ${e.action}, got ${out.plan.decision.action}`);
+    assert(out.creation.status === e.creation_status, `${scenario.name}: expected ${e.creation_status}, got ${out.creation.status}`);
+    assert(out.creation.candidate_id === e.candidate_id, `${scenario.name}: expected candidate ${e.candidate_id}, got ${out.creation.candidate_id}`);
+    assert(out.creation.queue_row?.queue_status === e.queue_status, `${scenario.name}: created row must be ${e.queue_status}`);
+    continue;
+  }
   const plan = planDailyEditorial({
     rows: fixture.rows,
     now: new Date(scenario.now),
@@ -112,7 +128,19 @@ for (const scenario of contract.regression_scenarios || []) {
   if (expect.active != null) assert(plan.active.count === expect.active, `${scenario.name}: expected active ${expect.active}, got ${plan.active.count}`);
   if (expect.patches != null) assert(plan.reconciliation.patches.length === expect.patches, `${scenario.name}: expected ${expect.patches} reconcile patches`);
 }
-assert((contract.regression_scenarios || []).length >= 3, 'Daily Editorial regression scenarios missing.');
+assert((contract.regression_scenarios || []).length >= 4, 'Daily Editorial regression scenarios missing.');
+
+// Creator: the Gate decision must be executed by code, not by an external prompt.
+const creator = contract.daily_creator || {};
+assert(creator.decision_authority === 'GATE_ONLY', 'Creator must take its decision from the Gate only.');
+assert(creator.external_operator_may_decide === false, 'An external operator (ChatGPT task) must not make its own create/skip decision.');
+assert(creator.creates_queue_row?.queue_status === 'DRAFTING' && creator.creates_queue_row?.draft_status === 'NOT_STARTED', 'Creator must create the no-interview DRAFTING/NOT_STARTED contract row.');
+assert((creator.not_success || []).includes('CREATE_NEW_recorded_only') && (creator.not_success || []).includes('watchdog_failure_notice'), 'Recording CREATE_NEW or alerting must never count as success.');
+assert((creator.success_requires || []).includes('queue_row_read_back_from_sheet'), 'Creator success requires a Queue read-back.');
+assert((creator.fail_closed_when || []).includes('supervisor_not_wired'), 'Creator must fail closed when the Supervisor is not wired.');
+for (const key of ['executable', 'selection_engine', 'knowledge_registry']) {
+  assert(fs.existsSync(new URL(`../${creator[key]}`, import.meta.url)), `Creator ${key} must exist in this repository.`);
+}
 assert(fs.existsSync(new URL(`../${contract.source_of_truth.gas_gate_source}`, import.meta.url)), 'GAS gate source must be versioned in this repository.');
 
 console.log('Daily Editorial state contract: PASS');

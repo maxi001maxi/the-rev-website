@@ -3,11 +3,15 @@
 // It never publishes. It only checks whether Phase 10 image assets are ready,
 // updates the Supabase draft image readiness fields, and returns Review URLs.
 //
-// POST /api/integrations/editorial-status  { "action": "daily_plan", "rows": [...] }
-// Deterministic Daily Editorial gate for the GAS scheduler. It reconciles
-// publication evidence for the supplied 26_DAILY_EDITORIAL_QUEUE rows and
-// returns Queue patches plus today's creation decision. It never writes
-// Sheets and never publishes.
+// POST /api/integrations/editorial-status  { "action": "daily_plan" | "daily_create", "rows": [...] }
+// Deterministic Daily Editorial gate and Creator for the GAS scheduler.
+//   daily_plan   : reconciles publication evidence for the supplied
+//                  26_DAILY_EDITORIAL_QUEUE rows and returns Queue patches plus
+//                  today's creation decision.
+//   daily_create : daily_plan + deterministic topic selection from the supplied
+//                  23_BLOG_TOPIC_SHORTLIST rows; returns the exact Queue row to
+//                  append, stuck-row findings and shortlist pool health.
+// Neither action writes Sheets or publishes.
 
 import { createClient } from '@supabase/supabase-js';
 import {
@@ -22,8 +26,10 @@ import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybri
 import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
 import { planDailyEditorial } from '../../lib/dailyEditorialStateMachine.mjs';
+import { planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
 
 const DAILY_PLAN_MAX_ROWS = 500;
+const DAILY_SHORTLIST_MAX_ROWS = 200;
 const DAILY_PLAN_MAX_RECONCILE = 10;
 
 export const config = { maxDuration: 300 };
@@ -263,38 +269,69 @@ export default async function handler(req, res) {
 
 async function handleDailyPlan(req, res) {
   const body = typeof req.body === 'string' ? safeParse(req.body) : (req.body || {});
-  if (body?.action !== 'daily_plan') {
-    return res.status(400).json({ error: 'bad_request', message: 'action=daily_plan が必要です。' });
-  }
-  const rows = Array.isArray(body.rows) ? body.rows.slice(0, DAILY_PLAN_MAX_ROWS) : null;
-  if (!rows) return res.status(400).json({ error: 'bad_request', message: 'rows は配列で指定してください。' });
-
   const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY,
     { auth: { persistSession: false, autoRefreshToken: false } }
   );
+  const result = await buildDailyResponse({ body, supabase });
+  if (result.error) {
+    return res.status(result.status).json({ error: result.error, message: result.message });
+  }
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(200).json(result.payload);
+}
 
-  const evidence = await collectPublicationEvidence({ supabase, rows });
+// Shared by the HTTP handler and the integration tests. `supabase` and
+// `reconcileFn` are injectable so the full evidence -> plan -> creation path is
+// testable without network access.
+export async function buildDailyResponse({ body = {}, supabase, reconcileFn = reconcilePublication }) {
+  const invalid = validateDailyBody(body);
+  if (invalid) return invalid;
+
+  const evidence = await collectPublicationEvidence({
+    supabase,
+    rows: body.rows.slice(0, DAILY_PLAN_MAX_ROWS),
+    reconcileFn
+  });
   if (evidence.error) {
-    return res.status(502).json({ error: evidence.error, message: 'Supabaseの公開状態を取得できませんでした。' });
+    return { error: evidence.error, status: 502, message: 'Supabaseの公開状態を取得できませんでした。' };
+  }
+  return { payload: computeDailyPayload({ body, evidenceByContentId: evidence.byContentId, checked: evidence.checked }) };
+}
+
+function validateDailyBody(body) {
+  const action = body?.action;
+  if (action !== 'daily_plan' && action !== 'daily_create') {
+    return { error: 'bad_request', status: 400, message: 'action=daily_plan または daily_create が必要です。' };
+  }
+  if (!Array.isArray(body.rows)) return { error: 'bad_request', status: 400, message: 'rows は配列で指定してください。' };
+  if (action === 'daily_create' && !Array.isArray(body.shortlist)) {
+    return { error: 'bad_request', status: 400, message: 'shortlist は配列で指定してください。' };
+  }
+  return null;
+}
+
+// Pure and synchronous: Gate + Creator for an already-validated request.
+export function computeDailyPayload({ body, evidenceByContentId = {}, checked = [] }) {
+  const rows = body.rows.slice(0, DAILY_PLAN_MAX_ROWS);
+  const parsedNow = body.now ? new Date(body.now) : new Date();
+  const now = Number.isNaN(parsedNow.getTime()) ? new Date() : parsedNow;
+  const settings = body.settings && typeof body.settings === 'object' ? body.settings : {};
+
+  if (body.action === 'daily_plan') {
+    const plan = planDailyEditorial({ rows, now, settings, evidenceByContentId });
+    return { ok: true, plan, evidence_checked: checked, publish_requires_human_approval: true };
   }
 
-  const now = body.now ? new Date(body.now) : new Date();
-  const plan = planDailyEditorial({
+  const { plan, creation, stuck } = planDailyCreation({
     rows,
-    now: Number.isNaN(now.getTime()) ? new Date() : now,
-    settings: body.settings && typeof body.settings === 'object' ? body.settings : {},
-    evidenceByContentId: evidence.byContentId
+    shortlist: body.shortlist.slice(0, DAILY_SHORTLIST_MAX_ROWS),
+    now,
+    settings,
+    evidenceByContentId
   });
-
-  res.setHeader('Cache-Control', 'no-store');
-  return res.status(200).json({
-    ok: true,
-    plan,
-    evidence_checked: evidence.checked,
-    publish_requires_human_approval: true
-  });
+  return { ok: true, plan, creation, stuck, evidence_checked: checked, publish_requires_human_approval: true };
 }
 
 // Loads Supabase publication evidence for non-terminal Queue rows. Drafts that
