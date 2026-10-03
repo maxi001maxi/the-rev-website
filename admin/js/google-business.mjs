@@ -12,7 +12,10 @@ function outcomeMessage(){
   if(value==='connected-needs-discovery')return 'OAuth接続は完了しました。店舗情報APIの確認が残っています。';
   if(value==='cancelled')return 'Google認証はキャンセルされました。';
   if(value==='invalid')return '認証状態を確認できませんでした。もう一度接続してください。';
-  if(value==='error')return 'Google認証処理でエラーが発生しました。';
+  if(value==='oauth-client-invalid')return 'Google OAuthのクライアント設定が一致していません。Client ID / Client Secretの再設定が必要です。';
+  if(value==='oauth-grant-invalid')return 'Googleの認証コードを交換できませんでした。OAuth設定の確認が必要です。';
+  if(value==='oauth-redirect-mismatch')return 'Google OAuthのリダイレクト先設定が一致していません。';
+  if(value==='error')return 'Google認証処理でエラーが発生しました。原因分類をサーバー側に記録しました。';
   return '';
 }
 async function renderStatus(){
@@ -54,9 +57,9 @@ async function connect(){
   $('user-email').textContent=auth.session.user.email||'';
   $('checking').classList.add('admin-hidden');
   $('app').classList.remove('admin-hidden');
+  await renderStatus();
   const message=outcomeMessage();
   if(message)$('status').textContent=message;
-  await renderStatus();
 })();
 $('connect-btn').addEventListener('click',connect);
 $('logout-btn').addEventListener('click',()=>signOut());
