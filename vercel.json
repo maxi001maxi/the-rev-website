@@ -9,7 +9,7 @@
     },
     {
       "source": "/api/admin/google-business/callback",
-      "destination": "/api/admin/google-business?action=callback"
+      "destination": "/api/admin/google-business"
     }
   ],
   "redirects": [
