@@ -35,12 +35,15 @@ jobs:
       - run: npm run test:daily-creator
       - run: npm run build:blog
       - name: Render the real article from the unchanged scene
-        run: node scripts/render-hybrid-editorial-overlay.mjs editorial/golden-typography-v1-acceptance/job.json > golden-render-result.json
+        run: |
+          node scripts/render-hybrid-editorial-overlay.mjs editorial/golden-typography-v1-acceptance/job.json > golden-render-result.json
+          node scripts/render-hybrid-editorial-overlay.mjs editorial/golden-typography-v1-acceptance/shinomiya-personal-gym-reservation-facility-the-rev/job.json > golden-shinomiya-render-result.json
       - uses: actions/upload-artifact@v4
         with:
           name: golden-typography-v1-evidence
           path: |
             golden-render-result.json
+            golden-shinomiya-render-result.json
             assets/images/blog/*golden-v1-20261003*
             assets/images/blog/og/*golden-v1-20261003*
             assets/images/gbp/*golden-v1-20261003*
