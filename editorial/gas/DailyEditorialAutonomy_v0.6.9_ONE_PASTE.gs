@@ -8,7 +8,7 @@
  *
  * Paste this entire file into ONE file in the bound Apps Script project,
  * then run installDailyEditorialAutonomyV069() once.
- * Keep the existing v0.6.5.2/v0.6.7 Supervisor in the same project.
+ * Keep the existing v0.6.5.2 Supervisor in the same project.
  */
 
 /**
