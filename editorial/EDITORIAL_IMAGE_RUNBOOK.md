@@ -782,3 +782,20 @@ V2.5で文字サイズと写真面積を改善した後、背景を精密に作�
 - generated_customer_count = 1
 
 最終Publishは従来どおり人間承認のみ。
+
+
+## 18. Golden Typography V1｜2026-10-03
+
+写真生成・被写体・世界観・scene cropはV2.6を維持。後段Overlayだけに、承認済みGolden Referenceの階層・改行・余白・fadeを適用する。
+
+- Thumbnail / OGP: `golden-wide-v1`。左64px、最大520pxの意味単位block。
+- GBP: `golden-gbp-v1`。左60px、通常440px、専用縦位置と縦fadeで顔・身体を残す。
+- 中心語は金茶色・大きい文字、前後はinkの補助行。下部JOURNAL装飾は削減。
+- 原文は保持し、収まらないコピーは小文字へ押し込まず停止する。
+- Jobに `typography_emphasis_text: "静かに"` のように既存コピー内の中心語を指定できる。未指定は意味単位の候補から選ぶが、必ず実画像で妥当性を確認する。
+- 原寸3枚と実320px/400px previewをVisual QCへ送る。参照画像hash、各JPEG hash、preview hashを照合する。
+- 単なる拡大、焦点不在、不自然な写真と文字の主従、巨大白板、意味のない白場、GBPの単純伸長、テンプレ感があればFAIL。
+- 新operator結果はREADY / Review / Publishの共通Typography Gateで検証する。旧画像は日時だけで失効させない。
+- Typographyの失敗で写真sceneを再生成しない。既存sceneを保持してOverlayへ戻す。
+
+Acceptance: `editorial/golden-typography-v1-acceptance/`。main mergeとProduction反映はこの実装作業に含まない。
