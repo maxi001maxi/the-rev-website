@@ -680,7 +680,7 @@ function scheduledDailyEditorialCreatorV069Unlocked_(force) {
     })[0];
     if (already) {
       v069FinishLog_(runId, 'NO_ACTION', 0, 'ALREADY_SCHEDULED_TODAY content_id=' + already.content_id, '');
-      return { status: 'ALREADY_CREATED', content_id: already.content_id };
+      return { status: 'ALREADY_CREATED', content_id: already.content_id, length_recovery: lengthRecovery };
     }
 
     v069cAppendQueueRow_(fresh, row);
@@ -711,6 +711,7 @@ function scheduledDailyEditorialCreatorV069Unlocked_(force) {
       content_id: row.content_id,
       candidate_id: creation.candidate_id,
       published_reconciled: applied,
+      length_recovery: lengthRecovery,
       stuck: stuckNotices
     };
   } catch (e2) {
@@ -718,7 +719,7 @@ function scheduledDailyEditorialCreatorV069Unlocked_(force) {
     v069FinishLog_(runId, 'ERROR_BLOCKED', 0, 'Daily Creator write failed', msg2);
     var sent2 = v069cNotifyOnce_('THE_REV_DAILY_MISSED_ALERT_' + today,
       'THE REV. Editorial AI｜Daily Creatorの書込みに失敗しました\n\n' + String(msg2).slice(0, 1200));
-    return { status: 'ERROR_BLOCKED', error: msg2, notification: sent2 };
+    return { status: 'ERROR_BLOCKED', error: msg2, notification: sent2, length_recovery: lengthRecovery };
   }
 }
 
