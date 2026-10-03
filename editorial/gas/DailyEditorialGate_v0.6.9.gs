@@ -10,6 +10,9 @@
  * then run installDailyEditorialGateV069() once. v0.6.5.2 Supervisor stays.
  *
  * What it does
+ *  Every day the run prepares the article for today + lead days (default:
+ *  tomorrow's article), only when that target day is a business day.
+ *
  *  - 04:xx JST gate (before the 05:00 creator):
  *      START log -> POST Queue rows to editorial-status daily_plan ->
  *      apply evidence-backed PUBLISHED patches (Queue / Bridge / GBP URL) ->
@@ -35,6 +38,19 @@ var V069_PLAN_FIELDS = ['queue_id', 'run_date', 'content_id', 'queue_status', 'w
 
 function v069TodayKey_() {
   return Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd');
+}
+
+// Each run prepares the article for today + lead days (default 1 = tomorrow).
+// Must match daily_editorial_lead_days handling in lib/dailyEditorialStateMachine.mjs.
+function v069LeadDays_() {
+  var raw = v069Settings_().daily_editorial_lead_days;
+  var n = Number(raw);
+  return raw !== '' && raw !== null && raw !== undefined && n >= 0 && n <= 7 && n === Math.floor(n) ? n : 1;
+}
+
+// JST date of the article being prepared (26_DAILY_EDITORIAL_QUEUE.run_date).
+function v069TargetKey_() {
+  return Utilities.formatDate(new Date(new Date().getTime() + v069LeadDays_() * 86400000), 'Asia/Tokyo', 'yyyy-MM-dd');
 }
 
 // JST YYYY-MM-DD for Date, 'YYYY/MM/DD', ISO or Sheets serial values.
@@ -215,7 +231,7 @@ function scheduledDailyEditorialGateV069Unlocked_() {
       'THE_REV_DAILY_GATE_' + plan.run_date,
       JSON.stringify({ action: plan.decision.action, reason: plan.decision.reason, active: plan.active.count, cap: plan.active.cap })
     );
-    var summary = 'run_date=' + plan.run_date + ' ' + plan.weekday +
+    var summary = 'prepared_on=' + plan.prepared_on + ' run_date=' + plan.run_date + ' ' + plan.weekday +
       ' decision=' + plan.decision.action + '/' + plan.decision.reason +
       ' active=' + plan.active.count + '/' + plan.active.cap +
       ' published_reconciled=' + (applied.join(',') || 'none') +
@@ -231,7 +247,8 @@ function scheduledDailyEditorialGateV069Unlocked_() {
 }
 
 function scheduledDailyEditorialWatchdogV069Unlocked_() {
-  var today = v069TodayKey_();
+  // `today` is the target article day the Gate planned during this run.
+  var today = v069TargetKey_();
   var raw = PropertiesService.getScriptProperties().getProperty('THE_REV_DAILY_GATE_' + today);
   var gate = null;
   try { gate = raw ? JSON.parse(raw) : null; } catch (_e) {}
@@ -248,9 +265,9 @@ function scheduledDailyEditorialWatchdogV069Unlocked_() {
   var runId = v069StartLog_(V069_WATCHDOG_JOB);
   var sent = props.getProperty(alertKey) === 'SENT'
     ? { status: 'ALREADY_SENT' }
-    : v069LinePush_('THE REV. Editorial AI｜今日のDaily Editorialが開始されていません\n\n' +
-      '日付: ' + today + '\nGate判定: CREATE_NEW (active ' + gate.active + '/' + gate.cap + ')\n' +
-      '26_DAILY_EDITORIAL_QUEUEに本日の行がありません。Daily Editorial作成タスクを確認してください。');
+    : v069LinePush_('THE REV. Editorial AI｜Daily Editorialの準備が開始されていません\n\n' +
+      '対象日: ' + today + '\nGate判定: CREATE_NEW (active ' + gate.active + '/' + gate.cap + ')\n' +
+      '26_DAILY_EDITORIAL_QUEUEに対象日の行がありません。Daily Creatorを確認してください。');
   if (sent.status === 'SENT') props.setProperty(alertKey, 'SENT');
   v069FinishLog_(runId, 'ERROR_BLOCKED', 0,
     'DAILY_CREATION_NOT_STARTED run_date=' + today + ' notification=' + sent.status,

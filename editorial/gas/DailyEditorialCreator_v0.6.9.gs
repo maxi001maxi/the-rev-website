@@ -11,7 +11,10 @@
  *   - DailyEditorialGate_v0.6.9.gs  (shared v069* helpers)
  *   - v0.6.5.2 Unified Direct Bridge Supervisor, 1-minute trigger
  *
- * What it does, every hour from 05:00 to 11:59 JST on business days:
+ * Every day it prepares the article for today + lead days (default: tomorrow's
+ * article), when that target day is a business day.
+ *
+ * What it does, every hour from 05:00 to 11:59 JST:
  *   1. Fail closed unless the v0.6.5.2 Supervisor is installed and triggered.
  *   2. Ask the Bridge for the Gate decision + deterministic topic selection.
  *   3. Reconcile verified publications (Queue / Bridge / GBP URL).
@@ -20,7 +23,9 @@
  *      read it back, mark the shortlist candidate SELECTED, log CREATED.
  *      The Supervisor then runs Draft/QC -> GBP -> Bridge -> Images ->
  *      REVIEW_READY -> LINE with no human step.
- *   5. No eligible candidate / only Interview-needing candidates / stuck rows
+ *   5. A prepared article that reaches REVIEW_READY before its own day is
+ *      announced by LINE right away (v0.6.5.2 only announces run_date=today).
+ *   6. No eligible candidate / only Interview-needing candidates / stuck rows
  *      -> ERROR_BLOCKED + LINE (once). Never silent.
  *
  * Idempotent per run_date. Hourly retries make a missed 05:00 self-healing.
@@ -110,8 +115,8 @@ function v069cBlock_(today, kind, summary, human, extra) {
   var runId = v069StartLog_(V069C_JOB);
   var sent = v069cNotifyOnce_(
     'THE_REV_DAILY_MISSED_ALERT_' + today,
-    'THE REV. Editorial AI｜今日のDaily Editorialを開始できません\n\n' +
-    '日付: ' + today + '\n状態: ' + kind + '\n' + summary + '\n' +
+    'THE REV. Editorial AI｜Daily Editorialの準備を開始できません\n\n' +
+    '対象日: ' + today + '\n状態: ' + kind + '\n' + summary + '\n' +
     (human ? '必要な対応: ' + human + '\n' : '') + (extra || '')
   );
   var delivered = sent.status === 'SENT' || sent.status === 'ALREADY_SENT';
@@ -152,13 +157,42 @@ function v069cStuckAlerts_(stuck, today) {
   return out;
 }
 
-function scheduledDailyEditorialCreatorV069Unlocked_() {
+// v0.6.5.2 announces REVIEW_READY only when run_date is today. Articles
+// prepared ahead are announced here, using the same de-dupe key so the
+// Supervisor does not announce them a second time on their own day.
+function v069cNotifyPreparedReady_() {
+  var today = v069TodayKey_();
+  var props = PropertiesService.getScriptProperties();
+  var out = [];
+  v069QueueRows_().rows.forEach(function (q) {
+    var contentId = String(q.content_id || '').trim();
+    if (!contentId || String(q.queue_status || '').toUpperCase() !== 'REVIEW_READY') return;
+    var runKey = v069DateKey_(q.run_date);
+    if (!runKey || runKey <= today) return;
+    var key = 'THE_REV_DAILY_FINAL_LINE_NOTIFIED_' + contentId;
+    if (props.getProperty(key) === 'TRUE') return;
+    var sent = v069LinePush_([
+      'THE REV. Editorial AI｜' + runKey + ' 分の記事が出来上がりました', '',
+      String(q.topic || ''), '',
+      q.review_url ? '公開前確認：\n' + String(q.review_url) : 'Review Readyになりました。', '',
+      '※まだWebサイトには公開していません。'
+    ].join('\n'));
+    if (sent.status === 'SENT') props.setProperty(key, 'TRUE');
+    out.push({ content_id: contentId, run_date: runKey, notification: sent.status });
+  });
+  return out;
+}
+
+function scheduledDailyEditorialCreatorV069Unlocked_(force) {
+  var readyNotices = [];
+  try { readyNotices = v069cNotifyPreparedReady_(); } catch (_n) {}
   var startHour = Number(v069Settings_().daily_editorial_hour);
   if (!(startHour >= 0)) startHour = V069C_START_HOUR_DEFAULT;
   var hour = v069cJstHour_();
-  if (hour < startHour || hour >= V069C_END_HOUR) return { status: 'OUTSIDE_WINDOW', hour: hour };
+  if (force !== true && (hour < startHour || hour >= V069C_END_HOUR)) return { status: 'OUTSIDE_WINDOW', hour: hour, review_ready_notices: readyNotices };
 
-  var today = v069TodayKey_();
+  // `today` is the target article day (today + lead days), the Queue run_date.
+  var today = v069TargetKey_();
   var wired = v069cSupervisorWired_();
   if (!wired.ok) {
     return v069cBlock_(today, 'SUPERVISOR_NOT_WIRED', '記事を進行させるv0.6.5.2 Supervisorが未導入または未起動です: ' + wired.missing.join(', '),
@@ -195,7 +229,7 @@ function scheduledDailyEditorialCreatorV069Unlocked_() {
   var row = creation.queue_row;
   var runId = v069StartLog_(V069C_JOB);
   try {
-    // Idempotency under the script lock: never create a second row for today.
+    // Idempotency under the script lock: never create a second row for the target day.
     var fresh = v069QueueRows_();
     var already = fresh.rows.filter(function (r) {
       return v069DateKey_(r.run_date) === today && String(r.queue_status || '').toUpperCase() !== 'SKIPPED';
@@ -277,6 +311,8 @@ function installDailyEditorialAutonomyV069() {
   return { status: 'INSTALLED', gate: gate, creator: creator, supervisor: V069C_SUPERVISOR_HANDLER };
 }
 
+// Manual run: ignores the 05:00-11:59 window (every other rule still applies),
+// so the target day can be prepared right after install or after an outage.
 function runDailyEditorialCreatorV069Once() {
-  return scheduledDailyEditorialCreatorV069();
+  return v069WithLock_(function () { return scheduledDailyEditorialCreatorV069Unlocked_(true); });
 }

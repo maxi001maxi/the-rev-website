@@ -5,6 +5,7 @@ import {
 } from '../lib/editorialPublication.mjs';
 import { planDailyEditorial } from '../lib/dailyEditorialStateMachine.mjs';
 import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
+import { gasBundleIsCurrent } from './build-gas-bundle.mjs';
 
 const CONTRACT_PATH = new URL('../editorial/daily-editorial-state-contract.json', import.meta.url);
 const contract = JSON.parse(fs.readFileSync(CONTRACT_PATH, 'utf8'));
@@ -13,7 +14,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.2.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.3.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
@@ -75,6 +76,13 @@ assert(contract.publish_boundary?.human_approval_required === true, 'Human appro
 // Daily creation gate: ACTIVE is a cap, never an exclusive lock.
 const creation = contract.daily_creation || {};
 assert(Number(creation.max_active_queue) === 5, 'Active queue cap must remain 5.');
+assert(creation.cadence === 'EVERY_DAY_AT_FIXED_TIME' && Number(creation.prepare_lead_days) === 1, 'Daily run must prepare the next day article every day.');
+assert(creation.business_day_judged_on === 'TARGET_RUN_DATE', 'Business day must be judged on the target article day.');
+{
+  const lead = planDailyEditorial({ rows: [], now: new Date('2026-10-02T05:00:00+09:00') });
+  assert(lead.lead_days === creation.prepare_lead_days && lead.prepared_on === '2026-10-02' && lead.run_date === '2026-10-03', 'Engine default lead days drifted from the contract.');
+}
+assert(JSON.stringify(contract.flow) === JSON.stringify(['EVERY_DAY_FIXED_TIME', 'PREPARE_NEXT_DAY_ARTICLE', 'DRAFT', 'QC', 'GBP', 'IMAGES', 'REVIEW_READY', 'HUMAN_PUBLISH', 'POST_PUBLISH_STATE_AUTO_SYNC']), 'Daily Editorial flow drifted.');
 assert(Number(creation.max_new_topics_per_run) === 1, 'Daily creation must stay at max 1 new topic per run.');
 assert(creation.active_is_exclusive_lock === false, 'ACTIVE statuses must count toward the cap, not lock creation.');
 assert(creation.review_ready_blocks_creation === false, 'REVIEW_READY must never block the next business day article.');
@@ -143,6 +151,7 @@ for (const key of ['executable', 'selection_engine', 'knowledge_registry']) {
 }
 assert(fs.existsSync(new URL(`../${contract.source_of_truth.gas_gate_source}`, import.meta.url)), 'GAS gate source must be versioned in this repository.');
 assert(fs.existsSync(new URL('../editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs', import.meta.url)), 'One-paste GAS install bundle must be versioned in this repository.');
+assert(gasBundleIsCurrent(), 'One-paste GAS bundle is stale. Run: npm run build:gas-bundle');
 const gasGateSource = fs.readFileSync(new URL(`../${contract.source_of_truth.gas_gate_source}`, import.meta.url), 'utf8');
 assert(gasGateSource.includes("V069_STATUS_ORIGIN = 'https://the-rev-website.vercel.app'"), 'GAS gate must pin Editorial status polling to the stable production alias.');
 assert(gasGateSource.includes("setProperty('EDITORIAL_STATUS_BASE_URL', V069_STATUS_ORIGIN)"), 'GAS installer must repair the legacy v0.6.8 status base property.');
