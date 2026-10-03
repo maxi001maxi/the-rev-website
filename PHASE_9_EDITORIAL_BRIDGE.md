@@ -174,3 +174,9 @@ GAS導入: `DailyEditorialGate_v0.6.9.gs` をBound Apps Scriptへ追加し、`in
 - Sheets書込みはGAS（`DailyEditorialCreator_v0.6.9.gs`）のみ。APIは書込みも公開もしない
 - 詳細: `editorial/DAILY_CREATOR_RUNBOOK.md`
 
+### run_date / target_date / 公開Gate
+
+- `plan.run_date` はEditorialの実行日、`plan.target_date` は記事の対象日（`run_date + daily_editorial_lead_days`）
+- `POST /api/integrations/editorial` は、`content_id` が `BLOG-YYYYMMDD-` 形式で対象日が `published` より後（7日以内）のとき、記事の `published` / `updated` を対象日にする
+- `publish_gate`: 自動公開Safety Gateの現在値。`allowed=false` の間、公開は人間のReview & Publishのみ
+

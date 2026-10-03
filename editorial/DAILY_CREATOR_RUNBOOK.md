@@ -5,15 +5,23 @@
 ## 0. フロー
 
 ```text
-毎日一定時刻（既定 05:00 JST / 08_SETTINGS daily_editorial_hour）
-↓ 翌日分を自動準備（run_date = 実行日 + daily_editorial_lead_days、既定1）
-↓ 記事 → QC → GBP → 画像 → Review Ready（前日のうちにLINE通知）
-↓ （現在）人間Publish
-↓ 公開後状態も自動同期（Queue / Bridge / GBPのURL）
+毎日（店舗定休日も含む） 既定 05:00 JST / 08_SETTINGS daily_editorial_hour
+↓ run_date = 実行日 / target_date = run_date + daily_editorial_lead_days（既定1 = 翌日分）
+↓ 記事 → QC → GBP → Bridge/Supabase → 画像 → Review Ready → LINE
+↓ （現在）人間Publish  ← Safety Gate: AUTO_PUBLISH_ENABLED=false
+↓ 公開後状態も自動同期（Supabase → Queue / Bridge / GBPのURL）
 ```
 
-- 実行は毎日。営業日判定は **`run_date`（対象日）** で行う。金曜の実行は土曜分を作り、木曜・日曜の実行は翌日が定休日なので何も作らない
-- `daily_editorial_lead_days=0` にすると当日作成に戻る
+| 設定（08_SETTINGS） | 既定 | 意味 |
+|---|---|---|
+| `daily_editorial_lead_days` | 1 | 何日先の記事を準備するか。0 = 当日作成 |
+| `daily_editorial_cadence` | `BUSINESS_DAYS` | 対象日に記事を作る条件。`DAILY` にすると毎日（定休日の対象日も作る） |
+| `daily_editorial_days` | TU,WE,TH,SA,SU | `BUSINESS_DAYS` のときに対象になる曜日 |
+| `daily_editorial_hour` | 5 | Creatorの開始時刻（JST）。11:59まで毎時再試行 |
+
+- `run_date` と `target_date` は別の列。`target_date` 列はCreatorが初回に自動で追加する（既存列は動かさない）
+- 記事ID `BLOG-<対象日>-xxxxxx` は対象日を表し、Bridgeは記事の日付を対象日にする
+- 例: 10/03 実行 → 10/04分 / 金曜実行 → 土曜分 / 木曜実行 → 金曜は定休日なので `BUSINESS_DAYS` では作らない
 
 ## 1. 0 → 10 の担当（毎日）
 
@@ -69,22 +77,23 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ```text
 1. 18_AUTOMATION_LOG に開始記録（DAILY_EDITORIAL_FALLBACK START）を書く。
-2. 26_DAILY_EDITORIAL_QUEUE に対象日（実行日+daily_editorial_lead_days、既定は翌日）のrun_dateの行（SKIPPED以外）があれば、何もしない。終了。
+2. 26_DAILY_EDITORIAL_QUEUE に対象日（実行日+daily_editorial_lead_days、既定は翌日）の行（target_date。空ならrun_date。SKIPPED以外）があれば、何もしない。終了。
 3. 無ければ 26_DAILY_EDITORIAL_QUEUE と 23_BLOG_TOPIC_SHORTLIST の全行・08_SETTINGSの daily_editorial_* を
    POST https://the-rev-website.vercel.app/api/integrations/editorial-status/ {action:"daily_create", now, rows, shortlist, settings}
    に送る（Bearer EDITORIAL_BRIDGE_SECRET）。
 4. creation.status が READY_TO_CREATE なら、creation.queue_row を一切変更せず26_DAILY_EDITORIAL_QUEUEへ追記する。
    NOT_REQUIRED なら何も作らない。それ以外（NO_ELIGIBLE_CANDIDATE / INTERVIEW_REQUIRED）はERROR_BLOCKEDとして通知する。
-5. REVIEW_READYやactive件数を理由に自分で停止しない。決めるのはBridgeのdecisionだけ。
+5. REVIEW_READYやactive件数・店舗定休日を理由に自分で停止しない。決めるのはBridgeのdecisionだけ。PrimaryのGASと同じAPIを使うので、同時に動いても対象日の行は1本だけになる。
 6. 終了時に18_AUTOMATION_LOGへ最終状態（CREATED / NO_ACTION / ERROR_BLOCKED）を書く。
 7. 最終Publishも GBP投稿も行わない。
 ```
 
 ## 6. 既知の限界
 
-- デプロイ済みv0.6.5.2の通知（Review Ready / ERROR）は `run_date` が当日の行だけが対象です。翌日分のReview Ready通知はCreatorが補い、ERRORはCreatorのstuck通知で補います
-- Bridgeへ送る記事の `published` 日付は `run_date`（翌日）になります。前日のうちにPublishすると、記事の表示日付は翌日になります
-- 初回導入日は当日分を作りません（翌日分から開始）
+- デプロイ済みv0.6.5.2のReview Ready通知は `run_date` が当日の間だけ動きます。日付をまたいでREADYになった記事はCreatorが通知を補います
+- 公開後の同期対象は Supabase / Queue / Bridge / GBPのURL です。`01_POST_HISTORY` はInstagram用（企画・類似判定・実績同期）なのでBlogは書き込みません
+- 自動公開は未実装です。`lib/editorialAutoPublishGate.mjs` のGate（env + 設定の2鍵）だけがあり、executorを追加・登録するまで公開は必ず人間です
+- 導入日は `runDailyEditorialCreatorV069Once()` を1回実行すると、その日のうちに翌日分を準備できます
 - GAS（Gate / Creator / Watchdog）は自動配備されません。Apps Scriptへの貼り付けと `install...` の実行は人間が1回行う必要があります
 - v0.6.5.2 Supervisor本体はGitHubに無くDriveの貼り付け用パッチ文書のみです（Creatorはその選別条件に合う行を生成するよう、テストで固定しています）
 - 意味的な記事の被り（同一クエリではない類似テーマ）は、週次のTopic Gate / Shortlist段階の判定に依存します

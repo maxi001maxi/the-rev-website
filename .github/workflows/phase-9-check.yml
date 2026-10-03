@@ -21,6 +21,7 @@ on:
       - 'lib/dailyEditorialStateMachine.mjs'
       - 'lib/dailyEditorialCreator.mjs'
       - 'lib/dailyEditorialKnowledge.mjs'
+      - 'lib/editorialAutoPublishGate.mjs'
       - 'editorial/DAILY_CREATOR_RUNBOOK.md'
       - 'lib/editorialPublication.mjs'
       - 'editorial/gas/**'

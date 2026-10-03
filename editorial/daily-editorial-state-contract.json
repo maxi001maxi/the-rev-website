@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.3.0",
+  "schema_version": "1.4.0",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
@@ -28,11 +28,19 @@
     ]
   },
   "daily_creation": {
-    "cadence": "EVERY_DAY_AT_FIXED_TIME",
+    "editorial_runs": "EVERY_DAY (shop closed days included)",
+    "run_date": "JST day the Editorial run happens",
+    "target_date": "content / publish day = run_date + prepare_lead_days",
+    "cadence_setting": "daily_editorial_cadence",
+    "cadence_values": [
+      "BUSINESS_DAYS",
+      "DAILY"
+    ],
+    "cadence_default": "BUSINESS_DAYS",
+    "cadence_applies_to": "TARGET_DATE",
+    "lead_setting": "daily_editorial_lead_days",
+    "idempotency_key": "target_date (legacy rows: run_date)",
     "prepare_lead_days": 1,
-    "prepares": "article for run_date = today + prepare_lead_days (default: tomorrow)",
-    "business_day_judged_on": "TARGET_RUN_DATE",
-    "lead_setting": "daily_editorial_lead_days (0 = same-day)",
     "business_days": [
       "TU",
       "WE",
@@ -60,7 +68,6 @@
     "review_ready_blocks_creation": false,
     "existing_work_is_parallel": true,
     "notification_failure_blocks_creation": false,
-    "idempotency_key": "run_date (target article day)",
     "reconcile_before_active_count": true,
     "missed_creation_end_state": "ERROR_BLOCKED"
   },
@@ -73,7 +80,7 @@
     "external_operator_may_decide": false,
     "external_operator_allowed_role": "mechanical_fallback_only",
     "window_jst": "every day 05:00-11:59 hourly (start hour = daily_editorial_hour)",
-    "idempotency_key": "run_date (target article day)",
+    "idempotency_key": "target_date (legacy rows: run_date)",
     "candidate_source_sheet": "23_BLOG_TOPIC_SHORTLIST",
     "candidate_selection": "highest portfolio_final_score, then pillar_adjusted_score, then total_score; raw score gate applies first",
     "candidate_max_age_days": 14,
@@ -84,7 +91,9 @@
       "interview_status": "NOT_REQUIRED",
       "draft_status": "NOT_STARTED",
       "image_status": "NOT_STARTED",
-      "web_bridge_status": "NOT_SYNCED"
+      "web_bridge_status": "NOT_SYNCED",
+      "run_date": "RUN_DAY",
+      "target_date": "RUN_DAY_PLUS_LEAD"
     },
     "success_requires": [
       "queue_row_read_back_from_sheet",
@@ -110,7 +119,15 @@
       "image_stalled_hours": 6
     },
     "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted",
-    "review_ready_notification": "sent by the Creator as soon as a prepared article (run_date > today) is REVIEW_READY; shares the v0.6.5.2 de-dupe key"
+    "review_ready_notification": "Supervisor announces while run_date is today; the Creator announces upcoming articles the Supervisor missed (shared de-dupe key)",
+    "content_id_format": "BLOG-<target YYYYMMDD>-<6 hex>; the Bridge dates the article by this target day",
+    "fallback": {
+      "primary": "GAS Gate/Creator + Vercel Bridge + GitHub Actions",
+      "secondary": "ChatGPT Scheduled Task as mechanical fallback only (DAILY_CREATOR_RUNBOOK.md section 5)",
+      "fallback_may_decide": false,
+      "shared_decision": "POST editorial-status {action:daily_create}",
+      "duplicate_protection": "target_date idempotency in the Gate and under the GAS script lock"
+    }
   },
   "publish_reconciliation": {
     "from_queue_statuses": "ANY_NON_TERMINAL",
@@ -204,7 +221,12 @@
   },
   "publish_boundary": {
     "auto_publish": false,
-    "human_approval_required": true
+    "human_approval_required": true,
+    "auto_publish_gate": "lib/editorialAutoPublishGate.mjs",
+    "auto_publish_env": "AUTO_PUBLISH_ENABLED",
+    "auto_publish_setting": "auto_publish",
+    "both_keys_required": true,
+    "executor_installed": false
   },
   "regression_scenarios": [
     {
@@ -216,8 +238,7 @@
         "action": "CREATE_NEW",
         "active": 1,
         "patches": 0
-      },
-      "note": "run on 09/30 prepares the 10/01 article"
+      }
     },
     {
       "name": "incident_2026_10_03_stale_review_ready_published",
@@ -234,8 +255,7 @@
         "action": "CREATE_NEW",
         "active": 0,
         "patches": 1
-      },
-      "note": "run on 10/02 prepares the 10/03 article"
+      }
     },
     {
       "name": "closed_friday",
@@ -245,8 +265,7 @@
       "expect": {
         "action": "NO_ACTION",
         "reason": "CLOSED_DAY"
-      },
-      "note": "run on 10/01 targets Friday 10/02 (closed)"
+      }
     },
     {
       "name": "creator_2026_10_03_review_ready_does_not_block_new_article",
@@ -266,8 +285,7 @@
         "creation_status": "READY_TO_CREATE",
         "candidate_id": "BT-20260930-FAC-01",
         "queue_status": "DRAFTING"
-      },
-      "note": "run on 10/02 prepares the 10/03 article"
+      }
     }
   ],
   "flow": [
@@ -280,5 +298,14 @@
     "REVIEW_READY",
     "HUMAN_PUBLISH",
     "POST_PUBLISH_STATE_AUTO_SYNC"
-  ]
+  ],
+  "post_publish_reconciliation": {
+    "github": "content/blog/{slug}.md status: published (human Publish commit)",
+    "production_deployment": "Deploy to Xserver success for the exact publish commit",
+    "supabase": "publish_status PUBLISH_COMMITTED -> PUBLISHED (publish_verified_at, published_url)",
+    "queue": "26_DAILY_EDITORIAL_QUEUE queue_status -> PUBLISHED",
+    "bridge": "25_WEB_PUBLISH_BRIDGE bridge_status -> PUBLISHED + published_url",
+    "gbp": "22_GBP_POST [BLOG_URL] -> production URL, BLOCKED_URL -> READY (never posted)",
+    "post_history": "NOT_WRITTEN: 01_POST_HISTORY feeds the Instagram planner, embeddings and performance sync by post_id; Blog history lives in Queue + Bridge"
+  }
 }

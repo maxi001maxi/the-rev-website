@@ -59,20 +59,30 @@ section('1b. Next-day preparation (run every day, prepare tomorrow)');
 {
   const day = (iso, settings = SETTINGS) => planDailyEditorial({ rows: [], now: at(iso), settings });
   const wed = day('2026-09-30T05:00:00+09:00');
-  assert(wed.prepared_on === '2026-09-30' && wed.run_date === '2026-10-01' && wed.lead_days === 1, 'default: the run on 9/30 prepares the 10/01 article');
+  assert(wed.run_date === '2026-09-30' && wed.target_date === '2026-10-01' && wed.lead_days === 1, 'default: run_date 9/30 prepares target_date 10/01');
   assert(wed.weekday === 'TH' && wed.decision.action === DAILY_DECISION.CREATE_NEW, 'business day is judged on the target day');
   assert(day('2026-10-01T05:00:00+09:00').decision.reason === DAILY_DECISION_REASON.CLOSED_DAY, 'Thursday run -> Friday target is closed -> nothing prepared');
   assert(day('2026-10-02T05:00:00+09:00').decision.action === DAILY_DECISION.CREATE_NEW, 'Friday (closed today) still prepares Saturday');
   assert(day('2026-10-04T05:00:00+09:00').decision.reason === DAILY_DECISION_REASON.CLOSED_DAY, 'Sunday run -> Monday target is closed');
-  assert(day('2026-10-05T05:00:00+09:00').run_date === '2026-10-06' && day('2026-10-05T05:00:00+09:00').decision.action === DAILY_DECISION.CREATE_NEW, 'Monday (closed today) prepares Tuesday');
+  assert(day('2026-10-05T05:00:00+09:00').target_date === '2026-10-06' && day('2026-10-05T05:00:00+09:00').decision.action === DAILY_DECISION.CREATE_NEW, 'Monday (closed today) prepares Tuesday');
   const week = ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09', '2026-10-10', '2026-10-11']
     .map((d) => day(`${d}T05:00:00+09:00`)).filter((x) => x.decision.action === DAILY_DECISION.CREATE_NEW).map((x) => x.weekday);
   assert(week.join(',') === 'TU,WE,TH,SA,SU', 'a full week of daily runs prepares exactly the five business days', week.join(','));
   const same = day('2026-10-03T05:00:00+09:00', { ...SETTINGS, daily_editorial_lead_days: 0 });
-  assert(same.run_date === '2026-10-03' && same.lead_days === 0, 'daily_editorial_lead_days=0 keeps same-day creation available');
+  assert(same.run_date === '2026-10-03' && same.target_date === '2026-10-03' && same.lead_days === 0, 'daily_editorial_lead_days=0 keeps same-day creation available');
+  const dailyCadence = { ...SETTINGS, daily_editorial_cadence: 'DAILY' };
+  assert(day('2026-10-01T05:00:00+09:00', dailyCadence).decision.action === DAILY_DECISION.CREATE_NEW && day('2026-10-04T05:00:00+09:00', dailyCadence).decision.action === DAILY_DECISION.CREATE_NEW, 'cadence=DAILY: Friday and Monday targets get articles too');
+  const all7 = ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09', '2026-10-10', '2026-10-11']
+    .filter((d) => day(`${d}T05:00:00+09:00`, dailyCadence).decision.action === DAILY_DECISION.CREATE_NEW).length;
+  assert(all7 === 7 && day('2026-10-01T05:00:00+09:00', dailyCadence).cadence === 'DAILY' && day('2026-10-01T05:00:00+09:00').cadence === 'BUSINESS_DAYS', 'cadence=DAILY schedules all 7 days; default stays BUSINESS_DAYS');
+  assert(day('2026-10-01T05:00:00+09:00', { ...SETTINGS, daily_editorial_cadence: 'weird' }).cadence === 'BUSINESS_DAYS', 'unknown cadence falls back to BUSINESS_DAYS');
+  const legacy = planDailyEditorial({ rows: [{ run_date: '2026/10/03', content_id: 'BLOG-20261003-570c55', queue_status: 'REVIEW_READY' }], now: at('2026-10-03T16:00:00+09:00'), settings: SETTINGS });
+  assert(legacy.target_date === '2026-10-04' && legacy.decision.action === DAILY_DECISION.CREATE_NEW, 'LIVE 10/03 case: today already has its own article, the 10/04 article is still created');
+  const split = planDailyEditorial({ rows: [{ run_date: '2026/10/03', target_date: '2026/10/04', content_id: 'BLOG-20261004-a', queue_status: 'DRAFTING' }], now: at('2026-10-03T17:00:00+09:00'), settings: SETTINGS });
+  assert(split.decision.reason === DAILY_DECISION_REASON.ALREADY_SCHEDULED_TODAY, 'idempotency uses target_date, not run_date');
   assert(day('2026-10-02T05:00:00+09:00', { ...SETTINGS, daily_editorial_lead_days: 'x' }).lead_days === 1, 'invalid lead setting falls back to 1');
   const dup = planDailyEditorial({ rows: [{ run_date: '2026/10/03', content_id: 'BLOG-20261003-a', queue_status: 'REVIEW_READY' }], now: at('2026-10-02T09:00:00+09:00'), settings: SETTINGS });
-  assert(dup.decision.reason === DAILY_DECISION_REASON.ALREADY_SCHEDULED_TODAY, 'idempotency key is the target run_date');
+  assert(dup.decision.reason === DAILY_DECISION_REASON.ALREADY_SCHEDULED_TODAY, 'legacy row without target_date: its run_date is its target');
 }
 
 section('2. Incident 2026-10-01 05:00 — REVIEW_READY 1/5 must not block');

@@ -10,8 +10,10 @@
  * then run installDailyEditorialGateV069() once. v0.6.5.2 Supervisor stays.
  *
  * What it does
- *  Every day the run prepares the article for today + lead days (default:
- *  tomorrow's article), only when that target day is a business day.
+ *  Editorial runs every day (shop closed days included). Each run prepares
+ *  the article whose target_date = run_date + lead days (default: tomorrow).
+ *  Whether a target day gets an article is the cadence setting
+ *  (daily_editorial_cadence = BUSINESS_DAYS | DAILY), decided by the Bridge.
  *
  *  - 04:xx JST gate (before the 05:00 creator):
  *      START log -> POST Queue rows to editorial-status daily_plan ->
@@ -34,7 +36,7 @@ var V069_GATE_HOUR = 4;
 var V069_WATCHDOG_HOUR = 8;
 var V069_GATE_JOB = 'DAILY_EDITORIAL_GATE';
 var V069_WATCHDOG_JOB = 'DAILY_EDITORIAL_WATCHDOG';
-var V069_PLAN_FIELDS = ['queue_id', 'run_date', 'content_id', 'queue_status', 'web_bridge_status', 'created_at', 'updated_at'];
+var V069_PLAN_FIELDS = ['queue_id', 'run_date', 'target_date', 'content_id', 'queue_status', 'web_bridge_status', 'created_at', 'updated_at'];
 
 function v069TodayKey_() {
   return Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd');
@@ -48,7 +50,7 @@ function v069LeadDays_() {
   return raw !== '' && raw !== null && raw !== undefined && n >= 0 && n <= 7 && n === Math.floor(n) ? n : 1;
 }
 
-// JST date of the article being prepared (26_DAILY_EDITORIAL_QUEUE.run_date).
+// JST content day being prepared (26_DAILY_EDITORIAL_QUEUE.target_date).
 function v069TargetKey_() {
   return Utilities.formatDate(new Date(new Date().getTime() + v069LeadDays_() * 86400000), 'Asia/Tokyo', 'yyyy-MM-dd');
 }
@@ -64,6 +66,12 @@ function v069DateKey_(v) {
   }
   var m = String(v || '').trim().match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
   return m ? m[1] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[3]).slice(-2) : '';
+}
+
+// The content day a Queue row is for. Rows without target_date are legacy
+// same-day rows whose run_date is their target.
+function v069RowTargetKey_(r) {
+  return v069DateKey_(r.target_date) || v069DateKey_(r.run_date);
 }
 
 function v069Secret_() {
@@ -228,10 +236,11 @@ function scheduledDailyEditorialGateV069Unlocked_() {
     var plan = v069FetchPlan_(queue.rows);
     var applied = v069ApplyPublishPatches_(plan, queue);
     PropertiesService.getScriptProperties().setProperty(
-      'THE_REV_DAILY_GATE_' + plan.run_date,
+      'THE_REV_DAILY_GATE_' + plan.target_date,
       JSON.stringify({ action: plan.decision.action, reason: plan.decision.reason, active: plan.active.count, cap: plan.active.cap })
     );
-    var summary = 'prepared_on=' + plan.prepared_on + ' run_date=' + plan.run_date + ' ' + plan.weekday +
+    var summary = 'run_date=' + plan.run_date + ' target_date=' + plan.target_date + ' ' + plan.weekday +
+      ' cadence=' + plan.cadence +
       ' decision=' + plan.decision.action + '/' + plan.decision.reason +
       ' active=' + plan.active.count + '/' + plan.active.cap +
       ' published_reconciled=' + (applied.join(',') || 'none') +
@@ -256,7 +265,7 @@ function scheduledDailyEditorialWatchdogV069Unlocked_() {
 
   var queue = v069QueueRows_();
   var created = queue.rows.some(function (r) {
-    return v069DateKey_(r.run_date) === today && String(r.queue_status || '').toUpperCase() !== 'SKIPPED';
+    return v069RowTargetKey_(r) === today && String(r.queue_status || '').toUpperCase() !== 'SKIPPED';
   });
   if (created) return { status: 'CREATED' };
 
@@ -270,7 +279,7 @@ function scheduledDailyEditorialWatchdogV069Unlocked_() {
       '26_DAILY_EDITORIAL_QUEUEに対象日の行がありません。Daily Creatorを確認してください。');
   if (sent.status === 'SENT') props.setProperty(alertKey, 'SENT');
   v069FinishLog_(runId, 'ERROR_BLOCKED', 0,
-    'DAILY_CREATION_NOT_STARTED run_date=' + today + ' notification=' + sent.status,
+    'DAILY_CREATION_NOT_STARTED target_date=' + today + ' notification=' + sent.status,
     sent.status === 'SENT' || sent.status === 'ALREADY_SENT' ? '' : 'LINE notification unverified: ' + JSON.stringify(sent));
   return { status: 'ERROR_BLOCKED', notification: sent };
 }

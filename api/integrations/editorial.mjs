@@ -26,6 +26,7 @@ import {
   normalizeBridgeMetadata,
   originFromRequest,
   resolveEditorialCtaType,
+  resolveEditorialPublishedDate,
   safeSecretEqual,
   validateBridgeEnvelope
 } from '../../lib/editorialBridge.mjs';
@@ -67,8 +68,8 @@ export default async function handler(req, res) {
     author_role: body.author_role,
     thumbnail: body.thumbnail,
     og_image: body.og_image,
-    published: body.published,
-    updated: body.updated,
+    published: resolveEditorialPublishedDate({ contentId: envelope.value.contentId, published: body.published }),
+    updated: resolveEditorialPublishedDate({ contentId: envelope.value.contentId, published: body.updated }),
     featured: body.featured,
     noindex: body.noindex,
     keywords: body.keywords

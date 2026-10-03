@@ -6,6 +6,7 @@ import {
 import { planDailyEditorial } from '../lib/dailyEditorialStateMachine.mjs';
 import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
 import { gasBundleIsCurrent } from './build-gas-bundle.mjs';
+import { AUTO_PUBLISH_ENV, AUTO_PUBLISH_EXECUTOR_INSTALLED, autoPublishGate } from '../lib/editorialAutoPublishGate.mjs';
 
 const CONTRACT_PATH = new URL('../editorial/daily-editorial-state-contract.json', import.meta.url);
 const contract = JSON.parse(fs.readFileSync(CONTRACT_PATH, 'utf8'));
@@ -14,7 +15,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.3.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.4.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
@@ -76,11 +77,20 @@ assert(contract.publish_boundary?.human_approval_required === true, 'Human appro
 // Daily creation gate: ACTIVE is a cap, never an exclusive lock.
 const creation = contract.daily_creation || {};
 assert(Number(creation.max_active_queue) === 5, 'Active queue cap must remain 5.');
-assert(creation.cadence === 'EVERY_DAY_AT_FIXED_TIME' && Number(creation.prepare_lead_days) === 1, 'Daily run must prepare the next day article every day.');
-assert(creation.business_day_judged_on === 'TARGET_RUN_DATE', 'Business day must be judged on the target article day.');
+assert(Number(creation.prepare_lead_days) === 1, 'Each daily run must prepare the next day by default.');
+assert(creation.cadence_default === 'BUSINESS_DAYS' && creation.cadence_values.includes('DAILY') && creation.cadence_applies_to === 'TARGET_DATE', 'Cadence must be switchable and judged on the target day.');
 {
   const lead = planDailyEditorial({ rows: [], now: new Date('2026-10-02T05:00:00+09:00') });
-  assert(lead.lead_days === creation.prepare_lead_days && lead.prepared_on === '2026-10-02' && lead.run_date === '2026-10-03', 'Engine default lead days drifted from the contract.');
+  assert(lead.lead_days === creation.prepare_lead_days && lead.run_date === '2026-10-02' && lead.target_date === '2026-10-03' && lead.cadence === creation.cadence_default, 'Engine defaults drifted from the contract.');
+  const dailyPlan = planDailyEditorial({ rows: [], now: new Date('2026-10-01T05:00:00+09:00'), settings: { [creation.cadence_setting]: 'DAILY' } });
+  assert(dailyPlan.decision.action === 'CREATE_NEW', 'cadence=DAILY must schedule shop closed days.');
+}
+{
+  const boundary = contract.publish_boundary;
+  assert(boundary.both_keys_required === true && boundary.executor_installed === AUTO_PUBLISH_EXECUTOR_INSTALLED && boundary.auto_publish_env === AUTO_PUBLISH_ENV, 'Auto-publish gate drifted from the contract.');
+  assert(autoPublishGate({ env: {}, settings: {} }).allowed === false, 'Auto publish must be off by default.');
+  assert(autoPublishGate({ env: { AUTO_PUBLISH_ENABLED: 'true' }, settings: { auto_publish: true } }).allowed === false, 'Auto publish must stay off while no executor is installed.');
+  assert(String(contract.post_publish_reconciliation?.post_history || '').startsWith('NOT_WRITTEN'), 'Blog must not be written into the Instagram Post History.');
 }
 assert(JSON.stringify(contract.flow) === JSON.stringify(['EVERY_DAY_FIXED_TIME', 'PREPARE_NEXT_DAY_ARTICLE', 'DRAFT', 'QC', 'GBP', 'IMAGES', 'REVIEW_READY', 'HUMAN_PUBLISH', 'POST_PUBLISH_STATE_AUTO_SYNC']), 'Daily Editorial flow drifted.');
 assert(Number(creation.max_new_topics_per_run) === 1, 'Daily creation must stay at max 1 new topic per run.');
