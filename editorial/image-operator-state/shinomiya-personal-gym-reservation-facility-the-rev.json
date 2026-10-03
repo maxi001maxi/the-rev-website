@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
   "qa_report_path": "editorial/image-qa/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.json",
   "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2",
-  "updated_at": "2026-10-03T02:06:05.196Z"
+  "updated_at": "2026-10-03T02:06:05.196Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-03T02:06:17Z"
 }
