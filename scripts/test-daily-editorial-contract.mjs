@@ -142,5 +142,8 @@ for (const key of ['executable', 'selection_engine', 'knowledge_registry']) {
   assert(fs.existsSync(new URL(`../${creator[key]}`, import.meta.url)), `Creator ${key} must exist in this repository.`);
 }
 assert(fs.existsSync(new URL(`../${contract.source_of_truth.gas_gate_source}`, import.meta.url)), 'GAS gate source must be versioned in this repository.');
+const gasGateSource = fs.readFileSync(new URL(`../${contract.source_of_truth.gas_gate_source}`, import.meta.url), 'utf8');
+assert(gasGateSource.includes("V069_STATUS_ORIGIN = 'https://the-rev-website.vercel.app'"), 'GAS gate must pin Editorial status polling to the stable production alias.');
+assert(gasGateSource.includes("setProperty('EDITORIAL_STATUS_BASE_URL', V069_STATUS_ORIGIN)"), 'GAS installer must repair the legacy v0.6.8 status base property.');
 
 console.log('Daily Editorial state contract: PASS');
