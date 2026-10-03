@@ -8,7 +8,7 @@
  *
  * Paste this entire file into ONE file in the bound Apps Script project,
  * then run installDailyEditorialAutonomyV069() once.
- * Keep the existing v0.6.5.2 Supervisor in the same project.
+ * Keep the existing v0.6.5.2/v0.6.7 Supervisor in the same project.
  */
 
 /**
@@ -503,6 +503,87 @@ function v069cMarkShortlistSelected_(shortlist, candidateId, contentId) {
   return true;
 }
 
+function v069cLengthRetryCount_(notes) {
+  var m = String(notes || '').match(/\[AUTO_LENGTH_RETRY:(\d+)\]/g) || [];
+  if (!m.length) return 0;
+  var last = m[m.length - 1].match(/(\d+)/);
+  return last ? Number(last[1]) : 0;
+}
+
+// A short STANDARD draft is an automation-owned quality miss, not a human
+// editorial decision. Requeue a bounded number of times so the existing
+// Supervisor can regenerate it. Fact/QC failures remain REVIEW_REQUIRED.
+function v069cRecoverLengthReviewRequired_() {
+  var queue = v069QueueRows_();
+  var st = v069Settings_();
+  var min = Math.max(1200, Number(st.blog_standard_min_chars || 1600));
+  var maxDeficit = Math.max(200, Math.round(min * 0.15));
+  var maxRetries = 2;
+  var rows = queue.rows
+    .filter(function (r) {
+      return String(r.queue_status || '').toUpperCase() === 'REVIEW_REQUIRED' &&
+        String(r.draft_status || '').toUpperCase() === 'REVIEW_REQUIRED' &&
+        /^STANDARD length gate failed:\s*\d+\s*chars$/i.test(String(r.last_error || '').trim());
+    })
+    .sort(function (a, b) { return new Date(a.updated_at || 0) - new Date(b.updated_at || 0); });
+
+  if (!rows.length) return { status: 'NO_LENGTH_RECOVERY' };
+  var q = rows[0];
+  var m = String(q.last_error || '').match(/(\d+)/);
+  var count = m ? Number(m[1]) : 0;
+  var deficit = min - count;
+  var attempts = v069cLengthRetryCount_(q.notes);
+
+  if (!(deficit > 0) || deficit > maxDeficit || attempts >= maxRetries) {
+    var notice = v069cNotifyOnce_(
+      'THE_REV_DAILY_LENGTH_REVIEW_' + String(q.content_id || ''),
+      'THE REV. Editorial AI｜記事の文字数QCで人間確認が必要です\n\n' +
+      'Content ID: ' + String(q.content_id || '') + '\n' +
+      '現在: ' + count + '字 / 下限: ' + min + '字\n' +
+      '自動再生成回数: ' + attempts
+    );
+    return {
+      status: 'HUMAN_REVIEW_REQUIRED',
+      content_id: String(q.content_id || ''),
+      count: count,
+      min: min,
+      deficit: deficit,
+      attempts: attempts,
+      notification: notice.status
+    };
+  }
+
+  var nextAttempt = attempts + 1;
+  var note = String(q.notes || '').trim();
+  note += (note ? ' | ' : '') + '[AUTO_LENGTH_RETRY:' + nextAttempt + '] previous=' + count + ' min=' + min;
+  setObjectRow_(queue.sheet, q.__row, {
+    queue_status: 'PATCHING',
+    draft_status: 'NOT_STARTED',
+    last_error: '',
+    failed_stage: '',
+    next_stage: 'BLOG_DRAFT',
+    human_action_required: 'NONE',
+    notes: note,
+    updated_at: new Date()
+  });
+  var runId = v069StartLog_('DAILY_EDITORIAL_LENGTH_RECOVERY');
+  v069FinishLog_(
+    runId,
+    'REQUEUED',
+    1,
+    'content_id=' + String(q.content_id || '') + ' previous=' + count + ' min=' + min + ' attempt=' + nextAttempt,
+    ''
+  );
+  return {
+    status: 'REQUEUED',
+    content_id: String(q.content_id || ''),
+    count: count,
+    min: min,
+    deficit: deficit,
+    attempt: nextAttempt
+  };
+}
+
 function v069cStuckAlerts_(stuck, today) {
   var out = [];
   (stuck || []).forEach(function (s) {
@@ -545,12 +626,14 @@ function v069cNotifyPreparedReady_() {
 }
 
 function scheduledDailyEditorialCreatorV069Unlocked_(force) {
+  var lengthRecovery = { status: 'NO_LENGTH_RECOVERY' };
+  try { lengthRecovery = v069cRecoverLengthReviewRequired_(); } catch (_lr) {}
   var readyNotices = [];
   try { readyNotices = v069cNotifyPreparedReady_(); } catch (_n) {}
   var startHour = Number(v069Settings_().daily_editorial_hour);
   if (!(startHour >= 0)) startHour = V069C_START_HOUR_DEFAULT;
   var hour = v069cJstHour_();
-  if (force !== true && (hour < startHour || hour >= V069C_END_HOUR)) return { status: 'OUTSIDE_WINDOW', hour: hour, review_ready_notices: readyNotices };
+  if (force !== true && (hour < startHour || hour >= V069C_END_HOUR)) return { status: 'OUTSIDE_WINDOW', hour: hour, length_recovery: lengthRecovery, review_ready_notices: readyNotices };
 
   // `today` is the target content day (run day + lead days), the Queue target_date.
   var today = v069TargetKey_();
@@ -577,7 +660,7 @@ function scheduledDailyEditorialCreatorV069Unlocked_(force) {
   var creation = res.creation;
 
   if (creation.status === 'NOT_REQUIRED') {
-    return { status: 'NO_ACTION', reason: creation.reason, published_reconciled: applied, stuck: stuckNotices };
+    return { status: 'NO_ACTION', reason: creation.reason, published_reconciled: applied, length_recovery: lengthRecovery, stuck: stuckNotices };
   }
 
   if (creation.status !== 'READY_TO_CREATE') {
