@@ -1,0 +1,35 @@
+
+> therev-site@1.0.0 test:thumbnail-typography-browser
+> node scripts/test-thumbnail-typography-browser.mjs
+
+after-work-tired-strength-training 675: 78px / 疲れた日は、 | 軽く始めて | 決める。
+after-work-tired-strength-training 630: 78px / 疲れた日は、 | 軽く始めて | 決める。
+after-work-tired-strength-training 900: 68px / 疲れた日は、 | 軽く始めて | 決める。
+exercise-start-fatigue-anxiety-next-day-plan 675: 66px / 軽く動いて、 | 調子を見る。
+exercise-start-fatigue-anxiety-next-day-plan 630: 66px / 軽く動いて、 | 調子を見る。
+exercise-start-fatigue-anxiety-next-day-plan 900: 64px / 軽く | 動いて、 | 調子を見る。
+health-check-results-before-starting-exercise 675: 64px / 健診のあとこそ、 | 無理なく | 始める。
+health-check-results-before-starting-exercise 630: 64px / 健診のあとこそ、 | 無理なく | 始める。
+health-check-results-before-starting-exercise 900: 62px / 健診のあとこそ、 | 無理なく | 始める。
+muscle-mass-not-increasing-progress-signs 675: 64px / 体重計に出ない、 | 進歩がある。
+muscle-mass-not-increasing-progress-signs 630: 64px / 体重計に出ない、 | 進歩がある。
+muscle-mass-not-increasing-progress-signs 900: 61px / 体重計に出ない、 | 進歩がある。
+no-time-for-gym-starting-friction 675: 78px / 30分より、 | 行く前後を | 整える。
+no-time-for-gym-starting-friction 630: 78px / 30分より、 | 行く前後を | 整える。
+no-time-for-gym-starting-friction 900: 68px / 30分より、 | 行く前後を | 整える。
+denba-health-what-is-it-the-rev 675: 61px / DENBAって何？
+denba-health-what-is-it-the-rev 630: 61px / DENBAって何？
+denba-health-what-is-it-the-rev 900: 60px / DENBAって何？
+oxygen-room-how-to-spend-time 675: 78px / 中では、 | 静かに | 休むだけ。
+oxygen-room-how-to-spend-time 630: 78px / 中では、 | 静かに | 休むだけ。
+oxygen-room-how-to-spend-time 900: 68px / 中では、 | 静かに | 休むだけ。
+shinomiya-gym-erabikata-dosen 675: 78px / 設備だけで、 | 決めない。
+shinomiya-gym-erabikata-dosen 630: 78px / 設備だけで、 | 決めない。
+shinomiya-gym-erabikata-dosen 900: 67px / 設備だけで、 | 決めない。
+shinomiya-personal-gym-reservation-facility-the-rev 675: 64px / 通いやすさまで、 | 選ぶ基準に。
+shinomiya-personal-gym-reservation-facility-the-rev 630: 64px / 通いやすさまで、 | 選ぶ基準に。
+shinomiya-personal-gym-reservation-facility-the-rev 900: 62px / 通いやすさまで、 | 選ぶ基準に。
+strength-training-to-failure-when-to-stop 675: expected FAIL (no shrinking below the readability floor)
+strength-training-to-failure-when-to-stop 630: expected FAIL (no shrinking below the readability floor)
+strength-training-to-failure-when-to-stop 900: expected FAIL (no shrinking below the readability floor)
+Production headline render checks: PASS (30 layouts)

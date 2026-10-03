@@ -17,6 +17,7 @@ function acceptance() {
       line_count: 3, lines: ['中では、', '静かに', '休むだけ。'], block_area_ratio: 0.15,
       safe_area_pass: true, line_balance: 0.6, width_occupancy: 0.95,
       fade_contains_text: true, contrast_floor: 6, hierarchy_pass: true, focus_scale: 1.7,
+      layout_balance_revision: 'centered-organic-v1', paper_profile: 'local-curved-veil', paper_opacity_floor: .90, label_removed: true,
       layout_rule: GOLDEN_LAYOUT_RULES[v === 'gbp' ? 'gbp' : 'wide'].id, asset_sha256: 'a'.repeat(64),
       previews: { 320: { sha256: 'b'.repeat(64) }, 400: { sha256: 'c'.repeat(64) } } };
     art[v] = Object.fromEntries(['pass', ...ART_DIRECTION_CHECKS].map((k) => [k, true]));
@@ -40,7 +41,8 @@ test('all three real preview results are mandatory; a single weak variant fails'
     }
     for (const [key, value] of [ ['text_preserved', false], ['font_size_at_320', 9.6], ['line_balance', 0.1],
       ['width_occupancy', 0.2], ['safe_area_pass', false], ['fade_contains_text', false],
-      ['contrast_floor', 2], ['hierarchy_pass', false], ['focus_scale', 1], ['layout_rule', 'uniform'], ['line_count', 5], ['asset_sha256', ''] ]) {
+      ['contrast_floor', 2], ['hierarchy_pass', false], ['focus_scale', 1], ['layout_rule', 'uniform'], ['line_count', 5], ['asset_sha256', ''],
+      ['paper_opacity_floor', .5], ['paper_profile', 'white-board'], ['layout_balance_revision', 'top-left'], ['label_removed', false] ]) {
       const qa = acceptance(); qa.thumbnail_typography_acceptance.deterministic.variants[variant][key] = value;
       assert.equal(typographyAcceptancePass(qa), false, `${variant}/${key}`);
     }
@@ -79,4 +81,8 @@ test('reference drift and missing art direction fail despite machine PASS', () =
     assert.equal(createHash('sha256').update(fs.readFileSync(ref.path)).digest('hex'), ref.sha256);
   }
   assert.notDeepEqual(GOLDEN_LAYOUT_RULES.wide, GOLDEN_LAYOUT_RULES.gbp);
+  const rejected = acceptance(); rejected.manual_visual_rejection = true;
+  assert.equal(typographyAcceptancePass(rejected), false, 'human rejection takes precedence over every PASS');
+  const rejectedAcceptance = acceptance(); rejectedAcceptance.thumbnail_typography_acceptance.manual_visual_rejection = true;
+  assert.equal(typographyAcceptancePass(rejectedAcceptance), false);
 });

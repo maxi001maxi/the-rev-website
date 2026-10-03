@@ -1,0 +1,17 @@
+{
+  "parent_head": "1a121fcb414432249f153cc8bb9f43e3c7c1d1c2",
+  "scene_path": "assets/images/editorial-generated/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-scene.png",
+  "scene_sha256": "87c9c61705d7298c14bdddabaf7f800ee6a260e5523c1cf05805eb2e5625b9b0",
+  "byte_identical_to_parent": true,
+  "photo_generation_calls": 0,
+  "code_checks": {
+    "scripts/auto-editorial-hybrid-image.mjs": {
+      "unchanged": true,
+      "sha256": "998b487cd6444c400da4b8a913ff31f87eaba35c4ea52ff68e3ce1b9fb9ecfd8"
+    },
+    "scripts/render-hybrid-editorial-overlay.mjs": {
+      "unchanged": true,
+      "sha256": "e0f9ec68770682d5093dbd149fc2daae2eadbf13dadb9ca9db3931d423c00f75"
+    }
+  }
+}

@@ -328,7 +328,8 @@ try {
       const metrics = await page.evaluate(fitThumbnailHeadline, {
         text: image_headline_short, width: spec.width, height: spec.height,
         gbp: spec.gbp, override: { emphasis_text: job.typography_emphasis_text, ...job?.typography_override?.[spec.variant] },
-        rule: GOLDEN_LAYOUT_RULES[spec.gbp ? 'gbp' : 'wide']
+        rule: { ...GOLDEN_LAYOUT_RULES[spec.gbp ? 'gbp' : 'wide'],
+          photoStart: spec.gbp ? 0 : spec.width * (humanFirstLayout ? .34 : impactLayout ? .38 : .492) }
       });
       await page.screenshot({ path: spec.out, type: 'jpeg', quality: 94 });
       created.push(spec.out);

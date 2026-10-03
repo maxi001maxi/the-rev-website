@@ -26,6 +26,23 @@ try {
       assert.ok(m.lines.every((line) => line.replace(/[、。！？!?]/g, '').length >= 2), file);
       assert.equal(m.hierarchy_pass, true);
       assert.ok(m.contrast_floor >= 4.5);
+      assert.equal(m.paper_profile, 'local-curved-veil');
+      assert.ok(m.paper_opacity_floor >= .85, 'actual curved veil must support every glyph');
+      assert.equal(m.label_removed, true);
+      assert.ok(Math.abs(m.headline_center_y / height - (height === 900 ? .48 : .50)) < .015,
+        'title centre must adapt to its measured height, including two- and three-line GBP titles');
+      assert.equal(await page.locator('.label').isVisible(), false);
+      if (height === 900) {
+        const cornerOpacity = await page.evaluate(async () => {
+          const bg = document.querySelector('.paper').style.backgroundImage;
+          const url = bg.match(/^url\(["']?(.*?)["']?\)$/)[1];
+          const image = new Image(); image.src = url; await image.decode();
+          const canvas = document.createElement('canvas'); canvas.width = 1200; canvas.height = 900;
+          const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0);
+          return ctx.getImageData(60, 0, 1, 1).data[3] / 255;
+        });
+        assert.ok(cornerOpacity < .05, 'GBP must reveal the original photo at the top left');
+      }
       assert.equal(m.layout_rule, height === 900 ? 'golden-gbp-v1' : 'golden-wide-v1');
       if (job.slug === 'shinomiya-personal-gym-reservation-facility-the-rev') {
         assert.deepEqual(m.lines, ['通いやすさまで、', '選ぶ基準に。']);

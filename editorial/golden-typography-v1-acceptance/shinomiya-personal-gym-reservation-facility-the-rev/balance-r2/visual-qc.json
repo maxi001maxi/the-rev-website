@@ -1,12 +1,14 @@
 {
-  "reviewer": "ChatGPT visual inspection of the actual files",
-  "review_method": "原寸3形式と実320px JPEGを直接目視し、承認済みwide/GBP原画像の文字組み文法と比較。API QCの実行ではない。",
-  "pass": false,
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003",
+  "reviewer": "ChatGPT direct visual inspection",
+  "review_method": "最終生成物の原寸3形式と実320px JPEGを直接目視。API QAの実行ではない。400pxは生成済み、今回の目視対象は原寸と320px。",
+  "pass": true,
+  "manual_visual_rejection": false,
+  "human_final_visual_approval": false,
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
   "deterministic": {
     "revision": "thumbnail-golden-typography-v1",
     "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
-    "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003",
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
     "pass": true,
     "variants": {
       "thumbnail": {
@@ -32,41 +34,46 @@
         "hierarchy_kind": "lines",
         "hierarchy_pass": true,
         "label_subordinate": true,
+        "label_removed": true,
         "bottom_mark_removed": true,
         "width_occupancy": 0.9982142978889986,
-        "block_area_ratio": 0.11520902642719186,
+        "block_area_ratio": 0.1190540000190606,
         "safe_area_pass": true,
         "fade_contains_text": true,
-        "fade_start": 606,
-        "fade_end": 772,
-        "fade_vertical_tail": null,
-        "contrast_floor": 5.586785391534058,
+        "layout_balance_revision": "centered-organic-v1",
+        "headline_center_y": 337.890625,
+        "paper_profile": "local-curved-veil",
+        "paper_opacity_floor": 0.8901960784313725,
+        "fade_start": 605,
+        "fade_end": 742,
+        "fade_vertical_tail": 125,
+        "contrast_floor": 4.979150214640286,
         "line_rects": [
           {
             "left": 64,
-            "top": 237,
+            "top": 234,
             "right": 579.84375,
-            "bottom": 329,
+            "bottom": 326,
             "width": 515.84375
           },
           {
             "left": 64,
-            "top": 317.671875,
+            "top": 320.671875,
             "right": 582.625,
-            "bottom": 441.671875,
+            "bottom": 444.671875,
             "width": 518.625
           }
         ],
-        "asset_path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
-        "asset_sha256": "1fec4eb0bdac643b31095b8c561a36de3f810b6f8270a78778b9c0b14c71ddcb",
+        "asset_path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+        "asset_sha256": "7131df1a9672c9ea7cf6e9800e2092d449b997baef74044e12ff2a242ef51892",
         "previews": {
           "320": {
-            "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
-            "sha256": "87d3dcae32efeddf89cce7e6096c92578bbc23abe86142f441629537fa3577d7"
+            "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-320.jpg",
+            "sha256": "0f5a061ac476f2c08900df29566db5468688626ee95a9c7171aa64c8ae40ae73"
           },
           "400": {
-            "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
-            "sha256": "f5f6bfd97dc313d54be298ab95bbd2005fd37898ac785a79096d2d751d73f461"
+            "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-400.jpg",
+            "sha256": "deea08385004794d899b3b7fd39f2fa0ee02f52670657bc960e1bcda8c571cfa"
           }
         }
       },
@@ -93,41 +100,46 @@
         "hierarchy_kind": "lines",
         "hierarchy_pass": true,
         "label_subordinate": true,
+        "label_removed": true,
         "bottom_mark_removed": true,
         "width_occupancy": 0.9982142978889986,
-        "block_area_ratio": 0.1234382426005627,
+        "block_area_ratio": 0.1275578571632792,
         "safe_area_pass": true,
         "fade_contains_text": true,
-        "fade_start": 606,
-        "fade_end": 772,
-        "fade_vertical_tail": null,
-        "contrast_floor": 5.586785391534058,
+        "layout_balance_revision": "centered-organic-v1",
+        "headline_center_y": 314.890625,
+        "paper_profile": "local-curved-veil",
+        "paper_opacity_floor": 0.8901960784313725,
+        "fade_start": 605,
+        "fade_end": 742,
+        "fade_vertical_tail": 125,
+        "contrast_floor": 4.979150214640286,
         "line_rects": [
           {
             "left": 64,
-            "top": 214,
+            "top": 211,
             "right": 579.84375,
-            "bottom": 306,
+            "bottom": 303,
             "width": 515.84375
           },
           {
             "left": 64,
-            "top": 294.671875,
+            "top": 297.671875,
             "right": 582.625,
-            "bottom": 418.671875,
+            "bottom": 421.671875,
             "width": 518.625
           }
         ],
-        "asset_path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
-        "asset_sha256": "3c23edf695b51ac22a3cdba851c1dce3657704cb079a8d0b70be23b5d7e7754f",
+        "asset_path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+        "asset_sha256": "df5e10faebf3ea30f0205a1a3d8b8c454e9fe54b70a88ad3e096210559c58cad",
         "previews": {
           "320": {
-            "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
-            "sha256": "78212e1a94ae006b598a8251af17d22b92a207c848d237083810e9682780a12b"
+            "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-320.jpg",
+            "sha256": "37e004a70098b07926ef1f8b809bbd4832059f73563e2f741e95e9ef12331e1f"
           },
           "400": {
-            "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
-            "sha256": "c5a4394a669e70e8eb3d7319b955d374a9beb47dc71528692cc4375a7f5e3093"
+            "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-400.jpg",
+            "sha256": "9a8706ce2c5a057a26289f299c339083a7f464edbc733b0a413b3e8393cc1c1d"
           }
         }
       },
@@ -154,41 +166,46 @@
         "hierarchy_kind": "lines",
         "hierarchy_pass": true,
         "label_subordinate": true,
+        "label_removed": true,
         "bottom_mark_removed": true,
         "width_occupancy": 0.9982506419770395,
-        "block_area_ratio": 0.07941811748020458,
+        "block_area_ratio": 0.08403964823009828,
         "safe_area_pass": true,
         "fade_contains_text": true,
+        "layout_balance_revision": "centered-organic-v1",
+        "headline_center_y": 431.921875,
+        "paper_profile": "local-curved-veil",
+        "paper_opacity_floor": 0.9176470588235294,
         "fade_start": 582,
-        "fade_end": 690,
-        "fade_vertical_tail": 150,
-        "contrast_floor": 5.586785391534058,
+        "fade_end": 701,
+        "fade_vertical_tail": 125,
+        "contrast_floor": 5.308677408263676,
         "line_rects": [
           {
             "left": 60,
-            "top": 190,
+            "top": 331,
             "right": 559.734375,
-            "bottom": 279,
+            "bottom": 420,
             "width": 499.734375
           },
           {
             "left": 60,
-            "top": 265.4375,
+            "top": 416.4375,
             "right": 558.734375,
-            "bottom": 384.4375,
+            "bottom": 535.4375,
             "width": 498.734375
           }
         ],
-        "asset_path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
-        "asset_sha256": "a88b6087468ce2fb960aadfc594c4794ea1e07bb8893fc9aba8276c6d8345fa3",
+        "asset_path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+        "asset_sha256": "27c60bda294b5647173fc31bb65b38795241d1b985e7299170b95d73f40a8bb8",
         "previews": {
           "320": {
-            "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
-            "sha256": "97bccf9895911daad1d0d95024199c152039227e4bec24452d7541f01dc4457b"
+            "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-320.jpg",
+            "sha256": "2fc60a0cb4499676b0f29892a9171a4ef17363559b8f0a3c60533d8ab4b78d2e"
           },
           "400": {
-            "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
-            "sha256": "05289388f92f23b137a2468131ea88856604f9cbd6511dfb6ba7600b764a4f18"
+            "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-400.jpg",
+            "sha256": "48594db16f1c8f7b731c4dbbc2a4fee99a9a9077c54555ed7c178e8ac5bd412a"
           }
         }
       }
@@ -222,7 +239,20 @@
       }
     ],
     "implementation_branch": "feature/golden-typography-v1-20261003",
-    "implementation_base": "e06720b865c33c70f2dfb19a6c1d6e6b51879f93"
+    "implementation_base": "e06720b865c33c70f2dfb19a6c1d6e6b51879f93",
+    "layout_refinement": {
+      "revision": "centered-organic-v1",
+      "authorization": "User requested the proposed balance improvement on 2026-10-03 after rejecting the upper-left white panel.",
+      "scope": "Typography / Layout / Fade / Spacing only. Original Golden image hashes remain unchanged.",
+      "rules": [
+        "GBP title centred around 48% of canvas height, responsive to measured text height",
+        "wide title centred around 50% at its own height",
+        "decorative label and hairline omitted",
+        "local curved paper veil; upper/lower photo returns; wide base blend respects original scene edge",
+        "composition balance and integrated fade are separate mandatory art-direction checks"
+      ],
+      "human_final_visual_approval": false
+    }
   },
   "visual": {
     "thumbnail": {
@@ -260,10 +290,10 @@
     }
   },
   "art_direction": {
-    "pass": false,
+    "pass": true,
     "variants": {
       "thumbnail": {
-        "pass": false,
+        "pass": true,
         "not_size_only": true,
         "photo_text_hierarchy_natural": true,
         "whitespace_meaningful": true,
@@ -275,12 +305,12 @@
         "inviting_at_list_size": true,
         "thumbnail_functional": true,
         "golden_grammar_matches": true,
-        "comments": "「通いやすさまで、」を補助行、「選ぶ基準に。」を金茶色と約1.34倍のサイズで焦点にした2行。320pxでも両行を読める。人物の顔・手・身体と見出しが競合せず、横fadeで写真につながる。",
-        "composition_balanced": false,
-        "fade_integrated": false
+        "composition_balanced": true,
+        "fade_integrated": true,
+        "comments": "見出しを中央へ保ち、補助行を400 weightへ。英字ラベルを除き、写真とのbase fadeを狭くした。受付・荷物・床が見える範囲が増え、顔と手が主役として残る。"
       },
       "og": {
-        "pass": false,
+        "pass": true,
         "not_size_only": true,
         "photo_text_hierarchy_natural": true,
         "whitespace_meaningful": true,
@@ -292,12 +322,12 @@
         "inviting_at_list_size": true,
         "thumbnail_functional": true,
         "golden_grammar_matches": true,
-        "comments": "630pxの高さに合わせたwide配置。焦点と補助行の差を保ち、320pxでも即読できる。写真の人物と設備が認識できる。",
-        "composition_balanced": false,
-        "fade_integrated": false
+        "composition_balanced": true,
+        "fade_integrated": true,
+        "comments": "OGP専用の630px高さで中央配置。実320pxでも2行と中心語の強弱を読め、人物と文字の釣り合いが保たれる。"
       },
       "gbp": {
-        "pass": false,
+        "pass": true,
         "not_size_only": true,
         "photo_text_hierarchy_natural": true,
         "whitespace_meaningful": true,
@@ -309,14 +339,11 @@
         "inviting_at_list_size": true,
         "thumbnail_functional": true,
         "golden_grammar_matches": true,
-        "comments": "専用の上部blockと縦fade。顔・腕・身体を右側に保ち、下部の受付・植物・荷物へ写真が戻る。wideの縦伸ばしではない。320pxでも2行の焦点が成立。",
-        "composition_balanced": false,
-        "fade_integrated": false
+        "composition_balanced": true,
+        "fade_integrated": true,
+        "comments": "左中央（見出し中心432px）へ移動。上部のTHE REV.ロゴ・天井と下部の床・荷物へ写真が戻る。横一直線の白いパネル下端を曲線fadeへ変更。人物の顔・手・全身と文字が競合しない。"
       }
     }
   },
-  "scope_limit": "Typographyの実記事Acceptance。既存のgenerated sceneを再利用し、写真生成API呼出しは0回。main/Production反映、Draft変更、GBP投稿は実施していない。今後の自動適用はmainへの反映後。",
-  "manual_visual_rejection": true,
-  "human_feedback": "ユーザー: 左上の白い枠に文字がまとまり、バランスが悪く見える。以前の可読性PASSを構図の承認と扱わない。",
-  "superseded_by": "balance-r2/visual-qc.json"
+  "scope_limit": "feature branch上のTypography改善案。main merge / Production反映 / Draft変更 / 最終Publish / GBP投稿は行っていない。ユーザー最終承認はまだ。CTRは未測定。"
 }

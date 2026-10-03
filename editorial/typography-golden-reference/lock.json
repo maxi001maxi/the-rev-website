@@ -26,5 +26,18 @@
     }
   ],
   "implementation_branch": "feature/golden-typography-v1-20261003",
-  "implementation_base": "e06720b865c33c70f2dfb19a6c1d6e6b51879f93"
+  "implementation_base": "e06720b865c33c70f2dfb19a6c1d6e6b51879f93",
+  "layout_refinement": {
+    "revision": "centered-organic-v1",
+    "authorization": "User requested the proposed balance improvement on 2026-10-03 after rejecting the upper-left white panel.",
+    "scope": "Typography / Layout / Fade / Spacing only. Original Golden image hashes remain unchanged.",
+    "rules": [
+      "GBP title centred around 48% of canvas height, responsive to measured text height",
+      "wide title centred around 50% at its own height",
+      "decorative label and hairline omitted",
+      "local curved paper veil; upper/lower photo returns; wide base blend respects original scene edge",
+      "composition balance and integrated fade are separate mandatory art-direction checks"
+    ],
+    "human_final_visual_approval": false
+  }
 }
