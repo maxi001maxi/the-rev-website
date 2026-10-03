@@ -181,6 +181,13 @@ section('3. Queue row matches the state contract and the live sheet');
   assert(gate.candidate_id === 'BT-20260930-FAC-01' && gate.decision === 'PUBLISH' && gate.route_lane === 'WEB_BLOG' && gate.article_type === 'STANDARD', 'topic_gate_json carries the Writer inputs');
   assert(kc.decision === 'SUFFICIENT' && kc.fact_ids.includes('F005'), 'knowledge_context_json cites verified facts');
   assert(v0652NoInterviewSelector({ ...row, created_at: new Date(row.created_at) }), 'deployed v0.6.5.2 selector picks the new row up');
+  assert(row.week_start === '2026/09/28', 'week_start is the candidate week as a JST date', String(row.week_start));
+  const isoWeek = buildQueueRow({
+    evaluated: { ...selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, candidate: { ...shortlistRows().find((x) => x.candidate_id === 'BT-20260930-FAC-01'), week_start: '2026-09-27T15:00:00.000Z' } },
+    now,
+    queueRows: queueRows()
+  });
+  assert(isoWeek.week_start === '2026/09/28', 'GAS ISO week_start (UTC) maps to the JST week, not one day early', String(isoWeek.week_start));
   const second = buildQueueRow({ evaluated: selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, now, queueRows: [...queueRows(), { queue_id: 'DQ-20261003-001', run_date: '2026/10/03', queue_status: 'SKIPPED' }] });
   assert(second.queue_id === 'DQ-20261003-002', 'queue_id sequence skips existing ids');
 }
