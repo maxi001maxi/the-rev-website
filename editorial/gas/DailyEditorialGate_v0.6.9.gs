@@ -25,7 +25,8 @@
  *  - Auto Publish stays OFF. Human Review & Publish remains mandatory.
  */
 
-var V069_STATUS_URL = 'https://the-rev-website.vercel.app/api/integrations/editorial-status/';
+var V069_STATUS_ORIGIN = 'https://the-rev-website.vercel.app';
+var V069_STATUS_URL = V069_STATUS_ORIGIN + '/api/integrations/editorial-status/';
 var V069_GATE_HOUR = 4;
 var V069_WATCHDOG_HOUR = 8;
 var V069_GATE_JOB = 'DAILY_EDITORIAL_GATE';
@@ -273,6 +274,11 @@ function scheduledDailyEditorialWatchdogV069() {
 
 function installDailyEditorialGateV069() {
   if (!v069Secret_()) throw new Error('v0.6.9 BLOCKED. EDITORIAL_BRIDGE_SECRET is missing.');
+  // v0.6.8 Asset Ledger may still be installed in the bound script. Its old
+  // preview-alias fallback is protected by Vercel Authentication and can return
+  // dashboard HTML with HTTP 200. Pin all status polling to the stable production
+  // alias so GBP/image ledger sync sees JSON from editorial-status.
+  PropertiesService.getScriptProperties().setProperty('EDITORIAL_STATUS_BASE_URL', V069_STATUS_ORIGIN);
   var handlers = ['scheduledDailyEditorialGateV069', 'scheduledDailyEditorialWatchdogV069'];
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (handlers.indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
@@ -285,6 +291,8 @@ function installDailyEditorialGateV069() {
     gate_hour_jst: V069_GATE_HOUR,
     watchdog_hour_jst: V069_WATCHDOG_HOUR,
     review_ready_blocks_creation: false,
+    editorial_status_base_url: V069_STATUS_ORIGIN,
+    status_base_repaired: true,
     auto_publish: false,
     human_approval: true
   };
