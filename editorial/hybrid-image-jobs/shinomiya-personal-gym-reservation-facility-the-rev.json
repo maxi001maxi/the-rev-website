@@ -12,22 +12,22 @@
   "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が入口・受付側からトレーニングエリアへ自然に移り、EVOLGEAR等の実設備を見ながらグリップや設定位置を確認して使い始めようとしている場面。小さな通勤・ジムバッグを邪魔にならない位置へ置き、仕事帰りにも立ち寄れる生活動線と、本格設備の両方が一枚で伝わるようにする。受付だけを主役にせず、THE REV.のロゴまたは固有空間とトレーニング設備を同時に読み取れる構図にする。トレーナー、スタッフ、コーチは出さない。",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f.jpg",
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f.json",
+  "qa_report_path": "editorial/image-qa/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -143,5 +143,10 @@
       "male",
       "female"
     ]
-  }
+  },
+  "composition_hint": "人物を画面中央より少し右（中心60〜62%付近）に置く中景。顔・上半身・両手・操作している設備部分をすべて左右15〜85%の安全域内に収め、右手や操作部を右端へ寄せない。人物の視覚的注目度は65%前後。THE REV.のロゴや設備は認識できるが明確に背景扱いとし、自然な浅い被写界深度で少しぼかす。16:9とGBP 4:3のどちらへ切り出しても人物と意味のある動作が欠けない余白を四辺に確保する。",
+  "visual_claim": "完全予約制のTHE REV.で、来店後に設備を自分で確認しながら使い始められる空間と過ごし方が伝わること。",
+  "visible_action": "顧客がEVOLGEAR等の設備のグリップまたは設定位置を両手で確認している。両手と操作対象が完全に画面内に見えること。",
+  "emotional_state": "初めての場所を落ち着いて確認している自然な集中。過度な笑顔や広告的ポーズは避ける。",
+  "max_generation_attempts": 2
 }
