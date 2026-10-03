@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     return sendError(res, 405, 'method_not_allowed', 'GETのみ利用できます。');
   }
 
-  const ctx = await getAuthedContext(req);
+  const ctx = await getAuthedContext(req, { allowPreviewBypass: true });
   if (ctx.error) {
     return sendError(
       res,
@@ -73,14 +73,16 @@ export default async function handler(req, res) {
     );
   }
 
-  const { data: member, error: memberError } = await ctx.supabase
-    .from('admin_members')
-    .select('active')
-    .eq('user_id', ctx.user.id)
-    .maybeSingle();
+  if (!ctx.previewBypass) {
+    const { data: member, error: memberError } = await ctx.supabase
+      .from('admin_members')
+      .select('active')
+      .eq('user_id', ctx.user.id)
+      .maybeSingle();
 
-  if (memberError || !member?.active) {
-    return sendError(res, 403, 'forbidden', 'Analyticsの閲覧権限がありません。');
+    if (memberError || !member?.active) {
+      return sendError(res, 403, 'forbidden', 'Analyticsの閲覧権限がありません。');
+    }
   }
 
   if (!String(process.env.GSC_WIZARD_API_KEY || '').trim()) {

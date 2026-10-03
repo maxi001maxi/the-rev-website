@@ -106,7 +106,7 @@ const privacy = read('privacy.html');
 const envExample = read('.env.example');
 const vercelConfig = JSON.parse(read('vercel.json'));
 
-assert.match(api, /getAuthedContext\(req\)/, 'Analytics API must require Admin auth.');
+assert.match(api, /getAuthedContext\(req, \{ allowPreviewBypass: true \}\)/, 'Analytics API must use the explicitly scoped Admin auth helper.');
 assert.match(api, /GSC_WIZARD_API_KEY/, 'Analytics API must use the shared read-only Wizard credential.');
 assert.match(api, /ga4Dataset/, 'Analytics API must use the shared Wizard GA4 provider.');
 assert.doesNotMatch(api, /GA4_PROPERTY_ID|GA4_SERVICE_ACCOUNT_JSON/, 'Analytics API must not require the legacy direct GA4 credentials.');

@@ -2,6 +2,7 @@
 // SUPABASE_PUBLISHABLE_KEY はSupabaseの設計上ブラウザに公開される前提のキーであり秘密情報ではない
 // （実際のアクセス制御はSupabase側のRow Level Security / Authで行う）。
 // SUPABASE_SERVICE_ROLE_KEY 等の本当の秘密情報はここでは絶対に返さない。
+import { previewAdminBypassEnabled } from '../lib/previewAdminBypass.mjs';
 export default function handler(req, res) {
   const supabaseUrl = process.env.SUPABASE_URL || '';
   const supabasePublishableKey = process.env.SUPABASE_PUBLISHABLE_KEY || '';
@@ -15,5 +16,5 @@ export default function handler(req, res) {
   }
 
   res.setHeader('Cache-Control', 'no-store');
-  res.status(200).json({ supabaseUrl, supabasePublishableKey });
+  res.status(200).json({ supabaseUrl, supabasePublishableKey, previewAdminBypass: previewAdminBypassEnabled() });
 }

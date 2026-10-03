@@ -2,7 +2,7 @@
 // 常にSupabaseの現在のaccess tokenをAuthorizationヘッダへ付与する。
 // ネットワークエラー・401・その他エラーを呼び出し側が扱いやすい形に正規化し、
 // どのケースでも呼び出し元が無限ローディングにならないようにする。
-import { getSupabaseClient } from './admin-auth.mjs';
+import { getSupabaseClient, previewAcceptanceEnabled } from './admin-auth.mjs';
 
 class ApiError extends Error {
   constructor(status, code, message) {
@@ -14,14 +14,19 @@ class ApiError extends Error {
 
 async function authedFetch(path, options = {}) {
   let token;
-  try {
-    const supabase = await getSupabaseClient();
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) throw new ApiError(401, 'unauthorized', 'ログインが必要です。');
-    token = session.access_token;
-  } catch (e) {
-    if (e instanceof ApiError) throw e;
-    throw new ApiError(0, 'network_error', '認証情報の取得に失敗しました。通信環境をご確認ください。');
+  const previewRead = (options.method || 'GET') === 'GET' &&
+    ['/api/admin/google-business', '/api/admin/analytics', '/api/admin/site-insights'].includes(new URL(path, location.origin).pathname);
+  const previewBypass = previewRead && await previewAcceptanceEnabled();
+  if (!previewBypass) {
+    try {
+      const supabase = await getSupabaseClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new ApiError(401, 'unauthorized', 'ログインが必要です。');
+      token = session.access_token;
+    } catch (e) {
+      if (e instanceof ApiError) throw e;
+      throw new ApiError(0, 'network_error', '認証情報の取得に失敗しました。通信環境をご確認ください。');
+    }
   }
 
   let res;
@@ -30,7 +35,7 @@ async function authedFetch(path, options = {}) {
       ...options,
       headers: {
         ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-        Authorization: `Bearer ${token}`,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(options.headers || {})
       }
     });

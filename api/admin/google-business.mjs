@@ -1,4 +1,5 @@
 import {getAuthedContext,sendError} from '../../lib/supabaseAdmin.mjs';
+import {verifiedPreviewAdminUserId} from '../../lib/previewAdminBypass.mjs';
 import {
   authorizationUrl,
   exchangeCode,
@@ -21,10 +22,18 @@ function classify(error){
   return error?.code||'discovery_failed';
 }
 async function requireAdmin(req,res){
-  const ctx=await getAuthedContext(req);
+  const ctx=await getAuthedContext(req,{allowPreviewBypass:true});
   if(ctx.error){
     sendError(res,ctx.status,ctx.error,ctx.error==='unauthorized'?'ログインが必要です。':'Admin認証が未設定です。');
     return null;
+  }
+  if(ctx.previewBypass){
+    const userId=await verifiedPreviewAdminUserId();
+    if(!userId){
+      sendError(res,503,'preview_admin_identity_not_configured','Preview用の既存Adminを確認できませんでした。');
+      return null;
+    }
+    return {...ctx,user:{id:userId}};
   }
   const membership=await ctx.supabase.from('admin_members').select('active').eq('user_id',ctx.user.id).maybeSingle();
   if(membership.error||!membership.data?.active){

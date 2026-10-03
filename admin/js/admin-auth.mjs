@@ -4,16 +4,30 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { loginUrlFor } from './admin-navigation.mjs';
 
 let clientPromise = null;
+let configPromise = null;
+const PREVIEW_PAGES = new Set(['/admin/google-business/', '/admin/analytics/', '/admin/site-insights/']);
+
+async function getPublicConfig() {
+  if (!configPromise) {
+    configPromise = fetch('/api/config').then((r) => {
+      if (!r.ok) throw new Error('config_fetch_failed');
+      return r.json();
+    });
+  }
+  return configPromise;
+}
+
+export async function previewAcceptanceEnabled() {
+  if (!PREVIEW_PAGES.has(location.pathname)) return false;
+  try { return (await getPublicConfig()).previewAdminBypass === true; }
+  catch { return false; }
+}
 
 // SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY は /api/config から取得する。
 // publishable keyはSupabaseの設計上ブラウザに公開される前提の値（秘密情報ではない）。
 async function getSupabaseClient() {
   if (!clientPromise) {
-    clientPromise = fetch('/api/config')
-      .then((r) => {
-        if (!r.ok) throw new Error('config_fetch_failed');
-        return r.json();
-      })
+    clientPromise = getPublicConfig()
       .then(({ supabaseUrl, supabasePublishableKey }) => createClient(supabaseUrl, supabasePublishableKey));
   }
   return clientPromise;
@@ -30,6 +44,9 @@ export async function getSession() {
 // （/api/config未設定・ネットワークエラー等）は、ハングさせず安全側に倒して
 // /admin/login/ へ遷移してnullを返す。
 export async function requireSession() {
+  if (await previewAcceptanceEnabled()) {
+    return { previewBypass: true, session: { user: { email: 'Preview Acceptance' } } };
+  }
   try {
     const { supabase, session } = await getSession();
     if (!session) {
