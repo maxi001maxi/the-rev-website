@@ -442,6 +442,24 @@ section('12. LIVE 2026-10-03 afternoon snapshot: prepare the 10/04 article');
   assert(row.queue_status === 'REVIEW_READY' && live.line.some((l) => l === 'SUPERVISOR_REVIEW_READY BLOG-20261004-c44065'), '10/04 article reaches REVIEW_READY and is announced the same day');
 }
 
+section('12b. Production trigger layout: v0.6.7 Supervisor + one-call start');
+{
+  const q = read('../editorial/fixtures/daily-queue-2026-10-03-pm-snapshot.json');
+  const sl = read('../editorial/fixtures/blog-shortlist-2026-10-03-pm-snapshot.json');
+  const mk = (extra) => createGasSandbox({ now: '2026-10-03T18:10:00+09:00', queueColumns: q.columns, queueRows: clone(q.rows), shortlistColumns: sl.columns, shortlistRows: clone(sl.rows), settings: SETTINGS, evidence: {}, ...extra });
+  const v067 = mk({ supervisorTrigger: 'scheduledDailyEditorialSupervisorV067' });
+  const started = v067.tick('startDailyEditorialAutonomyV069');
+  assert(started.status === 'STARTED' && started.first_run.status === 'CREATED' && started.first_run.content_id === 'BLOG-20261004-c44065', 'Supervisor installed as V067 (v0.6.7 patch) is accepted; one call installs and prepares 10/04', JSON.stringify(started).slice(0, 300));
+  assert(['scheduledDailyEditorialGateV069', 'scheduledDailyEditorialWatchdogV069', 'scheduledDailyEditorialCreatorV069'].every((t) => v067.installedTriggers.includes(t)) && v067.installedTriggers.length === 3, 'Gate, Watchdog and Creator triggers are installed exactly once');
+  v067.tick('startDailyEditorialAutonomyV069');
+  assert(v067.installedTriggers.length === 3 && v067.queue.data.filter((x) => targetOf(x) === '2026-10-04').length === 1, 're-running start is idempotent (no duplicate triggers, no duplicate row)');
+  assert(v067.props.EDITORIAL_STATUS_BASE_URL === 'https://the-rev-website.vercel.app', 'installer pins the legacy v0.6.8 status base to production');
+  const ledgerOnly = mk({ supervisorWired: false });
+  let threw = '';
+  try { ledgerOnly.tick('startDailyEditorialAutonomyV069'); } catch (e) { threw = String(e.message || e); }
+  assert(/Supervisor is not wired/.test(threw) && ledgerOnly.queue.data.length === q.rows.length, 'the v0.6.8 ledger trigger alone is not a Supervisor: install refuses, nothing is created');
+}
+
 section('13. Bridge dates the article by its target day');
 {
   const f = resolveEditorialPublishedDate;
