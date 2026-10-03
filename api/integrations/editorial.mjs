@@ -18,7 +18,6 @@ import {
   shouldPreserveHybridImageOnEditorialSync
 } from '../../lib/editorialHybridImageFormat.mjs';
 import { AutomatedHybridImageError, prepareAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
-import { buildImageHeadlineShort } from '../../lib/editorialImageCopy.mjs';
 import {
   BRIDGE_SOURCE,
   bridgeConfig,
@@ -153,13 +152,11 @@ export default async function handler(req, res) {
         category: normalized.value.category,
         body_markdown: normalized.value.body_markdown,
         primary_query: body.primary_query,
-        image_headline_short: body.image_headline_short || buildImageHeadlineShort({
-          title: normalized.value.title,
-          description: normalized.value.description,
-          category: normalized.value.category,
-          bodyMarkdown: normalized.value.body_markdown,
-          primaryQuery: body.primary_query
-        }),
+        // Leave absent copy unset. prepareAutomatedHybridImageJob owns recent-copy
+        // dedupe and must see the full candidate list; preselecting candidate[0]
+        // here collapses the pool and can create false image_copy_recently_repeated
+        // failures when candidate[1+] are still valid.
+        image_headline_short: body.image_headline_short,
         image_category_label: body.image_category_label,
         image_series_label: body.image_series_label
       });

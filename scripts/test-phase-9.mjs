@@ -593,5 +593,14 @@ assert(
   'Unexpected image failures return a bounded authenticated diagnostic instead of an opaque 502'
 );
 
+assert(
+  editorialApiSource.includes('image_headline_short: body.image_headline_short,'),
+  'Editorial Bridge leaves absent thumbnail copy unset so the automated selector can rotate through all candidates'
+);
+assert(
+  !editorialApiSource.includes('body.image_headline_short || buildImageHeadlineShort'),
+  'Editorial Bridge must not preselect candidate[0] before recent-copy dedupe'
+);
+
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
