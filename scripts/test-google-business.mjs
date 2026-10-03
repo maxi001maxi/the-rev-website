@@ -86,6 +86,16 @@ test('browser and consolidated admin endpoint do not expose stored secrets',()=>
   assert.doesNotMatch(endpoint,/refresh_token/);
 });
 
+test('GBP callback rewrite targets the existing consolidated function and callback is inferred from OAuth params',()=>{
+  const vercel=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
+  const callback=vercel.rewrites.find(row=>row.source==='/api/admin/google-business/callback');
+  assert.equal(callback?.destination,'/api/admin/google-business');
+  const endpoint=fs.readFileSync(new URL('../api/admin/google-business.mjs',import.meta.url),'utf8');
+  assert.match(endpoint,/inferredCallback/);
+  assert.match(endpoint,/query\.code\|\|query\.error/);
+  assert.match(endpoint,/query\.state/);
+});
+
 test('Vercel API function count stays within the 12-function limit',()=>{
   const root=fileURLToPath(new URL('../api/',import.meta.url));
   const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(path.join(dir,entry.name)):[path.join(dir,entry.name)]);
