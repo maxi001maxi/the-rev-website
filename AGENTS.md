@@ -22,6 +22,7 @@
 - active件数を数える前に、公開済みの取りこぼし（stale `REVIEW_READY`）を上記証拠で自己修復する
 - 通知（LINE等）の失敗は記録するが、記事生成の停止条件にしない。未確認の通知をSENT扱いしない
 - 対象日（営業日）の行が作られなかった場合は `ERROR_BLOCKED` として通知する（無通知停止禁止）
+- 認証付きBridgeを呼べない接続済み予備タスクは `scripts/daily-editorial-connector-plan.mjs` で同じcommitの正本モジュールを実行できる（Runbook §5）。独自ロジックへの置換は禁止。対象日の新規作成が不要でも既存の未完了行を確認する。
 - **新規記事を作り始める判断はGateのdecisionだけ**。外部のChatGPT Scheduled Task等が独自に作る/止める判断をしてはならない。`REVIEW_READY` やactive件数を理由にした独自停止は禁止。残す場合は `DAILY_CREATOR_RUNBOOK.md` §5 の機械的フォールバックのみ
 - 「CREATE_NEWを記録した」「Watchdogが失敗を通知した」は成功ではない。成功は対象日のQueue行を読み戻して確認できた時だけ
 - 一次情報が未登録のレーンを「既存知識で十分」と推測しない（`dailyEditorialKnowledge.mjs` の登録が必要。無ければInterview）
