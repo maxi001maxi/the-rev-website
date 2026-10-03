@@ -17,7 +17,7 @@ import {
   hybridImageInfoFromDraft,
   shouldPreserveHybridImageOnEditorialSync
 } from '../../lib/editorialHybridImageFormat.mjs';
-import { prepareAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
+import { AutomatedHybridImageError, prepareAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
 import { buildImageHeadlineShort } from '../../lib/editorialImageCopy.mjs';
 import {
   BRIDGE_SOURCE,
@@ -179,7 +179,7 @@ export default async function handler(req, res) {
         })
         .eq('id', article.id);
     }
-    if (e instanceof EditorialImageError) {
+    if (e instanceof EditorialImageError || e instanceof AutomatedHybridImageError) {
       return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
     }
     return send(res, 502, 'image_automation_failed', 'Reference V2のThumbnail / OGP / GBP 4:3画像準備中に予期しないエラーが発生しました。');
