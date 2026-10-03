@@ -387,6 +387,48 @@ section('9. Failures are loud, never silent, never "success"');
   assert(ld.status === 'CREATED' && lineDown.queue.data.length === queueRows().length + 1, 'LINE outage never blocks content creation');
 }
 
+section('9b. REVIEW_REQUIRED caused only by a near-miss STANDARD length gate self-heals');
+{
+  const h = sandbox({ now: '2026-10-03T18:40:00+09:00' });
+  h.queue.header.push('target_date');
+  h.queue.data.push({
+    queue_id: 'DQ-20261003-002',
+    run_date: '2026/10/03',
+    target_date: '2026/10/04',
+    content_id: 'BLOG-20261004-c44065',
+    topic_candidate_id: 'BT-20260928-05',
+    queue_status: 'REVIEW_REQUIRED',
+    knowledge_gate: 'SUFFICIENT',
+    interview_required: false,
+    interview_status: 'NOT_REQUIRED',
+    draft_status: 'REVIEW_REQUIRED',
+    image_status: 'NOT_STARTED',
+    last_error: 'STANDARD length gate failed: 1538 chars',
+    notes: 'initial',
+    updated_at: '2026-10-03T09:38:13.000Z'
+  });
+  const r = h.tick('runDailyEditorialCreatorV069Once');
+  const row = h.queue.data.find((x) => x.content_id === 'BLOG-20261004-c44065');
+  assert(r.length_recovery?.status === 'REQUEUED' && row.queue_status === 'PATCHING' && row.draft_status === 'NOT_STARTED', '1538/1600 near-miss is requeued automatically instead of waiting for a human');
+  assert(/\[AUTO_LENGTH_RETRY:1\]/.test(row.notes) && row.last_error === '', 'requeue records the bounded retry and clears only the length error');
+  row.queue_status = 'REVIEW_REQUIRED'; row.draft_status = 'REVIEW_REQUIRED'; row.last_error = 'STANDARD length gate failed: 1545 chars';
+  h.tick('runDailyEditorialCreatorV069Once');
+  assert(/\[AUTO_LENGTH_RETRY:2\]/.test(row.notes), 'second bounded length retry is allowed');
+  row.queue_status = 'REVIEW_REQUIRED'; row.draft_status = 'REVIEW_REQUIRED'; row.last_error = 'STANDARD length gate failed: 1550 chars';
+  const third = h.tick('runDailyEditorialCreatorV069Once');
+  assert(third.length_recovery?.status === 'HUMAN_REVIEW_REQUIRED' && row.queue_status === 'REVIEW_REQUIRED', 'third length failure stops fail-closed for human review');
+  const factual = sandbox({ now: '2026-10-03T18:40:00+09:00' });
+  factual.queue.data.push({
+    content_id: 'BLOG-fact',
+    queue_status: 'REVIEW_REQUIRED',
+    draft_status: 'REVIEW_REQUIRED',
+    last_error: 'Final Editor / Fact / Topic Gate requires review',
+    notes: ''
+  });
+  const fr = factual.tick('runDailyEditorialCreatorV069Once');
+  assert(fr.length_recovery?.status === 'NO_LENGTH_RECOVERY' && factual.queue.data.find((x) => x.content_id === 'BLOG-fact').queue_status === 'REVIEW_REQUIRED', 'fact/editor review is never auto-bypassed');
+}
+
 section('10. Stuck detection after creation');
 {
   const h = sandbox();
