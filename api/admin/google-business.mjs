@@ -76,7 +76,11 @@ async function handleCallback(req,res){
     await saveConnection(state.userId,tokenData,discovery);
     return redirect(res,discovery?.locationResource?'/admin/google-business/?status=connected':'/admin/google-business/?status=connected-needs-discovery');
   }catch(error){
-    console.error('[google-business/callback]',error?.code||error?.status||'error');
+    const providerError=typeof error?.data?.error==='string'?error.data.error:null;
+    console.error('[google-business/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,providerError}));
+    if(providerError==='invalid_client'||providerError==='unauthorized_client')return redirect(res,'/admin/google-business/?status=oauth-client-invalid');
+    if(providerError==='invalid_grant')return redirect(res,'/admin/google-business/?status=oauth-grant-invalid');
+    if(providerError==='redirect_uri_mismatch')return redirect(res,'/admin/google-business/?status=oauth-redirect-mismatch');
     return redirect(res,'/admin/google-business/?status=error');
   }
 }
