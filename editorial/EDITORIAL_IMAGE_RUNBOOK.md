@@ -797,6 +797,7 @@ V2.5で文字サイズと写真面積を改善した後、背景を精密に作�
 - 単なる拡大、焦点不在、不自然な写真と文字の主従、巨大白板、意味のない白場、GBPの単純伸長、テンプレ感があればFAIL。
 - 新operator結果はREADY / Review / Publishの共通Typography Gateで検証する。旧画像は日時だけで失効させない。
 - Typographyの失敗で写真sceneを再生成しない。既存sceneを保持してOverlayへ戻す。
+- 人物の主役性・背景・記事との意味一致など写真scene自体が不合格なら、文字だけの不合格と区別し、残りの上限内で再生成する。失敗stateにもasset_versionを保存し、同じ画像の再実行では試行回数と前回QC理由を引き継ぐ（旧stateはlast_qa.asset_versionで照合）。QCのPASS条件は変更しない。
 
 Acceptance: `editorial/golden-typography-v1-acceptance/`。main mergeとProduction反映はこの実装作業に含まない。
 

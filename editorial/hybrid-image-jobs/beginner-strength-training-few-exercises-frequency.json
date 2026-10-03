@@ -9,7 +9,7 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が仕事終わりに来店し、その日の疲労を見ながら軽く始めるか判断している静かな場面。トレーナー、スタッフ、コーチは出さない。",
+  "scene_intent": "筋トレ初心者の女性客1人が、THE REV.の実トレーニングエリアで少数の基本種目を終え、無理なく続ける週の間隔を手元の小さな無文字カレンダーで確認する。頻度を先に決める記事であり、限界まで追い込むスクワット写真にはしない。",
   "generated_customer_count": 1,
   "customer_presentation": "female",
   "generated_scene_path": "assets/images/editorial-generated/beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-scene.png",
@@ -143,5 +143,10 @@
       "male",
       "male"
     ]
-  }
+  },
+  "thumbnail_claim": "筋トレ初心者は種目を増やすより、無理なく繰り返せる週の頻度を先に決める。",
+  "visible_action": "One adult female gym customer, immediately after a light strength set, actively points to two separated marked boxes in a small simple weekly grid notebook in her hands. The notebook contains only blank boxes and two dots, no letters or numbers. Her training clothes and a small weight beside her establish the training context. Face, hands and the spaced plan marks must all be readable, rather than a generic phone-checking pose.",
+  "visual_claim": "Choosing a modest repeatable training schedule, with rest between training days, instead of adding many exercises or training to exhaustion.",
+  "composition_hint": "Medium close editorial portrait from the waist upward. Face, torso, hands and the small notebook are the large center-right subject; aim for 65% visual attention after the overlay. Keep equipment dark and softly blurred in the background; no dominant black rack and no distant full-room view. Preserve one recognizable actual THE REV. Evolgear anchor, natural perspective, light and contact. Use a calm three-quarter angle with the action inside the overlay-safe right area.",
+  "emotional_state": "Calm and thoughtful beginner making a manageable plan after a light set; neither exhausted nor advertising a stock-photo smile."
 }
