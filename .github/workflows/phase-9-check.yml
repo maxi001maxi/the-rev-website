@@ -16,6 +16,7 @@ on:
       - 'scripts/test-daily-editorial-contract.mjs'
       - 'scripts/test-daily-editorial-state-machine.mjs'
       - 'scripts/test-daily-creator-integration.mjs'
+      - 'scripts/build-gas-bundle.mjs'
       - 'scripts/helpers/**'
       - 'lib/dailyEditorialStateMachine.mjs'
       - 'lib/dailyEditorialCreator.mjs'

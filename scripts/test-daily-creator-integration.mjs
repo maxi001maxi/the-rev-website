@@ -55,7 +55,7 @@ const shortlistRows = () => clone(SHORTLIST_FX.rows);
 
 function sandbox(opts = {}) {
   return createGasSandbox({
-    now: '2026-10-03T05:00:00+09:00',
+    now: '2026-10-02T05:00:00+09:00',
     queueColumns: QUEUE_FX.columns,
     queueRows: queueRows(),
     shortlistColumns: SHORTLIST_FX.columns,
@@ -124,8 +124,13 @@ function supervisorModel(h, { imageReady }) {
     preparing.image_status = 'READY';
     preparing.web_bridge_status = 'PREVIEW_READY';
     preparing.review_url = `https://the-rev-website.vercel.app/admin/articles/review/?id=${preparing.content_id}`;
-    if (toJstDateKey(preparing.run_date) === toJstDateKey(h.state.now)) {
-      h.line.push(`REVIEW_READY ${preparing.content_id}`);
+  }
+  // v065NotifyReviewReady_: only rows whose run_date is today, once per content_id.
+  for (const r of rows) {
+    const key = `THE_REV_DAILY_FINAL_LINE_NOTIFIED_${r.content_id}`;
+    if (v065Token(r.queue_status) === 'REVIEW_READY' && toJstDateKey(r.run_date) === toJstDateKey(h.state.now) && h.props[key] !== 'TRUE') {
+      h.line.push(`SUPERVISOR_REVIEW_READY ${r.content_id}`);
+      h.props[key] = 'TRUE';
     }
   }
   return transitions;
@@ -133,7 +138,7 @@ function supervisorModel(h, { imageReady }) {
 
 section('1. Candidate selection on the live 2026-10-03 shortlist');
 {
-  const now = at('2026-10-03T05:00:00+09:00');
+  const now = at('2026-10-02T05:00:00+09:00');
   const sel = selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS });
   assert(sel.selected?.candidate_id === 'BT-20260930-FAC-01', 'top eligible candidate is FAC-01 (portfolio 92)', sel.selected?.candidate_id);
   assert(sel.sufficient_pool === 4, '4 Interview-free candidates remain', String(sel.sufficient_pool));
@@ -165,16 +170,16 @@ section('2. Knowledge sufficiency registry');
 
 section('3. Queue row matches the state contract and the live sheet');
 {
-  const now = at('2026-10-03T05:00:00+09:00');
+  const now = at('2026-10-02T05:00:00+09:00');
   const out = planDailyCreation({ rows: queueRows(), shortlist: shortlistRows(), now, settings: SETTINGS, evidenceByContentId: EVIDENCE });
   const row = out.creation.queue_row;
   assert(out.creation.status === CREATION_STATUS.READY_TO_CREATE, 'READY_TO_CREATE');
   assert(Object.keys(row).every((k) => QUEUE_FX.columns.includes(k)), 'every key exists in the live 26_DAILY_EDITORIAL_QUEUE header', Object.keys(row).filter((k) => !QUEUE_FX.columns.includes(k)).join(','));
   assert(row.queue_status === 'DRAFTING' && row.knowledge_gate === 'SUFFICIENT' && row.interview_required === false && row.interview_status === 'NOT_REQUIRED', 'no-interview DRAFTING contract');
   assert(row.draft_status === 'NOT_STARTED' && row.image_status === 'NOT_STARTED' && row.draft_status !== 'PENDING', 'draft NOT_STARTED, never PENDING');
-  assert(row.run_date === '2026/10/03' && row.weekday === 'SA', 'run_date / weekday for 2026-10-03');
+  assert(row.run_date === '2026/10/03' && row.weekday === 'SA' && out.plan.prepared_on === '2026-10-02', 'prepared on 10/02 for run_date 2026/10/03 (SA)');
   assert(/^BLOG-20261003-[0-9a-f]{6}$/.test(row.content_id) && row.queue_id === 'DQ-20261003-001', 'deterministic content_id / queue_id');
-  const again = buildQueueRow({ evaluated: selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, now, queueRows: queueRows() });
+  const again = buildQueueRow({ evaluated: selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, now, queueRows: queueRows(), runDate: '2026-10-03' });
   assert(again.content_id === row.content_id, 'content_id is stable for the same candidate/day');
   const gate = JSON.parse(row.topic_gate_json);
   const kc = JSON.parse(row.knowledge_context_json);
@@ -185,16 +190,17 @@ section('3. Queue row matches the state contract and the live sheet');
   const isoWeek = buildQueueRow({
     evaluated: { ...selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, candidate: { ...shortlistRows().find((x) => x.candidate_id === 'BT-20260930-FAC-01'), week_start: '2026-09-27T15:00:00.000Z' } },
     now,
-    queueRows: queueRows()
+    queueRows: queueRows(),
+    runDate: '2026-10-03'
   });
   assert(isoWeek.week_start === '2026/09/28', 'GAS ISO week_start (UTC) maps to the JST week, not one day early', String(isoWeek.week_start));
-  const second = buildQueueRow({ evaluated: selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, now, queueRows: [...queueRows(), { queue_id: 'DQ-20261003-001', run_date: '2026/10/03', queue_status: 'SKIPPED' }] });
+  const second = buildQueueRow({ evaluated: selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS }).selected, now, runDate: '2026-10-03', queueRows: [...queueRows(), { queue_id: 'DQ-20261003-001', run_date: '2026/10/03', queue_status: 'SKIPPED' }] });
   assert(second.queue_id === 'DQ-20261003-002', 'queue_id sequence skips existing ids');
 }
 
 section('4. INCIDENT: 10/01 05:00 — REVIEW_READY 1/5 must still create');
 {
-  const h = sandbox({ now: '2026-10-01T05:00:00+09:00', evidence: {} });
+  const h = sandbox({ now: '2026-09-30T05:00:00+09:00', evidence: {} });
   const before = h.queue.data.length;
   const r = h.tick('scheduledDailyEditorialCreatorV069');
   assert(r.status === 'CREATED', 'creator creates despite REVIEW_READY', JSON.stringify(r).slice(0, 200));
@@ -226,15 +232,18 @@ const day1 = sandbox();
 section('6. Hourly retries are idempotent and a missed 05:00 self-heals');
 {
   const h = day1;
-  h.setNow('2026-10-03T06:00:00+09:00');
+  h.setNow('2026-10-02T06:00:00+09:00');
   const again = h.tick('scheduledDailyEditorialCreatorV069');
   assert(again.status === 'NO_ACTION' && h.queue.data.filter((x) => toJstDateKey(x.run_date) === '2026-10-03').length === 1, '06:00 retry creates nothing');
-  const late = sandbox({ now: '2026-10-03T10:40:00+09:00' });
+  const late = sandbox({ now: '2026-10-02T10:40:00+09:00' });
   assert(late.tick('scheduledDailyEditorialCreatorV069').status === 'CREATED', 'creator started at 10:40 still creates (05:00 trigger was missed)');
-  const early = sandbox({ now: '2026-10-03T04:30:00+09:00' });
+  const early = sandbox({ now: '2026-10-02T04:30:00+09:00' });
   assert(early.tick('scheduledDailyEditorialCreatorV069').status === 'OUTSIDE_WINDOW' && early.queue.data.length === queueRows().length, 'before 05:00 the Creator waits');
-  const after = sandbox({ now: '2026-10-03T12:00:00+09:00' });
+  const after = sandbox({ now: '2026-10-02T12:00:00+09:00' });
   assert(after.tick('scheduledDailyEditorialCreatorV069').status === 'OUTSIDE_WINDOW', 'after 11:59 the Creator stops');
+  const manual = after.tick('runDailyEditorialCreatorV069Once');
+  assert(manual.status === 'CREATED' && after.queue.data.filter((x) => toJstDateKey(x.run_date) === '2026-10-03').length === 1, 'manual Once run prepares the target day outside the window');
+  assert(after.tick('runDailyEditorialCreatorV069Once').status === 'NO_ACTION', 'manual run stays idempotent');
 }
 
 section('6b. Concurrent writer (manual entry / ChatGPT fallback) between plan and write');
@@ -252,21 +261,49 @@ section('6b. Concurrent writer (manual entry / ChatGPT fallback) between plan an
 section('7. Supervisor hand-off: Queue row -> Review Ready, then the next business day');
 {
   const h = day1;
-  h.setNow('2026-10-03T05:02:00+09:00');
+  h.setNow('2026-10-02T05:02:00+09:00');
   const t1 = supervisorModel(h, { imageReady: false });
   assert(t1.join(',') === 'DRAFTING>QC,QC>BRIDGE_SYNCING,BRIDGE_SYNCING>IMAGE_PREPARING', 'Draft/QC -> GBP -> Bridge -> IMAGE_PREPARING with legal transitions');
   assert(h.gbp.data.some((g) => g.parent_blog_id.startsWith('BLOG-20261003-')), '22_GBP_POST row linked by parent_blog_id');
-  h.setNow('2026-10-03T07:30:00+09:00');
+  h.setNow('2026-10-02T07:30:00+09:00');
   const t2 = supervisorModel(h, { imageReady: true });
   const today = h.queue.data.find((x) => toJstDateKey(x.run_date) === '2026-10-03');
   assert(t2.join(',') === 'IMAGE_PREPARING>REVIEW_READY' && today.queue_status === 'REVIEW_READY' && today.review_url, 'REVIEW_READY with review_url after image READY');
-  assert(h.line.some((l) => l.startsWith('REVIEW_READY')), 'Review Ready notification is emitted for the new article');
+  assert(!h.line.some((l) => l.startsWith('SUPERVISOR_REVIEW_READY')), 'v0.6.5.2 alone would stay silent: run_date is tomorrow');
+  h.setNow('2026-10-02T15:00:00+09:00');
+  const afternoon = h.tick('scheduledDailyEditorialCreatorV069');
+  const readyLines = () => h.line.filter((l) => l.includes('分の記事が出来上がりました'));
+  assert(afternoon.status === 'OUTSIDE_WINDOW' && readyLines().length === 1 && readyLines()[0].includes('2026-10-03'), 'prepared article is announced the day before, even outside the creation window');
+  h.setNow('2026-10-02T16:00:00+09:00');
+  h.tick('scheduledDailyEditorialCreatorV069');
+  assert(readyLines().length === 1, 'Review Ready announcement is sent once');
+  h.setNow('2026-10-03T00:05:00+09:00');
+  supervisorModel(h, { imageReady: false });
+  assert(!h.line.some((l) => l.startsWith('SUPERVISOR_REVIEW_READY')), 'Supervisor does not announce it again on its own day (shared de-dupe key)');
 
   // Nobody publishes 10/03's article. 10/04 (Sunday) must still produce a new one.
-  h.setNow('2026-10-04T05:00:00+09:00');
+  h.setNow('2026-10-03T05:00:00+09:00');
   const next = h.tick('scheduledDailyEditorialCreatorV069');
   assert(next.status === 'CREATED' && next.candidate_id !== 'BT-20260930-FAC-01', 'next business day creates again while 10/03 waits in REVIEW_READY', JSON.stringify(next).slice(0, 160));
   assert(h.queue.data.filter((x) => x.queue_status === 'REVIEW_READY').length === 1 && h.queue.data.filter((x) => x.queue_status === 'DRAFTING').length === 1, 'REVIEW_READY and DRAFTING work in parallel');
+}
+
+section('7b. Weekly rhythm: every daily run prepares the next business day');
+{
+  const week = sandbox({ now: '2026-10-05T05:00:00+09:00', evidence: {} });
+  const made = [];
+  for (const d of ['2026-10-05', '2026-10-06', '2026-10-07', '2026-10-08', '2026-10-09']) {
+    week.setNow(`${d}T05:00:00+09:00`);
+    week.shortlist.data.forEach((c) => { if (c.status !== 'SELECTED' && !String(c.status).startsWith('SKIPPED')) c.week_start = d.replace(/-/g, '/'); });
+    const r = week.tick('scheduledDailyEditorialCreatorV069');
+    made.push(`${d.slice(8)}:${r.status}${r.reason ? '/' + r.reason : ''}${r.kind ? '/' + r.kind : ''}`);
+  }
+  assert(made.join(' ') === '05:CREATED 06:CREATED 07:CREATED 08:NO_ACTION/CLOSED_DAY 09:CREATED', 'Mon..Fri runs -> Tue, Wed, Thu, (Fri closed), Sat articles', made.join(' '));
+  const dates = week.queue.data.filter((x) => String(x.content_id).startsWith('BLOG-202610')).map((x) => toJstDateKey(x.run_date)).sort();
+  assert(dates.join(',') === '2026-10-06,2026-10-07,2026-10-08,2026-10-10', 'each created row carries its own target run_date', dates.join(','));
+  const sameDay = sandbox({ now: '2026-10-03T05:00:00+09:00', settings: { ...SETTINGS, daily_editorial_lead_days: 0 } });
+  const sd = sameDay.tick('scheduledDailyEditorialCreatorV069');
+  assert(sd.status === 'CREATED' && toJstDateKey(sameDay.queue.data.find((x) => x.content_id === sd.content_id).run_date) === '2026-10-03', 'lead_days=0 creates the same-day article (GAS and engine agree)');
 }
 
 section('8. Capacity, closed days, disabled');
@@ -276,7 +313,7 @@ section('8. Capacity, closed days, disabled');
   const capped = sandbox({ queueRows: full, evidence: {} });
   const r = capped.tick('scheduledDailyEditorialCreatorV069');
   assert(r.status === 'NO_ACTION' && r.reason === 'ACTIVE_CAP_REACHED' && capped.queue.data.length === full.length, '5/5 active -> no new row');
-  const fri = sandbox({ now: '2026-10-02T06:00:00+09:00' });
+  const fri = sandbox({ now: '2026-10-01T06:00:00+09:00' });
   assert(fri.tick('scheduledDailyEditorialCreatorV069').reason === 'CLOSED_DAY' && fri.line.length === 0, 'Friday (closed) -> no row, no alert');
   const off = sandbox({ settings: { ...SETTINGS, daily_editorial_enabled: 0 } });
   assert(off.tick('scheduledDailyEditorialCreatorV069').reason === 'DISABLED', 'daily_editorial_enabled=0 respected');
@@ -293,10 +330,10 @@ section('9. Failures are loud, never silent, never "success"');
   const exhausted = sandbox({ shortlistRows: shortlistRows().map((x) => ({ ...x, status: 'SELECTED' })) });
   const e = exhausted.tick('scheduledDailyEditorialCreatorV069');
   assert(e.status === 'ERROR_BLOCKED' && e.kind === 'NO_ELIGIBLE_CANDIDATE' && exhausted.line.length === 1, 'shortlist exhausted -> ERROR_BLOCKED + LINE');
-  exhausted.setNow('2026-10-03T06:00:00+09:00');
+  exhausted.setNow('2026-10-02T06:00:00+09:00');
   exhausted.tick('scheduledDailyEditorialCreatorV069');
   assert(exhausted.line.length === 1, 'blocked alert is sent once per day');
-  exhausted.setNow('2026-10-03T08:10:00+09:00');
+  exhausted.setNow('2026-10-02T08:10:00+09:00');
   exhausted.tick('scheduledDailyEditorialGateV069');
   const wd = exhausted.tick('scheduledDailyEditorialWatchdogV069');
   assert(wd.status === 'ERROR_BLOCKED' && wd.notification.status === 'ALREADY_SENT' && exhausted.line.length === 1, 'Watchdog still flags the missed day but does not send a second LINE');
@@ -324,16 +361,16 @@ section('10. Stuck detection after creation');
 {
   const h = sandbox();
   const created = h.tick('scheduledDailyEditorialCreatorV069');
-  h.setNow('2026-10-03T06:00:00+09:00');
+  h.setNow('2026-10-02T06:00:00+09:00');
   const r = h.tick('scheduledDailyEditorialCreatorV069');
   assert(r.status === 'NO_ACTION' && r.stuck.some((s) => s.reason === 'SUPERVISOR_NOT_PICKING_UP' && s.content_id === created.content_id), 'new row not picked up by the Supervisor -> stuck alert', JSON.stringify(r.stuck));
   assert(h.line.some((l) => /進行が止まっています/.test(l)), 'stuck LINE sent');
   const n = h.line.length;
-  h.setNow('2026-10-03T07:00:00+09:00');
+  h.setNow('2026-10-02T07:00:00+09:00');
   h.tick('scheduledDailyEditorialCreatorV069');
   assert(h.line.length === n, 'stuck alert is not repeated within the day');
 
-  const now = at('2026-10-03T12:00:00+09:00');
+  const now = at('2026-10-02T12:00:00+09:00');
   const old = (m) => new Date(now.getTime() - m * 60000).toISOString();
   const found = detectStuckRows({
     now,

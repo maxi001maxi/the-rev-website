@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
@@ -28,6 +28,11 @@
     ]
   },
   "daily_creation": {
+    "cadence": "EVERY_DAY_AT_FIXED_TIME",
+    "prepare_lead_days": 1,
+    "prepares": "article for run_date = today + prepare_lead_days (default: tomorrow)",
+    "business_day_judged_on": "TARGET_RUN_DATE",
+    "lead_setting": "daily_editorial_lead_days (0 = same-day)",
     "business_days": [
       "TU",
       "WE",
@@ -55,7 +60,7 @@
     "review_ready_blocks_creation": false,
     "existing_work_is_parallel": true,
     "notification_failure_blocks_creation": false,
-    "idempotency_key": "run_date",
+    "idempotency_key": "run_date (target article day)",
     "reconcile_before_active_count": true,
     "missed_creation_end_state": "ERROR_BLOCKED"
   },
@@ -67,8 +72,8 @@
     "decision_authority": "GATE_ONLY",
     "external_operator_may_decide": false,
     "external_operator_allowed_role": "mechanical_fallback_only",
-    "window_jst": "05:00-11:59 hourly",
-    "idempotency_key": "run_date",
+    "window_jst": "every day 05:00-11:59 hourly (start hour = daily_editorial_hour)",
+    "idempotency_key": "run_date (target article day)",
     "candidate_source_sheet": "23_BLOG_TOPIC_SHORTLIST",
     "candidate_selection": "highest portfolio_final_score, then pillar_adjusted_score, then total_score; raw score gate applies first",
     "candidate_max_age_days": 14,
@@ -104,7 +109,8 @@
       "stage_stalled": 30,
       "image_stalled_hours": 6
     },
-    "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted"
+    "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted",
+    "review_ready_notification": "sent by the Creator as soon as a prepared article (run_date > today) is REVIEW_READY; shares the v0.6.5.2 de-dupe key"
   },
   "publish_reconciliation": {
     "from_queue_statuses": "ANY_NON_TERMINAL",
@@ -204,18 +210,19 @@
     {
       "name": "incident_2026_10_01_review_ready_one_of_five",
       "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
-      "now": "2026-10-01T05:00:00+09:00",
+      "now": "2026-09-30T05:00:00+09:00",
       "evidence": {},
       "expect": {
         "action": "CREATE_NEW",
         "active": 1,
         "patches": 0
-      }
+      },
+      "note": "run on 09/30 prepares the 10/01 article"
     },
     {
       "name": "incident_2026_10_03_stale_review_ready_published",
       "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
-      "now": "2026-10-03T05:00:00+09:00",
+      "now": "2026-10-02T05:00:00+09:00",
       "evidence": {
         "BLOG-20260930-oxy02": {
           "publish_status": "PUBLISHED",
@@ -227,24 +234,26 @@
         "action": "CREATE_NEW",
         "active": 0,
         "patches": 1
-      }
+      },
+      "note": "run on 10/02 prepares the 10/03 article"
     },
     {
       "name": "closed_friday",
       "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
-      "now": "2026-10-02T05:00:00+09:00",
+      "now": "2026-10-01T05:00:00+09:00",
       "evidence": {},
       "expect": {
         "action": "NO_ACTION",
         "reason": "CLOSED_DAY"
-      }
+      },
+      "note": "run on 10/01 targets Friday 10/02 (closed)"
     },
     {
       "name": "creator_2026_10_03_review_ready_does_not_block_new_article",
       "kind": "creation",
       "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
       "shortlist_fixture": "editorial/fixtures/blog-shortlist-2026-10-03-snapshot.json",
-      "now": "2026-10-03T05:00:00+09:00",
+      "now": "2026-10-02T05:00:00+09:00",
       "evidence": {
         "BLOG-20260930-oxy02": {
           "publish_status": "PUBLISHED",
@@ -257,7 +266,19 @@
         "creation_status": "READY_TO_CREATE",
         "candidate_id": "BT-20260930-FAC-01",
         "queue_status": "DRAFTING"
-      }
+      },
+      "note": "run on 10/02 prepares the 10/03 article"
     }
+  ],
+  "flow": [
+    "EVERY_DAY_FIXED_TIME",
+    "PREPARE_NEXT_DAY_ARTICLE",
+    "DRAFT",
+    "QC",
+    "GBP",
+    "IMAGES",
+    "REVIEW_READY",
+    "HUMAN_PUBLISH",
+    "POST_PUBLISH_STATE_AUTO_SYNC"
   ]
 }

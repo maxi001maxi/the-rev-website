@@ -2,22 +2,35 @@
 
 **Current Truth: この文書とGitHub main。** 日次記事を「作り始める」判断と実行は、ChatGPTのプロンプトではなく、ここに書いたコードが行います。
 
-## 1. 0 → 10 の担当（営業日）
+## 0. フロー
+
+```text
+毎日一定時刻（既定 05:00 JST / 08_SETTINGS daily_editorial_hour）
+↓ 翌日分を自動準備（run_date = 実行日 + daily_editorial_lead_days、既定1）
+↓ 記事 → QC → GBP → 画像 → Review Ready（前日のうちにLINE通知）
+↓ （現在）人間Publish
+↓ 公開後状態も自動同期（Queue / Bridge / GBPのURL）
+```
+
+- 実行は毎日。営業日判定は **`run_date`（対象日）** で行う。金曜の実行は土曜分を作り、木曜・日曜の実行は翌日が定休日なので何も作らない
+- `daily_editorial_lead_days=0` にすると当日作成に戻る
+
+## 1. 0 → 10 の担当（毎日）
 
 | 時刻(JST) | 担当 | 内容 |
 |---|---|---|
 | 04:xx | GAS `scheduledDailyEditorialGateV069` | STARTログ → Bridge `daily_plan` → 公開済みの取りこぼしを `PUBLISHED` に同期 → 判定記録 |
-| 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | Bridge `daily_create` → **今日のQueue行を作成**（読み戻し確認後にCREATED） |
+| 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | Bridge `daily_create` → **翌日分のQueue行を作成**（読み戻し確認後にCREATED）。翌日分がREVIEW_READYになったらLINE通知（終日・毎時） |
 | 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE |
 | 画像Job作成後 | GitHub Actions `Auto Editorial Hybrid Images` | 画像生成・Visual QC・Xserver検証 |
-| 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | 当日行が無い場合のバックストップ（ERROR_BLOCKED + LINE） |
+| 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | 対象日の行が無い場合のバックストップ（ERROR_BLOCKED + LINE） |
 | 人間 | Review & Publish | **最終Publishのみ人間承認**。GBP投稿も人間 |
 
 判定は `lib/dailyEditorialStateMachine.mjs`（Gate）と `lib/dailyEditorialCreator.mjs`（候補選定・Queue行生成）が唯一の正本です。GASはBridgeの返したQueue行を追記するだけで、独自に判断しません。
 
 ## 2. Creatorがやること / やらないこと
 
-- 営業日・active上限(5)・当日の重複をGateが判定し、`CREATE_NEW` のときだけ作成する
+- 対象日が営業日か・active上限(5)・対象日の重複をGateが判定し、`CREATE_NEW` のときだけ作成する
 - `REVIEW_READY` は件数に数えるが作成を止めない（並行作業）
 - 候補は `23_BLOG_TOPIC_SHORTLIST` から決定的に選ぶ
   - 条件: `route_lane=WEB_BLOG` / `decision=PUBLISH` / 未使用 / Raw score ≥ 65 / 直近14日以内の週 / 直近Queueと同一クエリでない
@@ -44,8 +57,9 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。個別管理したい場合だけ Gate / Creator の2ファイルを使う
 2. `installDailyEditorialAutonomyV069()` を実行する（Gate 04時台 / Creator 毎時 / Watchdog 08時台。Supervisor未導入なら失敗して止まる）。このInstallerは旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう、`EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
-3. `runDailyEditorialCreatorV069Once()` で営業日に1回確認し、`26_DAILY_EDITORIAL_QUEUE` の当日行と `18_AUTOMATION_LOG` の `DAILY_EDITORIAL_CREATE / CREATED` を確認する
-4. Vercel側は `main` にマージされた `/api/integrations/editorial-status`（`daily_plan` / `daily_create`）が必要
+3. `runDailyEditorialCreatorV069Once()` で翌日が営業日の日に1回確認し、`26_DAILY_EDITORIAL_QUEUE` の翌日（run_date）行と `18_AUTOMATION_LOG` の `DAILY_EDITORIAL_CREATE / CREATED` を確認する
+4. GASソースを変更したら `npm run build:gas-bundle` でONE_PASTEを再生成し、Apps Scriptへ貼り直して `installDailyEditorialAutonomyV069()` を再実行する（Bundleの古さはCIが検出する）。`runDailyEditorialCreatorV069Once()` は時間帯に関係なく対象日分を1回準備する
+5. Vercel側は `main` にマージされた `/api/integrations/editorial-status`（`daily_plan` / `daily_create`）が必要
 
 ## 5. 外部ChatGPT Scheduled Task の扱い
 
@@ -55,7 +69,7 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ```text
 1. 18_AUTOMATION_LOG に開始記録（DAILY_EDITORIAL_FALLBACK START）を書く。
-2. 26_DAILY_EDITORIAL_QUEUE に本日のrun_dateの行（SKIPPED以外）があれば、何もしない。終了。
+2. 26_DAILY_EDITORIAL_QUEUE に対象日（実行日+daily_editorial_lead_days、既定は翌日）のrun_dateの行（SKIPPED以外）があれば、何もしない。終了。
 3. 無ければ 26_DAILY_EDITORIAL_QUEUE と 23_BLOG_TOPIC_SHORTLIST の全行・08_SETTINGSの daily_editorial_* を
    POST https://the-rev-website.vercel.app/api/integrations/editorial-status/ {action:"daily_create", now, rows, shortlist, settings}
    に送る（Bearer EDITORIAL_BRIDGE_SECRET）。
@@ -68,6 +82,9 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ## 6. 既知の限界
 
+- デプロイ済みv0.6.5.2の通知（Review Ready / ERROR）は `run_date` が当日の行だけが対象です。翌日分のReview Ready通知はCreatorが補い、ERRORはCreatorのstuck通知で補います
+- Bridgeへ送る記事の `published` 日付は `run_date`（翌日）になります。前日のうちにPublishすると、記事の表示日付は翌日になります
+- 初回導入日は当日分を作りません（翌日分から開始）
 - GAS（Gate / Creator / Watchdog）は自動配備されません。Apps Scriptへの貼り付けと `install...` の実行は人間が1回行う必要があります
 - v0.6.5.2 Supervisor本体はGitHubに無くDriveの貼り付け用パッチ文書のみです（Creatorはその選別条件に合う行を生成するよう、テストで固定しています）
 - 意味的な記事の被り（同一クエリではない類似テーマ）は、週次のTopic Gate / Shortlist段階の判定に依存します
