@@ -27,6 +27,7 @@ import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
 import { planDailyEditorial } from '../../lib/dailyEditorialStateMachine.mjs';
 import { planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
+import { autoPublishGate } from '../../lib/editorialAutoPublishGate.mjs';
 
 const DAILY_PLAN_MAX_ROWS = 500;
 const DAILY_SHORTLIST_MAX_ROWS = 200;
@@ -319,9 +320,13 @@ export function computeDailyPayload({ body, evidenceByContentId = {}, checked = 
   const now = Number.isNaN(parsedNow.getTime()) ? new Date() : parsedNow;
   const settings = body.settings && typeof body.settings === 'object' ? body.settings : {};
 
+  // Informational only: nothing in this API publishes. Reported so the
+  // scheduler log always shows which Safety Gate keeps Final Publish human.
+  const publishGate = autoPublishGate({ settings });
+
   if (body.action === 'daily_plan') {
     const plan = planDailyEditorial({ rows, now, settings, evidenceByContentId });
-    return { ok: true, plan, evidence_checked: checked, publish_requires_human_approval: true };
+    return { ok: true, plan, publish_gate: publishGate, evidence_checked: checked, publish_requires_human_approval: !publishGate.allowed };
   }
 
   const { plan, creation, stuck } = planDailyCreation({
@@ -331,7 +336,7 @@ export function computeDailyPayload({ body, evidenceByContentId = {}, checked = 
     settings,
     evidenceByContentId
   });
-  return { ok: true, plan, creation, stuck, evidence_checked: checked, publish_requires_human_approval: true };
+  return { ok: true, plan, creation, stuck, publish_gate: publishGate, evidence_checked: checked, publish_requires_human_approval: !publishGate.allowed };
 }
 
 // Loads Supabase publication evidence for non-terminal Queue rows. Drafts that

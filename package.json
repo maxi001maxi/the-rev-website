@@ -13,6 +13,7 @@
     "test:daily-editorial-contract": "node scripts/test-daily-editorial-contract.mjs",
     "test:daily-editorial-state-machine": "node scripts/test-daily-editorial-state-machine.mjs",
     "test:daily-creator": "node scripts/test-daily-creator-integration.mjs",
+    "build:gas-bundle": "node scripts/build-gas-bundle.mjs",
     "test:site-insights": "node --test scripts/test-site-insights-v2.mjs",
     "test:hybrid-images": "node scripts/validate-hybrid-image-jobs.mjs",
     "image:compile-job": "node scripts/compile-hybrid-image-job.mjs",

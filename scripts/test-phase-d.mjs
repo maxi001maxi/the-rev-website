@@ -192,7 +192,7 @@ assert(ACTIVE_QUEUE_STATUSES.includes('REVIEW_READY'), 'REVIEW_READYはactive qu
 assert(
   planDailyEditorial({
     rows: [{ run_date: '2026/09/30', content_id: 'BLOG-review-ready', queue_status: 'REVIEW_READY' }],
-    now: new Date('2026-10-01T05:00:00+09:00')
+    now: new Date('2026-09-30T05:00:00+09:00')
   }).decision.action === 'CREATE_NEW',
   'REVIEW_READYはactive件数に数えるが、上限未満なら翌営業日の新規生成を止めない'
 );

@@ -14,8 +14,18 @@ import { computeDailyPayload } from '../../api/integrations/editorial-status.mjs
 const GAS_DIR = new URL('../../editorial/gas/', import.meta.url);
 export const GAS_FILES = ['DailyEditorialGate_v0.6.9.gs', 'DailyEditorialCreator_v0.6.9.gs'];
 
+// Minimal Sheet double: header row + object rows, with the few Range calls the
+// GAS sources use directly (reading / extending the header row).
 function sheet(name, columns, objects) {
-  return { name, header: [...columns], data: objects.map((o) => ({ ...o })) };
+  const sh = { name, header: [...columns], data: objects.map((o) => ({ ...o })) };
+  sh.getLastColumn = () => sh.header.length;
+  sh.getMaxColumns = () => sh.header.length;
+  sh.insertColumnsAfter = () => {};
+  sh.getRange = (row, col, _rows, cols) => ({
+    getValues: () => [sh.header.slice(col - 1, col - 1 + (cols || 1))],
+    setValue: (v) => { if (row === 1) sh.header[col - 1] = v; }
+  });
+  return sh;
 }
 
 function jstParts(ms) {
@@ -73,18 +83,16 @@ export function createGasSandbox({
     ...supervisorStubs,
     ss_: () => ({ getSheetByName: (n) => sheets[n] || null }),
     getObjectsWithRow_: (sh) => sh.data.map((o, i) => ({ ...o, __row: i + 2 })),
+    // Same semantics as the production helpers (GAS v0.3.3 source): keys that
+    // are not in the header row are silently dropped.
     setObjectRow_: (sh, row, obj) => {
-      Object.keys(obj).forEach((k) => {
-        if (!sh.header.includes(k)) throw new Error(`Unknown column "${k}" in ${sh.name}`);
-      });
-      Object.assign(sh.data[row - 2], obj);
+      Object.keys(obj).forEach((k) => { if (sh.header.includes(k)) sh.data[row - 2][k] = obj[k]; });
     },
     appendObjectRow_: (sh, obj) => {
-      Object.keys(obj).forEach((k) => {
-        if (!sh.header.includes(k)) throw new Error(`Unknown column "${k}" in ${sh.name}`);
-      });
       if (dropAppends && sh.name === queue.name) return;
-      sh.data.push({ ...obj });
+      const out = {};
+      sh.header.forEach((k) => { if (k) out[k] = obj[k] === undefined || obj[k] === null ? '' : obj[k]; });
+      sh.data.push(out);
     },
     getSettings_: () => settings,
     startAutomationLog_: (job, trigger) => { logs.push({ job, trigger, status: 'START' }); return `run-${logs.length}`; },
