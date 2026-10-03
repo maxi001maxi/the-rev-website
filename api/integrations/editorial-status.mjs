@@ -2,6 +2,16 @@
 // Server-to-server status probe for THE REV. Editorial AI.
 // It never publishes. It only checks whether Phase 10 image assets are ready,
 // updates the Supabase draft image readiness fields, and returns Review URLs.
+//
+// POST /api/integrations/editorial-status  { "action": "daily_plan" | "daily_create", "rows": [...] }
+// Deterministic Daily Editorial gate and Creator for the GAS scheduler.
+//   daily_plan   : reconciles publication evidence for the supplied
+//                  26_DAILY_EDITORIAL_QUEUE rows and returns Queue patches plus
+//                  today's creation decision.
+//   daily_create : daily_plan + deterministic topic selection from the supplied
+//                  23_BLOG_TOPIC_SHORTLIST rows; returns the exact Queue row to
+//                  append, stuck-row findings and shortlist pool health.
+// Neither action writes Sheets or publishes.
 
 import { createClient } from '@supabase/supabase-js';
 import {
@@ -15,13 +25,19 @@ import { checkEditorialImageReady } from '../../lib/editorialImage.mjs';
 import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
 import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
+import { planDailyEditorial } from '../../lib/dailyEditorialStateMachine.mjs';
+import { planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
+
+const DAILY_PLAN_MAX_ROWS = 500;
+const DAILY_SHORTLIST_MAX_ROWS = 200;
+const DAILY_PLAN_MAX_RECONCILE = 10;
 
 export const config = { maxDuration: 300 };
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', 'GET');
-    return res.status(405).json({ error: 'method_not_allowed', message: 'GETのみサポートしています。' });
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    res.setHeader('Allow', 'GET, POST');
+    return res.status(405).json({ error: 'method_not_allowed', message: 'GET / POSTのみサポートしています。' });
   }
 
   const cfg = bridgeConfig();
@@ -36,6 +52,8 @@ export default async function handler(req, res) {
   if (!safeSecretEqual(suppliedSecret, process.env.EDITORIAL_BRIDGE_SECRET)) {
     return res.status(401).json({ error: 'unauthorized', message: 'Editorial Bridgeの認証に失敗しました。' });
   }
+
+  if (req.method === 'POST') return handleDailyPlan(req, res);
 
   const contentId = String(req.query?.content_id || '').trim();
   if (!contentId) {
@@ -64,6 +82,11 @@ export default async function handler(req, res) {
 
   let article = found.data;
   let readiness = null;
+
+  // Publication evidence is independent of image readiness. Reconcile it first
+  // so an image probe failure can never hide a verified production publish.
+  const publication = await reconcilePublication({ supabase, article });
+  if (publication.article) article = publication.article;
 
   try {
     // Self-heal legacy PREPARING drafts created before the unattended Hybrid
@@ -189,12 +212,10 @@ export default async function handler(req, res) {
 
     return res.status(502).json({
       error: 'image_status_failed',
-      message: '画像準備状況の確認に失敗しました。'
+      message: '画像準備状況の確認に失敗しました。',
+      publication
     });
   }
-
-  const publication = await reconcilePublication({ supabase, article });
-  if (publication.article) article = publication.article;
 
   const origin = originFromRequest(req);
   res.setHeader('Cache-Control', 'no-store');
@@ -244,4 +265,114 @@ export default async function handler(req, res) {
       : null,
     publish_requires_human_approval: true
   });
+}
+
+async function handleDailyPlan(req, res) {
+  const body = typeof req.body === 'string' ? safeParse(req.body) : (req.body || {});
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    { auth: { persistSession: false, autoRefreshToken: false } }
+  );
+  const result = await buildDailyResponse({ body, supabase });
+  if (result.error) {
+    return res.status(result.status).json({ error: result.error, message: result.message });
+  }
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(200).json(result.payload);
+}
+
+// Shared by the HTTP handler and the integration tests. `supabase` and
+// `reconcileFn` are injectable so the full evidence -> plan -> creation path is
+// testable without network access.
+export async function buildDailyResponse({ body = {}, supabase, reconcileFn = reconcilePublication }) {
+  const invalid = validateDailyBody(body);
+  if (invalid) return invalid;
+
+  const evidence = await collectPublicationEvidence({
+    supabase,
+    rows: body.rows.slice(0, DAILY_PLAN_MAX_ROWS),
+    reconcileFn
+  });
+  if (evidence.error) {
+    return { error: evidence.error, status: 502, message: 'Supabaseの公開状態を取得できませんでした。' };
+  }
+  return { payload: computeDailyPayload({ body, evidenceByContentId: evidence.byContentId, checked: evidence.checked }) };
+}
+
+function validateDailyBody(body) {
+  const action = body?.action;
+  if (action !== 'daily_plan' && action !== 'daily_create') {
+    return { error: 'bad_request', status: 400, message: 'action=daily_plan または daily_create が必要です。' };
+  }
+  if (!Array.isArray(body.rows)) return { error: 'bad_request', status: 400, message: 'rows は配列で指定してください。' };
+  if (action === 'daily_create' && !Array.isArray(body.shortlist)) {
+    return { error: 'bad_request', status: 400, message: 'shortlist は配列で指定してください。' };
+  }
+  return null;
+}
+
+// Pure and synchronous: Gate + Creator for an already-validated request.
+export function computeDailyPayload({ body, evidenceByContentId = {}, checked = [] }) {
+  const rows = body.rows.slice(0, DAILY_PLAN_MAX_ROWS);
+  const parsedNow = body.now ? new Date(body.now) : new Date();
+  const now = Number.isNaN(parsedNow.getTime()) ? new Date() : parsedNow;
+  const settings = body.settings && typeof body.settings === 'object' ? body.settings : {};
+
+  if (body.action === 'daily_plan') {
+    const plan = planDailyEditorial({ rows, now, settings, evidenceByContentId });
+    return { ok: true, plan, evidence_checked: checked, publish_requires_human_approval: true };
+  }
+
+  const { plan, creation, stuck } = planDailyCreation({
+    rows,
+    shortlist: body.shortlist.slice(0, DAILY_SHORTLIST_MAX_ROWS),
+    now,
+    settings,
+    evidenceByContentId
+  });
+  return { ok: true, plan, creation, stuck, evidence_checked: checked, publish_requires_human_approval: true };
+}
+
+// Loads Supabase publication evidence for non-terminal Queue rows. Drafts that
+// were already committed by Human Publish are re-verified against the exact
+// Deploy to Xserver run + production URL before they can count as PUBLISHED.
+export async function collectPublicationEvidence({ supabase, rows, reconcileFn = reconcilePublication }) {
+  const contentIds = [...new Set(rows
+    .filter((row) => !['PUBLISHED', 'SKIPPED'].includes(String(row?.queue_status || '').trim().toUpperCase()))
+    .map((row) => String(row?.content_id || '').trim())
+    .filter(Boolean))];
+  if (!contentIds.length) return { byContentId: {}, checked: [] };
+
+  const found = await supabase
+    .from('admin_article_drafts')
+    .select('*')
+    .eq('editorial_source', BRIDGE_SOURCE)
+    .in('editorial_content_id', contentIds);
+  if (found.error) return { error: 'db_error' };
+
+  const byContentId = {};
+  const checked = [];
+  let reconciled = 0;
+  for (const draft of found.data || []) {
+    let article = draft;
+    const state = String(draft.publish_status || PUBLISH_STATUS.NOT_PUBLISHED);
+    if (state === PUBLISH_STATUS.PUBLISH_COMMITTED && reconciled < DAILY_PLAN_MAX_RECONCILE) {
+      reconciled += 1;
+      const publication = await reconcileFn({ supabase, article: draft });
+      if (publication.article) article = publication.article;
+    }
+    byContentId[draft.editorial_content_id] = {
+      publish_status: article.publish_status || PUBLISH_STATUS.NOT_PUBLISHED,
+      published_url: article.published_url || null,
+      publish_verified_at: article.publish_verified_at || null,
+      publish_commit_sha: article.publish_commit_sha || null
+    };
+    checked.push({ content_id: draft.editorial_content_id, publish_status: byContentId[draft.editorial_content_id].publish_status });
+  }
+  return { byContentId, checked };
+}
+
+function safeParse(s) {
+  try { return JSON.parse(s); } catch { return {}; }
 }

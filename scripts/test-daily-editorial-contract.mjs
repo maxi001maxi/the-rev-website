@@ -1,4 +1,10 @@
 import fs from 'node:fs';
+import {
+  ACTIVE_QUEUE_STATUSES,
+  TERMINAL_QUEUE_STATUSES
+} from '../lib/editorialPublication.mjs';
+import { planDailyEditorial } from '../lib/dailyEditorialStateMachine.mjs';
+import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
 
 const CONTRACT_PATH = new URL('../editorial/daily-editorial-state-contract.json', import.meta.url);
 const contract = JSON.parse(fs.readFileSync(CONTRACT_PATH, 'utf8'));
@@ -7,7 +13,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.0.1', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.2.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
@@ -65,5 +71,76 @@ for (const field of ['last_successful_stage', 'next_stage', 'human_action_requir
 
 assert(contract.publish_boundary?.auto_publish === false, 'Auto Publish must remain disabled.');
 assert(contract.publish_boundary?.human_approval_required === true, 'Human approval must remain required.');
+
+// Daily creation gate: ACTIVE is a cap, never an exclusive lock.
+const creation = contract.daily_creation || {};
+assert(Number(creation.max_active_queue) === 5, 'Active queue cap must remain 5.');
+assert(Number(creation.max_new_topics_per_run) === 1, 'Daily creation must stay at max 1 new topic per run.');
+assert(creation.active_is_exclusive_lock === false, 'ACTIVE statuses must count toward the cap, not lock creation.');
+assert(creation.review_ready_blocks_creation === false, 'REVIEW_READY must never block the next business day article.');
+assert(creation.existing_work_is_parallel === true, 'Existing Review/Image work must run in parallel with today creation.');
+assert(creation.notification_failure_blocks_creation === false, 'Notification failure must not stop content creation.');
+assert(creation.reconcile_before_active_count === true, 'Publish reconciliation must run before counting active rows.');
+assert(creation.missed_creation_end_state === 'ERROR_BLOCKED', 'A missed business-day creation must surface as ERROR_BLOCKED.');
+assert(
+  JSON.stringify([...creation.active_statuses_count_toward_cap].sort()) === JSON.stringify([...ACTIVE_QUEUE_STATUSES].sort()),
+  'Contract active statuses drifted from lib/editorialPublication.mjs ACTIVE_QUEUE_STATUSES.'
+);
+for (const terminal of TERMINAL_QUEUE_STATUSES) {
+  assert(!creation.active_statuses_count_toward_cap.includes(terminal), `${terminal} must never count as active.`);
+}
+
+// Publish reconciliation: PUBLISHED only with verified production evidence.
+const reconciliation = contract.publish_reconciliation || {};
+assert(reconciliation.to_queue_status === 'PUBLISHED' && reconciliation.to_web_bridge_status === 'PUBLISHED', 'Verified publication must reconcile Queue and Bridge to PUBLISHED.');
+assert(reconciliation.required_evidence?.supabase_publish_status === 'PUBLISHED', 'Reconciliation requires Supabase PUBLISHED.');
+assert(reconciliation.required_evidence?.publish_verified_at_required === true, 'Reconciliation requires publish_verified_at.');
+assert((reconciliation.insufficient_evidence || []).includes('PUBLISH_COMMITTED'), 'PUBLISH_COMMITTED must never be treated as PUBLISHED.');
+assert(reconciliation.gbp_auto_post === false, 'Reconciliation must never post to GBP.');
+
+// Execute the contract scenarios against the real decision engine, so the
+// contract cannot pass while the implementation disagrees with it.
+for (const scenario of contract.regression_scenarios || []) {
+  const fixture = JSON.parse(fs.readFileSync(new URL(`../${scenario.fixture}`, import.meta.url), 'utf8'));
+  if (scenario.kind === 'creation') {
+    const shortlist = JSON.parse(fs.readFileSync(new URL(`../${scenario.shortlist_fixture}`, import.meta.url), 'utf8'));
+    const out = planDailyCreation({
+      rows: fixture.rows,
+      shortlist: shortlist.rows,
+      now: new Date(scenario.now),
+      evidenceByContentId: scenario.evidence || {}
+    });
+    const e = scenario.expect;
+    assert(out.plan.decision.action === e.action, `${scenario.name}: expected ${e.action}, got ${out.plan.decision.action}`);
+    assert(out.creation.status === e.creation_status, `${scenario.name}: expected ${e.creation_status}, got ${out.creation.status}`);
+    assert(out.creation.candidate_id === e.candidate_id, `${scenario.name}: expected candidate ${e.candidate_id}, got ${out.creation.candidate_id}`);
+    assert(out.creation.queue_row?.queue_status === e.queue_status, `${scenario.name}: created row must be ${e.queue_status}`);
+    continue;
+  }
+  const plan = planDailyEditorial({
+    rows: fixture.rows,
+    now: new Date(scenario.now),
+    evidenceByContentId: scenario.evidence || {}
+  });
+  const expect = scenario.expect || {};
+  assert(plan.decision.action === expect.action, `${scenario.name}: expected ${expect.action}, got ${plan.decision.action}/${plan.decision.reason}`);
+  if (expect.reason) assert(plan.decision.reason === expect.reason, `${scenario.name}: expected reason ${expect.reason}, got ${plan.decision.reason}`);
+  if (expect.active != null) assert(plan.active.count === expect.active, `${scenario.name}: expected active ${expect.active}, got ${plan.active.count}`);
+  if (expect.patches != null) assert(plan.reconciliation.patches.length === expect.patches, `${scenario.name}: expected ${expect.patches} reconcile patches`);
+}
+assert((contract.regression_scenarios || []).length >= 4, 'Daily Editorial regression scenarios missing.');
+
+// Creator: the Gate decision must be executed by code, not by an external prompt.
+const creator = contract.daily_creator || {};
+assert(creator.decision_authority === 'GATE_ONLY', 'Creator must take its decision from the Gate only.');
+assert(creator.external_operator_may_decide === false, 'An external operator (ChatGPT task) must not make its own create/skip decision.');
+assert(creator.creates_queue_row?.queue_status === 'DRAFTING' && creator.creates_queue_row?.draft_status === 'NOT_STARTED', 'Creator must create the no-interview DRAFTING/NOT_STARTED contract row.');
+assert((creator.not_success || []).includes('CREATE_NEW_recorded_only') && (creator.not_success || []).includes('watchdog_failure_notice'), 'Recording CREATE_NEW or alerting must never count as success.');
+assert((creator.success_requires || []).includes('queue_row_read_back_from_sheet'), 'Creator success requires a Queue read-back.');
+assert((creator.fail_closed_when || []).includes('supervisor_not_wired'), 'Creator must fail closed when the Supervisor is not wired.');
+for (const key of ['executable', 'selection_engine', 'knowledge_registry']) {
+  assert(fs.existsSync(new URL(`../${creator[key]}`, import.meta.url)), `Creator ${key} must exist in this repository.`);
+}
+assert(fs.existsSync(new URL(`../${contract.source_of_truth.gas_gate_source}`, import.meta.url)), 'GAS gate source must be versioned in this repository.');
 
 console.log('Daily Editorial state contract: PASS');

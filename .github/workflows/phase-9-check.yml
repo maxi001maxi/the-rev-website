@@ -14,6 +14,15 @@ on:
       - 'lib/blogMarkdown.mjs'
       - 'scripts/test-phase-9.mjs'
       - 'scripts/test-daily-editorial-contract.mjs'
+      - 'scripts/test-daily-editorial-state-machine.mjs'
+      - 'scripts/test-daily-creator-integration.mjs'
+      - 'scripts/helpers/**'
+      - 'lib/dailyEditorialStateMachine.mjs'
+      - 'lib/dailyEditorialCreator.mjs'
+      - 'lib/dailyEditorialKnowledge.mjs'
+      - 'editorial/DAILY_CREATOR_RUNBOOK.md'
+      - 'lib/editorialPublication.mjs'
+      - 'editorial/gas/**'
       - 'scripts/test-editorial-brand-qc.mjs'
       - 'scripts/test-phase-d.mjs'
       - 'scripts/build-blog.mjs'
@@ -96,6 +105,8 @@ jobs:
       - run: node --check lib/editorialImageReviewGate.mjs
       - run: node --check scripts/test-daily-editorial-contract.mjs
       - run: npm run test:daily-editorial-contract
+      - run: npm run test:daily-editorial-state-machine
+      - run: npm run test:daily-creator
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:phase-d
