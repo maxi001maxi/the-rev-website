@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "check": "test:editorial-images",
+      "pass": true
+    },
+    {
+      "check": "test:phase-9",
+      "pass": true
+    },
+    {
+      "check": "test:daily-editorial-contract",
+      "pass": true
+    },
+    {
+      "check": "test:daily-editorial-state-machine",
+      "pass": true
+    },
+    {
+      "check": "test:daily-creator",
+      "pass": true
+    },
+    {
+      "check": "build:blog",
+      "pass": true
+    }
+  ],
+  "draft_page_generated": false
+}
