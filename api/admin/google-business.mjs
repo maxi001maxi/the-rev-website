@@ -84,7 +84,12 @@ async function handleCallback(req,res){
 export default async function handler(req,res){
   res.setHeader('Cache-Control','private, no-store, max-age=0');
   if(req.method!=='GET'){res.setHeader('Allow','GET');return sendError(res,405,'method_not_allowed','GETのみ利用できます。');}
-  const action=String(req.query?.action||'');
+  const query=req.query||{};
+  // OAuth callback arrives through /api/admin/google-business/callback and is
+  // rewritten to this consolidated function. Preserve the callback even when
+  // Vercel does not carry an injected action query through the rewrite.
+  const inferredCallback=Boolean(query.code||query.error)&&Boolean(query.state);
+  const action=String(query.action||(inferredCallback?'callback':''));
   if(action==='callback')return handleCallback(req,res);
   if(action==='connect')return handleConnect(req,res);
   if(action==='status')return handleStatus(req,res);
