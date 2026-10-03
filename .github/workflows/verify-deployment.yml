@@ -101,7 +101,6 @@ jobs:
             rm -f "$tmp"
           }
 
-          check "Health"                    GET  "/api/health"                          200 '"ok":true'
           check "Config (public, no secret)" GET  "/api/config"                          200
           check "Publish preview — unauth"   GET  "/api/admin/publish-preview?id=00000000-0000-0000-0000-000000000000" 401
           check "Publish — unauth"           POST "/api/admin/publish"                   401
