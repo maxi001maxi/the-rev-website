@@ -179,7 +179,10 @@ export default async function handler(req, res) {
     if (e instanceof EditorialImageError || e instanceof AutomatedHybridImageError) {
       return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
     }
-    const unexpectedName = String(e?.name || 'Error').slice(0, 120);\n    const unexpectedMessage = String(e?.message || 'unknown image preparation error').slice(0, 800);\n    console.error('Editorial image preparation unexpected error', { name: unexpectedName, message: unexpectedMessage });\n    return send(res, 502, 'image_automation_failed', `画像準備で予期しないエラー: ${unexpectedName}: ${unexpectedMessage}`);
+    const unexpectedName = String(e?.name || 'Error').slice(0, 120);
+    const unexpectedMessage = String(e?.message || 'unknown image preparation error').slice(0, 800);
+    console.error('Editorial image preparation unexpected error', { name: unexpectedName, message: unexpectedMessage });
+    return send(res, 502, 'image_automation_failed', `画像準備で予期しないエラー: ${unexpectedName}: ${unexpectedMessage}`);
   }
 
   const thumbnail = imageInfo.thumbnail || article?.thumbnail || null;
