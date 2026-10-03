@@ -39,6 +39,8 @@ async function renderStatus(){
 async function connect(){
   $('connect-btn').disabled=true;
   $('error').classList.add('admin-hidden');
+  history.replaceState(null,'',location.pathname);
+  $('status').textContent='Google認証を開始しています…';
   try{
     const data=await AdminApi.getGoogleBusinessConnect();
     const target=new URL(data?.authorizationUrl||'');
