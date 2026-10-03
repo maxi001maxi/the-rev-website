@@ -270,11 +270,53 @@ function installDailyEditorialCreatorV069() {
 }
 
 // One call to wire the whole 0->10 chain: Gate (04:xx), Creator (hourly 05-11),
-// Watchdog (08:xx). Fails closed when the Supervisor is missing.
+// Watchdog (08:xx). Fails closed before creating any v0.6.9 trigger when the
+// existing v0.6.5.2 Supervisor or Bridge secret is missing. Successful and
+// failed installs are written to 18_AUTOMATION_LOG when the shared logger is
+// available, so an external acceptance check can verify installation without
+// access to Apps Script trigger metadata.
 function installDailyEditorialAutonomyV069() {
-  var gate = installDailyEditorialGateV069();
-  var creator = installDailyEditorialCreatorV069();
-  return { status: 'INSTALLED', gate: gate, creator: creator, supervisor: V069C_SUPERVISOR_HANDLER };
+  var wired = v069cSupervisorWired_();
+  if (!wired.ok) {
+    throw new Error('v0.6.9 Autonomy BLOCKED. Supervisor is not wired: ' + wired.missing.join(', '));
+  }
+  if (!v069Secret_()) throw new Error('v0.6.9 Autonomy BLOCKED. EDITORIAL_BRIDGE_SECRET is missing.');
+
+  var runId = typeof startAutomationLog_ === 'function'
+    ? startAutomationLog_('DAILY_EDITORIAL_AUTONOMY_INSTALL', 'MANUAL_INSTALL')
+    : '';
+  try {
+    var gate = installDailyEditorialGateV069();
+    var creator = installDailyEditorialCreatorV069();
+    var result = {
+      status: 'INSTALLED',
+      version: 'v0.6.9',
+      gate: gate,
+      creator: creator,
+      supervisor: V069C_SUPERVISOR_HANDLER,
+      editorial_status_base_url: V069_STATUS_ORIGIN,
+      auto_publish: false,
+      human_approval: true
+    };
+    if (runId && typeof finishAutomationLog_ === 'function') {
+      finishAutomationLog_(
+        runId,
+        'INSTALLED',
+        2,
+        'v0.6.9 Gate + Creator installed; supervisor=' + V069C_SUPERVISOR_HANDLER +
+          '; status_base=' + V069_STATUS_ORIGIN +
+          '; final_publish=HUMAN_ONLY; gbp_publish=HUMAN_ONLY',
+        ''
+      );
+    }
+    return result;
+  } catch (e) {
+    var msg = typeof errorText_ === 'function' ? errorText_(e) : String(e && e.stack || e);
+    if (runId && typeof finishAutomationLog_ === 'function') {
+      finishAutomationLog_(runId, 'ERROR_BLOCKED', 0, 'v0.6.9 autonomy install failed', msg);
+    }
+    throw e;
+  }
 }
 
 function runDailyEditorialCreatorV069Once() {
