@@ -96,6 +96,8 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: node --check api/integrations/editorial.mjs
+      - run: node --check api/integrations/editorial-status.mjs
       - run: node --check .github/qa/visual-qa.mjs
       - run: node --check scripts/compile-hybrid-image-job.mjs
       - run: node --check scripts/render-hybrid-editorial-overlay.mjs
