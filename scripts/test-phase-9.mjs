@@ -588,5 +588,10 @@ assert(
   'Editorial Bridge preserves AutomatedHybridImageError code/status/message instead of generic 502'
 );
 
+assert(
+  editorialApiSource.includes("画像準備で予期しないエラー:") && editorialApiSource.includes("unexpectedMessage"),
+  'Unexpected image failures return a bounded authenticated diagnostic instead of an opaque 502'
+);
+
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
