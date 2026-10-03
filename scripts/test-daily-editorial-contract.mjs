@@ -13,7 +13,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.2.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.3.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
@@ -75,6 +75,13 @@ assert(contract.publish_boundary?.human_approval_required === true, 'Human appro
 // Daily creation gate: ACTIVE is a cap, never an exclusive lock.
 const creation = contract.daily_creation || {};
 assert(Number(creation.max_active_queue) === 5, 'Active queue cap must remain 5.');
+assert(creation.cadence === 'EVERY_DAY_AT_FIXED_TIME' && Number(creation.prepare_lead_days) === 1, 'Daily run must prepare the next day article every day.');
+assert(creation.business_day_judged_on === 'TARGET_RUN_DATE', 'Business day must be judged on the target article day.');
+{
+  const lead = planDailyEditorial({ rows: [], now: new Date('2026-10-02T05:00:00+09:00') });
+  assert(lead.lead_days === creation.prepare_lead_days && lead.prepared_on === '2026-10-02' && lead.run_date === '2026-10-03', 'Engine default lead days drifted from the contract.');
+}
+assert(JSON.stringify(contract.flow) === JSON.stringify(['EVERY_DAY_FIXED_TIME', 'PREPARE_NEXT_DAY_ARTICLE', 'DRAFT', 'QC', 'GBP', 'IMAGES', 'REVIEW_READY', 'HUMAN_PUBLISH', 'POST_PUBLISH_STATE_AUTO_SYNC']), 'Daily Editorial flow drifted.');
 assert(Number(creation.max_new_topics_per_run) === 1, 'Daily creation must stay at max 1 new topic per run.');
 assert(creation.active_is_exclusive_lock === false, 'ACTIVE statuses must count toward the cap, not lock creation.');
 assert(creation.review_ready_blocks_creation === false, 'REVIEW_READY must never block the next business day article.');
