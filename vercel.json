@@ -6,13 +6,14 @@
     {
       "source": "/admin",
       "destination": "/admin/index.html"
-    },
-    {
-      "source": "/api/admin/google-business/callback",
-      "destination": "/api/admin/google-business"
     }
   ],
   "redirects": [
+    {
+      "source": "/api/admin/google-business/callback",
+      "destination": "/api/admin/google-business?action=callback",
+      "permanent": false
+    },
     {
       "source": "/",
       "destination": "/admin/login/",
