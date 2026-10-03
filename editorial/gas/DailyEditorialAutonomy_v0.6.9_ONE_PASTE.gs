@@ -382,6 +382,9 @@ var V069C_JOB = 'DAILY_EDITORIAL_CREATE';
 var V069C_END_HOUR = 12;
 var V069C_START_HOUR_DEFAULT = 5;
 var V069C_SUPERVISOR_HANDLER = 'scheduledDailyEditorialSupervisorV065';
+// The 1-minute Supervisor trigger is renamed by later patches (v0.6.7 installs
+// scheduledDailyEditorialSupervisorV067, which wraps V065). Any version counts.
+var V069C_SUPERVISOR_TRIGGER_PATTERN = /^scheduledDailyEditorialSupervisorV0\d+$/;
 var V069C_SUPERVISOR_FUNCTIONS = [
   'v065ResumeNoInterviewSelf_', 'v065PollImage_', 'v065NotifyReviewReady_',
   'generateWebBlogDraft_', 'finalizeWebBlog_', 'generateGBPFromBlog_', 'v065SyncBridgeDirect_'
@@ -412,11 +415,11 @@ function v069cFnExists_(name) {
 // draft it, so refuse to create and say why.
 function v069cSupervisorWired_() {
   var missing = V069C_SUPERVISOR_FUNCTIONS.filter(function (n) { return !v069cFnExists_(n); });
-  var hasTrigger = ScriptApp.getProjectTriggers().some(function (t) {
-    return t.getHandlerFunction() === V069C_SUPERVISOR_HANDLER;
-  });
-  if (!hasTrigger) missing.push('trigger:' + V069C_SUPERVISOR_HANDLER);
-  return { ok: missing.length === 0, missing: missing };
+  var handlers = ScriptApp.getProjectTriggers()
+    .map(function (t) { return String(t.getHandlerFunction() || ''); })
+    .filter(function (h) { return V069C_SUPERVISOR_TRIGGER_PATTERN.test(h); });
+  if (!handlers.length) missing.push('trigger:scheduledDailyEditorialSupervisorV0xx');
+  return { ok: missing.length === 0, missing: missing, supervisor_triggers: handlers };
 }
 
 function v069cSlim_(obj, fields) {
@@ -667,11 +670,21 @@ function installDailyEditorialCreatorV069() {
 function installDailyEditorialAutonomyV069() {
   var gate = installDailyEditorialGateV069();
   var creator = installDailyEditorialCreatorV069();
-  return { status: 'INSTALLED', gate: gate, creator: creator, supervisor: V069C_SUPERVISOR_HANDLER };
+  return { status: 'INSTALLED', gate: gate, creator: creator, supervisor_triggers: v069cSupervisorWired_().supervisor_triggers };
 }
 
 // Manual run: ignores the 05:00-11:59 window (every other rule still applies),
 // so the target day can be prepared right after install or after an outage.
+// One call after pasting the bundle: install the triggers, then prepare the
+// target day right away (no need to wait for the next hourly tick).
+function startDailyEditorialAutonomyV069() {
+  var installed = installDailyEditorialAutonomyV069();
+  var first = runDailyEditorialCreatorV069Once();
+  var result = { status: 'STARTED', installed: installed, first_run: first };
+  console.log(JSON.stringify(result));
+  return result;
+}
+
 function runDailyEditorialCreatorV069Once() {
   return v069WithLock_(function () { return scheduledDailyEditorialCreatorV069Unlocked_(true); });
 }

@@ -64,8 +64,8 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 ## 4. 導入手順（1回だけ・Apps Script）
 
 1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。個別管理したい場合だけ Gate / Creator の2ファイルを使う
-2. `installDailyEditorialAutonomyV069()` を実行する（Gate 04時台 / Creator 毎時 / Watchdog 08時台。Supervisor未導入なら失敗して止まる）。このInstallerは旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう、`EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
-3. `runDailyEditorialCreatorV069Once()` で翌日が営業日の日に1回確認し、`26_DAILY_EDITORIAL_QUEUE` の翌日（run_date）行と `18_AUTOMATION_LOG` の `DAILY_EDITORIAL_CREATE / CREATED` を確認する
+2. `startDailyEditorialAutonomyV069()` を1回実行する。Trigger導入（Gate 04時台 / Creator 毎時 / Watchdog 08時台）と、対象日分の初回準備を1回で行う。Supervisor（`scheduledDailyEditorialSupervisorV065` または v0.6.7 の `...V067`）のTriggerが無ければ失敗して止まる。旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう `EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
+3. `26_DAILY_EDITORIAL_QUEUE` に対象日（target_date）の行、`18_AUTOMATION_LOG` に `DAILY_EDITORIAL_CREATE / CREATED` が出ることを確認する
 4. GASソースを変更したら `npm run build:gas-bundle` でONE_PASTEを再生成し、Apps Scriptへ貼り直して `installDailyEditorialAutonomyV069()` を再実行する（Bundleの古さはCIが検出する）。`runDailyEditorialCreatorV069Once()` は時間帯に関係なく対象日分を1回準備する
 5. Vercel側は `main` にマージされた `/api/integrations/editorial-status`（`daily_plan` / `daily_create`）が必要
 

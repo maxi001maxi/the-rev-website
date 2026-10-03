@@ -47,6 +47,7 @@ export function createGasSandbox({
   settings = {},
   evidence = {},
   supervisorWired = true,
+  supervisorTrigger = 'scheduledDailyEditorialSupervisorV065',
   lineOk = true,
   bridgeDown = false,
   dropAppends = false,
@@ -67,6 +68,7 @@ export function createGasSandbox({
     THE_REV_LINE_USER_ID: 'u'
   };
   const bridgeCalls = [];
+  const installedTriggers = [];
 
   const RealDate = Date;
   class FakeDate extends RealDate {
@@ -79,7 +81,7 @@ export function createGasSandbox({
 
   const sandbox = {
     Date: FakeDate,
-    JSON, Math, Object, String, Number, Array, isNaN, Error,
+    JSON, Math, Object, String, Number, Array, isNaN, Error, RegExp, console: { log: () => {} },
     ...supervisorStubs,
     ss_: () => ({ getSheetByName: (n) => sheets[n] || null }),
     getObjectsWithRow_: (sh) => sh.data.map((o, i) => ({ ...o, __row: i + 2 })),
@@ -107,7 +109,16 @@ export function createGasSandbox({
       formatDate: (d, _tz, fmt) => (fmt === 'H' ? String(jstParts(d.getTime()).hour) : toJstDateKey(d))
     },
     ScriptApp: {
-      getProjectTriggers: () => (supervisorWired ? [{ getHandlerFunction: () => 'scheduledDailyEditorialSupervisorV065' }] : [])
+      getProjectTriggers: () => [
+        ...(supervisorWired ? [supervisorTrigger] : []),
+        'scheduledEditorialAssetLedgerSyncV068',
+        ...installedTriggers
+      ].map((h) => ({ getHandlerFunction: () => h })),
+      deleteTrigger: (t) => { const i = installedTriggers.indexOf(t.getHandlerFunction()); if (i >= 0) installedTriggers.splice(i, 1); },
+      newTrigger: (handler) => {
+        const b = { timeBased: () => b, atHour: () => b, everyDays: () => b, everyHours: () => b, inTimezone: () => b, create: () => { installedTriggers.push(handler); return b; } };
+        return b;
+      }
     },
     UrlFetchApp: {
       fetch: (url, opts) => {
@@ -132,7 +143,7 @@ export function createGasSandbox({
   GAS_FILES.forEach((f) => vm.runInContext(fs.readFileSync(new URL(f, GAS_DIR), 'utf8'), sandbox, { filename: f }));
 
   return {
-    sandbox, sheets, queue, shortlist, bridge, gbp, logs, line, props, bridgeCalls, state,
+    sandbox, sheets, queue, shortlist, bridge, gbp, logs, line, props, bridgeCalls, state, installedTriggers,
     setNow(iso) { state.now = new RealDate(iso); },
     tick(fnName) { return sandbox[fnName](); }
   };
