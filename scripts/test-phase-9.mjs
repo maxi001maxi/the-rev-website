@@ -576,5 +576,17 @@ assert(
   'BlogビルドでCSS内容ハッシュを生成'
 );
 
+console.log('\n[8. Automated Hybrid error surface contract]');
+const editorialApiSource = fs.readFileSync(new URL('../api/integrations/editorial.mjs', import.meta.url), 'utf8');
+assert(
+  editorialApiSource.includes("AutomatedHybridImageError, prepareAutomatedHybridImageJob") ||
+  editorialApiSource.includes("prepareAutomatedHybridImageJob, AutomatedHybridImageError"),
+  'Editorial Bridge imports AutomatedHybridImageError so actionable image failures are not masked'
+);
+assert(
+  editorialApiSource.includes('e instanceof EditorialImageError || e instanceof AutomatedHybridImageError'),
+  'Editorial Bridge preserves AutomatedHybridImageError code/status/message instead of generic 502'
+);
+
 console.log(`\nPhase 9/10 tests: ${passed} passed / ${failed.length} failed`);
 if (failed.length) process.exitCode = 1;
