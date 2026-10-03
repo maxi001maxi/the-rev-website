@@ -98,6 +98,7 @@ GAS Creatorの本番Triggerを確認できたら予備タスクは縮小また�
 - `lib/dailyEditorialStateMachine.mjs`
 - `lib/dailyEditorialKnowledge.mjs`
 - `lib/editorialPublication.mjs`
+- `lib/blogMarkdown.mjs`（Publicationが参照する依存。未取得だとNode起動時に停止する）
 
 stdinは `{now,rows,shortlist,settings,evidenceByContentId}`。Queue/Shortlist/SettingsはライブSheetsを使う。公開の証拠は接続済みSupabaseの `publish_status / publish_verified_at / published_url / publish_commit_sha` だけ。取得できない証拠を推測しない。
 

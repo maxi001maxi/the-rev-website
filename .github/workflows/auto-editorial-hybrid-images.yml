@@ -10,6 +10,7 @@ on:
       - 'scripts/render-hybrid-editorial-overlay.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialImageOperatorRecovery.mjs'
       - 'lib/editorialThumbnailTypography.mjs'
       - 'editorial/typography-golden-reference/**'
       - '.github/workflows/auto-editorial-hybrid-images.yml'
