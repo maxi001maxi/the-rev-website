@@ -71,22 +71,41 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ## 5. 外部ChatGPT Scheduled Task の扱い
 
-**推奨: 無効化** する。Creatorが作成するため不要です。
+GAS Creatorの本番Triggerを確認できたら予備タスクは縮小または無効化する。未導入の間は以下の機械的フォールバックを使う。
 
 残す場合は **独自判断を一切してはならない**。許される役割は次の機械的フォールバックだけです。
 
 ```text
 1. 18_AUTOMATION_LOG に開始記録（DAILY_EDITORIAL_FALLBACK START）を書く。
-2. 26_DAILY_EDITORIAL_QUEUE に対象日（実行日+daily_editorial_lead_days、既定は翌日）の行（target_date。空ならrun_date。SKIPPED以外）があれば、何もしない。終了。
-3. 無ければ 26_DAILY_EDITORIAL_QUEUE と 23_BLOG_TOPIC_SHORTLIST の全行・08_SETTINGSの daily_editorial_* を
+2. 新規作成判定とは別に、既存の未完了行を全日付で確認する。対象日が定休日・新規不要でも、前日分のIMAGE_PREPARING等の進行確認を省略しない。
+3. 26_DAILY_EDITORIAL_QUEUE に対象日（実行日+daily_editorial_lead_days、既定は翌日）の行（target_date。空ならrun_date。SKIPPED以外）があれば、何もしない。終了。
+4. 無ければ 26_DAILY_EDITORIAL_QUEUE と 23_BLOG_TOPIC_SHORTLIST の全行・08_SETTINGSの daily_editorial_* を
    POST https://the-rev-website.vercel.app/api/integrations/editorial-status/ {action:"daily_create", now, rows, shortlist, settings}
    に送る（Bearer EDITORIAL_BRIDGE_SECRET）。
-4. creation.status が READY_TO_CREATE なら、creation.queue_row を一切変更せず26_DAILY_EDITORIAL_QUEUEへ追記する。
+5. creation.status が READY_TO_CREATE なら、creation.queue_row を一切変更せず26_DAILY_EDITORIAL_QUEUEへ追記する。
    NOT_REQUIRED なら何も作らない。それ以外（NO_ELIGIBLE_CANDIDATE / INTERVIEW_REQUIRED）はERROR_BLOCKEDとして通知する。
-5. REVIEW_READYやactive件数・店舗定休日を理由に自分で停止しない。決めるのはBridgeのdecisionだけ。PrimaryのGASと同じAPIを使うので、同時に動いても対象日の行は1本だけになる。
-6. 終了時に18_AUTOMATION_LOGへ最終状態（CREATED / NO_ACTION / ERROR_BLOCKED）を書く。
-7. 最終Publishも GBP投稿も行わない。
+6. REVIEW_READYやactive件数・店舗定休日を理由に自分で停止しない。決めるのはBridgeのdecisionだけ。PrimaryのGASと同じAPIを使うので、同時に動いても対象日の行は1本だけになる。
+7. 終了時に18_AUTOMATION_LOGへ最終状態（CREATED / NO_ACTION / ERROR_BLOCKED）を書く。
+8. 最終Publishも GBP投稿も行わない。
 ```
+
+### Bridge資格情報を持たない接続済みタスクの予備経路（2026-10-03）
+
+認証なしの公開APIを追加しない。BridgeのBearer secretを取得できない場合は、GitHub mainの同じcommitから次のファイルを取得し、`scripts/daily-editorial-connector-plan.mjs` をNodeで実行する。
+
+- `scripts/daily-editorial-connector-plan.mjs`
+- `lib/dailyEditorialCreator.mjs`
+- `lib/dailyEditorialStateMachine.mjs`
+- `lib/dailyEditorialKnowledge.mjs`
+- `lib/editorialPublication.mjs`
+
+stdinは `{now,rows,shortlist,settings,evidenceByContentId}`。Queue/Shortlist/SettingsはライブSheetsを使う。公開の証拠は接続済みSupabaseの `publish_status / publish_verified_at / published_url / publish_commit_sha` だけ。取得できない証拠を推測しない。
+
+判定は既存の `planDailyCreation` そのもの。独自のテーマ選定、Knowledge判定、Gateの再実装は禁止。返されたpatchは既存列だけへ適用し、`creation.queue_row` を変更せず追記する。追記直前にtarget_dateの重複を読み直す。読み戻しで永続化を確認し、候補をSELECTEDへ同期する。
+
+5時開始と8時・11時の再試行は毎日（JST）。対象日cadenceはSettingsを維持する。定休日の対象日への新規作成がNO_ACTIONでも、既存の未完了記事の監視は続ける。日付を跨いだReview Readyも未確認通知として報告する。LINE未確認をSENTにしない。
+
+予備経路も自動運転の保証ではない。実行後のQueue・Bridge・画像READY・通知を別々に確認し、途中状態を成功としない。GASの新しいソースはGitHub mergeだけでは配備されない。
 
 ## 6. 既知の限界
 

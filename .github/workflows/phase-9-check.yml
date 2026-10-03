@@ -16,6 +16,8 @@ on:
       - 'scripts/test-daily-editorial-contract.mjs'
       - 'scripts/test-daily-editorial-state-machine.mjs'
       - 'scripts/test-daily-creator-integration.mjs'
+      - 'scripts/daily-editorial-connector-plan.mjs'
+      - 'scripts/test-daily-editorial-connector-plan.mjs'
       - 'scripts/build-gas-bundle.mjs'
       - 'scripts/helpers/**'
       - 'lib/dailyEditorialStateMachine.mjs'
@@ -114,6 +116,7 @@ jobs:
       - run: npm run test:daily-editorial-contract
       - run: npm run test:daily-editorial-state-machine
       - run: npm run test:daily-creator
+      - run: node --test scripts/test-daily-editorial-connector-plan.mjs
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:phase-d
