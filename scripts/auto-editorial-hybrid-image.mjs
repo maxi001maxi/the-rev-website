@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_CHECKS,
   GOLDEN_REFERENCE_REVISION, GOLDEN_REFERENCE_ASSETS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
+import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
 
 const jobPath = process.argv[2];
 if (!jobPath) {
@@ -585,17 +586,13 @@ async function visualQa(attempt) {
 }
 
 function writeState(state) {
-  fs.writeFileSync(statePath, JSON.stringify(state, null, 2) + '\n');
+  fs.writeFileSync(statePath, JSON.stringify({ ...state, asset_version: job.asset_version }, null, 2) + '\n');
 }
 
 const rawPreviousState = readJson(statePath, {});
 const previousAssetVersion = String(rawPreviousState?.asset_version || '').trim();
 const currentAssetVersion = String(job?.asset_version || '').trim();
-const sameAssetVersion = Boolean(
-  previousAssetVersion &&
-  currentAssetVersion &&
-  previousAssetVersion === currentAssetVersion
-);
+const sameAssetVersion = operatorStateMatchesAsset(rawPreviousState, job, jobPath);
 
 // Operator state belongs to an asset version, not merely to a slug.
 // A newly versioned image is a fresh generation lifecycle and must never
@@ -629,7 +626,7 @@ if (previousState?.status === 'READY_CANDIDATE' && !needsGbpBackfill && !forceOv
   process.exit(0);
 }
 
-let lastQa = null;
+let lastQa = previousState?.last_qa || null;
 let lastError = '';
 
 if (forceOverlayRerender) {
@@ -827,7 +824,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     lastError = String(lastQa.comments || 'Visual QC failed.');
     console.warn(`Visual QC REJECT: ${lastError}`);
     // A typography-only failure must not spend another image-generation attempt.
-    if (!typographyAcceptancePass(lastQa)) {
+    if (retainSceneForOverlay(lastQa, job)) {
       for (const file of [job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
         fs.rmSync(file, { force: true });
         for (const width of [320, 400]) fs.rmSync(file.replace(/\.jpg$/, `-preview-${width}.jpg`), { force: true });
