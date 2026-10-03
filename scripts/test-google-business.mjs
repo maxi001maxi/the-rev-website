@@ -94,13 +94,13 @@ test('GBP callback has an explicit Vercel function at the registered redirect pa
   assert.match(callback,/action:'callback'/);
 });
 
-test('GBP connect preflight blocks invalid OAuth client before redirect loop',()=>{
+test('GBP connect does not fake an authorization-code exchange before OAuth',()=>{
   const endpoint=fs.readFileSync(new URL('../api/admin/google-business.mjs',import.meta.url),'utf8');
-  assert.match(endpoint,/the-rev-oauth-preflight-invalid-code/);
-  assert.match(endpoint,/google_business_oauth_client_invalid/);
+  assert.doesNotMatch(endpoint,/the-rev-oauth-preflight-invalid-code/);
+  assert.match(endpoint,/authorizationUrl\(ctx\.user\.id\)/);
   const browser=fs.readFileSync(new URL('../admin/js/google-business.mjs',import.meta.url),'utf8');
-  assert.match(browser,/oauth-client-invalid/);
-  assert.ok(browser.indexOf('await renderStatus();') < browser.indexOf('const message=outcomeMessage();'));
+  assert.match(browser,/Google認証を開始しています/);
+  assert.match(browser,/history\.replaceState/);
 });
 
 test('Vercel API function count stays within the 12-function limit',()=>{

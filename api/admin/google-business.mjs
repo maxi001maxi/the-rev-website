@@ -36,18 +36,8 @@ async function requireAdmin(req,res){
 async function handleConnect(req,res){
   const ctx=await requireAdmin(req,res);
   if(!ctx)return;
-  try{
-    try{
-      await exchangeCode('the-rev-oauth-preflight-invalid-code');
-    }catch(error){
-      const providerError=typeof error?.data?.error==='string'?error.data.error:null;
-      if(providerError==='invalid_client'||providerError==='unauthorized_client'){
-        console.error('[google-business/connect-preflight]',JSON.stringify({providerError}));
-        return sendError(res,503,'google_business_oauth_client_invalid','Google OAuthクライアント設定が一致していません。VercelのClient ID / Client SecretをGoogle Cloud側と揃えてください。');
-      }
-    }
-    return res.status(200).json({authorizationUrl:authorizationUrl(ctx.user.id)});
-  }catch(e){
+  try{return res.status(200).json({authorizationUrl:authorizationUrl(ctx.user.id)});}
+  catch(e){
     const suffix=e?.missing?.length?': '+e.missing.join(', '):'';
     return sendError(res,503,'google_business_not_configured','Google Business Profile接続設定が不足しています'+suffix+'。');
   }
