@@ -14,7 +14,8 @@
     "gas_gate_source": "editorial/gas/DailyEditorialGate_v0.6.9.gs",
     "creator_source": "editorial/gas/DailyEditorialCreator_v0.6.9.gs",
     "creator_engine": "lib/dailyEditorialCreator.mjs",
-    "knowledge_registry": "lib/dailyEditorialKnowledge.mjs"
+    "knowledge_registry": "lib/dailyEditorialKnowledge.mjs",
+    "gas_bundle_source": "editorial/gas/DailyEditorialAutonomy_v0.6.9.gs"
   },
   "new_queue_no_interview": {
     "queue_status": "DRAFTING",
@@ -104,7 +105,12 @@
       "stage_stalled": 30,
       "image_stalled_hours": 6
     },
-    "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted"
+    "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted",
+    "install_evidence": {
+      "job_name": "DAILY_EDITORIAL_AUTONOMY_INSTALL",
+      "success_status": "INSTALLED",
+      "sheet": "18_AUTOMATION_LOG"
+    }
   },
   "publish_reconciliation": {
     "from_queue_statuses": "ANY_NON_TERMINAL",
