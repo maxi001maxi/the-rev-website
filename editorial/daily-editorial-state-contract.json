@@ -1,12 +1,17 @@
 {
-  "schema_version": "1.0.1",
+  "schema_version": "1.1.0",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
     "queue_sheet": "26_DAILY_EDITORIAL_QUEUE",
     "gbp_sheet": "22_GBP_POST",
     "automation_log_sheet": "18_AUTOMATION_LOG",
-    "gas_supervisor_version": "v0.6.5.2"
+    "gas_supervisor_version": "v0.6.5.2",
+    "bridge_sheet": "25_WEB_PUBLISH_BRIDGE",
+    "decision_engine": "lib/dailyEditorialStateMachine.mjs",
+    "decision_api": "POST /api/integrations/editorial-status {action:daily_plan}",
+    "gas_gate_version": "v0.6.9",
+    "gas_gate_source": "editorial/gas/DailyEditorialGate_v0.6.9.gs"
   },
   "new_queue_no_interview": {
     "queue_status": "DRAFTING",
@@ -15,7 +20,60 @@
     "interview_status": "NOT_REQUIRED",
     "draft_status": "NOT_STARTED",
     "image_status": "NOT_STARTED",
-    "forbidden_draft_statuses": ["PENDING"]
+    "forbidden_draft_statuses": [
+      "PENDING"
+    ]
+  },
+  "daily_creation": {
+    "business_days": [
+      "TU",
+      "WE",
+      "TH",
+      "SA",
+      "SU"
+    ],
+    "gate_hour_jst": 4,
+    "creator_start_jst": "05:00",
+    "watchdog_hour_jst": 8,
+    "max_active_queue": 5,
+    "max_new_topics_per_run": 1,
+    "active_statuses_count_toward_cap": [
+      "NEW",
+      "KNOWLEDGE_CHECK",
+      "INTERVIEW_WAITING",
+      "INTERVIEW_COMPLETE",
+      "DRAFTING",
+      "QC",
+      "IMAGE_PREPARING",
+      "REVIEW_READY",
+      "ERROR"
+    ],
+    "active_is_exclusive_lock": false,
+    "review_ready_blocks_creation": false,
+    "existing_work_is_parallel": true,
+    "notification_failure_blocks_creation": false,
+    "idempotency_key": "run_date",
+    "reconcile_before_active_count": true,
+    "missed_creation_end_state": "ERROR_BLOCKED"
+  },
+  "publish_reconciliation": {
+    "from_queue_statuses": "ANY_NON_TERMINAL",
+    "to_queue_status": "PUBLISHED",
+    "to_web_bridge_status": "PUBLISHED",
+    "required_evidence": {
+      "supabase_publish_status": "PUBLISHED",
+      "publish_verified_at_required": true,
+      "published_url_required": true,
+      "supabase_promotion_requires": "exact_commit_deploy_xserver_success_and_live_url"
+    },
+    "insufficient_evidence": [
+      "PUBLISH_COMMITTED",
+      "GITHUB_COMMIT_ONLY",
+      "QUEUE_STATUS",
+      "HUMAN_MEMORY"
+    ],
+    "gbp_blog_url_placeholder_resolved": true,
+    "gbp_auto_post": false
   },
   "handoffs": [
     {
@@ -91,5 +149,45 @@
   "publish_boundary": {
     "auto_publish": false,
     "human_approval_required": true
-  }
+  },
+  "regression_scenarios": [
+    {
+      "name": "incident_2026_10_01_review_ready_one_of_five",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "now": "2026-10-01T05:00:00+09:00",
+      "evidence": {},
+      "expect": {
+        "action": "CREATE_NEW",
+        "active": 1,
+        "patches": 0
+      }
+    },
+    {
+      "name": "incident_2026_10_03_stale_review_ready_published",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "now": "2026-10-03T05:00:00+09:00",
+      "evidence": {
+        "BLOG-20260930-oxy02": {
+          "publish_status": "PUBLISHED",
+          "published_url": "https://therev-lab.com/blog/oxygen-room-how-to-spend-time/",
+          "publish_verified_at": "2026-10-01T02:06:00.000Z"
+        }
+      },
+      "expect": {
+        "action": "CREATE_NEW",
+        "active": 0,
+        "patches": 1
+      }
+    },
+    {
+      "name": "closed_friday",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "now": "2026-10-02T05:00:00+09:00",
+      "evidence": {},
+      "expect": {
+        "action": "NO_ACTION",
+        "reason": "CLOSED_DAY"
+      }
+    }
+  ]
 }

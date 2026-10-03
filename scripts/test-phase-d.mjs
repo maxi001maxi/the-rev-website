@@ -30,6 +30,7 @@ const {
   deploymentSucceededForCommit,
   publicationCanPromote
 } = await import('../lib/editorialPublicationStatus.mjs');
+const { planDailyEditorial } = await import('../lib/dailyEditorialStateMachine.mjs');
 
 let passed = 0;
 const failures = [];
@@ -187,7 +188,14 @@ assert(
 );
 
 section('3b. Editorial publication / queue policy');
-assert(ACTIVE_QUEUE_STATUSES.includes('REVIEW_READY'), 'REVIEW_READYはactive queueに含む');
+assert(ACTIVE_QUEUE_STATUSES.includes('REVIEW_READY'), 'REVIEW_READYはactive queue件数に含む（上限カウント用）');
+assert(
+  planDailyEditorial({
+    rows: [{ run_date: '2026/09/30', content_id: 'BLOG-review-ready', queue_status: 'REVIEW_READY' }],
+    now: new Date('2026-10-01T05:00:00+09:00')
+  }).decision.action === 'CREATE_NEW',
+  'REVIEW_READYはactive件数に数えるが、上限未満なら翌営業日の新規生成を止めない'
+);
 assert(!ACTIVE_QUEUE_STATUSES.includes('PUBLISHED'), 'PUBLISHEDはactive queueに含めない');
 assert(TERMINAL_QUEUE_STATUSES.includes('PUBLISHED') && TERMINAL_QUEUE_STATUSES.includes('SKIPPED'), 'PUBLISHED/SKIPPEDをterminalとして固定');
 assert(isActiveQueueStatus('ERROR') === true, 'ERRORは未解決activeとして数える');

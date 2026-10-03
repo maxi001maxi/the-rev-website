@@ -1,5 +1,24 @@
 # AGENTS.md — THE REV. website
 
+## Daily Editorial（日次記事）を扱うAIへの必須ルール
+
+日次記事の新規作成可否とPublish後のQueue同期は、プロンプト判断ではなくコードが正本です。
+
+- 判定エンジン: `lib/dailyEditorialStateMachine.mjs`（`planDailyEditorial`）
+- 判定API: `POST /api/integrations/editorial-status` `{ "action": "daily_plan", "rows": [...] }`
+- GAS Gate正本: `editorial/gas/DailyEditorialGate_v0.6.9.gs`（04時台Gate / 08時台Watchdog）
+- 契約と再発防止テスト: `editorial/daily-editorial-state-contract.json` / `npm run test:daily-editorial-state-machine`
+
+### 絶対に守ること
+
+- `REVIEW_READY` などのACTIVE状態は **上限5件のカウント対象であり、排他ロックではない**。active < 5 の営業日は、Review待ち記事があっても今日の記事を1本作る
+- 「既存記事のReview待ち」と「今日の新規作成」は並行作業。片方を理由にもう片方を止めない
+- Queueを `PUBLISHED` にしてよいのは、Supabase `publish_status=PUBLISHED` + `publish_verified_at` + `published_url` がある時だけ（= exact commitのDeploy to Xserver成功 + 本番URL確認済み）。`PUBLISH_COMMITTED` やGitHub commitだけでは推測で昇格しない
+- active件数を数える前に、公開済みの取りこぼし（stale `REVIEW_READY`）を上記証拠で自己修復する
+- 通知（LINE等）の失敗は記録するが、記事生成の停止条件にしない。未確認の通知をSENT扱いしない
+- 営業日に今日の行が作られなかった場合は `ERROR_BLOCKED` として通知する（無通知停止禁止）
+- 最終PublishとGBP投稿は人間承認で停止する
+
 ## Blog / Column画像を扱うAIへの必須ルール
 
 記事サムネイル、OGP、Editorial AI画像、Hybrid画像、Reference V2.xに関する作業を始める前に、必ず次の順で読んでください。
@@ -46,6 +65,8 @@
 npm ci
 npm run test:editorial-images
 npm run test:phase-9
+npm run test:daily-editorial-contract
+npm run test:daily-editorial-state-machine
 npm run build:blog
 ```
 

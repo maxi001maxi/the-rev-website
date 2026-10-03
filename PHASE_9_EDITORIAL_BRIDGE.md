@@ -146,3 +146,22 @@ npm run build:blog
 その後、GASから1件だけ同期し、返却された `review_url` を開いて本文・タイトル・slug・category・CTA・日付を確認する。
 
 最初のE2EではPublishボタンを押す前に止め、Draft同期だけを確認する。
+
+---
+
+## Daily Editorial Gate（v0.6.9）
+
+`POST /api/integrations/editorial-status`（Bearer `EDITORIAL_BRIDGE_SECRET`）
+
+```json
+{ "action": "daily_plan", "now": "2026-10-03T04:20:00+09:00", "rows": [/* 26_DAILY_EDITORIAL_QUEUE */], "settings": { /* daily_editorial_* */ } }
+```
+
+- Queue行の `content_id` に対応するSupabase Draftの公開証拠を確認し、`PUBLISH_COMMITTED` はexact commitのDeploy to Xserver + 本番URLで再検証する
+- 返却 `plan.reconciliation.patches`: 公開確認済みの行だけを `PUBLISHED` にするQueue/Bridge patch
+- 返却 `plan.decision`: `CREATE_NEW` または `NO_ACTION`（`CLOSED_DAY` / `ALREADY_SCHEDULED_TODAY` / `ACTIVE_CAP_REACHED` / `DISABLED`）
+- `REVIEW_READY` はactive上限のカウント対象だが、新規作成の停止条件ではない
+- Sheetsへの書込みはGAS側（`editorial/gas/DailyEditorialGate_v0.6.9.gs`）のみ。このAPIは公開もSheets書込みもしない
+
+GAS導入: `DailyEditorialGate_v0.6.9.gs` をBound Apps Scriptへ追加し、`installDailyEditorialGateV069()` を1回実行する。
+

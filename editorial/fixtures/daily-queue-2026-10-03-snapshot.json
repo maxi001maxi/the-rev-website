@@ -1,0 +1,127 @@
+{
+  "source": "THE_REV_Editorial_AI_v0.1_Master / 26_DAILY_EDITORIAL_QUEUE",
+  "snapshot_at": "2026-10-03T09:53:00+09:00",
+  "note": "Read-only snapshot taken during the 2026-10-03 zero-to-ten audit. BLOG-20260930-oxy02 was human-published 2026-10-01 11:01 JST (commit 16482af, Deploy to Xserver #103 success) but the Queue still says REVIEW_READY.",
+  "rows": [
+    {
+      "queue_id": "DQ-20260919-001",
+      "run_date": "2026/09/19",
+      "weekday": "SA",
+      "content_id": "BLOG-20260914-b64a18",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED_IMAGE_UPDATE_PENDING",
+      "notification_status": "",
+      "updated_at": "2026/09/19 23:10"
+    },
+    {
+      "queue_id": "DQ-20260919-002",
+      "run_date": "2026/09/19",
+      "weekday": "SA",
+      "content_id": "BLOG-20260919-8b1c2e",
+      "queue_status": "SKIPPED",
+      "web_bridge_status": "NOT_SYNCED",
+      "notification_status": "",
+      "updated_at": "2026/09/22 10:01"
+    },
+    {
+      "queue_id": "DQ-20260919-c22983",
+      "run_date": 46284.0,
+      "weekday": "SA",
+      "content_id": "BLOG-20260919-9016a3",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "2026/09/19 23:10"
+    },
+    {
+      "queue_id": "DQ-20260922-001",
+      "run_date": "2026/09/22",
+      "weekday": "TU",
+      "content_id": "BLOG-20260922-7c4e91",
+      "queue_status": "SKIPPED",
+      "web_bridge_status": "NOT_SYNCED",
+      "notification_status": "",
+      "updated_at": "2026/09/22 12:31:29"
+    },
+    {
+      "queue_id": "DQ-20260922-002",
+      "run_date": "2026/09/22",
+      "weekday": "TU",
+      "content_id": "BLOG-20260922-4d8f2a",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "2026/09/22 13:39"
+    },
+    {
+      "queue_id": "DQ-20260923-001",
+      "run_date": "2026/09/23",
+      "weekday": "WE",
+      "content_id": "BLOG-20260923-5a91c7",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "2026/09/24 15:40"
+    },
+    {
+      "queue_id": "DQ-20260924-001",
+      "run_date": "2026/09/24",
+      "weekday": "TH",
+      "content_id": "BLOG-20260924-6c2f31",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "46289.494658125"
+    },
+    {
+      "queue_id": "DQ-20260926-001",
+      "run_date": "2026/09/26",
+      "weekday": "SA",
+      "content_id": "BLOG-20260926-3e7a52",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "46291.4001933449"
+    },
+    {
+      "queue_id": "DQ-20260927-001",
+      "run_date": "2026/09/27",
+      "weekday": "SU",
+      "content_id": "BLOG-20260927-a84c31",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "2026/09/27 10:14"
+    },
+    {
+      "queue_id": "DQ-20260929-QC-001",
+      "run_date": "2026/09/29",
+      "weekday": "TU",
+      "content_id": "BLOG-20260929-4c81d7",
+      "queue_status": "SKIPPED",
+      "web_bridge_status": "NOT_SYNCED",
+      "notification_status": "",
+      "updated_at": "2026/09/29 14:30"
+    },
+    {
+      "queue_id": "DQ-20260929-OXY-001",
+      "run_date": "2026/09/29",
+      "weekday": "TU",
+      "content_id": "BLOG-20260929-oxy06",
+      "queue_status": "PUBLISHED",
+      "web_bridge_status": "PUBLISHED",
+      "notification_status": "",
+      "updated_at": "2026/09/30 11:32:02"
+    },
+    {
+      "queue_id": "DQ-20260930-001",
+      "run_date": "2026/09/30",
+      "weekday": "WE",
+      "content_id": "BLOG-20260930-oxy02",
+      "queue_status": "REVIEW_READY",
+      "web_bridge_status": "PREVIEW_READY",
+      "notification_status": "PENDING",
+      "updated_at": "2026/09/30 10:05:00"
+    }
+  ]
+}
