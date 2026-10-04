@@ -1,0 +1,607 @@
+{
+  "slug": "denba-electric-potential-space-radio-wave-difference",
+  "status": "ERROR",
+  "attempts_total": 2,
+  "max_attempts": 2,
+  "last_error": "人物・DENBA機器・THE REV.サインは自然に統合され、トレーナー不在で回復時間の場面も成立している。ただし広角2種の「混同／しない」という動詞分断が決定的な不合格要因。背景も比較的明瞭で、human-first指定の柔らかな背景処理は不足している。",
+  "last_qa": {
+    "pass": false,
+    "thumbnail_typography_visual": {
+      "thumbnail": {
+        "pass": false,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": false,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": false,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": false,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "visual_art_direction": {
+      "pass": false,
+      "variants": {
+        "thumbnail": {
+          "pass": false,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": false,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": false,
+          "composition_balanced": false,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": false,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": false,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": false,
+          "composition_balanced": false,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "GBPは左中央の狭いタイトル、暖色の焦点語、人物を避ける局所的な曲線ベールがゴールデン文法に沿っている。一方、thumbnailとOGは「混同／しない」でサ変動詞を分断しており、必須の改行QCに不合格。また広いアイボリー面と文字が画面の主役になり、人物が右端の小さな第二要素へ後退しているため、human-first-v1の写真主体・人物主体のバランスを満たさない。"
+    },
+    "series_consistency": 8,
+    "editorial_quality": 7,
+    "typography_harmony": 6,
+    "negative_space": 7,
+    "photo_treatment": 8,
+    "article_visual_relevance": 7,
+    "main_claim_visualization": 6,
+    "human_subject_prominence": 6,
+    "human_visual_attention_share": 48,
+    "face_expression_readable": true,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": false,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "article_theme_inferable_without_title": false,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false,
+    "rev_environment_consistency": 8,
+    "brand_space_authenticity": 8,
+    "human_environment_integration": 8,
+    "perspective_scale_consistency": 8,
+    "ground_contact_shadow_consistency": 8,
+    "lighting_consistency": 8,
+    "anatomy_pose_realism": 8,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "location_behavior_plausible": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "scene_plausible_at_the_rev": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": true,
+    "trainer_present": false,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "generated_customer_count": 1,
+    "facility_only_thumbnail": false,
+    "real_the_rev_background_confirmed": true,
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "headline_line_break_quality": false,
+    "headline_balance_score": 7,
+    "too_promotional": false,
+    "gbp_aspect_ratio_pass": true,
+    "gbp_safe_area_pass": true,
+    "gbp_copy_legible": true,
+    "comments": "人物・DENBA機器・THE REV.サインは自然に統合され、トレーナー不在で回復時間の場面も成立している。ただし広角2種の「混同／しない」という動詞分断が決定的な不合格要因。背景も比較的明瞭で、human-first指定の柔らかな背景処理は不足している。",
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "thumbnail_typography_acceptance": {
+      "pass": false,
+      "deterministic": {
+        "revision": "thumbnail-golden-typography-v1",
+        "slug": "denba-electric-potential-space-radio-wave-difference",
+        "asset_version": "reference-v26-auto-denba-20260924-7b5d62e0",
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "電波・EMSと混同",
+              "しないための基本",
+              "整理。"
+            ],
+            "text_preserved": true,
+            "font_size": 62,
+            "font_size_at_320": 16.533333333333335,
+            "line_count": 3,
+            "line_height": 1.12,
+            "line_balance": 0.6363561249661229,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              62,
+              62,
+              108.1025641025641
+            ],
+            "focus_line": 2,
+            "focus_text": "整理。",
+            "focus_scale": 1.7435897435897436,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9865159419133114,
+            "block_area_ratio": 0.18743270055952194,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 337.9765625,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 600,
+            "fade_end": 737,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 180,
+                "right": 577.609375,
+                "bottom": 269,
+                "width": 513.609375
+              },
+              {
+                "left": 64,
+                "top": 267.4375,
+                "right": 564.96875,
+                "bottom": 356.4375,
+                "width": 500.96875
+              },
+              {
+                "left": 64,
+                "top": 347.875,
+                "right": 390.15625,
+                "bottom": 502.875,
+                "width": 326.15625
+              }
+            ],
+            "asset_path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0.jpg",
+            "asset_sha256": "6110e4e7f639b0a3de16ecdb722ad2af722e55dd036dfad66588b78a0a4c7486",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0-preview-320.jpg",
+                "sha256": "331ebe1b7da03c3a8af7cb7f9e6ec0f60c585da0dcd29d44c2b09d2491d5c0da"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0-preview-400.jpg",
+                "sha256": "f08057347b052f2cb1359e53340abd7811e5b4d5fcc4b004daa2f9ce417b700d"
+              }
+            }
+          },
+          "og": {
+            "pass": true,
+            "lines": [
+              "電波・EMSと混同",
+              "しないための基本",
+              "整理。"
+            ],
+            "text_preserved": true,
+            "font_size": 62,
+            "font_size_at_320": 16.533333333333335,
+            "line_count": 3,
+            "line_height": 1.12,
+            "line_balance": 0.6363561249661229,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              62,
+              62,
+              108.1025641025641
+            ],
+            "focus_line": 2,
+            "focus_text": "整理。",
+            "focus_scale": 1.7435897435897436,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9865159419133114,
+            "block_area_ratio": 0.20082075059948779,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 314.9765625,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 600,
+            "fade_end": 737,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 157,
+                "right": 577.609375,
+                "bottom": 246,
+                "width": 513.609375
+              },
+              {
+                "left": 64,
+                "top": 244.4375,
+                "right": 564.96875,
+                "bottom": 333.4375,
+                "width": 500.96875
+              },
+              {
+                "left": 64,
+                "top": 324.875,
+                "right": 390.15625,
+                "bottom": 479.875,
+                "width": 326.15625
+              }
+            ],
+            "asset_path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0.jpg",
+            "asset_sha256": "ee3e2fe3a47f1730ddb84a3e336cabfc5aa535cf762f08e529e024797588b890",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0-preview-320.jpg",
+                "sha256": "497631f177831786874cd041b0adb872424d8fbbbc9b944ab448ecfd5a86d5b3"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0-preview-400.jpg",
+                "sha256": "0cb84344f30c878eae345e85c052d2433f5011b48395766cf1950aede2182eb6"
+              }
+            }
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "電波・EMSと",
+              "混同しない",
+              "ための基本",
+              "整理。"
+            ],
+            "text_preserved": true,
+            "font_size": 68,
+            "font_size_at_320": 18.133333333333333,
+            "line_count": 4,
+            "line_height": 1.12,
+            "line_balance": 0.7953488260481091,
+            "layout_rule": "golden-gbp-v1",
+            "line_font_sizes": [
+              68,
+              68,
+              68,
+              112
+            ],
+            "focus_line": 3,
+            "focus_text": "整理。",
+            "focus_scale": 1.6470588235294117,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.966528281471946,
+            "block_area_ratio": 0.16298418746418422,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 431.953125,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9215686274509803,
+            "fade_start": 508,
+            "fade_end": 627,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.356830663826178,
+            "line_rects": [
+              {
+                "left": 60,
+                "top": 214,
+                "right": 485.953125,
+                "bottom": 311,
+                "width": 425.953125
+              },
+              {
+                "left": 60,
+                "top": 310.15625,
+                "right": 403.40625,
+                "bottom": 407.15625,
+                "width": 343.40625
+              },
+              {
+                "left": 60,
+                "top": 406.3125,
+                "right": 403.40625,
+                "bottom": 503.3125,
+                "width": 343.40625
+              },
+              {
+                "left": 60,
+                "top": 495.46875,
+                "right": 398.046875,
+                "bottom": 656.46875,
+                "width": 338.046875
+              }
+            ],
+            "asset_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0.jpg",
+            "asset_sha256": "77219493486834e6ff629940ca6ff6d223b0dd3d4e205abf545e3d843110f682",
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0-preview-320.jpg",
+                "sha256": "cd9180f8f89e5d5ca190e9c52cacd84c26cacdee95078dfa7519361131cb35c7"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0-preview-400.jpg",
+                "sha256": "ce152717551fa54febe57e240fe96c211f0eefd511982ea469b7d03462d1ab3b"
+              }
+            }
+          }
+        }
+      },
+      "visual": {
+        "thumbnail": {
+          "pass": false,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": false,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "og": {
+          "pass": false,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": false,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "gbp": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        }
+      },
+      "art_direction": {
+        "pass": false,
+        "variants": {
+          "thumbnail": {
+            "pass": false,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": false,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": false,
+            "composition_balanced": false,
+            "fade_integrated": true
+          },
+          "og": {
+            "pass": false,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": false,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": false,
+            "composition_balanced": false,
+            "fade_integrated": true
+          },
+          "gbp": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          }
+        },
+        "comments": "GBPは左中央の狭いタイトル、暖色の焦点語、人物を避ける局所的な曲線ベールがゴールデン文法に沿っている。一方、thumbnailとOGは「混同／しない」でサ変動詞を分断しており、必須の改行QCに不合格。また広いアイボリー面と文字が画面の主役になり、人物が右端の小さな第二要素へ後退しているため、human-first-v1の写真主体・人物主体のバランスを満たさない。"
+      },
+      "golden_reference": {
+        "revision": "approved-typography-20261001-v1",
+        "assets": [
+          {
+            "variant": "wide",
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+          },
+          {
+            "variant": "gbp",
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+          },
+          {
+            "variant": "list",
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+          }
+        ]
+      }
+    },
+    "source_material_scope_pass": true,
+    "generated_customer_allowed_under_policy": true,
+    "generated_customer_role": "customer",
+    "customer_presentation": "female",
+    "image_headline_short": "電波・EMSと混同し\nないための基本整理。",
+    "fixed_overlay_layout_confirmed": true,
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "background_source_type": "verified_the_rev_repo_mirror",
+    "content_reference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+    "background_source_drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+    "background_origin_video_file_id": "",
+    "background_origin_video_file_name": "AI_SOURCE_photo-solution-denba_20260924.jpg",
+    "background_frame_position_ratio": null,
+    "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "fallback_reason": "",
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "recent_similarity_window": 4,
+    "recent_similarity_check_pass": true,
+    "recent_background_source_ids": [
+      "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+      "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+      "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+      "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg"
+    ],
+    "recent_reference_guard": {
+      "window": 4,
+      "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+      "recent_articles": [
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "checkedAt": "2026-10-04T05:12:02.251Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+          "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+          "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "checkedAt": "2026-10-03T14:29:13.715Z",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "originVideoFileId": "",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "assetVersion": "reference-v26-auto-evolgear-20260922-6bf9953b",
+          "imageHeadlineShort": "続けられる頻度を、\n最初に決める。",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "checkedAt": "2026-10-03T04:14:41.758063Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "assetVersion": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+          "imageHeadlineShort": "通いやすさまで、\n選ぶ基準に。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "checkedAt": "2026-10-03T02:06:05.196Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "assetVersion": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2",
+          "imageHeadlineShort": "通いやすさまで、\n選ぶ基準に。",
+          "customerPresentation": "male"
+        }
+      ],
+      "selected_content_reference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "selected_drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+      "avoided_repeat": true,
+      "repeated_due_to_relevance": false
+    },
+    "template": "rev-column-reference-v2",
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "generation_model": "gpt-image-hybrid",
+    "qa_model": "gpt-5.6",
+    "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+    "slug": "denba-electric-potential-space-radio-wave-difference",
+    "asset_version": "reference-v26-auto-denba-20260924-7b5d62e0",
+    "checked_at": "2026-10-04T09:26:37.817Z",
+    "review_mode": "HYBRID_GENERATED",
+    "realism_qc_version": "v1",
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "gbp_image_required": true,
+    "gbp_image_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20260924-7b5d62e0.jpg",
+    "gbp_image_width": 1200,
+    "gbp_image_height": 900,
+    "gbp_image_aspect_ratio": "4:3"
+  },
+  "job_path": "editorial/hybrid-image-jobs/denba-electric-potential-space-radio-wave-difference.json",
+  "updated_at": "2026-10-04T09:26:37.819Z",
+  "asset_version": "reference-v26-auto-denba-20260924-7b5d62e0"
+}
