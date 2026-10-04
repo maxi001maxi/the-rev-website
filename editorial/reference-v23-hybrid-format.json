@@ -200,5 +200,16 @@
     "exact_repeat_forbidden": true,
     "near_repeat_forbidden": true,
     "long_common_phrase_guard": true
-  }
+  },
+  "approved_scene_action_references": [
+    {
+      "kind": "equipment-explainer",
+      "slug": "denba-electric-potential-space-radio-wave-difference",
+      "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+      "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+      "action_contract": "gaze + torso orientation + open-hand indication converge on the verified object",
+      "do_not_clone": "person, exact pose, equipment, background or DENBA-specific wording",
+      "approval": "human-approved-2026-10-04"
+    }
+  ]
 }
