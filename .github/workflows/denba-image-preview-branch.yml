@@ -1,0 +1,83 @@
+name: DENBA Editorial Image Preview (non-production)
+
+on:
+  push:
+    branches:
+      - 'fix/denba-editorial-scene-action-v2-20261004'
+    paths:
+      - '.github/workflows/denba-image-preview-branch.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: denba-editorial-image-preview-20261004
+  cancel-in-progress: true
+
+jobs:
+  generate-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      EDITORIAL_IMAGE_GENERATION_MODEL: 'gpt-5.6'
+      EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6'
+      EDITORIAL_IMAGE_MAX_ATTEMPTS: '2'
+      JOB: editorial/hybrid-image-jobs/denba-electric-potential-space-radio-wave-difference.json
+
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/denba-editorial-scene-action-v2-20261004
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk jq
+
+      - name: Generate isolated preview assets
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}"
+          node scripts/auto-editorial-hybrid-image.mjs "$JOB"
+          qa="$(jq -r '.qa_report_path' "$JOB")"
+          state="editorial/image-operator-state/denba-electric-potential-space-radio-wave-difference.json"
+          test -f "$qa"
+          test -f "$state"
+          test "$(jq -r '.pass // false' "$qa")" = "true"
+          test "$(jq -r '.status // ""' "$state")" = "READY_CANDIDATE"
+          tmp="$(mktemp)"
+          jq '.human_final_approval="PENDING" | .human_review_status="PENDING" | .preview_only=true | .production_write_performed=false' "$qa" > "$tmp"
+          mv "$tmp" "$qa"
+
+      - name: Validate image system
+        run: |
+          set -euo pipefail
+          node scripts/validate-hybrid-image-jobs.mjs
+          node scripts/validate-editorial-image-system.mjs
+          npm run test:phase-9
+
+      - name: Commit preview outputs to feature branch
+        run: |
+          set -euo pipefail
+          git config user.name "THE REV Editorial Preview Operator"
+          git config user.email "actions@users.noreply.github.com"
+          git add             'assets/images/editorial-generated/*denba-electric-potential-space-radio-wave-difference*action-r4*'             'assets/images/blog/*denba-electric-potential-space-radio-wave-difference*action-r4*'             'assets/images/blog/og/*denba-electric-potential-space-radio-wave-difference*action-r4*'             'assets/images/gbp/*denba-electric-potential-space-radio-wave-difference*action-r4*'             'editorial/image-qa/*denba-electric-potential-space-radio-wave-difference*action-r4*'             'editorial/image-operator-state/denba-electric-potential-space-radio-wave-difference.json'
+          if git diff --cached --quiet; then
+            echo "No preview output changes."
+            exit 0
+          fi
+          git commit -m "Generate DENBA preview assets (non-production)"
+          git push origin HEAD:fix/denba-editorial-scene-action-v2-20261004
