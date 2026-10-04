@@ -6,6 +6,51 @@
  */
 var V070_TOPIC_URL = V069_STATUS_URL;
 
+// The legacy editor's "shorter is better" prompt predates Standard v2.
+// Apply the actual body-only range to both writer and editor; never weaken QC.
+var V070_LENGTH_ADAPTER = (function () {
+  if (typeof openAIRequest_ !== 'function' || typeof finalizeWebBlog_ !== 'function') return 'EDITOR_NOT_PRESENT';
+  var request = openAIRequest_, finalize = finalizeWebBlog_;
+  openAIRequest_ = function (endpoint, payload) {
+    var format = payload && payload.text && payload.text.format;
+    if (format && ['web_blog_draft_v1','web_blog_final_editor_v1'].indexOf(format.name) >= 0) {
+      var input = JSON.parse(payload.input[1].content[0].text);
+      var gate = input.topic_gate || {}, article = input.article || {};
+      if (String(gate.article_type || article.article_type).toUpperCase() === 'STANDARD') {
+        var settings = getSettings_();
+        var min = Number(settings.blog_standard_min_chars || 1600), max = Number(settings.blog_standard_max_chars || 2400);
+        payload.input[0].content.push({type:'input_text',text:'Blog Style Standard v2: body_markdown alone must contain '+min+'–'+max+' Japanese characters excluding whitespace. Lead, CTA and source lists do not count. Respect this range while keeping concise paragraphs. If below the minimum, explain supported distinctions, practical examples or questions more concretely. Never pad, repeat, invent store procedures, claims or customer stories. Do not compress a useful explanation below the minimum. If evidence cannot support it, require review rather than invent.'});
+      }
+    }
+    return request.apply(this,arguments);
+  };
+  finalizeWebBlog_ = function (draft, ctx) {
+    var result = finalize(draft, ctx);
+    if (String(draft.article_type).toUpperCase() === 'STANDARD' && result._editor_decision === 'READY' && result._fact_check_status === 'PASS' && !v065LengthGate_('STANDARD',result.body_markdown).pass) {
+      // One bounded additional editing cycle; Supervisor still checks length,
+      // fact safety and scores on the final result before accepting it.
+      result = finalize(result, ctx);
+    }
+    return result;
+  };
+  return 'standard-body-length-v2';
+})();
+
+function repairApprovedStandardDraftV070() {
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error('LENGTH_REPAIR_LOCKED');
+  try {
+    var queue = v069QueueRows_();
+    var row = queue.rows.filter(function(q) {
+      var knowledge = v065Json_(q.knowledge_context_json,{});
+      return q.queue_status === 'REVIEW_REQUIRED' && q.draft_status === 'REVIEW_REQUIRED' && /^STANDARD length gate failed:\s*\d+\s*chars$/.test(String(q.last_error || '')) && knowledge.topic_approval && knowledge.topic_approval.approved_at && String(q.notes || '').indexOf('[V070_LENGTH_REPAIR]') < 0;
+    })[0];
+    if (!row) {Logger.log('NO_APPROVED_LENGTH_REPAIR');return;}
+    setObjectRow_(queue.sheet,row.__row,{queue_status:'PATCHING',draft_status:'NOT_STARTED',last_error:'',failed_stage:'',next_stage:'BLOG_DRAFT',human_action_required:'NONE',notes:v069AppendNote_(row.notes,'[V070_LENGTH_REPAIR] Recreate with Standard v2 body-only range; existing draft retained.'),updated_at:new Date()});
+    Logger.log(JSON.stringify({status:'REQUEUED',content_id:row.content_id,adapter:V070_LENGTH_ADAPTER}));
+  } finally {lock.releaseLock();}
+}
+
 // The installed v0.6.5.2 Supervisor passes knowledge_context to the writer,
 // but its final editor reads ctx.first_party_interview. Preserve the owner's
 // exact answers in both stages rather than losing them during final editing.
@@ -105,6 +150,7 @@ function v070TopicRequest_(action, extra) {
     action: 'topic_' + action,
     rows: queue.rows.map(function(x) {
       var row = v069cSlim_(x, V069C_PLAN_FIELDS);
+      row.target_date = v069RowTargetKey_(x);
       row.failed_stage = x.failed_stage || '';
       return row;
     }),

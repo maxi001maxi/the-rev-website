@@ -176,6 +176,30 @@ test('store compare-and-set and approved poll do not create before queue read-ba
   await topicResponse({...args,action:'queue_ack',proposal_id:p.id,content_id:q.content_id,rows:[q]},db,deps);
   assert.equal(db.tables.editorial_topic_proposals[0].status,'QUEUE_CREATED');
 });
+test('queue read-back accepts Sheets midnight as UTC and rejects the wrong JST date',async()=>{
+  const p=proposal(),db=memoryDb([p]);
+  await changeProposal(db,p.id,'choose',{candidateId:p.options[0].candidate_id,source:'GPT',actor:'owner'});
+  const response=await topicResponse({...args,action:'poll'},db,deps),q=response.ready[0].queue_row;
+  await assert.rejects(()=>topicResponse({...args,action:'queue_ack',proposal_id:p.id,content_id:q.content_id,rows:[{...q,target_date:'2026-10-03T15:00:00.000Z'}]},db,deps),/READBACK/);
+  await topicResponse({...args,action:'queue_ack',proposal_id:p.id,content_id:q.content_id,rows:[{...q,target_date:'2026-10-04T15:00:00.000Z'}]},db,deps);
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'QUEUE_CREATED');
+});
+test('Standard body range reaches writer/editor and failed length has one bounded editing retry',()=>{
+  let calls=0,last;
+  const sandbox={V069_STATUS_URL:'x',String,JSON,Array,Number,
+    getSettings_:()=>({blog_standard_min_chars:1600,blog_standard_max_chars:2400}),
+    openAIRequest_:(_endpoint,payload)=>{last=payload;return payload;},
+    finalizeWebBlog_:()=>{calls++;return {_editor_decision:'READY',_fact_check_status:'PASS',body_markdown:'short'};},
+    v065LengthGate_:()=>({pass:false})};
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
+  for(const name of ['web_blog_draft_v1','web_blog_final_editor_v1']){
+    const payload={text:{format:{name}},input:[{content:[{text:'old'}]},{content:[{text:JSON.stringify({topic_gate:{article_type:'STANDARD'}})}]}]};
+    sandbox.openAIRequest_('responses',payload);assert.match(last.input[0].content[1].text,/body_markdown alone/);assert.match(last.input[0].content[1].text,/1600–2400/);
+  }
+  const other={text:{format:{name:'other'}}};sandbox.openAIRequest_('responses',other);assert.equal(last,other);
+  sandbox.finalizeWebBlog_({article_type:'STANDARD'},{});assert.equal(calls,2);
+  calls=0;sandbox.finalizeWebBlog_({article_type:'QUICK_ANSWER'},{});assert.equal(calls,1);
+});
 test('GAS keeps approved interview verbatim in writer and final-editor context',()=>{
   const sandbox={V069_STATUS_URL:'https://example.test',generateWebBlogDraft_:(ctx,gate)=>({ctx,gate}),Array,String,Error};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
