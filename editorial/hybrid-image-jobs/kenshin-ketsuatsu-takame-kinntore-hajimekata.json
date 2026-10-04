@@ -3,31 +3,31 @@
   "article_title": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN",
-  "image_headline_short": "健診のあとこそ、\n無理なく始める。",
+  "image_headline_short": "始める前に、\n状態を確かめる。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実トレーニング空間で、一般顧客役の成人1人が運動を始める前にベンチ付近で落ち着いて自分の状態を確認し、無理なく始めようとしている静かな場面。高強度運動の最中ではなく、準備・判断の瞬間にする。トレーナー、スタッフ、コーチ、医療従事者は出さない。",
+  "scene_intent": "THE REV.の実ロビーで、成人男性の顧客1人が静かに座り、手元の健診結果らしい紙を見て運動前に考える自然な場面。紙の文字は判読不要。血圧測定、医療機器、診察、トレーナー・スタッフ・医療従事者の登場を禁止する。",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-lobby-20260924-89d8aa53",
-  "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
-  "og_image": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
-  "gbp_image": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
+  "asset_version": "reference-v26-lobby-paper-20261004-r2",
+  "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+  "og_image": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.json",
+  "qa_report_path": "editorial/image-qa/kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -61,7 +61,10 @@
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
     "recent_reference_window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
-    "publish_boundary": "REVIEW_AND_PUBLISH"
+    "publish_boundary": "REVIEW_AND_PUBLISH",
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "unsupported_equipment_forbidden": true,
+    "service_misrepresentation_forbidden": true
   },
   "background_source": {
     "drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
@@ -120,7 +123,7 @@
         "customerPresentation": "female"
       }
     ],
-    "recent_thumbnail_copy_window": 12,
+    "recent_thumbnail_copy_window": 25,
     "recent_thumbnail_headlines": [
       "続けられる頻度を、\n最初に決める。",
       "通いやすさまで、\n選ぶ基準に。",
@@ -142,6 +145,15 @@
       "female",
       "male",
       "male"
-    ]
+    ],
+    "exact_thumbnail_copy_scope": "all-history"
+  },
+  "typography_emphasis_text": "確かめる。",
+  "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+  "recovery": {
+    "reason": "human rejected unsupported blood-pressure equipment and reused copy",
+    "supersedes_asset_version": "reference-v26-auto-lobby-20260924-89d8aa53",
+    "human_final_approval": "PENDING",
+    "generator": "ChatGPT image_gen scene-aware edit"
   }
 }
