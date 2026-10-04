@@ -3,8 +3,8 @@
 **Article:** DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理  
 **content_id:** BLOG-20261005-ea92d0  
 **draft_id:** 38c56810-1275-413c-9dda-2b5c052ff824  
-**Human status:** **PENDING**  
-**Production:** untouched by this review branch
+**Human status:** **APPROVED FOR PRODUCTION PREP**  
+**Production:** untouched; this branch is the approved production candidate
 
 ## Why the previous image was rejected
 
@@ -56,4 +56,13 @@ The scoped Drive source root contains no additional verified DENBA seating, mat,
 
 ## Approval boundary
 
-Automated QA may mark the candidate PASS, but that is not human approval. Until the human reviewer accepts the actual images, this review remains **PENDING**. No merge, production deployment, published-image replacement, article Publish, or production review approval is authorized by this file.
+**2026-10-04 22:18 JST:** The user approved this image direction for production preparation.
+
+This approval covers the image design and its reusable scene-action rules. It does **not** authorize the remaining release actions. The candidate therefore stays production-pending until the explicit final release step.
+
+Still not executed:
+- main merge
+- production / Xserver deployment
+- Supabase draft image replacement
+- article Publish
+- production review-state mutation beyond the image-design approval record
