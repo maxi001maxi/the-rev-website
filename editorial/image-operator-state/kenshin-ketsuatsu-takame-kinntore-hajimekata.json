@@ -10,7 +10,8 @@
   "og_image": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
   "gbp_image": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
   "qa_report_path": "editorial/image-qa/kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.json",
-  "xserver_verified": false,
+  "xserver_verified": true,
   "updated_at": "2026-10-04T05:12:02.251Z",
-  "recovery": "versioned scene correction after human rejection; old rejection retained; final human Publish approval pending"
+  "recovery": "versioned scene correction after human rejection; old rejection retained; final human Publish approval pending",
+  "xserver_verified_at": "2026-10-04T05:16:32Z"
 }
