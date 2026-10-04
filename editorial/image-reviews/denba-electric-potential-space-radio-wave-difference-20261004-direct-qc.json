@@ -1,0 +1,89 @@
+{
+  "review_id": "denba-electric-potential-space-radio-wave-difference-20261004-direct-visual-qc",
+  "article_title": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+  "slug": "denba-electric-potential-space-radio-wave-difference",
+  "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+  "inspected_at": "2026-10-04T21:15:00+09:00",
+  "inspection_mode": "direct_visual_inspection_of_repository_bytes",
+  "status": "PASS_TO_HUMAN_REVIEW",
+  "human_final_approval": "PENDING",
+  "prior_asset": {
+    "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+    "human_review": "REJECT",
+    "reason": "人物がただ立って下を見ているだけで、記事とのつながり・自然な行動・場面の魅力が不足。"
+  },
+  "candidate": {
+    "copy": "電波ではなく、\n電位空間。",
+    "action": "DENBA本体へ視線と上体を向け、片手を開いて非接触で示す。",
+    "source_id": "the-rev-denba-20260924",
+    "source_path": "assets/images/photo-solution-denba.jpg"
+  },
+  "checks": {
+    "thumbnail": {
+      "original_1200x675": {
+        "text_legible": true,
+        "action_readable": true,
+        "composition_coherent": true
+      },
+      "preview_320": {
+        "text_legible": true,
+        "action_readable": true,
+        "device_identifiable": true
+      },
+      "preview_400": {
+        "text_legible": true,
+        "action_readable": true,
+        "device_identifiable": true
+      }
+    },
+    "ogp": {
+      "original_1200x630": {
+        "text_legible": true,
+        "action_readable": true,
+        "composition_coherent": true
+      },
+      "preview_320": {
+        "text_legible": true,
+        "action_readable": true,
+        "device_identifiable": true
+      },
+      "preview_400": {
+        "text_legible": true,
+        "action_readable": true,
+        "device_identifiable": true
+      }
+    },
+    "gbp": {
+      "original_1200x900": {
+        "text_legible": true,
+        "action_readable": true,
+        "composition_coherent": true
+      },
+      "preview_320": {
+        "text_legible": true,
+        "action_readable": true,
+        "device_identifiable": true
+      },
+      "preview_400": {
+        "text_legible": true,
+        "action_readable": true,
+        "device_identifiable": true
+      }
+    },
+    "person_action_place_posture_natural": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "the_rev_scene_plausible": true,
+    "hands_body_device_contact_natural": true,
+    "light_shadow_perspective_natural": true,
+    "person_article_relationship_clear": true,
+    "improved_vs_rejected_previous": true,
+    "reference_quality_direction_improved": true
+  },
+  "notes": [
+    "旧版より、人物の視線・上体・手の動きがDENBA本体へ収束し、記事固有の『実機を知ろうとする瞬間』が320pxでも読める。",
+    "DENBA本体、グレー台、暖色壁、THE REV.サイン以外の未確認設備は追加していない。",
+    "座席・マット・利用姿勢・施術・操作・発光する電場・波・オーラは描いていない。",
+    "開いた手のジェスチャーはややEditorialだが、商品を売るスタッフの演技より『仕組みを確かめる顧客』として成立する範囲。人間レビュー待ちのため最終承認とはしない。"
+  ]
+}
