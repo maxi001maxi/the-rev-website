@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
   "qa_report_path": "editorial/image-qa/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.json",
   "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
-  "updated_at": "2026-10-04T09:45:25.231Z"
+  "updated_at": "2026-10-04T09:45:25.231Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-04T09:45:37Z"
 }
