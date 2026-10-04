@@ -31,13 +31,19 @@
 
 1. `supabase/migrations/*_editorial_topic_approval.sql` を適用し、候補・返信のテーブルをservice role限定にする。新APIをVercelへ配備する。
 2. Vercelに `THE_REV_LINE_CHANNEL_SECRET` と `THE_REV_LINE_USER_ID` を設定する。GASの同じ宛先を使う。LINE DevelopersのWebhookを `/api/integrations/editorial-status/?mode=line_webhook` に設定し署名付きの本人返信を検証する。認証情報をチャットへ貼らない。
-3. 現行Supervisorが一次情報Interviewの原文を `topic_gate_json.notes` / `knowledge_context_json` から利用することを、実際のGASソースと一件の下書きで確認する。機器・医療効果や未確認の運用ルールを補完しない。
+3. 現行Supervisorが一次情報Interviewの原文を `topic_gate_json.notes` / `knowledge_context_json` から利用することを確認する。v0.6.5.2ではWriterへknowledgeを渡す一方、最終Editorは `ctx.first_party_interview` を読むため、v0.7.0のadapterで原文を両方へ渡す。機器・医療効果や未確認の運用ルールを補完しない。
 4. 再生成したONE_PASTEに含まれる `DailyEditorialTopicApproval_v0.7.0.gs` を既存GASへ保存し、`installDailyEditorialTopicApprovalV070()` を実行する。新APIとSupervisorを確認した後で、候補承認必須・対象日DAILY・1分返信ポーリングを設定する。旧CreatorとWatchdogも同じ候補経路へ移る。
 5. `記事候補` タブに理由・差分・確認の有無が出ること、LINEがAPIに受理されたこと、実際の本人返信が保存されることを確認する。通知失敗をSENT扱いしない。
 6. 選択前は制作しない。例: `TP-20261005 2`。GPTでの明示的な選択は既存の認証付きBridge `{action:"topic_choose",source:"GPT",proposal_id,number}`（回答は `topic_answer`）、または接続済みオペレーターが同じ正本の `chooseTopic` / `answerInterview` を実行して保存する。GPT上の返答を常時読めるとは扱わない。
 7. 足りない一次情報があれば2問をLINEへ送る。返信例は `TP-20261005 回答` の次行に `1: 回答`、次に `2: 回答`。未知だけの回答でSUFFICIENTにしない。店舗運用の追加アイデアは資料のレーンが登録済みでも個別Interviewを要求する。
 8. 全対象日の承認を1分ごとに確認。05時台に返答しなくても翌日・夜に再開する。Queueの読み戻し後にだけ `QUEUE_CREATED`。既存の重複保留記事は、選択・新Queue確認後にSKIPPEDへ移し、原稿と画像却下の履歴は残す。
 9. 選択後にも全公開履歴を再確認。新しい重複・対象日の競合は保留をLINE通知する。未選択の記事へ自動で差し替えない。active上限5、画像Review、人間Publishは継続する。
+
+既存の公式LINE通知が接続済みで、LINEの返信受信がまだ未接続なら `installDailyEditorialTopicApprovalGPTV070()` を使える。これは通知を既存GASのtoken/宛先で送り、選択・回答をGPTで保存する経路。通知には「GPTへ返信・LINE返信の自動受付は準備中」と明記する。LINE受信側が未接続でも、GPTで明示的に選択した記事は自動再開する。LINE返信を有効にする通常installerは署名検証と宛先一致を必須にする。両経路とも最終Publishは人間。
+
+日次の候補補充は、既存の `generateBlogTopicCandidates_` / 調査・店舗Fact contextを使って本文を作らず5案だけ生成する。日付ごとの候補IDとSheet読み戻しで重複追加を避ける。直近200候補を評価に渡し、記事の重複は別途全履歴で確認する。候補生成障害では既存候補/登録ideasを照合し、3件揃わなければ通知して止める。週次の旧Blog/GBP生成は承認モード中には記事を作らず、日次の本人選択を待つ。
+
+診断: `inspectDailyEditorialTopicApprovalV070()`。候補だけの補充確認: `refreshDailyEditorialTopicPoolV070()`。通知だけの単発確認: `sendPendingTopicNotificationsGPTV070()`。いずれも候補を自動選択しない。接続状態や通知SENTを、実記事のReview Readyまでの成功証拠と混同しない。
 
 候補はShortlistと `lib/editorialTopicSeeds.mjs` の未使用アイデアから役割の異なる3つを選ぶ。スコアは編集上の順位で、検索ボリュームの実測値ではない。すべて使用済み・重複の場合は `POOL_REFRESH_REQUIRED` を知らせ、週次Shortlist更新または新アイデア追加で補充する。候補不足を隠して自動生成しない。
 

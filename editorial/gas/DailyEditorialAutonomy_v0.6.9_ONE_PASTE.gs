@@ -940,6 +940,99 @@ var V069C_CONSISTENCY_RUNTIME = (function() {
  */
 var V070_TOPIC_URL = V069_STATUS_URL;
 
+// The installed v0.6.5.2 Supervisor passes knowledge_context to the writer,
+// but its final editor reads ctx.first_party_interview. Preserve the owner's
+// exact answers in both stages rather than losing them during final editing.
+var V070_WRITER_ADAPTER = (function () {
+  if (typeof generateWebBlogDraft_ !== 'function') return 'WRITER_NOT_PRESENT';
+  var original = generateWebBlogDraft_;
+  generateWebBlogDraft_ = function (ctx, gate) {
+    var knowledge = gate && gate.knowledge_context;
+    var interview = knowledge && knowledge.interview;
+    if (Array.isArray(interview) && interview.length) {
+      if (!knowledge.topic_approval || !knowledge.topic_approval.approved_at || interview.some(function(x) { return !String(x.answer || '').trim(); })) throw new Error('APPROVED_INTERVIEW_REQUIRED');
+      var raw = interview.map(function(x, i) { return (i + 1) + '. ' + x.question + '\n' + x.answer; }).join('\n\n');
+      ctx.first_party_interview = {topic_candidate_id:gate.candidate_id,raw_answer:raw,main_claim:String(knowledge.main_claim || raw),extracted_insights:[],usable_quotes:[],source_id:knowledge.topic_approval.proposal_id};
+      gate.first_party_interview = ctx.first_party_interview;
+    }
+    return original(ctx, gate);
+  };
+  return 'topic-interview-v1';
+})();
+
+// Weekly legacy runs may keep preparing research, but must not select and
+// write a separate unapproved blog after the daily approval flow is enabled.
+var V070_WEEKLY_ADAPTER = (function () {
+  if (typeof runM6BlogGBP !== 'function') return 'WEEKLY_NOT_PRESENT';
+  var original = runM6BlogGBP;
+  runM6BlogGBP = function () {
+    if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE') return {should_publish:false,status:'TOPIC_SELECTION_WAITING',reason:'OWNER_TOPIC_APPROVAL_REQUIRED'};
+    return original.apply(this,arguments);
+  };
+  return 'topic-weekly-gate-v1';
+})();
+
+function v070RefreshTopicPool_() {
+  var today = v069TodayKey_(), props = PropertiesService.getScriptProperties();
+  var key = 'THE_REV_TOPIC_POOL_GENERATED_' + today;
+  if (props.getProperty(key) === 'TRUE') return {status:'ALREADY_GENERATED'};
+  var sheet = ss_().getSheetByName('23_BLOG_TOPIC_SHORTLIST');
+  var prefix = 'BT-' + today.replace(/-/g,'') + '-DAILY-';
+  // Read-back also recovers a lost acknowledgement without generating again.
+  var existing = getObjectsWithRow_(sheet).filter(function(r) {return String(r.candidate_id || '').indexOf(prefix) === 0;});
+  if (existing.length === 5) {props.setProperty(key,'TRUE');return {status:'ALREADY_GENERATED'};}
+  var week = getTargetWeekStart_(), ctx = buildM6Context_(week);
+  ctx.weekly_editorial_brief = {brief:ctx.weekly_editorial_brief,
+    direction:'毎日の候補だけを5件提案。記事本文はまだ作らない。一般的な運動の検索ニーズ、ボクシング、酸素ルーム、DENBAの商品説明を散りばめる。同じ悩みの言い換えを避ける。未確認の店内運用・顧客実績・効果を作らない。',
+    blog_history:getObjectsWithRow_(ss_().getSheetByName('21_WEB_BLOG_OUTPUT')).slice(-100).map(function(r) {return {title:r.title,query:r.target_keyword,status:r.status};})};
+  var candidates = generateBlogTopicCandidates_(ctx,5);
+  if (!Array.isArray(candidates) || candidates.length !== 5 || candidates.some(function(c) {return !String(c.title_candidate || '').trim() || !String(c.why_now || '').trim();})) throw new Error('TOPIC_POOL_RESPONSE_INVALID');
+  candidates.forEach(function(c,i) {
+    var scores = c.score_breakdown || {};
+    var row = Object.assign({},c,scores,{candidate_id:prefix+(i+1),generated_at:new Date(),week_start:new Date(),rank:i+1,status:'CANDIDATE',total_score:Object.keys(scores).reduce(function(n,k) {return n+Number(scores[k] || 0);},0)});
+    if (!existing.some(function(r) {return r.candidate_id === row.candidate_id;})) appendObjectRow_(sheet,row);
+  });
+  if (getObjectsWithRow_(sheet).filter(function(r) {return String(r.candidate_id || '').indexOf(prefix) === 0;}).length !== 5) throw new Error('TOPIC_POOL_READBACK_FAILED');
+  props.setProperty(key,'TRUE');
+  return {status:'GENERATED',count:5};
+}
+
+function refreshDailyEditorialTopicPoolV070() {
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error('TOPIC_POOL_LOCKED');
+  try {var result=v070RefreshTopicPool_();Logger.log(JSON.stringify(result));return result;}
+  finally {lock.releaseLock();}
+}
+
+function inspectDailyEditorialTopicApprovalV070() {
+  var properties = PropertiesService.getScriptProperties();
+  var probe = v070TopicRequest_('poll', {});
+  var result = {version:'v0.7.0',writer_adapter:V070_WRITER_ADAPTER,weekly_adapter:V070_WEEKLY_ADAPTER,reply_mode:properties.getProperty('THE_REV_TOPIC_REPLY_MODE'),supervisor:v069cSupervisorWired_(),
+    line_sender_configured:Boolean(properties.getProperty('THE_REV_LINE_CHANNEL_ACCESS_TOKEN') && properties.getProperty('THE_REV_LINE_USER_ID')),
+    line_property_names:Object.keys(properties.getProperties()).filter(function(k) {return /LINE/.test(k);}),
+    line_receiver_configured:Boolean(probe.capabilities && probe.capabilities.line_receiver_configured),
+    settings:{cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required},
+    proposals:(probe.proposals || []).map(function(p) {return {id:p.id,status:p.status};})};
+  Logger.log(JSON.stringify(result));
+  return result;
+}
+
+function sendPendingTopicNotificationsGPTV070() {
+  // Send through the already-configured official account. This does not select
+  // a topic, create an article, or claim that LINE inbound replies are wired.
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error('TOPIC_NOTIFICATION_LOCKED');
+  try {
+    var probe = v070TopicRequest_('poll', {});
+    var sent = (probe.notifications || []).map(function(n) {
+      n.gpt_reply_required = true;
+      return v070Notify_(n);
+    });
+    Logger.log(JSON.stringify({status:'NOTIFICATION_CHECKED',notifications:sent,article_created:false}));
+    return sent;
+  } finally { lock.releaseLock(); }
+}
+
 function v070TopicRequest_(action, extra) {
   var queue = v069QueueRows_();
   var body = {
@@ -956,7 +1049,7 @@ function v070TopicRequest_(action, extra) {
     }),
     settings: v069Settings_()
   };
-  if (action === 'prepare') body.shortlist = v069cShortlist_().rows.map(function(x) { return v069cSlim_(x, V069C_SHORTLIST_FIELDS); });
+  if (action === 'prepare') body.shortlist = v069cShortlist_().rows.slice().sort(function(a,b) {return new Date(b.generated_at || 0)-new Date(a.generated_at || 0);}).slice(0,200).map(function(x) { return v069cSlim_(x, V069C_SHORTLIST_FIELDS); });
   Object.keys(extra || {}).forEach(function(k) { body[k] = extra[k]; });
   var r = v069PostJson_(V070_TOPIC_URL, body);
   if (r.code < 200 || r.code >= 300 || !r.json || r.json.ok !== true) throw new Error('TOPIC_API_FAILED HTTP ' + r.code + ' ' + String((r.json && r.json.error) || r.body).slice(0,400));
@@ -995,6 +1088,8 @@ function v070Notify_(n) {
   var hex = bytes.map(function(b) { return ('0' + ((b + 256) % 256).toString(16)).slice(-2); }).join('');
   var key = hex.slice(0,8)+'-'+hex.slice(8,12)+'-4'+hex.slice(13,16)+'-8'+hex.slice(17,20)+'-'+hex.slice(20,32);
   var props = PropertiesService.getScriptProperties();
+  var message = n.text;
+  if (n.gpt_reply_required || props.getProperty('THE_REV_TOPIC_REPLY_MODE') === 'GPT') message = '返信先：候補選択・回答はChatGPTのこの会話へ送ってください。\nLINE返信の自動受付は準備中です。\n\n' + message;
   var stateKey = 'THE_REV_TOPIC_PUSH_' + n.proposal_id + '_' + n.kind;
   var saved = JSON.parse(props.getProperty(stateKey) || '{}');
   if (saved.status === 'SENT') {
@@ -1010,7 +1105,7 @@ function v070Notify_(n) {
     var r = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
       method:'post', contentType:'application/json', muteHttpExceptions:true,
       headers:{Authorization:'Bearer '+token,'X-Line-Retry-Key':key},
-      payload:JSON.stringify({to:owner,messages:[{type:'text',text:n.text}]})
+      payload:JSON.stringify({to:owner,messages:[{type:'text',text:message}]})
     });
     var code = r.getResponseCode();
     var acceptedRetry = code === 409 && String((r.getAllHeaders() || {})['x-line-accepted-request-id'] || (r.getAllHeaders() || {})['X-Line-Accepted-Request-Id'] || '') !== '';
@@ -1036,6 +1131,16 @@ function v070TopicTick_(force) {
   }
   var due = force === true || (hour >= Number(st.daily_editorial_hour || 5) && props.getProperty('THE_REV_TOPICS_PREPARED_' + today) !== 'TRUE' && props.getProperty('THE_REV_TOPIC_PREPARE_ATTEMPT') !== hourKey);
   if (due) props.setProperty('THE_REV_TOPIC_PREPARE_ATTEMPT',hourKey);
+  if (due && props.getProperty('THE_REV_TOPICS_PREPARED_' + today) !== 'TRUE') {
+    var snapshot = v070TopicRequest_('poll', {});
+    if (!(snapshot.proposals || []).some(function(p) {return p.target_date === v069TargetKey_();})) {
+      try { v070RefreshTopicPool_(); }
+      catch(poolError) {
+        var poolLog = v069StartLog_('DAILY_TOPIC_POOL');
+        v069FinishLog_(poolLog,'ERROR_BLOCKED',0,'Fresh topic ideas unavailable; checking existing verified candidate pool.',String(poolError).slice(0,600));
+      }
+    }
+  }
   var res = v070TopicRequest_(due ? 'prepare' : 'poll', {});
   if (due && res.preparation && ['TOPIC_SELECTION_WAITING','NOT_REQUIRED'].indexOf(res.preparation.status) >= 0) props.setProperty('THE_REV_TOPICS_PREPARED_' + today, 'TRUE');
   v070TopicView_(res.proposals);
@@ -1092,13 +1197,25 @@ function scheduledDailyEditorialTopicApprovalV070() {
 }
 
 function installDailyEditorialTopicApprovalV070() {
+  return v070InstallTopicApproval_('LINE');
+}
+
+function installDailyEditorialTopicApprovalGPTV070() {
+  // Existing LINE notifications + explicit GPT choice is a complete supported
+  // approval route. It does not imply a LINE webhook has been configured.
+  return v070InstallTopicApproval_('GPT');
+}
+
+function v070InstallTopicApproval_(replyMode) {
   // Install only after the new API, private table, LINE receiver and existing
   // Supervisor have been checked. Do not silently overwrite other triggers.
   var probe = v070TopicRequest_('poll', {});
   var properties = PropertiesService.getScriptProperties();
   var recipient = properties.getProperty('THE_REV_LINE_USER_ID');
-  if (!probe.capabilities || !probe.capabilities.line_receiver_configured) throw new Error('LINE_RECEIVER_NOT_CONFIGURED');
-  if (!recipient || v070Hash_(recipient) !== probe.capabilities.line_owner_fingerprint || !properties.getProperty('THE_REV_LINE_CHANNEL_ACCESS_TOKEN')) throw new Error('LINE_OWNER_OR_TOKEN_NOT_CONFIGURED');
+  if (!recipient || !properties.getProperty('THE_REV_LINE_CHANNEL_ACCESS_TOKEN')) throw new Error('LINE_OWNER_OR_TOKEN_NOT_CONFIGURED');
+  if (replyMode === 'LINE' && (!probe.capabilities || !probe.capabilities.line_receiver_configured)) throw new Error('LINE_RECEIVER_NOT_CONFIGURED');
+  if (replyMode === 'LINE' && v070Hash_(recipient) !== probe.capabilities.line_owner_fingerprint) throw new Error('LINE_OWNER_MISMATCH');
+  if (V070_WRITER_ADAPTER !== 'topic-interview-v1') throw new Error('INTERVIEW_WRITER_NOT_WIRED');
   if (!v069cSupervisorWired_().ok) throw new Error('SUPERVISOR_NOT_WIRED');
   var settings = ss_().getSheetByName('08_SETTINGS');
   var rows = getObjectsWithRow_(settings);
@@ -1109,8 +1226,11 @@ function installDailyEditorialTopicApprovalV070() {
     else appendObjectRow_(settings,{key:key,value:value,type:'text',description:'Owner topic choice before drafting. Final Publish remains human.',active:'TRUE'});
   });
   if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() !== 'TRUE' || String(v069Settings_().daily_editorial_cadence) !== 'DAILY') throw new Error('TOPIC_SETTINGS_READBACK_FAILED');
+  properties.setProperty('THE_REV_TOPIC_REPLY_MODE',replyMode);
   var exists = ScriptApp.getProjectTriggers().some(function(t) { return t.getHandlerFunction() === 'scheduledDailyEditorialTopicApprovalV070'; });
   if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(1).create();
-  return scheduledDailyEditorialTopicApprovalV070();
+  var result = scheduledDailyEditorialTopicApprovalV070();
+  Logger.log(JSON.stringify({reply_mode:replyMode,cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required,result:result}));
+  return result;
 }
 
