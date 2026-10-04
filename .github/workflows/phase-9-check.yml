@@ -23,6 +23,12 @@ on:
       - 'lib/dailyEditorialStateMachine.mjs'
       - 'lib/dailyEditorialCreator.mjs'
       - 'lib/dailyEditorialKnowledge.mjs'
+      - 'lib/editorialArticleOverlap.mjs'
+      - 'lib/editorialArticleHistory.mjs'
+      - 'lib/editorialReadiness.mjs'
+      - 'lib/editorialImageSheetView.mjs'
+      - 'lib/editorialScenePlausibility.mjs'
+      - 'scripts/test-editorial-consistency.mjs'
       - 'lib/editorialAutoPublishGate.mjs'
       - 'editorial/DAILY_CREATOR_RUNBOOK.md'
       - 'lib/editorialPublication.mjs'
@@ -119,6 +125,7 @@ jobs:
       - run: npm run test:daily-editorial-state-machine
       - run: npm run test:daily-creator
       - run: node --test scripts/test-daily-editorial-connector-plan.mjs
+      - run: node --test scripts/test-editorial-consistency.mjs
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:phase-d

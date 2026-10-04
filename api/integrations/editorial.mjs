@@ -1,3 +1,4 @@
+import { evaluateEditorialLength } from '../../lib/editorialReadiness.mjs';
 // POST /api/integrations/editorial
 //
 // Server-to-server bridge from THE REV. Editorial AI (Google Apps Script)
@@ -54,6 +55,9 @@ export default async function handler(req, res) {
   if (envelope.errors.length) {
     return send(res, 422, 'editorial_gate_failed', envelope.errors.join(' '));
   }
+
+  const lengthGate = evaluateEditorialLength(body.article_type, body.body_markdown);
+  if (!lengthGate.pass) return send(res, 422, 'editorial_length_gate_failed', lengthGate.type + ' length gate failed: ' + lengthGate.count + ' chars / min ' + lengthGate.min);
 
   // Normalize text/article fields first. Image paths may still be empty and are
   // filled automatically before the final sync hash is calculated.

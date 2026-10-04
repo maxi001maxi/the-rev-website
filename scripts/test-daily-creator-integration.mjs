@@ -146,7 +146,7 @@ section('1. Candidate selection on the live 2026-10-03 shortlist');
   const now = at('2026-10-02T05:00:00+09:00');
   const sel = selectDailyCandidate({ shortlist: shortlistRows(), queueRows: queueRows(), now, settings: SETTINGS });
   assert(sel.selected?.candidate_id === 'BT-20260930-FAC-01', 'top eligible candidate is FAC-01 (portfolio 92)', sel.selected?.candidate_id);
-  assert(sel.sufficient_pool === 4, '4 Interview-free candidates remain', String(sel.sufficient_pool));
+  assert(sel.sufficient_pool === 3, '3 Interview-free candidates remain after all-history answer overlap guard', String(sel.sufficient_pool));
   const by = Object.fromEntries(sel.evaluated.map((e) => [e.candidate_id, e]));
   assert(by['BT-20260930-OXY-02'].reasons.includes('STATUS_SELECTED') && by['BT-20260930-OXY-02'].reasons.includes('ALREADY_QUEUED'), 'already used candidate excluded');
   assert(by['BT-20260921-01'].reasons.includes('STATUS_SKIPPED_USER_REJECTED'), 'user-rejected candidate never returns');
@@ -231,7 +231,7 @@ const day1 = sandbox();
   const end = h.logs.filter((l) => l.job === 'DAILY_EDITORIAL_CREATE').pop();
   assert(end.status === 'CREATED' && /verified=true/.test(end.summary) && !end.error, '18_AUTOMATION_LOG: CREATED only after read-back');
   assert(h.props['THE_REV_DAILY_CREATED_2026-10-03'] === r.content_id, 'creation recorded for the Watchdog');
-  assert(h.line.length === 0, 'no alert on the happy path');
+  assert(h.line.every(x => /候補の残りが少なく/.test(x)), 'only low-pool notice after overlap exclusions; no failure alert');
   assert(h.queue.data.filter((x) => targetOf(x) === '2026-10-03').length === 1, 'single row for the day');
 }
 

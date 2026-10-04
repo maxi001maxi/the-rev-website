@@ -1,3 +1,4 @@
+import { collectArticleHistory } from '../../lib/editorialArticleHistory.mjs';
 // GET /api/integrations/editorial-status?content_id={id}
 // Server-to-server status probe for THE REV. Editorial AI.
 // It never publishes. It only checks whether Phase 10 image assets are ready,
@@ -286,7 +287,7 @@ async function handleDailyPlan(req, res) {
 // Shared by the HTTP handler and the integration tests. `supabase` and
 // `reconcileFn` are injectable so the full evidence -> plan -> creation path is
 // testable without network access.
-export async function buildDailyResponse({ body = {}, supabase, reconcileFn = reconcilePublication }) {
+export async function buildDailyResponse({ body = {}, supabase, reconcileFn = reconcilePublication, historyCollector = collectArticleHistory }) {
   const invalid = validateDailyBody(body);
   if (invalid) return invalid;
 
@@ -298,6 +299,12 @@ export async function buildDailyResponse({ body = {}, supabase, reconcileFn = re
   if (evidence.error) {
     return { error: evidence.error, status: 502, message: 'Supabaseの公開状態を取得できませんでした。' };
   }
+  if (body.action === 'daily_create') {
+    if (!Array.isArray(body.outputRows)) return {error:'sheet_article_history_missing',status:422,
+      message:'21_WEB_BLOG_OUTPUT全件のoutputRowsが必要です。GAS installed sourceを更新してください。'};
+    try { body = {...body, articleHistory: await historyCollector({supabase})}; }
+    catch { return {error:'article_history_unavailable',status:502,message:'全記事履歴を確認できないため候補選定を停止しました。'}; }
+  }
   return { payload: computeDailyPayload({ body, evidenceByContentId: evidence.byContentId, checked: evidence.checked }) };
 }
 
@@ -307,6 +314,8 @@ function validateDailyBody(body) {
     return { error: 'bad_request', status: 400, message: 'action=daily_plan または daily_create が必要です。' };
   }
   if (!Array.isArray(body.rows)) return { error: 'bad_request', status: 400, message: 'rows は配列で指定してください。' };
+  if (body.rows.length > DAILY_PLAN_MAX_ROWS) return {error:'queue_history_limit_exceeded',status:422,
+    message:'Queue履歴を切り捨てて選定しません。全件読取の上限を更新してください。'};
   if (action === 'daily_create' && !Array.isArray(body.shortlist)) {
     return { error: 'bad_request', status: 400, message: 'shortlist は配列で指定してください。' };
   }
@@ -332,6 +341,8 @@ export function computeDailyPayload({ body, evidenceByContentId = {}, checked = 
   const { plan, creation, stuck } = planDailyCreation({
     rows,
     shortlist: body.shortlist.slice(0, DAILY_SHORTLIST_MAX_ROWS),
+    articleHistory: body.articleHistory || [],
+    outputRows: body.outputRows || [],
     now,
     settings,
     evidenceByContentId

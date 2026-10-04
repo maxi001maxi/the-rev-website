@@ -258,7 +258,7 @@ assert(HYBRID_IMAGE_FORMAT.designGrammar.mode === 'fixed-editorial-overlay-flexi
 assert(HYBRID_IMAGE_FORMAT.designRevision === 'editorial-thumbnail-v2.6-human-first', 'V2.6 Human Firstをデザイン正本化');
 assert(HYBRID_IMAGE_FORMAT.defaultLayoutVariant === 'human-first-v1', 'Human First layoutを新規標準化');
 assert(HYBRID_IMAGE_FORMAT.generationPolicy.maxGeneratedCustomerCount === 1, 'V2.6は顧客役1人だけ');
-assert(HYBRID_IMAGE_FORMAT.recentThumbnailCopyWindow === 12, 'Thumbnail Copy重複監視を直近12投稿へ拡張');
+assert(HYBRID_IMAGE_FORMAT.recentThumbnailCopyWindow === 25, 'Thumbnail Copy近似監視は直近25投稿、完全一致は全履歴');
 assert(HYBRID_IMAGE_FORMAT.designReferenceAssets.length === 2, '承認済みV2.3 Hybrid 2枚をDesign Referenceへ固定');
 assert(HYBRID_IMAGE_FORMAT.qc.minTypographyHarmony === 8, 'Typography QC下限を8へ固定');
 assert(HYBRID_IMAGE_FORMAT.qc.minNegativeSpace === 8, 'Negative Space QC下限を8へ固定');

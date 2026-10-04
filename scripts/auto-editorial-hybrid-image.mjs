@@ -1,3 +1,4 @@
+import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -153,7 +154,8 @@ function generationPrompt(attempt, previousQa = null) {
     '- Make the face, expression and body language legible. The emotional cue must support the article rather than being a generic stock-photo smile.',
     '- Natural neutral training clothes. No logos or readable text.',
     '- Make the person physically integrated into the room: correct scale, perspective, floor contact, contact shadow, lighting direction and color temperature.',
-    '- The scene must visually express the ARTICLE MAIN CLAIM, not merely match the gym mood. A generic customer who is only sitting, standing, checking a phone, or waiting is NOT acceptable unless that passive action is itself essential to the article.',
+    SCENE_PLAUSIBILITY_GUIDANCE,
+    '- Keep an article-relevant reader situation; do not invent equipment or services to illustrate a main claim.',
     '- When the article is about movement quality, strength progress, exercise execution, or training technique, show a clearly relevant training action with believable form rather than a generic preparation/rest pose.',
     '- Avoid difficult full-body exercise poses unless they are completely plausible. Prefer lower-complexity article-specific actions over visually impressive but semantically weak poses.',
     '- No pasted/cutout/sticker look.',
@@ -273,8 +275,9 @@ function qaPass(qa) {
     qa.negative_space >= 8 &&
     qa.photo_treatment >= 8 &&
     qa.article_visual_relevance >= 8 &&
-    qa.main_claim_visualization >= 8 &&
-    qa.article_theme_inferable_without_title === true &&
+    (qa.scene_plausibility_version === SCENE_PLAUSIBILITY_VERSION
+      ? scenePlausibilityPass(qa)
+      : qa.main_claim_visualization >= 8 && qa.article_theme_inferable_without_title === true) &&
     qa.scene_action_has_article_specific_meaning === true &&
     qa.generic_passive_pose_without_article_reason === false &&
     qa.rev_environment_consistency >= 8 &&
@@ -382,9 +385,10 @@ async function visualQa(attempt) {
     'HUMAN FIRST V1: the THE REV. background must remain recognizable through at least one authentic brand/location anchor, but it should be visually secondary with natural soft blur / shallow depth of field.',
     'HUMAN FIRST V1: do not reward hyper-detailed background reconstruction. If small spatial/layout discrepancies become visually prominent because the background is too sharp, background_secondary_pass or background_soft_blur_pass must be false.',
     'HUMAN FIRST V1: exactly one customer only. Any second person, crowd, trainer, staff member or ambiguous human figure fails.',
-    'SEMANTIC RELEVANCE GATE: Judge the image with the article title/copy mentally hidden. The customer action and scene should still give a reasonable clue about the article topic/main claim.',
+    SCENE_PLAUSIBILITY_GUIDANCE,
+    'SEMANTIC RELEVANCE: assess a natural article-relevant reader situation, not a literal demonstration of the main claim. A customer thinking over a health report is a meaningful action.',
     'Do NOT award high article_visual_relevance simply because the image shows THE REV. or a gym customer. The ACTION itself must carry article-specific meaning.',
-    'A generic passive pose (sitting, waiting, casually checking a phone, standing without meaningful action) must fail unless that exact passive behavior is central to the article.',
+    'A quiet before/after moment may pass when its article-specific reason is visible; do not demand medical measurement or readable paper text.',
     'If the article is about movement quality, strength progress, execution, form, training intensity, or exercise technique, require an actual plausible training action that directly supports that claim.',
     'For list-style articles with several progress signs, a single photograph does NOT need to literally show every list item. Judge main_claim_visualization by whether the image strongly expresses the umbrella claim and at least one concrete article-specific example.',
     'For abstract planning, habit, recovery, or lifestyle articles, do not require the photograph to literally depict invisible concepts such as tomorrow, a schedule, intention, or future fatigue. When the job provides a Concrete visual claim, judge article relevance against that claim as the photograph-level embodiment of the article, while still requiring the action to be specific and meaningful rather than generic.',
@@ -422,6 +426,10 @@ async function visualQa(attempt) {
     '  "anatomy_pose_realism": 0-10,',
     '  "no_cutout_or_sticker_look": boolean,',
     '  "location_semantics_pass": boolean,',
+    '  "location_behavior_plausible": boolean,',
+    '  "service_misrepresentation_absent": boolean,',
+    '  "unsupported_equipment_absent": boolean,',
+    '  "scene_plausible_at_the_rev": boolean,',
     '  "exercise_pose_plausible": boolean,',
     '  "manual_visual_rejection": boolean,',
     '  "trainer_present": boolean,',
@@ -552,6 +560,7 @@ async function visualQa(attempt) {
     checked_at: new Date().toISOString(),
     review_mode: 'HYBRID_GENERATED',
     realism_qc_version: 'v1',
+    scene_plausibility_version: job.scene_plausibility_version || job.policy?.scene_plausibility_version || null,
     gbp_image_required: Boolean(job.gbp_image),
     gbp_image_path: job.gbp_image || '',
     gbp_image_width: Number(job.gbp_image_width || 1200),
@@ -561,6 +570,7 @@ async function visualQa(attempt) {
 
   // Convert model booleans to strict booleans; omitted/ambiguous values fail closed.
   for (const key of [
+    'location_behavior_plausible','service_misrepresentation_absent','unsupported_equipment_absent','scene_plausible_at_the_rev',
     'no_cutout_or_sticker_look','location_semantics_pass','exercise_pose_plausible',
     'real_the_rev_background_confirmed','expected_copy_present','copy_legible','headline_line_break_quality',
     'article_theme_inferable_without_title','scene_action_has_article_specific_meaning',
