@@ -30,11 +30,11 @@
 この節が `daily_editorial_topic_approval_required=TRUE` の運用正本。以降のv0.6.9自動選定手順は互換モードだけに適用する。
 
 1. `supabase/migrations/*_editorial_topic_approval.sql` を適用し、候補・返信のテーブルをservice role限定にする。新APIをVercelへ配備する。
-2. Vercelに `THE_REV_LINE_CHANNEL_SECRET` と `THE_REV_LINE_USER_ID` を設定する。GASの同じ宛先を使う。LINE DevelopersのWebhookを `/api/integrations/line-editorial-webhook/` に設定し署名付きの本人返信を検証する。認証情報をチャットへ貼らない。
+2. Vercelに `THE_REV_LINE_CHANNEL_SECRET` と `THE_REV_LINE_USER_ID` を設定する。GASの同じ宛先を使う。LINE DevelopersのWebhookを `/api/integrations/editorial-status/?mode=line_webhook` に設定し署名付きの本人返信を検証する。認証情報をチャットへ貼らない。
 3. 現行Supervisorが一次情報Interviewの原文を `topic_gate_json.notes` / `knowledge_context_json` から利用することを、実際のGASソースと一件の下書きで確認する。機器・医療効果や未確認の運用ルールを補完しない。
 4. 再生成したONE_PASTEに含まれる `DailyEditorialTopicApproval_v0.7.0.gs` を既存GASへ保存し、`installDailyEditorialTopicApprovalV070()` を実行する。新APIとSupervisorを確認した後で、候補承認必須・対象日DAILY・1分返信ポーリングを設定する。旧CreatorとWatchdogも同じ候補経路へ移る。
 5. `記事候補` タブに理由・差分・確認の有無が出ること、LINEがAPIに受理されたこと、実際の本人返信が保存されることを確認する。通知失敗をSENT扱いしない。
-6. 選択前は制作しない。例: `TP-20261005 2`。GPTでの明示的な選択は既存の認証付きBridge `choose`、または接続済みオペレーターが同じ正本の `chooseTopic` / `answerInterview` を実行して保存する。GPT上の返答を常時読めるとは扱わない。
+6. 選択前は制作しない。例: `TP-20261005 2`。GPTでの明示的な選択は既存の認証付きBridge `{action:"topic_choose",source:"GPT",proposal_id,number}`（回答は `topic_answer`）、または接続済みオペレーターが同じ正本の `chooseTopic` / `answerInterview` を実行して保存する。GPT上の返答を常時読めるとは扱わない。
 7. 足りない一次情報があれば2問をLINEへ送る。返信例は `TP-20261005 回答` の次行に `1: 回答`、次に `2: 回答`。未知だけの回答でSUFFICIENTにしない。店舗運用の追加アイデアは資料のレーンが登録済みでも個別Interviewを要求する。
 8. 全対象日の承認を1分ごとに確認。05時台に返答しなくても翌日・夜に再開する。Queueの読み戻し後にだけ `QUEUE_CREATED`。既存の重複保留記事は、選択・新Queue確認後にSKIPPEDへ移し、原稿と画像却下の履歴は残す。
 9. 選択後にも全公開履歴を再確認。新しい重複・対象日の競合は保留をLINE通知する。未選択の記事へ自動で差し替えない。active上限5、画像Review、人間Publishは継続する。

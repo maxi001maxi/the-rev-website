@@ -7,10 +7,11 @@ import { Readable } from 'node:stream';
 import { prepareTopicProposal, chooseTopic, answerInterview, approvedQueue, verifyLineSignature, parseTopicReply, topicNotification } from '../lib/editorialTopicApproval.mjs';
 import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
 import { topicSeeds } from '../lib/editorialTopicSeeds.mjs';
-import { topicResponse } from '../api/integrations/editorial-topics.mjs';
-import lineHandler, { receiveLineEvents } from '../api/integrations/line-editorial-webhook.mjs';
+import { topicResponse } from '../lib/editorialTopicApi.mjs';
+import lineHandler, { receiveLineEvents } from '../lib/editorialLineWebhook.mjs';
 import { changeProposal } from '../lib/editorialTopicStore.mjs';
 import { evaluateArticleOverlap } from '../lib/editorialArticleOverlap.mjs';
+import editorialHandler, {readEditorialJson} from '../api/integrations/editorial-status.mjs';
 
 const now = new Date('2026-10-04T05:00:00+09:00');
 const shortlist = ['DENBA','BOXING','OXYGEN_ROOM','DENBA'].map((lane,i) => ({
@@ -137,6 +138,21 @@ test('HTTP webhook rejects unsigned bytes before any database call',async()=>{
     await lineHandler(req,res); assert.equal(res.code,401);assert.equal(res.payload.error,'invalid_signature');
   } finally { for(const [key,value] of [['THE_REV_LINE_CHANNEL_SECRET',saved.secret],['THE_REV_LINE_USER_ID',saved.owner]]) {if(value==null)delete process.env[key];else process.env[key]=value;} }
 });
+test('combined API preserves streamed Bridge JSON and does not authenticate LINE as a Bridge caller',async()=>{
+  const req=Readable.from([Buffer.from('{"action":"daily_'),Buffer.from('plan","rows":[]}')]);
+  assert.deepEqual(await readEditorialJson(req),{action:'daily_plan',rows:[]});
+  await assert.rejects(()=>readEditorialJson(Readable.from([Buffer.from('broken')])),SyntaxError);
+  const secret=process.env.THE_REV_LINE_CHANNEL_SECRET,owner=process.env.THE_REV_LINE_USER_ID;
+  process.env.THE_REV_LINE_CHANNEL_SECRET='test-secret';process.env.THE_REV_LINE_USER_ID='owner';
+  try {
+    const line=Readable.from([Buffer.from('{"events":[]}')]);line.query={mode:'line_webhook'};line.method='POST';line.headers={};
+    const res={setHeader(){},status(n){this.code=n;return this;},json(p){this.payload=p;return this;}};
+    await editorialHandler(line,res);assert.equal(res.code,401);assert.equal(res.payload.error,'invalid_signature');
+  }finally{
+    if(secret==null)delete process.env.THE_REV_LINE_CHANNEL_SECRET;else process.env.THE_REV_LINE_CHANNEL_SECRET=secret;
+    if(owner==null)delete process.env.THE_REV_LINE_USER_ID;else process.env.THE_REV_LINE_USER_ID=owner;
+  }
+});
 test('prepare is immutable, no-approval poll does not read GitHub, and notification failure cannot approve',async()=>{
   const db=memoryDb(),body={...args,action:'prepare'};
   // Test date must be explicit because the HTTP API uses the actual server clock.
@@ -179,6 +195,6 @@ test('GAS performs late-approval polling outside the creation window under a loc
   props.THE_REV_TOPICS_PREPARED_20261006='TRUE';
   props['THE_REV_TOPICS_PREPARED_2026-10-06']='TRUE';
   const result=sandbox.scheduledDailyEditorialTopicApprovalV070();
-  assert.equal(sandbox.V070_TOPIC_URL,'https://example.test/api/integrations/editorial-topics/');
+  assert.equal(sandbox.V070_TOPIC_URL,'https://example.test/api/integrations/editorial-status/');
   assert.equal(result.status,'CREATED');assert.deepEqual(calls,['poll','queue_ack','unlock']);assert.equal(rows.length,1);
 });

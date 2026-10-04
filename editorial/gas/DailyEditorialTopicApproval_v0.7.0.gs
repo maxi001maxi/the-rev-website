@@ -4,12 +4,12 @@
  * A one-minute poll resumes approved topics of every date, outside the morning
  * creation window too. Waiting for the owner is an intentional state.
  */
-var V070_TOPIC_URL = V069_STATUS_URL.replace(/editorial-status\/?$/, 'editorial-topics/');
+var V070_TOPIC_URL = V069_STATUS_URL;
 
 function v070TopicRequest_(action, extra) {
   var queue = v069QueueRows_();
   var body = {
-    action: action,
+    action: 'topic_' + action,
     rows: queue.rows.map(function(x) {
       var row = v069cSlim_(x, V069C_PLAN_FIELDS);
       row.failed_stage = x.failed_stage || '';
@@ -35,9 +35,10 @@ function v070TopicView_(proposals) {
   if (props.getProperty('THE_REV_TOPIC_VIEW_HASH') === v070Hash_(digest)) return;
   var sh = ss_().getSheetByName('記事候補');
   if (!sh) sh = ss_().insertSheet('記事候補');
+  var labels = {TOPIC_SELECTION_WAITING:'候補選択待ち',INTERVIEW_WAITING:'インタビュー回答待ち',APPROVED:'制作待ち',QUEUE_CREATED:'制作開始済み',REVIEW_REQUIRED:'要確認'};
   var values = [['対象日','候補ID','状態','番号','記事案','選定理由','既存記事との違い','確認質問']];
   (proposals || []).forEach(function(p) {
-    p.options.forEach(function(o) { values.push([p.target_date,p.id,p.status,o.number,o.title,o.reason,o.difference,o.interview_required ? '選択後に質問' : '登録資料で制作可能']); });
+    p.options.forEach(function(o) { values.push([p.target_date,p.id,labels[p.status] || p.status,o.number,o.title,o.reason,o.difference,o.interview_required ? '選択後に質問' : '登録資料で制作可能']); });
   });
   if (sh.getMaxRows() < values.length) sh.insertRowsAfter(sh.getMaxRows(), values.length - sh.getMaxRows());
   // This sheet belongs to this view; no unrelated Master tabs are changed.
@@ -160,6 +161,10 @@ function installDailyEditorialTopicApprovalV070() {
   // Install only after the new API, private table, LINE receiver and existing
   // Supervisor have been checked. Do not silently overwrite other triggers.
   var probe = v070TopicRequest_('poll', {});
+  var properties = PropertiesService.getScriptProperties();
+  var recipient = properties.getProperty('THE_REV_LINE_USER_ID');
+  if (!probe.capabilities || !probe.capabilities.line_receiver_configured) throw new Error('LINE_RECEIVER_NOT_CONFIGURED');
+  if (!recipient || v070Hash_(recipient) !== probe.capabilities.line_owner_fingerprint || !properties.getProperty('THE_REV_LINE_CHANNEL_ACCESS_TOKEN')) throw new Error('LINE_OWNER_OR_TOKEN_NOT_CONFIGURED');
   if (!v069cSupervisorWired_().ok) throw new Error('SUPERVISOR_NOT_WIRED');
   var settings = ss_().getSheetByName('08_SETTINGS');
   var rows = getObjectsWithRow_(settings);

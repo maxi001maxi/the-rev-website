@@ -6,8 +6,7 @@ on:
     paths:
       - 'api/integrations/editorial.mjs'
       - 'api/integrations/editorial-status.mjs'
-      - 'api/integrations/editorial-topics.mjs'
-      - 'api/integrations/line-editorial-webhook.mjs'
+      - 'lib/editorialLineWebhook.mjs'
       - 'lib/editorialTopic*.mjs'
       - 'scripts/test-editorial-topic-approval.mjs'
       - 'supabase/migrations/*editorial_topic_approval.sql'

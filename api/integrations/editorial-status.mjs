@@ -29,14 +29,32 @@ import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
 import { planDailyEditorial } from '../../lib/dailyEditorialStateMachine.mjs';
 import { planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
 import { autoPublishGate } from '../../lib/editorialAutoPublishGate.mjs';
+import lineEditorialWebhook from '../../lib/editorialLineWebhook.mjs';
+import { topicResponse } from '../../lib/editorialTopicApi.mjs';
+import crypto from 'node:crypto';
 
 const DAILY_PLAN_MAX_ROWS = 500;
 const DAILY_SHORTLIST_MAX_ROWS = 200;
 const DAILY_PLAN_MAX_RECONCILE = 10;
 
-export const config = { maxDuration: 300 };
+export const config = { api: { bodyParser: false }, maxDuration: 300 };
+
+export async function readEditorialJson(req) {
+  if (req.body && typeof req.body === 'object') return req.body;
+  if (typeof req.body === 'string') return JSON.parse(req.body);
+  const parts = []; let length = 0;
+  for await (const part of req) {
+    const buffer = Buffer.from(part); length += buffer.length;
+    if (length > 2 * 1024 * 1024) throw new Error('EDITORIAL_BODY_TOO_LARGE');
+    parts.push(buffer);
+  }
+  return JSON.parse(Buffer.concat(parts).toString('utf8'));
+}
 
 export default async function handler(req, res) {
+  // Same Vercel function, separate authentication. LINE needs untouched bytes;
+  // all existing Bridge operations still require the existing Bearer secret.
+  if (req.query?.mode === 'line_webhook') return lineEditorialWebhook(req, res);
   if (req.method !== 'GET' && req.method !== 'POST') {
     res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ error: 'method_not_allowed', message: 'GET / POSTのみサポートしています。' });
@@ -55,7 +73,23 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'unauthorized', message: 'Editorial Bridgeの認証に失敗しました。' });
   }
 
-  if (req.method === 'POST') return handleDailyPlan(req, res);
+  if (req.method === 'POST') {
+    let body;
+    try { body = await readEditorialJson(req); }
+    catch (e) { return res.status(e.message === 'EDITORIAL_BODY_TOO_LARGE' ? 413 : 400).json({error:'invalid_request_body'}); }
+    if (/^topic_(prepare|poll|choose|answer|notification_ack|queue_ack)$/.test(body.action || '')) {
+      const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+      try {
+        const payload = await topicResponse({...body,action:body.action.slice(6)},supabase);
+        res.setHeader('Cache-Control','no-store');
+        return res.status(200).json({ok:true,...payload,capabilities:{
+          line_receiver_configured:Boolean(process.env.THE_REV_LINE_CHANNEL_SECRET && process.env.THE_REV_LINE_USER_ID),
+          line_owner_fingerprint:process.env.THE_REV_LINE_USER_ID ? crypto.createHash('sha256').update(process.env.THE_REV_LINE_USER_ID).digest('hex') : null
+        }});
+      } catch(e) { return res.status(/DB_|UNAVAILABLE|FAILED/.test(e.message) ? 502 : 422).json({error:e.message}); }
+    }
+    return handleDailyPlan(req, res, body);
+  }
 
   const contentId = String(req.query?.content_id || '').trim();
   if (!contentId) {
@@ -269,8 +303,8 @@ export default async function handler(req, res) {
   });
 }
 
-async function handleDailyPlan(req, res) {
-  const body = typeof req.body === 'string' ? safeParse(req.body) : (req.body || {});
+async function handleDailyPlan(req, res, parsedBody) {
+  const body = parsedBody || (typeof req.body === 'string' ? safeParse(req.body) : (req.body || {}));
   const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY,

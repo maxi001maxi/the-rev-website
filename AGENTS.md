@@ -6,7 +6,7 @@
 
 フロー（v0.7.0有効時）: 毎日一定時刻 → **翌日分の理由付き3候補** → オーナーがLINE/GPTで選択 → 必要な一次情報Interview → 記事 → QC → GBP → 画像 → Review Ready → 人間Publish → 公開後状態も自動同期
 
-- 候補確認正本: `lib/editorialTopicApproval.mjs` / `api/integrations/editorial-topics.mjs` / `editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs`
+- 候補確認正本: `lib/editorialTopicApproval.mjs` / `lib/editorialTopicApi.mjs` / `editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs`
 - `daily_editorial_topic_approval_required=TRUE` の間は、旧Creator・接続済み予備タスクも未選択記事を作らない。承認は `editorial_topic_proposals` に保存し、選択時点と制作再開時点で全履歴を照合する
 - `TOPIC_SELECTION_WAITING` / `INTERVIEW_WAITING` は意図した人間待ち。エラー・無通知停止・自動選択へ置き換えない。毎日の対象日が変わっても承認済み候補を再開する
 - 「返答しました」だけでは、選択した記事やInterview内容の証拠にならない。明確な候補ID・番号または回答本文を確認する
