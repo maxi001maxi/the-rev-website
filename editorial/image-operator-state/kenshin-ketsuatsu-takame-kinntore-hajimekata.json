@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
   "qa_report_path": "editorial/image-qa/kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.json",
   "asset_version": "reference-v26-auto-lobby-20260924-89d8aa53",
-  "updated_at": "2026-10-04T01:06:31.427Z"
+  "updated_at": "2026-10-04T01:06:31.427Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-04T01:06:49Z"
 }
