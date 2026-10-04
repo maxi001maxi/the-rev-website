@@ -1,6 +1,6 @@
 {
   "_template": true,
-  "_note": "Canonical full Job example. V2.6 Human First keeps the deterministic V2.4 overlay contract ID for compatibility, but defaults new/requeued jobs to human-first-v1: exactly one customer, person-led composition, soft THE REV. background, large readable headline, and recent-copy de-duplication.",
+  "_note": "Canonical full Job example. V2.6 Human First keeps the deterministic V2.4 overlay contract ID for compatibility, but defaults new/requeued jobs to human-first-v1: exactly one customer, person-led composition, soft THE REV. background, large readable headline, and recent-copy de-duplication. New jobs also carry scene_action_version/action_contract so a passive standing pose cannot satisfy semantic relevance.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
   "category_label": "BODY KNOWLEDGE",
@@ -46,7 +46,8 @@
     "layout_variant": "human-first-v1",
     "customer_presentation": "female",
     "human_visual_attention_share_target": "60-70%",
-    "background_role": "secondary-recognizable-the-rev-soft-blur"
+    "background_role": "secondary-recognizable-the-rev-soft-blur",
+    "scene_action_version": "the-rev-scene-action-v1"
   },
   "background_source": {
     "drive_file_id": "",
@@ -91,5 +92,18 @@
     "recent_thumbnail_copy_window": 12,
     "recent_thumbnail_headlines": [],
     "recent_customer_presentations": []
+  },
+  "scene_action_version": "the-rev-scene-action-v1",
+  "action_contract": {
+    "required": true,
+    "primary_action": "記事固有の自然な行動を、視線・姿勢・手の使い方まで具体化する",
+    "subject_object_relationship": "人物が何をしており、何に注意を向けているかがタイトルなしでも分かる",
+    "passive_observation_only_forbidden": true,
+    "unsupported_interactions_forbidden": [
+      "理由のない直立ポーズ",
+      "床を見るだけ",
+      "広告モデルのポーズ",
+      "未確認の設備・サービス・小道具"
+    ]
   }
 }
