@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "denba-electric-potential-space-radio-wave-difference",
+  "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "DENBAの基本",
+        "電位空間"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9937350429209016,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        128.7128712871287
+      ],
+      "focus_line": 1,
+      "focus_text": "電位空間",
+      "focus_scale": 1.6501650165016502,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9974497810357958,
+      "block_area_ratio": 0.1597743689766112,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.7578125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8784313725490196,
+      "fade_start": 604,
+      "fade_end": 741,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.841942402339893,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 200,
+          "right": 580.21875,
+          "bottom": 312,
+          "width": 516.21875
+        },
+        {
+          "left": 64,
+          "top": 297.359375,
+          "right": 581.9375,
+          "bottom": 482.359375,
+          "width": 517.9375
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+      "asset_sha256": "3757ec2894828126b8da6b02335b1dd1801c9314d7d381fa5b36ca45ae3728cd",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-320.jpg",
+          "sha256": "6c60704f79f21342090363bb79bae427bd418b70182130a8988d313cc7bb28ad"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-400.jpg",
+          "sha256": "e97db02cd2c32f6ec71ebc2964922ae0fa5f998b202979f8d85e009cf3d8be55"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "DENBAの基本",
+        "電位空間"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9937350429209016,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        128.7128712871287
+      ],
+      "focus_line": 1,
+      "focus_text": "電位空間",
+      "focus_scale": 1.6501650165016502,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9974497810357958,
+      "block_area_ratio": 0.171186823903512,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 314.7578125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8784313725490196,
+      "fade_start": 604,
+      "fade_end": 741,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.841942402339893,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 177,
+          "right": 580.21875,
+          "bottom": 289,
+          "width": 516.21875
+        },
+        {
+          "left": 64,
+          "top": 274.359375,
+          "right": 581.9375,
+          "bottom": 459.359375,
+          "width": 517.9375
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+      "asset_sha256": "dabf9dae5187bfd2a68b704e3ce80013da7d1c941f9bc6e9687c5a73efbfcac9",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-320.jpg",
+          "sha256": "bd52774569fcaac17fd78199e7e1b97f5cd494bb90a81422ff47d828ab9eb006"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-400.jpg",
+          "sha256": "a867696d3a811b7ba2377b8bba75be0179e9beab5a994f9576c9242206fe3caf"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "DENBAの基本",
+        "電位空間"
+      ],
+      "text_preserved": true,
+      "font_size": 60,
+      "font_size_at_320": 16,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9956420301616917,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        60,
+        98.82352941176471
+      ],
+      "focus_line": 1,
+      "focus_text": "電位空間",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.905034116041214,
+      "block_area_ratio": 0.07295999566030398,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.9375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 480,
+      "fade_end": 599,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 323,
+          "right": 457.09375,
+          "bottom": 409,
+          "width": 397.09375
+        },
+        {
+          "left": 60,
+          "top": 404.1875,
+          "right": 457.65625,
+          "bottom": 546.1875,
+          "width": 397.65625
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+      "asset_sha256": "be7f67077a6519969326ee39d99628ba0995015b9f213e3fad9a4e14340cd49f",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-320.jpg",
+          "sha256": "948d0d5ca911de650db832ed32283ccbf529497cc7105ef424d22c5e1e11d7b5"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-400.jpg",
+          "sha256": "45b362c2c3651e4d572fb6df0c2958b02d6979c1a0e308928f8a1cc85d28ec5c"
+        }
+      }
+    }
+  }
+}
