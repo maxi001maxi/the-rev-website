@@ -114,6 +114,23 @@ const good={contentId:'BLOG',blog:{status:'READY',article_type:'STANDARD',body_m
   gbp:{parent_blog_id:'BLOG',status:'READY',image_status:'READY',gbp_image_path:'/gbp.jpg'},
   bridge:{bridge_status:'PREVIEW_READY',review_url:'https://example.test/review'},
   qa:{pass:true,xserver_live_verify_passed:true,gbp_xserver_live_verify_passed:true},gbpQa:{pass:true,ratio:'4:3',width:1200,height:900}};
+test('GAS reconciles a late human rejection even when server readiness is already false',()=>{
+  const sheets={'26_DAILY_EDITORIAL_QUEUE':[{content_id:'BLOG',queue_status:'REVIEW_READY',__row:2}],
+    '25_WEB_PUBLISH_BRIDGE':[{content_id:'BLOG',bridge_status:'PREVIEW_READY',__row:2}],
+    '22_GBP_POST':[{parent_blog_id:'BLOG',image_status:'READY',__row:2},{parent_blog_id:'BLOG',__row:1003}]};
+  const context={ss_:()=>({getSheetByName:n=>sheets[n]}),getObjectsWithRow_:s=>s||[],
+    setObjectRow_:(s,row,p)=>Object.assign(s.find(x=>x.__row===row),p)};
+  vm.createContext(context);vm.runInContext(fs.readFileSync('editorial/gas/DailyEditorialCreator_v0.6.9.gs','utf8'),context);
+  const rejected={content_id:'BLOG',article:{publish_status:'NOT_PUBLISHED',image_qa:{pass:false,manual_visual_rejection:true,reason:'unsupported equipment'}},readiness:{ready:false}};
+  context.v069cApplyResponseContract_(rejected);
+  assert.equal(sheets['26_DAILY_EDITORIAL_QUEUE'][0].queue_status,'REVIEW_REQUIRED');
+  assert.equal(sheets['25_WEB_PUBLISH_BRIDGE'][0].image_status,'ERROR');
+  assert.ok(sheets['22_GBP_POST'].every(x=>x.image_status==='ERROR'));
+  assert.equal(rejected.readiness.reason,'manual_visual_rejection');
+  const snapshot=JSON.stringify(sheets);
+  context.v069cApplyResponseContract_({...rejected,article:{...rejected.article,publish_status:'PUBLISHED'}});
+  assert.equal(JSON.stringify(sheets),snapshot);
+});
 test('8 Blog READY without GBP canonical row cannot reach REVIEW_READY',()=>{
   assert.equal(evaluateEditorialReviewReady({...good,gbp:null}).ok,false);
   assert.equal(evaluateEditorialReviewReady({...good,gbp:{...good.gbp,parent_blog_id:'OTHER'}}).ok,false);

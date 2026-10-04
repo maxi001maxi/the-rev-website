@@ -474,9 +474,33 @@ function v069cLengthGate_(type, body) {
   return {pass: count >= min, count: count, min: min, type: t};
 }
 function v069cApplyResponseContract_(json) {
-  if (!json || !json.article || !json.readiness || json.readiness.ready !== true) return json;
+  if (!json || !json.article || !json.readiness) return json;
   var a = json.article, id = String(a.editorial_content_id || json.content_id || '');
   if (!id) { json.readiness.ready = false; json.readiness.reason = 'GBP_PARENT_ID_MISSING'; return json; }
+  // A rejection can arrive AFTER an older invocation marked REVIEW_READY.
+  // Reconcile that hold even when the server already reports ready=false.
+  if (a.image_qa && a.image_qa.manual_visual_rejection === true && String(a.publish_status || '').toUpperCase() !== 'PUBLISHED') {
+    var heldQueueSheet = ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE');
+    var heldQueue = getObjectsWithRow_(heldQueueSheet).filter(function(r) { return r.content_id === id; })[0];
+    if (heldQueue && String(heldQueue.queue_status).toUpperCase() === 'PUBLISHED') return json;
+    var reason = 'HUMAN_VISUAL_REJECT: ' + String(a.image_qa.reason || a.image_last_error || 'Human image review required');
+    if (heldQueue) setObjectRow_(heldQueueSheet,heldQueue.__row,{queue_status:'REVIEW_REQUIRED',image_status:'ERROR',
+      web_bridge_status:'IMAGE_PREPARING',last_error:reason,failed_stage:'IMAGE_QA',next_stage:'HUMAN_REVIEW',
+      human_action_required:'REVIEW_IMAGE',updated_at:new Date()});
+    var heldBridgeSheet = ss_().getSheetByName('25_WEB_PUBLISH_BRIDGE');
+    getObjectsWithRow_(heldBridgeSheet).filter(function(r) { return r.content_id === id && r.bridge_status !== 'PUBLISHED'; }).forEach(function(r) {
+      setObjectRow_(heldBridgeSheet,r.__row,{bridge_status:'IMAGE_PREPARING',image_status:'ERROR',
+        image_qa:JSON.stringify(a.image_qa),last_error:reason,synced_at:new Date()});
+    });
+    var heldGbpSheet = ss_().getSheetByName('22_GBP_POST');
+    getObjectsWithRow_(heldGbpSheet).filter(function(r) { return r.parent_blog_id === id; }).forEach(function(r) {
+      setObjectRow_(heldGbpSheet,r.__row,{image_status:'ERROR',image_notes:'4:3 / ' + reason});
+    });
+    json.readiness.ready = false;
+    json.readiness.reason = 'manual_visual_rejection';
+    return json;
+  }
+  if (json.readiness.ready !== true) return json;
   var qsh = ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE');
   var bsh = ss_().getSheetByName('21_WEB_BLOG_OUTPUT');
   var gsh = ss_().getSheetByName('22_GBP_POST');
