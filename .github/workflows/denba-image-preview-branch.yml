@@ -6,6 +6,10 @@ on:
       - 'fix/denba-editorial-scene-action-v2-20261004'
     paths:
       - '.github/workflows/denba-image-preview-branch.yml'
+  pull_request:
+    branches:
+      - main
+    types: [opened]
 
 permissions:
   contents: write
