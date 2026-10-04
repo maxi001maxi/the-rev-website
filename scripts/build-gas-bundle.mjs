@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 
 const DIR = new URL('../editorial/gas/', import.meta.url);
-const SOURCES = ['DailyEditorialGate_v0.6.9.gs', 'DailyEditorialCreator_v0.6.9.gs'];
+const SOURCES = ['DailyEditorialGate_v0.6.9.gs', 'DailyEditorialCreator_v0.6.9.gs', 'DailyEditorialTopicApproval_v0.7.0.gs'];
 export const BUNDLE = 'DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs';
 
 const HEADER = `/**
@@ -18,6 +18,7 @@ const HEADER = `/**
  * Generated from:
  * - DailyEditorialGate_v0.6.9.gs
  * - DailyEditorialCreator_v0.6.9.gs
+ * - DailyEditorialTopicApproval_v0.7.0.gs
  *
  * Paste this entire file into ONE file in the bound Apps Script project,
  * then run installDailyEditorialAutonomyV069() once.

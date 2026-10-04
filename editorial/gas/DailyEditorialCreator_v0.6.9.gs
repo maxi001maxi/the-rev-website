@@ -294,6 +294,10 @@ function v069cNotifyPreparedReady_() {
 }
 
 function scheduledDailyEditorialCreatorV069Unlocked_(force) {
+  if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE') {
+    if (typeof v070TopicTick_ !== 'function') throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
+    return v070TopicTick_(force);
+  }
   var lengthRecovery = { status: 'NO_LENGTH_RECOVERY' };
   try { lengthRecovery = v069cRecoverLengthReviewRequired_(); } catch (_lr) {}
   var readyNotices = [];

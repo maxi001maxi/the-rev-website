@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.5.0",
+  "schema_version": "1.6.0",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
@@ -219,6 +219,12 @@
         "state": "NO_ACTION",
         "notification_type": "NO_ACTION",
         "notification_required": true
+      },
+      {
+        "state": "TOPIC_SELECTION_WAITING",
+        "notification_required": true,
+        "notification_type": "THREE_REASONED_TOPICS",
+        "human_action_required": "CHOOSE_TOPIC_IN_LINE_OR_GPT"
       }
     ]
   },
@@ -302,6 +308,9 @@
   ],
   "flow": [
     "EVERY_DAY_FIXED_TIME",
+    "THREE_REASONED_TOPICS",
+    "OWNER_TOPIC_CHOICE",
+    "OPTIONAL_FIRST_PARTY_INTERVIEW",
     "PREPARE_NEXT_DAY_ARTICLE",
     "DRAFT",
     "QC",
@@ -319,5 +328,29 @@
     "bridge": "25_WEB_PUBLISH_BRIDGE bridge_status -> PUBLISHED + published_url",
     "gbp": "22_GBP_POST [BLOG_URL] -> production URL, BLOCKED_URL -> READY (never posted)",
     "post_history": "NOT_WRITTEN: 01_POST_HISTORY feeds the Instagram planner, embeddings and performance sync by post_id; Blog history lives in Queue + Bridge"
+  },
+  "topic_approval": {
+    "enabled_setting": "daily_editorial_topic_approval_required",
+    "live_cadence_after_install": "DAILY",
+    "candidate_count": 3,
+    "selection_required_before_draft": true,
+    "wait_state": "TOPIC_SELECTION_WAITING",
+    "human_wait_is_error": false,
+    "approval_channels": [
+      "LINE",
+      "GPT"
+    ],
+    "interview_mode": "TOPIC_KNOWLEDGE_GAP_ONLY",
+    "reply_resumes_all_target_dates": true,
+    "approval_poll_minutes": 1,
+    "proposal_table": "editorial_topic_proposals",
+    "line_event_receipts_table": "editorial_line_receipts",
+    "api": "POST /api/integrations/editorial-status {action:topic_*}",
+    "line_webhook": "POST /api/integrations/editorial-status/?mode=line_webhook",
+    "engine": "lib/editorialTopicApproval.mjs",
+    "gas_source": "editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs",
+    "gate_authority": "GATE_PLUS_PERSISTED_OWNER_CHOICE",
+    "legacy_create_requires_approval": true,
+    "public_publish_approval_separate": true
   }
 }

@@ -4,7 +4,13 @@
 
 日次記事の新規作成可否とPublish後のQueue同期は、プロンプト判断ではなくコードが正本です。
 
-フロー: 毎日一定時刻 → **翌日分**を自動準備 → 記事 → QC → GBP → 画像 → Review Ready → 人間Publish → 公開後状態も自動同期
+フロー（v0.7.0有効時）: 毎日一定時刻 → **翌日分の理由付き3候補** → オーナーがLINE/GPTで選択 → 必要な一次情報Interview → 記事 → QC → GBP → 画像 → Review Ready → 人間Publish → 公開後状態も自動同期
+
+- 候補確認正本: `lib/editorialTopicApproval.mjs` / `lib/editorialTopicApi.mjs` / `editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs`
+- `daily_editorial_topic_approval_required=TRUE` の間は、旧Creator・接続済み予備タスクも未選択記事を作らない。承認は `editorial_topic_proposals` に保存し、選択時点と制作再開時点で全履歴を照合する
+- `TOPIC_SELECTION_WAITING` / `INTERVIEW_WAITING` は意図した人間待ち。エラー・無通知停止・自動選択へ置き換えない。毎日の対象日が変わっても承認済み候補を再開する
+- 「返答しました」だけでは、選択した記事やInterview内容の証拠にならない。明確な候補ID・番号または回答本文を確認する
+- LINEはraw bodyの署名と登録済みオーナーを検証する。通知SENTはAPI受理を意味し、既読・端末到達を推測しない
 
 - 判定エンジン: `lib/dailyEditorialStateMachine.mjs`（`planDailyEditorial`）
 - 判定API: `POST /api/integrations/editorial-status` `{ "action": "daily_plan", "rows": [...] }`
@@ -23,7 +29,7 @@
 - 通知（LINE等）の失敗は記録するが、記事生成の停止条件にしない。未確認の通知をSENT扱いしない
 - 対象日（営業日）の行が作られなかった場合は `ERROR_BLOCKED` として通知する（無通知停止禁止）
 - 認証付きBridgeを呼べない接続済み予備タスクは `scripts/daily-editorial-connector-plan.mjs` で同じcommitの正本モジュールを実行できる（Runbook §5）。独自ロジックへの置換は禁止。対象日の新規作成が不要でも既存の未完了行を確認する。
-- **新規記事を作り始める判断はGateのdecisionだけ**。外部のChatGPT Scheduled Task等が独自に作る/止める判断をしてはならない。`REVIEW_READY` やactive件数を理由にした独自停止は禁止。残す場合は `DAILY_CREATOR_RUNBOOK.md` §5 の機械的フォールバックのみ
+- **新規記事を作り始める判断はGateと保存済みオーナー選択の両方**。外部のChatGPT Scheduled Task等が独自に作る/止める判断をしてはならない。`REVIEW_READY` やactive件数を理由にした独自停止は禁止。残す場合は `DAILY_CREATOR_RUNBOOK.md` §5 の機械的フォールバックのみ
 - 「CREATE_NEWを記録した」「Watchdogが失敗を通知した」は成功ではない。成功は対象日のQueue行を読み戻して確認できた時だけ
 - 一次情報が未登録のレーンを「既存知識で十分」と推測しない（`dailyEditorialKnowledge.mjs` の登録が必要。無ければInterview）
 - 最終PublishとGBP投稿は人間承認で停止する。自動公開のSafety Gateは `lib/editorialAutoPublishGate.mjs`（Vercel env `AUTO_PUBLISH_ENABLED=true` と 08_SETTINGS `auto_publish=TRUE` の両方 + executor登録）。現在はexecutor未実装で、両方ONでも公開しない

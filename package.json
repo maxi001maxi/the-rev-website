@@ -5,6 +5,7 @@
   "description": "THE REV. CONDITIONING LAB. 公式サイト（静的HTML）＋ Blog/Column ビルド",
   "type": "module",
   "scripts": {
+    "test:topic-approval": "node --test scripts/test-editorial-topic-approval.mjs",
     "build:blog": "node scripts/build-blog.mjs",
     "vercel-build": "node scripts/build-blog.mjs && node scripts/prepare-deploy.mjs",
     "test:phase-d": "node scripts/test-phase-d.mjs",

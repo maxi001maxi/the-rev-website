@@ -6,6 +6,10 @@ on:
     paths:
       - 'api/integrations/editorial.mjs'
       - 'api/integrations/editorial-status.mjs'
+      - 'lib/editorialLineWebhook.mjs'
+      - 'lib/editorialTopic*.mjs'
+      - 'scripts/test-editorial-topic-approval.mjs'
+      - 'supabase/migrations/*editorial_topic_approval.sql'
       - 'api/admin/publish-status.mjs'
       - 'lib/editorialPublicationStatus.mjs'
       - 'lib/githubContent.mjs'
@@ -124,6 +128,7 @@ jobs:
       - run: npm run test:daily-editorial-contract
       - run: npm run test:daily-editorial-state-machine
       - run: npm run test:daily-creator
+      - run: npm run test:topic-approval
       - run: node --test scripts/test-daily-editorial-connector-plan.mjs
       - run: node --test scripts/test-editorial-consistency.mjs
       - run: npm run test:phase-9
