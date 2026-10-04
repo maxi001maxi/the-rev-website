@@ -3,6 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
+import { evaluateEditorialReviewReady } from '../lib/editorialReadiness.mjs';
 
 export function connectorDailyPlan(input) {
   if (!input || !Array.isArray(input.rows) || !Array.isArray(input.shortlist)) {
@@ -15,10 +16,18 @@ export function connectorDailyPlan(input) {
     rows: input.rows,
     shortlist: input.shortlist,
     settings: input.settings || {},
+    articleHistory: input.articleHistory || [],
+    outputRows: input.outputRows || [],
     evidenceByContentId: input.evidenceByContentId || {},
     now: new Date(input.now)
   });
-  return { ...result, execution_mode: 'CONNECTOR_CANONICAL_PLAN', writes_performed: 0 };
+  if (result.plan.decision.action === 'CREATE_NEW' &&
+      (!Array.isArray(input.articleHistory) || !input.articleHistory.length || !Array.isArray(input.outputRows))) {
+    throw new Error('complete articleHistory and outputRows are required before creating a candidate');
+  }
+  const review_readiness = Object.fromEntries(Object.entries(input.reviewInputsByContentId || {})
+    .map(([id,value])=>[id,evaluateEditorialReviewReady({...value,contentId:id,settings:input.settings || {}})]));
+  return { ...result, review_readiness, execution_mode: 'CONNECTOR_CANONICAL_PLAN', writes_performed: 0 };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

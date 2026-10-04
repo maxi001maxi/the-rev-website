@@ -391,7 +391,7 @@ var V069C_SUPERVISOR_FUNCTIONS = [
 ];
 var V069C_SHORTLIST_FIELDS = [
   'candidate_id', 'week_start', 'generated_at', 'rank', 'status', 'decision', 'route_lane', 'topic',
-  'title_candidate', 'primary_query', 'audience_question', 'why_now', 'local_angle', 'unique_angle',
+  'title_candidate', 'primary_query', 'audience_question', 'why_now', 'local_angle', 'unique_angle', 'main_claim',
   'selection_reason', 'article_type', 'total_score', 'source_refs', 'notes', 'comparison_doc_url',
   'content_pillar', 'pillar_recent12_count', 'pillar_diversity_adjustment', 'pillar_adjusted_score',
   'pillar_policy_version', 'content_cluster', 'cluster_recent4_count', 'cluster_priority_adjustment',
@@ -400,7 +400,9 @@ var V069C_SHORTLIST_FIELDS = [
 ];
 var V069C_PLAN_FIELDS = [
   'queue_id', 'run_date', 'target_date', 'content_id', 'topic_candidate_id', 'primary_query', 'queue_status',
-  'draft_status', 'web_bridge_status', 'created_at', 'updated_at'
+  'draft_status', 'web_bridge_status', 'created_at', 'updated_at', 'topic', 'title', 'article_type',
+  'audience_question', 'unique_angle', 'main_claim', 'content_cluster', 'content_pillar',
+  'topic_gate_json', 'knowledge_context_json'
 ];
 
 function v069cJstHour_() {
@@ -441,11 +443,21 @@ function v069cRequest_(queue, shortlist) {
     now: new Date().toISOString(),
     rows: queue.rows.map(function (x) { return v069cSlim_(x, V069C_PLAN_FIELDS); }),
     shortlist: shortlist.rows.map(function (x) { return v069cSlim_(x, V069C_SHORTLIST_FIELDS); }),
+    outputRows: getObjectsWithRow_(ss_().getSheetByName('21_WEB_BLOG_OUTPUT')).map(function(x) {
+      var row = v069cSlim_(x, ['content_id','title','slug_suggestion','target_keyword','search_intent','meta_description','article_type']);
+      row.body_summary = String(x.body_markdown || '').replace(/\s+/g, ' ').slice(0,1800);
+      return row;
+    }),
     settings: v069Settings_()
   });
   if (r.code < 200 || r.code >= 300 || !r.json || r.json.ok !== true || !r.json.plan || !r.json.creation) {
     throw new Error('daily_create failed: HTTP ' + r.code + ' / ' + String((r.json && r.json.message) || r.body || '').slice(0, 800));
   }
+  (r.json.creation.considered || []).forEach(function(e) {
+    if (!e.duplicate || !e.duplicate.overlap) return;
+    var hit = shortlist.rows.filter(function(x) { return String(x.candidate_id) === e.candidate_id; })[0];
+    if (hit && ['SELECTED','PUBLISHED','USED','PREVIEW_PUBLISHED'].indexOf(String(hit.status).toUpperCase()) < 0) setObjectRow_(shortlist.sheet, hit.__row, {status:'SKIPPED_OVERLAP',notes:v069AppendNote_(hit.notes, JSON.stringify(e.duplicate.matches))});
+  });
   return r.json;
 }
 
@@ -772,4 +784,117 @@ function startDailyEditorialAutonomyV069() {
 function runDailyEditorialCreatorV069Once() {
   return v069WithLock_(function () { return scheduledDailyEditorialCreatorV069Unlocked_(true); });
 }
+
+// Runtime adapters for the installed v0.6.5.x Supervisor. These wrap its
+// authenticated status response BEFORE it promotes the Queue or notifies.
+// No trigger, cadence, approval or publication changes.
+function v069cReviewContract_(q, blog, gbp, a, reviewUrl) {
+  var qa = a.image_qa || {}, gqa = a.gbp_image_qa || {};
+  var length = v069cLengthGate_(blog && blog.article_type, blog && blog.body_markdown);
+  var checks = {
+    blog_ready: !!blog && blog.status === 'READY' && length.pass,
+    gbp_row_exists: !!gbp,
+    gbp_parent_matches: !!gbp && gbp.parent_blog_id === q.content_id,
+    gbp_ready: !!gbp && gbp.status === 'READY',
+    gbp_image_ready: !!gbp && gbp.image_status === 'READY',
+    gbp_image_path: !!gbp && !!gbp.gbp_image_path,
+    gbp_ratio: gqa.pass === true && gqa.ratio === '4:3' && Number(gqa.width) === 1200 && Number(gqa.height) === 900,
+    visual_qa: qa.pass === true && qa.manual_visual_rejection !== true,
+    scene_plausibility: ['location_behavior_plausible','service_misrepresentation_absent','unsupported_equipment_absent','scene_plausible_at_the_rev'].every(function(k) {
+      return qa.scene_plausibility_version === 'the-rev-scene-plausibility-v1' ? qa[k] === true : qa[k] !== false;
+    }),
+    xserver_verified: qa.xserver_live_verify_passed === true && qa.gbp_xserver_live_verify_passed === true,
+    bridge_ready: a.image_status === 'READY' && a.image_asset_ready === true,
+    review_url: !!reviewUrl
+  };
+  var missing = Object.keys(checks).filter(function(k) { return !checks[k]; });
+  return {ok: !missing.length, checks: checks, missing: missing};
+}
+function v069cLengthGate_(type, body) {
+  var st = getSettings_(), t = String(type || 'STANDARD').toUpperCase();
+  var min = t === 'EXPERT_DEEP_DIVE' ? Math.max(1400, Number(st.blog_expert_min_chars || 1400))
+    : t === 'STANDARD' ? Math.max(1200, Number(st.blog_standard_min_chars || 1600)) : 0;
+  var count = String(body || '').replace(/\s/g, '').length;
+  return {pass: count >= min, count: count, min: min, type: t};
+}
+function v069cApplyResponseContract_(json) {
+  if (!json || !json.article || !json.readiness || json.readiness.ready !== true) return json;
+  var a = json.article, id = String(a.editorial_content_id || json.content_id || '');
+  if (!id) { json.readiness.ready = false; json.readiness.reason = 'GBP_PARENT_ID_MISSING'; return json; }
+  var qsh = ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE');
+  var bsh = ss_().getSheetByName('21_WEB_BLOG_OUTPUT');
+  var gsh = ss_().getSheetByName('22_GBP_POST');
+  var q = getObjectsWithRow_(qsh).filter(function(r) { return r.content_id === id; })[0];
+  var blog = getObjectsWithRow_(bsh).filter(function(r) { return r.content_id === id; })[0];
+  var gbp = getObjectsWithRow_(gsh).filter(function(r) { return r.parent_blog_id === id; })[0];
+  if (!q) { json.readiness.ready = false; json.readiness.reason = 'QUEUE_ROW_MISSING'; return json; }
+  if (!gbp && blog && blog.status === 'READY' && v069cLengthGate_(blog.article_type, blog.body_markdown).pass) {
+    var ctx = buildM6Context_(v065WeekDate_(q.week_start || q.run_date));
+    var made = generateGBPFromBlog_(blog, ctx);
+    if (made && made.body_copy_paste) {
+      appendObjectRow_(gsh, {generated_at:new Date(),week_start:q.week_start,
+        content_id:'GBP-' + id, parent_blog_id:id, title:made.title || blog.title,
+        body_copy_paste:made.body_copy_paste,cta_text:made.cta_text || '',local_context:made.local_context || '',
+        blog_url_placeholder:'[BLOG_URL]',status:'READY',post_ready:'BLOCKED_URL',notes:'Recovered from FINAL_WEB_BLOG_ONLY by consistency-v1; human posting required.'});
+      gbp = getObjectsWithRow_(gsh).filter(function(r) { return r.parent_blog_id === id; })[0];
+    }
+  }
+  var qa = a.image_qa || {}, gqa = a.gbp_image_qa || {};
+  if (gbp && a.gbp_image_status === 'READY' && a.gbp_image && gqa.pass === true &&
+      qa.xserver_live_verify_passed === true && qa.gbp_xserver_live_verify_passed === true) {
+    setObjectRow_(gsh, gbp.__row, {image_status:'READY',gbp_image_path:a.gbp_image,
+      image_asset_version:a.gbp_image_asset_version,image_notes:JSON.stringify(gqa) + ' / 4:3 / Xserver verified'});
+    gbp = getObjectsWithRow_(gsh).filter(function(r) { return r.parent_blog_id === id; })[0];
+  }
+  var verdict = v069cReviewContract_(q, blog, gbp, a, json.review_url);
+  if (!verdict.ok) {
+    json.readiness.ready = false;
+    json.readiness.reason = 'REVIEW_CONTRACT_BLOCKED:' + verdict.missing.join(',');
+    setObjectRow_(qsh,q.__row,{last_error:json.readiness.reason,failed_stage:'REVIEW_CONTRACT',next_stage:'REPAIR_GBP_OR_QC',updated_at:new Date()});
+  }
+  return json;
+}
+// Global initialization also runs on a Supervisor-only invocation. Merely
+// calling this from Creator would leave the 1-minute Supervisor unprotected.
+var V069C_CONSISTENCY_RUNTIME = (function() {
+  if (typeof v065LengthGate_ === 'function') v065LengthGate_ = v069cLengthGate_;
+  if (typeof v065FetchJson_ !== 'function') return 'SUPERVISOR_NOT_INSTALLED';
+  var original = v065FetchJson_;
+  v065FetchJson_ = function(url, options) {
+    var result = original(url, options);
+    if (/\/api\/integrations\/editorial-status(?:\/|\?|$)/.test(String(url))) v069cApplyResponseContract_(result.json);
+    return result;
+  };
+  if (typeof v065CheckImageDirect_ === 'function') {
+    var originalCheck = v065CheckImageDirect_;
+    v065CheckImageDirect_ = function(q) {
+      var result = originalCheck(q);
+      if (result.ready) {
+        var bridge = getObjectsWithRow_(ss_().getSheetByName('25_WEB_PUBLISH_BRIDGE'))
+          .filter(function(r) { return r.content_id === q.content_id; })[0];
+        if (!bridge || bridge.bridge_status !== 'PREVIEW_READY' || !bridge.review_url) {
+          result.ready = false;
+          result.reason = 'REVIEW_CONTRACT_BLOCKED:bridge_ready,review_url';
+        }
+      }
+      return result;
+    };
+  }
+  if (typeof v065SyncBridgeDirect_ === 'function') {
+    var originalSync = v065SyncBridgeDirect_;
+    v065SyncBridgeDirect_ = function(q, blog) {
+      var result = originalSync(q, blog);
+      if (result.bridge_status === 'PREVIEW_READY') {
+        var checked = v065CheckImageDirect_(q);
+        if (!checked.ready) {
+          result.bridge_status = 'IMAGE_PREPARING';
+          result.status = 'IMAGE_PREPARING';
+          result.reason = checked.reason;
+        }
+      }
+      return result;
+    };
+  }
+  return 'consistency-v1';
+})();
 

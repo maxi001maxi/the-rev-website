@@ -95,12 +95,15 @@ GAS Creatorの本番Triggerを確認できたら予備タスクは縮小また�
 
 - `scripts/daily-editorial-connector-plan.mjs`
 - `lib/dailyEditorialCreator.mjs`
+- `lib/editorialArticleOverlap.mjs`
+- `lib/editorialReadiness.mjs`
+- `lib/editorialScenePlausibility.mjs`
 - `lib/dailyEditorialStateMachine.mjs`
 - `lib/dailyEditorialKnowledge.mjs`
 - `lib/editorialPublication.mjs`
 - `lib/blogMarkdown.mjs`（Publicationが参照する依存。未取得だとNode起動時に停止する）
 
-stdinは `{now,rows,shortlist,settings,evidenceByContentId}`。Queue/Shortlist/SettingsはライブSheetsを使う。公開の証拠は接続済みSupabaseの `publish_status / publish_verified_at / published_url / publish_commit_sha` だけ。取得できない証拠を推測しない。
+stdinは `{now,rows,shortlist,settings,evidenceByContentId,articleHistory,outputRows}`。articleHistoryには同一main SHAのcontent/blog全件とSupabase全Draft、outputRowsには21_WEB_BLOG_OUTPUT全件を渡す。履歴取得失敗時は新規選定を止める。Queue/Shortlist/SettingsはライブSheetsを使う。公開の証拠は接続済みSupabaseの `publish_status / publish_verified_at / published_url / publish_commit_sha` だけ。取得できない証拠を推測しない。
 
 判定は既存の `planDailyCreation` そのもの。独自のテーマ選定、Knowledge判定、Gateの再実装は禁止。返されたpatchは既存列だけへ適用し、`creation.queue_row` を変更せず追記する。追記直前にtarget_dateの重複を読み直す。読み戻しで永続化を確認し、候補をSELECTEDへ同期する。
 
@@ -116,5 +119,17 @@ stdinは `{now,rows,shortlist,settings,evidenceByContentId}`。Queue/Shortlist/S
 - 導入日は `runDailyEditorialCreatorV069Once()` を1回実行すると、その日のうちに翌日分を準備できます
 - GAS（Gate / Creator / Watchdog）は自動配備されません。Apps Scriptへの貼り付けと `install...` の実行は人間が1回行う必要があります
 - v0.6.5.2 Supervisor本体はGitHubに無くDriveの貼り付け用パッチ文書のみです（Creatorはその選別条件に合う行を生成するよう、テストで固定しています）
-- 意味的な記事の被り（同一クエリではない類似テーマ）は、週次のTopic Gate / Shortlist段階の判定に依存します
+- 意味的な記事の被りは全記事履歴を用いたanswer-overlap-v1で候補作成前に検査する。説明可能な決定論的ルールのため、未知の言い換えには人間Reviewも必要。
 - 新しいテーマの一次情報が登録されるまで、そのレーンの記事はInterview経由になります
+
+## 7. Editorial Consistency v1（2026-10-04）
+
+全履歴Semantic Duplicate Gateはcandidateの読者疑問/答え・意図を比較し、SKIPPED_OVERLAPとduplicate_of/evidenceを返す。同カテゴリだけでは拒否しない。BridgeはGitHub公開記事全件とSupabase Draft全件を取得し、GASは21出力も送る。CreatorはShortlist notesに理由を保存する。
+
+記事別画像はlib/editorialImageSheetView.mjsのcolumn spillを正本とし、Bridge全件・最新順・ID重複排除・GBP parent_blog_id JOINで追従する。
+
+ONE_PASTEのconsistency-v1 runtime adapterは既存SupervisorのLength GateをSTANDARD/EXPERTへ適用し、画像status応答でGBP行の欠落を復旧またはREVIEW_READYを遮断する。STANDARD既定1600、EXPERT既定1400は異常短縮検出の下限で、目標文字数や水増し要求ではない。
+
+GitHub mergeはGASインストールの証明ではない。実行ログ・installed source・実Sheet readbackまで確認する。
+
+予備経路はreviewInputsByContentIdに実Blog/GBP/Bridge/Supabase QAを渡し、返されたreview_readinessがokの行だけREVIEW_READYへ進める。GBP行欠落は旧生成関数による復旧、またはBLOCKEDで止める。

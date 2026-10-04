@@ -61,7 +61,7 @@
 - 高難度動作はFLUX Kontext/Pro等のscene-aware photoreal editorまたは同等品質を優先し、使えない場合は静的シーンへ簡略化するかPREPARINGで止める
 - 人間Reviewで違和感が出た場合は `manual_visual_rejection=true` として自動QAの高得点より優先してREJECT
 - 直近4記事と同一画像・同一背景provenanceを再利用しない
-- Thumbnail Copyは直近12投稿を比較し、完全一致だけでなく主要フレーズが近い言い回しも避ける。安全な候補がない場合は自動生成を止める
+- Thumbnail Copyの完全一致は全履歴で禁止し、近似は直近25投稿を比較する。安全な候補がない場合は自動生成を止める
 - 新規Editorial画像はHybrid生成が必須。source-lockは障害切り分け用fallbackとしてのみ残し、新規記事のPublish完成条件にはしない
 - 生成シーンには日本語文字を生成させず、`rev-column-v24-fixed-overlay-v1` を `npm run image:render-hybrid-overlay -- <job.json>` で後段適用する。新規/再生成は `layout_variant=human-first-v1` を標準とし、`impact-v1` / `legacy-v24` は既存資産互換で保持する
 - Human First V1では人物が視覚的注意の約60〜70%を担う主役。顔・表情・記事固有の行動を小さいカードでも読ませ、THE REV.背景はロゴ/受付/設備などで場所が分かる程度に残しつつ自然にぼかしてサブへ下げる。見出しは2カラム表示でも即読できる大きさを維持する

@@ -812,3 +812,9 @@ Acceptance: `editorial/golden-typography-v1-acceptance/`。main mergeとProducti
 - Visual Art Directionに `composition_balanced`（見出しと人物の重心）/ `fade_integrated`（白いパネルに見えない自然な接続）を追加。いずれかfalseならFAIL。顔や手へfadeが侵入していないかも実画像で確認。
 - 承認済みGolden画像のhashは保持し、今回のユーザー指示を配置・fadeの改良として記録。新画像の人間最終承認を取得済みと扱わない。
 - 実画像確認: `editorial/golden-typography-v1-acceptance/shinomiya-personal-gym-reservation-facility-the-rev/balance-r2/`。酸素ルームの別コピーも `editorial/golden-typography-v1-acceptance/balance-r2/` で回帰確認。
+
+## Editorial Consistency v1（2026-10-04）
+
+画像コピー完全一致はQA/Jobの全履歴で再使用禁止。近似は直近25件で見出し全体を比較し、単独の一般語は永続禁止しない。
+
+新規自動Jobはthe-rev-scene-plausibility-v1。顧客の自然な状況・前後の瞬間を描き、記事主張の直訳を要求しない。健診記事は実ロビー/ベンチで健診結果らしい紙を見て考える場面でよい。血圧測定・医療機器・診察等の未確認サービスを描かない。QAはlocation_behavior_plausible / service_misrepresentation_absent / unsupported_equipment_absent / scene_plausible_at_the_revを必須にする。旧承認済み資産は互換を維持し、明示FAIL・人間REJECTは常に優先する。Golden Typographyは変更しない。

@@ -38,7 +38,8 @@
     "selection_policy": "relevance-first-lineage-recency-v2",
     "verified_repo_mirror_registry": "editorial/automated-image-sources.json",
     "repo_mirrors_must_have_scoped_drive_provenance": true,
-    "recent_thumbnail_copy_window": 12
+    "recent_thumbnail_copy_window": 25,
+    "exact_thumbnail_copy_scope": "all-history"
   },
   "output_contract": {
     "thumbnail": {
@@ -199,7 +200,14 @@
     "background_secondary_pass_required": true,
     "background_soft_blur_pass_required": true,
     "the_rev_anchor_visible_required": true,
-    "customer_presentation_matches_plan_required": true
+    "customer_presentation_matches_plan_required": true,
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "scene_plausibility_fields": [
+      "location_behavior_plausible",
+      "service_misrepresentation_absent",
+      "unsupported_equipment_absent",
+      "scene_plausible_at_the_rev"
+    ]
   },
   "operator_required": [
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",

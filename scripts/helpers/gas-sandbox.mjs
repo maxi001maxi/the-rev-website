@@ -52,14 +52,16 @@ export function createGasSandbox({
   bridgeDown = false,
   dropAppends = false,
   afterBridge = null,
-  extraGbpRows = []
+  extraGbpRows = [],
+  outputRows = []
 }) {
   const state = { now: new Date(now) };
   const queue = sheet('26_DAILY_EDITORIAL_QUEUE', queueColumns, queueRows);
   const shortlist = sheet('23_BLOG_TOPIC_SHORTLIST', [...new Set([...shortlistColumns, 'notes'])], shortlistRows);
   const bridge = sheet('25_WEB_PUBLISH_BRIDGE', ['content_id', 'bridge_status', 'published_url', 'action', 'synced_at', 'notes'], []);
   const gbp = sheet('22_GBP_POST', ['content_id', 'parent_blog_id', 'blog_url_placeholder', 'body_copy_paste', 'post_ready', 'status', 'notes'], extraGbpRows);
-  const sheets = { [queue.name]: queue, [shortlist.name]: shortlist, [bridge.name]: bridge, [gbp.name]: gbp };
+  const output = sheet('21_WEB_BLOG_OUTPUT', ['content_id','title','slug_suggestion','target_keyword','search_intent','meta_description','article_type'], outputRows);
+  const sheets = { [output.name]: output, [queue.name]: queue, [shortlist.name]: shortlist, [bridge.name]: bridge, [gbp.name]: gbp };
   const logs = [];
   const line = [];
   const props = {
