@@ -3,7 +3,7 @@
   "article_title": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
   "category_label": "RECOVERY",
   "column_label": "COLUMN",
-  "image_headline_short": "DENBAの\n電位空間って？",
+  "image_headline_short": "DENBAがつくる\n電位空間",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -163,5 +163,5 @@
   "emotional_state": "初めて機器を見るときの穏やかな関心と、仕組みを理解しようとする表情。広告の笑顔や効能を体験した演技ではない。",
   "visual_claim": "DENBAという実店舗の機器について、利用前に仕組みを知ろうとする顧客の場面。電場や電波を可視化した光・矢印は描かず、効果を示唆しない。",
   "composition_hint": "Medium editorial portrait, not a full-room shot. One adult female customer occupies center-right, with a large sharp face and upper body carrying 60–70% of visual attention. Her interested face must remain readable at 320px. Preserve the real DENBA box on its actual gray cabinet as a secondary recognizable anchor, with credible perspective and no contact with controls. The actual warm wall and THE REV. sign remain recognizable but recede in natural shallow depth of field; do not sharpen the wall/sign as the hero. Leave left-side space only for the later short overlay. Do not invent mats, seats, an oxygen-room interior, EMS pads, medical equipment, or a second DENBA unit. Do not move the actual device into an invented room. Use a single plausible camera view and scene-aware integration.",
-  "recovery_note": "2026-10-04: replace verb-splitting headline and repair failed human-first scene composition after asset reference-v26-auto-denba-20260924-7b5d62e0 exhausted QC. Previous rejection remains in Git history; no QA criteria or human approval are changed."
+  "recovery_note": "2026-10-04: replace verb-splitting headline and repair failed human-first scene composition after asset reference-v26-auto-denba-20260924-7b5d62e0 exhausted QC. Previous rejection remains in Git history; no QA criteria or human approval are changed. Deterministic typography rejected the first proposed two-line question; use complete grammatical lines with the existing phrase 電位空間 as its own focus. Preserve this version's consumed attempt count."
 }
