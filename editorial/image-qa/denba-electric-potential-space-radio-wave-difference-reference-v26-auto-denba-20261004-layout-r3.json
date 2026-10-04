@@ -1,5 +1,5 @@
 {
-  "pass": true,
+  "pass": false,
   "thumbnail_typography_visual": {
     "thumbnail": {
       "pass": true,
@@ -120,7 +120,7 @@
   "unsupported_equipment_absent": true,
   "scene_plausible_at_the_rev": true,
   "exercise_pose_plausible": true,
-  "manual_visual_rejection": false,
+  "manual_visual_rejection": true,
   "trainer_present": false,
   "unknown_trainer_present": false,
   "non_customer_people_present": false,
@@ -557,5 +557,10 @@
   "gbp_image_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
-  "gbp_image_aspect_ratio": "4:3"
+  "gbp_image_aspect_ratio": "4:3",
+  "manual_visual_rejection_reason": "Human review REJECT: 文字の可読性は改善したが、人物がただ立って下を見ているだけで、記事とのつながり・自然な行動・場面の魅力が不足している。自動QAのPASSより人間評価を優先する。",
+  "human_feedback": "人物がただ立って下を見ているだけで、以前の参考画像にあった記事固有の自然な行動や情景が弱い。",
+  "human_rejection_recorded_at": "2026-10-04T20:55:00+09:00",
+  "human_final_approval": "REJECTED",
+  "superseded_by_asset_version": "reference-v26-auto-denba-20261004-action-r4"
 }
