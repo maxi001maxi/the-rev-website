@@ -818,3 +818,44 @@ Acceptance: `editorial/golden-typography-v1-acceptance/`。main mergeとProducti
 画像コピー完全一致はQA/Jobの全履歴で再使用禁止。近似は直近25件で見出し全体を比較し、単独の一般語は永続禁止しない。
 
 新規自動Jobはthe-rev-scene-plausibility-v1。顧客の自然な状況・前後の瞬間を描き、記事主張の直訳を要求しない。健診記事は実ロビー/ベンチで健診結果らしい紙を見て考える場面でよい。血圧測定・医療機器・診察等の未確認サービスを描かない。QAはlocation_behavior_plausible / service_misrepresentation_absent / unsupported_equipment_absent / scene_plausible_at_the_revを必須にする。旧承認済み資産は互換を維持し、明示FAIL・人間REJECTは常に優先する。Golden Typographyは変更しない。
+
+
+---
+
+## 19. 2026-10-04追加｜Meaningful Scene Action Contract
+
+### 背景
+
+V2.6 Human Firstで「人物の存在感」「顔」「文字可読性」を強化した結果、人物が大きく写っていても、**ただ立つ・下を見る・機器の横でポーズするだけ**の場面が自動QAを通る余地が残った。
+
+人物が入っていること自体を品質とみなさない。Design Referenceの良い画像と同じく、記事固有の「何をしている瞬間か」が一目で分かることを必須にする。
+
+### Current Action Gate
+
+- scene_action_version: `the-rev-scene-action-v1`
+- Jobに `action_contract` を持たせる。
+- 最低限、以下を明示する。
+  - `primary_action`: 身体の向き・視線・手の動きまで含む具体的な行動
+  - `subject_object_relationship`: 人物と設備・場所・小道具の関係が何を意味するか
+  - `passive_observation_only_forbidden = true`
+  - `unsupported_interactions_forbidden`: 架空設備・未確認利用法・誤解を招く演出
+
+### 新しい必須QA
+
+新規Action Contract対象画像では以下をすべて満たす。
+
+- `action_contract_satisfied = true`
+- `subject_object_relationship_readable = true`
+- `passive_observation_only = false`
+
+静かな場面は禁止しない。むしろTHE REV.では静かな場面を優先できる。ただし、**静か = 何もしていない**ではない。視線、姿勢、手の使い方、対象物との距離のどれかで、記事固有の状況が読める必要がある。
+
+### DENBA / 回復設備の追加安全ルール
+
+DENBAのように利用姿勢を確認できる素材が不足している場合、架空の座席・マット・施術姿勢で補完しない。確認済みの実機を対象に、機器を知ろうとする・説明を読む・本体を自然に示す等の低リスク行動へ落とす。
+
+電位空間、電場、効果を、発光・波・オーラ・矢印・身体反応として「見えるもの」のように描かない。
+
+### 人間Review
+
+自動QAがPASSでも、人間が場面の意味・自然さ・魅力をREJECTした場合はその評価が優先される。旧資産のREJECTは旧bytesに紐づけて記録し、新asset_versionで再制作する。新画像は自動QA PASS後も `human_final_approval = PENDING` のままReviewへ出す。
