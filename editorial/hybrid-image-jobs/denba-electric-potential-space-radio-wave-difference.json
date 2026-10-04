@@ -186,6 +186,9 @@
       "電位空間の発光・波・オーラ・矢印"
     ]
   },
-  "human_review_status": "PENDING",
-  "supersedes_asset_version": "reference-v26-auto-denba-20261004-layout-r3"
+  "human_review_status": "APPROVED_FOR_PRODUCTION_PREP",
+  "supersedes_asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+  "human_approved_at": "2026-10-04T22:18:00+09:00",
+  "production_release_status": "PENDING",
+  "production_candidate": true
 }
