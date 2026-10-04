@@ -576,8 +576,10 @@
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "human_final_approval": "PENDING",
-  "human_review_status": "PENDING",
+  "human_final_approval": "APPROVED_IMAGE_DESIGN",
+  "human_review_status": "APPROVED_FOR_PRODUCTION_PREP",
   "preview_only": true,
-  "production_write_performed": false
+  "production_write_performed": false,
+  "human_approved_at": "2026-10-04T22:18:00+09:00",
+  "human_approval_scope": "image design only; production merge/deploy/article publish remain pending"
 }
