@@ -1,0 +1,184 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import { Readable } from 'node:stream';
+import { prepareTopicProposal, chooseTopic, answerInterview, approvedQueue, verifyLineSignature, parseTopicReply, topicNotification } from '../lib/editorialTopicApproval.mjs';
+import { planDailyCreation } from '../lib/dailyEditorialCreator.mjs';
+import { topicSeeds } from '../lib/editorialTopicSeeds.mjs';
+import { topicResponse } from '../api/integrations/editorial-topics.mjs';
+import lineHandler, { receiveLineEvents } from '../api/integrations/line-editorial-webhook.mjs';
+import { changeProposal } from '../lib/editorialTopicStore.mjs';
+import { evaluateArticleOverlap } from '../lib/editorialArticleOverlap.mjs';
+
+const now = new Date('2026-10-04T05:00:00+09:00');
+const shortlist = ['DENBA','BOXING','OXYGEN_ROOM','DENBA'].map((lane,i) => ({
+  candidate_id:'TEST-'+i, topic:`独立した記事テーマ ${i}`, title_candidate:`候補 ${i}`, primary_query:`独立検索語${i}`, generated_at:now.toISOString(), week_start:now.toISOString(),
+  status:'CANDIDATE', route_lane:'WEB_BLOG', decision:'PUBLISH', total_score:90-i,
+  editorial_lane:lane, content_cluster:lane, audience_question:`対象の質問${i}`, why_now:`読者に役立つ理由${i}`, unique_angle:`既存記事とは別の切り口${i}`
+}));
+const args = { now, rows:[], shortlist, settings:{daily_editorial_cadence:'DAILY'}, articleHistory:[], outputRows:[] };
+const proposal = () => prepareTopicProposal(args).proposal;
+const approve = (p, id=p.options[0].candidate_id) => ({...p,...chooseTopic(p,{candidateId:id,source:'GPT',actor:'owner',now})});
+
+// A PostgREST-shaped in-memory store tests durable snapshots, compare-and-set,
+// redelivery, and outbox acknowledgements through the real API service code.
+function memoryDb(initial=[]) {
+  const tables = {editorial_topic_proposals:structuredClone(initial),editorial_line_receipts:[]};
+  return {tables,from(table) {
+    let filters=[], op='select', patch, conflict, single=false, max=Infinity;
+    const q={
+      select(){return q;},eq(k,v){filters.push(r=>r[k]===v);return q;},neq(k,v){filters.push(r=>r[k]!==v);return q;},order(){return q;},limit(n){max=n;return q;},
+      or(){filters.push(r=>r.status!=='QUEUE_CREATED'||r.notification_status!=='SENT');return q;},
+      maybeSingle(){single=true;return q;},update(p){op='update';patch=p;return q;},
+      upsert(p,c){op='upsert';patch=p;conflict=c;return q;},
+      then(resolve,reject) {try {
+        let rows=tables[table].filter(r=>filters.every(f=>f(r))).slice(0,max);
+        if(op==='upsert') {
+          const key=conflict.onConflict, found=tables[table].find(r=>r[key]===patch[key]);
+          if(!found) tables[table].push(structuredClone(patch));
+          else if(!conflict.ignoreDuplicates) Object.assign(found,structuredClone(patch));
+          rows=[];
+        }
+        if(op==='update') rows.forEach(r=>Object.assign(r,structuredClone(patch)));
+        resolve({data:single ? structuredClone(rows[0]||null):structuredClone(rows),error:null});
+      }catch(e){reject(e);}}
+    };return q;
+  }};
+}
+const deps = {historyCollector:async()=>[],evidenceCollector:async()=>({byContentId:{},checked:[]})};
+
+test('three different lanes include an interview topic; no drafting before choice',()=>{
+  const p=proposal(); assert.equal(p.target_date,'2026-10-05'); assert.equal(p.options.length,3);
+  assert.equal(new Set(p.options.map(o=>o.candidate.editorial_lane)).size,3);
+  assert(p.options.find(o=>o.candidate.editorial_lane==='BOXING').interview_required);
+  assert.equal(approvedQueue(p,args).queue_row,null);
+  assert(topicNotification(p).includes('既存記事との違い')); assert(topicNotification(p).length<5000);
+});
+test('old creator and connector cannot bypass the topic gate',()=>{
+  const r=planDailyCreation({...args,settings:{...args.settings,daily_editorial_topic_approval_required:true}});
+  assert.equal(r.creation.status,'TOPIC_SELECTION_WAITING'); assert.equal(r.creation.queue_row,undefined);
+});
+test('only the selected article resumes after midnight, with target date intact',()=>{
+  const p=approve(proposal());
+  const r=approvedQueue(p,{...args,now:new Date('2026-10-06T23:00:00+09:00')});
+  assert.equal(r.status,'READY_TO_CREATE'); assert.equal(r.queue_row.topic_candidate_id,p.selected_candidate_id);
+  assert.equal(r.queue_row.target_date,'2026/10/05'); assert.equal(r.queue_row.run_date,'2026/10/06');
+  assert(JSON.parse(r.queue_row.knowledge_context_json).topic_approval.approved_at);
+});
+test('same choice is idempotent, changing an accepted choice conflicts',()=>{
+  const p=approve(proposal());
+  assert.equal(chooseTopic(p,{candidateId:p.selected_candidate_id,source:'LINE',actor:'owner'}),null);
+  assert.throws(()=>chooseTopic(p,{candidateId:p.options[1].candidate_id,source:'LINE',actor:'owner'}),/LOCKED/);
+  const q=approvedQueue(p,args).queue_row;
+  assert.equal(approvedQueue(p,{...args,rows:[q]}).status,'ALREADY_CREATED');
+});
+test('interview answers are necessary and preserved verbatim before generation',()=>{
+  let p=approve(proposal(),'TEST-1'); assert.equal(p.status,'INTERVIEW_WAITING');
+  assert.equal(approvedQueue(p,args).queue_row,null);
+  assert.throws(()=>answerInterview(p,{answers:['不明','不明'],source:'GPT',actor:'owner'}),/EVIDENCE_MISSING/);
+  assert.throws(()=>answerInterview(p,{answers:['一つだけ'],source:'GPT',actor:'owner'}),/ALL_INTERVIEW/);
+  p={...p,...answerInterview(p,{answers:['まず肩の力を抜いて、ゆっくり短く打ちます。','急いで強く打とうとする場合はテンポを落とします。'],source:'GPT',actor:'owner',now})};
+  const q=approvedQueue(p,args).queue_row;
+  assert(q); assert(JSON.parse(q.knowledge_context_json).main_claim.includes(p.interview_answers[0]));
+  assert(JSON.parse(q.topic_gate_json).notes.includes('一次情報Interview'));
+});
+test('newly published overlap and full capacity prevent approved generation',()=>{
+  const p=approve(proposal());
+  const overlap=[{content_id:'OLD',title:p.options[0].title,primary_query:p.options[0].search_query}];
+  assert.equal(approvedQueue(p,{...args,articleHistory:overlap}).status,'CANDIDATE_NO_LONGER_ELIGIBLE');
+  assert.equal(approvedQueue(p,{...args,rows:Array.from({length:5},(_,i)=>({content_id:'OLD'+i,queue_status:'REVIEW_READY',target_date:'2026/09/20'}))}).status,'ACTIVE_CAP_REACHED');
+});
+test('changing the number of progress signs does not make a duplicate article new',()=>{
+  const candidate={title:'筋トレしているのに変わらない…体重以外で見直す5つのこと'};
+  const history=[{slug:'existing',title:'筋肉量が増えない＝筋トレは無駄？体重計に出ない3つの進歩'}];
+  assert(evaluateArticleOverlap(candidate,history).overlap);
+  assert(!evaluateArticleOverlap({title:'筋肉量が増えないときの食事量とタンパク質を確認する'},history).overlap);
+});
+test('held duplicate is retained until choice; changed old state cannot be archived',()=>{
+  const old={content_id:'HELD',target_date:'2026/10/05',queue_status:'REVIEW_REQUIRED',failed_stage:'ARTICLE_OVERLAP'};
+  const p=prepareTopicProposal({...args,rows:[old]}).proposal;
+  assert.deepEqual(p.replaces_content_ids,['HELD']); assert.equal(old.queue_status,'REVIEW_REQUIRED');
+  assert.equal(approvedQueue(approve(p),{...args,rows:[old]}).status,'READY_TO_CREATE');
+  assert.equal(approvedQueue(approve(p),{...args,rows:[{...old,queue_status:'PUBLISHED'}]}).status,'TARGET_ALREADY_OCCUPIED');
+});
+test('too few reasoned candidates fail closed; curated ideas never invent local facts',()=>{
+  assert.equal(prepareTopicProposal({...args,shortlist:shortlist.slice(0,2)}).status,'POOL_REFRESH_REQUIRED');
+  const seeds=topicSeeds(now); assert(seeds.length>10);
+  const p=prepareTopicProposal({...args,shortlist:seeds}).proposal;
+  assert(p.options.every(o=>o.interview_required));
+});
+test('signature uses exact raw bytes and rejects missing/wrong/modified signatures',()=>{
+  const raw=Buffer.from('{"events": []}'), secret='channel-secret';
+  const sig=crypto.createHmac('sha256',secret).update(raw).digest('base64');
+  assert(verifyLineSignature(raw,sig,secret)); assert(!verifyLineSignature(Buffer.from('{"events":[]}'),sig,secret));
+  assert(!verifyLineSignature(raw,sig,'wrong')); assert(!verifyLineSignature(raw,'',secret));
+});
+test('dated reply parsing cannot approve ambiguous numbers or acknowledgements',()=>{
+  assert.equal(parseTopicReply('1'),null); assert.equal(parseTopicReply('返答しました'),null);
+  assert.deepEqual(parseTopicReply('TP-20261005 2'),{action:'choose',proposal_id:'TP-20261005',number:2});
+  assert.deepEqual(parseTopicReply('TP-20261005 回答\n1: 実際の対応\n2: 注意点').answers,['実際の対応','注意点']);
+});
+test('owner-only LINE events and redelivery create one durable approval',async()=>{
+  const p=proposal(),db=memoryDb([p]);
+  const event={webhookEventId:'event-1',type:'message',source:{type:'user',userId:'owner'},message:{type:'text',text:`${p.id} 1`}};
+  await receiveLineEvents([{...event,source:{type:'user',userId:'stranger'}}],db,'owner');
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'TOPIC_SELECTION_WAITING');
+  await receiveLineEvents([event,event],db,'owner');
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'APPROVED'); assert.equal(db.tables.editorial_line_receipts.length,1);
+});
+test('HTTP webhook rejects unsigned bytes before any database call',async()=>{
+  const saved={secret:process.env.THE_REV_LINE_CHANNEL_SECRET,owner:process.env.THE_REV_LINE_USER_ID};
+  process.env.THE_REV_LINE_CHANNEL_SECRET='secret';process.env.THE_REV_LINE_USER_ID='owner';
+  try {
+    const req=Readable.from([Buffer.from('{"events":[]}')]);req.method='POST';req.headers={};
+    const res={setHeader(){},status(n){this.code=n;return this;},json(p){this.payload=p;return this;}};
+    await lineHandler(req,res); assert.equal(res.code,401);assert.equal(res.payload.error,'invalid_signature');
+  } finally { for(const [key,value] of [['THE_REV_LINE_CHANNEL_SECRET',saved.secret],['THE_REV_LINE_USER_ID',saved.owner]]) {if(value==null)delete process.env[key];else process.env[key]=value;} }
+});
+test('prepare is immutable, no-approval poll does not read GitHub, and notification failure cannot approve',async()=>{
+  const db=memoryDb(),body={...args,action:'prepare'};
+  // Test date must be explicit because the HTTP API uses the actual server clock.
+  body.target_date='2026-10-05';
+  const r=await topicResponse(body,db,deps);assert.equal(r.preparation.proposal.options.length,3);assert.equal(r.ready.length,0);
+  const before=structuredClone(db.tables.editorial_topic_proposals[0].options);
+  await topicResponse({...body,shortlist:[]},db,deps);assert.deepEqual(db.tables.editorial_topic_proposals[0].options,before);
+  const snapshot=await topicResponse({...body,action:'poll'},db,{historyCollector:()=>{throw new Error('should not read');}});assert.equal(snapshot.ready.length,0);
+  await topicResponse({action:'notification_ack',proposal_id:r.preparation.proposal.id,kind:'TOPICS',status:'ERROR'},db);
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'TOPIC_SELECTION_WAITING');
+  await topicResponse({action:'notification_ack',proposal_id:r.preparation.proposal.id,kind:'TOPICS',status:'SENT'},db);
+  assert.equal(db.tables.editorial_topic_proposals[0].notification_status,'SENT');
+});
+test('store compare-and-set and approved poll do not create before queue read-back',async()=>{
+  const p=proposal(),db=memoryDb([p]);
+  await changeProposal(db,p.id,'choose',{candidateId:p.options[0].candidate_id,source:'GPT',actor:'owner'});
+  const response=await topicResponse({...args,action:'poll'},db,deps);
+  assert.equal(response.ready.length,1);assert.equal(db.tables.editorial_topic_proposals[0].status,'APPROVED');
+  await assert.rejects(()=>topicResponse({...args,action:'queue_ack',proposal_id:p.id,content_id:'made-up'},db,deps),/READBACK/);
+  const q=response.ready[0].queue_row;
+  await topicResponse({...args,action:'queue_ack',proposal_id:p.id,content_id:q.content_id,rows:[q]},db,deps);
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'QUEUE_CREATED');
+});
+test('GAS performs late-approval polling outside the creation window under a lock',()=>{
+  const calls=[],rows=[],props={};
+  const sandbox={console,Date,JSON,String,Number,Object,Array,Math,Error,RegExp,
+    V069_STATUS_URL:'https://example.test/api/integrations/editorial-status/',
+    v069Settings_:()=>({daily_editorial_topic_approval_required:'TRUE',daily_editorial_hour:5}),
+    v069cJstHour_:()=>23,v069TodayKey_:()=> '2026-10-06',v069TargetKey_:()=> '2026-10-07',
+    PropertiesService:{getScriptProperties:()=>({getProperty:k=>props[k],setProperty:(k,v)=>props[k]=v})},
+    LockService:{getScriptLock:()=>({tryLock:()=>true,releaseLock(){calls.push('unlock');}})},
+    v069cRecoverLengthReviewRequired_:()=>{},v069cNotifyPreparedReady_:()=>{},v069cSupervisorWired_:()=>({ok:true}),
+    v069QueueRows_:()=>({rows,sheet:{}}),v069cAppendQueueRow_:(_q,row)=>rows.push(row),
+    v069RowTargetKey_:r=>r.target_date.replace(/\//g,'-'),v069cMarkShortlistSelected_:()=>{},v069cShortlist_:()=>({}),
+    v069StartLog_:()=> 'log',v069FinishLog_:()=>{},v069cNotifyOnce_:()=>{},
+  };
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
+  sandbox.v070TopicView_=()=>{};
+  sandbox.v070TopicRequest_=(action)=>{calls.push(action);return action==='poll' ? {proposals:[],notifications:[],ready:[{proposal_id:'TP-20261005',queue_row:{content_id:'BLOG-LATE',target_date:'2026/10/05',topic_candidate_id:'selected'},replaces_content_ids:[]}]} : {};};
+  props.THE_REV_TOPICS_PREPARED_20261006='TRUE';
+  props['THE_REV_TOPICS_PREPARED_2026-10-06']='TRUE';
+  const result=sandbox.scheduledDailyEditorialTopicApprovalV070();
+  assert.equal(sandbox.V070_TOPIC_URL,'https://example.test/api/integrations/editorial-topics/');
+  assert.equal(result.status,'CREATED');assert.deepEqual(calls,['poll','queue_ack','unlock']);assert.equal(rows.length,1);
+});

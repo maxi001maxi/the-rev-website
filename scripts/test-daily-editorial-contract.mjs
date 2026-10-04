@@ -15,7 +15,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.5.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.6.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 
@@ -92,7 +92,7 @@ assert(creation.cadence_default === 'BUSINESS_DAYS' && creation.cadence_values.i
   assert(autoPublishGate({ env: { AUTO_PUBLISH_ENABLED: 'true' }, settings: { auto_publish: true } }).allowed === false, 'Auto publish must stay off while no executor is installed.');
   assert(String(contract.post_publish_reconciliation?.post_history || '').startsWith('NOT_WRITTEN'), 'Blog must not be written into the Instagram Post History.');
 }
-assert(JSON.stringify(contract.flow) === JSON.stringify(['EVERY_DAY_FIXED_TIME', 'PREPARE_NEXT_DAY_ARTICLE', 'DRAFT', 'QC', 'GBP', 'IMAGES', 'REVIEW_READY', 'HUMAN_PUBLISH', 'POST_PUBLISH_STATE_AUTO_SYNC']), 'Daily Editorial flow drifted.');
+assert(JSON.stringify(contract.flow) === JSON.stringify(['EVERY_DAY_FIXED_TIME', 'THREE_REASONED_TOPICS', 'OWNER_TOPIC_CHOICE', 'OPTIONAL_FIRST_PARTY_INTERVIEW', 'PREPARE_NEXT_DAY_ARTICLE', 'DRAFT', 'QC', 'GBP', 'IMAGES', 'REVIEW_READY', 'HUMAN_PUBLISH', 'POST_PUBLISH_STATE_AUTO_SYNC']), 'Daily Editorial flow drifted.');
 assert(Number(creation.max_new_topics_per_run) === 1, 'Daily creation must stay at max 1 new topic per run.');
 assert(creation.active_is_exclusive_lock === false, 'ACTIVE statuses must count toward the cap, not lock creation.');
 assert(creation.review_ready_blocks_creation === false, 'REVIEW_READY must never block the next business day article.');
@@ -167,3 +167,5 @@ assert(gasGateSource.includes("V069_STATUS_ORIGIN = 'https://the-rev-website.ver
 assert(gasGateSource.includes("setProperty('EDITORIAL_STATUS_BASE_URL', V069_STATUS_ORIGIN)"), 'GAS installer must repair the legacy v0.6.8 status base property.');
 
 console.log('Daily Editorial state contract: PASS');
+
+assert(contract.topic_approval.selection_required_before_draft && contract.topic_approval.candidate_count === 3 && contract.topic_approval.reply_resumes_all_target_dates && !contract.topic_approval.human_wait_is_error, 'Topic choice must be a separate human gate with late resume.');

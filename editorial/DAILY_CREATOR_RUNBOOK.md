@@ -1,4 +1,4 @@
-# Daily Editorial Creator Runbook（v0.6.9）
+# Daily Editorial Creator Runbook（v0.7.0候補確認 / v0.6.9互換）
 
 **Current Truth: この文書とGitHub main。** 日次記事を「作り始める」判断と実行は、ChatGPTのプロンプトではなく、ここに書いたコードが行います。
 
@@ -7,6 +7,8 @@
 ```text
 毎日（店舗定休日も含む） 既定 05:00 JST / 08_SETTINGS daily_editorial_hour
 ↓ run_date = 実行日 / target_date = run_date + daily_editorial_lead_days（既定1 = 翌日分）
+↓ 理由付き3候補をLINE通知 → オーナーがLINE/GPTで選択
+↓ 必要な一次情報InterviewをLINE通知 → 回答後に再開
 ↓ 記事 → QC → GBP → Bridge/Supabase → 画像 → Review Ready → LINE
 ↓ （現在）人間Publish  ← Safety Gate: AUTO_PUBLISH_ENABLED=false
 ↓ 公開後状態も自動同期（Supabase → Queue / Bridge / GBPのURL）
@@ -22,6 +24,26 @@
 - `run_date` と `target_date` は別の列。`target_date` 列はCreatorが初回に自動で追加する（既存列は動かさない）
 - 記事ID `BLOG-<対象日>-xxxxxx` は対象日を表し、Bridgeは記事の日付を対象日にする
 - 例: 10/03 実行 → 10/04分 / 金曜実行 → 土曜分 / 木曜実行 → 金曜は定休日なので `BUSINESS_DAYS` では作らない
+
+## v0.7.0 候補確認の導入と運用
+
+この節が `daily_editorial_topic_approval_required=TRUE` の運用正本。以降のv0.6.9自動選定手順は互換モードだけに適用する。
+
+1. `supabase/migrations/*_editorial_topic_approval.sql` を適用し、候補・返信のテーブルをservice role限定にする。新APIをVercelへ配備する。
+2. Vercelに `THE_REV_LINE_CHANNEL_SECRET` と `THE_REV_LINE_USER_ID` を設定する。GASの同じ宛先を使う。LINE DevelopersのWebhookを `/api/integrations/line-editorial-webhook/` に設定し署名付きの本人返信を検証する。認証情報をチャットへ貼らない。
+3. 現行Supervisorが一次情報Interviewの原文を `topic_gate_json.notes` / `knowledge_context_json` から利用することを、実際のGASソースと一件の下書きで確認する。機器・医療効果や未確認の運用ルールを補完しない。
+4. 再生成したONE_PASTEに含まれる `DailyEditorialTopicApproval_v0.7.0.gs` を既存GASへ保存し、`installDailyEditorialTopicApprovalV070()` を実行する。新APIとSupervisorを確認した後で、候補承認必須・対象日DAILY・1分返信ポーリングを設定する。旧CreatorとWatchdogも同じ候補経路へ移る。
+5. `記事候補` タブに理由・差分・確認の有無が出ること、LINEがAPIに受理されたこと、実際の本人返信が保存されることを確認する。通知失敗をSENT扱いしない。
+6. 選択前は制作しない。例: `TP-20261005 2`。GPTでの明示的な選択は既存の認証付きBridge `choose`、または接続済みオペレーターが同じ正本の `chooseTopic` / `answerInterview` を実行して保存する。GPT上の返答を常時読めるとは扱わない。
+7. 足りない一次情報があれば2問をLINEへ送る。返信例は `TP-20261005 回答` の次行に `1: 回答`、次に `2: 回答`。未知だけの回答でSUFFICIENTにしない。店舗運用の追加アイデアは資料のレーンが登録済みでも個別Interviewを要求する。
+8. 全対象日の承認を1分ごとに確認。05時台に返答しなくても翌日・夜に再開する。Queueの読み戻し後にだけ `QUEUE_CREATED`。既存の重複保留記事は、選択・新Queue確認後にSKIPPEDへ移し、原稿と画像却下の履歴は残す。
+9. 選択後にも全公開履歴を再確認。新しい重複・対象日の競合は保留をLINE通知する。未選択の記事へ自動で差し替えない。active上限5、画像Review、人間Publishは継続する。
+
+候補はShortlistと `lib/editorialTopicSeeds.mjs` の未使用アイデアから役割の異なる3つを選ぶ。スコアは編集上の順位で、検索ボリュームの実測値ではない。すべて使用済み・重複の場合は `POOL_REFRESH_REQUIRED` を知らせ、週次Shortlist更新または新アイデア追加で補充する。候補不足を隠して自動生成しない。
+
+`TOPIC_SELECTION_WAITING` / `INTERVIEW_WAITING` は正常な人間待ち。故障・容量待ち・重複保留と区別する。通知は失敗時に待ち時間を増やして再試行し、API受理後はローカルにも保存して二重送信を防ぐ。LINEのリトライ保証期間を超える不明な送信は勝手に再送しない。
+
+毎日自動で進むのは**候補提示と、回答済み記事の公開前準備**。記事の選択と最終Publishが未完了なら、毎日の公開そのものは保証できない。
 
 ## 1. 0 → 10 の担当（毎日）
 
@@ -63,7 +85,7 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ## 4. 導入手順（1回だけ・Apps Script）
 
-1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。個別管理したい場合だけ Gate / Creator の2ファイルを使う
+1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。個別管理したい場合だけ Gate / Creator / TopicApproval の3ファイルを使う
 2. `startDailyEditorialAutonomyV069()` を1回実行する。Trigger導入（Gate 04時台 / Creator 毎時 / Watchdog 08時台）と、対象日分の初回準備を1回で行う。Supervisor（`scheduledDailyEditorialSupervisorV065` または v0.6.7 の `...V067`）のTriggerが無ければ失敗して止まる。旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう `EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
 3. `26_DAILY_EDITORIAL_QUEUE` に対象日（target_date）の行、`18_AUTOMATION_LOG` に `DAILY_EDITORIAL_CREATE / CREATED` が出ることを確認する
 4. GASソースを変更したら `npm run build:gas-bundle` でONE_PASTEを再生成し、Apps Scriptへ貼り直して `installDailyEditorialAutonomyV069()` を再実行する（Bundleの古さはCIが検出する）。`runDailyEditorialCreatorV069Once()` は時間帯に関係なく対象日分を1回準備する

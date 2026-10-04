@@ -256,6 +256,10 @@ function scheduledDailyEditorialGateV069Unlocked_() {
 }
 
 function scheduledDailyEditorialWatchdogV069Unlocked_() {
+  if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE') {
+    if (typeof v070TopicTick_ !== 'function') throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
+    return v070TopicTick_(false);
+  }
   // `today` is the target article day the Gate planned during this run.
   var today = v069TargetKey_();
   var raw = PropertiesService.getScriptProperties().getProperty('THE_REV_DAILY_GATE_' + today);
