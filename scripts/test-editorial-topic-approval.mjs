@@ -176,6 +176,50 @@ test('store compare-and-set and approved poll do not create before queue read-ba
   await topicResponse({...args,action:'queue_ack',proposal_id:p.id,content_id:q.content_id,rows:[q]},db,deps);
   assert.equal(db.tables.editorial_topic_proposals[0].status,'QUEUE_CREATED');
 });
+test('GAS keeps approved interview verbatim in writer and final-editor context',()=>{
+  const sandbox={V069_STATUS_URL:'https://example.test',generateWebBlogDraft_:(ctx,gate)=>({ctx,gate}),Array,String,Error};
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
+  const ctx={},gate={candidate_id:'topic',knowledge_context:{topic_approval:{proposal_id:'TP-20261005',approved_at:'2026-10-04'},interview:[{question:'現場では？',answer:'まず肩の力を抜いてもらいます。'}]}};
+  const r=sandbox.generateWebBlogDraft_(ctx,gate);
+  assert.equal(sandbox.V070_WRITER_ADAPTER,'topic-interview-v1');
+  assert.equal(r.ctx.first_party_interview.raw_answer,'1. 現場では？\nまず肩の力を抜いてもらいます。');
+  assert.equal(r.gate.first_party_interview,r.ctx.first_party_interview);
+  assert.throws(()=>sandbox.generateWebBlogDraft_({}, {knowledge_context:{interview:[{question:'q',answer:'a'}]}}),/APPROVED_INTERVIEW_REQUIRED/);
+  const plain={};sandbox.generateWebBlogDraft_(plain,{});assert.equal(plain.first_party_interview,undefined);
+});
+test('weekly blog cannot bypass owner topic choice while other legacy operation remains available',()=>{
+  let enabled='TRUE',called=0;
+  const sandbox={V069_STATUS_URL:'x',v069Settings_:()=>({daily_editorial_topic_approval_required:enabled}),runM6BlogGBP:()=>{called++;return 'legacy';},String};
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
+  assert.equal(sandbox.runM6BlogGBP().status,'TOPIC_SELECTION_WAITING');assert.equal(called,0);
+  enabled='FALSE';assert.equal(sandbox.runM6BlogGBP(),'legacy');assert.equal(called,1);
+});
+test('fresh daily candidate generation recovers partial sheet writes without duplicate ids or article creation',()=>{
+  const rows=[{candidate_id:'BT-20261004-DAILY-1',title_candidate:'saved'}],props={};let calls=0;
+  const sheet={},sandbox={V069_STATUS_URL:'x',Date,Array,Object,String,Number,Error,
+    v069TodayKey_:()=> '2026-10-04',PropertiesService:{getScriptProperties:()=>({getProperty:k=>props[k],setProperty:(k,v)=>props[k]=v})},
+    ss_:()=>({getSheetByName:()=>sheet}),getObjectsWithRow_:()=>rows,getTargetWeekStart_:()=>new Date(),buildM6Context_:()=>({}),
+    generateBlogTopicCandidates_:()=>{calls++;return Array.from({length:5},(_,i)=>({title_candidate:'idea '+i,why_now:'reason',score_breakdown:{seo_intent:25,business_relevance:20}}));},
+    appendObjectRow_:(_sheet,row)=>rows.push(row)};
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
+  assert.equal(sandbox.v070RefreshTopicPool_().count,5);assert.equal(rows.length,5);assert.equal(new Set(rows.map(r=>r.candidate_id)).size,5);
+  assert.equal(rows[0].title_candidate,'saved');assert.equal(rows[1].total_score,45);
+  assert.equal(sandbox.v070RefreshTopicPool_().status,'ALREADY_GENERATED');assert.equal(calls,1);
+});
+test('GPT installer uses existing LINE sender without pretending LINE replies are connected',()=>{
+  const st={},props={},rows=[],triggers=[],sheet={};
+  const sandbox={V069_STATUS_URL:'x',String,Boolean,JSON,Error,Object,Array,Logger:{log(){}},generateWebBlogDraft_:()=>{},
+    v069Settings_:()=>st,PropertiesService:{getScriptProperties:()=>({getProperty:k=>props[k],setProperty:(k,v)=>props[k]=v})},
+    v069cSupervisorWired_:()=>({ok:true}),ss_:()=>({getSheetByName:()=>sheet}),getObjectsWithRow_:()=>rows,
+    appendObjectRow_:(_s,row)=>{rows.push({...row,__row:rows.length+2});st[row.key]=row.value;},setObjectRow_:()=>{},
+    ScriptApp:{getProjectTriggers:()=>triggers,newTrigger:name=>({timeBased:()=>({everyMinutes:n=>({create:()=>triggers.push({getHandlerFunction:()=>name,minutes:n})})})})}};
+  vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
+  sandbox.v070TopicRequest_=()=>({capabilities:{line_receiver_configured:false}});sandbox.scheduledDailyEditorialTopicApprovalV070=()=>({status:'TOPIC_SELECTION_WAITING'});
+  props.THE_REV_LINE_USER_ID='configured-owner';props.THE_REV_LINE_CHANNEL_ACCESS_TOKEN='configured-token';
+  assert.throws(()=>sandbox.installDailyEditorialTopicApprovalV070(),/LINE_RECEIVER_NOT_CONFIGURED/);assert.equal(st.daily_editorial_cadence,undefined);
+  assert.equal(sandbox.installDailyEditorialTopicApprovalGPTV070().status,'TOPIC_SELECTION_WAITING');
+  assert.equal(st.daily_editorial_cadence,'DAILY');assert.equal(st.daily_editorial_topic_approval_required,'TRUE');assert.equal(props.THE_REV_TOPIC_REPLY_MODE,'GPT');assert.equal(triggers[0].minutes,1);
+});
 test('GAS performs late-approval polling outside the creation window under a lock',()=>{
   const calls=[],rows=[],props={};
   const sandbox={console,Date,JSON,String,Number,Object,Array,Math,Error,RegExp,
