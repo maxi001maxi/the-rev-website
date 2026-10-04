@@ -5,8 +5,8 @@
   "asset_version": "reference-v26-auto-denba-20261004-action-r4",
   "inspected_at": "2026-10-04T21:15:00+09:00",
   "inspection_mode": "direct_visual_inspection_of_repository_bytes",
-  "status": "PASS_TO_HUMAN_REVIEW",
-  "human_final_approval": "PENDING",
+  "status": "HUMAN_APPROVED_FOR_PRODUCTION_PREP",
+  "human_final_approval": "APPROVED_IMAGE_DESIGN",
   "prior_asset": {
     "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
     "human_review": "REJECT",
@@ -84,6 +84,10 @@
     "旧版より、人物の視線・上体・手の動きがDENBA本体へ収束し、記事固有の『実機を知ろうとする瞬間』が320pxでも読める。",
     "DENBA本体、グレー台、暖色壁、THE REV.サイン以外の未確認設備は追加していない。",
     "座席・マット・利用姿勢・施術・操作・発光する電場・波・オーラは描いていない。",
-    "開いた手のジェスチャーはややEditorialだが、商品を売るスタッフの演技より『仕組みを確かめる顧客』として成立する範囲。人間レビュー待ちのため最終承認とはしない。"
-  ]
+    "開いた手のジェスチャーはややEditorialだが、商品を売るスタッフの演技より『仕組みを確かめる顧客』として成立する範囲。人間レビュー待ちのため最終承認とはしない。",
+    "2026-10-04 22:18 JST: ユーザーが『このイメージで本番用のデザインを本番直前まで実装』と明示。画像デザイン承認として記録し、main merge / production deploy / draft replacement / article Publishは未実行のまま維持。"
+  ],
+  "human_approved_at": "2026-10-04T22:18:00+09:00",
+  "production_release_status": "PENDING",
+  "production_write_performed": false
 }
