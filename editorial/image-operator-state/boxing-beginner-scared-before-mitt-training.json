@@ -1,0 +1,10 @@
+{
+  "slug": "boxing-beginner-scared-before-mitt-training",
+  "status": "BLOCKED_PROVIDER_CREDITS",
+  "attempts_total": 0,
+  "max_attempts": 2,
+  "last_error": "OpenAI Responses API failed: HTTP 429 / You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
+  "job_path": "editorial/hybrid-image-jobs/boxing-beginner-scared-before-mitt-training.json",
+  "updated_at": "2026-10-05T00:34:54.514Z",
+  "asset_version": "reference-v26-auto-boxing-20261005-fear-r1"
+}
