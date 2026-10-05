@@ -31,6 +31,7 @@ import { detectStuckRows, planDailyCreation } from '../../lib/dailyEditorialCrea
 import { autoPublishGate } from '../../lib/editorialAutoPublishGate.mjs';
 import lineEditorialWebhook from '../../lib/editorialLineWebhook.mjs';
 import { topicResponse } from '../../lib/editorialTopicApi.mjs';
+import { socialBridgeResponse } from '../../lib/socialBridgeApi.mjs';
 import crypto from 'node:crypto';
 
 const DAILY_PLAN_MAX_ROWS = 500;
@@ -97,6 +98,17 @@ export default async function handler(req, res) {
           line_owner_fingerprint:process.env.THE_REV_LINE_USER_ID ? crypto.createHash('sha256').update(process.env.THE_REV_LINE_USER_ID).digest('hex') : null
         }});
       } catch(e) { return res.status(/DB_|UNAVAILABLE|FAILED/.test(e.message) ? 502 : 422).json({error:e.message}); }
+    }
+    if (/^social_(history_(upsert|list)|candidates_(prepare|poll|choose|notification_ack))$/.test(body.action || '')) {
+      const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
+      try {
+        const payload = await socialBridgeResponse({body,supabase});
+        res.setHeader('Cache-Control','no-store');
+        return res.status(200).json(payload);
+      } catch(e) {
+        const message=String(e?.message||e||'SOCIAL_BRIDGE_FAILED');
+        return res.status(/READ_FAILED|UPSERT_FAILED|INSERT_FAILED|SELECT_FAILED|RESET_FAILED/.test(message)?502:422).json({error:message});
+      }
     }
     return handleDailyPlan(req, res, body);
   }
