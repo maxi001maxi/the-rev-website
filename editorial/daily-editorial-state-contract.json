@@ -123,7 +123,7 @@
     "content_id_format": "BLOG-<target YYYYMMDD>-<6 hex>; the Bridge dates the article by this target day",
     "fallback": {
       "primary": "GAS Gate/Creator + Vercel Bridge + GitHub Actions",
-      "secondary": "ChatGPT Scheduled Task as mechanical fallback only (DAILY_CREATOR_RUNBOOK.md section 5)",
+      "secondary": "ChatGPT Scheduled Task as LIGHT watchdog at 08:45/11:45 JST; conditional mechanical recovery only",
       "fallback_may_decide": false,
       "shared_decision": "POST editorial-status {action:daily_create}",
       "duplicate_protection": "target_date idempotency in the Gate and under the GAS script lock"
@@ -352,5 +352,45 @@
     "gate_authority": "GATE_PLUS_PERSISTED_OWNER_CHOICE",
     "legacy_create_requires_approval": true,
     "public_publish_approval_separate": true
+  },
+  "external_watchdog": {
+    "role": "INDEPENDENT_LIGHT_WATCHDOG_WITH_CONDITIONAL_RECOVERY",
+    "task_name": "THE REV Editorial Watchdog",
+    "schedule_jst": [
+      "08:45",
+      "11:45"
+    ],
+    "primary_collision_avoidance": "NO_EXTERNAL_05_RUN",
+    "light_reads": [
+      "08_SETTINGS relevant daily/supervisor/completion keys",
+      "18_AUTOMATION_LOG recent rows",
+      "26_DAILY_EDITORIAL_QUEUE current target and incomplete rows"
+    ],
+    "healthy_no_action": [
+      "TOPIC_SELECTION_WAITING",
+      "INTERVIEW_WAITING",
+      "fresh in-flight state within canonical stuck thresholds",
+      "REVIEW_READY"
+    ],
+    "heavy_recovery_only_when": [
+      "primary execution evidence missing",
+      "approved target missing Queue row",
+      "non-human in-flight state is stale and supervisor heartbeat stopped",
+      "image stage exceeds canonical stall threshold or retryable workflow failed",
+      "required canonical row missing or inconsistent",
+      "verified Supabase publication is not reconciled to Queue/Bridge"
+    ],
+    "forbidden_normal_reads": [
+      "full shortlist",
+      "full queue history",
+      "all GitHub blog history",
+      "all Supabase drafts",
+      "all image workflows",
+      "all Xserver verification"
+    ],
+    "external_blockers": "report without consuming retry attempts",
+    "independent_editorial_logic": false,
+    "final_publish": false,
+    "gbp_publish": false
   }
 }
