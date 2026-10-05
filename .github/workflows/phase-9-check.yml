@@ -59,6 +59,7 @@ on:
       - 'lib/editorialHybridImageFormat.mjs'
       - 'lib/editorialImageOperatorRecovery.mjs'
       - 'scripts/test-editorial-image-operator-recovery.mjs'
+      - 'scripts/test-image-operator-primary-status.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialImageReviewGate.mjs'
       - 'AGENTS.md'
@@ -141,5 +142,6 @@ jobs:
       - run: npm run test:google-business
       - run: npm run test:thumbnail-typography
       - run: node --test scripts/test-editorial-image-operator-recovery.mjs
+      - run: npm run test:image-operator-primary-status
       - run: npm run test:editorial-images
       - run: npm run build:blog
