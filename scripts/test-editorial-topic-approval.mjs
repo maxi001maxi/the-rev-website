@@ -11,7 +11,7 @@ import { topicResponse } from '../lib/editorialTopicApi.mjs';
 import lineHandler, { receiveLineEvents } from '../lib/editorialLineWebhook.mjs';
 import { changeProposal } from '../lib/editorialTopicStore.mjs';
 import { evaluateArticleOverlap } from '../lib/editorialArticleOverlap.mjs';
-import editorialHandler, {readEditorialJson} from '../api/integrations/editorial-status.mjs';
+import editorialHandler, {readEditorialJson, topicStuckFindings} from '../api/integrations/editorial-status.mjs';
 
 const now = new Date('2026-10-04T05:00:00+09:00');
 const shortlist = ['DENBA','BOXING','OXYGEN_ROOM','DENBA'].map((lane,i) => ({
@@ -49,6 +49,43 @@ function memoryDb(initial=[]) {
   }};
 }
 const deps = {historyCollector:async()=>[],evidenceCollector:async()=>({byContentId:{},checked:[]})};
+
+
+test('Topic Approval keeps canonical Stuck Detection active',()=>{
+  const t=new Date('2026-10-05T08:00:00+09:00');
+  const old=(minutes)=>new Date(t.getTime()-minutes*60000).toISOString();
+  const stuck=topicStuckFindings({
+    now:t.toISOString(),
+    settings:{daily_editorial_stuck_timeout_minutes:10,daily_editorial_image_stuck_hours:6},
+    rows:[
+      {content_id:'draft',queue_status:'DRAFTING',draft_status:'NOT_STARTED',updated_at:old(11)},
+      {content_id:'qc',queue_status:'QC',draft_status:'QC',updated_at:old(31)},
+      {content_id:'image',queue_status:'IMAGE_PREPARING',updated_at:old(361)},
+      {content_id:'human',queue_status:'INTERVIEW_WAITING',updated_at:old(24*60)},
+      {content_id:'topic',queue_status:'TOPIC_SELECTION_WAITING',updated_at:old(24*60)},
+      {content_id:'err',queue_status:'ERROR',updated_at:old(1)}
+    ]
+  });
+  assert.deepEqual(stuck.map(x=>x.content_id),['draft','qc','image','err']);
+  assert.deepEqual(stuck.map(x=>x.reason),['SUPERVISOR_NOT_PICKING_UP','STAGE_STALLED','IMAGE_STALLED','ERROR_STATE']);
+});
+
+test('v0.7 GAS forwards Topic API stuck findings to the existing de-duped alert path',()=>{
+  const source=fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8');
+  const calls=[];
+  const sandbox={
+    V069_STATUS_URL:'x',String,JSON,Array,Number,Object,Boolean,Date,
+    v069TargetKey_:()=> '2026-10-06',
+    v069cStuckAlerts_:(stuck,target)=>{calls.push({stuck,target});return stuck.map(x=>({content_id:x.content_id,notification:'SENT'}));}
+  };
+  vm.createContext(sandbox);
+  vm.runInContext(source,sandbox);
+  const out=sandbox.v070StuckAlerts_({stuck:[{content_id:'BLOG-X',reason:'STAGE_STALLED'}]});
+  assert.equal(calls.length,1);
+  assert.equal(calls[0].target,'2026-10-06');
+  assert.equal(calls[0].stuck[0].content_id,'BLOG-X');
+  assert.equal(out[0].notification,'SENT');
+});
 
 test('three different lanes include an interview topic; no drafting before choice',()=>{
   const p=proposal(); assert.equal(p.target_date,'2026-10-05'); assert.equal(p.options.length,3);
