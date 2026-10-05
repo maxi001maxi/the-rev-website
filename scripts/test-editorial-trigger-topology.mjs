@@ -70,7 +70,7 @@ test('Topic Approval mode has one Gate + one Topic Approval trigger, no Creator/
   const out = h.context.reconcileDailyEditorialTriggerTopologyV073();
   assert.equal(out.mode, 'TOPIC_APPROVAL');
   assert.deepEqual(
-    out.after.controlled,
+    JSON.parse(JSON.stringify(out.after.controlled)),
     {
       scheduledDailyEditorialGateV069: 1,
       scheduledDailyEditorialCreatorV069: 0,
