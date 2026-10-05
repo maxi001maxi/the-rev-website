@@ -25,7 +25,8 @@
     "test:editorial-images": "node scripts/validate-editorial-image-system.mjs",
     "test:google-business": "node --test scripts/test-google-business.mjs",
     "test:thumbnail-typography": "node --test scripts/test-thumbnail-typography.mjs",
-    "test:thumbnail-typography-browser": "node scripts/test-thumbnail-typography-browser.mjs"
+    "test:thumbnail-typography-browser": "node scripts/test-thumbnail-typography-browser.mjs",
+    "test:social-director": "node --test scripts/test-social-director-v05.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
