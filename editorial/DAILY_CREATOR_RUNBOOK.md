@@ -99,23 +99,48 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ## 5. 外部ChatGPT Scheduled Task の扱い
 
-GAS Creatorの本番Triggerを確認できたら予備タスクは縮小または無効化する。未導入の間は以下の機械的フォールバックを使う。
+本番のGate / Topic Approval / Creator / Supervisorが実稼働していることを確認できた後、外部ChatGPT Taskは**第二のEditorial実行系ではなく独立Watchdog**として扱う。
 
-残す場合は **独自判断を一切してはならない**。許される役割は次の機械的フォールバックだけです。
+2026-10-05監査時点の運用:
+- 外部Task名: `THE REV Editorial Watchdog`
+- 実行: JST **08:45 / 11:45**
+- 05:00外部実行は廃止。Primaryの05時台処理と競合させない
+- 正常時はLIGHT ONLY。全履歴・全Draft・全画像Workflowを読まない
+- Heavy Recoveryは実データで異常条件が成立した場合だけ
+- `TOPIC_SELECTION_WAITING` / `INTERVIEW_WAITING` は正常な人間待ちであり、Recovery対象外
+- `REVIEW_READY` は正常状態。再QC・再画像検証を行わない
+- `BLOCKED_PROVIDER_CREDITS` 等の明示的外部依存は通知だけ行い、無意味なretryでattemptを消費しない
 
-```text
-1. 18_AUTOMATION_LOG に開始記録（DAILY_EDITORIAL_FALLBACK START）を書く。
-2. 新規作成判定とは別に、既存の未完了行を全日付で確認する。対象日が定休日・新規不要でも、前日分のIMAGE_PREPARING等の進行確認を省略しない。
-3. 26_DAILY_EDITORIAL_QUEUE に対象日（実行日+daily_editorial_lead_days、既定は翌日）の行（target_date。空ならrun_date。SKIPPED以外）があれば、何もしない。終了。
-4. 無ければ 26_DAILY_EDITORIAL_QUEUE と 23_BLOG_TOPIC_SHORTLIST の全行・08_SETTINGSの daily_editorial_* を
-   POST https://the-rev-website.vercel.app/api/integrations/editorial-status/ {action:"daily_create", now, rows, shortlist, settings}
-   に送る（Bearer EDITORIAL_BRIDGE_SECRET）。
-5. creation.status が READY_TO_CREATE なら、creation.queue_row を一切変更せず26_DAILY_EDITORIAL_QUEUEへ追記する。
-   NOT_REQUIRED なら何も作らない。それ以外（NO_ELIGIBLE_CANDIDATE / INTERVIEW_REQUIRED）はERROR_BLOCKEDとして通知する。
-6. REVIEW_READYやactive件数・店舗定休日を理由に自分で停止しない。決めるのはBridgeのdecisionだけ。PrimaryのGASと同じAPIを使うので、同時に動いても対象日の行は1本だけになる。
-7. 終了時に18_AUTOMATION_LOGへ最終状態（CREATED / NO_ACTION / ERROR_BLOCKED）を書く。
-8. 最終Publishも GBP投稿も行わない。
-```
+### LIGHT WATCHDOG
+
+毎回の初期READは以下だけに限定する。
+
+1. `08_SETTINGS` の daily_editorial / supervisor / completion関連キー
+2. `18_AUTOMATION_LOG` の直近行
+3. `26_DAILY_EDITORIAL_QUEUE` の当日run_date・対象target_date・未完了行
+
+次の場合は `HEALTHY / NO_ACTION` で終了する。
+
+- Primary Gate / Topic Approvalの実行証拠がある
+- 対象Queueが契約内で前進している
+- Supervisor heartbeat / updated_at がstuck閾値内
+- 意図した人間待ち
+- REVIEW_READY
+
+### CONDITIONAL HEAVY RECOVERY
+
+次のどれかが成立した場合だけ、対象content_idから狭く追加READして復旧する。
+
+- 08時台になってもPrimary Gate / Topic flowの実行証拠がない
+- 承認済みで作成されるべきtarget_dateなのにQueue行がない
+- 人間待ちではないDRAFTING / QC / PATCHING / BRIDGEがstuck閾値を超え、Supervisor heartbeatも停止
+- IMAGE_PREPARINGが契約上のstuck閾値を超えた、またはWorkflowが明示的FAILEDでbounded retry可能
+- Queue段階に対して必須のBlog / GBP / Bridge / Supabase rowが欠落・不整合
+- Supabaseに検証済みPUBLISHED証拠があるのにQueue / Bridgeが未同期
+
+Heavy Recoveryでも、まず対象content_idだけを読む。新規作成が本当に必要な場合だけcanonical `daily_create` / connector planを使い、その時に限りSemantic Duplicate Gateに必要な全履歴を取得する。画像異常時だけ該当Job / operator state / GitHub Actions / Xserver証拠を読む。
+
+外部Taskは独自のTopic Gate・Knowledge Gate・Duplicate Judge・QC・Ready判定を持たない。最終Publish / GBP投稿も行わない。
 
 ### Bridge資格情報を持たない接続済みタスクの予備経路（2026-10-03）
 
@@ -135,7 +160,7 @@ stdinは `{now,rows,shortlist,settings,evidenceByContentId,articleHistory,output
 
 判定は既存の `planDailyCreation` そのもの。独自のテーマ選定、Knowledge判定、Gateの再実装は禁止。返されたpatchは既存列だけへ適用し、`creation.queue_row` を変更せず追記する。追記直前にtarget_dateの重複を読み直す。読み戻しで永続化を確認し、候補をSELECTEDへ同期する。
 
-5時開始と8時・11時の再試行は毎日（JST）。対象日cadenceはSettingsを維持する。定休日の対象日への新規作成がNO_ACTIONでも、既存の未完了記事の監視は続ける。日付を跨いだReview Readyも未確認通知として報告する。LINE未確認をSENTにしない。
+Primary未導入時の旧05/08/11 Full Fallbackは廃止済み。Primary実稼働後の外部Watchdogは08:45/11:45（JST）のLIGHT-first運用とし、異常時だけこの予備経路へ昇格する。対象日cadenceはSettingsを維持し、LINE未確認をSENTにしない。
 
 予備経路も自動運転の保証ではない。実行後のQueue・Bridge・画像READY・通知を別々に確認し、途中状態を成功としない。GASの新しいソースはGitHub mergeだけでは配備されない。
 
