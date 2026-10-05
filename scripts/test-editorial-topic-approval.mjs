@@ -194,8 +194,13 @@ test('Standard body range reaches writer/editor and failed length has one bounde
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8'),sandbox);
   for(const name of ['web_blog_draft_v1','web_blog_final_editor_v1']){
     const payload={text:{format:{name}},input:[{content:[{text:'old'}]},{content:[{text:JSON.stringify({topic_gate:{article_type:'STANDARD'}})}]}]};
-    sandbox.openAIRequest_('responses',payload);assert.match(last.input[0].content[1].text,/body_markdown alone/);assert.match(last.input[0].content[1].text,/1600–2400/);
+    sandbox.openAIRequest_('responses',payload);
+    assert.match(last.input[0].content[1].text,/body_markdown alone/);assert.match(last.input[0].content[1].text,/1600–2400/);
+    assert.match(last.input[0].content[2].text,/Editorial Closing & Mechanism Context v1/);
+    assert.match(last.input[0].content[2].text,/THE REV\./);assert.match(last.input[0].content[2].text,/メーカーが説明/);
   }
+  const quick={text:{format:{name:'web_blog_draft_v1'}},input:[{content:[{text:'old'}]},{content:[{text:JSON.stringify({topic_gate:{article_type:'QUICK_ANSWER'}})}]}]};
+  sandbox.openAIRequest_('responses',quick);assert.match(last.input[0].content[1].text,/Editorial Closing & Mechanism Context v1/);
   const other={text:{format:{name:'other'}}};sandbox.openAIRequest_('responses',other);assert.equal(last,other);
   sandbox.finalizeWebBlog_({article_type:'STANDARD'},{});assert.equal(calls,2);
   calls=0;sandbox.finalizeWebBlog_({article_type:'QUICK_ANSWER'},{});assert.equal(calls,1);
