@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.6.0",
+  "schema_version": "1.7.0",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
@@ -14,7 +14,8 @@
     "gas_gate_source": "editorial/gas/DailyEditorialGate_v0.6.9.gs",
     "creator_source": "editorial/gas/DailyEditorialCreator_v0.6.9.gs",
     "creator_engine": "lib/dailyEditorialCreator.mjs",
-    "knowledge_registry": "lib/dailyEditorialKnowledge.mjs"
+    "knowledge_registry": "lib/dailyEditorialKnowledge.mjs",
+    "image_operator_primary_adapter": "editorial/gas/DailyEditorialImageOperatorStatus_v0.7.2.gs"
   },
   "new_queue_no_interview": {
     "queue_status": "DRAFTING",
@@ -116,7 +117,9 @@
     "stuck_rules_minutes": {
       "supervisor_not_picking_up": 10,
       "stage_stalled": 30,
-      "image_stalled_hours": 6
+      "image_stalled_hours": 6,
+      "image_operator_blocked": "immediate",
+      "image_operator_failed": "immediate"
     },
     "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted",
     "review_ready_notification": "Supervisor announces while run_date is today; the Creator announces upcoming articles the Supervisor missed (shared de-dupe key)",
@@ -392,5 +395,34 @@
     "independent_editorial_logic": false,
     "final_publish": false,
     "gbp_publish": false
+  },
+  "image_operator_primary": {
+    "source_of_truth": "editorial/image-operator-state/{slug}.json",
+    "asset_version_must_match": true,
+    "status_api": "GET /api/integrations/editorial-status?content_id={id}",
+    "queue_status_while_blocked": "IMAGE_PREPARING",
+    "blocked_mapping": {
+      "BLOCKED_PROVIDER_CREDITS": {
+        "image_status": "BLOCKED",
+        "failed_stage": "IMAGE_OPERATOR",
+        "human_action_required": "RESTORE_PROVIDER_CREDITS",
+        "automatic_retry_allowed": false,
+        "consume_generation_attempt": false
+      }
+    },
+    "failed_statuses": [
+      "BLOCKED_MAX_ATTEMPTS",
+      "OVERLAY_QC_REJECTED",
+      "ERROR"
+    ],
+    "failed_mapping": {
+      "image_status": "ERROR",
+      "failed_stage": "IMAGE_OPERATOR",
+      "human_action_required": "REVIEW_IMAGE_OPERATOR",
+      "automatic_retry_allowed": false
+    },
+    "automatic_recovery": "when current operator state becomes non-blocking or READY, clear prior IMAGE_OPERATOR marker and continue polling",
+    "notification_dedupe_key": "content_id + operator_status + asset_version",
+    "publish_boundary_unchanged": true
   }
 }
