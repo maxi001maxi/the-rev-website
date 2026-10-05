@@ -44,11 +44,17 @@ test('candidate preparation rejects anything except exactly five ideas before DB
 });
 
 test('editorial status bridge exposes social actions without adding a Vercel function',()=>{
-  const source=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
-  assert.match(source,/socialBridgeResponse/);
-  assert.match(source,/social_history_upsert/);
-  assert.match(source,/social_candidates_prepare/);
-  assert.match(source,/social_candidates_choose/);
+  const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  const bridge=fs.readFileSync(new URL('../lib/socialBridgeApi.mjs',import.meta.url),'utf8');
+  assert.match(endpoint,/socialBridgeResponse/);
+  for(const action of [
+    'social_history_upsert',
+    'social_history_list',
+    'social_candidates_prepare',
+    'social_candidates_poll',
+    'social_candidates_choose',
+    'social_candidates_notification_ack'
+  ]) assert.match(bridge,new RegExp(action));
 });
 
 test('GAS add-on blocks stale history and never auto-publishes',()=>{
