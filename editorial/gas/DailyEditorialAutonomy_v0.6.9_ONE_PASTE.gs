@@ -8,12 +8,14 @@
  * - DailyEditorialTopicApproval_v0.7.0.gs
  * - DailyEditorialSupervisorRecovery_v0.7.1.gs
  * - DailyEditorialImageOperatorStatus_v0.7.2.gs
+ * - DailyEditorialTriggerTopology_v0.7.3.gs
  *
  * Paste this entire file into ONE file in the bound Apps Script project,
  * then run installDailyEditorialAutonomyV069() once.
  * Keep the existing v0.6.5.2 Supervisor in the same project.
  * v0.7.1 wraps its generation step with bounded QC crash self-recovery.
  * v0.7.2 returns Image Operator BLOCKED/FAILED states to the Primary Supervisor.
+ * v0.7.3 removes redundant Creator/Watchdog triggers while Topic Approval owns orchestration.
  */
 
 /**
@@ -275,8 +277,7 @@ function scheduledDailyEditorialGateV069Unlocked_() {
 
 function scheduledDailyEditorialWatchdogV069Unlocked_() {
   if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE') {
-    if (typeof v070TopicTick_ !== 'function') throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
-    return v070TopicTick_(false);
+    return { status: 'DELEGATED_TO_TOPIC_APPROVAL_TRIGGER', handler: 'scheduledDailyEditorialTopicApprovalV070' };
   }
   // `today` is the target article day the Gate planned during this run.
   var today = v069TargetKey_();
@@ -327,17 +328,21 @@ function installDailyEditorialGateV069() {
   // dashboard HTML with HTTP 200. Pin all status polling to the stable production
   // alias so GBP/image ledger sync sees JSON from editorial-status.
   PropertiesService.getScriptProperties().setProperty('EDITORIAL_STATUS_BASE_URL', V069_STATUS_ORIGIN);
+  var approval = String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE';
   var handlers = ['scheduledDailyEditorialGateV069', 'scheduledDailyEditorialWatchdogV069'];
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (handlers.indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('scheduledDailyEditorialGateV069').timeBased().atHour(V069_GATE_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
-  ScriptApp.newTrigger('scheduledDailyEditorialWatchdogV069').timeBased().atHour(V069_WATCHDOG_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
+  if (!approval) {
+    ScriptApp.newTrigger('scheduledDailyEditorialWatchdogV069').timeBased().atHour(V069_WATCHDOG_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
+  }
   return {
     status: 'INSTALLED',
     version: 'v0.6.9',
+    trigger_mode: approval ? 'TOPIC_APPROVAL' : 'LEGACY_CREATOR',
     gate_hour_jst: V069_GATE_HOUR,
-    watchdog_hour_jst: V069_WATCHDOG_HOUR,
+    watchdog_hour_jst: approval ? null : V069_WATCHDOG_HOUR,
     review_ready_blocks_creation: false,
     editorial_status_base_url: V069_STATUS_ORIGIN,
     status_base_repaired: true,
@@ -648,8 +653,7 @@ function v069cNotifyPreparedReady_() {
 
 function scheduledDailyEditorialCreatorV069Unlocked_(force) {
   if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE') {
-    if (typeof v070TopicTick_ !== 'function') throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
-    return v070TopicTick_(force);
+    return { status: 'DELEGATED_TO_TOPIC_APPROVAL_TRIGGER', handler: 'scheduledDailyEditorialTopicApprovalV070' };
   }
   var lengthRecovery = { status: 'NO_LENGTH_RECOVERY' };
   try { lengthRecovery = v069cRecoverLengthReviewRequired_(); } catch (_lr) {}
@@ -758,15 +762,18 @@ function installDailyEditorialCreatorV069() {
     throw new Error('v0.6.9 Creator BLOCKED. Supervisor is not wired: ' + wired.missing.join(', '));
   }
   if (!v069Secret_()) throw new Error('v0.6.9 Creator BLOCKED. EDITORIAL_BRIDGE_SECRET is missing.');
+  var approval = String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE';
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === 'scheduledDailyEditorialCreatorV069') ScriptApp.deleteTrigger(t);
   });
-  ScriptApp.newTrigger('scheduledDailyEditorialCreatorV069').timeBased().everyHours(1).create();
+  if (!approval) {
+    ScriptApp.newTrigger('scheduledDailyEditorialCreatorV069').timeBased().everyHours(1).create();
+  }
   return {
-    status: 'INSTALLED',
+    status: approval ? 'DELEGATED_TO_TOPIC_APPROVAL_TRIGGER' : 'INSTALLED',
     version: 'v0.6.9',
-    handler: 'scheduledDailyEditorialCreatorV069',
-    window_jst: V069C_START_HOUR_DEFAULT + ':00-' + (V069C_END_HOUR - 1) + ':59 hourly',
+    handler: approval ? 'scheduledDailyEditorialTopicApprovalV070' : 'scheduledDailyEditorialCreatorV069',
+    window_jst: approval ? 'every minute via Topic Approval' : V069C_START_HOUR_DEFAULT + ':00-' + (V069C_END_HOUR - 1) + ':59 hourly',
     supervisor_wired: true,
     review_ready_blocks_creation: false,
     auto_publish: false,
@@ -779,7 +786,16 @@ function installDailyEditorialCreatorV069() {
 function installDailyEditorialAutonomyV069() {
   var gate = installDailyEditorialGateV069();
   var creator = installDailyEditorialCreatorV069();
-  return { status: 'INSTALLED', gate: gate, creator: creator, supervisor_triggers: v069cSupervisorWired_().supervisor_triggers };
+  var topology = typeof reconcileDailyEditorialTriggerTopologyV073 === 'function'
+    ? reconcileDailyEditorialTriggerTopologyV073()
+    : null;
+  return {
+    status: 'INSTALLED',
+    gate: gate,
+    creator: creator,
+    topology: topology,
+    supervisor_triggers: v069cSupervisorWired_().supervisor_triggers
+  };
 }
 
 // Manual run: ignores the 05:00-11:59 window (every other rule still applies),
@@ -788,7 +804,10 @@ function installDailyEditorialAutonomyV069() {
 // target day right away (no need to wait for the next hourly tick).
 function startDailyEditorialAutonomyV069() {
   var installed = installDailyEditorialAutonomyV069();
-  var first = runDailyEditorialCreatorV069Once();
+  var approval = String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE';
+  var first = approval && typeof v070TopicTick_ === 'function'
+    ? v069WithLock_(function () { return v070TopicTick_(true); })
+    : runDailyEditorialCreatorV069Once();
   var result = { status: 'STARTED', installed: installed, first_run: first };
   console.log(JSON.stringify(result));
   return result;
@@ -1284,10 +1303,15 @@ function v070InstallTopicApproval_(replyMode) {
   });
   if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() !== 'TRUE' || String(v069Settings_().daily_editorial_cadence) !== 'DAILY') throw new Error('TOPIC_SETTINGS_READBACK_FAILED');
   properties.setProperty('THE_REV_TOPIC_REPLY_MODE',replyMode);
-  var exists = ScriptApp.getProjectTriggers().some(function(t) { return t.getHandlerFunction() === 'scheduledDailyEditorialTopicApprovalV070'; });
-  if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(1).create();
+  var topology = null;
+  if (typeof reconcileDailyEditorialTriggerTopologyV073 === 'function') {
+    topology = reconcileDailyEditorialTriggerTopologyV073();
+  } else {
+    var exists = ScriptApp.getProjectTriggers().some(function(t) { return t.getHandlerFunction() === 'scheduledDailyEditorialTopicApprovalV070'; });
+    if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(1).create();
+  }
   var result = scheduledDailyEditorialTopicApprovalV070();
-  Logger.log(JSON.stringify({reply_mode:replyMode,cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required,result:result}));
+  Logger.log(JSON.stringify({reply_mode:replyMode,cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required,topology:topology,result:result}));
   return result;
 }
 
@@ -1818,5 +1842,146 @@ function inspectEditorialImageOperatorStatusV072() {
     auto_publish: false,
     human_approval: true
   };
+}
+
+
+/**
+ * THE REV. Editorial AI v0.7.3
+ * Canonical trigger topology for Daily Editorial.
+ *
+ * Topic Approval ON:
+ *   - Gate: 1/day
+ *   - Topic Approval: every 1 minute
+ *   - Supervisor: existing trigger, untouched
+ *   - Creator: 0
+ *   - Watchdog: 0
+ *
+ * Topic Approval OFF:
+ *   - Gate: 1/day
+ *   - Creator: every hour
+ *   - Watchdog: 1/day
+ *   - Topic Approval: 0
+ *
+ * This file changes trigger topology only. It does not change cadence,
+ * Auto Publish, Human Approval, Topic/Knowledge/Duplicate gates or content.
+ */
+
+var V073_TRIGGER_TOPOLOGY_VERSION = 'v0.7.3';
+var V073_TRIGGER_HANDLERS = [
+  'scheduledDailyEditorialGateV069',
+  'scheduledDailyEditorialCreatorV069',
+  'scheduledDailyEditorialWatchdogV069',
+  'scheduledDailyEditorialTopicApprovalV070'
+];
+
+function v073TopicApprovalEnabled_() {
+  return String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE';
+}
+
+function v073TriggerCounts_() {
+  var counts = {};
+  V073_TRIGGER_HANDLERS.forEach(function(h) { counts[h] = 0; });
+  var supervisors = [];
+  ScriptApp.getProjectTriggers().forEach(function(t) {
+    var h = String(t.getHandlerFunction() || '');
+    if (counts.hasOwnProperty(h)) counts[h] += 1;
+    if (/^scheduledDailyEditorialSupervisorV0\d+$/.test(h)) supervisors.push(h);
+  });
+  return { controlled: counts, supervisors: supervisors };
+}
+
+function v073DeleteControlledTriggers_() {
+  var removed = [];
+  ScriptApp.getProjectTriggers().forEach(function(t) {
+    var h = String(t.getHandlerFunction() || '');
+    if (V073_TRIGGER_HANDLERS.indexOf(h) >= 0) {
+      ScriptApp.deleteTrigger(t);
+      removed.push(h);
+    }
+  });
+  return removed;
+}
+
+function v073CreateCanonicalTriggers_(approval) {
+  var created = [];
+  ScriptApp.newTrigger('scheduledDailyEditorialGateV069')
+    .timeBased().atHour(V069_GATE_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
+  created.push('scheduledDailyEditorialGateV069');
+
+  if (approval) {
+    if (typeof scheduledDailyEditorialTopicApprovalV070 !== 'function') {
+      throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
+    }
+    ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070')
+      .timeBased().everyMinutes(1).create();
+    created.push('scheduledDailyEditorialTopicApprovalV070');
+  } else {
+    ScriptApp.newTrigger('scheduledDailyEditorialCreatorV069')
+      .timeBased().everyHours(1).create();
+    created.push('scheduledDailyEditorialCreatorV069');
+    ScriptApp.newTrigger('scheduledDailyEditorialWatchdogV069')
+      .timeBased().atHour(V069_WATCHDOG_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
+    created.push('scheduledDailyEditorialWatchdogV069');
+  }
+  return created;
+}
+
+function reconcileDailyEditorialTriggerTopologyV073() {
+  if (typeof scheduledDailyEditorialGateV069 !== 'function') throw new Error('GATE_SOURCE_NOT_INSTALLED');
+  if (typeof scheduledDailyEditorialCreatorV069 !== 'function') throw new Error('CREATOR_SOURCE_NOT_INSTALLED');
+  if (typeof scheduledDailyEditorialWatchdogV069 !== 'function') throw new Error('WATCHDOG_SOURCE_NOT_INSTALLED');
+
+  var approval = v073TopicApprovalEnabled_();
+  var before = v073TriggerCounts_();
+  var removed = v073DeleteControlledTriggers_();
+  var created = v073CreateCanonicalTriggers_(approval);
+  var after = v073TriggerCounts_();
+
+  var expected = approval
+    ? {
+        scheduledDailyEditorialGateV069: 1,
+        scheduledDailyEditorialCreatorV069: 0,
+        scheduledDailyEditorialWatchdogV069: 0,
+        scheduledDailyEditorialTopicApprovalV070: 1
+      }
+    : {
+        scheduledDailyEditorialGateV069: 1,
+        scheduledDailyEditorialCreatorV069: 1,
+        scheduledDailyEditorialWatchdogV069: 1,
+        scheduledDailyEditorialTopicApprovalV070: 0
+      };
+
+  Object.keys(expected).forEach(function(h) {
+    if (Number(after.controlled[h] || 0) !== expected[h]) {
+      throw new Error('TRIGGER_TOPOLOGY_READBACK_FAILED ' + h + '=' + after.controlled[h] + ' expected=' + expected[h]);
+    }
+  });
+
+  var result = {
+    status: 'RECONCILED',
+    version: V073_TRIGGER_TOPOLOGY_VERSION,
+    mode: approval ? 'TOPIC_APPROVAL' : 'LEGACY_CREATOR',
+    removed: removed,
+    created: created,
+    before: before,
+    after: after,
+    supervisor_untouched: true,
+    auto_publish: false,
+    human_approval: true
+  };
+  console.log(JSON.stringify(result));
+  return result;
+}
+
+function inspectDailyEditorialTriggerTopologyV073() {
+  var result = {
+    version: V073_TRIGGER_TOPOLOGY_VERSION,
+    mode: v073TopicApprovalEnabled_() ? 'TOPIC_APPROVAL' : 'LEGACY_CREATOR',
+    triggers: v073TriggerCounts_(),
+    auto_publish: false,
+    human_approval: true
+  };
+  console.log(JSON.stringify(result));
+  return result;
 }
 
