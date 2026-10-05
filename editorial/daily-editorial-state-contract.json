@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.7.0",
+  "schema_version": "1.8.0",
   "contract_id": "the-rev-daily-editorial-state-contract-v1",
   "source_of_truth": {
     "settings_sheet": "08_SETTINGS",
@@ -15,7 +15,8 @@
     "creator_source": "editorial/gas/DailyEditorialCreator_v0.6.9.gs",
     "creator_engine": "lib/dailyEditorialCreator.mjs",
     "knowledge_registry": "lib/dailyEditorialKnowledge.mjs",
-    "image_operator_primary_adapter": "editorial/gas/DailyEditorialImageOperatorStatus_v0.7.2.gs"
+    "image_operator_primary_adapter": "editorial/gas/DailyEditorialImageOperatorStatus_v0.7.2.gs",
+    "trigger_topology_source": "editorial/gas/DailyEditorialTriggerTopology_v0.7.3.gs"
   },
   "new_queue_no_interview": {
     "queue_status": "DRAFTING",
@@ -423,6 +424,26 @@
     },
     "automatic_recovery": "when current operator state becomes non-blocking or READY, clear prior IMAGE_OPERATOR marker and continue polling",
     "notification_dedupe_key": "content_id + operator_status + asset_version",
+    "publish_boundary_unchanged": true
+  },
+  "trigger_topology": {
+    "version": "v0.7.3",
+    "topic_approval_enabled": {
+      "scheduledDailyEditorialGateV069": 1,
+      "scheduledDailyEditorialCreatorV069": 0,
+      "scheduledDailyEditorialWatchdogV069": 0,
+      "scheduledDailyEditorialTopicApprovalV070": 1,
+      "supervisor_trigger": "existing_single_trigger_untouched"
+    },
+    "topic_approval_disabled": {
+      "scheduledDailyEditorialGateV069": 1,
+      "scheduledDailyEditorialCreatorV069": 1,
+      "scheduledDailyEditorialWatchdogV069": 1,
+      "scheduledDailyEditorialTopicApprovalV070": 0,
+      "supervisor_trigger": "existing_single_trigger_untouched"
+    },
+    "stale_creator_or_watchdog_behavior": "DELEGATED_TO_TOPIC_APPROVAL_TRIGGER_NO_OP",
+    "rationale": "Topic Approval 1-minute poll is the sole orchestration trigger while approval is enabled; Creator and Watchdog must not independently call v070TopicTick_.",
     "publish_boundary_unchanged": true
   }
 }
