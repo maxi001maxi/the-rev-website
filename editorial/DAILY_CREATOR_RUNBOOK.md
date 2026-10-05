@@ -57,7 +57,7 @@
 |---|---|---|
 | 04:xx | GAS `scheduledDailyEditorialGateV069` | STARTログ → Bridge `daily_plan` → 公開済みの取りこぼしを `PUBLISHED` に同期 → 判定記録 |
 | 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | Bridge `daily_create` → **翌日分のQueue行を作成**（読み戻し確認後にCREATED）。翌日分がREVIEW_READYになったらLINE通知（終日・毎時） |
-| 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE |
+| 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` + v0.7.1 QC Recovery | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE。QC途中クラッシュは自動復旧 |
 | 画像Job作成後 | GitHub Actions `Auto Editorial Hybrid Images` | 画像生成・Visual QC・Xserver検証 |
 | 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | 対象日の行が無い場合のバックストップ（ERROR_BLOCKED + LINE） |
 | 人間 | Review & Publish | **最終Publishのみ人間承認**。GBP投稿も人間 |
@@ -91,7 +91,7 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ## 4. 導入手順（1回だけ・Apps Script）
 
-1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。個別管理したい場合だけ Gate / Creator / TopicApproval の3ファイルを使う
+1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。ONE_PASTEには Gate / Creator / TopicApproval に加えて `DailyEditorialSupervisorRecovery_v0.7.1.gs` が含まれる
 2. `startDailyEditorialAutonomyV069()` を1回実行する。Trigger導入（Gate 04時台 / Creator 毎時 / Watchdog 08時台）と、対象日分の初回準備を1回で行う。Supervisor（`scheduledDailyEditorialSupervisorV065` または v0.6.7 の `...V067`）のTriggerが無ければ失敗して止まる。旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう `EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
 3. `26_DAILY_EDITORIAL_QUEUE` に対象日（target_date）の行、`18_AUTOMATION_LOG` に `DAILY_EDITORIAL_CREATE / CREATED` が出ることを確認する
 4. GASソースを変更したら `npm run build:gas-bundle` でONE_PASTEを再生成し、Apps Scriptへ貼り直して `installDailyEditorialAutonomyV069()` を再実行する（Bundleの古さはCIが検出する）。`runDailyEditorialCreatorV069Once()` は時間帯に関係なく対象日分を1回準備する
@@ -164,6 +164,18 @@ Primary未導入時の旧05/08/11 Full Fallbackは廃止済み。Primary実稼�
 
 予備経路も自動運転の保証ではない。実行後のQueue・Bridge・画像READY・通知を別々に確認し、途中状態を成功としない。GASの新しいソースはGitHub mergeだけでは配備されない。
 
+## 5.1 Supervisor QC途中クラッシュ自己復旧（v0.7.1）
+
+v0.6.5.2は本文生成後、Final Editorへ入る直前にQueueを `QC / QC` へ更新する。そこで例外・timeoutが起きると旧Supervisorは `LEGACY_BRIDGE_FAILED_AFTER_DRAFT` を返すだけで、次の1分tickのselector対象外になって停止していた。v0.7.1はこの中間状態だけを限定的に自己復旧する。
+
+- catch可能な例外: 同じtickで `QC / QC` を検出し `PATCHING / NOT_STARTED` へ戻す。次tickで通常のSupervisor selectorが再開する
+- Apps Scriptの強制終了・timeout: `daily_no_interview_resume_stale_minutes`（現在既定5分）を超えた `QC / QC` を次tickで回収する
+- すでに `21_WEB_BLOG_OUTPUT` に `READY + fact_check_status=PASS` がある場合: 原稿を再生成せず `BRIDGE_ERROR / READY` に移し、既存のBridge recoveryへ渡す
+- 無限retry防止: `daily_editorial_qc_recovery_max_attempts` があればそれを使用し、未設定は3回。超過時は `ERROR` でfail closedしLINE error通知対象にする
+- `REVIEW_REQUIRED` / `READY` / `IMAGE_PREPARING` など正規状態は上書きしない
+- Auto Publishは変更しない。Human Review & Publishは必須のまま
+
+診断: `inspectEditorialQcRecoveryV071()`。回帰テスト: `npm run test:supervisor-qc-recovery`。
 ## 6. 既知の限界
 
 - デプロイ済みv0.6.5.2のReview Ready通知は `run_date` が当日の間だけ動きます。日付をまたいでREADYになった記事はCreatorが通知を補います
@@ -171,7 +183,7 @@ Primary未導入時の旧05/08/11 Full Fallbackは廃止済み。Primary実稼�
 - 自動公開は未実装です。`lib/editorialAutoPublishGate.mjs` のGate（env + 設定の2鍵）だけがあり、executorを追加・登録するまで公開は必ず人間です
 - 導入日は `runDailyEditorialCreatorV069Once()` を1回実行すると、その日のうちに翌日分を準備できます
 - GAS（Gate / Creator / Watchdog）は自動配備されません。Apps Scriptへの貼り付けと `install...` の実行は人間が1回行う必要があります
-- v0.6.5.2 Supervisor本体はGitHubに無くDriveの貼り付け用パッチ文書のみです（Creatorはその選別条件に合う行を生成するよう、テストで固定しています）
+- v0.6.5.2 Supervisor本体はGitHubに無くDriveの貼り付け用パッチ文書のみです。GitHub側のv0.7.1 adapterが旧Supervisorの生成関数をwrapし、QCクラッシュ停止だけを自己復旧します
 - 意味的な記事の被りは全記事履歴を用いたanswer-overlap-v1で候補作成前に検査する。説明可能な決定論的ルールのため、未知の言い換えには人間Reviewも必要。
 - 新しいテーマの一次情報が登録されるまで、そのレーンの記事はInterview経由になります
 
