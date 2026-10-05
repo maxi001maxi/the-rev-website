@@ -78,7 +78,7 @@ test('Topic Approval mode has one Gate + one Topic Approval trigger, no Creator/
       scheduledDailyEditorialTopicApprovalV070: 1
     }
   );
-  assert.deepEqual(out.after.supervisors, ['scheduledDailyEditorialSupervisorV065']);
+  assert.deepEqual(JSON.parse(JSON.stringify(out.after.supervisors)), ['scheduledDailyEditorialSupervisorV065']);
   assert.equal(h.triggers.filter(t => t.getHandlerFunction() === 'scheduledDailyEditorialSupervisorV065').length, 1);
 });
 
@@ -93,7 +93,7 @@ test('Legacy Creator mode has Gate + Creator + Watchdog and no Topic Approval tr
   const out = h.context.reconcileDailyEditorialTriggerTopologyV073();
   assert.equal(out.mode, 'LEGACY_CREATOR');
   assert.deepEqual(
-    out.after.controlled,
+    JSON.parse(JSON.stringify(out.after.controlled)),
     {
       scheduledDailyEditorialGateV069: 1,
       scheduledDailyEditorialCreatorV069: 1,
@@ -101,7 +101,7 @@ test('Legacy Creator mode has Gate + Creator + Watchdog and no Topic Approval tr
       scheduledDailyEditorialTopicApprovalV070: 0
     }
   );
-  assert.deepEqual(out.after.supervisors, ['scheduledDailyEditorialSupervisorV067']);
+  assert.deepEqual(JSON.parse(JSON.stringify(out.after.supervisors)), ['scheduledDailyEditorialSupervisorV067']);
 });
 
 test('Creator and Watchdog do not execute Topic tick when approval is enabled', () => {
