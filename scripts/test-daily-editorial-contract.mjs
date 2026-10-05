@@ -15,10 +15,18 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.7.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.8.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
 assert(contract.source_of_truth?.image_operator_primary_adapter === 'editorial/gas/DailyEditorialImageOperatorStatus_v0.7.2.gs', 'Image Operator Primary adapter must be versioned in the contract.');
+assert(contract.source_of_truth?.trigger_topology_source === 'editorial/gas/DailyEditorialTriggerTopology_v0.7.3.gs', 'Trigger topology source must be versioned in the contract.');
+const triggerTopology = contract.trigger_topology || {};
+assert(triggerTopology.version === 'v0.7.3', 'Trigger topology contract version drifted.');
+assert(triggerTopology.topic_approval_enabled?.scheduledDailyEditorialCreatorV069 === 0, 'Creator trigger must be removed when Topic Approval is enabled.');
+assert(triggerTopology.topic_approval_enabled?.scheduledDailyEditorialWatchdogV069 === 0, 'Watchdog trigger must be removed when Topic Approval is enabled.');
+assert(triggerTopology.topic_approval_enabled?.scheduledDailyEditorialTopicApprovalV070 === 1, 'Topic Approval must own one canonical 1-minute trigger.');
+assert(triggerTopology.topic_approval_enabled?.scheduledDailyEditorialGateV069 === 1, 'Gate must remain enabled under Topic Approval.');
+assert(triggerTopology.publish_boundary_unchanged === true, 'Trigger cleanup must not change publish boundary.');
 const operatorPrimary = contract.image_operator_primary || {};
 assert(operatorPrimary.asset_version_must_match === true, 'Operator state must match the current asset version.');
 assert(operatorPrimary.queue_status_while_blocked === 'IMAGE_PREPARING', 'Blocked Image Operator state must remain pollable by Primary.');
