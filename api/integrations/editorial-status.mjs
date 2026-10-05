@@ -27,7 +27,7 @@ import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybri
 import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
 import { planDailyEditorial } from '../../lib/dailyEditorialStateMachine.mjs';
-import { planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
+import { detectStuckRows, planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
 import { autoPublishGate } from '../../lib/editorialAutoPublishGate.mjs';
 import lineEditorialWebhook from '../../lib/editorialLineWebhook.mjs';
 import { topicResponse } from '../../lib/editorialTopicApi.mjs';
@@ -38,6 +38,15 @@ const DAILY_SHORTLIST_MAX_ROWS = 200;
 const DAILY_PLAN_MAX_RECONCILE = 10;
 
 export const config = { api: { bodyParser: false }, maxDuration: 300 };
+
+export function topicStuckFindings(body = {}) {
+  const rows = Array.isArray(body.rows) ? body.rows.slice(0, DAILY_PLAN_MAX_ROWS) : [];
+  const parsedNow = body.now ? new Date(body.now) : new Date();
+  const now = Number.isNaN(parsedNow.getTime()) ? new Date() : parsedNow;
+  const settings = body.settings && typeof body.settings === 'object' ? body.settings : {};
+  return detectStuckRows({ rows, now, settings });
+}
+
 
 export async function readEditorialJson(req) {
   if (req.body && typeof req.body === 'object') return req.body;
@@ -81,8 +90,9 @@ export default async function handler(req, res) {
       const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
       try {
         const payload = await topicResponse({...body,action:body.action.slice(6)},supabase);
+        const stuck = topicStuckFindings(body);
         res.setHeader('Cache-Control','no-store');
-        return res.status(200).json({ok:true,...payload,capabilities:{
+        return res.status(200).json({ok:true,...payload,stuck,capabilities:{
           line_receiver_configured:Boolean(process.env.THE_REV_LINE_CHANNEL_SECRET && process.env.THE_REV_LINE_USER_ID),
           line_owner_fingerprint:process.env.THE_REV_LINE_USER_ID ? crypto.createHash('sha256').update(process.env.THE_REV_LINE_USER_ID).digest('hex') : null
         }});
