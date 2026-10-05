@@ -22,7 +22,7 @@ import {
   originFromRequest,
   safeSecretEqual
 } from '../../lib/editorialBridge.mjs';
-import { checkEditorialImageReady } from '../../lib/editorialImage.mjs';
+import { checkEditorialImageOperatorState, checkEditorialImageReady } from '../../lib/editorialImage.mjs';
 import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
 import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
@@ -128,6 +128,7 @@ export default async function handler(req, res) {
 
   let article = found.data;
   let readiness = null;
+  let operator = null;
 
   // Publication evidence is independent of image readiness. Reconcile it first
   // so an image probe failure can never hide a verified production publish.
@@ -186,7 +187,37 @@ export default async function handler(req, res) {
       }
     }
 
-    readiness = await checkEditorialImageReady(article);
+    operator = await checkEditorialImageOperatorState(article);
+
+    if (operator?.matched === true && operator?.blocking === true) {
+      const blockedStatus = operator.state === 'BLOCKED' ? 'BLOCKED' : 'ERROR';
+      const operatorMessage = [
+        'IMAGE_OPERATOR_' + String(operator.status || operator.state || 'BLOCKED'),
+        operator.code ? 'code=' + operator.code : '',
+        operator.last_error || ''
+      ].filter(Boolean).join(' / ').slice(0, 1000);
+      const operatorUpdate = await supabase
+        .from('admin_article_drafts')
+        .update({
+          image_status: blockedStatus,
+          image_asset_ready: false,
+          image_checked_at: new Date().toISOString(),
+          image_attempts: operator.attempts_total,
+          image_last_error: operatorMessage,
+          gbp_image_status: article.gbp_image_asset_version ? blockedStatus : article.gbp_image_status,
+          gbp_image_checked_at: article.gbp_image_asset_version ? new Date().toISOString() : article.gbp_image_checked_at,
+          gbp_image_attempts: article.gbp_image_asset_version ? operator.attempts_total : article.gbp_image_attempts,
+          gbp_image_last_error: article.gbp_image_asset_version ? operatorMessage : article.gbp_image_last_error
+        })
+        .eq('id', article.id)
+        .select('*')
+        .single();
+
+      if (!operatorUpdate.error && operatorUpdate.data) article = operatorUpdate.data;
+      readiness = { ready: false, reason: 'image_operator_' + String(operator.state || 'blocked').toLowerCase() };
+    } else {
+      readiness = await checkEditorialImageReady(article);
+    }
 
     if (readiness.ready) {
       const updated = await supabase
@@ -223,7 +254,7 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'db_error', message: '画像READY状態の保存に失敗しました。' });
       }
       article = updated.data;
-    } else {
+    } else if (!(operator?.matched === true && operator?.blocking === true)) {
       const updated = await supabase
         .from('admin_article_drafts')
         .update({
@@ -283,6 +314,8 @@ export default async function handler(req, res) {
       image_style_template: article.image_style_template || null,
       image_headline_short: article.image_headline_short || null,
       image_qa: article.image_qa || null,
+      image_attempts: article.image_attempts ?? null,
+      image_last_error: article.image_last_error || null,
       thumbnail: article.thumbnail || null,
       og_image: article.og_image || null,
       gbp_image: article.gbp_image || null,
@@ -290,6 +323,8 @@ export default async function handler(req, res) {
       gbp_image_asset_version: article.gbp_image_asset_version || null,
       gbp_image_checked_at: article.gbp_image_checked_at || null,
       gbp_image_qa: article.gbp_image_qa || null,
+      gbp_image_attempts: article.gbp_image_attempts ?? null,
+      gbp_image_last_error: article.gbp_image_last_error || null,
       publish_status: article.publish_status || PUBLISH_STATUS.NOT_PUBLISHED,
       publish_commit_sha: article.publish_commit_sha || null,
       published_content_sha: article.published_content_sha || null,
@@ -299,6 +334,7 @@ export default async function handler(req, res) {
       publish_verified_at: article.publish_verified_at || null
     },
     publication,
+    operator,
     readiness: {
       ready: readiness?.ready === true,
       reason: readiness?.reason || null
