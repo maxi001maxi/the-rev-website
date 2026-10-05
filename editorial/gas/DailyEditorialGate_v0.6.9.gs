@@ -257,8 +257,7 @@ function scheduledDailyEditorialGateV069Unlocked_() {
 
 function scheduledDailyEditorialWatchdogV069Unlocked_() {
   if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE') {
-    if (typeof v070TopicTick_ !== 'function') throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
-    return v070TopicTick_(false);
+    return { status: 'DELEGATED_TO_TOPIC_APPROVAL_TRIGGER', handler: 'scheduledDailyEditorialTopicApprovalV070' };
   }
   // `today` is the target article day the Gate planned during this run.
   var today = v069TargetKey_();
@@ -309,17 +308,21 @@ function installDailyEditorialGateV069() {
   // dashboard HTML with HTTP 200. Pin all status polling to the stable production
   // alias so GBP/image ledger sync sees JSON from editorial-status.
   PropertiesService.getScriptProperties().setProperty('EDITORIAL_STATUS_BASE_URL', V069_STATUS_ORIGIN);
+  var approval = String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE';
   var handlers = ['scheduledDailyEditorialGateV069', 'scheduledDailyEditorialWatchdogV069'];
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (handlers.indexOf(t.getHandlerFunction()) >= 0) ScriptApp.deleteTrigger(t);
   });
   ScriptApp.newTrigger('scheduledDailyEditorialGateV069').timeBased().atHour(V069_GATE_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
-  ScriptApp.newTrigger('scheduledDailyEditorialWatchdogV069').timeBased().atHour(V069_WATCHDOG_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
+  if (!approval) {
+    ScriptApp.newTrigger('scheduledDailyEditorialWatchdogV069').timeBased().atHour(V069_WATCHDOG_HOUR).everyDays(1).inTimezone('Asia/Tokyo').create();
+  }
   return {
     status: 'INSTALLED',
     version: 'v0.6.9',
+    trigger_mode: approval ? 'TOPIC_APPROVAL' : 'LEGACY_CREATOR',
     gate_hour_jst: V069_GATE_HOUR,
-    watchdog_hour_jst: V069_WATCHDOG_HOUR,
+    watchdog_hour_jst: approval ? null : V069_WATCHDOG_HOUR,
     review_ready_blocks_creation: false,
     editorial_status_base_url: V069_STATUS_ORIGIN,
     status_base_repaired: true,

@@ -56,10 +56,10 @@
 | 時刻(JST) | 担当 | 内容 |
 |---|---|---|
 | 04:xx | GAS `scheduledDailyEditorialGateV069` | STARTログ → Bridge `daily_plan` → 公開済みの取りこぼしを `PUBLISHED` に同期 → 判定記録 |
-| 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | 通常モードはBridge `daily_create`。Topic Approval有効時は `v070TopicTick_` に委譲し、候補承認フローと同時にcanonical Stuck Detectionを維持 |
-| 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` + v0.7.1 QC Recovery + v0.7.2 Image Operator Status | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE。QC途中クラッシュと画像Operator BLOCKED/FAILEDをPrimaryで処理 |
+| 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | **Topic Approval OFF時のみ**。Bridge `daily_create` で従来Creatorを実行。Topic Approval ONではTrigger自体を置かない |
+| 常時（1分） | GAS `scheduledDailyEditorialTopicApprovalV070` + v0.6.5.2 `scheduledDailyEditorialSupervisorV065` | Topic Approvalが候補・承認・Stuck監視を担当。SupervisorはDraft/QC → GBP → Bridge/Supabase → Image → Review Readyを担当。P1/P3 adapterを含む |
 | 画像Job作成後 | GitHub Actions `Auto Editorial Hybrid Images` | 画像生成・Visual QC・Xserver検証 |
-| 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | 対象日の行が無い場合のバックストップ（ERROR_BLOCKED + LINE） |
+| 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | **Topic Approval OFF時のみ**。従来Creatorのmissing Queueバックストップ。Topic Approval ONではTrigger自体を置かない |
 | 人間 | Review & Publish | **最終Publishのみ人間承認**。GBP投稿も人間 |
 
 判定は `lib/dailyEditorialStateMachine.mjs`（Gate）と `lib/dailyEditorialCreator.mjs`（候補選定・Queue行生成）が唯一の正本です。GASはBridgeの返したQueue行を追記するだけで、独自に判断しません。
@@ -93,8 +93,8 @@ LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Qu
 
 ## 4. 導入手順（1回だけ・Apps Script）
 
-1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。ONE_PASTEには Gate / Creator / TopicApproval / `DailyEditorialSupervisorRecovery_v0.7.1.gs` / `DailyEditorialImageOperatorStatus_v0.7.2.gs` が含まれる
-2. `startDailyEditorialAutonomyV069()` を1回実行する。Trigger導入（Gate 04時台 / Creator 毎時 / Watchdog 08時台）と、対象日分の初回準備を1回で行う。Supervisor（`scheduledDailyEditorialSupervisorV065` または v0.6.7 の `...V067`）のTriggerが無ければ失敗して止まる。旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう `EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
+1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。ONE_PASTEには Gate / Creator / TopicApproval / `DailyEditorialSupervisorRecovery_v0.7.1.gs` / `DailyEditorialImageOperatorStatus_v0.7.2.gs` / `DailyEditorialTriggerTopology_v0.7.3.gs` が含まれる
+2. `startDailyEditorialAutonomyV069()` を1回実行する。v0.7.3が設定に応じてTriggerを正規化する。Topic Approval ONでは `Gate 04時台 + TopicApproval 1分 + 既存Supervisor 1分` のみとし、Creator毎時 / Watchdog 08時台は削除する。Topic Approval OFFでは従来どおり Gate + Creator + Watchdog を使う。Supervisor（`scheduledDailyEditorialSupervisorV065` または v0.6.7 の `...V067`）は削除・再作成しない。旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう `EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
 3. `26_DAILY_EDITORIAL_QUEUE` に対象日（target_date）の行、`18_AUTOMATION_LOG` に `DAILY_EDITORIAL_CREATE / CREATED` が出ることを確認する
 4. GASソースを変更したら `npm run build:gas-bundle` でONE_PASTEを再生成し、Apps Scriptへ貼り直して `installDailyEditorialAutonomyV069()` を再実行する（Bundleの古さはCIが検出する）。`runDailyEditorialCreatorV069Once()` は時間帯に関係なく対象日分を1回準備する
 5. Vercel側は `main` にマージされた `/api/integrations/editorial-status`（`daily_plan` / `daily_create`）が必要
@@ -179,6 +179,17 @@ Primary未導入時の旧05/08/11 Full Fallbackは廃止済み。Primary実稼�
 - Topic選択、Knowledge Gate、Duplicate Gate、Auto Publishの挙動は変更しない
 
 これにより、Topic Approvalを有効にしたことで監視だけ消えるという、人間らしい『機能を足したら警報器が外れた』状態を解消する。
+## 5.0.3 Trigger重複整理（v0.7.3）
+
+Topic Approval ONでは `scheduledDailyEditorialTopicApprovalV070` が1分ごとに候補通知・承認再開・Stuck Detection・時間単位メンテナンスを担当するため、Creator毎時とWatchdog 08時台が同じ `v070TopicTick_()` を再実行する必要はない。v0.7.3はこの重複を削除する。
+
+- Topic Approval ON: Gate 1本 / TopicApproval 1本 / Creator 0本 / Watchdog 0本。Supervisorは既存Triggerをそのまま維持
+- Topic Approval OFF: Gate 1本 / Creator 1本 / Watchdog 1本 / TopicApproval 0本
+- 古いCreator/Watchdog Triggerが残っていても、Approval ONでは関数本体が `DELEGATED_TO_TOPIC_APPROVAL_TRIGGER` を返すだけで `v070TopicTick_()` を二重実行しない
+- `reconcileDailyEditorialTriggerTopologyV073()` は対象4Handlerだけを正規化し、Supervisorや他用途のTriggerには触れない
+- `inspectDailyEditorialTriggerTopologyV073()` で現在の本数を確認できる
+- cadence / Topic / Knowledge / Duplicate / Fact / Image gateは変更しない
+- Auto PublishはOFF、Human ApprovalはTRUEのまま
 ## 5.0.2 Image Operator BLOCKED / FAILEDをPrimaryへ返す（v0.7.2）
 
 画像OperatorはGitHubの `editorial/image-operator-state/{slug}.json` をdurable stateとして持つ。従来のPrimary Status APIは画像がREADYでない限りほぼすべて `PREPARING` として扱っていたため、`BLOCKED_PROVIDER_CREDITS` や `ERROR` がSupervisorへ届かず、外部FallbackだけがGitHub Actionsを読んで原因を発見していた。

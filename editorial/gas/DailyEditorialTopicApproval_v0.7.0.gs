@@ -346,9 +346,14 @@ function v070InstallTopicApproval_(replyMode) {
   });
   if (String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() !== 'TRUE' || String(v069Settings_().daily_editorial_cadence) !== 'DAILY') throw new Error('TOPIC_SETTINGS_READBACK_FAILED');
   properties.setProperty('THE_REV_TOPIC_REPLY_MODE',replyMode);
-  var exists = ScriptApp.getProjectTriggers().some(function(t) { return t.getHandlerFunction() === 'scheduledDailyEditorialTopicApprovalV070'; });
-  if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(1).create();
+  var topology = null;
+  if (typeof reconcileDailyEditorialTriggerTopologyV073 === 'function') {
+    topology = reconcileDailyEditorialTriggerTopologyV073();
+  } else {
+    var exists = ScriptApp.getProjectTriggers().some(function(t) { return t.getHandlerFunction() === 'scheduledDailyEditorialTopicApprovalV070'; });
+    if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(1).create();
+  }
   var result = scheduledDailyEditorialTopicApprovalV070();
-  Logger.log(JSON.stringify({reply_mode:replyMode,cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required,result:result}));
+  Logger.log(JSON.stringify({reply_mode:replyMode,cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required,topology:topology,result:result}));
   return result;
 }
