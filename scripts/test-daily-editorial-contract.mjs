@@ -15,9 +15,17 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(contract.schema_version === '1.6.0', 'Unexpected Daily Editorial state contract schema.');
+assert(contract.schema_version === '1.7.0', 'Unexpected Daily Editorial state contract schema.');
 assert(contract.source_of_truth?.gas_supervisor_version === 'v0.6.5.2', 'GAS Supervisor contract version drifted.');
 assert(contract.source_of_truth?.gbp_sheet === '22_GBP_POST', '22_GBP_POST must be a named Source of Truth.');
+assert(contract.source_of_truth?.image_operator_primary_adapter === 'editorial/gas/DailyEditorialImageOperatorStatus_v0.7.2.gs', 'Image Operator Primary adapter must be versioned in the contract.');
+const operatorPrimary = contract.image_operator_primary || {};
+assert(operatorPrimary.asset_version_must_match === true, 'Operator state must match the current asset version.');
+assert(operatorPrimary.queue_status_while_blocked === 'IMAGE_PREPARING', 'Blocked Image Operator state must remain pollable by Primary.');
+assert(operatorPrimary.blocked_mapping?.BLOCKED_PROVIDER_CREDITS?.image_status === 'BLOCKED', 'Provider credit blocker must surface as image_status=BLOCKED.');
+assert(operatorPrimary.blocked_mapping?.BLOCKED_PROVIDER_CREDITS?.consume_generation_attempt === false, 'Provider credit blocker must not consume generation attempts.');
+assert(operatorPrimary.failed_statuses?.includes('BLOCKED_MAX_ATTEMPTS') && operatorPrimary.failed_statuses?.includes('ERROR'), 'Terminal operator failures must be named explicitly.');
+assert(operatorPrimary.publish_boundary_unchanged === true, 'Image Operator status propagation must not change the publish boundary.');
 
 const noInterview = contract.new_queue_no_interview || {};
 assert(noInterview.queue_status === 'DRAFTING', 'No-interview queue must start in DRAFTING.');
