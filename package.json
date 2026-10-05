@@ -16,6 +16,7 @@
     "test:daily-creator": "node scripts/test-daily-creator-integration.mjs",
     "test:supervisor-qc-recovery": "node scripts/test-supervisor-qc-recovery.mjs",
     "test:image-operator-primary-status": "node --test scripts/test-image-operator-primary-status.mjs",
+    "test:trigger-topology": "node --test scripts/test-editorial-trigger-topology.mjs",
     "build:gas-bundle": "node scripts/build-gas-bundle.mjs",
     "test:site-insights": "node --test scripts/test-site-insights-v2.mjs",
     "test:hybrid-images": "node scripts/validate-hybrid-image-jobs.mjs",
