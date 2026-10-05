@@ -56,7 +56,7 @@
 | 時刻(JST) | 担当 | 内容 |
 |---|---|---|
 | 04:xx | GAS `scheduledDailyEditorialGateV069` | STARTログ → Bridge `daily_plan` → 公開済みの取りこぼしを `PUBLISHED` に同期 → 判定記録 |
-| 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | Bridge `daily_create` → **翌日分のQueue行を作成**（読み戻し確認後にCREATED）。翌日分がREVIEW_READYになったらLINE通知（終日・毎時） |
+| 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | 通常モードはBridge `daily_create`。Topic Approval有効時は `v070TopicTick_` に委譲し、候補承認フローと同時にcanonical Stuck Detectionを維持 |
 | 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` + v0.7.1 QC Recovery | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE。QC途中クラッシュは自動復旧 |
 | 画像Job作成後 | GitHub Actions `Auto Editorial Hybrid Images` | 画像生成・Visual QC・Xserver検証 |
 | 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | 対象日の行が無い場合のバックストップ（ERROR_BLOCKED + LINE） |
@@ -164,6 +164,19 @@ Primary未導入時の旧05/08/11 Full Fallbackは廃止済み。Primary実稼�
 
 予備経路も自動運転の保証ではない。実行後のQueue・Bridge・画像READY・通知を別々に確認し、途中状態を成功としない。GASの新しいソースはGitHub mergeだけでは配備されない。
 
+## 5.0.1 Topic Approval中のStuck Detection
+
+`daily_editorial_topic_approval_required=TRUE` ではCreatorが `v070TopicTick_()` へ早期returnするため、旧v0.6.9 Creator側の `daily_create` 応答に含まれるStuck Detectionが実行されていなかった。現在はTopic APIの通常poll/prepare応答に、同じ正本 `lib/dailyEditorialCreator.mjs -> detectStuckRows()` の結果を付与する。
+
+- `DRAFTING / NOT_STARTED` が `daily_editorial_stuck_timeout_minutes` 超過 → `SUPERVISOR_NOT_PICKING_UP`
+- DRAFT/QC系の処理中状態がその3倍を超過 → `STAGE_STALLED`
+- `IMAGE_PREPARING` が画像stuck閾値を超過 → `IMAGE_STALLED`
+- `ERROR / BRIDGE_ERROR` → `ERROR_STATE`
+- `TOPIC_SELECTION_WAITING / INTERVIEW_WAITING / REVIEW_READY` は正常待ちとしてStuck扱いしない
+- Topic Approvalの1分pollで検出しても、LINEは既存 `v069cStuckAlerts_()` の日付・content_id・reason単位のde-dupeを使うため同じ異常を毎分通知しない
+- Topic選択、Knowledge Gate、Duplicate Gate、Auto Publishの挙動は変更しない
+
+これにより、Topic Approvalを有効にしたことで監視だけ消えるという、人間らしい『機能を足したら警報器が外れた』状態を解消する。
 ## 5.1 Supervisor QC途中クラッシュ自己復旧（v0.7.1）
 
 v0.6.5.2は本文生成後、Final Editorへ入る直前にQueueを `QC / QC` へ更新する。そこで例外・timeoutが起きると旧Supervisorは `LEGACY_BRIDGE_FAILED_AFTER_DRAFT` を返すだけで、次の1分tickのselector対象外になって停止していた。v0.7.1はこの中間状態だけを限定的に自己復旧する。
