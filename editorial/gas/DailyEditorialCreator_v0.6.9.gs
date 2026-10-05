@@ -446,7 +446,10 @@ function installDailyEditorialAutonomyV069() {
 // target day right away (no need to wait for the next hourly tick).
 function startDailyEditorialAutonomyV069() {
   var installed = installDailyEditorialAutonomyV069();
-  var first = runDailyEditorialCreatorV069Once();
+  var approval = String(v069Settings_().daily_editorial_topic_approval_required).toUpperCase() === 'TRUE';
+  var first = approval && typeof v070TopicTick_ === 'function'
+    ? v069WithLock_(function () { return v070TopicTick_(true); })
+    : runDailyEditorialCreatorV069Once();
   var result = { status: 'STARTED', installed: installed, first_run: first };
   console.log(JSON.stringify(result));
   return result;
