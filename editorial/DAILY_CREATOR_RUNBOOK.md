@@ -57,7 +57,7 @@
 |---|---|---|
 | 04:xx | GAS `scheduledDailyEditorialGateV069` | STARTログ → Bridge `daily_plan` → 公開済みの取りこぼしを `PUBLISHED` に同期 → 判定記録 |
 | 05:00〜11:59 毎時 | GAS `scheduledDailyEditorialCreatorV069` | 通常モードはBridge `daily_create`。Topic Approval有効時は `v070TopicTick_` に委譲し、候補承認フローと同時にcanonical Stuck Detectionを維持 |
-| 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` + v0.7.1 QC Recovery | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE。QC途中クラッシュは自動復旧 |
+| 常時（1分） | GAS v0.6.5.2 `scheduledDailyEditorialSupervisorV065` + v0.7.1 QC Recovery + v0.7.2 Image Operator Status | Draft/QC → GBP行 → Bridge/Supabase → IMAGE_PREPARING → REVIEW_READY → LINE。QC途中クラッシュと画像Operator BLOCKED/FAILEDをPrimaryで処理 |
 | 画像Job作成後 | GitHub Actions `Auto Editorial Hybrid Images` | 画像生成・Visual QC・Xserver検証 |
 | 08:xx | GAS `scheduledDailyEditorialWatchdogV069` | 対象日の行が無い場合のバックストップ（ERROR_BLOCKED + LINE） |
 | 人間 | Review & Publish | **最終Publishのみ人間承認**。GBP投稿も人間 |
@@ -86,12 +86,14 @@
 | `INTERVIEW_REQUIRED` | 候補はあるが既存知識が不足 | Interview回答、または候補/知識登録の追加 |
 | `SUPERVISOR_NOT_PICKING_UP` | 作成から10分以上DRAFTINGのまま | Supervisor Trigger/実行ログを確認 |
 | `STAGE_STALLED` / `IMAGE_STALLED` | 30分/6時間以上進まない | 実行ログ / Actions を確認 |
+| `IMAGE_OPERATOR_BLOCKED` | Provider credits等の外部依存でOperator停止 | 原因を解消。attemptは無駄に消費しない |
+| `IMAGE_OPERATOR_FAILED` | Max attempts / Operator ERROR / Overlay QC rejected | Image Operator / QCを確認して修復・再queue |
 
 LINEの送信失敗は `18_AUTOMATION_LOG` に `unverified` として残り、Queue状態も記事生成も止めません。
 
 ## 4. 導入手順（1回だけ・Apps Script）
 
-1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。ONE_PASTEには Gate / Creator / TopicApproval に加えて `DailyEditorialSupervisorRecovery_v0.7.1.gs` が含まれる
+1. Bound Apps Script に `editorial/gas/DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs` の全文を **1ファイルへそのまま貼り付ける**（v0.6.5.2 は既存のまま）。ONE_PASTEには Gate / Creator / TopicApproval / `DailyEditorialSupervisorRecovery_v0.7.1.gs` / `DailyEditorialImageOperatorStatus_v0.7.2.gs` が含まれる
 2. `startDailyEditorialAutonomyV069()` を1回実行する。Trigger導入（Gate 04時台 / Creator 毎時 / Watchdog 08時台）と、対象日分の初回準備を1回で行う。Supervisor（`scheduledDailyEditorialSupervisorV065` または v0.6.7 の `...V067`）のTriggerが無ければ失敗して止まる。旧v0.6.8 Asset Ledgerが保護付きPreview aliasを参照しないよう `EDITORIAL_STATUS_BASE_URL=https://the-rev-website.vercel.app` も同時に修復する
 3. `26_DAILY_EDITORIAL_QUEUE` に対象日（target_date）の行、`18_AUTOMATION_LOG` に `DAILY_EDITORIAL_CREATE / CREATED` が出ることを確認する
 4. GASソースを変更したら `npm run build:gas-bundle` でONE_PASTEを再生成し、Apps Scriptへ貼り直して `installDailyEditorialAutonomyV069()` を再実行する（Bundleの古さはCIが検出する）。`runDailyEditorialCreatorV069Once()` は時間帯に関係なく対象日分を1回準備する
@@ -177,6 +179,22 @@ Primary未導入時の旧05/08/11 Full Fallbackは廃止済み。Primary実稼�
 - Topic選択、Knowledge Gate、Duplicate Gate、Auto Publishの挙動は変更しない
 
 これにより、Topic Approvalを有効にしたことで監視だけ消えるという、人間らしい『機能を足したら警報器が外れた』状態を解消する。
+## 5.0.2 Image Operator BLOCKED / FAILEDをPrimaryへ返す（v0.7.2）
+
+画像OperatorはGitHubの `editorial/image-operator-state/{slug}.json` をdurable stateとして持つ。従来のPrimary Status APIは画像がREADYでない限りほぼすべて `PREPARING` として扱っていたため、`BLOCKED_PROVIDER_CREDITS` や `ERROR` がSupervisorへ届かず、外部FallbackだけがGitHub Actionsを読んで原因を発見していた。
+
+v0.7.2では `/api/integrations/editorial-status?content_id=...` が現在asset_versionと一致するOperator stateをGitHub正本から読み、Primaryへ `operator` として返す。古いasset_versionのstateは無視する。
+
+- `BLOCKED_PROVIDER_CREDITS` → Primary `BLOCKED` / `RESTORE_PROVIDER_CREDITS`。自動retryは禁止し、Operatorのattemptを消費しない
+- `BLOCKED_MAX_ATTEMPTS` / `OVERLAY_QC_REJECTED` / `ERROR` → Primary `FAILED` / `REVIEW_IMAGE_OPERATOR`
+- Queue自体は `IMAGE_PREPARING` を維持して1分pollを継続する。`image_status=BLOCKED|ERROR`、`failed_stage=IMAGE_OPERATOR`、`last_error` に実状態を保存する
+- 外部要因解消や新asset_versionの再queueでOperatorが非blockingへ戻れば、Primaryが古いBLOCKED/ERROR markerを自動解除して `PREPARING` へ復帰する
+- READY判定、Visual QC、Xserver verificationは従来どおり。BLOCKED/FAILEDをREADYへ読み替えない
+- LINE通知は `content_id + operator status + asset_version` 単位でde-dupeする
+- `detectStuckRows()` も `IMAGE_OPERATOR_BLOCKED` / `IMAGE_OPERATOR_FAILED` をgeneric `IMAGE_STALLED` より優先して返す
+- Auto Publish / GBP auto-postは変更しない
+
+診断: `inspectEditorialImageOperatorStatusV072()`。回帰テスト: `npm run test:image-operator-primary-status`。
 ## 5.1 Supervisor QC途中クラッシュ自己復旧（v0.7.1）
 
 v0.6.5.2は本文生成後、Final Editorへ入る直前にQueueを `QC / QC` へ更新する。そこで例外・timeoutが起きると旧Supervisorは `LEGACY_BRIDGE_FAILED_AFTER_DRAFT` を返すだけで、次の1分tickのselector対象外になって停止していた。v0.7.1はこの中間状態だけを限定的に自己復旧する。
