@@ -148,6 +148,7 @@ function v070TopicRequest_(action, extra) {
   var queue = v069QueueRows_();
   var body = {
     action: 'topic_' + action,
+    now: new Date().toISOString(),
     rows: queue.rows.map(function(x) {
       var row = v069cSlim_(x, V069C_PLAN_FIELDS);
       row.target_date = v069RowTargetKey_(x);
@@ -166,6 +167,11 @@ function v070TopicRequest_(action, extra) {
   var r = v069PostJson_(V070_TOPIC_URL, body);
   if (r.code < 200 || r.code >= 300 || !r.json || r.json.ok !== true) throw new Error('TOPIC_API_FAILED HTTP ' + r.code + ' ' + String((r.json && r.json.error) || r.body).slice(0,400));
   return r.json;
+}
+
+function v070StuckAlerts_(res) {
+  if (typeof v069cStuckAlerts_ !== 'function') return [];
+  return v069cStuckAlerts_((res && res.stuck) || [], v069TargetKey_());
 }
 
 function v070TopicView_(proposals) {
@@ -256,6 +262,7 @@ function v070TopicTick_(force) {
   var res = v070TopicRequest_(due ? 'prepare' : 'poll', {});
   if (due && res.preparation && ['TOPIC_SELECTION_WAITING','NOT_REQUIRED'].indexOf(res.preparation.status) >= 0) props.setProperty('THE_REV_TOPICS_PREPARED_' + today, 'TRUE');
   v070TopicView_(res.proposals);
+  var stuckNotices = v070StuckAlerts_(res);
   var notifications = [];
   // Notification failure does not stop an already approved article.
   (res.notifications || []).forEach(function(n) {
@@ -289,10 +296,10 @@ function v070TopicTick_(force) {
   var logKey = today + ':' + status + ':' + created.join(',');
   if (props.getProperty('THE_REV_TOPIC_LAST_LOG') !== logKey || created.length) {
     var log = v069StartLog_('DAILY_TOPIC_APPROVAL');
-    v069FinishLog_(log,status,created.length,'target_date='+v069TargetKey_()+' created='+created.join(',')+' owner_topic_choice_required=true publish=human',notifications.some(function(n) {return n.status === 'ERROR';}) ? 'LINE notification unverified' : '');
+    v069FinishLog_(log,status,created.length,'target_date='+v069TargetKey_()+' created='+created.join(',')+' stuck='+stuckNotices.length+' owner_topic_choice_required=true publish=human',notifications.some(function(n) {return n.status === 'ERROR';}) ? 'LINE notification unverified' : '');
     props.setProperty('THE_REV_TOPIC_LAST_LOG',logKey);
   }
-  return {status:status,created:created,notifications:notifications};
+  return {status:status,created:created,notifications:notifications,stuck:stuckNotices};
 }
 
 function scheduledDailyEditorialTopicApprovalV070() {
