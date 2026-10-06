@@ -110,7 +110,8 @@ assert.match(api, /getAuthedContext\(req\)/, 'Analytics API must require Admin a
 assert.match(api, /GA4_PROPERTY_ID/, 'Analytics API must use the direct GA4 property.');
 assert.match(api, /GA4_SERVICE_ACCOUNT_JSON/, 'Analytics API must use a server-only GA4 service account.');
 assert.match(api, /google-analytics-data-api-direct/, 'Analytics API must identify the direct Google Analytics Data API provider.');
-assert.doesNotMatch(api, /GSC_WIZARD_API_KEY|siteInsights\\/providers\\/ga4|ga4Dataset/, 'Admin Analytics must not depend on GSC Wizard.');
+assert.doesNotMatch(api, /GSC_WIZARD_API_KEY|ga4Dataset/, 'Admin Analytics must not depend on GSC Wizard.');
+assert.ok(!api.includes('siteInsights/providers/ga4'), 'Admin Analytics must not import the Site Insights GA4 provider.');
 assert.match(api, /Cache-Control.*no-store/, 'Analytics API must prevent caching.');
 
 assert.match(adminPage, /requireSession|admin-analytics\.mjs/, 'Analytics page must load the authenticated client.');
