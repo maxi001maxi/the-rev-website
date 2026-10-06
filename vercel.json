@@ -23,7 +23,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron/ga4-company-os-sync",
+      "path": "/api/integrations/editorial-status?mode=company_os_ga4_cron",
       "schedule": "10 22 * * *"
     },
     {
