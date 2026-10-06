@@ -121,7 +121,8 @@ test('Admin Analytics uses direct GA4 while Site Insights v2 keeps its replaceab
   assert.match(api,/GA4_PROPERTY_ID/);
   assert.match(api,/GA4_SERVICE_ACCOUNT_JSON/);
   assert.match(api,/google-analytics-data-api-direct/);
-  assert.doesNotMatch(api,/GSC_WIZARD_API_KEY|siteInsights\/providers\/ga4|ga4Dataset/);
+  assert.doesNotMatch(api,/GSC_WIZARD_API_KEY|ga4Dataset/);
+  assert.ok(!api.includes('siteInsights/providers/ga4'));
   assert.doesNotMatch(client,/GA4_PROPERTY_ID|サービスアカウント/);
   assert.match(html,/audience-active/);
   assert.doesNotMatch(html,/audience-returning/);
