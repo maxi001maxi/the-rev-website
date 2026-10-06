@@ -6,6 +6,10 @@
     {
       "source": "/admin",
       "destination": "/admin/index.html"
+    },
+    {
+      "source": "/api/cron/company-os-ga4/",
+      "destination": "/api/integrations/editorial-status/?mode=company_os_ga4_cron"
     }
   ],
   "redirects": [
@@ -23,7 +27,7 @@
   ],
   "crons": [
     {
-      "path": "/api/integrations/editorial-status?mode=company_os_ga4_cron",
+      "path": "/api/cron/company-os-ga4/",
       "schedule": "10 22 * * *"
     },
     {
