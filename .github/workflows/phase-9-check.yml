@@ -142,6 +142,7 @@ jobs:
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:blog-taxonomy
+      - run: npm run test:blog-card-dates
       - run: npm run test:phase-d
       - run: npm run test:phase-e
       - run: npm run test:site-insights

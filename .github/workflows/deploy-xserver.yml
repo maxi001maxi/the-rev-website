@@ -631,14 +631,9 @@ jobs:
               done < .deploy-published-slugs
 
               PLAIN_DATES_OK=1
-              while IFS='|' read -r slug expected_date; do
-                [ -z "$slug" ] && continue
-                if ! node -e 'const fs=require("node:fs"); const [file,slug,date]=process.argv.slice(1); const html=fs.readFileSync(file,"utf8"); const marker=`data-article-slug="${slug}"`; const i=html.indexOf(marker); const a=i<0?-1:html.lastIndexOf("<article class=\"blog-card\">",i); const b=i<0?-1:html.indexOf("</article>",i); if(a<0||b<0) process.exit(1); const card=html.slice(a,b+10); const m=card.match(/<time class="blog-card-date"[^>]*>([^<]+)<\\/time>/); process.exit(m&&m[1].trim()===date?0:1);' "$PLAIN_BLOG_INDEX_CORPUS" "$slug" "$expected_date"; then
-                  echo "Plain Blog card date mismatch: ${slug} expected ${expected_date}"
-                  PLAIN_DATES_OK=0
-                  break
-                fi
-              done < .deploy-published-card-expectations
+              if ! node scripts/verify-blog-card-dates.mjs "$PLAIN_BLOG_INDEX_CORPUS" .deploy-published-card-expectations; then
+                PLAIN_DATES_OK=0
+              fi
 
               PLAIN_CACHE_CONTROL="$(grep -i '^cache-control:' "$PLAIN_HEADERS" | tail -n1 | cut -d: -f2- | tr -d '\r' | xargs || true)"
               if [ "$PLAIN_PAGES_OK" = "1" ] && [ "$PLAIN_ALL_LISTED" = "1" ] && [ "$PLAIN_DATES_OK" = "1" ] \
