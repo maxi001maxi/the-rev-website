@@ -20,5 +20,11 @@
       ],
       "permanent": false
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/company-timeline-github",
+      "schedule": "20 20 * * *"
+    }
   ]
 }
