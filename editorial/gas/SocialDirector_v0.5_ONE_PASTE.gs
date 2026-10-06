@@ -162,71 +162,29 @@ function socialV05Direction_(historyFreshness) {
 }
 
 function socialV05GenerateFive_() {
-  if (typeof buildM6Context_ !== 'function' || typeof generateBlogTopicCandidates_ !== 'function') {
-    throw new Error('SOCIAL_CANDIDATE_GENERATOR_MISSING');
-  }
   var freshness = socialV05HistoryFreshness_();
   if (!freshness.ok) {
     return {status:'HISTORY_STALE',freshness:freshness,candidates:[]};
   }
 
-  var ctx = buildM6Context_(getTargetWeekStart_());
-  var canonicalHistory = socialV05CanonicalHistory_();
-  var socialHistory = canonicalHistory.slice(0,80).map(function(r){
-    var metrics = r.latest_metrics || {};
-    return {
-      publish_date:r.published_at,
-      format:r.format || r.media_type,
-      title:r.title,
-      topic:r.topic,
-      angle:r.angle,
-      main_claim:r.main_claim,
-      caption:r.caption,
-      content_lane:r.content_lane,
-      territory:r.territory,
-      ownership:r.ownership,
-      views:metrics.views,
-      reach:metrics.reach,
-      likes:metrics.likes,
-      saves:metrics.saves,
-      shares:metrics.shares,
-      comments:metrics.comments,
-      follows:metrics.follows,
-      source:r.source
-    };
+  var target = Utilities.formatDate(new Date(),'Asia/Tokyo','yyyy-MM-dd');
+  var generated = socialV05Bridge_({
+    action:'social_candidates_generate',
+    target_date:target
   });
-  var blogHistory = socialV05Rows_('21_WEB_BLOG_OUTPUT').slice(-80).map(function(r){
-    return {title:r.title,target_keyword:r.target_keyword,status:r.status};
-  });
-
-  ctx.weekly_editorial_brief = {
-    brief: ctx.weekly_editorial_brief,
-    direction: socialV05Direction_(freshness),
-    social_history: socialHistory,
-    blog_history: blogHistory
-  };
-
-  var raw = generateBlogTopicCandidates_(ctx,5);
-  if (!Array.isArray(raw) || raw.length !== 5) throw new Error('SOCIAL_FIVE_CANDIDATES_INVALID');
+  if (!generated || !Array.isArray(generated.candidates) || generated.candidates.length !== 5) {
+    throw new Error('SOCIAL_FIVE_CANDIDATES_INVALID');
+  }
 
   return {
     status:'GENERATED',
     freshness:freshness,
-    candidates:raw.map(function(c,i){
-      var shoot = [6,6,7,6,8][i];
-      return {
-        title:c.title_candidate || c.topic || ('Reel候補 '+(i+1)),
-        territory:SOCIAL_V05_TERRITORIES[i],
-        business_job:i===0?'OBJECTION_REDUCTION':(i===1?'TRUST':'SERVICE_UNDERSTANDING'),
-        audience_state:i===4?'AWARE':'EVALUATING',
-        hook:c.preview_lead || c.audience_question || c.title_candidate || '',
-        why_now:c.why_now || c.selection_reason || '',
-        difference_from_history:c.unique_angle || c.local_angle || c.notes || '',
-        asset_plan:'SELECTION_AFTER_CHOICE',
-        estimated_shoot_minutes:shoot,
-        score:Number(c.total_score || c.portfolio_final_score || 0)
-      };
-    })
+    model:generated.model || '',
+    research_canon:generated.research_canon || '',
+    research_mode:generated.research_mode || '',
+    generation_path:generated.generation_path || 'PRODUCTION_SERVER_GENERATOR',
+    context_counts:generated.context_counts || {},
+    candidates:generated.candidates
   };
 }
 
@@ -332,8 +290,11 @@ function refreshSocialReelCandidatesV050() {
       canonical_history_source:'SUPABASE_SOCIAL_PUBLISHED_POSTS',
       reel_a:'EXTERNAL_DISCOVERY_KNOWLEDGE',
       reel_b:'OWNED_STORE_EXPERIENCE_PROOF',
-      research_canon:'V0.4.5_CONVERSION_CREATIVE_PLAYBOOK',
-      research_mode:'LENS_NOT_RECIPE'
+      research_canon:generated.research_canon || 'V0.4.5_CONVERSION_CREATIVE_PLAYBOOK',
+      research_mode:generated.research_mode || 'LENS_NOT_RECIPE',
+      generation_path:generated.generation_path || 'PRODUCTION_SERVER_GENERATOR',
+      generation_model:generated.model || '',
+      generation_context_counts:generated.context_counts || {}
     }
   });
   socialV05WriteView_(prepared);

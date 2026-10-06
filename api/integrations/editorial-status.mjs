@@ -98,6 +98,32 @@ export default async function handler(req, res) {
       return res.status(500).json({ok:false,error:String(e?.message||e)});
     }
   }
+  if (req.query?.mode === 'social_candidates_acceptance') {
+    if (process.env.VERCEL_ENV !== 'preview') {
+      return res.status(404).json({error:'not_found'});
+    }
+    if (req.method !== 'GET') {
+      res.setHeader('Allow','GET');
+      return res.status(405).json({error:'method_not_allowed'});
+    }
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      {auth:{persistSession:false,autoRefreshToken:false}}
+    );
+    try {
+      const payload = await socialBridgeResponse({
+        body:{action:'social_candidates_generate',target_date:String(req.query?.target_date||'')},
+        supabase,
+        env:process.env
+      });
+      res.setHeader('Cache-Control','no-store');
+      return res.status(200).json({acceptance:true,...payload});
+    } catch(e) {
+      return res.status(500).json({error:String(e?.message||e)});
+    }
+  }
+
   // Same Vercel function, separate authentication. LINE needs untouched bytes;
   // all existing Bridge operations still require the existing Bearer secret.
   if (req.query?.mode === 'line_webhook') return lineEditorialWebhook(req, res);
@@ -135,10 +161,10 @@ export default async function handler(req, res) {
         }});
       } catch(e) { return res.status(/DB_|UNAVAILABLE|FAILED/.test(e.message) ? 502 : 422).json({error:e.message}); }
     }
-    if (/^social_(history_(upsert|list)|candidates_(prepare|poll|choose|notification_ack))$/.test(body.action || '')) {
+    if (/^social_(history_(upsert|list)|candidates_(generate|prepare|poll|choose|notification_ack))$/.test(body.action || '')) {
       const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
       try {
-        const payload = await socialBridgeResponse({body,supabase});
+        const payload = await socialBridgeResponse({body,supabase,env:process.env});
         res.setHeader('Cache-Control','no-store');
         return res.status(200).json(payload);
       } catch(e) {
