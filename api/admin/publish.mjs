@@ -72,6 +72,7 @@ export default async function handler(req, res) {
   }
 
   const draft = pre.draft;
+  const publishDraft = pre.publishDraft || draft;
   const mode = pre.mode;
 
   if (draft?.editorial_source === 'the-rev-editorial-ai') {
@@ -119,7 +120,7 @@ export default async function handler(req, res) {
   // --- GitHub成功後にのみ Supabase Draft の同期情報を更新する ---
   let syncWarning = null;
   const publicationFields = publicationFieldsFromGitHubWrite({
-    draft,
+    draft: publishDraft,
     written,
     publicUrl: pre.canonical || (pre.publicUrl ? `https://therev-lab.com${pre.publicUrl}` : null)
   });

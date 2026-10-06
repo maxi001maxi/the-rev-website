@@ -13,7 +13,7 @@ const ROOT = path.resolve(__dirname, '..');
 const { buildBlogMarkdown, validateDraftForPublish, categoryLabelFor, contentPathFor, commitMessageFor } =
   await import('../lib/blogMarkdown.mjs');
 const github = await import('../lib/githubContent.mjs');
-const { checkPublisher, runPreflight } = await import('../lib/publishFlow.mjs');
+const { checkPublisher, runPreflight, jstPublishDate, draftWithActualPublishDates } = await import('../lib/publishFlow.mjs');
 const { IMAGE_RENDER_VERSION, IMAGE_STYLE_TEMPLATE } = await import('../lib/editorialImage.mjs');
 const { HYBRID_IMAGE_FORMAT } = await import('../lib/editorialHybridImageFormat.mjs');
 const storage = await import('../admin/js/admin-storage.mjs');
@@ -187,6 +187,16 @@ assert(
   '明示FORCEはCTAを保持'
 );
 
+section('3a. Human Publish date semantics');
+const publishMoment = new Date('2026-10-05T15:30:00Z'); // 2026-10-06 00:30 JST
+assert(jstPublishDate(publishMoment) === '2026-10-06', 'Human Publish date uses JST, not UTC');
+const plannedDraft = { ...SAMPLE_DRAFT, published: '2026-10-05', updated: '2026-10-05', target_date: '2026-10-05' };
+const firstPublishDraft = draftWithActualPublishDates(plannedDraft, 'create', publishMoment);
+assert(firstPublishDraft.published === '2026-10-06' && firstPublishDraft.updated === '2026-10-06', '新規Publishは実際のJST公開日へ置換');
+assert(firstPublishDraft.target_date === '2026-10-05', 'Editorial target_dateは内部予定日として保持');
+const updateDraft = draftWithActualPublishDates({ ...plannedDraft, published: '2026-10-04' }, 'update', publishMoment);
+assert(updateDraft.published === '2026-10-04' && updateDraft.updated === '2026-10-06', '記事更新は初回publishedを保持しupdatedだけ実更新日へ');
+
 section('3b. Editorial publication / queue policy');
 assert(ACTIVE_QUEUE_STATUSES.includes('REVIEW_READY'), 'REVIEW_READYはactive queue件数に含む（上限カウント用）');
 assert(
@@ -213,6 +223,7 @@ const publishEvidence = publicationFieldsFromGitHubWrite({
 });
 assert(publishEvidence.publish_status === PUBLISH_STATUS.PUBLISH_COMMITTED, 'GitHub成功直後はPUBLISH_COMMITTED');
 assert(publishEvidence.source_sha === 'content-sha-1' && publishEvidence.publish_commit_sha === 'commit-sha-1', 'GitHub commit/content SHAを永続化');
+assert(publishEvidence.published === SAMPLE_DRAFT.published && publishEvidence.updated === SAMPLE_DRAFT.updated, 'publication evidence keeps committed publish dates');
 assert(publishEvidence.published_at === null && publishEvidence.publish_verified_at === null, '本番確認前はPUBLISHEDに昇格しない');
 const successfulDeployment = {
   found: true,
@@ -303,8 +314,10 @@ function checkOf(result, id) { return result.checks.find((c) => c.id === id); }
 
 delete process.env.GITHUB_TOKEN;
 delete process.env.GITHUB_REPO;
-let r = await runPreflight({ supabase: fakeSupabase({ draft: BASE_DRAFT }), user: USER, articleId: 'a1' });
+let r = await runPreflight({ supabase: fakeSupabase({ draft: BASE_DRAFT }), user: USER, articleId: 'a1', now: publishMoment });
 assert(r.ok === false && r.blocker?.code === 'github_not_configured', 'admin権限OKでもGitHub未設定なら停止', JSON.stringify(r.blocker));
+const preflightMatter = matter(r.markdown);
+assert(preflightMatter.data.published === '2026-10-06' && preflightMatter.data.updated === '2026-10-06', 'Preflight Markdownも予定日ではなく実JST公開日');
 
 r = await runPreflight({ supabase: fakeSupabase({ draft: { ...BASE_DRAFT, thumbnail: '' } }), user: USER, articleId: 'a1' });
 assert(checkOf(r, 'required')?.status === 'error' && r.blocker?.status === 422, '画像未設定はPreflightでpublish不可', JSON.stringify(r.blocker));
