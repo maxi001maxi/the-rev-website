@@ -4,10 +4,11 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {evaluateArticleOverlap} from '../lib/editorialArticleOverlap.mjs';
 import {evaluateCandidates} from '../lib/dailyEditorialCreator.mjs';
+import {sceneActionContractFor} from '../lib/editorialAutomatedHybridImage.mjs';
 import {selectUniqueImageHeadlineShort} from '../lib/editorialImageCopy.mjs';
 import {sceneIntentFor} from '../lib/editorialAutomatedHybridImage.mjs';
 import {evaluateEditorialImageReview} from '../lib/editorialImageReviewGate.mjs';
-import {SCENE_PLAUSIBILITY_VERSION,SCENE_PLAUSIBILITY_FIELDS} from '../lib/editorialScenePlausibility.mjs';
+import {SCENE_PLAUSIBILITY_VERSION,SCENE_PLAUSIBILITY_FIELDS,SCENE_ACTION_VERSION,sceneActionPass} from '../lib/editorialScenePlausibility.mjs';
 import {evaluateEditorialLength,evaluateEditorialReviewReady} from '../lib/editorialReadiness.mjs';
 import {imageSheetViewFormulas,googleBusinessSheetViewFormulas} from '../lib/editorialImageSheetView.mjs';
 import {collectArticleHistory} from '../lib/editorialArticleHistory.mjs';
@@ -46,6 +47,35 @@ test('5 scene uses paper context, not blood-pressure equipment',()=>{
   const intent=sceneIntentFor({title:candidate.title_candidate},{});
   assert.match(intent,/紙/);assert.match(intent,/文字は読めなくてよい/);assert.match(intent,/医療機器.*描かない/);
 });
+test('DENBA action contract requires a readable interaction, not a passive standing pose',()=>{
+  const contract=sceneActionContractFor({title:'DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理'},{});
+  assert.equal(contract.passive_observation_only_forbidden,true);
+  assert.match(contract.primary_action,/DENBA/);
+  assert.equal(sceneActionPass({
+    scene_action_version:SCENE_ACTION_VERSION,
+    action_contract_satisfied:true,
+    subject_object_relationship_readable:true,
+    passive_observation_only:false
+  }),true);
+  assert.equal(sceneActionPass({
+    scene_action_version:SCENE_ACTION_VERSION,
+    action_contract_satisfied:true,
+    subject_object_relationship_readable:false,
+    passive_observation_only:true
+  }),false);
+});
+test('Review gate fails a new action-contract image when the subject only stands and looks',()=>{
+  const qa={
+    pass:true,checked_at:'2026-10-04T12:00:00Z',
+    scene_action_version:SCENE_ACTION_VERSION,
+    action_contract_satisfied:false,
+    subject_object_relationship_readable:false,
+    passive_observation_only:true
+  };
+  const r=evaluateEditorialImageReview({qa});
+  assert.equal(r.checks.scene_action_contract,false);
+});
+
 test('6 equipment and service misrepresentation fail shared image gate',()=>{
   const qa={pass:true,scene_plausibility_version:SCENE_PLAUSIBILITY_VERSION,...Object.fromEntries(SCENE_PLAUSIBILITY_FIELDS.map(k=>[k,true]))};
   for(const key of ['unsupported_equipment_absent','service_misrepresentation_absent']) {

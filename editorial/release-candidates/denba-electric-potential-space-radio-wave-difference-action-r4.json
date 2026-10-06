@@ -1,0 +1,67 @@
+{
+  "release_candidate_id": "DENBA-IMG-20261004-ACTION-R4",
+  "created_at": "2026-10-04T22:18:00+09:00",
+  "status": "READY_FOR_FINAL_RELEASE_APPROVAL",
+  "article": {
+    "content_id": "BLOG-20261005-ea92d0",
+    "draft_id": "38c56810-1275-413c-9dda-2b5c052ff824",
+    "title": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+    "slug": "denba-electric-potential-space-radio-wave-difference"
+  },
+  "approved_design": {
+    "human_approval": "APPROVED_IMAGE_DESIGN",
+    "approved_at": "2026-10-04T22:18:00+09:00",
+    "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+    "copy": "電波ではなく、\n電位空間。",
+    "scene_action_version": "the-rev-scene-action-v1",
+    "thumbnail": {
+      "path": "/assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+      "sha256": "f9315d1f731576fb064dc60768b8409fc5443fe4bad70e0da5ef0f4ff5f0f6ca",
+      "size": "1200x675"
+    },
+    "ogp": {
+      "path": "/assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+      "sha256": "3ee5ff38757936eba0c2bedf9c610a3b2c587c38d2b1d9d8f997d731c4e4fc5c",
+      "size": "1200x630"
+    },
+    "gbp": {
+      "path": "/assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+      "sha256": "3f06d3c8fd69b09585d1718a8d8298a6081692794e1ca0f29f0d45a9d363670a",
+      "size": "1200x900"
+    }
+  },
+  "production_current_snapshot": {
+    "read_at": "2026-10-04T22:18:00+09:00",
+    "mutation_performed": false,
+    "publish_status": "NOT_PUBLISHED",
+    "image_status": "READY",
+    "image_asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+    "thumbnail": "/assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+    "og_image": "/assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+    "gbp_image": "/assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+    "gbp_image_status": "READY"
+  },
+  "intended_release_delta": {
+    "main_merge": "PENDING",
+    "xserver_asset_deploy": "PENDING",
+    "xserver_byte_verification": "PENDING",
+    "supabase_draft_image_switch": "PENDING",
+    "article_publish": "PENDING",
+    "production_review_state_change": "PENDING"
+  },
+  "release_order": [
+    "merge PR after final release approval",
+    "deploy new versioned thumbnail/OGP/GBP assets to production asset host",
+    "verify production bytes match approved SHA-256 values",
+    "switch Supabase draft image paths and asset version to action-r4",
+    "re-run production publish preflight and Review & Publish display",
+    "stop before article Publish unless separately authorized"
+  ],
+  "safeguards": {
+    "overwrite_old_versioned_assets": false,
+    "publish_requires_human_approval": true,
+    "line_test_notification_required": false,
+    "gas_change_required": false,
+    "production_data_unchanged_during_prep": true
+  }
+}

@@ -104,6 +104,13 @@ for (const rel of HYBRID_IMAGE_FORMAT.designReferenceAssets) {
   assertTrue(exists(rel), `Design Reference asset missing: ${rel}`);
 }
 
+for (const ref of Array.isArray(manifest.approved_scene_action_references) ? manifest.approved_scene_action_references : []) {
+  assertTrue(Boolean(String(ref.kind || '').trim()), 'approved scene-action reference kind missing');
+  assertTrue(Boolean(String(ref.asset_version || '').trim()), 'approved scene-action reference asset_version missing');
+  assertTrue(Boolean(String(ref.action_contract || ref.pattern || '').trim()), 'approved scene-action reference action grammar missing');
+  assertTrue(exists(ref.thumbnail), `Approved scene-action reference asset missing: ${ref.thumbnail}`);
+}
+
 const packageJson = readJson('package.json');
 assertTrue(packageJson.scripts?.['image:compile-job'], 'package script image:compile-job missing');
 assertTrue(packageJson.scripts?.['image:render-hybrid-overlay'], 'package script image:render-hybrid-overlay missing');

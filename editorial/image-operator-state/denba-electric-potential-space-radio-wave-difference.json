@@ -4,13 +4,11 @@
   "attempts_total": 1,
   "max_attempts": 2,
   "job_path": "editorial/hybrid-image-jobs/denba-electric-potential-space-radio-wave-difference.json",
-  "generated_scene_path": "assets/images/editorial-generated/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-scene.png",
-  "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-  "og_image": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-  "qa_report_path": "editorial/image-qa/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.json",
-  "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
-  "updated_at": "2026-10-04T09:45:25.231Z",
-  "xserver_verified": true,
-  "xserver_verified_at": "2026-10-04T09:45:37Z"
+  "generated_scene_path": "assets/images/editorial-generated/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-scene.png",
+  "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+  "og_image": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+  "qa_report_path": "editorial/image-qa/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.json",
+  "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+  "updated_at": "2026-10-04T12:09:27.399Z"
 }

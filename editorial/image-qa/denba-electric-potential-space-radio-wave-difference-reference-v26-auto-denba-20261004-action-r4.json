@@ -1,5 +1,5 @@
 {
-  "pass": false,
+  "pass": true,
   "thumbnail_typography_visual": {
     "thumbnail": {
       "pass": true,
@@ -87,17 +87,17 @@
         "fade_integrated": true
       }
     },
-    "comments": "3形式とも、黒の補助行と大きな暖色のキーワードを組み合わせるゴールデンの階層を明確に踏襲している。320pxでも「DENBAの基本」「電位空間」が即読でき、短い2行構成も自然。ワイド版は人物と見出しが左右で釣り合い、GBPは左中央のコンパクトな見出しと局所的な柔らかいベールに最適化されている。ベールは人物や機器を隠さず、白い掲示板状にも見えない。"
+    "comments": "全形式で、黒の補助句と暖色の強調語による二段階の階層が明確。ゴールデン参照より文字量が少ない分コンパクトだが、320pxでも見出しは即読できる。ワイドは写真を主面積として人物・機器・見出しが均衡し、GBPは左中央の狭い見出しと曲線的なベールへ適切に最適化されている。ベールは人物の左側へ重なるものの、顔・視線・手の動作・DENBA本体を妨げていない。"
   },
   "series_consistency": 9,
   "editorial_quality": 9,
   "typography_harmony": 9,
   "negative_space": 8,
-  "photo_treatment": 8,
-  "article_visual_relevance": 9,
+  "photo_treatment": 9,
+  "article_visual_relevance": 10,
   "main_claim_visualization": 9,
-  "human_subject_prominence": 8,
-  "human_visual_attention_share": 63,
+  "human_subject_prominence": 9,
+  "human_visual_attention_share": 64,
   "face_expression_readable": true,
   "background_secondary_pass": true,
   "background_soft_blur_pass": true,
@@ -106,10 +106,13 @@
   "article_theme_inferable_without_title": true,
   "scene_action_has_article_specific_meaning": true,
   "generic_passive_pose_without_article_reason": false,
-  "rev_environment_consistency": 8,
-  "brand_space_authenticity": 8,
-  "human_environment_integration": 8,
-  "perspective_scale_consistency": 8,
+  "action_contract_satisfied": true,
+  "subject_object_relationship_readable": true,
+  "passive_observation_only": false,
+  "rev_environment_consistency": 9,
+  "brand_space_authenticity": 9,
+  "human_environment_integration": 9,
+  "perspective_scale_consistency": 9,
   "ground_contact_shadow_consistency": 8,
   "lighting_consistency": 9,
   "anatomy_pose_realism": 9,
@@ -120,7 +123,7 @@
   "unsupported_equipment_absent": true,
   "scene_plausible_at_the_rev": true,
   "exercise_pose_plausible": true,
-  "manual_visual_rejection": true,
+  "manual_visual_rejection": false,
   "trainer_present": false,
   "unknown_trainer_present": false,
   "non_customer_people_present": false,
@@ -137,211 +140,211 @@
   "gbp_aspect_ratio_pass": true,
   "gbp_safe_area_pass": true,
   "gbp_copy_legible": true,
-  "comments": "実景の暖色壁、THE REV.サイン、壁スイッチ、グレー台、DENBA機器の形状と配置関係が十分保持されている。顧客は1人のみで、機器へ視線を向ける穏やかな観察場面が記事固有の意味を持つ。操作・治療・効果演出や未確認機器はなく、照明、遠近、人物の接地感と解剖も自然。元写真よりサインと機器が小さく見えるのは広い画角による範囲で、別施設化するほどの不整合ではない。",
+  "comments": "実景の暖色壁、グレー台、DENBA本体、壁面サインを保ち、別施設には見えない。顧客は本体へ視線と上体を向け、開いた片手で非接触のまま示しており、静かな集中と好奇心が伝わる。操作・施術・効果演出、未確認備品、可視化表現、スタッフはなく、人物の合成感や顕著な解剖・照明・遠近の破綻もない。",
   "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
   "thumbnail_typography_acceptance": {
     "pass": true,
     "deterministic": {
       "revision": "thumbnail-golden-typography-v1",
       "slug": "denba-electric-potential-space-radio-wave-difference",
-      "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+      "asset_version": "reference-v26-auto-denba-20261004-action-r4",
       "pass": true,
       "variants": {
         "thumbnail": {
           "pass": true,
           "lines": [
-            "DENBAの基本",
-            "電位空間"
+            "電波ではなく、",
+            "電位空間。"
           ],
           "text_preserved": true,
-          "font_size": 78,
-          "font_size_at_320": 20.8,
+          "font_size": 73,
+          "font_size_at_320": 19.466666666666665,
           "line_count": 2,
           "line_height": 1.12,
-          "line_balance": 0.9937350429209016,
+          "line_balance": 0.9902833321909442,
           "layout_rule": "golden-wide-v1",
           "line_font_sizes": [
-            78,
-            128.7128712871287
+            73,
+            102.97029702970298
           ],
           "focus_line": 1,
-          "focus_text": "電位空間",
-          "focus_scale": 1.6501650165016502,
+          "focus_text": "電位空間。",
+          "focus_scale": 1.4105520141055203,
           "hierarchy_kind": "lines",
           "hierarchy_pass": true,
           "label_subordinate": true,
           "label_removed": true,
           "bottom_mark_removed": true,
-          "width_occupancy": 0.9974497810357958,
-          "block_area_ratio": 0.1597743689766112,
+          "width_occupancy": 0.9980043398180901,
+          "block_area_ratio": 0.13778928436136612,
           "safe_area_pass": true,
           "fade_contains_text": true,
           "layout_balance_revision": "centered-organic-v1",
-          "headline_center_y": 337.7578125,
+          "headline_center_y": 337.53125,
           "paper_profile": "local-curved-veil",
-          "paper_opacity_floor": 0.8784313725490196,
-          "fade_start": 604,
-          "fade_end": 741,
+          "paper_opacity_floor": 0.8862745098039215,
+          "fade_start": 605,
+          "fade_end": 742,
           "fade_vertical_tail": 125,
-          "contrast_floor": 4.841942402339893,
+          "contrast_floor": 4.933147579685566,
           "line_rects": [
             {
               "left": 64,
-              "top": 200,
-              "right": 580.21875,
-              "bottom": 312,
-              "width": 516.21875
+              "top": 218,
+              "right": 578.65625,
+              "bottom": 323,
+              "width": 514.65625
             },
             {
               "left": 64,
-              "top": 297.359375,
-              "right": 581.9375,
-              "bottom": 482.359375,
-              "width": 517.9375
+              "top": 312.75,
+              "right": 582.5,
+              "bottom": 460.75,
+              "width": 518.5
             }
           ],
-          "asset_path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-          "asset_sha256": "3757ec2894828126b8da6b02335b1dd1801c9314d7d381fa5b36ca45ae3728cd",
+          "asset_path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+          "asset_sha256": "f9315d1f731576fb064dc60768b8409fc5443fe4bad70e0da5ef0f4ff5f0f6ca",
           "previews": {
             "320": {
-              "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-320.jpg",
-              "sha256": "6c60704f79f21342090363bb79bae427bd418b70182130a8988d313cc7bb28ad"
+              "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-preview-320.jpg",
+              "sha256": "0e10e80d9727c2b4020622825e82a451b00cc952a4c4ed4b2099929b91436236"
             },
             "400": {
-              "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-400.jpg",
-              "sha256": "e97db02cd2c32f6ec71ebc2964922ae0fa5f998b202979f8d85e009cf3d8be55"
+              "path": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-preview-400.jpg",
+              "sha256": "ff5bcfcfd18436174251a7c60ff7c78f477cb2ecc0ee7c2904df2d0744b865ca"
             }
           }
         },
         "og": {
           "pass": true,
           "lines": [
-            "DENBAの基本",
-            "電位空間"
+            "電波ではなく、",
+            "電位空間。"
           ],
           "text_preserved": true,
-          "font_size": 78,
-          "font_size_at_320": 20.8,
+          "font_size": 73,
+          "font_size_at_320": 19.466666666666665,
           "line_count": 2,
           "line_height": 1.12,
-          "line_balance": 0.9937350429209016,
+          "line_balance": 0.9902833321909442,
           "layout_rule": "golden-wide-v1",
           "line_font_sizes": [
-            78,
-            128.7128712871287
+            73,
+            102.97029702970298
           ],
           "focus_line": 1,
-          "focus_text": "電位空間",
-          "focus_scale": 1.6501650165016502,
+          "focus_text": "電位空間。",
+          "focus_scale": 1.4105520141055203,
           "hierarchy_kind": "lines",
           "hierarchy_pass": true,
           "label_subordinate": true,
           "label_removed": true,
           "bottom_mark_removed": true,
-          "width_occupancy": 0.9974497810357958,
-          "block_area_ratio": 0.171186823903512,
+          "width_occupancy": 0.9980043398180901,
+          "block_area_ratio": 0.1476313761014637,
           "safe_area_pass": true,
           "fade_contains_text": true,
           "layout_balance_revision": "centered-organic-v1",
-          "headline_center_y": 314.7578125,
+          "headline_center_y": 314.53125,
           "paper_profile": "local-curved-veil",
-          "paper_opacity_floor": 0.8784313725490196,
-          "fade_start": 604,
-          "fade_end": 741,
+          "paper_opacity_floor": 0.8862745098039215,
+          "fade_start": 605,
+          "fade_end": 742,
           "fade_vertical_tail": 125,
-          "contrast_floor": 4.841942402339893,
+          "contrast_floor": 4.933147579685566,
           "line_rects": [
             {
               "left": 64,
-              "top": 177,
-              "right": 580.21875,
-              "bottom": 289,
-              "width": 516.21875
+              "top": 195,
+              "right": 578.65625,
+              "bottom": 300,
+              "width": 514.65625
             },
             {
               "left": 64,
-              "top": 274.359375,
-              "right": 581.9375,
-              "bottom": 459.359375,
-              "width": 517.9375
+              "top": 289.75,
+              "right": 582.5,
+              "bottom": 437.75,
+              "width": 518.5
             }
           ],
-          "asset_path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-          "asset_sha256": "dabf9dae5187bfd2a68b704e3ce80013da7d1c941f9bc6e9687c5a73efbfcac9",
+          "asset_path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+          "asset_sha256": "3ee5ff38757936eba0c2bedf9c610a3b2c587c38d2b1d9d8f997d731c4e4fc5c",
           "previews": {
             "320": {
-              "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-320.jpg",
-              "sha256": "bd52774569fcaac17fd78199e7e1b97f5cd494bb90a81422ff47d828ab9eb006"
+              "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-preview-320.jpg",
+              "sha256": "6921c9c57bc7b0f5147727af975f050c05f1bb458f1197662b7e2718d682e029"
             },
             "400": {
-              "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-400.jpg",
-              "sha256": "a867696d3a811b7ba2377b8bba75be0179e9beab5a994f9576c9242206fe3caf"
+              "path": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-preview-400.jpg",
+              "sha256": "5a716da1d819ef073f26a40e64c58f46a89ae37b992b0c77c2519a390ae07812"
             }
           }
         },
         "gbp": {
           "pass": true,
           "lines": [
-            "DENBAの基本",
-            "電位空間"
+            "電波ではなく、",
+            "電位空間。"
           ],
           "text_preserved": true,
           "font_size": 60,
           "font_size_at_320": 16,
           "line_count": 2,
           "line_height": 1.12,
-          "line_balance": 0.9956420301616917,
+          "line_balance": 0.962116072297749,
           "layout_rule": "golden-gbp-v1",
           "line_font_sizes": [
             60,
-            98.82352941176471
+            87.12871287128714
           ],
           "focus_line": 1,
-          "focus_text": "電位空間",
-          "focus_scale": 1.647058823529412,
+          "focus_text": "電位空間。",
+          "focus_scale": 1.4521452145214522,
           "hierarchy_kind": "lines",
           "hierarchy_pass": true,
           "label_subordinate": true,
           "label_removed": true,
           "bottom_mark_removed": true,
-          "width_occupancy": 0.905034116041214,
-          "block_area_ratio": 0.07295999566030398,
+          "width_occupancy": 0.9977995679359195,
+          "block_area_ratio": 0.07510924699031524,
           "safe_area_pass": true,
           "fade_contains_text": true,
           "layout_balance_revision": "centered-organic-v1",
-          "headline_center_y": 431.9375,
+          "headline_center_y": 432.3828125,
           "paper_profile": "local-curved-veil",
           "paper_opacity_floor": 0.9176470588235294,
-          "fade_start": 480,
-          "fade_end": 599,
+          "fade_start": 521,
+          "fade_end": 640,
           "fade_vertical_tail": 125,
           "contrast_floor": 5.308677408263676,
           "line_rects": [
             {
               "left": 60,
-              "top": 323,
-              "right": 457.09375,
-              "bottom": 409,
-              "width": 397.09375
+              "top": 330,
+              "right": 483,
+              "bottom": 416,
+              "width": 423
             },
             {
               "left": 60,
-              "top": 404.1875,
-              "right": 457.65625,
-              "bottom": 546.1875,
-              "width": 397.65625
+              "top": 413.1875,
+              "right": 498.546875,
+              "bottom": 538.1875,
+              "width": 438.546875
             }
           ],
-          "asset_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-          "asset_sha256": "be7f67077a6519969326ee39d99628ba0995015b9f213e3fad9a4e14340cd49f",
+          "asset_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+          "asset_sha256": "3f06d3c8fd69b09585d1718a8d8298a6081692794e1ca0f29f0d45a9d363670a",
           "previews": {
             "320": {
-              "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-320.jpg",
-              "sha256": "948d0d5ca911de650db832ed32283ccbf529497cc7105ef424d22c5e1e11d7b5"
+              "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-preview-320.jpg",
+              "sha256": "fe544e46170559c7e01a99e30af324b003ee48f926f8048dbf7ee5b56ce8c37a"
             },
             "400": {
-              "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-preview-400.jpg",
-              "sha256": "45b362c2c3651e4d572fb6df0c2958b02d6979c1a0e308928f8a1cc85d28ec5c"
+              "path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-preview-400.jpg",
+              "sha256": "977854fb534942b8259ae2ce364d54004949923886288e9669614cbacfb9ec01"
             }
           }
         }
@@ -434,7 +437,7 @@
           "fade_integrated": true
         }
       },
-      "comments": "3形式とも、黒の補助行と大きな暖色のキーワードを組み合わせるゴールデンの階層を明確に踏襲している。320pxでも「DENBAの基本」「電位空間」が即読でき、短い2行構成も自然。ワイド版は人物と見出しが左右で釣り合い、GBPは左中央のコンパクトな見出しと局所的な柔らかいベールに最適化されている。ベールは人物や機器を隠さず、白い掲示板状にも見えない。"
+      "comments": "全形式で、黒の補助句と暖色の強調語による二段階の階層が明確。ゴールデン参照より文字量が少ない分コンパクトだが、320pxでも見出しは即読できる。ワイドは写真を主面積として人物・機器・見出しが均衡し、GBPは左中央の狭い見出しと曲線的なベールへ適切に最適化されている。ベールは人物の左側へ重なるものの、顔・視線・手の動作・DENBA本体を妨げていない。"
     },
     "golden_reference": {
       "revision": "approved-typography-20261001-v1",
@@ -461,7 +464,7 @@
   "generated_customer_allowed_under_policy": true,
   "generated_customer_role": "customer",
   "customer_presentation": "female",
-  "image_headline_short": "DENBAの基本\n電位空間",
+  "image_headline_short": "電波ではなく、\n電位空間。",
   "fixed_overlay_layout_confirmed": true,
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -548,19 +551,35 @@
   "qa_model": "gpt-5.6",
   "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
   "slug": "denba-electric-potential-space-radio-wave-difference",
-  "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
-  "checked_at": "2026-10-04T09:45:25.230Z",
+  "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+  "checked_at": "2026-10-04T12:09:27.398Z",
   "review_mode": "HYBRID_GENERATED",
   "realism_qc_version": "v1",
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+  "scene_action_version": "the-rev-scene-action-v1",
+  "action_contract": {
+    "required": true,
+    "primary_action": "顧客がDENBA本体の正面へ明確に視線を合わせ、上体をわずかに寄せ、片手を開いて本体を自然に示す。ボタンや画面は押さず、機器に触れて操作しない。",
+    "subject_object_relationship": "人物の視線・上体の向き・手のジェスチャーが同じDENBA本体へ収束し、『この機器について知ろうとしている』ことが文字なしでも分かる。",
+    "passive_observation_only_forbidden": true,
+    "unsupported_interactions_forbidden": [
+      "両手を下げたまま直立して下を見るだけ",
+      "広告モデルの立ち姿",
+      "DENBAの操作・ボタン押下",
+      "治療・施術・効果体感の演技",
+      "未確認の座席・マット・付属品",
+      "電位空間の発光・波・オーラ・矢印"
+    ]
+  },
   "gbp_image_required": true,
-  "gbp_image_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+  "gbp_image_path": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "manual_visual_rejection_reason": "Human review REJECT: 文字の可読性は改善したが、人物がただ立って下を見ているだけで、記事とのつながり・自然な行動・場面の魅力が不足している。自動QAのPASSより人間評価を優先する。",
-  "human_feedback": "人物がただ立って下を見ているだけで、以前の参考画像にあった記事固有の自然な行動や情景が弱い。",
-  "human_rejection_recorded_at": "2026-10-04T20:55:00+09:00",
-  "human_final_approval": "REJECTED",
-  "superseded_by_asset_version": "reference-v26-auto-denba-20261004-action-r4"
+  "human_final_approval": "APPROVED_IMAGE_DESIGN",
+  "human_review_status": "APPROVED_FOR_PRODUCTION_PREP",
+  "preview_only": true,
+  "production_write_performed": false,
+  "human_approved_at": "2026-10-04T22:18:00+09:00",
+  "human_approval_scope": "image design only; production merge/deploy/article publish remain pending"
 }

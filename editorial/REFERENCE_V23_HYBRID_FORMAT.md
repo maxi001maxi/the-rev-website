@@ -299,3 +299,23 @@ V2.4 Hybridでは、実THE REV.背景が正しいことだけではPASSにしな
 - Existing pre-v0.6.7 jobs remain backward compatible unless `gbp_image_asset_version` is set.
 - GBP image uses the same real THE REV. background and generated customer scene as the Blog image set. It must not trigger a second unrelated customer/background generation.
 - Final website Publish remains human-only. GBP auto-posting is outside this patch.
+
+
+## 12. Equipment Explainer Scene Reference｜2026-10-04
+
+設備解説記事のScene Action Referenceとして、次を人間承認済みの参考にする。
+
+- slug: `denba-electric-potential-space-radio-wave-difference`
+- asset: `reference-v26-auto-denba-20261004-action-r4`
+- thumbnail: `assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg`
+
+再利用するのは**人物と対象物の関係を一枚で読ませる文法**だけ。
+
+- 視線が対象物へ向く
+- 上体の向きも対象物へ揃う
+- 手の動きが記事固有の対象を示す
+- 320pxでも「何をしている瞬間か」が読める
+- 対象物は確認済み実素材のみ
+- 静かな表情を保ち、広告モデルのポーズにしない
+
+DENBA固有の人物、正確なポーズ、背景、機器、コピーを他記事へ複製しない。記事ごとに対象物と行動を再設計する。

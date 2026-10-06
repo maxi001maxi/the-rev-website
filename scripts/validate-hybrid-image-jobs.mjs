@@ -124,6 +124,11 @@ function validateJob(jobPath) {
     if (isHumanFirst) {
       assertTrue(['male', 'female'].includes(clean(job.customer_presentation).toLowerCase()), `${name}: V2.6 customer_presentation must be male/female`);
       assertEqual(job.layout_variant, HYBRID_IMAGE_FORMAT.defaultLayoutVariant, `${name}: V2.6 layout variant drift`);
+      if (clean(job.scene_action_version)) {
+        assertTrue(clean(job.action_contract?.primary_action), `${name}: action_contract.primary_action missing`);
+        assertTrue(clean(job.action_contract?.subject_object_relationship), `${name}: action_contract.subject_object_relationship missing`);
+        assertEqual(job.action_contract?.passive_observation_only_forbidden, true, `${name}: passive observation must be forbidden`);
+      }
     }
     assertTrue(clean(job.generated_scene_path), `${name}: generated_scene_path missing`);
     assertEqual(job.policy?.generated_customer_required, true, `${name}: generated customer must be required`);

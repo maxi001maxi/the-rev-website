@@ -1,7 +1,7 @@
 {
   "system_id": "the-rev-editorial-image-system",
-  "schema_version": "1.7.0",
-  "current_truth_date": "2026-09-27",
+  "schema_version": "1.8.1",
+  "current_truth_date": "2026-10-04",
   "system_status": "AUTOMATED_TO_REVIEW_READY",
   "fully_automated": true,
   "current_standard": {
@@ -27,7 +27,8 @@
     "typography_revision": "thumbnail-golden-typography-v1",
     "typography_contract": "lib/editorialThumbnailTypography.mjs",
     "typography_reference_lock": "editorial/typography-golden-reference/lock.json",
-    "typography_balance_revision": "centered-organic-v1"
+    "typography_balance_revision": "centered-organic-v1",
+    "scene_action_version": "the-rev-scene-action-v1"
   },
   "source_policy": {
     "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
@@ -90,6 +91,7 @@
       "recent-4 background provenance hard exclusion",
       "short Editorial Copy generation, recent-12 exact/near-duplicate rejection and deterministic validation",
       "article-specific one-customer scene intent planning",
+      "explicit scene action contract: visible action + subject/object relationship + passive-pose rejection",
       "single-customer male/female presentation rotation from recent history",
       "GPT image-generation scene creation from the real THE REV source environment",
       "deterministic V2.6 Human First typography/layout overlay with impact-v1 and legacy-v24 compatibility",
@@ -147,6 +149,7 @@
     "Hybrid generation is missing",
     "source is outside the specified Drive root",
     "article relevance is weak",
+    "person is merely standing / looking down / posing without a readable article-specific action-object relationship",
     "thumbnail or OGP dimensions do not match the output contract",
     "GBP image dimensions do not match 1200x900 / 4:3 when GBP image is required",
     "Hybrid QC is below threshold or required boolean flags are missing",
@@ -207,11 +210,31 @@
       "service_misrepresentation_absent",
       "unsupported_equipment_absent",
       "scene_plausible_at_the_rev"
-    ]
+    ],
+    "scene_action_version": "the-rev-scene-action-v1",
+    "scene_action_fields": [
+      "action_contract_satisfied",
+      "subject_object_relationship_readable",
+      "passive_observation_only=false"
+    ],
+    "passive_observation_only_forbidden": true,
+    "human_approved_reference_may_inform_future_scene_planning": true,
+    "reference_reuse_scope": "action/composition grammar only; never clone equipment, pose, person, or background across unrelated articles"
   },
   "operator_required": [
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",
     "only exception handling: investigate automated Visual QC failures after max retries",
     "human Review may reject an image even after automated PASS"
+  ],
+  "approved_scene_action_references": [
+    {
+      "kind": "equipment-explainer",
+      "slug": "denba-electric-potential-space-radio-wave-difference",
+      "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+      "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+      "pattern": "subject gaze + torso orientation + open-hand indication converge on verified equipment; no operation/treatment/effect acting",
+      "approval": "human-approved-2026-10-04",
+      "reuse_rule": "reference the action grammar, not the DENBA-specific pose or background"
+    }
   ]
 }

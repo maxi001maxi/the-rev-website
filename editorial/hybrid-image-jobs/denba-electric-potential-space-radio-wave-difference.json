@@ -3,31 +3,31 @@
   "article_title": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
   "category_label": "RECOVERY",
   "column_label": "COLUMN",
-  "image_headline_short": "DENBAの基本\n電位空間",
+  "image_headline_short": "電波ではなく、\n電位空間。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.実店舗のDENBA機器の前で、成人女性の顧客1人が、利用前に機器を見て仕組みを確かめようとしている自然な瞬間。機器の実際の位置と形、グレーの台、暖色の壁とTHE REV.サインを保持する。トレーナー・スタッフは描かない。",
+  "scene_intent": "THE REV.実店舗のDENBA機器の前で、成人女性の顧客1人が、DENBA本体の正面へ視線を合わせ、上体をわずかに寄せながら片手を自然に開いて機器を示し、仕組みを理解しようとしている瞬間。単に直立して下を見るだけのポートレートにはしない。機器の実際の位置と形、グレーの台、暖色の壁とTHE REV.サインを保持する。機器へ触れて操作せず、治療・施術・効果体感を演じない。確認済み写真にない座席・マット・付属品を描かない。電位空間を光・波・オーラ等で可視化しない。トレーナー・スタッフは描かない。",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
-  "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-  "og_image": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+  "asset_version": "reference-v26-auto-denba-20261004-action-r4",
+  "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+  "og_image": "assets/images/blog/og/og-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.json",
+  "qa_report_path": "editorial/image-qa/denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-action-r4.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -62,7 +62,8 @@
     "recent_reference_window": 4,
     "selection_policy": "relevance-first-lineage-recency-v2",
     "publish_boundary": "REVIEW_AND_PUBLISH",
-    "scene_plausibility_version": "the-rev-scene-plausibility-v1"
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "scene_action_version": "the-rev-scene-action-v1"
   },
   "background_source": {
     "drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
@@ -158,15 +159,36 @@
       "male"
     ]
   },
-  "typography_emphasis_text": "電位空間",
-  "visible_action": "顧客が実物のDENBA機器に視線を向け、落ち着いて観察する。顔は斜め前から表情が読める。操作・治療・運動はしていない。手は自然に下げる。",
-  "emotional_state": "初めて機器を見るときの穏やかな関心と、仕組みを理解しようとする表情。広告の笑顔や効能を体験した演技ではない。",
-  "visual_claim": "DENBAという実店舗の機器について、利用前に仕組みを知ろうとする顧客の場面。電場や電波を可視化した光・矢印は描かず、効果を示唆しない。",
-  "composition_hint": "Single photoreal medium portrait, customer face is sharp and large with center at 78–80% of generated image width; keep entire face within 71–88% width, away from the left typography veil in BOTH landscape and 4:3 crops. Face at upper-middle, looking gently down toward actual DENBA unit below; right safe area, never at extreme edge. Upper body mostly in 65–88% width. Customer carries 60–70% of visual attention. The real device and gray cabinet stay secondary below the face with plausible original placement. VERY shallow natural depth of field, portrait-lens f/1.8 look: wall, sign and surroundings softly out of focus, recognizable source anchors but absolutely not sharp/dominant. Preserve warm wall, actual logo geometry, DENBA box form and original cabinet; no invented room/mat/equipment. One photograph with natural light/contact shadows, no cutout. The later deterministic left text veil must not cross eyes, nose, mouth or meaningful action in any ratio.",
+  "typography_emphasis_text": "電位空間。",
+  "visible_action": "顧客の視線・上体の向き・片手の開いたジェスチャーを同じDENBA本体へ収束させる。少し身を寄せて『この機器を知ろうとしている』ことが文字なしでも分かる。ボタン・画面には触れず、両手を下げたまま立つだけの姿勢は禁止。",
+  "emotional_state": "初めて機器の仕組みを確かめるときの静かな集中と好奇心。広告的な笑顔、効いたような表情、疲労回復を演じる表情にはしない。",
+  "visual_claim": "DENBAを電波やEMSと混同せず、THE REV.に実在するDENBA本体について仕組みを理解しようとする顧客の場面。電位空間そのものは不可視のまま扱い、光・波・オーラ・矢印や身体反応で効果を示唆しない。",
+  "composition_hint": "Medium / medium-close three-quarter editorial scene. 顧客は画面右寄りだが全身直立の広告ポーズにせず、DENBA本体と顔・視線・片手のジェスチャーが一つの三角形として読める距離まで寄せる。本体は実物のグレー台上の位置を維持。THE REV.サインは背景アンカーとして柔らかく残す。人物と本体の関係が320pxでも読めることを優先し、背景は浅い被写界深度で二次要素にする。未確認の座席・マット・利用姿勢・付属品を追加しない。",
   "recovery_note": "2026-10-04 genuine scene/layout redesign after reference-v26-auto-denba-20261004-copy-r2 exhausted QC: wide text passed but GBP split subject/verb and veil covered the face; background was too sharp. Shorter complete noun heading, independently compact GBP support size and face protected at right with pronounced natural depth of field. Prior rejections remain in Git history; unchanged QA thresholds and human Publish boundary.",
   "typography_override": {
     "gbp": {
       "headline_size": 60
     }
-  }
+  },
+  "thumbnail_claim": "DENBAは『電波を浴びる』『EMSで筋肉を動かす』機器ではなく、メーカーが微弱な電位空間を形成する技術として説明していることを、実機を確かめる自然な場面で整理する。",
+  "scene_action_version": "the-rev-scene-action-v1",
+  "action_contract": {
+    "required": true,
+    "primary_action": "顧客がDENBA本体の正面へ明確に視線を合わせ、上体をわずかに寄せ、片手を開いて本体を自然に示す。ボタンや画面は押さず、機器に触れて操作しない。",
+    "subject_object_relationship": "人物の視線・上体の向き・手のジェスチャーが同じDENBA本体へ収束し、『この機器について知ろうとしている』ことが文字なしでも分かる。",
+    "passive_observation_only_forbidden": true,
+    "unsupported_interactions_forbidden": [
+      "両手を下げたまま直立して下を見るだけ",
+      "広告モデルの立ち姿",
+      "DENBAの操作・ボタン押下",
+      "治療・施術・効果体感の演技",
+      "未確認の座席・マット・付属品",
+      "電位空間の発光・波・オーラ・矢印"
+    ]
+  },
+  "human_review_status": "APPROVED_FOR_PRODUCTION_PREP",
+  "supersedes_asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+  "human_approved_at": "2026-10-04T22:18:00+09:00",
+  "production_release_status": "PENDING",
+  "production_candidate": true
 }

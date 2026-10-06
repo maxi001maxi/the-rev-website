@@ -1,4 +1,5 @@
-import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
+import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass,
+  SCENE_ACTION_VERSION, SCENE_ACTION_GUIDANCE, sceneActionPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -110,6 +111,7 @@ function generationPrompt(attempt, previousQa = null) {
   const thumbnailClaim = String(job.thumbnail_claim || '').trim();
   const visibleAction = String(job.visible_action || '').trim();
   const emotionalState = String(job.emotional_state || '').trim();
+  const actionContract = job.action_contract || null;
   const humanFirstLayout = String(job.layout_variant || '') === 'human-first-v1';
   const impactLayout = String(job.layout_variant || '') === 'impact-v1';
   const layoutNotes = humanFirstLayout
@@ -152,6 +154,13 @@ function generationPrompt(attempt, previousQa = null) {
     `- Planned customer presentation: ${String(job.customer_presentation || 'adult customer')}. Render an adult ${job.customer_presentation === 'male' ? 'man' : job.customer_presentation === 'female' ? 'woman' : 'customer'} without turning the scene into a stereotype.`,
     '- The person must clearly read as a customer, never a trainer, coach, employee, doctor or staff member.',
     '- Make the face, expression and body language legible. The emotional cue must support the article rather than being a generic stock-photo smile.',
+    SCENE_ACTION_GUIDANCE,
+    actionContract?.primary_action ? `- REQUIRED PRIMARY ACTION: ${actionContract.primary_action}` : '',
+    actionContract?.subject_object_relationship ? `- REQUIRED SUBJECT/OBJECT RELATIONSHIP: ${actionContract.subject_object_relationship}` : '',
+    actionContract?.passive_observation_only_forbidden === true ? '- FAIL CONDITION: do not make the customer merely stand still, look down, or pose with arms hanging at the sides.' : '',
+    ...(Array.isArray(actionContract?.unsupported_interactions_forbidden)
+      ? actionContract.unsupported_interactions_forbidden.map((x) => `- DO NOT SHOW: ${String(x)}`)
+      : []),
     '- Natural neutral training clothes. No logos or readable text.',
     '- Make the person physically integrated into the room: correct scale, perspective, floor contact, contact shadow, lighting direction and color temperature.',
     SCENE_PLAUSIBILITY_GUIDANCE,
@@ -280,6 +289,10 @@ function qaPass(qa) {
       : qa.main_claim_visualization >= 8 && qa.article_theme_inferable_without_title === true) &&
     qa.scene_action_has_article_specific_meaning === true &&
     qa.generic_passive_pose_without_article_reason === false &&
+    (
+      qa.scene_action_version !== SCENE_ACTION_VERSION ||
+      sceneActionPass(qa)
+    ) &&
     qa.rev_environment_consistency >= 8 &&
     qa.brand_space_authenticity >= 8 &&
     qa.human_environment_integration >= 8 &&
@@ -388,6 +401,13 @@ async function visualQa(attempt) {
     SCENE_PLAUSIBILITY_GUIDANCE,
     'SEMANTIC RELEVANCE: assess a natural article-relevant reader situation, not a literal demonstration of the main claim. A customer thinking over a health report is a meaningful action.',
     'Do NOT award high article_visual_relevance simply because the image shows THE REV. or a gym customer. The ACTION itself must carry article-specific meaning.',
+    SCENE_ACTION_GUIDANCE,
+    job.action_contract?.primary_action ? `ACTION CONTRACT / primary_action: ${job.action_contract.primary_action}` : '',
+    job.action_contract?.subject_object_relationship ? `ACTION CONTRACT / subject_object_relationship: ${job.action_contract.subject_object_relationship}` : '',
+    job.action_contract?.passive_observation_only_forbidden === true ? 'ACTION CONTRACT: a merely standing/looking-down pose must fail.' : '',
+    ...(Array.isArray(job.action_contract?.unsupported_interactions_forbidden)
+      ? job.action_contract.unsupported_interactions_forbidden.map((x) => `ACTION CONTRACT / forbidden: ${String(x)}`)
+      : []),
     'A quiet before/after moment may pass when its article-specific reason is visible; do not demand medical measurement or readable paper text.',
     'If the article is about movement quality, strength progress, execution, form, training intensity, or exercise technique, require an actual plausible training action that directly supports that claim.',
     'For list-style articles with several progress signs, a single photograph does NOT need to literally show every list item. Judge main_claim_visualization by whether the image strongly expresses the umbrella claim and at least one concrete article-specific example.',
@@ -417,6 +437,9 @@ async function visualQa(attempt) {
     '  "article_theme_inferable_without_title": boolean,',
     '  "scene_action_has_article_specific_meaning": boolean,',
     '  "generic_passive_pose_without_article_reason": boolean,',
+    '  "action_contract_satisfied": boolean,',
+    '  "subject_object_relationship_readable": boolean,',
+    '  "passive_observation_only": boolean,',
     '  "rev_environment_consistency": 0-10,',
     '  "brand_space_authenticity": 0-10,',
     '  "human_environment_integration": 0-10,',
@@ -456,6 +479,8 @@ async function visualQa(attempt) {
     `Thumbnail claim: ${String(job.thumbnail_claim || '').trim()}`,
     `Required visible action: ${String(job.visible_action || '').trim()}`,
     `Required emotional state: ${String(job.emotional_state || '').trim()}`,
+    `Scene action version: ${String(job.scene_action_version || '')}`,
+    `Action contract: ${JSON.stringify(job.action_contract || {})}`,
     `Concrete visual claim: ${String(job.visual_claim || '').trim()}`,
     `Expected copy: ${job.image_headline_short}`,
     `Planned customer presentation: ${String(job.customer_presentation || '')}`,
@@ -561,6 +586,8 @@ async function visualQa(attempt) {
     review_mode: 'HYBRID_GENERATED',
     realism_qc_version: 'v1',
     scene_plausibility_version: job.scene_plausibility_version || job.policy?.scene_plausibility_version || null,
+    scene_action_version: job.scene_action_version || job.policy?.scene_action_version || null,
+    action_contract: job.action_contract || null,
     gbp_image_required: Boolean(job.gbp_image),
     gbp_image_path: job.gbp_image || '',
     gbp_image_width: Number(job.gbp_image_width || 1200),
@@ -574,6 +601,7 @@ async function visualQa(attempt) {
     'no_cutout_or_sticker_look','location_semantics_pass','exercise_pose_plausible',
     'real_the_rev_background_confirmed','expected_copy_present','copy_legible','headline_line_break_quality',
     'article_theme_inferable_without_title','scene_action_has_article_specific_meaning',
+    'action_contract_satisfied','subject_object_relationship_readable',
     'face_expression_readable','background_secondary_pass','background_soft_blur_pass',
     'the_rev_anchor_visible','customer_presentation_matches_plan',
     'gbp_aspect_ratio_pass','gbp_safe_area_pass','gbp_copy_legible'
@@ -583,7 +611,7 @@ async function visualQa(attempt) {
   for (const key of [
     'manual_visual_rejection','trainer_present','unknown_trainer_present',
     'non_customer_people_present','facility_only_thumbnail','too_promotional',
-    'generic_passive_pose_without_article_reason'
+    'generic_passive_pose_without_article_reason','passive_observation_only'
   ]) {
     qa[key] = modelQa[key] === true;
   }
