@@ -9,6 +9,10 @@ import {
 import {
   prepareSocialCandidates
 } from '../lib/socialCandidates.mjs';
+import {
+  buildSocialCandidatePrompt,
+  SOCIAL_RESEARCH_CANON
+} from '../lib/socialCandidateGenerator.mjs';
 
 test('legacy performance summary parses safely',()=>{
   assert.deepEqual(
@@ -50,6 +54,7 @@ test('editorial status bridge exposes social actions without adding a Vercel fun
   for(const action of [
     'social_history_upsert',
     'social_history_list',
+    'social_candidates_generate',
     'social_candidates_prepare',
     'social_candidates_poll',
     'social_candidates_choose',
@@ -77,5 +82,30 @@ test('GAS add-on blocks stale history and never auto-publishes',()=>{
   assert.match(source,/ABILITY.*BENEVOLENCE.*INTEGRITY/);
   assert.match(source,/People \/ Process \/ Physical Evidence/);
   assert.match(source,/PREDICTABILITY_RISK_REDUCTION/);
-  assert.match(source,/research_canon:'V0\.4\.5_CONVERSION_CREATIVE_PLAYBOOK'/);
+  assert.match(source,/research_canon:generated\.research_canon/);
+  assert.match(source,/action:'social_candidates_generate'/);
+  assert.doesNotMatch(source,/generateBlogTopicCandidates_\(ctx,5\)/);
+});
+
+test('canonical Social generator prompt carries live history, Blog, Memory and research canon',()=>{
+  const prompt=buildSocialCandidatePrompt({
+    social_history:[{
+      published_at:'2026-09-02T08:15:08+09:00',
+      format:'REEL',
+      title:'鍛えるだけで、終わらせない。',
+      main_claim:'店舗全体紹介',
+      content_lane:'STORE_EXPERIENCE_PROOF',
+      territory:'STORE_SERVICE_OVERVIEW',
+      latest_metrics:{views:308,reach:160}
+    }],
+    blog_history:[{title:'筋トレは毎回限界まで追い込むべき？',category:'training',publish_status:'PUBLISHED'}],
+    social_memory:[{run_date:'2026-10-05',business_job:'TRUST',primary_theme:'予定回数より質を見るトレーナー判断',main_claim:'フォーム・テンポ・呼吸を見る',reel_decision:'HOLD'}]
+  });
+  assert.match(SOCIAL_RESEARCH_CANON,/Research is a lens, not a recipe/);
+  assert.match(prompt,/鍛えるだけで、終わらせない。/);
+  assert.match(prompt,/筋トレは毎回限界まで追い込むべき？/);
+  assert.match(prompt,/予定回数より質を見るトレーナー判断/);
+  assert.match(prompt,/Ability, Benevolence and Integrity/);
+  assert.match(prompt,/People \/ Process \/ Physical Evidence/);
+  assert.match(prompt,/WILDCARD/);
 });
