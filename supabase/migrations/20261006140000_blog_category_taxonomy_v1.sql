@@ -33,6 +33,7 @@ with mapping(slug, new_category) as (
     ('after-work-tired-strength-training',                 'health'),
     ('health-check-results-before-starting-exercise',      'health'),
     ('kenshin-ketsuatsu-takame-kinntore-hajimekata',       'health'),
+    ('desk-work-stand-every-30-minutes',                    'health'),
     ('exercise-start-fatigue-anxiety-next-day-plan',       'gym-guide'),
     ('no-time-for-gym-starting-friction',                  'gym-guide'),
     ('personal-gym-trial-checkpoints',                     'gym-guide'),
