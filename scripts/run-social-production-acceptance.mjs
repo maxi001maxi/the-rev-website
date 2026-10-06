@@ -113,7 +113,7 @@ const schema={
       items:{
         type:'object',
         additionalProperties:false,
-        required:['title_candidate','why_now','unique_angle','preview_lead','selection_reason','score_breakdown'],
+        required:['title_candidate','why_now','unique_angle','preview_lead','audience_question','selection_reason','local_angle','notes','score_breakdown','total_score','portfolio_final_score'],
         properties:{
           title_candidate:{type:'string'},
           why_now:{type:'string'},
