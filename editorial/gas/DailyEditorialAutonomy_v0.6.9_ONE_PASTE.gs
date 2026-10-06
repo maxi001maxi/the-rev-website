@@ -823,8 +823,10 @@ function runDailyEditorialCreatorV069Once() {
 function v069cReviewContract_(q, blog, gbp, a, reviewUrl) {
   var qa = a.image_qa || {}, gqa = a.gbp_image_qa || {};
   var length = v069cLengthGate_(blog && blog.article_type, blog && blog.body_markdown);
+  var closing = v069cEditorialClosingGate_(blog && blog.body_markdown);
   var checks = {
     blog_ready: !!blog && blog.status === 'READY' && length.pass,
+    editorial_closing: closing.pass,
     gbp_row_exists: !!gbp,
     gbp_parent_matches: !!gbp && gbp.parent_blog_id === q.content_id,
     gbp_ready: !!gbp && gbp.status === 'READY',
@@ -841,6 +843,18 @@ function v069cReviewContract_(q, blog, gbp, a, reviewUrl) {
   };
   var missing = Object.keys(checks).filter(function(k) { return !checks[k]; });
   return {ok: !missing.length, checks: checks, missing: missing};
+}
+function v069cEditorialClosingGate_(body) {
+  var compact = String(body || '').replace(/\s+/g, ' ').trim();
+  if (!compact) return {pass:false, reason:'empty_body'};
+  var tail = compact.slice(-1100);
+  if (!/THE REV\.?\s*(?:CONDITIONING LAB\.)?/i.test(tail)) {
+    return {pass:false, reason:'missing_the_rev_closing'};
+  }
+  var lastRev = Math.max(tail.lastIndexOf('THE REV.'), tail.lastIndexOf('THE REV'));
+  var revTail = lastRev >= 0 ? tail.slice(lastRev) : tail;
+  var pass = /(では|として|考え|見て|見る|確認|調整|組み立て|大切|重視|指導|提案|捉え|設備|生活|目的|状態|負荷|使い方|続け)/.test(revTail);
+  return {pass:pass, reason:pass ? '' : 'missing_contextual_meaning'};
 }
 function v069cLengthGate_(type, body) {
   var st = getSettings_(), t = String(type || 'STANDARD').toUpperCase();
