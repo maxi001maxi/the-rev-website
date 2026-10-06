@@ -1,0 +1,233 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "desk-work-stand-every-30-minutes",
+  "asset_version": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "座り仕事、",
+        "30分ごとに",
+        "立つ？"
+      ],
+      "text_preserved": true,
+      "font_size": 66,
+      "font_size_at_320": 17.6,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5234164608956116,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        66,
+        85.8085808580858,
+        77.88
+      ],
+      "focus_line": 1,
+      "focus_text": "30分ごとに",
+      "focus_scale": 1.3001300130013,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.8639091361927846,
+      "block_area_ratio": 0.162630228291736,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.6171875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 535,
+      "fade_end": 672,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 180,
+          "right": 397.3125,
+          "bottom": 275,
+          "width": 333.3125
+        },
+        {
+          "left": 64,
+          "top": 268.90625,
+          "right": 512.90625,
+          "bottom": 392.90625,
+          "width": 448.90625
+        },
+        {
+          "left": 64,
+          "top": 384.015625,
+          "right": 299.5625,
+          "bottom": 496.015625,
+          "width": 235.5625
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+      "asset_sha256": "9595c2261c07a66775f7134eb717b91788fceee5711f2c0b06b364928931eb9e",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-preview-320.jpg",
+          "sha256": "d6fec893a4f25bcb323d8832d072b38c5969fa7199321ee0c5e815b8a61a75c2"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-preview-400.jpg",
+          "sha256": "7c598e73ec6667a16f10d27ef4145987db8c394749dd4a57e5f2b86da08114da"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "座り仕事、",
+        "30分ごとに",
+        "立つ？"
+      ],
+      "text_preserved": true,
+      "font_size": 66,
+      "font_size_at_320": 17.6,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5234164608956116,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        66,
+        85.8085808580858,
+        77.88
+      ],
+      "focus_line": 1,
+      "focus_text": "30分ごとに",
+      "focus_scale": 1.3001300130013,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.8639091361927846,
+      "block_area_ratio": 0.17424667316971715,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 314.6171875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 535,
+      "fade_end": 672,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 157,
+          "right": 397.3125,
+          "bottom": 252,
+          "width": 333.3125
+        },
+        {
+          "left": 64,
+          "top": 245.90625,
+          "right": 512.90625,
+          "bottom": 369.90625,
+          "width": 448.90625
+        },
+        {
+          "left": 64,
+          "top": 361.015625,
+          "right": 299.5625,
+          "bottom": 473.015625,
+          "width": 235.5625
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+      "asset_sha256": "2d10b931cb6763c4224ec975d090b93aeb51c38122e19e67aa1e0975f5452818",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-preview-320.jpg",
+          "sha256": "ab028fea9bf67cf8b147a6281820204899fde0cb3e944ea4f2d659fd688c4c97"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-preview-400.jpg",
+          "sha256": "4d1e20c91f5b9249ebd3e0f89a64bf600d89024c0f712cab069230aff093a2a5"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "座り仕事、",
+        "30分ごとに",
+        "立つ？"
+      ],
+      "text_preserved": true,
+      "font_size": 63,
+      "font_size_at_320": 16.8,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.4932092976527266,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        63,
+        82.5082508250825,
+        70.56
+      ],
+      "focus_line": 1,
+      "focus_text": "30分ごとに",
+      "focus_scale": 1.3096547750013094,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.8639406444184458,
+      "block_area_ratio": 0.11277975165780724,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.984375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 514,
+      "fade_end": 633,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 280,
+          "right": 378.15625,
+          "bottom": 371,
+          "width": 318.15625
+        },
+        {
+          "left": 60,
+          "top": 367.546875,
+          "right": 491.625,
+          "bottom": 486.546875,
+          "width": 431.625
+        },
+        {
+          "left": 60,
+          "top": 482.953125,
+          "right": 273.53125,
+          "bottom": 583.953125,
+          "width": 213.53125
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+      "asset_sha256": "4f888bd8f22dc0f85326c346a440012f5d2174137c03ec2fa07a211c8a0fc870",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-preview-320.jpg",
+          "sha256": "edbfe51901438984607e3a24fa302d2808a9d5b79e7ecd8effc6a5ad750e92b4"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-preview-400.jpg",
+          "sha256": "f70f68fa29f94e30d6ee150546acb7884e45045b3b53747becf98be2bd6a3518"
+        }
+      }
+    }
+  }
+}
