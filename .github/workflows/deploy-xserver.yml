@@ -102,6 +102,7 @@ jobs:
 
           const files = fs.readdirSync(contentDir).filter((name) => name.endsWith('.md'));
           const published = [];
+          const publishedCards = [];
           const drafts = [];
           const publishedImages = new Set();
 
@@ -121,6 +122,11 @@ jobs:
                 throw new Error(`公開記事がdistにありません: ${slug}`);
               }
               published.push(slug);
+              const publishedDate = String(data.published || '').trim();
+              if (!/^\d{4}-\d{2}-\d{2}$/.test(publishedDate)) {
+                throw new Error(`公開記事のpublished日付が不正です: ${slug} -> ${publishedDate || '(empty)'}`);
+              }
+              publishedCards.push(`${slug}\t${publishedDate.replaceAll('-', '.')}`);
               for (const imagePath of [data.thumbnail, data.og_image]) {
                 if (typeof imagePath !== 'string' || !imagePath.startsWith('/assets/')) {
                   throw new Error(`公開記事の画像パスが不正です: ${slug} -> ${imagePath || '(empty)'}`);
@@ -169,6 +175,7 @@ jobs:
           }
 
           fs.writeFileSync('.deploy-published-slugs', `${published.join('\n')}\n`);
+          fs.writeFileSync('.deploy-published-card-expectations', `${publishedCards.join('\n')}\n`);
           fs.writeFileSync('.deploy-draft-slugs', drafts.length ? `${drafts.join('\n')}\n` : '');
           fs.writeFileSync('.deploy-published-images', `${[...publishedImages].join('\n')}\n`);
           console.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}, images: ${publishedImages.size}`);
@@ -619,8 +626,155 @@ jobs:
                 fi
               done < .deploy-published-slugs
 
+              PLAIN_DATES_OK=1
+              while IFS=
+                PLAIN_READY=1
+                break
+              fi
+            fi
+
+            echo "Waiting for plain /blog/ freshness ${ATTEMPT}/12 (HTTP ${PLAIN_CODE}, Cache-Control: ${PLAIN_CACHE_CONTROL:-missing})"
+            sleep 5
+          done
+
+          if [ "$PLAIN_READY" != "1" ]; then
+            echo "::error::Plain /blog/ is stale or lacks revalidation cache headers after deploy."
+            echo "| Plain Blog URL freshness | ❌ stale or cacheable |" >> "$SUMMARY"
+            FAIL=1
+          else
+            echo "| Plain Blog URL freshness | ✅ all published articles listed |" >> "$SUMMARY"
+            echo "| Plain Blog card dates | ✅ match published front matter |" >> "$SUMMARY"
+            echo "| Blog HTML Cache-Control | ✅ ${PLAIN_CACHE_CONTROL} |" >> "$SUMMARY"
+          fi
+
+          BLOG_CSS_URL="$(grep -oE '/assets/css/blog\.css\?v=[a-f0-9]{12}' "$TMP_DIR/blog.html" | head -n1 || true)"
+          if [ -z "$BLOG_CSS_URL" ]; then
+            echo "::error::本番Blog HTMLにfingerprint付きblog.cssがありません。"
+            echo "| Blog CSS fingerprint | ❌ missing |" >> "$SUMMARY"
+            FAIL=1
+          else
+            CSS_LIVE="$TMP_DIR/blog.css"
+            CSS_CODE=$(curl -sS -L -o "$CSS_LIVE" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}${BLOG_CSS_URL}&${CACHE_BUST}" || echo '000')
+            if [ "$CSS_CODE" != "200" ]; then
+              echo "::error::本番blog.cssがHTTP ${CSS_CODE}です: ${BLOG_CSS_URL}"
+              echo "| Blog CSS live | ❌ HTTP ${CSS_CODE} |" >> "$SUMMARY"
+              FAIL=1
+            else
+              LIVE_CSS_SHA="$(sha256sum "$CSS_LIVE" | awk '{print $1}')"
+              LOCAL_CSS_SHA="$(sha256sum dist/assets/css/blog.css | awk '{print $1}')"
+              if [ "$LIVE_CSS_SHA" != "$LOCAL_CSS_SHA" ]; then
+                echo "::error::本番blog.cssが今回のdistと一致しません。"
+                echo "| Blog CSS bytes | ❌ SHA256 mismatch |" >> "$SUMMARY"
+                FAIL=1
+              elif ! grep -qF 'aspect-ratio:16/9' "$CSS_LIVE"; then
+                echo "::error::本番blog.cssに16:9カード指定がありません。"
+                echo "| Blog card ratio CSS | ❌ missing 16:9 |" >> "$SUMMARY"
+                FAIL=1
+              else
+                echo "| Blog CSS fingerprint | ✅ ${BLOG_CSS_URL} |" >> "$SUMMARY"
+                echo "| Blog CSS bytes | ✅ exact match |" >> "$SUMMARY"
+                echo "| Blog card ratio CSS | ✅ 16:9 |" >> "$SUMMARY"
+              fi
+            fi
+          fi
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+            image_label="${image_path#/}"
+            image_file="$TMP_DIR/image-$(printf '%s' "$image_label" | tr '/ ' '__')"
+            local_file="dist/${image_label}"
+            fetch_page "Image: ${image_label}" "${PRODUCTION_URL}${image_path}?${CACHE_BUST}" "$image_file"
+            if [ ! -s "$image_file" ]; then
+              echo "::error::本番画像が空です: ${image_path}"
+              FAIL=1
+              continue
+            fi
+            if [ ! -f "$local_file" ]; then
+              echo "::error::比較元のdist画像がありません: ${image_path}"
+              FAIL=1
+              continue
+            fi
+            live_sha="$(sha256sum "$image_file" | awk '{print $1}')"
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+            if [ "$live_sha" != "$local_sha" ]; then
+              echo "::error::本番画像が今回のdist画像と一致しません: ${image_path}"
+              echo "| Image bytes: ${image_label} | ❌ SHA256 mismatch |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Image bytes: ${image_label} | ✅ exact match |" >> "$SUMMARY"
+            fi
+          done < .deploy-published-images
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+            if ! grep -qF "/blog/${slug}/" "$BLOG_INDEX_CORPUS"; then
+              echo "::error::本番Blog一覧に公開記事がありません: ${slug}"
+              echo "| Blog link: ${slug} | ❌ missing |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Blog link: ${slug} | ✅ listed |" >> "$SUMMARY"
+            fi
+            fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+          done < .deploy-published-slugs
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+            if grep -qF "/blog/${slug}/" "$BLOG_INDEX_CORPUS"; then
+              echo "::error::本番Blog一覧に下書き記事が表示されています: ${slug}"
+              echo "| Draft hidden: ${slug} | ❌ listed |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Draft hidden: ${slug} | ✅ not listed |" >> "$SUMMARY"
+            fi
+
+            code=$(curl -sS -L -o "$TMP_DIR/draft-${slug}.html" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" || echo '000')
+            if [ "$code" = "200" ]; then
+              echo "::error::下書き記事URLが本番でHTTP 200を返しています: ${slug}"
+              echo "| Draft URL: ${slug} | ❌ HTTP 200 |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Draft URL: ${slug} | ✅ HTTP ${code} |" >> "$SUMMARY"
+            fi
+          done < .deploy-draft-slugs
+
+          echo "" >> "$SUMMARY"
+          if [ "$FAIL" = "0" ]; then
+            echo "**結果: Xserver本番公開・公開記事・下書き非公開を確認しました。**" >> "$SUMMARY"
+          else
+            echo "**結果: 本番確認で失敗した項目があります。バックアップ安全網を保持したまま停止しました。**" >> "$SUMMARY"
+          fi
+
+          rm -rf "$TMP_DIR"
+          exit "$FAIL"
+\t' read -r slug expected_date; do
+                [ -z "$slug" ] && continue
+                if ! node - "$PLAIN_BLOG_INDEX_CORPUS" "$slug" "$expected_date" <<'NODE'
+          const fs = require('node:fs');
+          const [file, slug, expectedDate] = process.argv.slice(2);
+          const html = fs.readFileSync(file, 'utf8');
+          const marker = `data-article-slug="${slug}"`;
+          const markerIndex = html.indexOf(marker);
+          if (markerIndex < 0) process.exit(1);
+          const articleStart = html.lastIndexOf('<article class="blog-card">', markerIndex);
+          const articleEnd = html.indexOf('</article>', markerIndex);
+          if (articleStart < 0 || articleEnd < 0) process.exit(1);
+          const card = html.slice(articleStart, articleEnd + '</article>'.length);
+          const match = card.match(/<time class="blog-card-date"[^>]*>([^<]+)<\/time>/);
+          if (!match || match[1].trim() !== expectedDate) process.exit(1);
+          NODE
+                then
+                  echo "Plain Blog card date mismatch: ${slug} expected ${expected_date}"
+                  PLAIN_DATES_OK=0
+                  break
+                fi
+              done < .deploy-published-card-expectations
+
               PLAIN_CACHE_CONTROL="$(grep -i '^cache-control:' "$PLAIN_HEADERS" | tail -n1 | cut -d: -f2- | tr -d '\r' | xargs || true)"
-              if [ "$PLAIN_PAGES_OK" = "1" ] && [ "$PLAIN_ALL_LISTED" = "1" ] \
+              if [ "$PLAIN_PAGES_OK" = "1" ] && [ "$PLAIN_ALL_LISTED" = "1" ] && [ "$PLAIN_DATES_OK" = "1" ] \
                 && printf '%s' "$PLAIN_CACHE_CONTROL" | grep -Eqi 'no-cache|max-age=0|must-revalidate'; then
                 PLAIN_READY=1
                 break
