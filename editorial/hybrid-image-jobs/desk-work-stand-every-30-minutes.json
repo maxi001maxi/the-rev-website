@@ -3,7 +3,7 @@
   "article_title": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN",
-  "image_headline_short": "座り仕事は\n30分ごとに\n立つべき。",
+  "image_headline_short": "座り仕事、\n30分ごとに立つ？",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -160,5 +160,5 @@
     ]
   },
   "typography_emphasis_text": "30分ごとに",
-  "recovery_note": "2026-10-06 typography/layout recovery after the prior asset exhausted 2/2 QC attempts. The scene concept passed the substantive visual checks, but all variants split the semantic unit 「30分」 across lines. This new asset version explicitly locks the headline to 「座り仕事は／30分ごとに／立つべき。」. Prior rejection remains in Git history; QA thresholds, operator attempt cap, cadence and human Publish boundary are unchanged."
+  "recovery_note": "2026-10-06 typography/layout recovery. Prior asset exhausted 2/2 visual-QC attempts because automatic wrapping split 「30分」. This asset version reset correctly, but attempt 1/2 was rejected deterministically because a manual middle line ended in the weak particle 「に」. Remaining attempt uses the valid two-line question 「座り仕事、／30分ごとに立つ？」, which also matches the article conclusion that 30 minutes is a guide rather than an obligation. Prior failures remain in Git history; QA thresholds, max attempts, cadence and human Publish boundary are unchanged."
 }
