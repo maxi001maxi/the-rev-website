@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実空間で、一般顧客役の成人1人が記事テーマ「座り仕事は30分ごとに立つべき？ ジムに通う人の続け方」を自然に想起させる静かな利用場面。広告的なポーズではなく実際の来店者らしい姿勢・表情にし、トレーナー、スタッフ、コーチは出さない。背景はTHE REV.実店舗の来店・トレーニング文脈が分かる実景。元動画の構造を維持する。",
+  "scene_intent": "THE REV.の実空間で、座り仕事の成人女性顧客1人が、仕事の区切りに立ち上がって腕時計を確認しながら軽く姿勢を変える自然な瞬間。ノートPCが入った仕事用バッグを近くに置き、デスクワークと時間区切りの文脈をタイトルなしでも感じられるようにする。人物を明確な主役にし、トレーナー、スタッフ、コーチ、他の人物は出さない。THE REV.実店舗の構造とロゴは保つが背景は自然な浅い被写界深度で二次要素にする。",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-3978-20-31e40387-layout-r2",
-  "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.jpg",
-  "og_image": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.jpg",
+  "asset_version": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+  "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+  "og_image": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+  "gbp_image": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.json",
+  "qa_report_path": "editorial/image-qa/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -160,5 +160,9 @@
     ]
   },
   "typography_emphasis_text": "30分ごとに",
-  "recovery_note": "2026-10-06 typography/layout recovery. Prior asset exhausted 2/2 visual-QC attempts because automatic wrapping split 「30分」. This asset version reset correctly, but attempt 1/2 was rejected deterministically because a manual middle line ended in the weak particle 「に」. Remaining attempt uses the valid two-line question 「座り仕事、／30分ごとに立つ？」, which also matches the article conclusion that 30 minutes is a guide rather than an obligation. Prior failures remain in Git history; QA thresholds, max attempts, cadence and human Publish boundary are unchanged."
+  "recovery_note": "2026-10-06 genuine Human First scene redesign after the layout-r2 asset exhausted 2/2. Typography passed with 「座り仕事、／30分ごとに立つ？」, but final Visual QC rejected the scene because the background was too sharp and customer visual attention was ~55%, below the required 60–70%. This new asset version explicitly targets ~65% customer attention plus natural shallow DOF while retaining verified THE REV anchors. Prior rejections remain in Git history; QA thresholds, max attempts, cadence and human Publish boundary are unchanged.",
+  "visible_action": "成人女性顧客が仕事用バッグとノートPCのそばで立ち、腕時計を確認しつつ肩や上半身を軽く動かしている。運動指導、トレーナー、器具トレーニングは描かない。",
+  "emotional_state": "仕事の区切りに短く身体を動かしてリフレッシュする、落ち着いた自然な表情。広告的な笑顔や疲労・痛みを誇張しない。",
+  "visual_claim": "30分を義務化するのではなく、座り仕事の途中に立つ・少し動くきっかけを作る場面。医療効果や姿勢改善を保証しない。",
+  "composition_hint": "Single photoreal medium-close three-quarter portrait in the verified THE REV space. One adult female customer must carry about 65% of visual attention, clearly within the required 60–70% range. Keep face and upper body large and readable, positioned center-right so BOTH 16:9 and 4:3 crops retain the face, watch-checking action, and nearby work bag/laptop cue. Use pronounced but natural shallow depth of field, portrait-lens f/1.8 look: THE REV logo/reception/environment remains recognizable as secondary context but is visibly softer and less detailed than the customer. Background_secondary_pass and background_soft_blur_pass must be visually obvious. Preserve real geometry, lighting direction, floor contact and natural shadows. Left side remains clean for deterministic typography. No trainer, staff, coach, extra people, medical equipment, invented gym equipment, or cutout/sticker look."
 }
