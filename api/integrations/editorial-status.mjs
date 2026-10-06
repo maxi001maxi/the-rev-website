@@ -78,6 +78,40 @@ export default async function handler(req, res) {
       return res.status(500).json({ok:false,error:String(e?.message||e)});
     }
   }
+  if (req.query?.mode === 'company_os_ga4_bootstrap_once') {
+    const supplied = String(req.headers?.['x-ga4-bootstrap-token'] || '');
+    const suppliedHash = crypto.createHash('sha256').update(supplied).digest('hex');
+    const expectedHash = 'a6810d2d015f990da9f64cb0ae0f4b43bb46908994c3048fe5bc97fd03c31412';
+    if (!supplied || suppliedHash !== expectedHash) {
+      return res.status(401).json({ error: 'unauthorized' });
+    }
+    if (!String(process.env.SUPABASE_URL || '').trim() || !String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim()) {
+      return res.status(503).json({ ok: false, error: 'company_os_supabase_not_configured' });
+    }
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      { auth: { persistSession: false, autoRefreshToken: false } }
+    );
+    const existing = await supabase
+      .from('company_os_ga4_daily_metrics')
+      .select('*', { count: 'exact', head: true });
+    if (existing.error) return res.status(502).json({ ok: false, error: 'ga4_bootstrap_count_failed' });
+    if ((existing.count || 0) > 0) {
+      return res.status(409).json({ ok: false, error: 'ga4_bootstrap_already_completed', rows: existing.count });
+    }
+    const result = await syncDirectGa4ToCompanyOs({ supabase });
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(result.status || (result.ok ? 200 : 502)).json({
+      ok: Boolean(result.ok),
+      provider: result.provider || 'google-analytics-data-api-direct',
+      rowsUpserted: result.rowsUpserted || 0,
+      minDate: result.minDate || null,
+      maxDate: result.maxDate || null,
+      observedAt: result.observedAt || null,
+      error: result.error || null
+    });
+  }
   if (req.query?.mode === 'company_os_ga4_cron') {
     const secret = String(process.env.CRON_SECRET || '');
     const auth = String(req.headers?.authorization || '');
