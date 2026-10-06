@@ -140,7 +140,7 @@ const fatigueArticle = {
   slug: 'after-work-tired-strength-training',
   description: '疲れている日の負荷調整を考える。',
   bodyMarkdown: '仕事終わりの疲労と休息を見ながら判断します。',
-  category: 'body-knowledge',
+  category: 'health',
   imageSeriesLabel: 'COLUMN 06'
 };
 
@@ -196,7 +196,7 @@ const genericBodyArticle = {
   slug: 'body-state-basics',
   description: '身体の状態と個別の見方を考える。',
   bodyMarkdown: '身体を見ながら調整します。',
-  category: 'body-knowledge'
+  category: 'health'
 };
 const genericRecent = [
   { slug: 'prev-a', contentReference: 'assets/images/photo-evolgear.jpg', checkedAt: '2026-09-19T09:00:00Z' },
@@ -271,7 +271,7 @@ assert(HYBRID_IMAGE_FORMAT.publishBoundary === 'REVIEW_AND_PUBLISH', '公開境�
 const hybridJob = buildHybridImageJob({
   slug: 'sample-hybrid-article',
   title: 'サンプル記事',
-  categoryLabel: 'BODY KNOWLEDGE',
+  categoryLabel: 'HEALTH',
   columnLabel: 'COLUMN 08',
   imageHeadlineShort: '実空間から、\n誌面をつくる。',
   assetVersion: 'reference-v23-hybrid-sample',
@@ -382,7 +382,7 @@ const readyHybridDraft = {
   ...hybridDraftForQa,
   slug: 'sample-hybrid-article',
   title: 'サンプル記事',
-  category: 'body-knowledge',
+  category: 'health',
   image_status: 'READY',
   image_asset_ready: true,
   image_headline_short: '実空間から、\n誌面をつくる。',
@@ -432,7 +432,7 @@ assert(
 const hybridBrief = hybridGenerationBrief({
   articleTitle: 'サンプル記事',
   editorialCopy: '実空間から、誌面をつくる。',
-  categoryLabel: 'BODY KNOWLEDGE',
+  categoryLabel: 'HEALTH',
   columnLabel: 'COLUMN 08'
 });
 assert(hybridBrief.includes('顧客役を必ず') && hybridBrief.includes('固定Overlay'), '生成Briefへ顧客必須と固定Overlay方針を含める');

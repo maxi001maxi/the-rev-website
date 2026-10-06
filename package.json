@@ -8,6 +8,7 @@
     "test:topic-approval": "node --test scripts/test-editorial-topic-approval.mjs",
     "build:blog": "node scripts/build-blog.mjs",
     "vercel-build": "node scripts/build-blog.mjs && node scripts/prepare-deploy.mjs",
+    "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs",
     "test:phase-d": "node scripts/test-phase-d.mjs",
     "test:phase-e": "node scripts/test-phase-e.mjs",
     "test:phase-9": "node scripts/test-phase-9.mjs",

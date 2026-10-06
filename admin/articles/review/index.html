@@ -169,12 +169,13 @@
 <script type="module">
 import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
 import { AdminApi } from '/admin/js/admin-api.mjs';
+import { BLOG_CATEGORIES } from '/assets/js/blog-taxonomy.mjs';
 import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12/+esm';
 
 const params = new URLSearchParams(location.search);
 const articleId = params.get('id');
 
-const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'RECOVERY', 'body-knowledge': 'BODY KNOWLEDGE' };
+const CATEGORY_LABELS = Object.fromEntries(BLOG_CATEGORIES.map((c) => [c.slug, c.labelEn]));
 const PRODUCTION_ORIGIN = 'https://therev-lab.com';
 
 function productionPublicUrl(value) {
