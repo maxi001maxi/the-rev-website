@@ -39,3 +39,8 @@ The service account must have Viewer access to GA4 property 552679302 and Google
 ## Vercel Hobby constraint
 
 The project is already at the 12-serverless-function Hobby limit. The GA4 cron therefore reuses the existing `api/integrations/editorial-status.mjs` function with a dedicated `mode=company_os_ga4_cron` route instead of adding a 13th function.
+
+## Credential deployment status
+
+- 2026-10-06: `GA4_SERVICE_ACCOUNT_JSON` configured for Production in Vercel.
+- A fresh Production deployment is required after secret registration so the runtime can load it.
