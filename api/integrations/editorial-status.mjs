@@ -1,6 +1,8 @@
 import { collectGithubMaterialChanges } from '../../lib/companyTimelineGithubCollector.mjs';
 import { collectArticleHistory } from '../../lib/editorialArticleHistory.mjs';
 import { syncDirectGa4ToCompanyOs } from '../../lib/ga4CompanyOsSync.mjs';
+import { syncDirectGscToCompanyOs } from '../../lib/gscCompanyOsSync.mjs';
+import { probeGscDirect } from '../../lib/gscDirect.mjs';
 // GET /api/integrations/editorial-status?content_id={id}
 // Server-to-server status probe for THE REV. Editorial AI.
 // It never publishes. It only checks whether Phase 10 image assets are ready,
@@ -78,6 +80,28 @@ export default async function handler(req, res) {
       return res.status(500).json({ok:false,error:String(e?.message||e)});
     }
   }
+  if (req.query?.mode === 'company_os_gsc_bootstrap_probe') {
+    const supplied=String(req.query?.token||'');
+    const suppliedHash=crypto.createHash('sha256').update(supplied).digest('hex');
+    const expectedHash='a1651817ba3ece755d6a24c64eeee911ab035908b823133768b910b4921b04aa';
+    if(!supplied||suppliedHash!==expectedHash)return res.status(401).json({ok:false,error:'unauthorized'});
+    const raw=process.env.GOOGLE_READONLY_SERVICE_ACCOUNT_JSON||process.env.GA4_SERVICE_ACCOUNT_JSON;
+    try{
+      const result=await probeGscDirect({serviceAccountRaw:raw});
+      res.setHeader('Cache-Control','no-store');
+      return res.status(200).json(result);
+    }catch(error){
+      console.error('[gsc-direct-probe]',error?.code||'error',error?.status||0,error?.message||'');
+      res.setHeader('Cache-Control','no-store');
+      return res.status(error?.status===403?403:502).json({
+        ok:false,
+        error:error?.code||'gsc_direct_probe_failed',
+        status:error?.status||0,
+        message:String(error?.message||'Google Search Console direct probe failed.').slice(0,300)
+      });
+    }
+  }
+
   if (req.query?.mode === 'company_os_ga4_bootstrap_once') {
     const supplied = String(req.headers?.['x-ga4-bootstrap-token'] || '');
     const suppliedHash = crypto.createHash('sha256').update(supplied).digest('hex');
@@ -112,6 +136,23 @@ export default async function handler(req, res) {
       error: result.error || null
     });
   }
+  if (req.query?.mode === 'company_os_gsc_cron') {
+    const secret=String(process.env.CRON_SECRET||'');
+    const auth=String(req.headers?.authorization||'');
+    if(!secret||auth!==`Bearer ${secret}`)return res.status(401).json({error:'unauthorized'});
+    if(!String(process.env.SUPABASE_URL||'').trim()||!String(process.env.SUPABASE_SERVICE_ROLE_KEY||'').trim()){
+      return res.status(503).json({ok:false,error:'company_os_supabase_not_configured'});
+    }
+    const supabase=createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      {auth:{persistSession:false,autoRefreshToken:false}}
+    );
+    const result=await syncDirectGscToCompanyOs({supabase});
+    res.setHeader('Cache-Control','no-store');
+    return res.status(result.status||(result.ok?200:502)).json(result);
+  }
+
   if (req.query?.mode === 'company_os_ga4_cron') {
     const secret = String(process.env.CRON_SECRET || '');
     const auth = String(req.headers?.authorization || '');

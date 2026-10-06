@@ -31,6 +31,10 @@
       "schedule": "10 22 * * *"
     },
     {
+      "path": "/api/integrations/editorial-status?mode=company_os_gsc_cron",
+      "schedule": "15 22 * * *"
+    },
+    {
       "path": "/api/integrations/editorial-status?mode=company_timeline_github_cron",
       "schedule": "20 20 * * *"
     }
