@@ -20,7 +20,7 @@
 var SOCIAL_V05_VERSION = 'v0.5';
 var SOCIAL_V05_SHEET = '39_SOCIAL_REEL_CANDIDATES';
 var SOCIAL_V05_PHASE = 'STORE_AWARENESS_BUILD';
-var SOCIAL_V05_HOUR = 6;
+var SOCIAL_V05_HOUR = 8;
 var SOCIAL_V05_MINUTE = 30;
 var SOCIAL_V05_MAX_HISTORY_DAYS = 7;
 var SOCIAL_V05_TERRITORIES = [
@@ -101,12 +101,20 @@ function syncSocialPublishedHistoryV050() {
   return {status:'SYNCED',count:total};
 }
 
+function socialV05CanonicalHistory_() {
+  var response = socialV05Bridge_({
+    action:'social_history_list',
+    days:120,
+    limit:120
+  });
+  return Array.isArray(response.posts) ? response.posts : [];
+}
+
 function socialV05LatestPublishDate_() {
-  var rows = socialV05Rows_('01_POST_HISTORY')
-    .filter(function(r){return String(r.status||'').toUpperCase()==='PUBLISHED' && r.publish_date;});
+  var rows = socialV05CanonicalHistory_().filter(function(r){ return r && r.published_at; });
   if (!rows.length) return null;
-  rows.sort(function(a,b){return String(b.publish_date).localeCompare(String(a.publish_date));});
-  return new Date(String(rows[0].publish_date).replace(/\//g,'-') + 'T00:00:00+09:00');
+  rows.sort(function(a,b){ return String(b.published_at).localeCompare(String(a.published_at)); });
+  return new Date(rows[0].published_at);
 }
 
 function socialV05HistoryFreshness_() {
@@ -142,18 +150,28 @@ function socialV05GenerateFive_() {
   }
 
   var ctx = buildM6Context_(getTargetWeekStart_());
-  var socialHistory = socialV05Rows_('01_POST_HISTORY').filter(function(r){
-    return String(r.status||'').toUpperCase()==='PUBLISHED';
-  }).slice(-80).map(function(r){
+  var canonicalHistory = socialV05CanonicalHistory_();
+  var socialHistory = canonicalHistory.slice(0,80).map(function(r){
+    var metrics = r.latest_metrics || {};
     return {
-      publish_date:r.publish_date,
-      format:r.format,
+      publish_date:r.published_at,
+      format:r.format || r.media_type,
       title:r.title,
       topic:r.topic,
       angle:r.angle,
       main_claim:r.main_claim,
-      visual_direction:r.visual_direction,
-      performance_summary:r.performance_summary
+      caption:r.caption,
+      content_lane:r.content_lane,
+      territory:r.territory,
+      ownership:r.ownership,
+      views:metrics.views,
+      reach:metrics.reach,
+      likes:metrics.likes,
+      saves:metrics.saves,
+      shares:metrics.shares,
+      comments:metrics.comments,
+      follows:metrics.follows,
+      source:r.source
     };
   });
   var blogHistory = socialV05Rows_('21_WEB_BLOG_OUTPUT').slice(-80).map(function(r){
@@ -258,6 +276,8 @@ function socialV05PushLine_(payload) {
 }
 
 function refreshSocialReelCandidatesV050() {
+  // Legacy Sheet backfill remains safe, but canonical freshness and candidate context
+  // are read back from Supabase so Metricool-synced posts are included.
   syncSocialPublishedHistoryV050();
 
   var target = Utilities.formatDate(new Date(),'Asia/Tokyo','yyyy-MM-dd');
@@ -288,6 +308,7 @@ function refreshSocialReelCandidatesV050() {
     source_context:{
       version:SOCIAL_V05_VERSION,
       history_freshness:generated.freshness,
+      canonical_history_source:'SUPABASE_SOCIAL_PUBLISHED_POSTS',
       reel_a:'EXTERNAL_DISCOVERY_KNOWLEDGE',
       reel_b:'OWNED_STORE_EXPERIENCE_PROOF'
     }
@@ -338,6 +359,7 @@ function inspectSocialDirectorV050() {
     target_date:target,
     timezone:Session.getScriptTimeZone(),
     history_freshness:freshness,
+    canonical_history_count:socialV05CanonicalHistory_().length,
     trigger_count:ScriptApp.getProjectTriggers().filter(function(t){
       return t.getHandlerFunction()==='scheduledSocialReelCandidatesV050';
     }).length,
