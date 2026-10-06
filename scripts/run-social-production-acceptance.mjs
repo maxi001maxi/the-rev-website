@@ -10,6 +10,17 @@ const normalizeRows=(value)=>{
   if(Array.isArray(value)) return value;
   if(Array.isArray(value?.result)) return value.result;
   if(Array.isArray(value?.rows)) return value.rows;
+  if(typeof value?.result==='string'){
+    const text=value.result;
+    const start=text.indexOf('[');
+    const end=text.lastIndexOf(']');
+    if(start>=0 && end>start){
+      try {
+        const parsed=JSON.parse(text.slice(start,end+1));
+        if(Array.isArray(parsed)) return parsed;
+      } catch {}
+    }
+  }
   return [];
 };
 const editorialRows=normalizeRows(input.editorial_history);
@@ -113,7 +124,7 @@ const schema={
       items:{
         type:'object',
         additionalProperties:false,
-        required:['title_candidate','why_now','unique_angle','preview_lead','selection_reason','score_breakdown'],
+        required:['title_candidate','why_now','unique_angle','preview_lead','audience_question','selection_reason','local_angle','notes','score_breakdown','total_score','portfolio_final_score'],
         properties:{
           title_candidate:{type:'string'},
           why_now:{type:'string'},
@@ -201,7 +212,7 @@ const acceptance={
     verified_facts:(input.verified_facts||[]).length,
     first_party:(input.first_party||[]).length,
     prior_social_runs:priorRuns.length,
-    direction_contains_research_canon:String(capturedCtx?.weekly_editorial_brief?.direction||'').includes('V0.4.5_CONVERSION_CREATIVE_PLAYBOOK'),
+    direction_contains_research_canon:String(capturedCtx?.weekly_editorial_brief?.direction||'').toLowerCase().includes('v0.4.5_conversion_creative_playbook'),
     direction_contains_lens_principle:String(capturedCtx?.weekly_editorial_brief?.direction||'').includes('Research is a lens, not a recipe')
   },
   result
