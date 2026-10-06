@@ -87,8 +87,7 @@ export default async function handler(req, res) {
   if (req.query?.mode === 'company_timeline_github_cron') {
     const secret=String(process.env.CRON_SECRET||'');
     const auth=String(req.headers?.authorization||'');
-    const previewAcceptance=process.env.VERCEL_ENV==='preview'&&String(req.query?.acceptance||'')==='1';
-    if(!previewAcceptance&&(!secret||auth!==`Bearer ${secret}`)) {
+    if(!secret||auth!==`Bearer ${secret}`) {
       return res.status(401).json({error:'unauthorized'});
     }
     try {
