@@ -157,6 +157,7 @@ Heavy Recoveryでも、まず対象content_idだけを読む。新規作成が�
 - `lib/dailyEditorialKnowledge.mjs`
 - `lib/editorialPublication.mjs`
 - `lib/blogMarkdown.mjs`（Publicationが参照する依存。未取得だとNode起動時に停止する）
+- `assets/js/blog-taxonomy.mjs`（blogMarkdownのCategory正本。未取得だとNode起動時に停止する）
 
 stdinは `{now,rows,shortlist,settings,evidenceByContentId,articleHistory,outputRows}`。articleHistoryには同一main SHAのcontent/blog全件とSupabase全Draft、outputRowsには21_WEB_BLOG_OUTPUT全件を渡す。履歴取得失敗時は新規選定を止める。Queue/Shortlist/SettingsはライブSheetsを使う。公開の証拠は接続済みSupabaseの `publish_status / publish_verified_at / published_url / publish_commit_sha` だけ。取得できない証拠を推測しない。
 
