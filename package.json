@@ -29,7 +29,8 @@
     "test:social-director": "node --test scripts/test-social-director-v05.mjs scripts/test-social-production-learning-v06.mjs scripts/test-social-stories-v06.mjs",
     "test:ga4-direct": "node scripts/test-ga4-direct-read.mjs",
     "test:blog-card-dates": "node --test scripts/test-blog-card-dates.mjs",
-    "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs"
+    "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs",
+    "test:gsc-direct": "node scripts/test-gsc-direct-read.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
