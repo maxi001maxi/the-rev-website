@@ -110,7 +110,7 @@ test('installed Supervisor wrapper blocks missing GBP and recovers before promot
   context.v065FetchJson_('https://example.test/api/integrations/editorial-status/?content_id=BLOG');
   assert.equal(sheets['22_GBP_POST'].length,1);
 });
-const good={contentId:'BLOG',blog:{status:'READY',article_type:'STANDARD',body_markdown:'本文'.repeat(900)},
+const good={contentId:'BLOG',blog:{status:'READY',article_type:'STANDARD',body_markdown:'本文'.repeat(900)+'\n\nTHE REV.では、生活に合わせて無理なく続ける形を一緒に組み立てます。'},
   gbp:{parent_blog_id:'BLOG',status:'READY',image_status:'READY',gbp_image_path:'/gbp.jpg'},
   bridge:{bridge_status:'PREVIEW_READY',review_url:'https://example.test/review'},
   qa:{pass:true,xserver_live_verify_passed:true,gbp_xserver_live_verify_passed:true},gbpQa:{pass:true,ratio:'4:3',width:1200,height:900}};
@@ -135,6 +135,12 @@ test('8 Blog READY without GBP canonical row cannot reach REVIEW_READY',()=>{
   assert.equal(evaluateEditorialReviewReady({...good,gbp:null}).ok,false);
   assert.equal(evaluateEditorialReviewReady({...good,gbp:{...good.gbp,parent_blog_id:'OTHER'}}).ok,false);
   assert.equal(evaluateEditorialReviewReady({...good,qa:{...good.qa,unsupported_equipment_absent:false}}).ok,false);
+});
+test('Review Ready fails closed on generic article ending',()=>{
+  const generic={...good,blog:{...good.blog,body_markdown:'本文'.repeat(900)+'\n\nできる範囲で無理なく続けることが大切です。'}};
+  const result=evaluateEditorialReviewReady(generic);
+  assert.equal(result.ok,false);
+  assert(result.missing.includes('editorial_closing'));
 });
 test('9 normal pipeline stays ready, expert compression fails',()=>{
   assert.equal(evaluateEditorialReviewReady(good).ok,true);
