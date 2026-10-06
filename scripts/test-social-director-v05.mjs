@@ -68,4 +68,8 @@ test('GAS add-on blocks stale history and never auto-publishes',()=>{
   assert.match(source,/TRAINER_JUDGMENT/);
   assert.match(source,/STORE_SERVICE_EXPERIENCE/);
   assert.match(source,/WILDCARD/);
+  assert.match(source,/social_history_list/);
+  assert.match(source,/SUPABASE_SOCIAL_PUBLISHED_POSTS/);
+  assert.match(source,/SOCIAL_V05_HOUR = 8/);
+  assert.match(source,/SOCIAL_V05_MINUTE = 30/);
 });
