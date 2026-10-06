@@ -23,7 +23,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron/company-timeline-github",
+      "path": "/api/integrations/editorial-status?mode=company_timeline_github_cron",
       "schedule": "20 20 * * *"
     }
   ]
