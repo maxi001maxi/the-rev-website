@@ -91,6 +91,15 @@ jobs:
             throw new Error('dist/blog/index.html が生成されていません。');
           }
 
+          const cachePolicyPath = path.join(distBlogDir, '.htaccess');
+          if (!fs.existsSync(cachePolicyPath)) {
+            throw new Error('Blog cache policy is missing: dist/blog/.htaccess');
+          }
+          const cachePolicy = fs.readFileSync(cachePolicyPath, 'utf8');
+          if (!cachePolicy.includes('Cache-Control "no-cache, max-age=0, must-revalidate"')) {
+            throw new Error('Blog cache policy does not require HTML revalidation.');
+          }
+
           const files = fs.readdirSync(contentDir).filter((name) => name.endsWith('.md'));
           const published = [];
           const drafts = [];
@@ -173,6 +182,7 @@ jobs:
           rm -rf deploy/admin
           test -f deploy/index.html
           test -f deploy/blog/index.html
+          test -f deploy/blog/.htaccess
           test ! -e deploy/admin
           echo "Xserver payload prepared (dist/admin excluded)."
 
@@ -462,6 +472,7 @@ jobs:
           set net:reconnect-interval-base 5
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
           mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
+          put -O "${XSERVER_REMOTE_DIR}blog/" "deploy/blog/.htaccess"
           bye
           EOF
             then
@@ -567,6 +578,67 @@ jobs:
             fetch_page "Blog page ${page_num}" "${PRODUCTION_URL}/blog/page/${page_num}/?${CACHE_BUST}" "$live_page"
             cat "$live_page" >> "$BLOG_INDEX_CORPUS"
           done < <(find dist/blog/page -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)
+
+          # Plain Blog URL freshness: the normal URL used by visitors must already
+          # expose the new article set. A cache-busted URL alone is not sufficient.
+          PLAIN_READY=0
+          PLAIN_CACHE_CONTROL=""
+          for ATTEMPT in $(seq 1 12); do
+            PLAIN_BLOG_INDEX_CORPUS="$TMP_DIR/blog-index-plain-all.html"
+            : > "$PLAIN_BLOG_INDEX_CORPUS"
+            PLAIN_HEADERS="$TMP_DIR/blog-plain.headers"
+            PLAIN_INDEX="$TMP_DIR/blog-plain.html"
+
+            PLAIN_CODE=$(curl -sS -L -D "$PLAIN_HEADERS" -o "$PLAIN_INDEX" -w '%{http_code}' \
+              --retry 1 --retry-delay 1 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}/blog/" || echo '000')
+
+            if [ "$PLAIN_CODE" = "200" ]; then
+              cat "$PLAIN_INDEX" >> "$PLAIN_BLOG_INDEX_CORPUS"
+              PLAIN_PAGES_OK=1
+              while IFS= read -r local_page; do
+                [ -z "$local_page" ] && continue
+                page_num="$(basename "$(dirname "$local_page")")"
+                plain_page="$TMP_DIR/blog-page-${page_num}-plain.html"
+                page_code=$(curl -sS -L -o "$plain_page" -w '%{http_code}' \
+                  --retry 1 --retry-delay 1 --retry-all-errors --connect-timeout 8 --max-time 15 \
+                  "${PRODUCTION_URL}/blog/page/${page_num}/" || echo '000')
+                if [ "$page_code" != "200" ]; then
+                  PLAIN_PAGES_OK=0
+                  break
+                fi
+                cat "$plain_page" >> "$PLAIN_BLOG_INDEX_CORPUS"
+              done < <(find dist/blog/page -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)
+
+              PLAIN_ALL_LISTED=1
+              while IFS= read -r slug; do
+                [ -z "$slug" ] && continue
+                if ! grep -qF "/blog/${slug}/" "$PLAIN_BLOG_INDEX_CORPUS"; then
+                  PLAIN_ALL_LISTED=0
+                  break
+                fi
+              done < .deploy-published-slugs
+
+              PLAIN_CACHE_CONTROL="$(grep -i '^cache-control:' "$PLAIN_HEADERS" | tail -n1 | cut -d: -f2- | tr -d '\r' | xargs || true)"
+              if [ "$PLAIN_PAGES_OK" = "1" ] && [ "$PLAIN_ALL_LISTED" = "1" ] \
+                && printf '%s' "$PLAIN_CACHE_CONTROL" | grep -Eqi 'no-cache|max-age=0|must-revalidate'; then
+                PLAIN_READY=1
+                break
+              fi
+            fi
+
+            echo "Waiting for plain /blog/ freshness ${ATTEMPT}/12 (HTTP ${PLAIN_CODE}, Cache-Control: ${PLAIN_CACHE_CONTROL:-missing})"
+            sleep 5
+          done
+
+          if [ "$PLAIN_READY" != "1" ]; then
+            echo "::error::Plain /blog/ is stale or lacks revalidation cache headers after deploy."
+            echo "| Plain Blog URL freshness | ❌ stale or cacheable |" >> "$SUMMARY"
+            FAIL=1
+          else
+            echo "| Plain Blog URL freshness | ✅ all published articles listed |" >> "$SUMMARY"
+            echo "| Blog HTML Cache-Control | ✅ ${PLAIN_CACHE_CONTROL} |" >> "$SUMMARY"
+          fi
 
           BLOG_CSS_URL="$(grep -oE '/assets/css/blog\.css\?v=[a-f0-9]{12}' "$TMP_DIR/blog.html" | head -n1 || true)"
           if [ -z "$BLOG_CSS_URL" ]; then
