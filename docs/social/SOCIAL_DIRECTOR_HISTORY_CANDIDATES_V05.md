@@ -215,3 +215,36 @@ This allows:
 
 If Metricool is still in first-connection backfill and canonical history remains stale,
 the 08:30 candidate flow returns `HISTORY_STALE` rather than proposing duplicates.
+
+
+## Research runtime parity
+
+The daily five-candidate generator must not rely on generic LLM ideation alone.
+
+Production GAS now injects the distilled v0.4.5 Social research canon before candidate generation.
+
+Canonical source:
+`docs/social-ai/V0.4.5_CONVERSION_CREATIVE_PLAYBOOK.md`
+in `maxi001maxi/the-rev-ops`.
+
+Runtime principles include:
+- Research is a lens, not a recipe
+- one primary decision stage per candidate
+- perceived-risk / uncertainty reduction
+- Trust triad: Ability / Benevolence / Integrity
+- "良さそう" vs "自分も行けそう"
+- People / Process / Physical Evidence
+- equipment -> why -> use -> service role -> boundary
+- local life-fit rather than city-name slogans
+- brand memory + natural next action
+- audience-state-aware CTA
+- performance changes probabilities, not possibilities
+- diverge across psychology / service proof / human first-party / wildcard before convergence
+
+Research labels stay internal. Candidate text should remain natural Japanese.
+
+The production batch records:
+- `research_canon=V0.4.5_CONVERSION_CREATIVE_PLAYBOOK`
+- `research_mode=LENS_NOT_RECIPE`
+
+This closes the gap between manual Social review and scheduled production generation.
