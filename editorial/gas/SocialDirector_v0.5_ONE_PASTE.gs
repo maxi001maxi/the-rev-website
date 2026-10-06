@@ -125,6 +125,25 @@ function socialV05HistoryFreshness_() {
   return {ok:days<=SOCIAL_V05_MAX_HISTORY_DAYS,days:days,latest:latest,reason:days<=SOCIAL_V05_MAX_HISTORY_DAYS?'FRESH':'PUBLISHED_HISTORY_STALE'};
 }
 
+function socialV05ResearchLens_() {
+  return [
+    'RESEARCH_CANON=v0.4.5_CONVERSION_CREATIVE_PLAYBOOK',
+    '原則: Research is a lens, not a recipe. 固定テンプレート化せず、研究知見を判断レンズとして使う。',
+    '候補ごとに主要な意思決定段階を1つ選ぶ: ATTENTION / INTEREST / TRUST / SELF_RELEVANCE / PREDICTABILITY_RISK_REDUCTION / VERIFICATION / TRIAL_CONSIDERATION。',
+    '高関与サービスの不安を見る: 時間、身体、恥ずかしさ、人間関係、失敗、金銭。全部を1本に詰め込まない。',
+    'TrustはABILITYだけでなくBENEVOLENCEとINTEGRITYも扱う。知識を語るより、観察・調整・止める判断・誠実な境界を見せる。',
+    '「良さそう」と「自分も行けそう」は別。初心者の最初の一歩、予測できる流れ、無理にさせないProcessで自己関連性と自己効力感を作る。',
+    'Service EvidenceはPeople / Process / Physical Evidenceで可視化する。設備名だけのカタログ投稿は禁止。',
+    'Equipmentは equipment→why it exists→when used→service role→what is not claimed の順で考える。',
+    'Localは地名を入れるだけにしない。仕事前後、来店動線、生活への入りやすさなどlife fitとして扱う。未確認の利便性は作らない。',
+    'Brand Responseを狙う。黒・木目・間接照明、静けさ、トレーナーの手や観察、環境音などのブランド記憶と、プロフィール確認等の自然な次行動を両立させる。',
+    'CTAはAudience Stateに合わせる。毎回予約CTAやDM誘導を置かない。CTAなしも正解。',
+    'Performanceは可能性を狭める命令ではなく確率を更新する材料。高再生フォーマットをそのままコピーし続けない。',
+    '候補を収束する前に内部で心理-led / service-proof-led / human-first-party-led / creative-wildcard-led を発散し、5案が意味的に異なることを確認する。',
+    'Research用語や理論名はユーザー向け候補文に出さない。研究は企画の質にだけ反映する。'
+  ].join('\n');
+}
+
 function socialV05Direction_(historyFreshness) {
   return [
     'THE REV.のSocial Directorとして、今日撮るReel B候補だけを5件提案する。本文や完成台本はまだ作らない。',
@@ -136,6 +155,8 @@ function socialV05Direction_(historyFreshness) {
     '番号ごとの役割を守る: 1 FIRST_VISIT_PROCESS / 2 TRAINER_JUDGMENT / 3 STORE_SERVICE_EXPERIENCE / 4 PEOPLE_SPACE_LOCAL / 5 WILDCARD。',
     '各案はtitle_candidate、why_now、unique_angleを具体的に書く。15〜25秒程度で撮れる現実的な映像企画を想定する。',
     '未確認の顧客実績、現在の来店状況、健康効果を作らない。医療効果を断定しない。',
+    '以下のResearch Canonを候補生成の判断に必ず使う。単なる一般LLM発想で穴埋めしない。',
+    socialV05ResearchLens_(),
     '履歴鮮度=' + historyFreshness.reason + ' days=' + String(historyFreshness.days)
   ].join('\n');
 }
@@ -310,7 +331,9 @@ function refreshSocialReelCandidatesV050() {
       history_freshness:generated.freshness,
       canonical_history_source:'SUPABASE_SOCIAL_PUBLISHED_POSTS',
       reel_a:'EXTERNAL_DISCOVERY_KNOWLEDGE',
-      reel_b:'OWNED_STORE_EXPERIENCE_PROOF'
+      reel_b:'OWNED_STORE_EXPERIENCE_PROOF',
+      research_canon:'V0.4.5_CONVERSION_CREATIVE_PLAYBOOK',
+      research_mode:'LENS_NOT_RECIPE'
     }
   });
   socialV05WriteView_(prepared);
