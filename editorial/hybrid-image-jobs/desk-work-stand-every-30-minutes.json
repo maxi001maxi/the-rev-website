@@ -3,7 +3,7 @@
   "article_title": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
   "category_label": "BODY KNOWLEDGE",
   "column_label": "COLUMN",
-  "image_headline_short": "座り仕事は30分ごとに立つべき。",
+  "image_headline_short": "座り仕事は\n30分ごとに\n立つべき。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -12,22 +12,22 @@
   "scene_intent": "THE REV.の実空間で、一般顧客役の成人1人が記事テーマ「座り仕事は30分ごとに立つべき？ ジムに通う人の続け方」を自然に想起させる静かな利用場面。広告的なポーズではなく実際の来店者らしい姿勢・表情にし、トレーナー、スタッフ、コーチは出さない。背景はTHE REV.実店舗の来店・トレーニング文脈が分かる実景。元動画の構造を維持する。",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-3978-20-31e40387",
-  "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387.jpg",
-  "og_image": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387.jpg",
-  "gbp_image": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387.jpg",
+  "asset_version": "reference-v26-auto-3978-20-31e40387-layout-r2",
+  "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.jpg",
+  "og_image": "assets/images/blog/og/og-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387.json",
+  "qa_report_path": "editorial/image-qa/desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-layout-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -158,5 +158,7 @@
       "male",
       "male"
     ]
-  }
+  },
+  "typography_emphasis_text": "30分ごとに",
+  "recovery_note": "2026-10-06 typography/layout recovery after the prior asset exhausted 2/2 QC attempts. The scene concept passed the substantive visual checks, but all variants split the semantic unit 「30分」 across lines. This new asset version explicitly locks the headline to 「座り仕事は／30分ごとに／立つべき。」. Prior rejection remains in Git history; QA thresholds, operator attempt cap, cadence and human Publish boundary are unchanged."
 }
