@@ -464,5 +464,6 @@
     "invalidated_candidate": "THE REV.って、何の店？",
     "require_five_distinct_territories": true,
     "no_auto_publish": true
-  }
+  },
+  "acceptance_run_id": "prod-parity-20261006-1016"
 }
