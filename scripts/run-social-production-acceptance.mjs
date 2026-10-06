@@ -6,6 +6,15 @@ if(!inputPath) throw new Error('Usage: node scripts/run-social-production-accept
 const input=JSON.parse(fs.readFileSync(inputPath,'utf8'));
 const gasSource=fs.readFileSync(new URL('../editorial/gas/SocialDirector_v0.5_ONE_PASTE.gs',import.meta.url),'utf8');
 
+const normalizeRows=(value)=>{
+  if(Array.isArray(value)) return value;
+  if(Array.isArray(value?.result)) return value.result;
+  if(Array.isArray(value?.rows)) return value.rows;
+  return [];
+};
+const editorialRows=normalizeRows(input.editorial_history);
+const priorRuns=normalizeRows(input.prior_social_runs);
+
 const canonicalHistory=(input.social_history||[]).map(row=>({
   published_at: row.date,
   format: row.format,
@@ -35,7 +44,7 @@ const sandbox={
   console, JSON, String, Number, Array, Object, Date, Error, Math,
   ss_:()=>({getSheetByName:(name)=>({name})}),
   getObjectsWithRow_:(sheet)=>{
-    if(sheet?.name==='21_WEB_BLOG_OUTPUT') return (input.editorial_history||[]).map(x=>({
+    if(sheet?.name==='21_WEB_BLOG_OUTPUT') return editorialRows.map(x=>({
       title:x.title,
       target_keyword:x.category||'',
       status:x.publish_status||''
@@ -48,7 +57,7 @@ const sandbox={
     phase:input.phase,
     verified_facts:input.verified_facts||[],
     first_party_interview:input.first_party||[],
-    prior_social_runs:input.prior_social_runs||[],
+    prior_social_runs:priorRuns,
     explicit_constraints:input.explicit_constraints||{},
     weekly_editorial_brief:{
       source:'LIVE_ACCEPTANCE_INPUT',
@@ -188,10 +197,10 @@ const acceptance={
   research_mode:input.research_mode,
   context_checks:{
     social_posts:canonicalHistory.length,
-    editorial_rows:(input.editorial_history||[]).length,
+    editorial_rows:editorialRows.length,
     verified_facts:(input.verified_facts||[]).length,
     first_party:(input.first_party||[]).length,
-    prior_social_runs:(input.prior_social_runs||[]).length,
+    prior_social_runs:priorRuns.length,
     direction_contains_research_canon:String(capturedCtx?.weekly_editorial_brief?.direction||'').includes('V0.4.5_CONVERSION_CREATIVE_PLAYBOOK'),
     direction_contains_lens_principle:String(capturedCtx?.weekly_editorial_brief?.direction||'').includes('Research is a lens, not a recipe')
   },
