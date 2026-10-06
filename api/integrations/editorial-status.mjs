@@ -114,7 +114,7 @@ export default async function handler(req, res) {
         }});
       } catch(e) { return res.status(/DB_|UNAVAILABLE|FAILED/.test(e.message) ? 502 : 422).json({error:e.message}); }
     }
-    if (/^social_(history_(upsert|list)|candidates_(prepare|poll|choose|notification_ack)|production_(finalize|event)|publication_link|learning_(upsert|list|context))$/.test(body.action || '')) {
+    if (/^social_(history_(upsert|list)|candidates_(prepare|poll|choose|notification_ack)|production_(finalize|event)|publication_link|learning_(upsert|list|context)|stories_(prepare|list)|story_(created|publication_link))$/.test(body.action || '')) {
       const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
       try {
         const payload = await socialBridgeResponse({body,supabase});
