@@ -1,5 +1,6 @@
 import { collectGithubMaterialChanges } from '../../lib/companyTimelineGithubCollector.mjs';
 import { collectArticleHistory } from '../../lib/editorialArticleHistory.mjs';
+import { syncDirectGa4ToCompanyOs } from '../../lib/ga4CompanyOsSync.mjs';
 // GET /api/integrations/editorial-status?content_id={id}
 // Server-to-server status probe for THE REV. Editorial AI.
 // It never publishes. It only checks whether Phase 10 image assets are ready,
@@ -76,6 +77,24 @@ export default async function handler(req, res) {
     } catch(e) {
       return res.status(500).json({ok:false,error:String(e?.message||e)});
     }
+  }
+  if (req.query?.mode === 'company_os_ga4_cron') {
+    const secret = String(process.env.CRON_SECRET || '');
+    const auth = String(req.headers?.authorization || '');
+    if (!secret || auth !== `Bearer ${secret}`) {
+      return res.status(401).json({ error: 'unauthorized' });
+    }
+    if (!String(process.env.SUPABASE_URL || '').trim() || !String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim()) {
+      return res.status(503).json({ ok: false, error: 'company_os_supabase_not_configured' });
+    }
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      { auth: { persistSession: false, autoRefreshToken: false } }
+    );
+    const result = await syncDirectGa4ToCompanyOs({ supabase });
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(result.status || (result.ok ? 200 : 502)).json(result);
   }
   // Same Vercel function, separate authentication. LINE needs untouched bytes;
   // all existing Bridge operations still require the existing Bearer secret.
