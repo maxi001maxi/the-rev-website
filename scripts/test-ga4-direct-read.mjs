@@ -11,9 +11,13 @@ assert.match(api, /GA4_SERVICE_ACCOUNT_JSON/);
 assert.doesNotMatch(api, /GSC_WIZARD_API_KEY/);
 assert.doesNotMatch(api, /siteInsights\/providers\/ga4/);
 
-const cron = await import('node:fs').then(fs => fs.readFileSync(new URL('../api/cron/ga4-company-os-sync.mjs', import.meta.url), 'utf8'));
-assert.match(cron, /company_os_ga4_daily_metrics/);
-assert.match(cron, /CRON_SECRET/);
-assert.match(cron, /GA4_SERVICE_ACCOUNT_JSON/);
+const bridge = await import('node:fs').then(fs => fs.readFileSync(new URL('../api/integrations/editorial-status.mjs', import.meta.url), 'utf8'));
+assert.match(bridge, /company_os_ga4_cron/);
+assert.match(bridge, /syncDirectGa4ToCompanyOs/);
+assert.match(bridge, /CRON_SECRET/);
+
+const sync = await import('node:fs').then(fs => fs.readFileSync(new URL('../lib/ga4CompanyOsSync.mjs', import.meta.url), 'utf8'));
+assert.match(sync, /company_os_ga4_daily_metrics/);
+assert.match(sync, /GA4_SERVICE_ACCOUNT_JSON/);
 
 console.log('GA4 direct read-side static contract PASS');
