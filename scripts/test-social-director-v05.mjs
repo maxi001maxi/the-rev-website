@@ -43,6 +43,16 @@ test('candidate preparation rejects anything except exactly five ideas before DB
   );
 });
 
+
+test('complete OPEN candidate batch is reused unless replacement is explicit',()=>{
+  const source=fs.readFileSync(new URL('../lib/socialCandidates.mjs',import.meta.url),'utf8');
+  const bridge=fs.readFileSync(new URL('../lib/socialBridgeApi.mjs',import.meta.url),'utf8');
+  assert.match(source,/existingStatus==='OPEN'/);
+  assert.match(source,/replaceOpen!==true/);
+  assert.match(source,/current\.candidates\.length===5/);
+  assert.match(bridge,/replaceOpen:body\.replace_open===true/);
+});
+
 test('editorial status bridge exposes social actions without adding a Vercel function',()=>{
   const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
   const bridge=fs.readFileSync(new URL('../lib/socialBridgeApi.mjs',import.meta.url),'utf8');
