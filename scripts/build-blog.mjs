@@ -579,7 +579,7 @@ function buildBlogCachePolicy() {
 # while leaving fingerprinted CSS/images free to use their normal cache policy.
 <IfModule mod_headers.c>
   <FilesMatch "\\.(?:html?|xml)$">
-    Header always set Cache-Control "no-cache, max-age=0, must-revalidate"
+    Header always set Cache-Control "no-store, no-cache, max-age=0, must-revalidate"
     Header always set Pragma "no-cache"
     Header always set Expires "0"
   </FilesMatch>

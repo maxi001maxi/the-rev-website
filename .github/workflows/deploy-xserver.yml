@@ -96,7 +96,7 @@ jobs:
             throw new Error('Blog cache policy is missing: dist/blog/.htaccess');
           }
           const cachePolicy = fs.readFileSync(cachePolicyPath, 'utf8');
-          if (!cachePolicy.includes('Cache-Control "no-cache, max-age=0, must-revalidate"')) {
+          if (!cachePolicy.includes('Cache-Control "no-store, no-cache, max-age=0, must-revalidate"')) {
             throw new Error('Blog cache policy does not require HTML revalidation.');
           }
 
