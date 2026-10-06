@@ -20,5 +20,11 @@
       ],
       "permanent": false
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/integrations/editorial-status?mode=company_timeline_github_cron",
+      "schedule": "20 20 * * *"
+    }
   ]
 }

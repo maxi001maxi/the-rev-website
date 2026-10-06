@@ -1,3 +1,5 @@
+import { collectGithubMaterialChanges, recordGithubPushEvent } from '../../lib/companyTimelineGithubCollector.mjs';
+import { verifyGithubActionsOidc } from '../../lib/companyTimelineGithubOidc.mjs';
 import { collectArticleHistory } from '../../lib/editorialArticleHistory.mjs';
 // GET /api/integrations/editorial-status?content_id={id}
 // Server-to-server status probe for THE REV. Editorial AI.
@@ -62,6 +64,40 @@ export async function readEditorialJson(req) {
 }
 
 export default async function handler(req, res) {
+  if (req.query?.mode === 'company_timeline_github_push') {
+    if(req.method!=='POST') {
+      res.setHeader('Allow','POST');
+      return res.status(405).json({error:'method_not_allowed'});
+    }
+    try {
+      const auth=String(req.headers?.authorization||'');
+      const token=auth.startsWith('Bearer ')?auth.slice(7):'';
+      await verifyGithubActionsOidc(token);
+      const body=await readEditorialJson(req);
+      const result=await recordGithubPushEvent(body);
+      res.setHeader('Cache-Control','no-store');
+      return res.status(200).json(result);
+    } catch(e) {
+      const message=String(e?.message||e);
+      const authError=/^OIDC_|REPOSITORY_NOT_ALLOWED|REF_NOT_ALLOWED/.test(message);
+      return res.status(authError?401:500).json({ok:false,error:message});
+    }
+  }
+
+  if (req.query?.mode === 'company_timeline_github_cron') {
+    const secret=String(process.env.CRON_SECRET||'');
+    const auth=String(req.headers?.authorization||'');
+    if(!secret||auth!==`Bearer ${secret}`) {
+      return res.status(401).json({error:'unauthorized'});
+    }
+    try {
+      const result=await collectGithubMaterialChanges();
+      res.setHeader('Cache-Control','no-store');
+      return res.status(result.ok?200:502).json(result);
+    } catch(e) {
+      return res.status(500).json({ok:false,error:String(e?.message||e)});
+    }
+  }
   // Same Vercel function, separate authentication. LINE needs untouched bytes;
   // all existing Bridge operations still require the existing Bearer secret.
   if (req.query?.mode === 'line_webhook') return lineEditorialWebhook(req, res);
