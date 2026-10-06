@@ -44,3 +44,7 @@ The project is already at the 12-serverless-function Hobby limit. The GA4 cron t
 
 - 2026-10-06: `GA4_SERVICE_ACCOUNT_JSON` configured for Production in Vercel.
 - A fresh Production deployment is required after secret registration so the runtime can load it.
+
+## Credential format note
+
+`GA4_SERVICE_ACCOUNT_JSON` is stored in Vercel as base64-encoded JSON. `parseServiceAccount()` accepts either raw JSON or base64-encoded JSON, which avoids multiline private-key corruption in shell/CLI entry.
