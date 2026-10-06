@@ -8,7 +8,7 @@ therev-lab.com -> GTM-WFD7R8BT -> GA4 G-Q6ZSSJMEZ2 / property 552679302
 
 Read side:
 Google Analytics Data API (service account, analytics.readonly)
--> Vercel cron /api/cron/ga4-company-os-sync
+-> Vercel cron `/api/integrations/editorial-status?mode=company_os_ga4_cron`
 -> Supabase company_os_ga4_daily_metrics
 -> company_os_get_ga4_morning_metrics()
 -> Company State Builder / Morning Meeting
@@ -34,3 +34,8 @@ The service account must have Viewer access to GA4 property 552679302 and Google
 - reserve_click is booking intent, not a confirmed booking.
 - UNKNOWN is never coerced to zero.
 - GA4 collection state and GA4 read-side state are separate.
+
+
+## Vercel Hobby constraint
+
+The project is already at the 12-serverless-function Hobby limit. The GA4 cron therefore reuses the existing `api/integrations/editorial-status.mjs` function with a dedicated `mode=company_os_ga4_cron` route instead of adding a 13th function.
