@@ -9,6 +9,14 @@ on:
       - 'scripts/run-social-production-acceptance.mjs'
       - '.github/workflows/social-production-acceptance.yml'
       - 'editorial/gas/SocialDirector_v0.5_ONE_PASTE.gs'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'editorial/social/acceptance/live-input-2026-10-06.json'
+      - 'scripts/run-social-production-acceptance.mjs'
+      - '.github/workflows/social-production-acceptance.yml'
+      - 'editorial/gas/SocialDirector_v0.5_ONE_PASTE.gs'
 
 permissions:
   contents: read
