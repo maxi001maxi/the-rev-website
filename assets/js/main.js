@@ -364,6 +364,7 @@
     if (/\/solution\.html$/.test(p)) return 'recovery';
     if (/\/access\.html$/.test(p)) return 'access';
     if (p === '/blog/' || /\/blog\/index\.html$/.test(p)) return 'blog_index';
+    if (/^\/blog\/category\/[^/]+(\/page\/\d+)?\/?$/.test(p)) return 'blog_category';
     if (/^\/blog\/[^/]+\/?$/.test(p)) return 'blog_article';
     if (/\/legal\.html$/.test(p)) return 'legal';
     if (/\/privacy\.html$/.test(p)) return 'privacy';

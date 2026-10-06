@@ -66,8 +66,9 @@
 <script type="module">
 import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
 import { AdminApi } from '/admin/js/admin-api.mjs';
+import { BLOG_CATEGORIES } from '/assets/js/blog-taxonomy.mjs';
 
-const CATEGORY_LABELS = { training: 'TRAINING', boxing: 'BOXING', recovery: 'RECOVERY', 'body-knowledge': 'BODY KNOWLEDGE' };
+const CATEGORY_LABELS = Object.fromEntries(BLOG_CATEGORIES.map((c) => [c.slug, c.labelEn]));
 
 function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

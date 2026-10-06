@@ -58,7 +58,7 @@ keywords:
 | `description` | 検索結果に出る説明文 |
 | `published` | 公開日（`YYYY-MM-DD`） |
 | `updated` | 更新日（`YYYY-MM-DD`）。修正して再公開する時だけ変更する |
-| `category` | `training` / `boxing` / `recovery` / `body-knowledge` のいずれか |
+| `category` | `training` / `health` / `gym-guide` / `recovery` / `boxing` のいずれか（1記事 = 必ず1カテゴリー。`body-knowledge` は廃止） |
 | `author` | 執筆者名。本人監修でない場合は `THE REV. CONDITIONING LAB.` にする |
 | `status` | `draft`（下書き・非公開）または `published`（公開） |
 
@@ -113,18 +113,46 @@ Current Truth:
 
 ---
 
-## 4. カテゴリ一覧
+## 4. カテゴリ一覧（Category Architecture v1.0）
 
-カテゴリは記事情報（Front Matter）としてのみ使用します。カテゴリ専用のページ（一覧ページ）は作成しません。記事カードに小さく表示されるラベルと、関連記事の判定にのみ使われます。
+1記事 = 必ず1つのPrimary Categoryです。タグ・複数カテゴリー・カテゴリー別RSSは未実装です。
 
-| category値 | 表示名 | 内容 |
-|---|---|---|
-| `training` | TRAINING | パーソナルトレーニング、筋トレ、フォーム、頻度など |
-| `boxing` | BOXING | 初心者向けボクシング、ミット、技術など |
-| `recovery` | RECOVERY | 休息、酸素ルーム、DENBA、コンディショニング |
-| `body-knowledge` | BODY KNOWLEDGE | 身体づくりの基礎、姿勢、動作、継続の考え方 |
+**正本は `assets/js/blog-taxonomy.mjs` のみ**です（Node.js / ブラウザ双方からimportされる副作用なしのmodule）。
+Build、Admin（一覧・エディタ・Review & Publish）、Editorial Bridge、Markdown変換、画像システムはすべてここを参照します。カテゴリー配列やラベルmapを他ファイルに再定義しないでください。
 
-新しいカテゴリを増やす場合は `scripts/build-blog.mjs` の `CATEGORIES` の配列を編集してください（Ver.1.0では4カテゴリを推奨）。
+| 順 | category値 | 表示名（EN / JA） | 内容 |
+|---|---|---|---|
+| 1 | `training` | TRAINING / トレーニング | 筋トレの種目、フォーム、負荷、頻度、筋肉、トレーニングそのもの |
+| 2 | `health` | HEALTH / 身体・健康 | 健康診断、血圧、疲労、体調、安全性、身体状態 |
+| 3 | `gym-guide` | GYM GUIDE / ジム選び・続け方 | ジム選び、体験、通う頻度、継続、時間、THE REV.利用判断、新大宮 |
+| 4 | `recovery` | RECOVERY / リカバリー・休養 | 酸素ルーム、DENBA、休養、コンディショニング |
+| 5 | `boxing` | BOXING / ボクシング | 初心者向けボクシング、技術、ミット、強度、運動としてのボクシング |
+
+- `body-knowledge` は**廃止**。Front Matter・Editorial Bridge・Admin・DB（CHECK制約）のいずれでも新規入力は拒否されます。
+- `category_label` はFront Matterに書く場合、taxonomyの英字表示名（`HEALTH` 等）と一致している必要があります（不一致はビルドエラー）。
+- Supabase `admin_article_drafts.category` のCHECK制約は `supabase/migrations/20261006140000_blog_category_taxonomy_v1.sql` で5カテゴリーのみ許可します。
+
+### URL構成
+
+| URL | 内容 |
+|---|---|
+| `/blog/` , `/blog/page/N/` | 新着記事（上部に5カテゴリー導線） |
+| `/blog/category/{category}/` | カテゴリー別一覧（1ページ12件） |
+| `/blog/category/{category}/page/N/` | カテゴリー別pagination（self-canonical） |
+| `/blog/{slug}/` | 記事詳細（URLは不変。ヒーローのカテゴリー表示がカテゴリーページへのリンク） |
+
+- 記事0件のカテゴリーページは `noindex,follow` で生成され、sitemapには含まれません。
+- sitemap.xml にはカテゴリーTOPのみを含めます（lastmod = そのカテゴリーの公開記事のupdated最大値。paginationは含めない）。
+- 記事のBreadcrumb JSON-LD: Home > Column > Category > Article。
+- Analytics: カテゴリー導線クリックは `category_nav_click`（`category_slug` / `placement` = `blog_index` | `category_page`）、カテゴリーページ内の記事カードは `article_click` + `placement=category_index`。
+
+### 新しいカテゴリーを追加する手順
+
+1. `assets/js/blog-taxonomy.mjs` の `BLOG_CATEGORIES` に追加する（slug / labelJa / labelEn / description / definition / order）。
+2. 新しいmigrationで `admin_article_drafts_category_check` を作り直す（古いmigrationは編集しない）。
+3. `editorial/automated-image-sources.json` の `categories` と `lib/editorialImage.mjs` の画像文脈を割り当てる。
+4. `scripts/test-blog-taxonomy.mjs` の期待値（カテゴリー数・順序・件数）を更新する。
+5. `npm run test:blog-taxonomy` と `npm run build:blog` を実行する。生成物（`/blog/**`、`sitemap.xml`、`admin/js/generated-page-catalog.mjs`）は手で編集しない。
 
 ---
 
@@ -205,6 +233,6 @@ npx serve .
 1. `personal-training-frequency.md`（TRAINING）
 2. `boxing-beginner-first-step.md`（BOXING）
 3. `recovery-after-training.md`（RECOVERY）
-4. `self-training-form-check.md`（BODY KNOWLEDGE）
+4. `self-training-form-check.md`（TRAINING・draft）
 
 本文はTHE REV.の文体ルールに沿って作成した草案です。**実際に一般公開する前に、内容がTHE REV.の実態・方針と相違ないか、代表者側でのご確認をお願いします。**問題なければそのまま公開、修正が必要であれば該当Markdownを編集して再ビルドしてください。

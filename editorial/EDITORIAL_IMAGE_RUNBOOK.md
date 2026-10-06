@@ -210,7 +210,7 @@ SEOタイトルを短く言い換えます。煽らず、静かで、記事の�
 {
   "slug": "sample-article",
   "article_title": "記事タイトル",
-  "category_label": "BODY KNOWLEDGE",
+  "category_label": "HEALTH",
   "column_label": "COLUMN 08",
   "image_headline_short": "短い言葉で、\n意味を残す。",
   "asset_version": "reference-v23-hybrid-4387-50",

@@ -13,7 +13,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <title>{{TITLE}}</title>
 <meta name="description" content="{{DESCRIPTION}}">
-<link rel="canonical" href="{{CANONICAL}}">
+{{ROBOTS_META}}<link rel="canonical" href="{{CANONICAL}}">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -41,7 +41,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script defer src="/assets/js/main.js"></script>
 <script defer src="/assets/js/blog.js"></script>
 </head>
-<body class="blog blog-index">
+<body class="{{BODY_CLASS}}">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFD7R8BT"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -49,15 +49,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="skip-link" href="#main-content">本文へ進む</a>
 {{HEADER}}
 <main id="main-content">
-<section class="blog-lp-hero" data-screen-label="COLUMN見出し">
-<div class="wrap blog-lp-hero-wrap">
-<p class="eyebrow reveal">Column</p>
-<h1 class="blog-lp-title reveal d1">身体づくりを、もう少し深く。</h1>
-<p class="blog-lp-lead reveal d2">トレーニング、ボクシング、リカバリー。<br>THE REV.で実際に聞かれる疑問や、身体づくりについての考え方をまとめています。</p>
-</div>
-</section>
+{{HERO_BLOCK}}
+{{CATEGORY_NAV_BLOCK}}
 <section class="section blog-grid-sec" data-screen-label="記事一覧">
 <div class="wrap">
+<div class="blog-list-head">
+{{LIST_HEADING_BLOCK}}
+</div>
 <div class="blog-grid">
 {{ARTICLE_CARDS}}
 </div>

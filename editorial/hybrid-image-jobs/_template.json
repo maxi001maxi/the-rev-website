@@ -3,7 +3,7 @@
   "_note": "Canonical full Job example. V2.6 Human First keeps the deterministic V2.4 overlay contract ID for compatibility, but defaults new/requeued jobs to human-first-v1: exactly one customer, person-led composition, soft THE REV. background, large readable headline, and recent-copy de-duplication.",
   "slug": "replace-with-article-slug",
   "article_title": "記事タイトル",
-  "category_label": "BODY KNOWLEDGE",
+  "category_label": "HEALTH",
   "column_label": "COLUMN XX",
   "image_headline_short": "短いEditorial Copy",
   "image_style_template": "rev-column-reference-v2",
