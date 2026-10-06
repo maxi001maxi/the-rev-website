@@ -189,3 +189,29 @@ Provider-specific data is an adapter, not the source of truth.
 - no fabricated current post history
 - stale history blocks candidate generation
 - selection is not publishing
+
+
+## Metricool live adapter
+
+Metricool brand:
+- brand id: `6934494`
+- Instagram: `the.rev.nara`
+- timezone: `Asia/Tokyo`
+
+The existing ChatGPT automation `THE REV 朝データパック` is the live adapter.
+At its daily 08:00 run it:
+1. reads Metricool actual Instagram Reels / Posts;
+2. upserts them to `social_published_posts`;
+3. writes metric snapshots to `social_post_metrics`;
+4. records initial-sync pending instead of treating empty Metricool rows as zero posts.
+
+The GAS candidate flow is intentionally scheduled for approximately 08:30, after the data-pack sync.
+
+The candidate flow no longer judges freshness from Sheet `01_POST_HISTORY`.
+It reads canonical published history back from Supabase through `social_history_list`.
+
+This allows:
+`Metricool -> ChatGPT morning sync -> Supabase canonical history -> GAS five candidates -> LINE`.
+
+If Metricool is still in first-connection backfill and canonical history remains stale,
+the 08:30 candidate flow returns `HISTORY_STALE` rather than proposing duplicates.
