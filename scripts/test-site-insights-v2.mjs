@@ -114,13 +114,15 @@ test('Wizard is the sole v2 GA4 credential and normalizes overview, CTA and blen
     if(oldService===undefined)delete process.env.GA4_SERVICE_ACCOUNT_JSON;else process.env.GA4_SERVICE_ACCOUNT_JSON=oldService;
   }
 });
-test('legacy Analytics shares the Wizard GA4 provider and no longer requires a service account',()=>{
+test('Admin Analytics uses direct GA4 while Site Insights v2 keeps its replaceable Wizard providers',()=>{
   const api=fs.readFileSync(new URL('../api/admin/analytics.mjs',import.meta.url),'utf8');
   const client=fs.readFileSync(new URL('../admin/js/admin-analytics.mjs',import.meta.url),'utf8');
   const html=fs.readFileSync(new URL('../admin/analytics/index.html',import.meta.url),'utf8');
-  assert.match(api,/ga4Dataset/);
-  assert.match(api,/GSC_WIZARD_API_KEY/);
-  assert.doesNotMatch(api,/GA4_SERVICE_ACCOUNT_JSON|parseServiceAccount|getServiceAccountAccessToken/);
+  assert.match(api,/GA4_PROPERTY_ID/);
+  assert.match(api,/GA4_SERVICE_ACCOUNT_JSON/);
+  assert.match(api,/google-analytics-data-api-direct/);
+  assert.doesNotMatch(api,/GSC_WIZARD_API_KEY|ga4Dataset/);
+  assert.ok(!api.includes('siteInsights/providers/ga4'));
   assert.doesNotMatch(client,/GA4_PROPERTY_ID|サービスアカウント/);
   assert.match(html,/audience-active/);
   assert.doesNotMatch(html,/audience-returning/);

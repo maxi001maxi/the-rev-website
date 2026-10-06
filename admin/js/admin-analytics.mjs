@@ -171,7 +171,7 @@ function render(payload) {
     setText('realtime-events', `${count(payload.realtime.eventCount)} events`);
   } else {
     setText('realtime-users', '—');
-    setText('realtime-views', 'GSC Wizard接続ではRealtime未対応');
+    setText('realtime-views', '現在のRealtimeデータを取得できません');
     setText('realtime-events', '');
   }
 
@@ -212,8 +212,8 @@ async function load(range) {
       location.replace('/admin/login/');
       return;
     }
-    error.textContent = e.code === 'analytics_not_configured'
-      ? 'AnalyticsのGA4接続を利用できません。Site Insightsの接続状態を確認してください。'
+    error.textContent = ['analytics_not_configured', 'ga4_direct_not_configured'].includes(e.code)
+      ? 'GA4の直接読み取り接続が未設定です。'
       : (e.message || 'Analyticsの取得に失敗しました。');
     error.classList.remove('admin-hidden');
   }

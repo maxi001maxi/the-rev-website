@@ -107,9 +107,11 @@ const envExample = read('.env.example');
 const vercelConfig = JSON.parse(read('vercel.json'));
 
 assert.match(api, /getAuthedContext\(req\)/, 'Analytics API must require Admin auth.');
-assert.match(api, /GSC_WIZARD_API_KEY/, 'Analytics API must use the shared read-only Wizard credential.');
-assert.match(api, /ga4Dataset/, 'Analytics API must use the shared Wizard GA4 provider.');
-assert.doesNotMatch(api, /GA4_PROPERTY_ID|GA4_SERVICE_ACCOUNT_JSON/, 'Analytics API must not require the legacy direct GA4 credentials.');
+assert.match(api, /GA4_PROPERTY_ID/, 'Analytics API must use the direct GA4 property.');
+assert.match(api, /GA4_SERVICE_ACCOUNT_JSON/, 'Analytics API must use a server-only GA4 service account.');
+assert.match(api, /google-analytics-data-api-direct/, 'Analytics API must identify the direct Google Analytics Data API provider.');
+assert.doesNotMatch(api, /GSC_WIZARD_API_KEY|ga4Dataset/, 'Admin Analytics must not depend on GSC Wizard.');
+assert.ok(!api.includes('siteInsights/providers/ga4'), 'Admin Analytics must not import the Site Insights GA4 provider.');
 assert.match(api, /Cache-Control.*no-store/, 'Analytics API must prevent caching.');
 
 assert.match(adminPage, /requireSession|admin-analytics\.mjs/, 'Analytics page must load the authenticated client.');
