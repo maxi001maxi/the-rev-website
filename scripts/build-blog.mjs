@@ -12,15 +12,26 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import {
+  BLOG_CATEGORIES,
+  getBlogCategory,
+  isBlogCategory,
+  categoryUrlPath,
+  categoryValidationMessage
+} from '../assets/js/blog-taxonomy.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://therev-lab.com';
 
-const CONTENT_DIR = path.join(ROOT, 'content', 'blog');
+// テスト用: 出力先 / 記事ソースを差し替え可能（本番ビルドでは未指定）。
+const OUTPUT_ROOT = process.env.BLOG_OUTPUT_ROOT ? path.resolve(process.env.BLOG_OUTPUT_ROOT) : ROOT;
+const CONTENT_DIR = process.env.BLOG_CONTENT_DIR
+  ? path.resolve(process.env.BLOG_CONTENT_DIR)
+  : path.join(ROOT, 'content', 'blog');
 const TEMPLATES_DIR = path.join(ROOT, 'templates');
 const PARTIALS_DIR = path.join(TEMPLATES_DIR, 'partials');
-const OUT_DIR = path.join(ROOT, 'blog');
+const OUT_DIR = path.join(OUTPUT_ROOT, 'blog');
 const BLOG_CSS_PATH = path.join(ROOT, 'assets', 'css', 'blog.css');
 const BLOG_CSS_VERSION = createHash('sha256')
   .update(fs.readFileSync(BLOG_CSS_PATH))
@@ -29,13 +40,7 @@ const BLOG_CSS_VERSION = createHash('sha256')
 
 const PAGE_SIZE = 12;
 
-const CATEGORIES = [
-  { slug: 'training', label: 'TRAINING', description: 'パーソナルトレーニング、筋トレ、フォーム、負荷、頻度について。' },
-  { slug: 'boxing', label: 'BOXING', description: '初心者向けボクシング、ミット、技術、運動としてのボクシングについて。' },
-  { slug: 'recovery', label: 'RECOVERY', description: 'トレーニング後の休息、酸素ルーム、DENBA、コンディショニングについて。' },
-  { slug: 'body-knowledge', label: 'BODY KNOWLEDGE', description: '身体づくりの基礎、姿勢、動作、疲労、継続についての考え方。' }
-];
-const CATEGORY_MAP = new Map(CATEGORIES.map(c => [c.slug, c]));
+// カテゴリー定義の正本は assets/js/blog-taxonomy.mjs（ここへ再定義しない）。
 
 const REQUIRED_FIELDS = ['title', 'slug', 'description', 'published', 'updated', 'category', 'author', 'status'];
 
@@ -167,15 +172,18 @@ function loadArticles() {
     if (missing.length) {
       throw new Error(`[build-blog] ${file}: 必須Front Matterが不足しています → ${missing.join(', ')}`);
     }
-    if (!CATEGORY_MAP.has(fm.category)) {
-      throw new Error(`[build-blog] ${file}: 不明なcategory "${fm.category}"（training/boxing/recovery/body-knowledgeのいずれか）`);
+    if (!isBlogCategory(fm.category)) {
+      throw new Error(`[build-blog] ${file}: 不明なcategory "${fm.category}"。${categoryValidationMessage()}`);
+    }
+    const categoryInfo = getBlogCategory(fm.category);
+    if (fm.category_label && fm.category_label !== categoryInfo.labelEn) {
+      throw new Error(`[build-blog] ${file}: category_label "${fm.category_label}" がtaxonomyと一致しません（${categoryInfo.labelEn}）`);
     }
     if (!['draft', 'published'].includes(fm.status)) {
       throw new Error(`[build-blog] ${file}: statusはdraftまたはpublishedのみ有効です`);
     }
 
     const { html, toc, h2Count } = renderMarkdown(content);
-    const categoryInfo = CATEGORY_MAP.get(fm.category);
 
     articles.push({
       file,
@@ -185,7 +193,7 @@ function loadArticles() {
       published: fm.published,
       updated: fm.updated,
       category: fm.category,
-      categoryLabel: fm.category_label || categoryInfo.label,
+      categoryLabel: categoryInfo.labelEn,
       author: fm.author,
       authorRole: fm.author_role || '',
       thumbnail: fm.thumbnail || '',
@@ -355,7 +363,7 @@ function paginationHtml(current, totalPages, basePath) {
 /* ---------------- 出力 ---------------- */
 
 function writeFile(relPath, content) {
-  const full = path.join(ROOT, relPath);
+  const full = path.join(OUTPUT_ROOT, relPath);
   ensureDir(path.dirname(full));
   fs.writeFileSync(full, content, 'utf8');
 }
@@ -377,6 +385,7 @@ function buildArticlePages(published, all, postTemplate) {
     const breadcrumb = breadcrumbJsonLd([
       { name: 'Home', url: `${SITE_URL}/` },
       { name: 'Column', url: `${SITE_URL}/blog/` },
+      { name: getBlogCategory(article.category).labelJa, url: `${SITE_URL}${categoryUrlPath(article.category)}` },
       { name: article.title, url: article.canonical }
     ]);
 
@@ -396,6 +405,7 @@ function buildArticlePages(published, all, postTemplate) {
       DRAWER: drawer,
       CATEGORY_LABEL: escapeHtml(article.categoryLabel),
       CATEGORY_SLUG: article.category,
+      CATEGORY_URL: categoryUrlPath(article.category),
       PUBLISHED_ISO: toIso(article.published),
       PUBLISHED_DISPLAY: formatDateDisplay(article.published),
       UPDATED_BLOCK: updatedBlock,
@@ -424,41 +434,151 @@ function buildArticlePages(published, all, postTemplate) {
   }
 }
 
+function publishedByCategory(published) {
+  const sorted = [...published].sort((a, b) => new Date(b.published) - new Date(a.published));
+  return new Map(BLOG_CATEGORIES.map(c => [c.slug, sorted.filter(a => a.category === c.slug)]));
+}
+
+function articleCountLabel(n) {
+  return `${n} ${n === 1 ? 'ARTICLE' : 'ARTICLES'}`;
+}
+
+function categoryNavHtml(byCategory, activeSlug, placement) {
+  const items = BLOG_CATEGORIES.map(c => {
+    const count = byCategory.get(c.slug).length;
+    const current = c.slug === activeSlug ? ' aria-current="page"' : '';
+    return `<li><a class="blog-cat-nav-item" href="${categoryUrlPath(c.slug)}"${current} data-track="category_nav_click" data-category-slug="${c.slug}" data-placement="${placement}">
+<span class="blog-cat-nav-en">${escapeHtml(c.labelEn)}</span>
+<span class="blog-cat-nav-ja">${escapeHtml(c.labelJa)}</span>
+<span class="blog-cat-nav-count">${articleCountLabel(count)}</span>
+<span class="tz-arrow" aria-hidden="true"></span>
+</a></li>`;
+  }).join('\n');
+  return `<section class="section blog-cat-nav-sec" data-screen-label="カテゴリー導線">
+<div class="wrap">
+<nav class="blog-cat-nav" aria-labelledby="blog-cat-nav-title">
+<p class="eyebrow">BROWSE BY CATEGORY</p>
+<h2 class="blog-cat-nav-title" id="blog-cat-nav-title">カテゴリーから探す</h2>
+<ul class="blog-cat-nav-list">
+${items}
+</ul>
+</nav>
+</div>
+</section>`;
+}
+
+function renderListingPage(template, ctx) {
+  const header = renderChrome(readPartial('header.html'), '');
+  const footer = renderChrome(readPartial('footer.html'), '');
+  const drawer = renderChrome(readPartial('drawer.html'), '');
+  return fill(template, {
+    TITLE: escapeHtml(ctx.title),
+    BLOG_CSS_VERSION,
+    DESCRIPTION: escapeHtml(ctx.description),
+    CANONICAL: ctx.canonical,
+    ROBOTS_META: ctx.noindex ? '<meta name="robots" content="noindex,follow">\n' : '',
+    OG_IMAGE: `${SITE_URL}/assets/images/blog/og/og-default.jpg`,
+    BREADCRUMB_JSONLD: breadcrumbJsonLd(ctx.breadcrumb),
+    HEADER: header,
+    FOOTER: footer,
+    DRAWER: drawer,
+    BODY_CLASS: ctx.bodyClass,
+    HERO_BLOCK: ctx.heroBlock,
+    CATEGORY_NAV_BLOCK: ctx.categoryNav,
+    LIST_HEADING_BLOCK: ctx.listHeading,
+    ARTICLE_CARDS: ctx.articles.map(a => articleCardHtml(a, ctx.placement)).join('\n'),
+    EMPTY_STATE: ctx.articles.length ? '' : '<p class="blog-empty">現在公開中の記事はありません。近日公開予定です。</p>',
+    PAGINATION_BLOCK: paginationHtml(ctx.page, ctx.totalPages, ctx.basePath)
+  });
+}
+
 function buildIndexPages(published, indexTemplate) {
   const sorted = [...published].sort((a, b) => new Date(b.published) - new Date(a.published));
+  const byCategory = publishedByCategory(published);
   const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
 
-  const breadcrumb = breadcrumbJsonLd([
+  const breadcrumb = [
     { name: 'Home', url: `${SITE_URL}/` },
     { name: 'Column', url: `${SITE_URL}/blog/` }
-  ]);
+  ];
+  const heroBlock = `<section class="blog-lp-hero" data-screen-label="COLUMN見出し">
+<div class="wrap blog-lp-hero-wrap">
+<p class="eyebrow reveal">Column</p>
+<h1 class="blog-lp-title reveal d1">身体づくりを、もう少し深く。</h1>
+<p class="blog-lp-lead reveal d2">トレーニング、身体・健康、ジム選び、リカバリー、ボクシング。<br>THE REV.で実際に聞かれる疑問や、身体づくりについての考え方をまとめています。</p>
+</div>
+</section>`;
+  const listHeading = `<p class="eyebrow">LATEST ARTICLES</p>
+<h2 class="blog-list-title">新着記事</h2>`;
 
   for (let page = 1; page <= totalPages; page += 1) {
     const start = (page - 1) * PAGE_SIZE;
-    const pageArticles = sorted.slice(start, start + PAGE_SIZE);
-    const canonical = page === 1 ? `${SITE_URL}/blog/` : `${SITE_URL}/blog/page/${page}/`;
-
-    const header = renderChrome(readPartial('header.html'), '');
-    const footer = renderChrome(readPartial('footer.html'), '');
-    const drawer = renderChrome(readPartial('drawer.html'), '');
-
-    const html = fill(indexTemplate, {
-      TITLE: escapeHtml(page === 1 ? 'コラム｜THE REV. CONDITIONING LAB.' : `コラム（${page}ページ目）｜THE REV.`),
-      BLOG_CSS_VERSION,
-      DESCRIPTION: escapeHtml('トレーニング、ボクシング、リカバリー。THE REV.で実際に聞かれる疑問や、身体づくりについての考え方をまとめたコラムです。'),
-      CANONICAL: canonical,
-      OG_IMAGE: `${SITE_URL}/assets/images/blog/og/og-default.jpg`,
-      BREADCRUMB_JSONLD: breadcrumb,
-      HEADER: header,
-      FOOTER: footer,
-      DRAWER: drawer,
-      ARTICLE_CARDS: pageArticles.map(a => articleCardHtml(a, 'blog_index')).join('\n'),
-      EMPTY_STATE: pageArticles.length ? '' : '<p class="blog-empty">現在公開中の記事はありません。近日公開予定です。</p>',
-      PAGINATION_BLOCK: paginationHtml(page, totalPages, '/blog/')
+    const html = renderListingPage(indexTemplate, {
+      title: page === 1 ? 'コラム｜THE REV. CONDITIONING LAB.' : `コラム（${page}ページ目）｜THE REV.`,
+      description: 'トレーニング、身体・健康、ジム選び、リカバリー、ボクシング。THE REV.で実際に聞かれる疑問や、身体づくりについての考え方をまとめたコラムです。',
+      canonical: page === 1 ? `${SITE_URL}/blog/` : `${SITE_URL}/blog/page/${page}/`,
+      noindex: false,
+      breadcrumb,
+      bodyClass: 'blog blog-index',
+      heroBlock,
+      categoryNav: categoryNavHtml(byCategory, null, 'blog_index'),
+      listHeading,
+      articles: sorted.slice(start, start + PAGE_SIZE),
+      placement: 'blog_index',
+      page,
+      totalPages,
+      basePath: '/blog/'
     });
+    writeFile(page === 1 ? 'blog/index.html' : `blog/page/${page}/index.html`, html);
+  }
+}
 
-    const outPath = page === 1 ? 'blog/index.html' : `blog/page/${page}/index.html`;
-    writeFile(outPath, html);
+function buildCategoryPages(published, indexTemplate) {
+  const byCategory = publishedByCategory(published);
+
+  for (const category of BLOG_CATEGORIES) {
+    const articles = byCategory.get(category.slug);
+    const totalPages = Math.max(1, Math.ceil(articles.length / PAGE_SIZE));
+    const basePath = categoryUrlPath(category.slug);
+    const breadcrumb = [
+      { name: 'Home', url: `${SITE_URL}/` },
+      { name: 'Column', url: `${SITE_URL}/blog/` },
+      { name: category.labelJa, url: `${SITE_URL}${basePath}` }
+    ];
+    const heroBlock = `<section class="blog-lp-hero blog-category-hero" data-screen-label="カテゴリー見出し">
+<div class="wrap blog-lp-hero-wrap">
+<p class="eyebrow reveal">COLUMN / ${escapeHtml(category.labelEn)}</p>
+<h1 class="blog-lp-title reveal d1">${escapeHtml(category.labelJa)}</h1>
+<p class="blog-lp-lead reveal d2">${escapeHtml(category.description)}</p>
+<p class="blog-category-count reveal d3">${articleCountLabel(articles.length)}</p>
+</div>
+</section>`;
+    const listHeading = `<p class="eyebrow">${escapeHtml(category.labelEn)} ARTICLES</p>
+<h2 class="blog-list-title">${escapeHtml(category.labelJa)}の記事</h2>`;
+
+    for (let page = 1; page <= totalPages; page += 1) {
+      const start = (page - 1) * PAGE_SIZE;
+      const html = renderListingPage(indexTemplate, {
+        title: page === 1
+          ? `${category.labelJa}の記事｜THE REV. CONDITIONING LAB.`
+          : `${category.labelJa}の記事（${page}ページ目）｜THE REV.`,
+        description: `${category.description}THE REV. CONDITIONING LAB.のコラムです。`,
+        canonical: page === 1 ? `${SITE_URL}${basePath}` : `${SITE_URL}${basePath}page/${page}/`,
+        // 記事が1本も無い将来のカテゴリーはindex対象外（ページ自体は存在してよい）。
+        noindex: articles.length === 0,
+        breadcrumb,
+        bodyClass: 'blog blog-index blog-category',
+        heroBlock,
+        categoryNav: categoryNavHtml(byCategory, category.slug, 'category_page'),
+        listHeading,
+        articles: articles.slice(start, start + PAGE_SIZE),
+        placement: 'category_index',
+        page,
+        totalPages,
+        basePath
+      });
+      writeFile(page === 1 ? `blog/category/${category.slug}/index.html` : `blog/category/${category.slug}/page/${page}/index.html`, html);
+    }
   }
 }
 
@@ -475,6 +595,15 @@ function buildSitemap(published) {
   ];
   const blogUrls = [
     { loc: `${SITE_URL}/blog/`, priority: '0.8' },
+    // カテゴリーTOPのみ（pagination・記事0件カテゴリーは含めない）。lastmod = カテゴリー内公開記事のupdated最大値。
+    ...BLOG_CATEGORIES
+      .map(c => ({ c, items: published.filter(a => a.category === c.slug) }))
+      .filter(x => x.items.length > 0)
+      .map(x => ({
+        loc: `${SITE_URL}${categoryUrlPath(x.c.slug)}`,
+        priority: '0.7',
+        lastmod: x.items.map(a => a.updated).sort().at(-1)
+      })),
     ...published
       .filter(a => !a.noindex)
       .map(a => ({ loc: a.canonical, priority: '0.7', lastmod: a.updated }))
@@ -504,7 +633,7 @@ function buildAnalyticsPageCatalog(published) {
     },
     '/blog': {
       title: 'コラム一覧',
-      summary: 'トレーニング、ボクシング、リカバリーなどの記事一覧です。'
+      summary: 'トレーニング、身体・健康、ジム選び、リカバリー、ボクシングの記事一覧です。'
     },
     '/trainer.html': {
       title: '代表トレーナー紹介',
@@ -529,6 +658,12 @@ function buildAnalyticsPageCatalog(published) {
   };
 
   const catalog = { ...staticPages };
+  for (const category of BLOG_CATEGORIES) {
+    catalog[`/blog/category/${category.slug}`] = {
+      title: `${category.labelJa}の記事`,
+      summary: category.description
+    };
+  }
   for (const article of published) {
     catalog[`/blog/${article.slug}`] = {
       title: article.title,
@@ -604,13 +739,14 @@ function main() {
 
   buildArticlePages(published, all, postTemplate);
   buildIndexPages(published, indexTemplate);
+  buildCategoryPages(published, indexTemplate);
   buildSitemap(published);
   buildRss(published);
   buildAnalyticsPageCatalog(published);
 
   console.log('[build-blog] 完了');
   console.log(`  記事ファイル数: ${all.length}（公開: ${published.length} / 下書き: ${all.length - published.length}）`);
-  console.log(`  生成: /blog/index.html, /blog/{slug}/index.html ×${published.length}`);
+  console.log(`  生成: /blog/index.html, /blog/category/{slug}/ ×${BLOG_CATEGORIES.length}, /blog/{slug}/index.html ×${published.length}`);
   console.log('  更新: sitemap.xml, blog/feed.xml, admin/js/generated-page-catalog.mjs');
   if (all.length !== published.length) {
     const drafts = all.filter(a => a.status !== 'published').map(a => a.file);

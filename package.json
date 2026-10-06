@@ -27,7 +27,8 @@
     "test:thumbnail-typography": "node --test scripts/test-thumbnail-typography.mjs",
     "test:thumbnail-typography-browser": "node scripts/test-thumbnail-typography-browser.mjs",
     "test:social-director": "node --test scripts/test-social-director-v05.mjs scripts/test-social-production-learning-v06.mjs scripts/test-social-stories-v06.mjs",
-    "test:ga4-direct": "node scripts/test-ga4-direct-read.mjs"
+    "test:ga4-direct": "node scripts/test-ga4-direct-read.mjs",
+    "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

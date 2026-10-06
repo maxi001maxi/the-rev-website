@@ -31,6 +31,7 @@ on:
       - '*.html'
       - 'assets/**'
       - 'content/blog/**'
+      - 'templates/**'
       - 'scripts/**'
       - 'lib/**'
       - 'package.json'
@@ -180,6 +181,9 @@ jobs:
           fs.writeFileSync('.deploy-published-images', `${[...publishedImages].join('\n')}\n`);
           console.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}, images: ${publishedImages.size}`);
           NODE
+
+      - name: Validate Blog categories in dist (before production switch)
+        run: node scripts/verify-blog-categories.mjs dist
 
       - name: Prepare Xserver payload
         run: |
@@ -751,6 +755,12 @@ jobs:
               echo "| Draft URL: ${slug} | ✅ HTTP ${code} |" >> "$SUMMARY"
             fi
           done < .deploy-draft-slugs
+
+          # Category Architecture v1.0: キャッシュバスターなしの通常訪問者URLでカテゴリー導線を検証する。
+          if ! node scripts/verify-blog-categories.mjs live "${PRODUCTION_URL}"; then
+            echo "::error::本番のBlogカテゴリー検証に失敗しました。"
+            FAIL=1
+          fi
 
           echo "" >> "$SUMMARY"
           if [ "$FAIL" = "0" ]; then
