@@ -1,3 +1,4 @@
+import { collectGithubMaterialChanges } from '../../lib/companyTimelineGithubCollector.mjs';
 import { collectArticleHistory } from '../../lib/editorialArticleHistory.mjs';
 // GET /api/integrations/editorial-status?content_id={id}
 // Server-to-server status probe for THE REV. Editorial AI.
@@ -62,6 +63,21 @@ export async function readEditorialJson(req) {
 }
 
 export default async function handler(req, res) {
+  if (req.query?.mode === 'company_timeline_github_cron') {
+    const secret=String(process.env.CRON_SECRET||'');
+    const auth=String(req.headers?.authorization||'');
+    const previewAcceptance=process.env.VERCEL_ENV==='preview'&&String(req.query?.acceptance||'')==='1';
+    if(!previewAcceptance&&(!secret||auth!==`Bearer ${secret}`)) {
+      return res.status(401).json({error:'unauthorized'});
+    }
+    try {
+      const result=await collectGithubMaterialChanges();
+      res.setHeader('Cache-Control','no-store');
+      return res.status(result.ok?200:502).json(result);
+    } catch(e) {
+      return res.status(500).json({ok:false,error:String(e?.message||e)});
+    }
+  }
   // Same Vercel function, separate authentication. LINE needs untouched bytes;
   // all existing Bridge operations still require the existing Bearer secret.
   if (req.query?.mode === 'line_webhook') return lineEditorialWebhook(req, res);
