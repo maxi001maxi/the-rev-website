@@ -153,6 +153,7 @@ Heavy Recoveryでも、まず対象content_idだけを読む。新規作成が�
 - `lib/editorialArticleOverlap.mjs`
 - `lib/editorialReadiness.mjs`
 - `lib/editorialScenePlausibility.mjs`
+- `lib/editorialSceneGrounding.mjs`
 - `lib/dailyEditorialStateMachine.mjs`
 - `lib/dailyEditorialKnowledge.mjs`
 - `lib/editorialPublication.mjs`
