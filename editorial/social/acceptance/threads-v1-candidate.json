@@ -6,14 +6,16 @@
       "source_type": "OPERATOR_FIRST_PARTY",
       "source_ref": "Editorial Master/24_FIRST_PARTY_INTERVIEW/BLOG-20260914-7f741c",
       "source_date": "2026-09-16",
-      "evidence_text": "ただ脳の使い過ぎによるの疲れなのか、\n体力、身体的なことなのか、\nそれに伴うメンタルなのか、\nまだ深掘るカウンセリングはそういう意味ではいつもよりしっかりやる。\n重量は負いません、こんな時こそ重量落としてでもしっかりフォーム意識で効かせる。\n動いているうちに気持ちも体も乗ってくることが多い。\n実際に動いても体や心がついていかなかったら、本人の意思を尊重しつつ、中止もあり得る。\nそんな時もあるし、本当に疲れている時もある、背中を押してほしいだけの時もあれば、いろんな時があるから難しい。\nまずは、急にがっつり始めすぎるとトレーニング🟰しんどいものと植え付けられてしまうのでスッキリした!と思えるところから。",
+      "evidence_text": "疲労の状態を一様に扱わず、普段より丁寧にカウンセリングするというOperatorの判断。休む必要があるのか、後押しを求めているのか、簡単には見分けられない部分がある。再開時は急に強度を上げず、本人がすっきりしたと感じられる範囲から始める方針。Operatorの経験と判断であり、医学的効果や全顧客の心理を証明するものではない。",
       "privacy_scope": "INTERNAL",
       "allowed_use": "PARAPHRASE_OK",
       "confidence": 0.8,
       "metadata": {
         "interview_status": "USED",
         "retrieved_at": "2026-10-07",
-        "used_in_blog_id": "BLOG-20260914-b64a18"
+        "used_in_blog_id": "BLOG-20260914-b64a18",
+        "evidence_text_kind": "PUBLIC_USE_PARAPHRASE",
+        "raw_source_location": "Private Editorial Master; retrieve original there for independent QC. Do not copy raw interview into public repository."
       }
     },
     {
@@ -73,7 +75,7 @@
           "human_voice_source": {
             "source_key": "fp-fatigue-counseling-20260914",
             "dimension": "HESITATION",
-            "detail": "本当に疲れている時も、背中を押してほしい時もあり、いろんな時があるから難しいと本人が話した。"
+            "detail": "疲労の程度や後押しを求める状況は一様でなく、判断が容易ではないという実際のOperatorの迷い。"
           },
           "claims": [
             {
@@ -140,12 +142,12 @@
           },
           "human_voice_source": {
             "source_key": "fp-fatigue-counseling-20260914",
-            "dimension": "HESITATION",
-            "detail": "本当に疲れている時も、背中を押してほしい時もあり、いろんな時があるから難しいと本人が話した。"
+            "dimension": "CARE",
+            "detail": "再開の初回をしんどい経験にしすぎず、本人がどう終えるかを気にする実際のOperatorの判断。"
           },
           "claims": [
             {
-              "text": "疲労時はいつもよりカウンセリングを丁寧に行うというOperatorの判断",
+              "text": "再開時は急に強度を上げず、本人がすっきりしたと感じられる範囲から始めるというOperatorの判断",
               "kind": "OBSERVATION",
               "evidence_keys": [
                 "fp-fatigue-counseling-20260914"
