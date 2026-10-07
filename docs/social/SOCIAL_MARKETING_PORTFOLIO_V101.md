@@ -197,3 +197,41 @@ Default behavior:
 - Story: First-visit information-need Poll
 - removed: repeated "10 -> 8" Story
 - removed: generic "THE REV. has an oxygen room" explanatory Story
+
+
+## Stories asset-first operating preference
+
+Owner preference confirmed 2026-10-07:
+
+- daily target remains 2–3 Story items;
+- use already captured real footage before requesting new shooting;
+- preferred recurring visual categories:
+  - BOXING
+  - TRAINING
+  - STORE / DETAIL
+  - RECOVERY
+- default interaction is NONE;
+- Poll / Question / Quiz are opt-in, not a default Story pattern;
+- short visual moments are valid even when they do not carry a new educational claim;
+- one Story is still allowed, but in asset-first mode it requires an explicit reason why a second useful item is unavailable;
+- 3 items should normally span at least two visual categories.
+
+The goal is:
+- familiarity;
+- repeated exposure to the real store and services;
+- low production friction;
+- visual variety;
+not a daily questionnaire.
+
+### Asset-index limitation
+
+Google Sheet `27_PHOTO_LIBRARY_INDEX` contains many indexed MOV files, but many rows currently have empty semantic tags.
+
+Therefore:
+- the system can know that stored video assets exist;
+- it cannot yet safely identify every opaque filename as BOXING / TRAINING / STORE / RECOVERY.
+
+Until asset tagging is improved:
+- Story planning may specify the required asset category;
+- the exact file must be verified before use;
+- do not hallucinate the contents of `IMG_####.MOV`.
