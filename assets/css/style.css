@@ -3454,3 +3454,31 @@ button:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
 @media(max-width:640px){
   .hero-copy .fv-sub .sp-break{ display:block; }
 }
+
+
+/* ===================================================================
+   TOP REDESIGN v1 / 段階1 — Empathy（トップ専用クラスのみ）
+   ・.empathy-sub : 見出し直下のリード
+   ・.empathy-grid : 3項目になったためPCは3列（≤1100pxは1列。既存の≤860px 1列指定はそのまま有効）
+   ・.empathy-close-text : 締めの一文（既存 .empathy-close の中身）
+   =================================================================== */
+.empathy-sub{
+  text-align:center; margin:clamp(14px,1.8vw,22px) auto 0;
+  font-size:clamp(14.5px,1.15vw,16.5px); line-height:1.95; letter-spacing:.05em; color:var(--ink-soft);
+}
+@media(min-width:861px){
+  .empathy-grid{ grid-template-columns:repeat(3,1fr); }
+  .empathy .pain{ padding-inline:clamp(26px,2.6vw,38px); }
+}
+@media(min-width:861px) and (max-width:1100px){
+  .empathy-grid{ grid-template-columns:1fr; }
+}
+.empathy-close-text{
+  font-family:var(--serif); font-weight:600; font-size:clamp(17px,1.9vw,23px);
+  line-height:1.8; letter-spacing:.05em; color:var(--ink); text-align:center;
+}
+.empathy-close-text .sp-break{ display:none; }
+@media(max-width:640px){
+  .empathy-close-text .sp-break{ display:block; }
+}
+.empathy .pain p{ line-break:strict; word-break:auto-phrase; }
