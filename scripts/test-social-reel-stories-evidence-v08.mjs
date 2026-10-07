@@ -4,7 +4,8 @@ import fs from 'node:fs';
 
 import {
   normalizeEvidenceReelCandidate,
-  normalizeEvidenceStoryItem
+  normalizeEvidenceStoryItem,
+  validateStoryAssetPolicy
 } from '../lib/socialEvidenceCreative.mjs';
 
 function opportunity(overrides={}){
@@ -187,4 +188,92 @@ test('READY Story stays grounded through Opportunity Evidence',()=>{
   assert.equal(row.status,'PLANNED');
   assert.equal(row.evidence_strength,'GROUNDED');
   assert.deepEqual(row.claim_refs,['fp:reps']);
+});
+
+
+test('asset-first Stories prefer 2-3 items and existing-library footage',()=>{
+  const rows=[
+    {
+      interaction:'NONE',
+      asset_plan:'Use stored boxing vertical clip',
+      metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'BOXING'}
+    },
+    {
+      interaction:'NONE',
+      asset_plan:'Use stored training vertical clip',
+      metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'TRAINING'}
+    },
+    {
+      interaction:'NONE',
+      asset_plan:'Use stored store-detail vertical clip',
+      metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'STORE'}
+    }
+  ];
+  const out=validateStoryAssetPolicy(rows,{
+    asset_first_required:true,
+    interaction_deprioritized:true
+  });
+  assert.equal(out.asset_first,true);
+  assert.equal(out.story_count,3);
+  assert.deepEqual(out.categories,['BOXING','TRAINING','STORE']);
+  assert.equal(out.interaction_none_count,3);
+});
+
+test('asset-first Stories allow one item only with an explicit reason',()=>{
+  const row={
+    interaction:'NONE',
+    asset_plan:'Use one verified stored clip',
+    metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'BOXING'}
+  };
+  assert.throws(
+    ()=>validateStoryAssetPolicy([row],{asset_first_required:true}),
+    /SOCIAL_STORY_ASSET_FIRST_PREFERS_TWO_TO_THREE/
+  );
+  assert.doesNotThrow(
+    ()=>validateStoryAssetPolicy([row],{
+      asset_first_required:true,
+      single_story_reason:'Only one verified reusable asset is available without creating filler.'
+    })
+  );
+});
+
+test('Poll or Question is opt-in when interaction is deprioritized',()=>{
+  const poll={
+    interaction:'POLL',
+    asset_plan:'Use stored clip',
+    metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'STORE'}
+  };
+  assert.throws(
+    ()=>validateStoryAssetPolicy([poll,poll],{
+      asset_first_required:true,
+      interaction_deprioritized:true
+    }),
+    /SOCIAL_STORY_INTERACTION_REQUIRES_EXCEPTION/
+  );
+
+  const allowed={
+    ...poll,
+    metadata:{
+      ...poll.metadata,
+      interaction_exception_reason:'This poll directly resolves a documented customer-signal gap for the next decision.'
+    }
+  };
+  assert.doesNotThrow(
+    ()=>validateStoryAssetPolicy([allowed,allowed],{
+      asset_first_required:true,
+      interaction_deprioritized:true
+    })
+  );
+});
+
+test('three asset-first Stories need at least two visual categories',()=>{
+  const row={
+    interaction:'NONE',
+    asset_plan:'Use stored boxing clip',
+    metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'BOXING'}
+  };
+  assert.throws(
+    ()=>validateStoryAssetPolicy([row,row,row],{asset_first_required:true}),
+    /SOCIAL_STORY_ASSET_CATEGORY_DIVERSITY_TOO_LOW/
+  );
 });
