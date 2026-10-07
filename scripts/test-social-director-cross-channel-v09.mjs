@@ -148,12 +148,12 @@ test('Director enforces channel assignment caps and workload budget',()=>{
   const lead=assignment(op1);
   const support=normalizeDirectorAssignment({
     opportunity_id:op2.id,
-    channel:'REEL',
+    channel:'STORIES',
     assignment_role:'LEAD',
-    channel_job:'PROCESS_DEMO',
-    angle_key:'life-fit',
-    message_key:'30-min',
-    claim_focus:'30分なら30分用に内容を調整する。',
+    channel_job:'DECISION_SUPPORT',
+    angle_key:'life-fit-story',
+    message_key:'30-min-story',
+    claim_focus:'30分なら30分用に内容を調整する判断を一枚で伝える。',
     rationale:'Show service adaptation.',
     priority:2,
     estimated_work_minutes:50,
