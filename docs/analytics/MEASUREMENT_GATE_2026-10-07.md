@@ -1,117 +1,79 @@
-# Measurement Gate execution evidence — 2026-10-07
+# THE REV. Execution Phase 0 — Measurement Gate
 
-Overall: **PARTIAL / BLOCKED**. Baseline: **NO**.
-Decision: `DEC-20261007-MARKETINGEXP001`. No marketing experiment started.
+Updated: 2026-10-07 06:29 UTC. Decision: `DEC-20261007-MARKETINGEXP001`.
 
-## Repository and deployment
+**Measurement Gate: PASS. Baseline readiness: YES. Baseline and REV-EXP-2026-001 have not started.**
 
-- Starting main: `df476898de10d8f7988671ed6b8697ce2125d9d1`.
-- Branch: `fix/measurement-gate-ga4-production`.
-- Implementation commit: `b8b4c8a59767ef636b6577fb6417f7914fc0a5b7`.
-- PR: https://github.com/maxi001maxi/the-rev-website/pull/173 (open, unmerged).
-- Preview: no deployment ID. API rejected creation with HTTP 402,
-  `api-deployments-free-per-day`, daily free limit 100, retry after 86400 seconds.
-  Git integration also reported Vercel build-rate-limit failure. Neither is a
-  passing Preview or a failed application build.
-- Current production: `dpl_423PewdYNUu2e3kVQpEBcApESce8`, READY, commit
-  `0d431925518da06b4a0afe7285eceec432c90546`. It does not contain this PR.
-- Required next order: refresh main, reconcile this branch without adding
-  unrelated changes, Preview acceptance, merge, production acceptance. Do not
-  merge this PR on the basis of local tests or the old production Cron alone.
+This acceptance supersedes the earlier PARTIAL / BLOCKED result. The Vercel deployment quota cleared. No application development, positioning/copy changes, pricing changes or marketing experiment was added during this retry. Preview credential encoding was repaired using the existing authorized service account; its identity and permissions were unchanged.
 
-## Gate A — fresh acceptance incomplete
+## Release and writer acceptance
 
-The published GTM container contains one Google base tag for `G-Q6ZSSJMEZ2`
-and an event-forwarding tag whose trigger includes the four P0 events. Actual
-GA4 Data API reports contain `reserve_click`, `line_click`, `price_click`, and
-`article_cta_click` events. This establishes collection in the observed range,
-not exactly one page_view on each of the six current pages or one forwarding
-request per test click.
+| Check | Actual evidence |
+| --- | --- |
+| PR | #173, merged only after Preview acceptance |
+| Requested historical head | `10bab88730b567065f3ef733b15526ddabdaeab7` |
+| Actual accepted head | `b0625392f431a1eefd254d8242c72e38747d260b`; the added commit inherits the explicit Vercel release policy |
+| Latest main before merge | `4fe4f6e3f38c9ef31d36d365f3490d0a9cbe6bca`; merge-tree clean |
+| Preview | `dpl_3CNEGaSMbpKNNg1TjQLVY5a8E6G6`, READY, exact accepted head |
+| Preview new writer | Real GA4 OAuth/read and Supabase upsert, PASS, 13 rows, 2026-09-25..2026-10-07, observed 06:16:30.315 UTC |
+| Merge / runtime SHA | `f260ddb9f00b57b59322dff97409f10f99a385a5`; parent is the latest main above |
+| Production | `dpl_Csfd5qQvPyGb3vqVj1Q95DWEtrfa`, READY, exact merge SHA, aliases assigned |
+| Production Cron | HTTP 200, `lt2rb-1791354409440-93bc027d5ffd`, 06:26:49.440 UTC |
+| Production writer result | `[ga4-sync] PASS rows=13 range=2026-09-25..2026-10-07` |
+| Persisted observation | 2026-10-07 06:26:51.055 UTC, all 13 distinct daily rows |
 
-The local network audit could not load the production pages through the
-execution environment's TLS/proxy path (`ERR_CERT_AUTHORITY_INVALID`). No TLS
-validation was disabled. All six live page_view/no-duplicate checks and live
-P0 forwarding acceptance remain pending. The older 2026-09-25 six-page PASS
-must not be carried forward as a new PASS.
+The Production request detail shows `vercel-cron/1.0`, `mode=company_os_ga4_cron`, the correct Function Invocation and deployment ID, actual OAuth/report calls, daily-metrics upsert and source-registry PATCH. ACTIVE / last_error NULL was established by this genuine runtime sync, not a manual source-status update.
 
-The PR requires a real `https://cl.gyms.jp/` destination before a
-`reserve_click` is canonical. A mislabeled internal link cannot count as an
-external booking-page open. No public copy, prices or Editorial behavior changed.
+Initial Preview `dpl_2C6RGYwpNqUwPCcrztnDGevbBLGj` failed because its service-account value was malformed. Repairing the Preview environment required one new deployment snapshot. Deployment count before Production was 19 in the rolling 24-hour window. Git automatic deployments remain disabled. Documentation-only evidence updates do not require another deployment; the runtime SHA above remains authoritative.
 
-## Gate B — real runtime sync passed; corrected writer pending
+## GTM, GA4 collect and P0 forwarding
 
-- Property `552679302`, container `GTM-WFD7R8BT`, measurement `G-Q6ZSSJMEZ2`.
-- Existing credential parsed; OAuth with `analytics.readonly` and real Data API
-  reports succeeded. No new key was issued. GA4 property access UI showed the
-  service account with Viewer access. Both Preview and Production environment
-  targets have the GA4, Cron and Supabase configuration; no secrets were logged.
-- Historical 403 is no longer reproducible. The prior failure's precise cause
-  cannot be determined from its persisted generic error. Current Viewer access,
-  successful OAuth and successful same-property production reports are evidence
-  of resolution, not proof of a historical cause or a permission change here.
-- Production Cron request at `2026-10-07T04:53:54.233Z`, request ID
-  `pfsq8-1791348834233-860997d4b7e2`, HTTP 200, user agent `vercel-cron/1.0`.
-  The runtime log shows the rewrite to `/api/integrations/editorial-status/`
-  with `mode=company_os_ga4_cron`, OAuth, two GA4 reports, daily-metric write
-  and source-registry write. Source observation: `2026-10-07T04:53:54.694Z`.
-- Actual database: 13 rows, min `2026-09-25`, max `2026-10-07`.
-  Registry `ga4-direct-read`: ACTIVE, last_error NULL. It was updated by the
-  successful production read/sync, not a manual health-status update.
-- Requests without Cron credentials were rejected with HTTP 401 in Vercel
-  logs. The fetch connector reported deployment authentication required, so
-  this is rejection evidence at the deployment boundary; it does not isolate
-  the application's CRON_SECRET check. That check remains intact in code and
-  requires a direct runtime acceptance on an accessible production origin.
-- Migration `20261007045422_ga4_measurement_gate_contract.sql` applied to the
-  real database. The RPC executed successfully: today.partial=true;
-  recent seven completed days `2026-09-30..2026-10-06`, sessions 94;
-  daily active-users sum 70 explicitly labeled user-days; unique users NULL /
-  UNKNOWN because the old production writer lacks window metadata.
-- The new writer was tested against real GA4 reports locally: 13 normalized
-  days; seven-day period unique active users 64 from a separate dimensionless
-  report. This value has not been written by a deployed new writer and is not
-  asserted as the current RPC value. Incomplete earlier/28-day windows remain
-  UNKNOWN. Positive P0 events were first observed on 2026-09-27; earlier
-  unverified event days stay NULL in the new writer.
-- Today in the old persisted row still has data_status VALUE. The RPC marks it
-  partial; the new writer will persist DELAYED. Historical unverified event
-  zeros and missing unique-user metadata remain blockers until that writer is
-  deployed and successfully resynced. Raw source ACTIVE does not mean the
-  Measurement Gate passed.
+Public identifiers: GTM `GTM-WFD7R8BT`, measurement `G-Q6ZSSJMEZ2`, GA4 property `552679302`.
 
-## Gate C — public flow audited; tenant integration capability UNKNOWN
+Fresh six-page network audit before merge: Actions run `37412678044`, production-audit job `112660252230`, artifact `11464138253`, completed 06:21:46.507 UTC. Every page returned 200, loaded GTM, sent GA4 collect and sent exactly one page_view; duplicates were zero.
 
-The public THE REV. Gym's booking page was opened with website UTMs. It
-redirected to the trial page while retaining all four UTM parameters. Selecting
-the personal-training trial displayed the date-selection calendar and retained
-the same UTM URL. No customer details were entered and no booking was submitted.
+| Page | GTM | GA4 collect | page_view | duplicate |
+| --- | --- | --- | --- | --- |
+| TOP `/` | PASS | PASS | 1 | 0 |
+| Blog index `/blog/` | PASS | PASS | 1 | 0 |
+| Price `/price.html` | PASS | PASS | 1 | 0 |
+| Trainer `/trainer.html` | PASS | PASS | 1 | 0 |
+| Solution `/solution.html` | PASS | PASS | 1 | 0 |
+| Article `/blog/training-how-hard-to-push/` | PASS | PASS | 1 | 0 |
 
-This browser had no observed signed-in Gym's management session. No tenant
-API, webhook, export, callback, custom GTM/GA4 configuration, completion screen
-or completion-time UTM retention was verified. General vendor marketing claims
-do not prove these capabilities for THE REV.'s tenant.
+Post-merge audit run `37581412197`, production-audit job `112661701044`, completed 06:26:41 UTC, also returned 6/6 collect, six single page_views and zero duplicates. After Production READY, the independent rerun in run `37412678044`, job `112662486263`, artifact `11465051770` completed 06:29:27 UTC: all six pages returned 200, GTM/collect 6/6, page_view exactly one each, duplicates zero.
 
-- reservation_start: **UNKNOWN** as an analytics event. Opening the external
-  page or displaying the calendar is not a verified reservation_start event.
-- reservation_complete: **UNKNOWN**, never zero.
-- Integration classification: **unresolved**. Use the C-style operational
-  fallback until an authoritative integration is verified; this is not a claim
-  that Gym's has no API or export capability.
-- Authoritative confirmed-booking source design: Gym's internal booking ledger,
-  reconciled through an authorized export or user-confirmed aggregate. Do not
-  derive bookings from GA4 clicks. Any future analytics feed must use anonymous
-  event IDs or internal server-side matching; no PII or form responses in GA4.
+Live P0 acceptance used actual browser clicks. At 06:22:44 UTC the GA4 Realtime Data API returned no rows for the four P0 names. After one canonical booking link, one LINE CTA, one tracked pricing CTA and one article CTA click, the 06:24:56 UTC report returned exactly one event each for `reserve_click`, `line_click`, `price_click`, `article_cta_click`. The untracked header pricing link was navigation only. The article's pricing destination produced article_cta_click, not a second canonical price_click. Aggregate realtime evidence establishes forwarding; it does not identify an individual visitor.
 
-Gate C is not PASS until the actual tenant's integration options are audited
-and this fallback or a supported integration is confirmed.
+The published container contains the expected single measurement ID and the existing P0 forwarding configuration. No new tag or measurement implementation was published. Test traffic is included in today's partial data; exclude the acceptance interval from a future clean baseline when relevant.
 
-## Gate D and validation
+The workflow's unrelated admin-preview-smoke job points at an old fixed branch URL. Its failure is not acceptance evidence for PR #173; actual Preview and Cron boundaries were tested independently.
 
-Local PASS: Measurement Gate contract tests; GA4 direct-read static tests;
-Phase E analytics tests; JavaScript syntax checks; git diff whitespace check;
-`npm run vercel-build`. The repository has no configured lint script.
+## Application-side Cron authentication
 
-The deployed old runtime's sync is PASS. Preview acceptance, merge, new
-production deployment/runtime, fresh six-page collection and final booking
-classification are pending. Company Timeline records BLOCKED, not PASS; the
-active Decision receives no Measurement Gate PASS evidence refs.
+Unauthenticated Preview request `t5fmt-1791354069739-5f668b4e7de9` returned 401. Its Vercel request detail shows Firewall **Allowed**, Function Invocation `/api/integrations/editorial-status/`, `mode=company_os_ga4_cron`, the accepted Preview deployment ID, and **no outgoing API requests**. This isolates the application CRON_SECRET rejection from Deployment Protection. The connector classified the app's 401 as deployment authentication, so the underlying Function Invocation details were used as evidence.
+
+## Persisted metric and Morning RPC contract
+
+- 13 daily rows, 2026-09-25..2026-10-07, genuine Production observation 06:26:51.055 UTC.
+- Before first verified P0 observation on 2026-09-27, P0 values for 9/25 and 9/26 are NULL, not zero. Later successful complete reports can establish zero.
+- Today persists `data_status=DELAYED`; Morning RPC returns `today_partial.partial=true`. Today is never part of a completed-day comparison window.
+- Yesterday 2026-10-06 is the completed-day window end. Persisted prior complete dates have `data_status=VALUE`.
+- Recent seven completed days 9/30..10/6: sessions 94, new users 58, page views 154, period-unique active users **64**. Daily active_users sum **70** is separately labeled user-days.
+- Recent 28 days and previous seven days lack full coverage: DELAYED, complete-period totals NULL, available counts confined to partial_values, unique users UNKNOWN/NULL. Previous 28-day window is UNKNOWN. Missing history is not filled with zero.
+- `company_os_get_ga4_morning_metrics('2026-10-07')` verified after Production sync: source_status VALUE, correct freshness, all semantics above, no dependency on the GSC Wizard.
+- `ga4-direct-read`: ACTIVE; last_error NULL; metadata contains real completed-window reports and event_verified_from. No manual ACTIVE update.
+
+## Gym's classification and booking scope
+
+Rechecked the public booking redirect, three trial menu options and personal-training date-selection screen; all four website UTM parameters remain in the URL. No reservation or customer information was submitted.
+
+Tenant API/webhook/export and completion analytics remain unverified. Preserve the previous **UNRESOLVED_C_STYLE_FALLBACK** classification; this is not a claim that the vendor has no integration capability. As required by the continuation instruction, unavailable `reservation_start` and `reservation_complete` remain **NULL / UNKNOWN** in metadata and Morning RPC. `reserve_click` means only external booking-page open intent.
+
+Authoritative confirmed bookings are Gym's internal booking ledger, reconciled through an authorized export or user-confirmed aggregate. No booking baseline or conversion rate may be inferred from clicks. Measurement Gate PASS permits a website baseline with explicit booking UNKNOWN; it does not assert a booking integration PASS.
+
+## Company OS and next phase
+
+The final SYSTEM_VERIFIED timeline milestone `b38990af-883e-45cc-9b90-bb15dc2df2cd` and evidence_refs on `DEC-20261007-MARKETINGEXP001` record Measurement Gate PASS / Baseline readiness YES. The earlier BLOCKED milestone remains historical evidence. Baseline collection/fixation, Phase 4 copy edits, new marketing activity and REV-EXP-2026-001 have not started.
+
+Relevant local contract tests, GA4 direct-read tests, Phase E, syntax/whitespace and build checks passed. No additional application changes were necessary for this acceptance retry.
