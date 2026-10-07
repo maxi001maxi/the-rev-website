@@ -127,8 +127,8 @@ All must pass:
 - Director Cross-channel QC PASS
 - Learning Loop schema/runtime ready
 - Human Approval gate verified
-- v1.0 Task prompt prepared
-- scheduled Task version matches v1.0
+- v1.0 Task prompt / cutover runbook prepared
+- current scheduled Task may still remain v0.7 at this stage
 - no auto-publish
 
 PASS result:
@@ -139,6 +139,7 @@ This does not automatically switch production.
 ### POST_CUTOVER gates
 
 All PRE_CUTOVER gates plus:
+- scheduled Task version matches v1.0
 - first live v1.0 scheduled run PASS
 
 PASS result:
