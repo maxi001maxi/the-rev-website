@@ -313,7 +313,12 @@
         "sceneFingerprint": null,
         "thumbnail": "assets/images/blog/thumb-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg"
       }
-    ]
+    ],
+    "recovery_request": {
+      "failed_workflow_run_id": 37575144792,
+      "reason": "QA passed; output push rejected after concurrent main advancement; rerun with rebase and checkpoint preservation",
+      "requested_at": "2026-10-07"
+    }
   },
   "scene_grounding_version": "the-rev-source-scene-v1",
   "source_scene_inventory": {

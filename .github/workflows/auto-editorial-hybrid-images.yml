@@ -208,6 +208,34 @@ jobs:
           sort -u .state-paths -o .state-paths
           echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
+      - name: Preserve operator output before GitHub synchronization
+        if: always()
+        run: |
+          set -euo pipefail
+          : > .checkpoint-paths
+          for manifest in .ready-paths .state-paths; do
+            if [ -f "$manifest" ]; then
+              while IFS= read -r p; do
+                if [ -n "$p" ] && [ -f "$p" ]; then printf '%s\n' "$p" >> .checkpoint-paths; fi
+              done < "$manifest"
+            fi
+          done
+          if [ -f editorial/image-qa/scene-grounding-r3-negative-control.json ]; then
+            printf '%s\n' editorial/image-qa/scene-grounding-r3-negative-control.json >> .checkpoint-paths
+          fi
+          sort -u .checkpoint-paths -o .checkpoint-paths
+          if [ -s .checkpoint-paths ]; then
+            tar -czf editorial-operator-checkpoint.tar.gz -T .checkpoint-paths
+          fi
+
+      - name: Upload operator recovery checkpoint
+        if: always() && hashFiles('editorial-operator-checkpoint.tar.gz') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: editorial-operator-checkpoint-${{ github.run_id }}
+          path: editorial-operator-checkpoint.tar.gz
+          retention-days: 7
+
       - name: Validate Hybrid image system
         if: steps.generate.outputs.failed == '0'
         run: |
@@ -233,6 +261,9 @@ jobs:
             echo "No operator output changes to commit."
           else
             git commit -m "Generate Editorial Hybrid image assets"
+            # Other authorized workflows may advance main while generation runs.
+            # Rebase only the staged operator output; a conflict stops acceptance.
+            git pull --rebase origin main
             git push origin HEAD:main
           fi
 
@@ -346,6 +377,7 @@ jobs:
 
           if [ "$changed" = "1" ] && ! git diff --cached --quiet; then
             git commit -m "Mark Editorial Hybrid assets Xserver verified"
+            git pull --rebase origin main
             git push origin HEAD:main
           fi
 
