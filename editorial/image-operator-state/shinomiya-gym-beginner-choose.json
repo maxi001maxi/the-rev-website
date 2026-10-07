@@ -1,16 +1,14 @@
 {
   "slug": "shinomiya-gym-beginner-choose",
   "status": "READY_CANDIDATE",
-  "attempts_total": 1,
+  "attempts_total": 2,
   "max_attempts": 2,
   "job_path": "editorial/hybrid-image-jobs/shinomiya-gym-beginner-choose.json",
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-scene.png",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
-  "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.json",
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
-  "updated_at": "2026-10-07T03:27:18.835Z",
-  "xserver_verified": true,
-  "xserver_verified_at": "2026-10-07T03:27:34Z"
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-scene.png",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.json",
+  "asset_version": "reference-v26-grounded-evolgear-20261007-r4",
+  "updated_at": "2026-10-07T05:24:50.576Z"
 }
