@@ -1,0 +1,601 @@
+{
+  "slug": "shinomiya-gym-beginner-choose",
+  "status": "ERROR",
+  "attempts_total": 2,
+  "max_attempts": 2,
+  "last_error": "人物は設備のグリップと設定部を確認する具体的な行動を取り、仕事帰りを示すバッグ、THE REV.ロゴ、受付と設備が同時に読める。合成感、追加人物、スタッフ、医療的誤認はない。唯一の必須不合格要因は、全3形式に共通する「使う／場面まで、」の不自然な意味分断。",
+  "last_qa": {
+    "pass": false,
+    "thumbnail_typography_visual": {
+      "thumbnail": {
+        "pass": false,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": false,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": false,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": false,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": false,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": false,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "visual_art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "実画像はゴールデン参照と同様に、暖色の強調語、静かな墨色の補助行、写真へ溶ける曲線的なベールを備え、人物と見出しの釣り合いも良い。GBPも横長版の単純転用ではなく、左中央の狭いタイトルと人物を保つ局所ベールとして成立している。ただし全形式で「使う／場面まで、」と、名詞を修飾する「使う」を被修飾語から切り離しており、意味単位として不自然な改行になっている。"
+    },
+    "series_consistency": 8,
+    "editorial_quality": 8,
+    "typography_harmony": 7,
+    "negative_space": 8,
+    "photo_treatment": 9,
+    "article_visual_relevance": 9,
+    "main_claim_visualization": 9,
+    "human_subject_prominence": 9,
+    "human_visual_attention_share": 66,
+    "face_expression_readable": true,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": true,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "article_theme_inferable_without_title": true,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false,
+    "rev_environment_consistency": 8,
+    "brand_space_authenticity": 8,
+    "human_environment_integration": 9,
+    "perspective_scale_consistency": 9,
+    "ground_contact_shadow_consistency": 8,
+    "lighting_consistency": 9,
+    "anatomy_pose_realism": 9,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "location_behavior_plausible": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "scene_plausible_at_the_rev": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": true,
+    "trainer_present": false,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "generated_customer_count": 1,
+    "facility_only_thumbnail": false,
+    "real_the_rev_background_confirmed": true,
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "headline_line_break_quality": false,
+    "headline_balance_score": 7,
+    "too_promotional": false,
+    "gbp_aspect_ratio_pass": true,
+    "gbp_safe_area_pass": true,
+    "gbp_copy_legible": true,
+    "comments": "人物は設備のグリップと設定部を確認する具体的な行動を取り、仕事帰りを示すバッグ、THE REV.ロゴ、受付と設備が同時に読める。合成感、追加人物、スタッフ、医療的誤認はない。唯一の必須不合格要因は、全3形式に共通する「使う／場面まで、」の不自然な意味分断。",
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "thumbnail_typography_acceptance": {
+      "pass": false,
+      "deterministic": {
+        "revision": "thumbnail-golden-typography-v1",
+        "slug": "shinomiya-gym-beginner-choose",
+        "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac",
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "使う",
+              "場面まで、",
+              "見て選ぶ。"
+            ],
+            "text_preserved": true,
+            "font_size": 78,
+            "font_size_at_320": 20.8,
+            "line_count": 3,
+            "line_height": 1.12,
+            "line_balance": 0.5870140431505166,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              136,
+              78,
+              92.03999999999999
+            ],
+            "focus_line": 0,
+            "focus_text": "使う",
+            "focus_scale": 1.7435897435897436,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.8955356696965144,
+            "block_area_ratio": 0.21774783968731914,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 337.375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.8588235294117647,
+            "fade_start": 552,
+            "fade_end": 689,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 4.618575862874591,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 126,
+                "right": 337.5625,
+                "bottom": 322,
+                "width": 273.5625
+              },
+              {
+                "left": 64,
+                "top": 305.3125,
+                "right": 456.34375,
+                "bottom": 417.3125,
+                "width": 392.34375
+              },
+              {
+                "left": 64,
+                "top": 408.671875,
+                "right": 529.90625,
+                "bottom": 540.671875,
+                "width": 465.90625
+              }
+            ],
+            "asset_path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
+            "asset_sha256": "404268532d97ff053df7d37415737bfa117546182a7cc14b81a22fd1422c3f6b",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-320.jpg",
+                "sha256": "9b99a9df2d584cb3a31a92b13e01aa6a4022a3037fe430b5dc0aa23b8b1a7411"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-400.jpg",
+                "sha256": "5850750b32c4d4c75a7690ab305f1eca4986e64537fbae60d4f063f317c20c2e"
+              }
+            }
+          },
+          "og": {
+            "pass": true,
+            "lines": [
+              "使う",
+              "場面まで、",
+              "見て選ぶ。"
+            ],
+            "text_preserved": true,
+            "font_size": 78,
+            "font_size_at_320": 20.8,
+            "line_count": 3,
+            "line_height": 1.12,
+            "line_balance": 0.5870140431505166,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              136,
+              78,
+              92.03999999999999
+            ],
+            "focus_line": 0,
+            "focus_text": "使う",
+            "focus_scale": 1.7435897435897436,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.8955356696965144,
+            "block_area_ratio": 0.23330125680784194,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 315.375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.8588235294117647,
+            "fade_start": 552,
+            "fade_end": 689,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 4.618575862874591,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 104,
+                "right": 337.5625,
+                "bottom": 300,
+                "width": 273.5625
+              },
+              {
+                "left": 64,
+                "top": 283.3125,
+                "right": 456.34375,
+                "bottom": 395.3125,
+                "width": 392.34375
+              },
+              {
+                "left": 64,
+                "top": 386.671875,
+                "right": 529.90625,
+                "bottom": 518.671875,
+                "width": 465.90625
+              }
+            ],
+            "asset_path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
+            "asset_sha256": "826536c4c8434b4a20cbe85cbfc928a9ce5c72e27dd2f4bd5713658d3d8f0ade",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-320.jpg",
+                "sha256": "0293fe2d5eb101e09bf2a0269f8ae3c6e06b518572c18929006c28cf4e3bbf02"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-400.jpg",
+                "sha256": "b64c8002e22c6337e8072fc015435600eb4644a949eaa9e1fe9f04436137bc73"
+              }
+            }
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "使う",
+              "場面まで、",
+              "見て選ぶ。"
+            ],
+            "text_preserved": true,
+            "font_size": 68,
+            "font_size_at_320": 18.133333333333333,
+            "line_count": 3,
+            "line_height": 1.12,
+            "line_balance": 0.5841956603186599,
+            "layout_rule": "golden-gbp-v1",
+            "line_font_sizes": [
+              112,
+              68,
+              76.16000000000001
+            ],
+            "focus_line": 0,
+            "focus_text": "使う",
+            "focus_scale": 1.6470588235294117,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.875796122824929,
+            "block_area_ratio": 0.11663090496786613,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 432.4375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9058823529411765,
+            "fade_start": 468,
+            "fade_end": 587,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.165838053306941,
+            "line_rects": [
+              {
+                "left": 60,
+                "top": 251,
+                "right": 285.375,
+                "bottom": 412,
+                "width": 225.375
+              },
+              {
+                "left": 60,
+                "top": 403.4375,
+                "right": 402.046875,
+                "bottom": 500.4375,
+                "width": 342.046875
+              },
+              {
+                "left": 60,
+                "top": 497.59375,
+                "right": 445.71875,
+                "bottom": 607.59375,
+                "width": 385.71875
+              }
+            ],
+            "asset_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
+            "asset_sha256": "ecc0694d2a72590fe559eb971a6740ced056a5f9cea57ac9659bbd90bf0461c7",
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-320.jpg",
+                "sha256": "4a85960c3c067405ed180154530d19aa8e59a1ce1812154ab2405cfae552b605"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-400.jpg",
+                "sha256": "3492e0ee2451227c316349dc89f4c1cc249715c1d5f2ef54e58bede4b79d49d5"
+              }
+            }
+          }
+        }
+      },
+      "visual": {
+        "thumbnail": {
+          "pass": false,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": false,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "og": {
+          "pass": false,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": false,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "gbp": {
+          "pass": false,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": false,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        }
+      },
+      "art_direction": {
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "og": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "gbp": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          }
+        },
+        "comments": "実画像はゴールデン参照と同様に、暖色の強調語、静かな墨色の補助行、写真へ溶ける曲線的なベールを備え、人物と見出しの釣り合いも良い。GBPも横長版の単純転用ではなく、左中央の狭いタイトルと人物を保つ局所ベールとして成立している。ただし全形式で「使う／場面まで、」と、名詞を修飾する「使う」を被修飾語から切り離しており、意味単位として不自然な改行になっている。"
+      },
+      "golden_reference": {
+        "revision": "approved-typography-20261001-v1",
+        "assets": [
+          {
+            "variant": "wide",
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+          },
+          {
+            "variant": "gbp",
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+          },
+          {
+            "variant": "list",
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+          }
+        ]
+      }
+    },
+    "source_material_scope_pass": true,
+    "generated_customer_allowed_under_policy": true,
+    "generated_customer_role": "customer",
+    "customer_presentation": "male",
+    "image_headline_short": "使う場面まで、\n見て選ぶ。",
+    "fixed_overlay_layout_confirmed": true,
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "background_source_type": "verified_the_rev_repo_mirror",
+    "content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "background_source_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "background_origin_video_file_id": "",
+    "background_origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "background_frame_position_ratio": null,
+    "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "fallback_reason": "",
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "recent_similarity_window": 4,
+    "recent_similarity_check_pass": true,
+    "recent_background_source_ids": [
+      "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+      "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+      "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+      "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+      "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+      "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+      "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg"
+    ],
+    "recent_reference_guard": {
+      "window": 4,
+      "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+      "recent_articles": [
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "checkedAt": "2026-10-06T01:08:15.230Z",
+          "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+          "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+          "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+          "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+          "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "checkedAt": "2026-10-05T12:07:58.242Z",
+          "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+          "originVideoFileId": "",
+          "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+          "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+          "imageHeadlineShort": "怖くても、\n最初は基本から。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "checkedAt": "2026-10-04T09:45:25.230Z",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "originVideoFileId": "",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+          "imageHeadlineShort": "DENBAの基本\n電位空間",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "checkedAt": "2026-10-04T05:12:02.251Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+          "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+          "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+          "customerPresentation": "male"
+        }
+      ],
+      "selected_content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "selected_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "avoided_repeat": true,
+      "repeated_due_to_relevance": false
+    },
+    "template": "rev-column-reference-v2",
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "generation_model": "gpt-image-hybrid",
+    "qa_model": "gpt-5.6",
+    "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+    "slug": "shinomiya-gym-beginner-choose",
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac",
+    "checked_at": "2026-10-07T02:42:09.558Z",
+    "review_mode": "HYBRID_GENERATED",
+    "realism_qc_version": "v1",
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "gbp_image_required": true,
+    "gbp_image_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
+    "gbp_image_width": 1200,
+    "gbp_image_height": 900,
+    "gbp_image_aspect_ratio": "4:3"
+  },
+  "job_path": "editorial/hybrid-image-jobs/shinomiya-gym-beginner-choose.json",
+  "updated_at": "2026-10-07T02:42:09.560Z",
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac"
+}
