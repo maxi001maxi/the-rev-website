@@ -820,17 +820,23 @@ function runDailyEditorialCreatorV069Once() {
 // Runtime adapters for the installed v0.6.5.x Supervisor. These wrap its
 // authenticated status response BEFORE it promotes the Queue or notifies.
 // No trigger, cadence, approval or publication changes.
-function v069cReviewContract_(json) {
+function v069cReviewContract_(json, q, gbp) {
   var preflight = json && json.canonical_preflight;
   var failed = preflight && Array.isArray(preflight.checks)
     ? preflight.checks.filter(function(item) { return item && item.status === 'error'; }).map(function(item) { return item.id; })
     : [];
-  var ok = !!(json && json.readiness && json.readiness.ready === true && preflight && preflight.ok === true && failed.length === 0);
-  return {
-    ok: ok,
-    checks: {canonical_preflight: ok},
-    missing: ok ? [] : (failed.length ? failed : ['canonical_preflight'])
+  var canonicalOk = !!(json && json.readiness && json.readiness.ready === true && preflight && preflight.ok === true && failed.length === 0);
+  var checks = {
+    canonical_preflight: canonicalOk,
+    gbp_row_exists: !!gbp,
+    gbp_parent_matches: !!gbp && String(gbp.parent_blog_id || '') === String(q && q.content_id || ''),
+    gbp_ready: !!gbp && String(gbp.status || '').toUpperCase() === 'READY'
   };
+  var missing = Object.keys(checks).filter(function(key) { return !checks[key]; });
+  if (!checks.canonical_preflight && failed.length) {
+    missing = failed.concat(missing.filter(function(key) { return key !== 'canonical_preflight'; }));
+  }
+  return {ok: missing.length === 0, checks: checks, missing: missing};
 }
 function v069cLengthGate_(type, body) {
   var st = getSettings_(), t = String(type || 'STANDARD').toUpperCase();
@@ -912,7 +918,7 @@ function v069cApplyResponseContract_(json) {
       image_asset_version:a.gbp_image_asset_version,image_notes:JSON.stringify(gqa) + ' / 4:3 / Xserver verified'});
     gbp = getObjectsWithRow_(gsh).filter(function(r) { return r.parent_blog_id === id; })[0];
   }
-  var verdict = v069cReviewContract_(json);
+  var verdict = v069cReviewContract_(json, q, gbp);
   if (!verdict.ok) {
     json.readiness.ready = false;
     json.readiness.reason = 'CANONICAL_PREFLIGHT_BLOCKED:' + verdict.missing.join(',');
