@@ -81,6 +81,17 @@ const legacyGym = validateBridgeEnvelope({
   primary_query: '新大宮 ジム 初心者'
 });
 assert(legacyGym.errors.length === 0 && legacyGym.value.category === 'gym-guide', 'legacy body-knowledgeを明確な比較記事ならgym-guideへ正規化');
+const legacyGymWithBoxing = validateBridgeEnvelope({
+  ...base,
+  category: 'body-knowledge',
+  article_type: 'COMPARISON_GUIDE',
+  title: '新大宮で初心者がジムを選ぶなら｜24時間・パーソナルジム・ボクシング',
+  primary_query: '新大宮 ジム 初心者'
+});
+assert(
+  legacyGymWithBoxing.errors.length === 0 && legacyGymWithBoxing.value.category === 'gym-guide',
+  '比較候補にボクシングを含んでも主意図がジム選びならgym-guideを優先'
+);
 assert(
   validateBridgeEnvelope({ ...base, category: 'body-knowledge', title: '曖昧な記事', primary_query: '曖昧' }).errors.some((x) => x.includes('category')),
   'legacy categoryでも分類根拠が曖昧ならfail-closed'
