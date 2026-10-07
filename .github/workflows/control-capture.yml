@@ -36,3 +36,29 @@ jobs:
       - run: npm run test:phase-e
       - run: npm run test:vercel-release-policy
       - run: npm run vercel-build
+
+
+  production-browser-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm i --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Verify live Control Capture
+        env:
+          PRODUCTION_URL: https://therev-lab.com
+          GA4_MEASUREMENT_ID: G-Q6ZSSJMEZ2
+        run: node scripts/accept-control-capture-production.mjs
+      - name: Upload acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: control-capture-production-acceptance
+          path: control-capture-production-acceptance.json
+          retention-days: 14
