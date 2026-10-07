@@ -5,7 +5,8 @@ import fs from 'node:fs';
 import {
   normalizeEvidenceReelCandidate,
   normalizeEvidenceStoryItem,
-  validateStoryAssetPolicy
+  validateStoryAssetPolicy,
+  validateStoryCreativeContext
 } from '../lib/socialEvidenceCreative.mjs';
 
 function opportunity(overrides={}){
@@ -276,4 +277,57 @@ test('three asset-first Stories need at least two visual categories',()=>{
     ()=>validateStoryAssetPolicy([row,row,row],{asset_first_required:true}),
     /SOCIAL_STORY_ASSET_CATEGORY_DIVERSITY_TOO_LOW/
   );
+});
+
+
+test('Stories Creative Context requires residue, recent-history check, asset search, divergence and anti-LLM QC',()=>{
+  const good={
+    creative_context_required:true,
+    creative_context_version:'STORIES_CREATIVE_CONTEXT_V1',
+    daily_residue:'THE REV.の日常とサービス幅を、説明しすぎず実素材で残す。',
+    recent_story_lookback_checked:true,
+    cross_channel_overlap_checked:true,
+    asset_search_completed:true,
+    divergent_directions:[
+      'real moment',
+      'daily atmosphere',
+      'useful observation',
+      'human thinking',
+      'service proof'
+    ],
+    anti_llm_qc_completed:true
+  };
+  const out=validateStoryCreativeContext(good);
+  assert.equal(out.required,true);
+  assert.equal(out.creative_context_version,'STORIES_CREATIVE_CONTEXT_V1');
+  assert.equal(out.divergent_direction_count,5);
+
+  assert.throws(
+    ()=>validateStoryCreativeContext({...good,daily_residue:''}),
+    /SOCIAL_STORY_DAILY_RESIDUE_REQUIRED/
+  );
+  assert.throws(
+    ()=>validateStoryCreativeContext({...good,recent_story_lookback_checked:false}),
+    /SOCIAL_STORY_RECENT_LOOKBACK_REQUIRED/
+  );
+  assert.throws(
+    ()=>validateStoryCreativeContext({...good,cross_channel_overlap_checked:false}),
+    /SOCIAL_STORY_CROSS_CHANNEL_CHECK_REQUIRED/
+  );
+  assert.throws(
+    ()=>validateStoryCreativeContext({...good,asset_search_completed:false}),
+    /SOCIAL_STORY_ASSET_SEARCH_REQUIRED/
+  );
+  assert.throws(
+    ()=>validateStoryCreativeContext({...good,divergent_directions:['one','two','three','four']}),
+    /SOCIAL_STORY_DIVERGENCE_FIVE_REQUIRED/
+  );
+  assert.throws(
+    ()=>validateStoryCreativeContext({...good,anti_llm_qc_completed:false}),
+    /SOCIAL_STORY_ANTI_LLM_QC_REQUIRED/
+  );
+});
+
+test('Stories Creative Context remains additive until explicitly required',()=>{
+  assert.deepEqual(validateStoryCreativeContext({}),{required:false});
 });
