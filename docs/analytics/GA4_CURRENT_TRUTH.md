@@ -1,6 +1,27 @@
 # THE REV. GA4 / GTM Current Truth
 
-Updated: 2026-09-25
+Updated: 2026-10-07
+
+## Current Measurement Gate status — PARTIAL / BLOCKED
+
+The 2026-09-25 collection acceptance below is historical evidence. It does not
+establish a fresh six-page acceptance for 2026-10-07.
+
+On 2026-10-07, a real production Cron invocation returned HTTP 200 and synced
+13 daily rows for 2026-09-25 through 2026-10-07. The source registry became
+ACTIVE with `last_error = NULL` through that successful runtime sync.
+
+The corrected UNKNOWN/ZERO and period-unique-user writer is in PR #173 and is
+not deployed. Preview creation was rejected by Vercel's free daily deployment
+limit. No merge or Measurement Gate PASS has been recorded. Baseline remains
+blocked. See [dated execution evidence](MEASUREMENT_GATE_2026-10-07.md).
+
+Current production still uses the earlier writer. The migrated morning RPC
+marks today partial, ends complete-day windows at yesterday, labels daily user
+sums as user-days, and returns UNKNOWN for period unique users until verified
+window metadata is written by the new writer. Booking completion remains
+UNKNOWN. Do not interpret the old writer's unverified event zeros as established
+collection evidence.
 
 ## Production identifiers
 
