@@ -235,3 +235,24 @@ Until asset tagging is improved:
 - Story planning may specify the required asset category;
 - the exact file must be verified before use;
 - do not hallucinate the contents of `IMG_####.MOV`.
+
+
+## Stories Creative Context V1 runtime contract
+
+When `source_context.creative_context_required=true`,
+Story preparation must prove that the dedicated Creative Context was used.
+
+Required source context:
+- `creative_context_version=STORIES_CREATIVE_CONTEXT_V1`
+- `daily_residue`
+- `recent_story_lookback_checked=true`
+- `cross_channel_overlap_checked=true`
+- `asset_search_completed=true`
+- at least 5 materially different divergent directions
+- `anti_llm_qc_completed=true`
+
+This is additive until v1.x production cutover explicitly enables the requirement.
+
+Purpose:
+grounded Evidence alone is not enough; the final creative layer must also prove
+recent-context review, asset review, divergence before convergence, and anti-template QC.
