@@ -91,7 +91,8 @@ test('pre-cutover acceptance fails closed while deployment or task gates are mis
   assert.equal(out.status,'BLOCKED');
   assert.ok(out.blockers.includes('DEPLOYMENT_NOT_READY'));
   assert.ok(out.blockers.includes('TASK_PROMPT_NOT_READY'));
-  assert.ok(out.blockers.includes('SCHEDULED_TASK_VERSION_MISMATCH'));
+  assert.ok(!out.blockers.includes('SCHEDULED_TASK_VERSION_MISMATCH'));
+  assert.equal(out.gates.scheduled_task_version_matches,null);
 });
 
 test('all pre-cutover gates yield READY_FOR_CUTOVER, not automatic production acceptance',()=>{
@@ -103,13 +104,21 @@ test('all pre-cutover gates yield READY_FOR_CUTOVER, not automatic production ac
     learningLoopReady:true,
     humanApprovalVerified:true,
     taskPromptReady:true,
-    versionMatches:true
+    versionMatches:false
   });
   assert.equal(out.status,'READY_FOR_CUTOVER');
   assert.equal(out.blockers.length,0);
 });
 
-test('post-cutover acceptance requires the first live run to pass',()=>{
+test('post-cutover acceptance requires the scheduled v1.0 task and the first live run to pass',()=>{
+  const mismatch=buildProductionAcceptanceDecision({
+    acceptanceStage:'POST_CUTOVER',
+    deploymentReady:true,bridgeLive:true,directorPass:true,learningLoopReady:true,
+    humanApprovalVerified:true,taskPromptReady:true,versionMatches:false,firstLiveRunPass:false
+  });
+  assert.equal(mismatch.status,'BLOCKED');
+  assert.ok(mismatch.blockers.includes('SCHEDULED_TASK_VERSION_MISMATCH'));
+
   const blocked=buildProductionAcceptanceDecision({
     acceptanceStage:'POST_CUTOVER',
     deploymentReady:true,bridgeLive:true,directorPass:true,learningLoopReady:true,
