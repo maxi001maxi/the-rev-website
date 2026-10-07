@@ -1,9 +1,9 @@
 {
   "slug": "shinomiya-gym-beginner-choose",
   "status": "ERROR",
-  "attempts_total": 2,
+  "attempts_total": 1,
   "max_attempts": 2,
-  "last_error": "人物は設備のグリップと設定部を確認する具体的な行動を取り、仕事帰りを示すバッグ、THE REV.ロゴ、受付と設備が同時に読める。合成感、追加人物、スタッフ、医療的誤認はない。唯一の必須不合格要因は、全3形式に共通する「使う／場面まで、」の不自然な意味分断。",
+  "last_error": "実景との整合、人物の接地・照明・機器操作、単独顧客という条件は良好です。ロゴ、受付、植栽、設備もTHE REV.の固有環境として確認できます。唯一の決定的な不合格理由は、全3形式共通で「見て選ぶ。」を「見て／選ぶ。」に分けた接続句の不自然な改行です。",
   "last_qa": {
     "pass": false,
     "thumbnail_typography_visual": {
@@ -42,10 +42,10 @@
       }
     },
     "visual_art_direction": {
-      "pass": true,
+      "pass": false,
       "variants": {
         "thumbnail": {
-          "pass": true,
+          "pass": false,
           "not_size_only": true,
           "photo_text_hierarchy_natural": true,
           "whitespace_meaningful": true,
@@ -56,12 +56,12 @@
           "premium_rev_preserved": true,
           "inviting_at_list_size": true,
           "thumbnail_functional": true,
-          "golden_grammar_matches": true,
+          "golden_grammar_matches": false,
           "composition_balanced": true,
           "fade_integrated": true
         },
         "og": {
-          "pass": true,
+          "pass": false,
           "not_size_only": true,
           "photo_text_hierarchy_natural": true,
           "whitespace_meaningful": true,
@@ -72,12 +72,12 @@
           "premium_rev_preserved": true,
           "inviting_at_list_size": true,
           "thumbnail_functional": true,
-          "golden_grammar_matches": true,
+          "golden_grammar_matches": false,
           "composition_balanced": true,
           "fade_integrated": true
         },
         "gbp": {
-          "pass": true,
+          "pass": false,
           "not_size_only": true,
           "photo_text_hierarchy_natural": true,
           "whitespace_meaningful": true,
@@ -88,22 +88,22 @@
           "premium_rev_preserved": true,
           "inviting_at_list_size": true,
           "thumbnail_functional": true,
-          "golden_grammar_matches": true,
+          "golden_grammar_matches": false,
           "composition_balanced": true,
           "fade_integrated": true
         }
       },
-      "comments": "実画像はゴールデン参照と同様に、暖色の強調語、静かな墨色の補助行、写真へ溶ける曲線的なベールを備え、人物と見出しの釣り合いも良い。GBPも横長版の単純転用ではなく、左中央の狭いタイトルと人物を保つ局所ベールとして成立している。ただし全形式で「使う／場面まで、」と、名詞を修飾する「使う」を被修飾語から切り離しており、意味単位として不自然な改行になっている。"
+      "comments": "全形式で人物とタイトルの対比、柔らかな写真遷移、暖色キーワードの階層はゴールデンに近く、320pxでも明瞭です。ただし最終見出しが「使い方まで、／見て／選ぶ。」となり、接続する動詞句「見て選ぶ。」を分断しています。「見て」が単独行となるため、指定のタイポグラフィ改行QCおよびゴールデンの自然な意味句構成に不合格です。"
     },
     "series_consistency": 8,
     "editorial_quality": 8,
-    "typography_harmony": 7,
+    "typography_harmony": 6,
     "negative_space": 8,
-    "photo_treatment": 9,
+    "photo_treatment": 8,
     "article_visual_relevance": 9,
     "main_claim_visualization": 9,
-    "human_subject_prominence": 9,
-    "human_visual_attention_share": 66,
+    "human_subject_prominence": 8,
+    "human_visual_attention_share": 63,
     "face_expression_readable": true,
     "background_secondary_pass": true,
     "background_soft_blur_pass": true,
@@ -112,11 +112,11 @@
     "article_theme_inferable_without_title": true,
     "scene_action_has_article_specific_meaning": true,
     "generic_passive_pose_without_article_reason": false,
-    "rev_environment_consistency": 8,
-    "brand_space_authenticity": 8,
+    "rev_environment_consistency": 9,
+    "brand_space_authenticity": 9,
     "human_environment_integration": 9,
     "perspective_scale_consistency": 9,
-    "ground_contact_shadow_consistency": 8,
+    "ground_contact_shadow_consistency": 9,
     "lighting_consistency": 9,
     "anatomy_pose_realism": 9,
     "no_cutout_or_sticker_look": true,
@@ -126,7 +126,7 @@
     "unsupported_equipment_absent": true,
     "scene_plausible_at_the_rev": true,
     "exercise_pose_plausible": true,
-    "manual_visual_rejection": true,
+    "manual_visual_rejection": false,
     "trainer_present": false,
     "unknown_trainer_present": false,
     "non_customer_people_present": false,
@@ -143,238 +143,238 @@
     "gbp_aspect_ratio_pass": true,
     "gbp_safe_area_pass": true,
     "gbp_copy_legible": true,
-    "comments": "人物は設備のグリップと設定部を確認する具体的な行動を取り、仕事帰りを示すバッグ、THE REV.ロゴ、受付と設備が同時に読める。合成感、追加人物、スタッフ、医療的誤認はない。唯一の必須不合格要因は、全3形式に共通する「使う／場面まで、」の不自然な意味分断。",
+    "comments": "実景との整合、人物の接地・照明・機器操作、単独顧客という条件は良好です。ロゴ、受付、植栽、設備もTHE REV.の固有環境として確認できます。唯一の決定的な不合格理由は、全3形式共通で「見て選ぶ。」を「見て／選ぶ。」に分けた接続句の不自然な改行です。",
     "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
     "thumbnail_typography_acceptance": {
       "pass": false,
       "deterministic": {
         "revision": "thumbnail-golden-typography-v1",
         "slug": "shinomiya-gym-beginner-choose",
-        "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac",
+        "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r2",
         "pass": true,
         "variants": {
           "thumbnail": {
             "pass": true,
             "lines": [
-              "使う",
-              "場面まで、",
-              "見て選ぶ。"
+              "使い方まで、",
+              "見て",
+              "選ぶ。"
             ],
             "text_preserved": true,
             "font_size": 78,
             "font_size_at_320": 20.8,
             "line_count": 3,
             "line_height": 1.12,
-            "line_balance": 0.5870140431505166,
+            "line_balance": 0.5811956881041425,
             "layout_rule": "golden-wide-v1",
             "line_font_sizes": [
-              136,
               78,
+              136,
               92.03999999999999
             ],
-            "focus_line": 0,
-            "focus_text": "使う",
+            "focus_line": 1,
+            "focus_text": "見て",
             "focus_scale": 1.7435897435897436,
             "hierarchy_kind": "lines",
             "hierarchy_pass": true,
             "label_subordinate": true,
             "label_removed": true,
             "bottom_mark_removed": true,
-            "width_occupancy": 0.8955356696965144,
-            "block_area_ratio": 0.21774783968731914,
+            "width_occupancy": 0.9045008850097656,
+            "block_area_ratio": 0.2199277151884856,
             "safe_area_pass": true,
             "fade_contains_text": true,
             "layout_balance_revision": "centered-organic-v1",
             "headline_center_y": 337.375,
             "paper_profile": "local-curved-veil",
-            "paper_opacity_floor": 0.8588235294117647,
-            "fade_start": 552,
-            "fade_end": 689,
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 558,
+            "fade_end": 695,
             "fade_vertical_tail": 125,
-            "contrast_floor": 4.618575862874591,
+            "contrast_floor": 5.308677408263676,
             "line_rects": [
               {
                 "left": 64,
-                "top": 126,
+                "top": 135,
+                "right": 535.125,
+                "bottom": 247,
+                "width": 471.125
+              },
+              {
+                "left": 64,
+                "top": 231.359375,
                 "right": 337.5625,
-                "bottom": 322,
+                "bottom": 427.359375,
                 "width": 273.5625
               },
               {
                 "left": 64,
-                "top": 305.3125,
-                "right": 456.34375,
-                "bottom": 417.3125,
-                "width": 392.34375
-              },
-              {
-                "left": 64,
                 "top": 408.671875,
-                "right": 529.90625,
+                "right": 344.28125,
                 "bottom": 540.671875,
-                "width": 465.90625
+                "width": 280.28125
               }
             ],
-            "asset_path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
-            "asset_sha256": "404268532d97ff053df7d37415737bfa117546182a7cc14b81a22fd1422c3f6b",
+            "asset_path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
+            "asset_sha256": "5a79f5e0c0abef951a362c1b0c7b0d81ccc82ca3436c7ffaa7249e6b34cac3bb",
             "previews": {
               "320": {
-                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-320.jpg",
-                "sha256": "9b99a9df2d584cb3a31a92b13e01aa6a4022a3037fe430b5dc0aa23b8b1a7411"
+                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-preview-320.jpg",
+                "sha256": "712098e7a4ce05c8c289f5c791703f2ba838b5ca3be62745d92ee6e24f46730c"
               },
               "400": {
-                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-400.jpg",
-                "sha256": "5850750b32c4d4c75a7690ab305f1eca4986e64537fbae60d4f063f317c20c2e"
+                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-preview-400.jpg",
+                "sha256": "576d7664bc303f8237475ebb294d895b191b3fc7c24dcaaff26d03c01e1e8456"
               }
             }
           },
           "og": {
             "pass": true,
             "lines": [
-              "使う",
-              "場面まで、",
-              "見て選ぶ。"
+              "使い方まで、",
+              "見て",
+              "選ぶ。"
             ],
             "text_preserved": true,
             "font_size": 78,
             "font_size_at_320": 20.8,
             "line_count": 3,
             "line_height": 1.12,
-            "line_balance": 0.5870140431505166,
+            "line_balance": 0.5811956881041425,
             "layout_rule": "golden-wide-v1",
             "line_font_sizes": [
-              136,
               78,
+              136,
               92.03999999999999
             ],
-            "focus_line": 0,
-            "focus_text": "使う",
+            "focus_line": 1,
+            "focus_text": "見て",
             "focus_scale": 1.7435897435897436,
             "hierarchy_kind": "lines",
             "hierarchy_pass": true,
             "label_subordinate": true,
             "label_removed": true,
             "bottom_mark_removed": true,
-            "width_occupancy": 0.8955356696965144,
-            "block_area_ratio": 0.23330125680784194,
+            "width_occupancy": 0.9045008850097656,
+            "block_area_ratio": 0.23563683770194888,
             "safe_area_pass": true,
             "fade_contains_text": true,
             "layout_balance_revision": "centered-organic-v1",
             "headline_center_y": 315.375,
             "paper_profile": "local-curved-veil",
-            "paper_opacity_floor": 0.8588235294117647,
-            "fade_start": 552,
-            "fade_end": 689,
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 558,
+            "fade_end": 695,
             "fade_vertical_tail": 125,
-            "contrast_floor": 4.618575862874591,
+            "contrast_floor": 5.308677408263676,
             "line_rects": [
               {
                 "left": 64,
-                "top": 104,
+                "top": 113,
+                "right": 535.125,
+                "bottom": 225,
+                "width": 471.125
+              },
+              {
+                "left": 64,
+                "top": 209.359375,
                 "right": 337.5625,
-                "bottom": 300,
+                "bottom": 405.359375,
                 "width": 273.5625
               },
               {
                 "left": 64,
-                "top": 283.3125,
-                "right": 456.34375,
-                "bottom": 395.3125,
-                "width": 392.34375
-              },
-              {
-                "left": 64,
                 "top": 386.671875,
-                "right": 529.90625,
+                "right": 344.28125,
                 "bottom": 518.671875,
-                "width": 465.90625
+                "width": 280.28125
               }
             ],
-            "asset_path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
-            "asset_sha256": "826536c4c8434b4a20cbe85cbfc928a9ce5c72e27dd2f4bd5713658d3d8f0ade",
+            "asset_path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
+            "asset_sha256": "2cfc09fb3f0780cb68123b02b9bd5e7e14d93c7f2781834a16f260bd457530f5",
             "previews": {
               "320": {
-                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-320.jpg",
-                "sha256": "0293fe2d5eb101e09bf2a0269f8ae3c6e06b518572c18929006c28cf4e3bbf02"
+                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-preview-320.jpg",
+                "sha256": "9ac850c80b9d6afc7712f383d60bdcf0ad71a8f6d76532fd4d26d1f133c540d2"
               },
               "400": {
-                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-400.jpg",
-                "sha256": "b64c8002e22c6337e8072fc015435600eb4644a949eaa9e1fe9f04436137bc73"
+                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-preview-400.jpg",
+                "sha256": "893c9e2ef965ad7f4156ed4698b1708cf4db04b86dba5c0ea769a05ebe58ab86"
               }
             }
           },
           "gbp": {
             "pass": true,
             "lines": [
-              "使う",
-              "場面まで、",
-              "見て選ぶ。"
+              "使い方まで、",
+              "見て",
+              "選ぶ。"
             ],
             "text_preserved": true,
             "font_size": 68,
             "font_size_at_320": 18.133333333333333,
             "line_count": 3,
             "line_height": 1.12,
-            "line_balance": 0.5841956603186599,
+            "line_balance": 0.5490189417470344,
             "layout_rule": "golden-gbp-v1",
             "line_font_sizes": [
-              112,
               68,
+              112,
               76.16000000000001
             ],
-            "focus_line": 0,
-            "focus_text": "使う",
+            "focus_line": 1,
+            "focus_text": "見て",
             "focus_scale": 1.6470588235294117,
             "hierarchy_kind": "lines",
             "hierarchy_pass": true,
             "label_subordinate": true,
             "label_removed": true,
             "bottom_mark_removed": true,
-            "width_occupancy": 0.875796122824929,
-            "block_area_ratio": 0.11663090496786613,
+            "width_occupancy": 0.9319100952148437,
+            "block_area_ratio": 0.12410367541136565,
             "safe_area_pass": true,
             "fade_contains_text": true,
             "layout_balance_revision": "centered-organic-v1",
             "headline_center_y": 432.4375,
             "paper_profile": "local-curved-veil",
-            "paper_opacity_floor": 0.9058823529411765,
-            "fade_start": 468,
-            "fade_end": 587,
+            "paper_opacity_floor": 0.9215686274509803,
+            "fade_start": 493,
+            "fade_end": 612,
             "fade_vertical_tail": 125,
-            "contrast_floor": 5.165838053306941,
+            "contrast_floor": 5.356830663826178,
             "line_rects": [
               {
                 "left": 60,
-                "top": 251,
+                "top": 258,
+                "right": 470.734375,
+                "bottom": 355,
+                "width": 410.734375
+              },
+              {
+                "left": 60,
+                "top": 347.15625,
                 "right": 285.375,
-                "bottom": 412,
+                "bottom": 508.15625,
                 "width": 225.375
               },
               {
                 "left": 60,
-                "top": 403.4375,
-                "right": 402.046875,
-                "bottom": 500.4375,
-                "width": 342.046875
-              },
-              {
-                "left": 60,
                 "top": 497.59375,
-                "right": 445.71875,
+                "right": 292.046875,
                 "bottom": 607.59375,
-                "width": 385.71875
+                "width": 232.046875
               }
             ],
-            "asset_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
-            "asset_sha256": "ecc0694d2a72590fe559eb971a6740ced056a5f9cea57ac9659bbd90bf0461c7",
+            "asset_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
+            "asset_sha256": "436b01f58a6793ac623505ede9e2eeefbe15af8c1b4adb238589437bd8046148",
             "previews": {
               "320": {
-                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-320.jpg",
-                "sha256": "4a85960c3c067405ed180154530d19aa8e59a1ce1812154ab2405cfae552b605"
+                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-preview-320.jpg",
+                "sha256": "6555bef8ca98aeae595f12e3a59900e701e362509ec3669a85464866c10782ef"
               },
               "400": {
-                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-preview-400.jpg",
-                "sha256": "3492e0ee2451227c316349dc89f4c1cc249715c1d5f2ef54e58bede4b79d49d5"
+                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-preview-400.jpg",
+                "sha256": "3afc92870eccaf5fcb48386f7ddef25e9235cf6f7639fa69fc7e164ccc3e1739"
               }
             }
           }
@@ -416,10 +416,10 @@
         }
       },
       "art_direction": {
-        "pass": true,
+        "pass": false,
         "variants": {
           "thumbnail": {
-            "pass": true,
+            "pass": false,
             "not_size_only": true,
             "photo_text_hierarchy_natural": true,
             "whitespace_meaningful": true,
@@ -430,12 +430,12 @@
             "premium_rev_preserved": true,
             "inviting_at_list_size": true,
             "thumbnail_functional": true,
-            "golden_grammar_matches": true,
+            "golden_grammar_matches": false,
             "composition_balanced": true,
             "fade_integrated": true
           },
           "og": {
-            "pass": true,
+            "pass": false,
             "not_size_only": true,
             "photo_text_hierarchy_natural": true,
             "whitespace_meaningful": true,
@@ -446,12 +446,12 @@
             "premium_rev_preserved": true,
             "inviting_at_list_size": true,
             "thumbnail_functional": true,
-            "golden_grammar_matches": true,
+            "golden_grammar_matches": false,
             "composition_balanced": true,
             "fade_integrated": true
           },
           "gbp": {
-            "pass": true,
+            "pass": false,
             "not_size_only": true,
             "photo_text_hierarchy_natural": true,
             "whitespace_meaningful": true,
@@ -462,12 +462,12 @@
             "premium_rev_preserved": true,
             "inviting_at_list_size": true,
             "thumbnail_functional": true,
-            "golden_grammar_matches": true,
+            "golden_grammar_matches": false,
             "composition_balanced": true,
             "fade_integrated": true
           }
         },
-        "comments": "実画像はゴールデン参照と同様に、暖色の強調語、静かな墨色の補助行、写真へ溶ける曲線的なベールを備え、人物と見出しの釣り合いも良い。GBPも横長版の単純転用ではなく、左中央の狭いタイトルと人物を保つ局所ベールとして成立している。ただし全形式で「使う／場面まで、」と、名詞を修飾する「使う」を被修飾語から切り離しており、意味単位として不自然な改行になっている。"
+        "comments": "全形式で人物とタイトルの対比、柔らかな写真遷移、暖色キーワードの階層はゴールデンに近く、320pxでも明瞭です。ただし最終見出しが「使い方まで、／見て／選ぶ。」となり、接続する動詞句「見て選ぶ。」を分断しています。「見て」が単独行となるため、指定のタイポグラフィ改行QCおよびゴールデンの自然な意味句構成に不合格です。"
       },
       "golden_reference": {
         "revision": "approved-typography-20261001-v1",
@@ -494,7 +494,7 @@
     "generated_customer_allowed_under_policy": true,
     "generated_customer_role": "customer",
     "customer_presentation": "male",
-    "image_headline_short": "使う場面まで、\n見て選ぶ。",
+    "image_headline_short": "使い方まで、\n見て選ぶ。",
     "fixed_overlay_layout_confirmed": true,
     "policy_revision": "editorial-thumbnail-v2.4",
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -584,18 +584,18 @@
     "qa_model": "gpt-5.6",
     "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
     "slug": "shinomiya-gym-beginner-choose",
-    "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac",
-    "checked_at": "2026-10-07T02:42:09.558Z",
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r2",
+    "checked_at": "2026-10-07T03:20:51.584Z",
     "review_mode": "HYBRID_GENERATED",
     "realism_qc_version": "v1",
     "scene_plausibility_version": "the-rev-scene-plausibility-v1",
     "gbp_image_required": true,
-    "gbp_image_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
+    "gbp_image_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
     "gbp_image_width": 1200,
     "gbp_image_height": 900,
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/shinomiya-gym-beginner-choose.json",
-  "updated_at": "2026-10-07T02:42:09.560Z",
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac"
+  "updated_at": "2026-10-07T03:20:51.587Z",
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r2"
 }
