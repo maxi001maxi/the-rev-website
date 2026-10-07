@@ -20,6 +20,7 @@ function opportunity(overrides={}){
     expected_behavior:'Profile interest',
     evidence:[
       {role:'PRIMARY',evidence:{evidence_key:'fp:reps'}},
+      {role:'CORROBORATING',evidence:{evidence_key:'fact:service'}},
       {role:'COUNTEREVIDENCE',evidence:{evidence_key:'constraint:no-human'}}
     ],
     ...overrides
@@ -119,7 +120,8 @@ test('same Opportunity can cross channels only with one lead and distinct angle/
     channel_job:'DECISION_SUPPORT',
     angle_key:'one-frame-judgment',
     message_key:'quality-over-count-story',
-    claim_focus:'予定回数よりフォームを見る判断を一文で見せる。',
+    claim_focus:'サービス判断の背景を一文で補助する。',
+    evidence_keys:['fact:service'],
     estimated_work_minutes:5
   });
   const qc=validateDirectorAssignmentSet([lead,support],60);
@@ -135,6 +137,46 @@ test('same Opportunity can cross channels only with one lead and distinct angle/
     lead,
     {...support,assignment_role:'LEAD'}
   ],60),/SOCIAL_DIRECTOR_OPPORTUNITY_REQUIRES_ONE_LEAD/);
+});
+
+test('same Evidence cannot be reused across channels by default',()=>{
+  const op=opportunity();
+  const lead=assignment(op);
+  const support=assignment(op,{
+    channel:'STORIES',
+    assignment_role:'SUPPORT',
+    channel_job:'DECISION_SUPPORT',
+    angle_key:'one-frame-judgment',
+    message_key:'quality-over-count-story',
+    claim_focus:'同じEvidenceを別Channelで再説明する。',
+    evidence_keys:['fp:reps'],
+    estimated_work_minutes:5
+  });
+  assert.throws(
+    ()=>validateDirectorAssignmentSet([lead,support],60),
+    /SOCIAL_DIRECTOR_CROSS_CHANNEL_EVIDENCE_REUSE_REQUIRES_EXCEPTION/
+  );
+});
+
+test('same Evidence cross-channel reuse requires an explicit support exception and rationale',()=>{
+  const op=opportunity();
+  const lead=assignment(op);
+  const support=assignment(op,{
+    channel:'STORIES',
+    assignment_role:'SUPPORT',
+    channel_job:'DECISION_SUPPORT',
+    angle_key:'campaign-follow-up',
+    message_key:'campaign-follow-up-message',
+    claim_focus:'同じEvidenceを意図的なCampaign sequenceとして補完する。',
+    evidence_keys:['fp:reps'],
+    estimated_work_minutes:5,
+    metadata:{
+      allow_same_evidence_cross_channel:true,
+      cross_channel_reuse_justification:'同一日のCampaignとしてReelの視覚証拠をStoryで別行動へ接続する必要があるため。'
+    }
+  });
+  const qc=validateDirectorAssignmentSet([lead,support],60);
+  assert.equal(qc.checks.same_evidence_cross_channel_guard,true);
 });
 
 test('Director enforces channel assignment caps and workload budget',()=>{

@@ -168,3 +168,32 @@ Unchanged:
 
 v1.0.1 is additive.
 Existing v1.0 / v0.7 production behavior does not switch merely because the schema/code exists.
+
+
+## Same-day cross-channel Evidence reuse guard
+
+Owner feedback on 2026-10-07 exposed a quality failure:
+a strong First-party example ("10 planned reps -> stop at 8") appeared repeatedly across Reel and Stories.
+
+The cause was not weak grounding. It was over-reuse of strong grounding.
+
+Rule:
+- the same Opportunity may still span multiple channels;
+- Angle / Message / Claim must remain distinct;
+- additionally, the same Evidence key must not be reused across channels by default;
+- a SUPPORT assignment may reuse it only with:
+  - `metadata.allow_same_evidence_cross_channel=true`
+  - a non-trivial `cross_channel_reuse_justification`
+
+This exception is intended for deliberate campaign sequencing, not convenience.
+
+Default behavior:
+- if Reel uses the strongest concrete example, Stories should prefer another Opportunity / Evidence / Participation / Relationship job or HOLD;
+- do not force a Story merely to echo the Reel;
+- one strong Story is valid.
+
+2026-10-07 corrective example:
+- selected Reel: Store / Oxygen-room reveal
+- Story: First-visit information-need Poll
+- removed: repeated "10 -> 8" Story
+- removed: generic "THE REV. has an oxygen room" explanatory Story
