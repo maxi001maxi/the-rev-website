@@ -6,6 +6,21 @@
 Chat historyは正本にしない。Current Truth / Active Decision Memory / domain canon / Operating Knowledge / Research Indexの順序を守る。
 Editorial / Websiteの実行ロジックやPublish Gateは、このリポジトリのcanonical code/runbookを実行正本として維持する。
 
+## Vercel Release / Deployment Budget
+
+Vercel releaseの実行正本は `docs/operations/VERCEL_RELEASE_POLICY_V1.md`。
+Hobby quotaをGit commit単位で消費しないため、`vercel.json` の `git.deploymentEnabled=false` を維持し、Git push / PR / mergeをDeploymentと同一視しない。
+
+- 中間commitはGitHub CI / local testまで。Vercel Previewを自動生成しない
+- 1つの通常タスクは原則 **Preview 1回 + Production 1回**
+- Previewは全ローカル/CI gate通過後のAcceptance Candidateに対してのみ明示作成
+- Preview失敗がコード起因なら修正をまとめてから再Preview。観測や設定確認のためだけに再deployしない
+- docs/test-only変更はruntime acceptanceが不要ならVercelへdeployしない
+- ProductionはPreview PASS + merge後、**exact current main SHA**を明示deployする
+- `main` commit != Production deployed。Deployment ID / SHA / READY / live acceptanceを証拠にする
+- rolling 24hのVercel deployment数を確認し、40以上で警戒、60以上で非緊急deployを停止する
+- `git.deploymentEnabled=false` を解除する変更はOwner承認なしに行わない
+
 ## Daily Editorial（日次記事）を扱うAIへの必須ルール
 
 日次記事の新規作成可否とPublish後のQueue同期は、プロンプト判断ではなくコードが正本です。

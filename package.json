@@ -30,7 +30,8 @@
     "test:ga4-direct": "node scripts/test-ga4-direct-read.mjs",
     "test:blog-card-dates": "node --test scripts/test-blog-card-dates.mjs",
     "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs",
-    "test:gsc-direct": "node scripts/test-gsc-direct-read.mjs"
+    "test:gsc-direct": "node scripts/test-gsc-direct-read.mjs",
+    "test:vercel-release-policy": "node scripts/test-vercel-release-policy.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
