@@ -351,7 +351,7 @@ function v070InstallTopicApproval_(replyMode) {
     topology = reconcileDailyEditorialTriggerTopologyV073();
   } else {
     var exists = ScriptApp.getProjectTriggers().some(function(t) { return t.getHandlerFunction() === 'scheduledDailyEditorialTopicApprovalV070'; });
-    if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(1).create();
+    if (!exists) ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070').timeBased().everyMinutes(typeof V073_TOPIC_APPROVAL_POLL_MINUTES === 'number' ? V073_TOPIC_APPROVAL_POLL_MINUTES : 10).create();
   }
   var result = scheduledDailyEditorialTopicApprovalV070();
   Logger.log(JSON.stringify({reply_mode:replyMode,cadence:v069Settings_().daily_editorial_cadence,approval_required:v069Settings_().daily_editorial_topic_approval_required,topology:topology,result:result}));
