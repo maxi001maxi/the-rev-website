@@ -1,5 +1,11 @@
 # AGENTS.md — THE REV. website
 
+## Company OS Knowledge Contract
+
+全社知識の参照順は `maxi001maxi/the-rev-ops/docs/company-os/KNOWLEDGE_ARCHITECTURE_V1.md` を優先する。
+Chat historyは正本にしない。Current Truth / Active Decision Memory / domain canon / Operating Knowledge / Research Indexの順序を守る。
+Editorial / Websiteの実行ロジックやPublish Gateは、このリポジトリのcanonical code/runbookを実行正本として維持する。
+
 ## Daily Editorial（日次記事）を扱うAIへの必須ルール
 
 日次記事の新規作成可否とPublish後のQueue同期は、プロンプト判断ではなくコードが正本です。
