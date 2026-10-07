@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
   "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.json",
   "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
-  "updated_at": "2026-10-07T03:27:18.835Z"
+  "updated_at": "2026-10-07T03:27:18.835Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-07T03:27:34Z"
 }
