@@ -578,26 +578,6 @@ jobs:
             fi
           done < .deploy-target-images
 
-      - name: Deploy BLOG_FAST sitemap metadata
-        if: env.DEPLOY_MODE == 'BLOG_FAST'
-        env:
-          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
-          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
-        run: |
-          set -euo pipefail
-          test -f deploy/sitemap.xml
-          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
-          set ftp:ssl-force true
-          set ftp:ssl-protect-data true
-          set ftp:passive-mode true
-          set ssl:verify-certificate yes
-          set net:max-retries 5
-          set net:timeout 30
-          set net:reconnect-interval-base 5
-          put -O "$XSERVER_REMOTE_DIR" "deploy/sitemap.xml"
-          bye
-          EOF
-
       - name: Deploy Blog LAST
         id: xserver_deploy
         env:
@@ -636,6 +616,26 @@ jobs:
           fi
 
           echo "Xserver Blog switch complete."
+
+      - name: Deploy BLOG_FAST sitemap metadata
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -f deploy/sitemap.xml
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          put -O "$XSERVER_REMOTE_DIR" "deploy/sitemap.xml"
+          bye
+          EOF
 
       - name: Verify live production
         run: |
