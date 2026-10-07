@@ -403,7 +403,7 @@
 
   function trackingDestinationType(link, eventName) {
     var href = link.href || '';
-    if (eventName === 'reserve_click' || /^https:\/\/cl\.gyms\.jp\//.test(href)) return 'reserve';
+    if (/^https:\/\/cl\.gyms\.jp\//.test(href)) return 'reserve';
     if (eventName === 'line_click' || /^https:\/\/lin\.ee\//.test(href)) return 'line';
     if (eventName === 'instagram_click' || /instagram\.com/.test(href)) return 'instagram';
     if (/google\.(com|co\.jp)\/maps|maps\.app\.goo\.gl/.test(href)) return 'map';
@@ -470,6 +470,7 @@
       if (!link) return;
 
       var eventName = link.dataset.track;
+      if (eventName === 'reserve_click' && trackingDestinationType(link, eventName) !== 'reserve') return;
       var extra = {
         placement: link.dataset.placement || 'unknown',
         component: link.dataset.component || undefined,

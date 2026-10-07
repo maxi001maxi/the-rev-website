@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import {
   parseServiceAccount,
   resolveDateRange,
@@ -20,7 +21,7 @@ function read(path) {
 
 const fakeAccount = {
   client_email: 'analytics-reader@example.iam.gserviceaccount.com',
-  private_key: '-----BEGIN PRIVATE KEY-----\nTEST\n-----END PRIVATE KEY-----\n'
+  private_key: crypto.generateKeyPairSync('rsa',{modulusLength:2048}).privateKey.export({type:'pkcs8',format:'pem'})
 };
 
 assert.equal(parseServiceAccount(JSON.stringify(fakeAccount)).client_email, fakeAccount.client_email);
@@ -32,8 +33,8 @@ assert.throws(() => parseServiceAccount(''), /not configured/);
 assert.throws(() => parseServiceAccount('{}'), /missing client_email/);
 
 assert.deepEqual(resolveDateRange('today').current, { startDate: 'today', endDate: 'today' });
-assert.deepEqual(resolveDateRange('7d').current, { startDate: '6daysAgo', endDate: 'today' });
-assert.deepEqual(resolveDateRange('28d').previous, { startDate: '55daysAgo', endDate: '28daysAgo' });
+assert.deepEqual(resolveDateRange('7d').current, { startDate: '7daysAgo', endDate: 'yesterday' });
+assert.deepEqual(resolveDateRange('28d').previous, { startDate: '56daysAgo', endDate: '29daysAgo' });
 assert.equal(resolveDateRange('nonsense').key, '7d');
 
 const summaryReport = {
