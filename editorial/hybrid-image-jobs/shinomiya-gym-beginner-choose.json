@@ -1,9 +1,9 @@
 {
   "slug": "shinomiya-gym-beginner-choose",
   "article_title": "新大宮で初心者がジムを選ぶなら｜24時間・パーソナルジム・ボクシング、続けやすいのは？",
-  "category_label": "BOXING",
+  "category_label": "GYM GUIDE",
   "column_label": "COLUMN",
-  "image_headline_short": "使う場面まで、\n見て選ぶ。",
+  "image_headline_short": "使い方まで、\n見て選ぶ。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -12,22 +12,22 @@
   "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が入口・受付側からトレーニングエリアへ自然に移り、EVOLGEAR等の実設備を見ながらグリップや設定位置を確認して使い始めようとしている場面。小さな通勤・ジムバッグを邪魔にならない位置へ置き、仕事帰りにも立ち寄れる生活動線と、本格設備の両方が一枚で伝わるようにする。受付だけを主役にせず、THE REV.のロゴまたは固有空間とトレーニング設備を同時に読み取れる構図にする。トレーナー、スタッフ、コーチは出さない。",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.jpg",
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r2",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac.json",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -157,6 +157,8 @@
       "male",
       "female",
       "male"
-    ]
+    ],
+    "recovery_reason": "visual-qc-copy-linebreak-r2",
+    "previous_asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac"
   }
 }
