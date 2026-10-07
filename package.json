@@ -26,7 +26,7 @@
     "test:google-business": "node --test scripts/test-google-business.mjs",
     "test:thumbnail-typography": "node --test scripts/test-thumbnail-typography.mjs",
     "test:thumbnail-typography-browser": "node scripts/test-thumbnail-typography-browser.mjs",
-    "test:social-director": "node --test scripts/test-social-director-v05.mjs scripts/test-social-production-learning-v06.mjs scripts/test-social-stories-v06.mjs scripts/test-social-threads-v07.mjs scripts/test-social-evidence-opportunity-v08.mjs scripts/test-social-reel-stories-evidence-v08.mjs",
+    "test:social-director": "node --test scripts/test-social-director-v05.mjs scripts/test-social-production-learning-v06.mjs scripts/test-social-stories-v06.mjs scripts/test-social-threads-v07.mjs scripts/test-social-evidence-opportunity-v08.mjs scripts/test-social-reel-stories-evidence-v08.mjs scripts/test-social-director-cross-channel-v09.mjs",
     "test:ga4-direct": "node scripts/test-ga4-direct-read.mjs",
     "test:blog-card-dates": "node --test scripts/test-blog-card-dates.mjs",
     "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs",
