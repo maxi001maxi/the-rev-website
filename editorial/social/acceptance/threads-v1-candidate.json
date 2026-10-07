@@ -1,0 +1,226 @@
+{
+  "target_date": "2026-10-07",
+  "evidence": [
+    {
+      "evidence_key": "fp-fatigue-counseling-20260914",
+      "source_type": "OPERATOR_FIRST_PARTY",
+      "source_ref": "Editorial Master/24_FIRST_PARTY_INTERVIEW/BLOG-20260914-7f741c",
+      "source_date": "2026-09-16",
+      "evidence_text": "ただ脳の使い過ぎによるの疲れなのか、\n体力、身体的なことなのか、\nそれに伴うメンタルなのか、\nまだ深掘るカウンセリングはそういう意味ではいつもよりしっかりやる。\n重量は負いません、こんな時こそ重量落としてでもしっかりフォーム意識で効かせる。\n動いているうちに気持ちも体も乗ってくることが多い。\n実際に動いても体や心がついていかなかったら、本人の意思を尊重しつつ、中止もあり得る。\nそんな時もあるし、本当に疲れている時もある、背中を押してほしいだけの時もあれば、いろんな時があるから難しい。\nまずは、急にがっつり始めすぎるとトレーニング🟰しんどいものと植え付けられてしまうのでスッキリした!と思えるところから。",
+      "privacy_scope": "INTERNAL",
+      "allowed_use": "PARAPHRASE_OK",
+      "confidence": 0.8,
+      "metadata": {
+        "interview_status": "USED",
+        "retrieved_at": "2026-10-07",
+        "used_in_blog_id": "BLOG-20260914-b64a18"
+      }
+    },
+    {
+      "evidence_key": "canon-threads-voice-v01",
+      "source_type": "RESEARCH_CANON",
+      "source_ref": "https://docs.google.com/document/d/1YeEnmKjyaDrlssmV_SEuCZTY4LVxp7Nv8vnyPYxUgGQ/edit",
+      "evidence_text": "§8 Direct First-party / Real Store Event / Verified Brand Judgmentから人間味を取り出す。§10 演出のために架空の迷いを作らない。§13 本当に知りたい問いとLearning目的。§18 終わり方を固定しない。§23 フィードを均等配分にはしない。",
+      "privacy_scope": "INTERNAL",
+      "allowed_use": "INTERNAL_REASONING",
+      "confidence": 0.8
+    }
+  ],
+  "candidates": [
+    {
+      "title": "ここは簡単には決められない",
+      "content_job": "HUMAN_TEXTURE",
+      "draft_text": "疲れている日は、いつもより話を聞くことがあります。\n本当に疲れているのか、背中を押してほしいのか。\nいろんな時があるから、ここは難しいです。",
+      "why_now": "2つの既存Threads案が専門家の結論に偏っていたため、別の確認済みFirst-partyから判断の迷いを見せる。",
+      "evidence_strength": "GROUNDED",
+      "confidence": "MEDIUM",
+      "qc_decision": "READY_FOR_APPROVAL",
+      "evidence_links": [
+        {
+          "key": "fp-fatigue-counseling-20260914",
+          "role": "PRIMARY"
+        },
+        {
+          "key": "canon-threads-voice-v01",
+          "role": "CORROBORATING"
+        }
+      ],
+      "interpretation": "結論を教えるだけでなく、単純には決められない部分がPerson Modelになる。",
+      "hypothesis": "この店の話の聞き方へ関心が向く可能性。効果は未検証。",
+      "test_metrics": [
+        "具体的な判断への返信数",
+        "profile action（取得できた場合のみ）"
+      ],
+      "evidence_gaps": [
+        "顧客自身のSignalなし",
+        "Threadsのverified performanceなし"
+      ],
+      "generalization_flags": [],
+      "evidence_packet": {
+        "creative_reasoning": {
+          "version": "THREADS_CREATIVE_REASONING_V1",
+          "why_now_evidence_keys": [
+            "fp-fatigue-counseling-20260914"
+          ],
+          "counterevidence_search": {
+            "searched_evidence_keys": [
+              "fp-fatigue-counseling-20260914",
+              "canon-threads-voice-v01"
+            ],
+            "result": "背中を押すか休むかを全員同じように判定できるEvidenceはない。Customer Signalとverified Threads performanceも未取得。",
+            "limitation": "この範囲のOperator発言とCanonを確認した。顧客の期待やFollowへの因果は未検証。"
+          },
+          "human_voice_source": {
+            "source_key": "fp-fatigue-counseling-20260914",
+            "dimension": "HESITATION",
+            "detail": "本当に疲れている時も、背中を押してほしい時もあり、いろんな時があるから難しいと本人が話した。"
+          },
+          "claims": [
+            {
+              "text": "疲労時はいつもよりカウンセリングを丁寧に行うというOperatorの判断",
+              "kind": "OBSERVATION",
+              "evidence_keys": [
+                "fp-fatigue-counseling-20260914"
+              ]
+            }
+          ],
+          "opportunity_key": "hesitation",
+          "main_claim": "疲労時の状態の見極めには迷う部分があり、いつもより話を聞いて考える",
+          "angle": "答えの前に迷うところ",
+          "structure_type": "UNFINISHED_THOUGHT",
+          "ending_type": "NO_CONCLUSION",
+          "person_model_residue": "状態をひとまとめにせず、簡単に決めきれないところを気にする店",
+          "future_follow_value": "完成した結論だけでなく、この店がどこで迷い何を見るかを続けて読める",
+          "difference_from_recent": "10→8の回数判断、30分の調整案から、難しさを残す思考へ変える",
+          "why_now_signal": "既存2候補の専門家の結論から偏りを補正できる確認済み発言"
+        }
+      }
+    },
+    {
+      "title": "最初の1回、どう終わりたい？",
+      "content_job": "CONVERSATION",
+      "draft_text": "運動を再開するとき、最初の1回はどう終わりたいですか。\n「しっかりやった」か、「少しすっきりした」か。\n最初の強度を考えるために、聞かせてください。",
+      "why_now": "本人の『スッキリしたで終われる強度から』という方針を、顧客期待を知る検証の問いに変える。",
+      "evidence_strength": "GROUNDED",
+      "confidence": "MEDIUM",
+      "qc_decision": "READY_FOR_APPROVAL",
+      "evidence_links": [
+        {
+          "key": "fp-fatigue-counseling-20260914",
+          "role": "PRIMARY"
+        },
+        {
+          "key": "canon-threads-voice-v01",
+          "role": "CORROBORATING"
+        }
+      ],
+      "interpretation": "顧客が望む最初の終わり方を直接知る機会を作る。",
+      "hypothesis": "異なる期待が返信で見える可能性。返信ゼロから需要ゼロは推定しない。",
+      "test_metrics": [
+        "返信した人の数",
+        "返信の期待カテゴリ"
+      ],
+      "evidence_gaps": [
+        "既存の顧客期待Signalなし"
+      ],
+      "generalization_flags": [],
+      "evidence_packet": {
+        "creative_reasoning": {
+          "version": "THREADS_CREATIVE_REASONING_V1",
+          "why_now_evidence_keys": [
+            "fp-fatigue-counseling-20260914"
+          ],
+          "counterevidence_search": {
+            "searched_evidence_keys": [
+              "fp-fatigue-counseling-20260914",
+              "canon-threads-voice-v01"
+            ],
+            "result": "背中を押すか休むかを全員同じように判定できるEvidenceはない。Customer Signalとverified Threads performanceも未取得。",
+            "limitation": "この範囲のOperator発言とCanonを確認した。顧客の期待やFollowへの因果は未検証。"
+          },
+          "human_voice_source": {
+            "source_key": "fp-fatigue-counseling-20260914",
+            "dimension": "HESITATION",
+            "detail": "本当に疲れている時も、背中を押してほしい時もあり、いろんな時があるから難しいと本人が話した。"
+          },
+          "claims": [
+            {
+              "text": "疲労時はいつもよりカウンセリングを丁寧に行うというOperatorの判断",
+              "kind": "OBSERVATION",
+              "evidence_keys": [
+                "fp-fatigue-counseling-20260914"
+              ]
+            }
+          ],
+          "opportunity_key": "expectation",
+          "main_claim": "運動再開の最初に望む終わり方を尋ね、初回強度の設計に使う検証",
+          "angle": "答えを教えず期待を聞く",
+          "structure_type": "REPLY_CONTINUATION",
+          "ending_type": "QUESTION",
+          "person_model_residue": "最初から追い込む前に、その人がどう終わりたいかを気にする店",
+          "future_follow_value": "一方的な知識ではなく、自分の期待を話し判断に参加できる",
+          "difference_from_recent": "専門判断の解説ではなく、未取得の顧客期待を尋ねる会話",
+          "why_now_signal": "本人の初回強度への方針とCustomer Signal不足を接続する検証",
+          "conversation_learning_question": "運動再開の最初の1回に期待する終わり方は何か"
+        }
+      }
+    }
+  ],
+  "source_context": {
+    "threads_creative_required": true,
+    "threads_creative_version": "THREADS_CREATIVE_REASONING_V1",
+    "current_context_summary": "店舗理解期、既存Threads READY2案はいずれもPERSPECTIVE_JUDGMENT。既存DirectorではThreads HOLD。これは既存案を変更しないread-only acceptance。",
+    "source_health_summary": "Customer Signal0件（需要不明）、verified Threads0件、最新実Instagram2026-10-06。Task OS水曜通常営業時間。",
+    "research_lenses": [
+      {
+        "evidence_key": "canon-threads-voice-v01",
+        "source_ref": "https://docs.google.com/document/d/1YeEnmKjyaDrlssmV_SEuCZTY4LVxp7Nv8vnyPYxUgGQ/edit",
+        "principle": "人間味は実際の迷いや判断から取り出し、会話はLearning目的で使う",
+        "application": "一つの結論へ閉じず本人が話した難しさを残す。別候補では初回期待を尋ねる。",
+        "limitation": "親近感やFollow増加の因果を証明するものではない"
+      }
+    ],
+    "divergent_opportunities": [
+      {
+        "opportunity_key": "hesitation",
+        "angle": "簡単に判断できない部分を残す",
+        "decision": "SELECT",
+        "evidence_keys": [
+          "fp-fatigue-counseling-20260914"
+        ],
+        "selection_reason": "USED一次情報に実際の迷いがあり、既存の回数・時間の結論を繰り返さない"
+      },
+      {
+        "opportunity_key": "expectation",
+        "angle": "初回の終わり方について期待を尋ねる",
+        "decision": "SELECT",
+        "evidence_keys": [
+          "fp-fatigue-counseling-20260914"
+        ],
+        "selection_reason": "本人の強度方針を起点に、欠けているCustomer Signalを直接取得する"
+      },
+      {
+        "opportunity_key": "field-note",
+        "angle": "開店前の小さな準備の手触り",
+        "decision": "RETRIEVE",
+        "evidence_keys": [],
+        "selection_reason": "営業時間があっても実際の当日の出来事を確認できない"
+      },
+      {
+        "opportunity_key": "local",
+        "angle": "新大宮で通う生活動線",
+        "decision": "RETRIEVE",
+        "evidence_keys": [],
+        "selection_reason": "汎用の直行First-partyはあるが、新しい地域生活Observationが不足"
+      },
+      {
+        "opportunity_key": "knowledge",
+        "angle": "10→8のフォーム判断の再解説",
+        "decision": "REJECT",
+        "evidence_keys": [],
+        "selection_reason": "当日Reelへ予約済みの同じ具体例で専門知識偏重を繰り返す"
+      }
+    ],
+    "feed_balance_reason": "今日は均等配分ではなく、結論の断言から実在する迷い、または期待を聞く問いへ広げられるか検証する。全て別日に公開した実績ではない。"
+  }
+}
