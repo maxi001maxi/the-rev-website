@@ -6,6 +6,7 @@ import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_
   GOLDEN_REFERENCE_REVISION, GOLDEN_REFERENCE_ASSETS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
 import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
+import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass } from '../lib/editorialSceneGrounding.mjs';
 
 const jobPath = process.argv[2];
 if (!jobPath) {
@@ -32,6 +33,18 @@ if (!sourcePath || !fs.existsSync(sourcePath)) {
 for (const p of job.style_references || []) {
   if (!fs.existsSync(p)) throw new Error(`Style reference is missing: ${p}`);
 }
+
+const registry = JSON.parse(fs.readFileSync('editorial/automated-image-sources.json','utf8'));
+const canonicalSource = registry.sources.find(s => s.source_id===job.automation?.selected_source_id && s.repo_path===sourcePath && s.drive_file_id===(job.background_source?.drive_file_id || job.background_source?.cached_frame_drive_file_id));
+const hashFile = p => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+if (!canonicalSource?.scene_inventory || hashFile(sourcePath)!==canonicalSource.scene_inventory.source_sha256) throw new Error('Canonical source inventory/bytes mismatch');
+job.source_scene_inventory = canonicalSource.scene_inventory;
+job.scene_grounding_version = SCENE_GROUNDING_VERSION;
+job.scene_plan ||= planGroundedScene({title:job.article_title},canonicalSource,job.automation?.recent_semantic_articles || []);
+if (job.scene_plan.source_sha256!==hashFile(sourcePath)) throw new Error('Scene plan source bytes mismatch');
+// A legacy free-text intent cannot override canonical location/action limits.
+job.scene_intent = groundedSceneBrief(job.scene_plan,job.source_scene_inventory);
+fs.writeFileSync(jobPath,JSON.stringify(job,null,2)+'\n');
 
 const stateDir = path.join(ROOT, 'editorial', 'image-operator-state');
 fs.mkdirSync(stateDir, { recursive: true });
@@ -253,6 +266,7 @@ function deterministicRecentIds() {
 }
 
 function qaPass(qa) {
+  if (!sceneGroundingPass(qa)) return false;
   const humanFirstRequired = String(job.layout_variant || '') === 'human-first-v1';
   const humanFirstPass = !humanFirstRequired || (
     Number(qa.human_subject_prominence || 0) >= 8 &&
@@ -326,6 +340,7 @@ function qaPass(qa) {
 }
 
 async function visualQa(attempt) {
+  const groundingEvidence = await inspectSceneGrounding();
   const thumbPath = path.resolve(job.thumbnail);
   const gbpPath = job.gbp_image ? path.resolve(job.gbp_image) : '';
   const typography = readJson(`${thumbPath}.typography.json`);
@@ -500,6 +515,15 @@ async function visualQa(attempt) {
 
   const qa = {
     ...modelQa,
+    scene_grounding_version: SCENE_GROUNDING_VERSION,
+    scene_grounding: groundingEvidence,
+    scene_fingerprint: groundingEvidence.observation?.scene_fingerprint,
+    scene_location_consistency: !groundingEvidence.errors.includes('scene_location_consistency'),
+    equipment_source_grounding: !groundingEvidence.errors.some(e=>e.includes('unsupported_equipment')),
+    spatial_plausibility: !groundingEvidence.errors.includes('spatial_plausibility'),
+    action_location_consistency: !groundingEvidence.errors.includes('action_location_consistency'),
+    article_scene_match: !groundingEvidence.errors.some(e=>e.includes('article_scene_match')),
+    recent_semantic_similarity: groundingEvidence.similarity,
     thumbnail_typography_revision: THUMBNAIL_TYPOGRAPHY_REVISION,
     thumbnail_typography_acceptance: {
       pass: ['thumbnail', 'og', 'gbp'].every((v) => modelQa.thumbnail_typography_visual?.[v]?.pass === true &&
@@ -592,11 +616,59 @@ async function visualQa(attempt) {
   qa.generated_customer_count = Math.max(0, Math.round(Number(modelQa.generated_customer_count || 0)));
 
   qa.pass = qaPass(qa);
+  if (!groundingEvidence.pass) qa.comments = `Source/Scene FAIL: ${groundingEvidence.errors.join(', ')}. ${qa.comments || ''}`;
   return qa;
+}
+
+async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspectionSource = sourcePath} = {}) {
+  // Independent narrow observation call: do not feed prior PASS flags, style references,
+  // generation prompt or desired high scores. Canonical comparison happens in code.
+  const recent = inspectionJob.automation?.recent_semantic_articles || [];
+  const content = [{type:'input_text',text:[
+    'Observe the labeled real source and generated scene independently. Return JSON only.',
+    'Do not vote PASS. Describe visible objects and their physical zones. A rack visible at the REAR of a source lobby does not support a new rack in its FOREGROUND.',
+    `Use EXACT fingerprint vocabulary for both generated and recent images: ${JSON.stringify(SCENE_ONTOLOGY)}. Do not invent synonyms. If the actual image does not fit, mark complete=false, do not invent a matching label.`,
+    'Equipment vocabulary: training_rack, cable_machine, barbell, weight_plates, training_bench, oxygen_room, denba_device, boxing_gloves, boxing_mitt, medical_device, unknown_equipment. A combined rack/cable unit can be listed as training_rack only. List every major equipment object. Do not list reception furniture, phone or paper as training equipment.',
+    'Zones: reception, rear_training_area, training_area, boxing_area, recovery_area. In a lobby, the rack beyond the reception counter is rear_training_area; ANY new rack in the customer/foreground zone is reception.',
+    'Location is the customer activity area, not a distant room. Record equipment_relocated=true if copied, enlarged or moved across floor/room zones compared to the source.',
+    `Generated planned meaning (judge actual image against this, do not infer observation from plan): ${JSON.stringify(inspectionJob.scene_plan)}`,
+    'Return {source:{complete:boolean,equipment:[{object,zone}]},generated:{complete:boolean,equipment:[{object,zone}],location_type,subject_zone,human_action,equipment_relocated:boolean,room_geometry_preserved:boolean,article_scene_match:boolean,scene_fingerprint:{scene_type,location_type,human_action,composition_type,visual_role,article_intent}},recent:[{slug,scene_fingerprint:{same six fields}}]}.',
+    'Use plan vocabulary for actually matching actions only. rack_adjustment/cable_operation/strength_exercise cannot be renamed observing_real_equipment. Infer recent fingerprints from actual images and their supplied article titles/copies. Do not vary labels merely because person gender, clothes or file differ.',
+    'Missing or obscured evidence: complete=false. Do not guess a safe answer.'
+  ].join('\n')}, {type:'input_text',text:'REAL SOURCE'}, {type:'input_image',image_url:dataUrl(inspectionSource),detail:'high'},
+    {type:'input_text',text:'GENERATED SCENE'}, {type:'input_image',image_url:dataUrl(inspectionJob.generated_scene_path),detail:'high'}];
+  for(const r of recent) {
+    if (!r.thumbnail || !fs.existsSync(r.thumbnail)) throw new Error(`Semantic history image missing: ${r.slug}`);
+    content.push({type:'input_text',text:`RECENT ARTICLE ${r.slug}: ${r.imageHeadlineShort || ''}; title ${r.articleTitle || r.slug}`});
+    content.push({type:'input_image',image_url:dataUrl(r.thumbnail),detail:'high'});
+  }
+  const response=await openaiResponse({model:QA_MODEL,input:[{role:'user',content}]});
+  const observed=extractJson(outputText(response));
+  const evaluatedHistory=recent.map(r=>({...r,scene_fingerprint:observed.recent?.find(x=>x.slug===r.slug)?.scene_fingerprint || r.sceneFingerprint}));
+  const evidence=evaluateSceneGrounding({inventory:inspectionJob.source_scene_inventory,plan:inspectionJob.scene_plan,sourceRecognition:observed.source,observation:observed.generated,recent:evaluatedHistory});
+  if (evaluatedHistory.some(r=>!r.scene_fingerprint)) {evidence.pass=false;evidence.errors.push('semantic_history_observation_missing');}
+  return {...evidence,recent:evaluatedHistory,asset_version:inspectionJob.asset_version,
+    asset_hashes:{source:hashFile(inspectionSource),scene:hashFile(inspectionJob.generated_scene_path),thumbnail:hashFile(inspectionJob.thumbnail),og:hashFile(inspectionJob.og_image),gbp:hashFile(inspectionJob.gbp_image)},
+    observation_method:'independent multimodal inventory observation + deterministic canonical comparison'};
 }
 
 function writeState(state) {
   fs.writeFileSync(statePath, JSON.stringify({ ...state, asset_version: job.asset_version }, null, 2) + '\n');
+}
+
+// Actual-image negative control, not just a synthetic metadata unit test.
+if (job.slug === 'shinomiya-gym-beginner-choose' && String(job.asset_version).includes('grounded-')) {
+  const fixture=readJson('editorial/fixtures/scene-grounding-r3-rejection.json');
+  for (const [key,p] of [['source',fixture.evidence.source_path],['scene',fixture.evidence.scene_path]]) {
+    if (hashFile(p)!==fixture.evidence[`${key}_sha256`]) throw new Error('r3 negative control fixture bytes changed');
+  }
+  const oldSource=registry.sources.find(s=>s.repo_path===fixture.evidence.source_path);
+  const oldJob={...fixture.old_job,source_scene_inventory:oldSource.scene_inventory,
+    scene_plan:planGroundedScene({title:fixture.old_job.article_title},oldSource),automation:{recent_semantic_articles:[]}};
+  const negative=await inspectSceneGrounding({job:oldJob,sourcePath:fixture.evidence.source_path});
+  const detected=negative.pass===false && negative.errors.some(e=>e==='generated_unsupported_equipment:training_rack@reception' || e==='generated_unsupported_equipment:cable_machine@reception');
+  fs.writeFileSync('editorial/image-qa/scene-grounding-r3-negative-control.json',JSON.stringify({control_pass:detected,checked_at:new Date().toISOString(),evidence:negative},null,2)+'\n');
+  if (!detected) throw new Error('Actual r3 negative control: observer did not detect invented foreground equipment');
 }
 
 const rawPreviousState = readJson(statePath, {});

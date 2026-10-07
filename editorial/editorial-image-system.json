@@ -213,5 +213,14 @@
     "only exception handling: expand the verified source registry when no recent-4-safe source remains",
     "only exception handling: investigate automated Visual QC failures after max retries",
     "human Review may reject an image even after automated PASS"
-  ]
+  ],
+  "scene_grounding": {
+    "version": "the-rev-source-scene-v1",
+    "canonical_module": "lib/editorialSceneGrounding.mjs",
+    "source_registry": "editorial/automated-image-sources.json",
+    "equipment_zone_lock": true,
+    "independent_inventory_observation": true,
+    "recent_semantic_window": 12,
+    "fail_closed": true
+  }
 }

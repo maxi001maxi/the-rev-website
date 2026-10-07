@@ -1,6 +1,6 @@
 {
   "slug": "shinomiya-gym-beginner-choose",
-  "article_title": "新大宮で初心者がジムを選ぶなら｜24時間・パーソナルジム・ボクシング、続けやすいのは？",
+  "article_title": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
   "category_label": "GYM GUIDE",
   "column_label": "COLUMN",
   "image_headline_short": "続けやすさで、\n選ぶ。",
@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が入口・受付側からトレーニングエリアへ自然に移り、EVOLGEAR等の実設備を見ながらグリップや設定位置を確認して使い始めようとしている場面。小さな通勤・ジムバッグを邪魔にならない位置へ置き、仕事帰りにも立ち寄れる生活動線と、本格設備の両方が一枚で伝わるようにする。受付だけを主役にせず、THE REV.のロゴまたは固有空間とトレーニング設備を同時に読み取れる構図にする。トレーナー、スタッフ、コーチは出さない。",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-evolgear-20260922\",\"source_sha256\":\"437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea\",\"scene_type\":\"before_start\",\"location_type\":\"training_area\",\"human_action\":\"prepare\",\"composition_type\":\"medium_seated_portrait\",\"visual_role\":\"deciding_own_start\",\"article_intent\":\"facility_selection\",\"required_equipment\":[\"training_bench\"],\"subject_zone\":\"training_area\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":0,\"unknown_count\":0,\"penalty\":0,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea\",\"primary_location\":\"training_area\",\"subject_zone\":\"training_area\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"training_area\"},{\"object\":\"cable_machine\",\"zone\":\"training_area\"},{\"object\":\"barbell\",\"zone\":\"training_area\"},{\"object\":\"weight_plates\",\"zone\":\"training_area\"},{\"object\":\"training_bench\",\"zone\":\"training_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\",\"rack_adjustment\",\"cable_operation\",\"barbell_operation\",\"strength_exercise\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be prepare in training_area; visual role deciding_own_start.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a beginner studying the real rack from a safe distance, empty hands, no adjusting/loading/gripping.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.\nOne beginner customer sits on the EXISTING real training bench, quietly checks one shoelace before starting. This is personal readiness, not checking or operating the rack. Keep the rack in its original training-floor position. Do not invent another bench. Shoes and hands must be anatomically natural.",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
-  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
-  "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+  "asset_version": "reference-v26-grounded-evolgear-20261007-r4",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.json",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -65,20 +65,20 @@
     "scene_plausibility_version": "the-rev-scene-plausibility-v1"
   },
   "background_source": {
-    "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
     "cached_frame_drive_file_id": "",
     "origin_video_file_id": "",
-    "origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "origin_video_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
     "frame_position_ratio": null,
-    "selection_reason": "新大宮でのジム選びを、通いやすい入口動線と実設備の両方で見せられるTHE REV.実素材。公式サイト写真と同一bytesのコピーを指定Editorial Drive rootへ保存し、2026-09-27に自動生成sourceとして登録。",
-    "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
+    "selection_reason": "実ラック・実ベンチが写るトレーニングエリアを使用。受付へ設備を追加せず、施設点検とは違う「自分のペースで始める準備」を表す。",
+    "treatment": "Preserve actual training floor, rack, bench and furniture zones; scene-aware customer edit only. No new equipment."
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "automation": {
     "mode": "unattended-github-actions-v1",
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-lobby-sp-20260927",
-    "source_repo_path": "assets/images/photo-lobby-sp.jpg",
+    "selected_source_id": "the-rev-evolgear-20260922",
+    "source_repo_path": "assets/images/photo-evolgear.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
@@ -89,7 +89,9 @@
         "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
         "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
         "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
-        "customerPresentation": "female"
+        "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg"
       },
       {
         "slug": "boxing-beginner-scared-before-mitt-training",
@@ -99,7 +101,9 @@
         "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
         "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
         "imageHeadlineShort": "怖くても、\n最初は基本から。",
-        "customerPresentation": "male"
+        "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg"
       },
       {
         "slug": "denba-electric-potential-space-radio-wave-difference",
@@ -109,7 +113,9 @@
         "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
         "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
         "imageHeadlineShort": "DENBAの基本\n電位空間",
-        "customerPresentation": "female"
+        "articleTitle": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg"
       },
       {
         "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
@@ -119,7 +125,9 @@
         "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
         "assetVersion": "reference-v26-lobby-paper-20261004-r2",
         "imageHeadlineShort": "始める前に、\n状態を確かめる。",
-        "customerPresentation": "male"
+        "articleTitle": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg"
       }
     ],
     "recent_thumbnail_copy_window": 25,
@@ -158,7 +166,232 @@
       "female",
       "male"
     ],
-    "recovery_reason": "visual-qc-semantic-linebreak-r3",
-    "previous_asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r2"
-  }
+    "recovery_reason": "source-grounding-and-semantic-diversity-r4",
+    "previous_asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
+    "recent_semantic_articles": [
+      {
+        "slug": "desk-work-stand-every-30-minutes",
+        "checkedAt": "2026-10-06T01:08:15.230Z",
+        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+        "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+        "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+        "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+        "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg"
+      },
+      {
+        "slug": "boxing-beginner-scared-before-mitt-training",
+        "checkedAt": "2026-10-05T12:07:58.242Z",
+        "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+        "originVideoFileId": "",
+        "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+        "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+        "imageHeadlineShort": "怖くても、\n最初は基本から。",
+        "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg"
+      },
+      {
+        "slug": "denba-electric-potential-space-radio-wave-difference",
+        "checkedAt": "2026-10-04T09:45:25.230Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+        "imageHeadlineShort": "DENBAの基本\n電位空間",
+        "articleTitle": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg"
+      },
+      {
+        "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+        "checkedAt": "2026-10-04T05:12:02.251Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+        "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+        "articleTitle": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg"
+      },
+      {
+        "slug": "beginner-strength-training-few-exercises-frequency",
+        "checkedAt": "2026-10-03T14:29:13.715Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-auto-evolgear-20260922-6bf9953b",
+        "imageHeadlineShort": "続けられる頻度を、\n最初に決める。",
+        "articleTitle": "筋トレ初心者は種目が少なくても効果はある？週の回数と始め方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg"
+      },
+      {
+        "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+        "checkedAt": "2026-10-03T04:14:41.758063Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+        "imageHeadlineShort": "通いやすさまで、\n選ぶ基準に。",
+        "articleTitle": "新大宮で完全予約制のパーソナルジムを探す方へ｜THE REV.の設備と過ごし方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg"
+      },
+      {
+        "slug": "oxygen-room-how-to-spend-time",
+        "checkedAt": "2026-09-30T00:58:19.711Z",
+        "driveFileId": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+        "originVideoFileId": "",
+        "contentReference": "drive://1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c/AI_SOURCE_photo-oxyroom_20260924.jpg",
+        "assetVersion": "reference-v26-auto-oxyroom-20260924-ef33bf94",
+        "imageHeadlineShort": "中では、静かに休むだけ。",
+        "articleTitle": "酸素ルームの中では何をする？｜横になって過ごす時間の使い方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg"
+      },
+      {
+        "slug": "denba-health-what-is-it-the-rev",
+        "checkedAt": "2026-09-29T08:23:10.408Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-auto-denba-intro-20260929-r3",
+        "imageHeadlineShort": "DENBAって何？",
+        "articleTitle": "denba-health-what-is-it-the-rev",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3.jpg"
+      },
+      {
+        "slug": "oxygen-room-first-time-ear-clearing-guide",
+        "checkedAt": "2026-09-29T07:14:14.478Z",
+        "driveFileId": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+        "originVideoFileId": "",
+        "contentReference": "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+        "assetVersion": "reference-v26-auto-oxy-overview-20260929-r3",
+        "imageHeadlineShort": "酸素ルームって、\n何する場所？",
+        "articleTitle": "酸素ルームの中にあるDENBAって何？｜THE REV.での使い方をやさしく紹介",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3.jpg"
+      },
+      {
+        "slug": "shinomiya-gym-erabikata-dosen",
+        "checkedAt": "2026-09-27T04:24:58.456Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-semantic-xl-20260927-r1",
+        "imageHeadlineShort": "設備だけで、\n決めない。",
+        "articleTitle": "新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg"
+      },
+      {
+        "slug": "exercise-start-fatigue-anxiety-next-day-plan",
+        "checkedAt": "2026-09-27T04:23:55.287Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-semantic-xl-20260927-r1",
+        "imageHeadlineShort": "軽く動いて、\n調子を見る。",
+        "articleTitle": "運動を始めたい。でも疲れそうで続かない人へ｜最初に決めるのは翌日の予定です",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.jpg"
+      },
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T09:14:25.201Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v24-auto-lobby-20260924-4db7de37-r5",
+        "imageHeadlineShort": "体重計に出ない、\n進歩がある。",
+        "articleTitle": "筋肉量が増えない＝筋トレは無駄？体重計に出ない「3つの進歩」",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-muscle-mass-not-increasing-progress-signs-reference-v24-auto-lobby-20260924-4db7de37-r5.jpg"
+      }
+    ]
+  },
+  "scene_grounding_version": "the-rev-source-scene-v1",
+  "source_scene_inventory": {
+    "version": "the-rev-source-scene-v1",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "primary_location": "training_area",
+    "subject_zone": "training_area",
+    "visible_equipment": [
+      {
+        "object": "training_rack",
+        "zone": "training_area"
+      },
+      {
+        "object": "cable_machine",
+        "zone": "training_area"
+      },
+      {
+        "object": "barbell",
+        "zone": "training_area"
+      },
+      {
+        "object": "weight_plates",
+        "zone": "training_area"
+      },
+      {
+        "object": "training_bench",
+        "zone": "training_area"
+      }
+    ],
+    "allowed_generated_actions": [
+      "prepare",
+      "rest",
+      "observing_real_equipment",
+      "rack_adjustment",
+      "cable_operation",
+      "barbell_operation",
+      "strength_exercise"
+    ],
+    "forbidden_generated_objects": [
+      "medical_device",
+      "unverified_training_equipment"
+    ],
+    "suitable_article_intents": [
+      "facility_selection",
+      "health_before_start",
+      "readiness",
+      "training_start"
+    ],
+    "verification": {
+      "method": "source image visual inspection + canonical scoped registry",
+      "verified_at": "2026-10-07",
+      "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+    }
+  },
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-evolgear-20260922",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "scene_type": "before_start",
+    "location_type": "training_area",
+    "human_action": "prepare",
+    "composition_type": "medium_seated_portrait",
+    "visual_role": "deciding_own_start",
+    "article_intent": "facility_selection",
+    "required_equipment": [
+      "training_bench"
+    ],
+    "subject_zone": "training_area",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 0,
+      "unknown_count": 0,
+      "penalty": 0,
+      "matches": []
+    }
+  },
+  "visible_action": "実トレーニングエリアの実ベンチで、成人顧客1人が靴ひもを確認して落ち着いて始める準備をする。",
+  "visual_claim": "何をするか分からない初心者が、頑張り過ぎず自分のペースで最初の一歩を用意する。施設の点検・器具設定はしない。",
+  "composition_hint": "Medium seated portrait, the real bench supports the customer at its real position. Face visible in a calm three-quarter view while leaning only slightly to one shoelace. Customer centre-right, shoes and hands inside the safe crop. No standing facility-inspection composition."
 }
