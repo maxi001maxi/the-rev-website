@@ -168,6 +168,14 @@ section('1. Candidate selection on the live 2026-10-03 shortlist');
 section('1.1. Blog category taxonomy is resolved before Queue creation');
 {
   assert(resolveDailyEditorialCategory({ primary_query:'新大宮 ジム 初心者', title_candidate:'新大宮で初心者がジムを選ぶなら' }) === 'gym-guide', 'local gym choice -> gym-guide');
+  assert(
+    resolveDailyEditorialCategory({
+      article_type:'COMPARISON_GUIDE',
+      primary_query:'新大宮 ジム 初心者',
+      title_candidate:'新大宮で初心者がジムを選ぶなら｜24時間・パーソナルジム・ボクシング'
+    }) === 'gym-guide',
+    'comparison guide stays gym-guide even when boxing is one option'
+  );
   assert(resolveDailyEditorialCategory({ editorial_lane:'BOXING', category:'body-knowledge' }) === 'boxing', 'deprecated category is replaced by lane mapping');
   assert(resolveDailyEditorialCategory({ editorial_lane:'DENBA' }) === 'recovery', 'DENBA -> recovery');
   assert(resolveDailyEditorialCategory({ content_cluster:'HEALTH_SAFETY' }) === 'health', 'health safety -> health');
