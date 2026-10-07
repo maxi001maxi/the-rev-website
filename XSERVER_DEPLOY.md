@@ -6,7 +6,11 @@
 
 Workflow: `.github/workflows/deploy-xserver.yml`
 
-通常運用では、`main` に本番サイトへ影響する変更が入ると自動起動します。必要に応じて `workflow_dispatch` から手動実行もできます。
+通常運用では、`main` に変更が入るとWorkflow内のPlannerが差分を見て **SKIP / BLOG_FAST / FULL** を決めます。必要に応じて `workflow_dispatch` から手動実行もできます。手動実行は常にFULLです。
+
+- `SKIP`: API / lib / test / Editorial内部状態など、Xserver公開物に影響しない変更。Xserverの直列Deploy laneを占有しません。
+- `BLOG_FAST`: `content/blog/**` だけがXserver公開物へ影響する変更。画像はEditorial Image Operatorで事前stage/verify済みという契約を使い、対象記事画像だけbyte再確認してBlog + sitemapを反映します。
+- `FULL`: HTML / CSS / assets / template / build logic / package / workflowなど静的サイト全体へ影響し得る変更。従来どおりFull Backup → assets → root → Blog LAST → Verifyです。
 
 自動起動対象は主に次の正本・公開ソースです。
 
@@ -24,16 +28,26 @@ Workflow: `.github/workflows/deploy-xserver.yml`
 
 ## 実行順序
 
-1. `npm ci`
-2. `npm run vercel-build`
-3. `content/blog/*.md` の `status` と `dist/blog/` の生成結果を照合
-4. `dist/admin` を除外したXserver用payloadを作成
-5. Xserver FTPルート `/` の本番をFTPSでバックアップ
-6. バックアップをGitHub Actions Artifactへ14日保存
-7. 本番 `/blog/` 配下を完全同期し、下書き化・削除された記事の残骸を除去
-8. それ以外の公開ファイルをFTPルート `/` へ上書き
-9. `therev-lab.com` のTOP / Blog一覧 / 全公開記事をHTTP確認
-10. 下書き記事がBlog一覧に出ておらず、URLもHTTP 200になっていないことを確認
+共通で `npm ci` → `npm run vercel-build` → Blog生成物検証を行います。
+
+### BLOG_FAST
+
+1. push差分から変更された `content/blog/*.md` を特定
+2. その公開記事が参照するThumbnail / OGPだけを本番URLから取得し、ローカルdistとSHA256一致を再確認
+3. `sitemap.xml` を反映
+4. `/blog/` を完全同期（`--delete`）し、Blogを最後に切り替える
+5. 通常URLのBlog一覧、記事URL、キャッシュ状態を本番readbackで確認
+6. ロールバック元はGitの親commit + 決定論的Blog rebuild
+
+### FULL
+
+1. Xserver FTPルート `/` の本番をFTPSでバックアップ
+2. バックアップをGitHub Actions Artifactへ14日保存
+3. assetsを先に同期
+4. CSS / 公開画像の本番byte一致を確認
+5. root公開ファイルを反映
+6. `/blog/` を最後に完全同期
+7. `therev-lab.com` のTOP / Blog一覧 / 全公開記事を本番readbackで確認
 
 Xserver接続は一時的に不安定になることがあるため、バックアップとデプロイは最大3回まで自動再試行します。ビルド検証に失敗した場合は、FTP接続や本番変更を行う前に停止します。
 
@@ -106,7 +120,9 @@ FTPルート `/` 全体には `--delete` を使いません。そのため、Xse
 
 ## バックアップ
 
-各デプロイ前に現在のFTPルート `/` の本番領域を取得し、GitHub Actions Artifactとして保存します。認証付き別環境 `/unlimited-dev/` は本番バックアップ対象から除外します。
+**FULL Deployの前**に現在のFTPルート `/` の本番領域を取得し、GitHub Actions Artifactとして保存します。認証付き別環境 `/unlimited-dev/` は本番バックアップ対象から除外します。
+
+BLOG_FASTではFull Backupを取りません。Blogの正本はGitHubの `content/blog/**` とbuild codeにあり、直前commitから決定論的に再buildできるためです。代わりに、公開前のbuild検証・対象画像のSHA256本番照合・Blog LAST・公開後readbackは維持します。
 
 Artifact名:
 
