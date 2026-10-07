@@ -1,8 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import {
   DEPLOY_MODE,
-  classifyXserverDeploy
+  classifyXserverDeploy,
+  collectBlogFastTargetImages
 } from './xserver-deploy-plan.mjs';
 
 test('content/blog only uses BLOG_FAST', () => {
@@ -82,4 +86,57 @@ test('empty classification fails closed to FULL', () => {
   const plan = classifyXserverDeploy({ changedFiles: [] });
   assert.equal(plan.mode, DEPLOY_MODE.FULL);
   assert.equal(plan.reason, 'unable-to-classify-fail-closed');
+});
+
+
+test('BLOG_FAST extracts only the changed published article images', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'xserver-plan-'));
+  try {
+    fs.mkdirSync(path.join(root, 'content/blog'), { recursive: true });
+    fs.mkdirSync(path.join(root, 'dist/assets/images/blog/og'), { recursive: true });
+    fs.writeFileSync(
+      path.join(root, 'content/blog/sample.md'),
+      [
+        '---',
+        'status: published',
+        'thumbnail: /assets/images/blog/thumb-sample.jpg',
+        'og_image: /assets/images/blog/og/og-sample.jpg',
+        '---',
+        '',
+        'body'
+      ].join('\n')
+    );
+    fs.writeFileSync(path.join(root, 'dist/assets/images/blog/thumb-sample.jpg'), 'thumb');
+    fs.writeFileSync(path.join(root, 'dist/assets/images/blog/og/og-sample.jpg'), 'og');
+
+    assert.deepEqual(
+      collectBlogFastTargetImages({ root, changedFiles: ['content/blog/sample.md'] }),
+      ['/assets/images/blog/og/og-sample.jpg', '/assets/images/blog/thumb-sample.jpg']
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('BLOG_FAST fails closed if a published article points to a missing image', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'xserver-plan-missing-'));
+  try {
+    fs.mkdirSync(path.join(root, 'content/blog'), { recursive: true });
+    fs.writeFileSync(
+      path.join(root, 'content/blog/sample.md'),
+      [
+        '---',
+        'status: published',
+        'thumbnail: /assets/images/blog/thumb-missing.jpg',
+        'og_image: /assets/images/blog/og/og-missing.jpg',
+        '---'
+      ].join('\n')
+    );
+    assert.throws(
+      () => collectBlogFastTargetImages({ root, changedFiles: ['content/blog/sample.md'] }),
+      /missing from dist/
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
 });
