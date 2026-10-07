@@ -22,6 +22,8 @@ on:
       - 'scripts/test-daily-creator-integration.mjs'
       - 'scripts/test-supervisor-qc-recovery.mjs'
       - 'scripts/test-editorial-trigger-topology.mjs'
+      - 'scripts/xserver-deploy-plan.mjs'
+      - 'scripts/test-xserver-deploy-plan.mjs'
       - 'scripts/daily-editorial-connector-plan.mjs'
       - 'scripts/test-daily-editorial-connector-plan.mjs'
       - 'scripts/build-gas-bundle.mjs'
@@ -136,6 +138,7 @@ jobs:
       - run: npm run test:daily-creator
       - run: npm run test:supervisor-qc-recovery
       - run: npm run test:trigger-topology
+      - run: node --test scripts/test-xserver-deploy-plan.mjs
       - run: npm run test:topic-approval
       - run: node --test scripts/test-daily-editorial-connector-plan.mjs
       - run: node --test scripts/test-editorial-consistency.mjs
