@@ -14,6 +14,10 @@
     {
       "source": "/api/cron/company-os-ga4/",
       "destination": "/api/integrations/editorial-status/?mode=company_os_ga4_cron"
+    },
+    {
+      "source": "/api/cron/company-os-gsc/",
+      "destination": "/api/integrations/editorial-status/?mode=company_os_gsc_cron"
     }
   ],
   "redirects": [
@@ -35,7 +39,7 @@
       "schedule": "10 22 * * *"
     },
     {
-      "path": "/api/integrations/editorial-status?mode=company_os_gsc_cron",
+      "path": "/api/cron/company-os-gsc/",
       "schedule": "15 22 * * *"
     },
     {

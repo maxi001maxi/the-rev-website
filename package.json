@@ -32,7 +32,8 @@
     "test:blog-taxonomy": "node --test scripts/test-blog-taxonomy.mjs",
     "test:gsc-direct": "node scripts/test-gsc-direct-read.mjs",
     "test:vercel-release-policy": "node scripts/test-vercel-release-policy.mjs",
-    "test:control-capture": "node scripts/test-control-capture.mjs"
+    "test:control-capture": "node scripts/test-control-capture.mjs",
+    "test:gsc-production": "node scripts/test-gsc-production-contract.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
