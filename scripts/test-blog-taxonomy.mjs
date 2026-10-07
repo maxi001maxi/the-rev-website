@@ -66,23 +66,35 @@ function validateBlogDraftErrors(category) {
   return validateDraftForPublish({ title: 't', slug: 's', description: 'd', category });
 }
 
-test('F-H. published/draft migration matches the specification', () => {
-  assert.equal(published.length, 18);
-  const expected = new Map(Object.entries(SPEC).flatMap(([c, slugs]) => slugs.map(s => [s, c])));
+test('F-H. legacy migration stays correct while daily published articles may grow', () => {
+  const expected = new Map(Object.entries(SPEC).flatMap(([category, slugs]) => slugs.map((slug) => [slug, category])));
   assert.equal(expected.size, 18);
-  for (const a of published) {
-    assert.equal(a.category, expected.get(a.slug), a.slug);
-    assert.equal(a.category_label, getBlogCategory(a.category).labelEn, `${a.slug} category_label`);
+
+  // The migration fixture is a floor, not a permanent total. Daily Editorial
+  // publishing is expected to grow content/blog over time.
+  assert.ok(published.length >= expected.size);
+
+  for (const [slug, category] of expected) {
+    const article = published.find((item) => item.slug === slug);
+    assert.ok(article, `legacy published article missing: ${slug}`);
+    assert.equal(article.category, category, slug);
   }
-  const draft = source.find(a => a.slug === 'self-training-form-check');
+
+  for (const article of published) {
+    assert.ok(isBlogCategory(article.category), `${article.slug} category`);
+    assert.equal(article.category_label, getBlogCategory(article.category).labelEn, `${article.slug} category_label`);
+  }
+
+  const draft = source.find((article) => article.slug === 'self-training-form-check');
   assert.equal(draft.status, 'draft');
   assert.equal(draft.category, 'training');
-  assert.equal(source.length - published.length, 1);
-  for (const [c, slugs] of Object.entries(SPEC)) {
-    assert.equal(published.filter(a => a.category === c).length, slugs.length, c);
+
+  for (const [category, legacySlugs] of Object.entries(SPEC)) {
+    assert.ok(
+      published.filter((article) => article.category === category).length >= legacySlugs.length,
+      `${category} must retain all migrated articles`
+    );
   }
-  assert.deepEqual(Object.fromEntries(Object.entries(SPEC).map(([c, s]) => [c, s.length])),
-    { training: 4, health: 3, 'gym-guide': 6, recovery: 4, boxing: 1 });
 });
 
 test('I-M,O. category pages are generated, exclusive and exhaustive', () => {
@@ -95,7 +107,7 @@ test('I-M,O. category pages are generated, exclusive and exhaustive', () => {
     cards.forEach(s => seen.set(s, (seen.get(s) || 0) + 1));
     assert.ok(!cards.includes('self-training-form-check'));
   }
-  assert.equal(seen.size, 18);
+  assert.equal(seen.size, published.length);
   assert.ok([...seen.values()].every(n => n === 1));
   for (const a of published) assert.ok(fs.existsSync(path.join(ROOT, `blog/${a.slug}/index.html`)), a.slug);
   assert.ok(!fs.existsSync(path.join(ROOT, 'blog/self-training-form-check')));
