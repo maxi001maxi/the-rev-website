@@ -444,6 +444,18 @@ export default async function handler(req, res) {
         }
       };
     }
+
+    // Safe production observability for the automation-owned readiness decision.
+    // Never log article body, interview content, credentials or secrets.
+    console.info(JSON.stringify({
+      event: 'editorial_canonical_preflight',
+      content_id: contentId,
+      article_id: article.id,
+      ready: readiness?.ready === true,
+      reason: readiness?.reason || null,
+      failed_check_ids: readiness?.failed_check_ids || [],
+      blocker_code: readiness?.blocker?.code || canonicalPreflight?.blocker?.code || null
+    }));
   }
 
   const origin = originFromRequest(req);
