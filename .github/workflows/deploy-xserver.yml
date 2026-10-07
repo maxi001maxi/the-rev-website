@@ -3,9 +3,11 @@
 # mainへの本番関連変更で自動起動し、必要に応じてworkflow_dispatchでも手動起動できる。
 # 目的：
 #   1) GitHub mainから公開物をビルドして事前検証
-#   2) 現在のXserver本番をFTPSでバックアップ
-#   3) XserverのFTPルート / へ安全に反映
-#   4) therev-lab.com のTOP / Blog / 公開記事を実通信で確認
+#   2) 変更内容を SKIP / BLOG_FAST / FULL に分類
+#   3) FULLのみ現在のXserver本番をFTPSでバックアップ
+#   4) BLOG_FASTは既にstage/verify済みの対象画像だけ再確認し、Blog + sitemapだけ反映
+#   5) FULLは従来どおりassets → root → Blog LASTで反映
+#   6) therev-lab.com のTOP / Blog / 公開記事を実通信で確認
 #
 # 2026-09-17 に手動probeで確認:
 #   - FTP / に置いたtxt → https://therev-lab.com/<file> で配信
@@ -44,10 +46,6 @@ permissions:
   contents: read
   actions: read
 
-concurrency:
-  group: xserver-production-v2
-  cancel-in-progress: false
-
 env:
   NODE_VERSION: '22'
   XSERVER_FTP_HOST: 'sv14602.xserver.jp'
@@ -55,14 +53,63 @@ env:
   PRODUCTION_URL: 'https://therev-lab.com'
 
 jobs:
+  plan:
+    name: Plan Xserver deployment
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.plan.outputs.mode }}
+      reason: ${{ steps.plan.outputs.reason }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Classify deploy mode
+        id: plan
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          : > .xserver-changed-files
+          git log -1 --pretty=%B > .xserver-commit-message
+
+          if [ "$GITHUB_EVENT_NAME" != "workflow_dispatch" ]; then
+            BEFORE="${EVENT_BEFORE:-}"
+            if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+              git diff --name-only "$BEFORE" "$GITHUB_SHA" > .xserver-changed-files
+            else
+              git show --pretty='' --name-only "$GITHUB_SHA" > .xserver-changed-files
+            fi
+          fi
+
+          node scripts/xserver-deploy-plan.mjs \
+            --event-name "$GITHUB_EVENT_NAME" \
+            --changed-file-list .xserver-changed-files \
+            --commit-message-file .xserver-commit-message \
+            --github-output "$GITHUB_OUTPUT"
+
+          echo "Changed files:"
+          cat .xserver-changed-files || true
+
   deploy:
-    name: Build → Backup → Deploy → Verify
+    name: Build → Deploy → Verify (${{ needs.plan.outputs.mode }})
+    needs: plan
+    if: needs.plan.outputs.mode != 'SKIP'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: xserver-production-v3
+      cancel-in-progress: false
+    env:
+      DEPLOY_MODE: ${{ needs.plan.outputs.mode }}
+      DEPLOY_REASON: ${{ needs.plan.outputs.reason }}
 
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -185,6 +232,28 @@ jobs:
       - name: Validate Blog categories in dist (before production switch)
         run: node scripts/verify-blog-categories.mjs dist
 
+
+      - name: Prepare BLOG_FAST target image list
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            git diff --name-only "$BEFORE" "$GITHUB_SHA" > .xserver-changed-files
+          else
+            git show --pretty='' --name-only "$GITHUB_SHA" > .xserver-changed-files
+          fi
+          git log -1 --pretty=%B > .xserver-commit-message
+          node scripts/xserver-deploy-plan.mjs \
+            --event-name "$GITHUB_EVENT_NAME" \
+            --changed-file-list .xserver-changed-files \
+            --commit-message-file .xserver-commit-message \
+            --write-target-images .deploy-target-images
+          echo "BLOG_FAST target images:"
+          cat .deploy-target-images || true
+
       - name: Prepare Xserver payload
         run: |
           set -euo pipefail
@@ -216,6 +285,7 @@ jobs:
           sudo apt-get install -y -qq lftp
 
       - name: Backup current Xserver production
+        if: env.DEPLOY_MODE == 'FULL'
         id: backup
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
@@ -262,7 +332,7 @@ jobs:
 
       - name: Check recent backup safety net
         id: backup_safety
-        if: steps.backup.outputs.backup_ok != 'true'
+        if: env.DEPLOY_MODE == 'FULL' && steps.backup.outputs.backup_ok != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -305,7 +375,7 @@ jobs:
           echo "::warning::Using recent prior backup safety net: ${FALLBACK_NAME} (${FALLBACK_CREATED})"
 
       - name: Store production backup artifact
-        if: steps.backup.outputs.backup_ok == 'true'
+        if: env.DEPLOY_MODE == 'FULL' && steps.backup.outputs.backup_ok == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: xserver-backup-${{ github.run_id }}
@@ -315,6 +385,7 @@ jobs:
           retention-days: 14
 
       - name: Deploy assets FIRST
+        if: env.DEPLOY_MODE == 'FULL'
         id: xserver_assets_deploy
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
@@ -355,6 +426,7 @@ jobs:
           echo "Xserver assets upload complete."
 
       - name: Wait until root stylesheet is live
+        if: env.DEPLOY_MODE == 'FULL'
         run: |
           set -euo pipefail
           LOCAL_CSS="dist/assets/css/style.css"
@@ -388,6 +460,7 @@ jobs:
           exit 1
 
       - name: Wait until published images are live
+        if: env.DEPLOY_MODE == 'FULL'
         run: |
           set -euo pipefail
           CACHE_BUST="asset-gate=${GITHUB_RUN_ID}"
@@ -439,6 +512,7 @@ jobs:
           echo "All published image assets are live and byte-identical. Blog switch is now safe."
 
       - name: Deploy root files after image gate
+        if: env.DEPLOY_MODE == 'FULL'
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
           XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
@@ -459,6 +533,68 @@ jobs:
           mput -O "$XSERVER_REMOTE_DIR" deploy/*.ico
           rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
           rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
+          bye
+          EOF
+
+      - name: Verify BLOG_FAST target images are already live
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+          CACHE_BUST="blog-fast-image=${GITHUB_RUN_ID}"
+
+          if [ ! -s .deploy-target-images ]; then
+            echo "No published target images changed; image gate is a no-op."
+            exit 0
+          fi
+
+          while IFS= read -r image_path; do
+            [ -n "$image_path" ] || continue
+            local_file="dist/${image_path#/}"
+            live_file="$TMP_DIR/$(basename "$image_path")"
+            test -f "$local_file"
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+            ready=0
+
+            for attempt in $(seq 1 6); do
+              code="$(curl -sS -L -o "$live_file" -w '%{http_code}' \
+                --connect-timeout 8 --max-time 20 \
+                "${PRODUCTION_URL}${image_path}?${CACHE_BUST}&attempt=${attempt}" || echo '000')"
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "BLOG_FAST image ready ${attempt}/6: ${image_path}"
+                  ready=1
+                  break
+                fi
+              fi
+              sleep 5
+            done
+
+            if [ "$ready" != "1" ]; then
+              echo "::error::BLOG_FAST target image is not byte-identical on production: ${image_path}"
+              exit 1
+            fi
+          done < .deploy-target-images
+
+      - name: Deploy BLOG_FAST sitemap metadata
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -f deploy/sitemap.xml
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          put -O "$XSERVER_REMOTE_DIR" "deploy/sitemap.xml"
           bye
           EOF
 
@@ -513,9 +649,12 @@ jobs:
           echo "" >> "$SUMMARY"
           echo "- Trigger: \`${GITHUB_EVENT_NAME}\`" >> "$SUMMARY"
           echo "- Commit: \`${GITHUB_SHA}\`" >> "$SUMMARY"
+          echo "- Mode: \`${DEPLOY_MODE}\` (${DEPLOY_REASON})" >> "$SUMMARY"
           echo "- Target: \`${PRODUCTION_URL}\`" >> "$SUMMARY"
           echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}\`" >> "$SUMMARY"
-          if [ "${{ steps.backup.outputs.backup_ok }}" = "true" ]; then
+          if [ "$DEPLOY_MODE" = "BLOG_FAST" ]; then
+            echo "- Rollback source: Git parent commit + deterministic Blog rebuild" >> "$SUMMARY"
+          elif [ "${{ steps.backup.outputs.backup_ok }}" = "true" ]; then
             echo "- Backup: \`xserver-backup-${GITHUB_RUN_ID}\` (current run)" >> "$SUMMARY"
           else
             echo "- Backup safety net: \`${{ steps.backup_safety.outputs.fallback_artifact }}\`" >> "$SUMMARY"
