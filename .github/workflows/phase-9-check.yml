@@ -111,6 +111,10 @@ on:
       - 'package-lock.json'
       - 'supabase/migrations/**'
       - '.github/workflows/phase-9-check.yml'
+      - 'vercel.json'
+      - 'docs/operations/VERCEL_RELEASE_POLICY_V1.md'
+      - 'scripts/test-vercel-release-policy.mjs'
+      - '.github/workflows/preview-qa.yml'
   push:
     branches: [phase-9-editorial-bridge]
 
@@ -124,6 +128,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: npm run test:vercel-release-policy
       - run: node --check api/integrations/editorial.mjs
       - run: node --check api/integrations/editorial-status.mjs
       - run: node --check .github/qa/visual-qa.mjs
