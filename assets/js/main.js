@@ -412,21 +412,34 @@
   }
 
   function initSectionTracking() {
-    if (trackingPageType() !== 'home') return;
+    var pageType = trackingPageType();
+    var defs = [];
 
-    var defs = [
-      { selector: '.trust-strip', id: 'trust' },
-      { selector: '#service', id: 'service' },
-      { selector: '.empathy', id: 'empathy' },
-      { selector: '#voice', id: 'voice' },
-      { selector: '#trainer', id: 'trainer' },
-      { selector: '#recovery', id: 'recovery' },
-      { selector: '.trial-guide', id: 'trial' },
-      { selector: '#pricing', id: 'pricing' },
-      { selector: '#faq', id: 'faq' },
-      { selector: '#access', id: 'access' },
-      { selector: '#contact', id: 'final_cta' }
-    ];
+    if (pageType === 'home') {
+      defs = [
+        { selector: '.trust-strip', id: 'trust' },
+        { selector: '#service', id: 'service' },
+        { selector: '.empathy', id: 'empathy' },
+        { selector: '#voice', id: 'voice' },
+        { selector: '#trainer', id: 'trainer' },
+        { selector: '#recovery', id: 'recovery' },
+        { selector: '.trial-guide', id: 'trial' },
+        { selector: '#pricing', id: 'pricing' },
+        { selector: '#faq', id: 'faq' },
+        { selector: '#access', id: 'access' },
+        { selector: '#contact', id: 'final_cta' }
+      ];
+    } else if (pageType === 'price') {
+      // REV-EXP-2026-001 Control Capture reuses the existing section_view
+      // contract so GTM does not need a new event/tag. This is the only
+      // section_view emitted on price.html, making the GA4 page-scoped
+      // sessions metric the canonical Eligible Trial Sessions denominator.
+      defs = [
+        { selector: '#cat-trial[data-track-section="pricing_trial"]', id: 'pricing_trial' }
+      ];
+    } else {
+      return;
+    }
 
     var targets = defs.map(function (def) {
       return { el: document.querySelector(def.selector), id: def.id };
@@ -438,10 +451,26 @@
     function fire(target) {
       if (seen[target.id]) return;
       seen[target.id] = true;
-      pushTrackingEvent('section_view', { section_id: target.id });
+      var extra = { section_id: target.id };
+
+      // Controlled metadata only. No customer-provided values are read.
+      if (pageType === 'price' &&
+          target.el.dataset.experimentId === 'REV-EXP-2026-001' &&
+          target.el.dataset.experimentVariant === 'control' &&
+          target.el.dataset.experimentSurface === 'pricing_trial') {
+        extra.experiment_id = 'REV-EXP-2026-001';
+        extra.experiment_variant = 'control';
+        extra.experiment_surface = 'pricing_trial';
+      }
+
+      pushTrackingEvent('section_view', extra);
     }
 
     if (!('IntersectionObserver' in window)) {
+      // Keep the historical home fallback, but do not infer experiment
+      // exposure on browsers where the 25% visibility condition cannot be
+      // observed.
+      if (pageType === 'price') return;
       targets.forEach(fire);
       return;
     }
