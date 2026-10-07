@@ -96,7 +96,7 @@ test('installed Supervisor wrapper blocks missing GBP and recovers before promot
     appendObjectRow_:(s,p)=>s.push({...p,__row:s.length+2}),buildM6Context_:()=>({}),v065WeekDate_:x=>x,
     generateGBPFromBlog_:()=>recover ? {body_copy_paste:'本文'}:null,
     v065CheckImageDirect_:()=>({ready:true}),
-    v065FetchJson_:()=>({json:{content_id:'BLOG',article,readiness:{ready:true},review_url:good.bridge.review_url}}),
+    v065FetchJson_:()=>({json:{content_id:'BLOG',article,readiness:{ready:true},canonical_preflight:{ok:true,checks:[]},review_url:good.bridge.review_url}}),
     v065LengthGate_:()=>({pass:true})};
   vm.createContext(context);vm.runInContext(fs.readFileSync('editorial/gas/DailyEditorialCreator_v0.6.9.gs','utf8'),context);
   assert.equal(context.v065LengthGate_('EXPERT_DEEP_DIVE','文'.repeat(929)).pass,false);
@@ -148,13 +148,14 @@ test('9 normal pipeline stays ready, expert compression fails',()=>{
   assert.equal(evaluateEditorialLength('EXPERT_DEEP_DIVE','文'.repeat(1681)).pass,true);
   assert.equal(evaluateEditorialLength('STANDARD','文'.repeat(900)).pass,false);
 });
-test('GAS contract has same missing-row and length behavior',()=>{
+test('GAS contract trusts only canonical preflight readiness',()=>{
   const context={getSettings_:()=>({})};vm.createContext(context);
   vm.runInContext(fs.readFileSync('editorial/gas/DailyEditorialCreator_v0.6.9.gs','utf8'),context);
   assert.equal(context.v069cLengthGate_('EXPERT_DEEP_DIVE','文'.repeat(929)).pass,false);
-  const article={image_status:'READY',image_asset_ready:true,image_qa:good.qa,gbp_image_qa:good.gbpQa};
-  assert.equal(context.v069cReviewContract_({content_id:'BLOG'},good.blog,null,article,good.bridge.review_url).ok,false);
-  assert.equal(context.v069cReviewContract_({content_id:'BLOG'},good.blog,good.gbp,article,good.bridge.review_url).ok,true);
+  assert.equal(context.v069cReviewContract_({readiness:{ready:true},canonical_preflight:{ok:true,checks:[]}},{content_id:'BLOG'},{parent_blog_id:'BLOG',status:'READY'}).ok,true);
+  const blocked=context.v069cReviewContract_({readiness:{ready:false},canonical_preflight:{ok:false,checks:[{id:'required',status:'error'}]}},{content_id:'BLOG'},{parent_blog_id:'BLOG',status:'READY'});
+  assert.equal(blocked.ok,false);
+  assert.deepEqual(Array.from(blocked.missing),['required']);
 });
 test('history collector includes all published files and paginated drafts, fails closed',async()=>{
   const data=Array.from({length:501},(_,i)=>({editorial_content_id:'D'+i,title:'title',body_markdown:'body'}));

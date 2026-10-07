@@ -13,7 +13,7 @@ const ROOT = path.resolve(__dirname, '..');
 const { buildBlogMarkdown, validateDraftForPublish, categoryLabelFor, contentPathFor, commitMessageFor } =
   await import('../lib/blogMarkdown.mjs');
 const github = await import('../lib/githubContent.mjs');
-const { checkPublisher, runPreflight, jstPublishDate, draftWithActualPublishDates } = await import('../lib/publishFlow.mjs');
+const { checkPublisher, runPreflight, readinessFromPreflight, jstPublishDate, draftWithActualPublishDates } = await import('../lib/publishFlow.mjs');
 const { IMAGE_RENDER_VERSION, IMAGE_STYLE_TEMPLATE } = await import('../lib/editorialImage.mjs');
 const { HYBRID_IMAGE_FORMAT } = await import('../lib/editorialHybridImageFormat.mjs');
 const storage = await import('../admin/js/admin-storage.mjs');
@@ -316,6 +316,17 @@ delete process.env.GITHUB_TOKEN;
 delete process.env.GITHUB_REPO;
 let r = await runPreflight({ supabase: fakeSupabase({ draft: BASE_DRAFT }), user: USER, articleId: 'a1', now: publishMoment });
 assert(r.ok === false && r.blocker?.code === 'github_not_configured', 'admin権限OKでもGitHub未設定なら停止', JSON.stringify(r.blocker));
+const automationPreflight = await runPreflight({
+  supabase: fakeSupabase({ draft: { ...BASE_DRAFT, title: '' } }),
+  user: null,
+  articleId: 'a1',
+  actor: 'automation'
+});
+assert(checkOf(automationPreflight, 'publisher')?.status === 'skip', 'Automation actorはHuman Publisher判定だけをskip');
+assert(checkOf(automationPreflight, 'required')?.status === 'error', 'Automation actor uses the same canonical article checks');
+const automationReadiness = readinessFromPreflight(automationPreflight);
+assert(automationReadiness.ready === false && automationReadiness.failed_check_ids.includes('required'), 'Canonical Preflight error blocks REVIEW_READY');
+
 const preflightMatter = matter(r.markdown);
 assert(preflightMatter.data.published === '2026-10-06' && preflightMatter.data.updated === '2026-10-06', 'Preflight Markdownも予定日ではなく実JST公開日');
 

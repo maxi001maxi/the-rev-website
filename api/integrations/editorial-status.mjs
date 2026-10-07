@@ -29,6 +29,7 @@ import {
 import { checkEditorialImageOperatorState, checkEditorialImageReady } from '../../lib/editorialImage.mjs';
 import { ensureAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
 import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
+import { runPreflight, readinessFromPreflight } from '../../lib/publishFlow.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
 import { planDailyEditorial } from '../../lib/dailyEditorialStateMachine.mjs';
 import { detectStuckRows, planDailyCreation } from '../../lib/dailyEditorialCreator.mjs';
@@ -415,6 +416,36 @@ export default async function handler(req, res) {
     });
   }
 
+  // Canonical Review Preflight is the only authority allowed to promote an
+  // article to REVIEW_READY. The automation does not reimplement required
+  // fields, Closing QC, image release, GitHub or Xserver checks.
+  let canonicalPreflight = null;
+  if (
+    String(article.image_status || '').toUpperCase() === 'READY' &&
+    article.image_asset_ready === true
+  ) {
+    try {
+      canonicalPreflight = await runPreflight({
+        supabase,
+        user: null,
+        articleId: article.id,
+        actor: 'automation'
+      });
+      readiness = readinessFromPreflight(canonicalPreflight);
+    } catch (error) {
+      readiness = {
+        ready: false,
+        reason: 'CANONICAL_PREFLIGHT_FAILED',
+        failed_check_ids: [],
+        blocker: {
+          code: 'canonical_preflight_failed',
+          status: 500,
+          message: String(error?.message || error || 'Canonical Preflight failed.').slice(0, 500)
+        }
+      };
+    }
+  }
+
   const origin = originFromRequest(req);
   res.setHeader('Cache-Control', 'no-store');
 
@@ -458,8 +489,19 @@ export default async function handler(req, res) {
     operator,
     readiness: {
       ready: readiness?.ready === true,
-      reason: readiness?.reason || null
+      reason: readiness?.reason || null,
+      failed_check_ids: readiness?.failed_check_ids || []
     },
+    canonical_preflight: canonicalPreflight ? {
+      ok: canonicalPreflight.ok === true,
+      blocker: canonicalPreflight.blocker || null,
+      checks: (canonicalPreflight.checks || []).map((item) => ({
+        id: item.id,
+        label: item.label,
+        status: item.status,
+        message: item.message || null
+      }))
+    } : null,
     review_url: origin
       ? `${origin}/admin/articles/review/?id=${encodeURIComponent(article.id)}`
       : null,
