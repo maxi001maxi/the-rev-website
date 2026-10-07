@@ -87,7 +87,23 @@ if (afterReturn !== 1) throw new Error('EXPOSURE_DUPLICATED');
 
 const exact = analytics.filter(x => x.tid === expectedId);
 const pageViews = exact.filter(x => x.event === 'page_view');
-const trialViews = exact.filter(x => x.event === 'section_view' && x.section_id === 'pricing_trial');
+const sectionViews = exact.filter(x => x.event === 'section_view');
+const trialViews = sectionViews.filter(x => x.section_id === 'pricing_trial');
+
+const debugEvidence = {
+  capturedAt: new Date().toISOString(),
+  exactGa4Requests: exact,
+  sectionViews,
+  dataLayerEvents: await page.evaluate(() => (window.dataLayer || []).filter(x =>
+    x && typeof x === 'object' && ['page_view','section_view'].includes(x.event)
+  ))
+};
+fs.writeFileSync(
+  'control-capture-production-acceptance.json',
+  JSON.stringify(debugEvidence, null, 2) + '\n'
+);
+console.log('CONTROL_CAPTURE_DEBUG_EVIDENCE');
+console.log(JSON.stringify(debugEvidence, null, 2));
 if (pageViews.length !== 1) throw new Error(`PAGE_VIEW_COUNT_${pageViews.length}`);
 if (trialViews.length !== 1) {
   throw new Error(`GA4_SECTION_VIEW_COUNT_${trialViews.length}`);
