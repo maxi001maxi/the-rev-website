@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     title: body.title,
     slug: body.slug,
     description: body.description,
-    category: body.category,
+    category: envelope.value.category,
     cta_type: resolveEditorialCtaType(body, envelope.value),
     body_markdown: body.body_markdown,
     author: body.author,
