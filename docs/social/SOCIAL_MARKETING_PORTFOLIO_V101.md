@@ -256,3 +256,22 @@ This is additive until v1.x production cutover explicitly enables the requiremen
 Purpose:
 grounded Evidence alone is not enough; the final creative layer must also prove
 recent-context review, asset review, divergence before convergence, and anti-template QC.
+
+
+## Existing-first is not existing-only
+
+Owner clarification on 2026-10-07:
+
+Stories should prefer reusable captured footage when it fits, but the system may also issue a new shooting instruction.
+
+Rules:
+- search existing assets first;
+- if a stronger Story needs a missing real moment, NEW_SHOOT is allowed;
+- NEW_SHOOT requires:
+  - `source_context.asset_search_completed=true`
+  - a concrete `metadata.new_shoot_reason`
+- do not request new filming merely because the asset index is inconvenient;
+- people may be filmed only when the person / permission / privacy conditions are actually satisfied;
+- do not assume customer filming.
+
+This corrects an over-strict interpretation of asset-first as asset-only.

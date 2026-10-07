@@ -217,6 +217,8 @@ test('asset-first Stories prefer 2-3 items and existing-library footage',()=>{
   assert.equal(out.asset_first,true);
   assert.equal(out.story_count,3);
   assert.deepEqual(out.categories,['BOXING','TRAINING','STORE']);
+  assert.equal(out.existing_asset_count,3);
+  assert.equal(out.new_shoot_count,0);
   assert.equal(out.interaction_none_count,3);
 });
 
@@ -330,4 +332,61 @@ test('Stories Creative Context requires residue, recent-history check, asset sea
 
 test('Stories Creative Context remains additive until explicitly required',()=>{
   assert.deepEqual(validateStoryCreativeContext({}),{required:false});
+});
+
+
+test('asset-first Stories may request a new shoot after existing asset search',()=>{
+  const rows=[
+    {
+      interaction:'NONE',
+      asset_plan:'Use verified stored reception clip',
+      metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'STORE'}
+    },
+    {
+      interaction:'NONE',
+      asset_plan:'Shoot 5 seconds of opening preparation at the real store.',
+      metadata:{
+        asset_source:'NEW_SHOOT',
+        asset_category:'DAILY_ATMOSPHERE',
+        new_shoot_reason:'No verified existing asset captures the specific opening-preparation moment planned for today.'
+      }
+    }
+  ];
+  const out=validateStoryAssetPolicy(rows,{
+    asset_first_required:true,
+    asset_search_completed:true
+  });
+  assert.equal(out.existing_asset_count,1);
+  assert.equal(out.new_shoot_count,1);
+
+  assert.throws(
+    ()=>validateStoryAssetPolicy(rows,{asset_first_required:true}),
+    /SOCIAL_STORY_NEW_SHOOT_REQUIRES_ASSET_SEARCH/
+  );
+});
+
+test('new Story shoot requires an explicit reason',()=>{
+  const rows=[
+    {
+      interaction:'NONE',
+      asset_plan:'Shoot a new store clip',
+      metadata:{
+        asset_source:'NEW_SHOOT',
+        asset_category:'STORE',
+        new_shoot_reason:'new'
+      }
+    },
+    {
+      interaction:'NONE',
+      asset_plan:'Use stored training clip',
+      metadata:{asset_source:'EXISTING_LIBRARY',asset_category:'TRAINING'}
+    }
+  ];
+  assert.throws(
+    ()=>validateStoryAssetPolicy(rows,{
+      asset_first_required:true,
+      asset_search_completed:true
+    }),
+    /SOCIAL_STORY_NEW_SHOOT_REASON_REQUIRED/
+  );
 });
