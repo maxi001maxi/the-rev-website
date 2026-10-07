@@ -19,6 +19,7 @@ import {
   selectContentReferenceWithHistory
 } from '../lib/editorialImage.mjs';
 import {
+  buildImageHeadlineCandidates,
   buildImageHeadlineShort,
   imageCopyIsArticleTitle,
   imageHeadlineIsRecentRepeat,
@@ -176,6 +177,11 @@ const uniqueGymCopy = selectUniqueImageHeadlineShort({
   title: '新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント'
 }, ['体験で見るのは、\n設備だけじゃない。'], { window: 12 });
 assert(uniqueGymCopy.copy === '通いやすさまで、\n選ぶ基準に。', '直近と意味が近いCopyを避けて次候補へ切り替える');
+const gymCopyCandidates = buildImageHeadlineCandidates({
+  title: '新大宮で初心者がジムを選ぶなら｜24時間・パーソナルジム・ボクシング'
+});
+assert(gymCopyCandidates.includes('使い方まで、\n見て選ぶ。'), 'gym-guide候補は意味の切れない短いCopyを使う');
+assert(!gymCopyCandidates.includes('使う場面まで、\n見て選ぶ。'), 'Visual QCで不自然分割を起こした旧Copyを再発させない');
 const fatigueDecision = selectBrandImageSourceDecision(fatigueArticle);
 assert(selectBrandImageSource(fatigueArticle) === 'assets/images/photo-evolgear.jpg', '疲労・判断系でもトレーナー写真を自動選定せず実設備背景を選ぶ');
 assert(fatigueDecision.intent === 'state-check-training-space', 'Content Referenceの選定意図を保持');
