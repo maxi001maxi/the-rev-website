@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import {
   normalizeEvidenceReelCandidate,
   normalizeEvidenceStoryItem,
+  validateReelCreativeContextV2,
   validateStoryAssetPolicy,
   validateStoryCreativeContext
 } from '../lib/socialEvidenceCreative.mjs';
@@ -389,4 +390,91 @@ test('new Story shoot requires an explicit reason',()=>{
     }),
     /SOCIAL_STORY_NEW_SHOOT_REASON_REQUIRED/
   );
+});
+
+
+test('Reel B V2 requires belief, positioning, proof, sequence and brand residue for every candidate',()=>{
+  const rows=[1,2,3,4,5].map(candidateNo=>({
+    candidate_no:candidateNo,
+    metadata:{
+      positioning_relationship:candidateNo===3?'ENRICH':'PROVE',
+      current_belief:'パーソナルジムはメニュー通りに運動する場所だと思っている。',
+      desired_belief:'THE REV.では身体の状態を見ながら、その場で内容を判断している。',
+      proof_type:candidateNo===3?'PHYSICAL_EVIDENCE':'PEOPLE',
+      sequence_archetype:candidateNo===3
+        ?'SITUATION_PROCESS_MEANING'
+        :'PERSON_JUDGMENT_SPACE',
+      brand_residue:'身体を理解してから鍛える THE REV.',
+      micro_action:'NONE',
+      ...(candidateNo===3?{supporting_value:'OXYGEN_ROOM'}:{})
+    }
+  }));
+
+  const out=validateReelCreativeContextV2(rows,{
+    reel_creative_context_required:true,
+    reel_creative_context_version:'SOCIAL_REEL_B_PRODUCTION_CONTEXT_V2',
+    positioning_baseline_checked:true,
+    positioning_evidence_strength:'MEDIUM',
+    research_review_checked:true
+  });
+
+  assert.equal(out.required,true);
+  assert.equal(out.reel_creative_context_version,'SOCIAL_REEL_B_PRODUCTION_CONTEXT_V2');
+  assert.equal(out.candidate_contracts.length,5);
+  assert.equal(out.candidate_contracts[2].positioning_relationship,'ENRICH');
+});
+
+test('Reel B V2 does not allow a candidate to be ready without a belief change',()=>{
+  const rows=[{
+    candidate_no:1,
+    metadata:{
+      positioning_relationship:'PROVE',
+      current_belief:'同じ',
+      desired_belief:'同じ',
+      proof_type:'PROCESS',
+      sequence_archetype:'POV_ENTRY_PROCESS_EXIT',
+      brand_residue:'THE REV.',
+      micro_action:'NONE'
+    }
+  }];
+  assert.throws(
+    ()=>validateReelCreativeContextV2(rows,{
+      reel_creative_context_required:true,
+      reel_creative_context_version:'SOCIAL_REEL_B_PRODUCTION_CONTEXT_V2',
+      positioning_baseline_checked:true,
+      positioning_evidence_strength:'MEDIUM',
+      research_review_checked:true
+    }),
+    /SOCIAL_REEL_V2_CURRENT_BELIEF_REQUIRED|SOCIAL_REEL_V2_DESIRED_BELIEF_REQUIRED/
+  );
+});
+
+test('Reel B V2 requires justification when a supporting value is used outside ENRICH',()=>{
+  const rows=[{
+    candidate_no:1,
+    metadata:{
+      positioning_relationship:'PROVE',
+      current_belief:'酸素ルームは珍しい設備が置いてあるだけだと思っている。',
+      desired_belief:'酸素ルームはTHE REV.のサービス体験を支える役割として置かれている。',
+      proof_type:'PHYSICAL_EVIDENCE',
+      sequence_archetype:'DEMONSTRATION_CLAIM_BOUNDARY',
+      brand_residue:'THE REV.のサービス設計',
+      micro_action:'NONE',
+      supporting_value:'OXYGEN_ROOM'
+    }
+  }];
+  assert.throws(
+    ()=>validateReelCreativeContextV2(rows,{
+      reel_creative_context_required:true,
+      reel_creative_context_version:'SOCIAL_REEL_B_PRODUCTION_CONTEXT_V2',
+      positioning_baseline_checked:true,
+      positioning_evidence_strength:'MEDIUM',
+      research_review_checked:true
+    }),
+    /SOCIAL_REEL_V2_SUPPORTING_VALUE_POSITIONING_JUSTIFICATION_REQUIRED/
+  );
+});
+
+test('Reel B V2 remains additive until explicitly required',()=>{
+  assert.deepEqual(validateReelCreativeContextV2([],{}),{required:false});
 });
