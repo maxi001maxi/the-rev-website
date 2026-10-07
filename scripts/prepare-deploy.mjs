@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
+const VERCEL_PREPARED_SENTINEL = path.join(ROOT, '.vercel-prepare-deploy-complete');
 
 const ROOT_FILES = ['favicon.ico', 'robots.txt', 'sitemap.xml'];
 const ROOT_DIRS = ['assets', 'blog', 'admin'];
@@ -59,6 +60,14 @@ function fingerprintRootStylesheet() {
 }
 
 function main() {
+  // Vercelでは同一Deployment内で vercel-build が二重実行される場合がある。
+  // 2回目にdistを削除すると、Vercelが1回目のdistをpackaging中にENOENT raceを起こすため、
+  // 同一Vercel build filesystem内では2回目以降をno-opにする。
+  if (process.env.VERCEL === '1' && fs.existsSync(VERCEL_PREPARED_SENTINEL) && fs.existsSync(DIST)) {
+    console.log('[prepare-deploy] Vercel duplicate invocation detected; existing dist/ を再利用します');
+    return;
+  }
+
   if (fs.existsSync(DIST)) fs.rmSync(DIST, { recursive: true, force: true });
   fs.mkdirSync(DIST, { recursive: true });
 
@@ -83,6 +92,10 @@ function main() {
   // Xserver deploy側でもstyle.cssを明示上書きし、本番bytes一致を確認してからHTMLを切り替える。
   // Xserver/CDN/ブラウザに古いCSSが残り、REAL VOICE等のレイアウトだけ崩れる事故を防ぐ。
   fingerprintRootStylesheet();
+
+  if (process.env.VERCEL === '1') {
+    fs.writeFileSync(VERCEL_PREPARED_SENTINEL, new Date().toISOString(), 'utf8');
+  }
 
   console.log('[prepare-deploy] dist/ を作成しました（公開対象ファイルのみ）');
 }
