@@ -12,6 +12,7 @@ import {
   buildQueueRow,
   detectStuckRows,
   planDailyCreation,
+  resolveDailyEditorialCategory,
   selectDailyCandidate,
   toEpochMs
 } from '../lib/dailyEditorialCreator.mjs';
@@ -162,6 +163,19 @@ section('1. Candidate selection on the live 2026-10-03 shortlist');
     ], queueRows: [], now, settings: SETTINGS
   });
   assert(tie.selected.candidate_id === 'T-A', 'ties break by rank then id (deterministic)');
+}
+
+section('1.1. Blog category taxonomy is resolved before Queue creation');
+{
+  assert(resolveDailyEditorialCategory({ primary_query:'新大宮 ジム 初心者', title_candidate:'新大宮で初心者がジムを選ぶなら' }) === 'gym-guide', 'local gym choice -> gym-guide');
+  assert(resolveDailyEditorialCategory({ editorial_lane:'BOXING', category:'body-knowledge' }) === 'boxing', 'deprecated category is replaced by lane mapping');
+  assert(resolveDailyEditorialCategory({ editorial_lane:'DENBA' }) === 'recovery', 'DENBA -> recovery');
+  assert(resolveDailyEditorialCategory({ content_cluster:'HEALTH_SAFETY' }) === 'health', 'health safety -> health');
+  const unresolved = selectDailyCandidate({
+    shortlist:[{candidate_id:'CAT-X',week_start:'2026/09/28',status:'CANDIDATE',decision:'PUBLISH',route_lane:'WEB_BLOG',total_score:90,primary_query:'曖昧な話題'}],
+    queueRows:[],now:at('2026-10-02T05:00:00+09:00'),settings:SETTINGS
+  });
+  assert(unresolved.selected === null && unresolved.evaluated[0].reasons.includes('CATEGORY_UNRESOLVED'), 'unresolved category fails closed before Queue');
 }
 
 section('2. Knowledge sufficiency registry');
