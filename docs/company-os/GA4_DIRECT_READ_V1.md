@@ -48,3 +48,17 @@ The project is already at the 12-serverless-function Hobby limit. The GA4 cron t
 ## Credential format note
 
 `GA4_SERVICE_ACCOUNT_JSON` is stored in Vercel as base64-encoded JSON. `parseServiceAccount()` accepts either raw JSON or base64-encoded JSON, which avoids multiline private-key corruption in shell/CLI entry.
+
+## Measurement Gate contract (2026-10-07)
+
+- Sync begins at verified base instrumentation start `2026-09-25` (Tokyo property timezone). API success fills empty completed days with zero for base metrics only.
+- P0 events before their earliest verified GA4 observation are NULL/UNKNOWN. First observed dates persist as `event_verified_from`; a missing/unverified event is never fabricated as zero.
+- Incomplete, thresholded, sampled, malformed or truncated reports fail closed before any upsert.
+- Today's daily row has `data_status=DELAYED`; RPC explicitly marks `partial=true`.
+- Admin 7/28-day ranges and Company OS trend windows end yesterday.
+- Period `active_users` comes from a separate GA4 period query, stored in successful source metadata. `daily_active_users_sum` is explicitly user-days and must never be interpreted as unique users.
+- Historical windows before 2026-09-25 remain UNKNOWN/DELAYED. Do not fabricate a full 28-day baseline from 13 instrumented days.
+- Source ACTIVE / last_error NULL is written only after a successful read AND daily upsert. Failures preserve last successful observation and period evidence; RPC exposes ERROR/STALE.
+- Confirmed booking remains a separate authoritative Gym's booking record; `reservation_start` and `reservation_complete` remain UNKNOWN in GA4 until a verified integration exists.
+- Preview read-only acceptance: `node scripts/ga4-preview-acceptance.mjs` with server-side Preview envs. No private credentials are emitted and no rows are mutated.
+- Contract tests: `node scripts/test-ga4-measurement-gate.mjs`, `npm run test:ga4-direct`, `npm run test:phase-e`.
