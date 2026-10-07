@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import matter from 'gray-matter';
 
 export const DEPLOY_MODE = Object.freeze({
   SKIP: 'SKIP',
@@ -32,6 +31,26 @@ const EDITORIAL_STAGED_ASSET_PATHS = [
 ];
 
 const AUTO_IMAGE_COMMIT_RE = /^(Generate Editorial Hybrid image assets|Mark Editorial Hybrid assets Xserver verified)\b/;
+
+
+function frontMatterValue(raw, key) {
+  const text = String(raw || '');
+  if (!text.startsWith('---\n') && !text.startsWith('---\r\n')) return '';
+  const lines = text.split(/\r?\n/);
+  if (lines[0] !== '---') return '';
+  const end = lines.indexOf('---', 1);
+  if (end < 0) return '';
+  const prefix = `${key}:`;
+  const line = lines.slice(1, end).find((row) => row.startsWith(prefix));
+  if (!line) return '';
+  const value = line.slice(prefix.length).trim();
+  if (!value) return '';
+  if (value.startsWith('"') && value.endsWith('"')) {
+    try { return String(JSON.parse(value)); } catch {}
+  }
+  if (value.startsWith("'") && value.endsWith("'")) return value.slice(1, -1);
+  return value;
+}
 
 function uniq(values) {
   return [...new Set((values || []).map((x) => String(x || '').trim()).filter(Boolean))];
@@ -118,10 +137,10 @@ export function collectBlogFastTargetImages({ root = process.cwd(), changedFiles
     if (!fs.existsSync(full) || !fs.statSync(full).isFile()) continue;
 
     const raw = fs.readFileSync(full, 'utf8');
-    const { data } = matter(raw);
-    if (String(data.status || '').trim().toLowerCase() !== 'published') continue;
+    const status = frontMatterValue(raw, 'status').trim().toLowerCase();
+    if (status !== 'published') continue;
 
-    for (const value of [data.thumbnail, data.og_image]) {
+    for (const value of [frontMatterValue(raw, 'thumbnail'), frontMatterValue(raw, 'og_image')]) {
       const publicPath = String(value || '').trim();
       if (!publicPath.startsWith('/assets/')) {
         throw new Error(`BLOG_FAST target image is not an /assets/ path: ${file} -> ${publicPath || '(empty)'}`);
