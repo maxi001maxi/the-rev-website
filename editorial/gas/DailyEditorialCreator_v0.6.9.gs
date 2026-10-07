@@ -462,41 +462,17 @@ function runDailyEditorialCreatorV069Once() {
 // Runtime adapters for the installed v0.6.5.x Supervisor. These wrap its
 // authenticated status response BEFORE it promotes the Queue or notifies.
 // No trigger, cadence, approval or publication changes.
-function v069cReviewContract_(q, blog, gbp, a, reviewUrl) {
-  var qa = a.image_qa || {}, gqa = a.gbp_image_qa || {};
-  var length = v069cLengthGate_(blog && blog.article_type, blog && blog.body_markdown);
-  var closing = v069cEditorialClosingGate_(blog && blog.body_markdown);
-  var checks = {
-    blog_ready: !!blog && blog.status === 'READY' && length.pass,
-    editorial_closing: closing.pass,
-    gbp_row_exists: !!gbp,
-    gbp_parent_matches: !!gbp && gbp.parent_blog_id === q.content_id,
-    gbp_ready: !!gbp && gbp.status === 'READY',
-    gbp_image_ready: !!gbp && gbp.image_status === 'READY',
-    gbp_image_path: !!gbp && !!gbp.gbp_image_path,
-    gbp_ratio: gqa.pass === true && gqa.ratio === '4:3' && Number(gqa.width) === 1200 && Number(gqa.height) === 900,
-    visual_qa: qa.pass === true && qa.manual_visual_rejection !== true,
-    scene_plausibility: ['location_behavior_plausible','service_misrepresentation_absent','unsupported_equipment_absent','scene_plausible_at_the_rev'].every(function(k) {
-      return qa.scene_plausibility_version === 'the-rev-scene-plausibility-v1' ? qa[k] === true : qa[k] !== false;
-    }),
-    xserver_verified: qa.xserver_live_verify_passed === true && qa.gbp_xserver_live_verify_passed === true,
-    bridge_ready: a.image_status === 'READY' && a.image_asset_ready === true,
-    review_url: !!reviewUrl
+function v069cReviewContract_(json) {
+  var preflight = json && json.canonical_preflight;
+  var failed = preflight && Array.isArray(preflight.checks)
+    ? preflight.checks.filter(function(item) { return item && item.status === 'error'; }).map(function(item) { return item.id; })
+    : [];
+  var ok = !!(json && json.readiness && json.readiness.ready === true && preflight && preflight.ok === true && failed.length === 0);
+  return {
+    ok: ok,
+    checks: {canonical_preflight: ok},
+    missing: ok ? [] : (failed.length ? failed : ['canonical_preflight'])
   };
-  var missing = Object.keys(checks).filter(function(k) { return !checks[k]; });
-  return {ok: !missing.length, checks: checks, missing: missing};
-}
-function v069cEditorialClosingGate_(body) {
-  var compact = String(body || '').replace(/\s+/g, ' ').trim();
-  if (!compact) return {pass:false, reason:'empty_body'};
-  var tail = compact.slice(-1100);
-  if (!/THE REV\.?\s*(?:CONDITIONING LAB\.)?/i.test(tail)) {
-    return {pass:false, reason:'missing_the_rev_closing'};
-  }
-  var lastRev = Math.max(tail.lastIndexOf('THE REV.'), tail.lastIndexOf('THE REV'));
-  var revTail = lastRev >= 0 ? tail.slice(lastRev) : tail;
-  var pass = /(では|として|考え|見て|見る|確認|調整|組み立て|大切|重視|指導|提案|捉え|設備|生活|目的|状態|負荷|使い方|続け)/.test(revTail);
-  return {pass:pass, reason:pass ? '' : 'missing_contextual_meaning'};
 }
 function v069cLengthGate_(type, body) {
   var st = getSettings_(), t = String(type || 'STANDARD').toUpperCase();
@@ -532,11 +508,31 @@ function v069cApplyResponseContract_(json) {
     json.readiness.reason = 'manual_visual_rejection';
     return json;
   }
-  if (json.readiness.ready !== true) return json;
   var qsh = ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE');
   var bsh = ss_().getSheetByName('21_WEB_BLOG_OUTPUT');
   var gsh = ss_().getSheetByName('22_GBP_POST');
   var q = getObjectsWithRow_(qsh).filter(function(r) { return r.content_id === id; })[0];
+
+  // The server-side Canonical Preflight owns all Review/Publish QC. If it says
+  // no, an older REVIEW_READY state is actively reconciled back to review.
+  if (json.readiness.ready !== true) {
+    if (q && String(q.queue_status || '').toUpperCase() === 'REVIEW_READY' &&
+        json.canonical_preflight && json.canonical_preflight.ok === false) {
+      var failedIds = (json.canonical_preflight.checks || [])
+        .filter(function(item) { return item && item.status === 'error'; })
+        .map(function(item) { return item.id; });
+      var canonicalReason = String(json.readiness.reason || ('CANONICAL_PREFLIGHT_BLOCKED:' + failedIds.join(',')));
+      setObjectRow_(qsh,q.__row,{
+        queue_status:'REVIEW_REQUIRED',
+        last_error:canonicalReason,
+        failed_stage:'CANONICAL_PREFLIGHT',
+        next_stage:'REPAIR_QC',
+        human_action_required:'REVIEW_QC',
+        updated_at:new Date()
+      });
+    }
+    return json;
+  }
   var blog = getObjectsWithRow_(bsh).filter(function(r) { return r.content_id === id; })[0];
   var gbp = getObjectsWithRow_(gsh).filter(function(r) { return r.parent_blog_id === id; })[0];
   if (!q) { json.readiness.ready = false; json.readiness.reason = 'QUEUE_ROW_MISSING'; return json; }
@@ -558,11 +554,11 @@ function v069cApplyResponseContract_(json) {
       image_asset_version:a.gbp_image_asset_version,image_notes:JSON.stringify(gqa) + ' / 4:3 / Xserver verified'});
     gbp = getObjectsWithRow_(gsh).filter(function(r) { return r.parent_blog_id === id; })[0];
   }
-  var verdict = v069cReviewContract_(q, blog, gbp, a, json.review_url);
+  var verdict = v069cReviewContract_(json);
   if (!verdict.ok) {
     json.readiness.ready = false;
-    json.readiness.reason = 'REVIEW_CONTRACT_BLOCKED:' + verdict.missing.join(',');
-    setObjectRow_(qsh,q.__row,{last_error:json.readiness.reason,failed_stage:'REVIEW_CONTRACT',next_stage:'REPAIR_GBP_OR_QC',updated_at:new Date()});
+    json.readiness.reason = 'CANONICAL_PREFLIGHT_BLOCKED:' + verdict.missing.join(',');
+    setObjectRow_(qsh,q.__row,{last_error:json.readiness.reason,failed_stage:'CANONICAL_PREFLIGHT',next_stage:'REPAIR_QC',updated_at:new Date()});
   }
   return json;
 }
