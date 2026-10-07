@@ -1,5 +1,5 @@
 {
-  "pass": true,
+  "pass": false,
   "thumbnail_typography_visual": {
     "thumbnail": {
       "pass": true,
@@ -120,7 +120,7 @@
   "unsupported_equipment_absent": true,
   "scene_plausible_at_the_rev": true,
   "exercise_pose_plausible": true,
-  "manual_visual_rejection": false,
+  "manual_visual_rejection": true,
   "trainer_present": false,
   "unknown_trainer_present": false,
   "non_customer_people_present": false,
@@ -560,5 +560,6 @@
   "gbp_image_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
-  "gbp_image_aspect_ratio": "4:3"
+  "gbp_image_aspect_ratio": "4:3",
+  "manual_visual_rejection_reason": "User rejection confirmed: additional training rack in reception foreground, absent in source zone; customer operates equipment in reception."
 }

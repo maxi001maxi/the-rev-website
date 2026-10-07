@@ -43,7 +43,7 @@ test('the documented connector download set starts in an empty directory without
   const root = fileURLToPath(new URL('../', import.meta.url));
   const runbook = readFileSync(join(root, 'editorial/DAILY_CREATOR_RUNBOOK.md'), 'utf8');
   const files = ['scripts/daily-editorial-connector-plan.mjs', 'lib/dailyEditorialCreator.mjs',
-    'lib/editorialReadiness.mjs', 'lib/editorialScenePlausibility.mjs', 'lib/editorialArticleOverlap.mjs', 'lib/dailyEditorialStateMachine.mjs', 'lib/dailyEditorialKnowledge.mjs',
+    'lib/editorialReadiness.mjs', 'lib/editorialScenePlausibility.mjs', 'lib/editorialSceneGrounding.mjs', 'lib/editorialArticleOverlap.mjs', 'lib/dailyEditorialStateMachine.mjs', 'lib/dailyEditorialKnowledge.mjs',
     'lib/editorialPublication.mjs', 'lib/blogMarkdown.mjs', 'assets/js/blog-taxonomy.mjs'];
   const isolated = mkdtempSync(join(tmpdir(), 'rev-connector-plan-'));
   try {

@@ -10,6 +10,7 @@ on:
       - 'scripts/render-hybrid-editorial-overlay.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialSceneGrounding.mjs'
       - 'lib/editorialImageOperatorRecovery.mjs'
       - 'lib/editorialThumbnailTypography.mjs'
       - 'editorial/typography-golden-reference/**'
@@ -181,7 +182,10 @@ jobs:
               test -f "$qa"
               test "$(jq -r '.pass // false' "$qa")" = "true"
 
-              printf '%s\n' "$scene" "$thumb" "$og" "$qa" "$state" >> .ready-paths
+              printf '%s\n' "$scene" "$thumb" "$og" "$qa" "$state" "$job" >> .ready-paths
+              if [ "$slug" = "shinomiya-gym-beginner-choose" ] && [ -f editorial/image-qa/scene-grounding-r3-negative-control.json ]; then
+                printf '%s\n' editorial/image-qa/scene-grounding-r3-negative-control.json >> .ready-paths
+              fi
               # Retain actual small-size QC evidence without deploying previews.
               if [ "$(jq -r '.thumbnail_typography_revision // ""' "$qa")" = "thumbnail-golden-typography-v1" ]; then
                 test -f "${thumb}.typography.json"

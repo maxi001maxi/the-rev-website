@@ -60,6 +60,7 @@ on:
       - 'editorial/typography-golden-reference/**'
       - 'lib/editorialImageCopy.mjs'
       - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialSceneGrounding.mjs'
       - 'lib/editorialImageOperatorRecovery.mjs'
       - 'scripts/test-editorial-image-operator-recovery.mjs'
       - 'scripts/test-image-operator-primary-status.mjs'
@@ -154,5 +155,6 @@ jobs:
       - run: npm run test:thumbnail-typography
       - run: node --test scripts/test-editorial-image-operator-recovery.mjs
       - run: npm run test:image-operator-primary-status
+      - run: node --test scripts/test-editorial-scene-grounding.mjs
       - run: npm run test:editorial-images
       - run: npm run build:blog

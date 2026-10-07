@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
+import { sceneGroundingRequired,sceneGroundingPass } from '../lib/editorialSceneGrounding.mjs';
 import {
   HYBRID_IMAGE_FORMAT,
   hybridQaReady,
@@ -218,6 +220,12 @@ function validateJob(jobPath) {
   }
 
   const qa = readJson(qaPath);
+  if (sceneGroundingRequired({...qa,asset_version:job.asset_version})) {
+    assertTrue(sceneGroundingPass(qa),`${name}: source/scene evidence rejected`);
+    for (const [key,p] of Object.entries({source:job.automation.source_repo_path,scene:job.generated_scene_path,thumbnail:job.thumbnail,og:job.og_image,gbp:job.gbp_image})) {
+      assertEqual(createHash('sha256').update(fs.readFileSync(p)).digest('hex'),qa.scene_grounding.asset_hashes[key],`${name}: stale ${key} grounding evidence`);
+    }
+  }
   const draftShape = {
     image_render_version: job.render_version,
     image_strategy: job.image_strategy,
