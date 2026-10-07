@@ -4,7 +4,7 @@
  *
  * Topic Approval ON:
  *   - Gate: 1/day
- *   - Topic Approval: every 1 minute
+ *   - Topic Approval: every 10 minutes
  *   - Supervisor: existing trigger, untouched
  *   - Creator: 0
  *   - Watchdog: 0
@@ -20,6 +20,7 @@
  */
 
 var V073_TRIGGER_TOPOLOGY_VERSION = 'v0.7.3';
+var V073_TOPIC_APPROVAL_POLL_MINUTES = 10;
 var V073_TRIGGER_HANDLERS = [
   'scheduledDailyEditorialGateV069',
   'scheduledDailyEditorialCreatorV069',
@@ -66,7 +67,7 @@ function v073CreateCanonicalTriggers_(approval) {
       throw new Error('TOPIC_APPROVAL_SOURCE_NOT_INSTALLED');
     }
     ScriptApp.newTrigger('scheduledDailyEditorialTopicApprovalV070')
-      .timeBased().everyMinutes(1).create();
+      .timeBased().everyMinutes(V073_TOPIC_APPROVAL_POLL_MINUTES).create();
     created.push('scheduledDailyEditorialTopicApprovalV070');
   } else {
     ScriptApp.newTrigger('scheduledDailyEditorialCreatorV069')
@@ -119,6 +120,7 @@ function reconcileDailyEditorialTriggerTopologyV073() {
     before: before,
     after: after,
     supervisor_untouched: true,
+    topic_approval_poll_minutes: approval ? V073_TOPIC_APPROVAL_POLL_MINUTES : null,
     auto_publish: false,
     human_approval: true
   };
@@ -131,6 +133,7 @@ function inspectDailyEditorialTriggerTopologyV073() {
     version: V073_TRIGGER_TOPOLOGY_VERSION,
     mode: v073TopicApprovalEnabled_() ? 'TOPIC_APPROVAL' : 'LEGACY_CREATOR',
     triggers: v073TriggerCounts_(),
+    topic_approval_poll_minutes: v073TopicApprovalEnabled_() ? V073_TOPIC_APPROVAL_POLL_MINUTES : null,
     auto_publish: false,
     human_approval: true
   };
