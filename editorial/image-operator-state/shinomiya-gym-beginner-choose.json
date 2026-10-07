@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
   "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.json",
   "asset_version": "reference-v26-grounded-evolgear-20261007-r4",
-  "updated_at": "2026-10-07T05:24:50.576Z"
+  "updated_at": "2026-10-07T05:24:50.576Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-07T05:25:09Z"
 }
