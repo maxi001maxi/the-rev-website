@@ -148,13 +148,14 @@ test('9 normal pipeline stays ready, expert compression fails',()=>{
   assert.equal(evaluateEditorialLength('EXPERT_DEEP_DIVE','文'.repeat(1681)).pass,true);
   assert.equal(evaluateEditorialLength('STANDARD','文'.repeat(900)).pass,false);
 });
-test('GAS contract has same missing-row and length behavior',()=>{
+test('GAS contract trusts only canonical preflight readiness',()=>{
   const context={getSettings_:()=>({})};vm.createContext(context);
   vm.runInContext(fs.readFileSync('editorial/gas/DailyEditorialCreator_v0.6.9.gs','utf8'),context);
   assert.equal(context.v069cLengthGate_('EXPERT_DEEP_DIVE','文'.repeat(929)).pass,false);
-  const article={image_status:'READY',image_asset_ready:true,image_qa:good.qa,gbp_image_qa:good.gbpQa};
-  assert.equal(context.v069cReviewContract_({content_id:'BLOG'},good.blog,null,article,good.bridge.review_url).ok,false);
-  assert.equal(context.v069cReviewContract_({content_id:'BLOG'},good.blog,good.gbp,article,good.bridge.review_url).ok,true);
+  assert.equal(context.v069cReviewContract_({readiness:{ready:true},canonical_preflight:{ok:true,checks:[]}}).ok,true);
+  const blocked=context.v069cReviewContract_({readiness:{ready:false},canonical_preflight:{ok:false,checks:[{id:'required',status:'error'}]}});
+  assert.equal(blocked.ok,false);
+  assert.deepEqual(Array.from(blocked.missing),['required']);
 });
 test('history collector includes all published files and paginated drafts, fails closed',async()=>{
   const data=Array.from({length:501},(_,i)=>({editorial_content_id:'D'+i,title:'title',body_markdown:'body'}));
