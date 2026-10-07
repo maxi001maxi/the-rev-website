@@ -275,3 +275,34 @@ Rules:
 - do not assume customer filming.
 
 This corrects an over-strict interpretation of asset-first as asset-only.
+
+
+## Reel B Production Context V2 runtime contract
+
+When `source_context.reel_creative_context_required=true`,
+Reel preparation must prove that the V2 creative decision layer was used.
+
+Required run context:
+- `reel_creative_context_version=SOCIAL_REEL_B_PRODUCTION_CONTEXT_V2`
+- `positioning_baseline_checked=true`
+- non-empty `positioning_evidence_strength`
+- `research_review_checked=true`
+
+Required candidate metadata:
+- `positioning_relationship`: REINFORCE / PROVE / ENRICH
+- `current_belief`
+- `desired_belief`
+- `proof_type`: PEOPLE / PROCESS / PHYSICAL_EVIDENCE / OUTCOME / MIXED
+- `sequence_archetype`
+- `brand_residue`
+- `micro_action` including explicit NONE when appropriate
+
+If a candidate uses a supporting value such as BOXING / OXYGEN_ROOM / DENBA / SPACE
+outside ENRICH, it requires a non-trivial strategic justification.
+
+Purpose:
+- make selling a belief-change decision rather than a feature / CTA reflex;
+- keep supporting values from silently replacing THE REV.'s positioning;
+- make Reel sequence explainable before shot production.
+
+This contract is additive until the v1.x Production cutover explicitly enables it.
