@@ -26,7 +26,7 @@ const approve = (p, id=p.options[0].candidate_id) => ({...p,...chooseTopic(p,{ca
 // A PostgREST-shaped in-memory store tests durable snapshots, compare-and-set,
 // redelivery, and outbox acknowledgements through the real API service code.
 function memoryDb(initial=[]) {
-  const tables = {editorial_topic_proposals:structuredClone(initial),editorial_line_receipts:[]};
+  const tables = {editorial_topic_proposals:structuredClone(initial),editorial_line_receipts:[],editorial_gpt_operator_requests:[]};
   return {tables,from(table) {
     let filters=[], op='select', patch, conflict, single=false, max=Infinity;
     const q={
@@ -203,6 +203,53 @@ test('prepare is immutable, no-approval poll does not read GitHub, and notificat
   await topicResponse({action:'notification_ack',proposal_id:r.preparation.proposal.id,kind:'TOPICS',status:'SENT'},db);
   assert.equal(db.tables.editorial_topic_proposals[0].notification_status,'SENT');
 });
+test('GPT operator inbox applies interview answers only through canonical validation/state machine',async()=>{
+  const base=proposal();
+  const waiting={...base,...chooseTopic(base,{candidateId:'TEST-1',source:'GPT',actor:'owner',now})};
+  assert.equal(waiting.status,'INTERVIEW_WAITING');
+  const db=memoryDb([waiting]);
+  db.tables.editorial_gpt_operator_requests.push({
+    id:'req-1',
+    request_key:'chat-20261007-answer-1',
+    proposal_id:waiting.id,
+    action:'answer',
+    number:null,
+    answers:['現在地を知り、無理なく続けられる方法から始めます。','最初から頑張りすぎず、その日の状態に合わせて強度を調整します。'],
+    status:'PENDING',
+    created_at:now.toISOString()
+  });
+
+  const response=await topicResponse({...args,action:'poll'},db,deps);
+  assert.equal(db.tables.editorial_gpt_operator_requests[0].status,'APPLIED');
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'APPROVED');
+  assert.equal(db.tables.editorial_topic_proposals[0].interview_answers[0],'現在地を知り、無理なく続けられる方法から始めます。');
+  assert.equal(response.gpt_operator[0].resulting_status,'APPROVED');
+  assert.equal(response.ready.length,1);
+  assert.match(JSON.parse(response.ready[0].queue_row.knowledge_context_json).main_claim,/現在地を知り/);
+});
+
+test('GPT operator inbox rejects invalid owner evidence instead of mutating proposal directly',async()=>{
+  const base=proposal();
+  const waiting={...base,...chooseTopic(base,{candidateId:'TEST-1',source:'GPT',actor:'owner',now})};
+  const db=memoryDb([waiting]);
+  db.tables.editorial_gpt_operator_requests.push({
+    id:'req-2',
+    request_key:'chat-20261007-answer-invalid',
+    proposal_id:waiting.id,
+    action:'answer',
+    number:null,
+    answers:['不明','不明'],
+    status:'PENDING',
+    created_at:now.toISOString()
+  });
+
+  const response=await topicResponse({...args,action:'poll'},db,deps);
+  assert.equal(db.tables.editorial_gpt_operator_requests[0].status,'REJECTED');
+  assert.match(db.tables.editorial_gpt_operator_requests[0].error,/EVIDENCE_MISSING/);
+  assert.equal(db.tables.editorial_topic_proposals[0].status,'INTERVIEW_WAITING');
+  assert.equal(response.ready.length,0);
+});
+
 test('store compare-and-set and approved poll do not create before queue read-back',async()=>{
   const p=proposal(),db=memoryDb([p]);
   await changeProposal(db,p.id,'choose',{candidateId:p.options[0].candidate_id,source:'GPT',actor:'owner'});
