@@ -1,0 +1,138 @@
+{
+  "schema_version": "e1_v1",
+  "status": "design_locked",
+  "generated_on": "2026-09-19",
+  "business_labels": {
+    "reserve_click": "Booking Intent / 予約画面クリック",
+    "line_click": "LINE Intent / LINE相談導線クリック"
+  },
+  "common_parameters": [
+    "event_version",
+    "site_version",
+    "page_path",
+    "page_type",
+    "placement",
+    "component",
+    "destination_type",
+    "article_slug",
+    "cta_type"
+  ],
+  "existing_events": {
+    "reserve_click": {
+      "keep": true,
+      "priority": "P0",
+      "canonical_role": "booking_intent"
+    },
+    "line_click": {
+      "keep": true,
+      "priority": "P0",
+      "canonical_role": "contact_intent"
+    },
+    "instagram_click": {
+      "keep": true,
+      "priority": "P2",
+      "canonical_role": "outbound_social"
+    },
+    "price_click": {
+      "keep": true,
+      "priority": "P0",
+      "canonical_role": "consideration"
+    },
+    "recovery_click": {
+      "keep": true,
+      "priority": "P1",
+      "canonical_role": "service_interest"
+    },
+    "review_click": {
+      "keep": true,
+      "priority": "P1",
+      "canonical_role": "proof_interest"
+    },
+    "trainer_click": {
+      "keep": true,
+      "priority": "P1",
+      "canonical_role": "trust_interest"
+    },
+    "article_click": {
+      "keep": true,
+      "priority": "P1",
+      "canonical_role": "content_open"
+    },
+    "article_cta_click": {
+      "keep": true,
+      "priority": "P0",
+      "canonical_role": "content_next_action"
+    },
+    "related_article_click": {
+      "keep": true,
+      "priority": "P2",
+      "canonical_role": "content_continue"
+    },
+    "approach_click": {
+      "keep": true,
+      "priority": "P1",
+      "status": "provisional_m1",
+      "canonical_role": "method_interest"
+    }
+  },
+  "new_events": {
+    "section_view": {
+      "priority": "P0",
+      "once_per_page_section": true,
+      "required_parameters": [
+        "event_version",
+        "site_version",
+        "page_path",
+        "page_type",
+        "section_id"
+      ]
+    },
+    "faq_open": {
+      "priority": "P1",
+      "required_parameters": [
+        "event_version",
+        "site_version",
+        "page_path",
+        "page_type",
+        "faq_id",
+        "faq_topic"
+      ]
+    },
+    "nav_click": {
+      "priority": "P2",
+      "required_parameters": [
+        "event_version",
+        "site_version",
+        "page_path",
+        "page_type",
+        "nav_location",
+        "target_type",
+        "target_id"
+      ]
+    }
+  },
+  "canonical_funnel": [
+    "page_view",
+    "section_view",
+    "consideration_event",
+    "line_click_or_reserve_click",
+    "confirmed_booking_future",
+    "trial_attended_future",
+    "membership_future"
+  ],
+  "restrictions": {
+    "prohibited_parameters": [
+      "name",
+      "email",
+      "phone",
+      "line_user_id",
+      "member_id",
+      "health_condition",
+      "injury_or_medical_information",
+      "body_composition",
+      "free_form_answers"
+    ],
+    "current_page_path_rule": "pathname_only",
+    "reserve_click_is_confirmed_booking": false
+  }
+}
