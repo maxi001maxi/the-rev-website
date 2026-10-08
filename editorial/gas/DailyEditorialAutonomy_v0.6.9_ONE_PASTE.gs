@@ -994,6 +994,7 @@ var V070_LENGTH_ADAPTER = (function () {
         var min = Number(settings.blog_standard_min_chars || 1600), max = Number(settings.blog_standard_max_chars || 2400);
         payload.input[0].content.push({type:'input_text',text:'Blog Style Standard v2: body_markdown alone must contain '+min+'–'+max+' Japanese characters excluding whitespace. Lead, CTA and source lists do not count. Respect this range while keeping concise paragraphs. If below the minimum, explain supported distinctions, practical examples or questions more concretely. Never pad, repeat, invent store procedures, claims or customer stories. Do not compress a useful explanation below the minimum. If evidence cannot support it, require review rather than invent.'});
       }
+      payload.input[0].content.push({type:'input_text',text:'Editorial Closing & Mechanism Context v1: body_markdownはCTAとは別に、最後の実質段落で記事固有の結論をTHE REV.の確認済みの判断・見方・指導・運用へ自然につなげて終える。一般的な「睡眠・食事・運動を大切に」や予約案内だけで締めない。機器や仕組みを説明する記事では、物理的な仕組みの説明だけで終えず、「その仕組みによって何を目指す／どう関わるとメーカーが説明しているか」を短く1段補う。必ずprovided source/knowledgeに根拠を置き、メーカー説明・仮説・観察と確立した効果を区別し、治療効果・生理作用・安全性・顧客体験を推測で足さない。'});
     }
     return request.apply(this,arguments);
   };
