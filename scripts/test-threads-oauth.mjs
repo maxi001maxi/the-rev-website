@@ -69,3 +69,17 @@ test('Threads OAuth secrets never appear in browser-facing source',()=>{
   assert.match(migration,/service_role/);
   assert.match(migration,/revoke all .* anon, authenticated/);
 });
+
+
+test('Threads admin UI exposes authenticated connect flow',()=>{
+  const page=fs.readFileSync(new URL('../admin/threads/index.html',import.meta.url),'utf8');
+  const client=fs.readFileSync(new URL('../admin/js/threads.mjs',import.meta.url),'utf8');
+  const api=fs.readFileSync(new URL('../admin/js/admin-api.mjs',import.meta.url),'utf8');
+  const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  assert.match(page,/THE REV\. Threadsを接続/);
+  assert.match(client,/AdminApi\.getThreadsConnect/);
+  assert.match(client,/target\.hostname!=='threads\.net'/);
+  assert.match(api,/threads_oauth_status/);
+  assert.match(api,/threads_oauth_connect/);
+  assert.match(endpoint,/\/admin\/threads\/\?status=connected/);
+});
