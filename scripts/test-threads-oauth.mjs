@@ -10,6 +10,7 @@ import {
   threadsOAuthDiagnostics,
   threadsTokenExchangeRequestSummary,
   probeThreadsAppCredentials,
+  debugThreadsAccessToken,
   getThreadsConnectionStatus,
   getActiveThreadsAccessToken
 } from '../lib/threadsOAuth.mjs';
@@ -192,4 +193,41 @@ test('Direct Token handler verifies token server-side and never returns access_t
   assert.match(section,/saveThreadsConnection/);
   assert.doesNotMatch(section,/json\([^)]*accessToken/);
   assert.doesNotMatch(section,/console\.(log|info|error)\([^\n]*accessToken/);
+});
+
+
+test('Token debugger returns scopes only and never exposes user/app secrets',async()=>{
+  const result=await debugThreadsAccessToken('USER-TOKEN-SECRET',{env,fetchImpl:async(url,options)=>{
+    const u=new URL(url);
+    assert.equal(u.origin,'https://graph.threads.com');
+    assert.equal(u.pathname,'/debug_token');
+    assert.equal(u.searchParams.get('input_token'),'USER-TOKEN-SECRET');
+    assert.equal(u.searchParams.get('access_token'),'app123|secret456');
+    assert.equal(options.method,'GET');
+    return response(200,{data:{
+      is_valid:true,
+      app_id:'app123',
+      user_id:'u1',
+      type:'USER',
+      expires_at:2000000000,
+      scopes:['threads_basic','threads_read_replies','threads_manage_mentions']
+    }});
+  }});
+  assert.equal(result.is_valid,true);
+  assert.equal(result.app_id_matches,true);
+  assert.deepEqual(result.scopes,['threads_basic','threads_read_replies','threads_manage_mentions']);
+  assert.equal(JSON.stringify(result).includes('USER-TOKEN-SECRET'),false);
+  assert.equal(JSON.stringify(result).includes('secret456'),false);
+});
+
+test('Direct Token scope diagnostics are admin-only and browser output is secret-free',()=>{
+  const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  const client=fs.readFileSync(new URL('../admin/js/threads.mjs',import.meta.url),'utf8');
+  const section=endpoint.split('async function handleThreadsDirectTokenScopes')[1].split('async function handleThreadsDirectTokenProbe')[0];
+  assert.match(section,/requireThreadsAdmin\(req,res\)/);
+  assert.match(section,/debugThreadsAccessToken/);
+  assert.match(section,/actualScopes/);
+  assert.match(section,/missingScopes/);
+  assert.doesNotMatch(section,/accessToken\s*:/);
+  assert.match(client,/Token実権限/);
 });
