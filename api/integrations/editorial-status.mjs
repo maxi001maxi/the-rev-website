@@ -40,7 +40,7 @@ import { socialBridgeResponse } from '../../lib/socialBridgeApi.mjs';
 import {getAuthedContext,sendError} from '../../lib/supabaseAdmin.mjs';
 import {
   threadsAuthorizationUrl,verifyThreadsOAuthState,exchangeThreadsCode,
-  getThreadsProfile,saveThreadsConnection,getThreadsConnectionStatus,getActiveThreadsAccessToken,
+  getThreadsProfile,saveThreadsConnection,getThreadsConnectionStatus,getActiveThreadsAccessToken,debugThreadsAccessToken,THREADS_OAUTH_SCOPES,
   threadsOAuthDiagnostics,threadsTokenExchangeRequestSummary,probeThreadsAppCredentials
 } from '../../lib/threadsOAuth.mjs';
 import {getThreadsConversationContext} from '../../lib/socialThreadsConversationSource.mjs';
@@ -171,6 +171,51 @@ async function handleThreadsDirectTokenConnect(req,res){
   }
 }
 
+async function handleThreadsDirectTokenScopes(req,res){
+  res.setHeader('Cache-Control','no-store');
+  if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  try{
+    const tokenState=await getActiveThreadsAccessToken({env:process.env});
+    if(!tokenState?.accessToken){
+      return sendError(res,409,'threads_not_connected','Direct Tokenがまだ登録されていません。');
+    }
+    const debug=await debugThreadsAccessToken(tokenState.accessToken,{env:process.env});
+    const actualScopes=Array.isArray(debug.scopes)?debug.scopes:[];
+    const expectedScopes=[...THREADS_OAUTH_SCOPES];
+    const missingScopes=expectedScopes.filter(scope=>!actualScopes.includes(scope));
+    return res.status(200).json({
+      ok:true,
+      tokenSource:tokenState.source,
+      isValid:debug.is_valid,
+      appIdMatches:debug.app_id_matches,
+      userId:debug.user_id,
+      tokenType:debug.type,
+      expiresAt:debug.expires_at?new Date(debug.expires_at*1000).toISOString():null,
+      dataAccessExpiresAt:debug.data_access_expires_at?new Date(debug.data_access_expires_at*1000).toISOString():null,
+      actualScopes,
+      expectedScopes,
+      missingScopes,
+      targetCapabilities:{
+        MENTIONS:{
+          required:['threads_basic','threads_manage_mentions'],
+          scopePresent:['threads_basic','threads_manage_mentions'].every(scope=>actualScopes.includes(scope))
+        },
+        KEYWORD_SEARCH:{
+          required:['threads_basic','threads_keyword_search'],
+          scopePresent:['threads_basic','threads_keyword_search'].every(scope=>actualScopes.includes(scope))
+        }
+      }
+    });
+  }catch(error){
+    console.error('[threads-direct-token/scopes]',JSON.stringify({
+      code:error?.code||null,status:error?.status||null,stage:error?.stage||null,
+      provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null
+    }));
+    return sendError(res,502,'threads_token_debug_failed','Threads Tokenの実権限を確認できませんでした。');
+  }
+}
+
 async function handleThreadsDirectTokenProbe(req,res){
   res.setHeader('Cache-Control','no-store');
   if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
@@ -255,6 +300,7 @@ function handleThreadsLifecycleCallback(req,res,event){
 
 export default async function handler(req, res) {
   if(req.query?.mode==='threads_direct_token_connect') return handleThreadsDirectTokenConnect(req,res);
+  if(req.query?.mode==='threads_direct_token_scopes') return handleThreadsDirectTokenScopes(req,res);
   if(req.query?.mode==='threads_direct_token_probe') return handleThreadsDirectTokenProbe(req,res);
   if(req.query?.mode==='threads_oauth_diagnostics') return handleThreadsOAuthDiagnostics(req,res);
   if(req.query?.mode==='threads_oauth_connect') return handleThreadsOAuthConnect(req,res);
