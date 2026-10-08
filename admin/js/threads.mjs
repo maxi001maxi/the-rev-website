@@ -85,6 +85,35 @@ async function probeDirectToken(){
   }
 }
 
+async function inspectTokenScopes(){
+  clearError();
+  $('scope-btn').disabled=true;
+  $('scope-result').classList.add('admin-hidden');
+  $('status').textContent='Tokenの実権限をMetaへ照会しています…';
+  try{
+    const result=await AdminApi.inspectThreadsDirectTokenScopes();
+    const lines=[
+      'TOKEN VALID: '+String(result.isValid),
+      'APP ID MATCH: '+String(result.appIdMatches),
+      'ACTUAL SCOPES:',
+      ...(Array.isArray(result.actualScopes)&&result.actualScopes.length?result.actualScopes.map(scope=>'  - '+scope):['  - none']),
+      'MISSING EXPECTED SCOPES:',
+      ...(Array.isArray(result.missingScopes)&&result.missingScopes.length?result.missingScopes.map(scope=>'  - '+scope):['  - none']),
+      'MENTIONS SCOPE PRESENT: '+String(result.targetCapabilities?.MENTIONS?.scopePresent),
+      'KEYWORD_SEARCH SCOPE PRESENT: '+String(result.targetCapabilities?.KEYWORD_SEARCH?.scopePresent),
+      'TOKEN EXPIRES: '+(result.expiresAt||'unknown')
+    ];
+    $('scope-result').textContent=lines.join('\n');
+    $('scope-result').classList.remove('admin-hidden');
+    $('status').textContent='Tokenの実権限確認が完了しました。';
+  }catch(e){
+    showError(e.message||'Tokenの実権限を確認できませんでした。');
+    $('status').textContent='Tokenの実権限確認に失敗しました。';
+  }finally{
+    $('scope-btn').disabled=false;
+  }
+}
+
 (async()=>{
   const auth=await requireSession();
   if(!auth)return;
@@ -97,4 +126,5 @@ async function probeDirectToken(){
 
 $('save-token-btn').addEventListener('click',saveDirectToken);
 $('probe-btn').addEventListener('click',probeDirectToken);
+$('scope-btn').addEventListener('click',inspectTokenScopes);
 $('logout-btn').addEventListener('click',()=>signOut());
