@@ -69,6 +69,7 @@ export const AdminApi = {
   getGoogleBusinessStatus: () => authedFetch('/api/admin/google-business?action=status'),
   getGoogleBusinessConnect: () => authedFetch('/api/admin/google-business?action=connect'),
   getThreadsStatus: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_status'),
+  diagnoseThreads: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_diagnostics', {method:'POST'}),
   getThreadsConnect: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_connect'),
 
   // Phase D: Publish Review（Preflight）とPublish本体。
