@@ -128,7 +128,6 @@
   /* ---------- 4. FAQ アコーディオン（ARIA 関連付け込み） ---------- */
   function initFaq() {
     var btns = document.querySelectorAll('.faq-q');
-    if (!btns.length) return;
     Array.prototype.forEach.call(btns, function (btn, i) {
       var item = btn.closest('.faq-item');
       if (!item) return;
@@ -156,6 +155,20 @@
             faq_topic: btn.dataset.faqTopic || 'unknown'
           });
         }
+      });
+    });
+
+    // TOP v2 uses native details for the short remaining questions.
+    // Keep the same controlled FAQ event contract without sending answer text.
+    Array.prototype.forEach.call(document.querySelectorAll('.v2-residual details'), function (item) {
+      var summary = item.querySelector('summary[data-faq-id][data-faq-topic]');
+      if (!summary) return;
+      item.addEventListener('toggle', function () {
+        if (!item.open) return;
+        pushTrackingEvent('faq_open', {
+          faq_id: summary.dataset.faqId,
+          faq_topic: summary.dataset.faqTopic
+        });
       });
     });
   }
