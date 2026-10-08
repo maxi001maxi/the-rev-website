@@ -63,7 +63,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-noto-cjk lftp jq
 
-      - name: Select source-photo-lock jobs
+      - name: Select editorial image jobs
         env:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_BEFORE: ${{ github.event.before }}
@@ -74,7 +74,8 @@ jobs:
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             while IFS= read -r job; do
               [ -z "$job" ] && continue
-              if [ "$(jq -r '.render_mode // ""' "$job")" = "source-photo-lock-v1" ]; then
+              mode="$(jq -r '.render_mode // ""' "$job")"
+              if [ "$mode" = "source-photo-lock-v1" ] || [ "$mode" = "gpt-image-hybrid-v1" ]; then
                 printf '%s\n' "$job" >> .render-jobs
               fi
             done < <(find editorial/image-jobs -maxdepth 1 -type f -name '*.json' | sort)
@@ -86,54 +87,91 @@ jobs:
             while IFS= read -r job; do
               [ -z "$job" ] && continue
               [ -f "$job" ] || continue
-              if [ "$(jq -r '.render_mode // ""' "$job")" = "source-photo-lock-v1" ]; then
+              mode="$(jq -r '.render_mode // ""' "$job")"
+              if [ "$mode" = "source-photo-lock-v1" ] || [ "$mode" = "gpt-image-hybrid-v1" ]; then
                 printf '%s\n' "$job" >> .render-jobs
               fi
             done < .changed-image-jobs
           fi
 
           sort -u .render-jobs -o .render-jobs
-          echo "Selected source-photo-lock jobs:"
+          echo "Selected editorial image jobs:"
           cat .render-jobs || true
 
-      - name: Render supplied photos and run Brand QA
+      - name: Render or validate editorial images and run Brand QA
         run: |
           set -euo pipefail
           : > .rendered-image-paths
           : > .rendered-qa-paths
 
           if [ ! -s .render-jobs ]; then
-            echo "No source-photo-lock editorial image jobs selected."
+            echo "No editorial image jobs selected."
             exit 0
           fi
 
           while IFS= read -r job; do
             [ -z "$job" ] && continue
-            echo "Reference V2.2 source-photo-lock job: $job"
 
             mode="$(jq -r '.render_mode // ""' "$job")"
-            preservation="$(jq -r '.content_preservation // ""' "$job")"
-            [ "$mode" = "source-photo-lock-v1" ] || {
-              echo "::error::Refusing non-source-lock job: $job"
-              exit 1
-            }
-            [ "$preservation" = "crop-resize-only" ] || {
-              echo "::error::Refusing job without crop-resize-only preservation: $job"
-              exit 1
-            }
-
-            node scripts/render-blog-image.mjs "$job"
-            if ! node scripts/qa-editorial-image.mjs "$job"; then
-              echo "::error::Reference V2.2 source-photo fidelity / Brand QA failed: $job"
-              exit 1
-            fi
-            echo "Source-photo fidelity + Brand QA PASS"
-
             slug="$(jq -r '.slug' "$job")"
             version="$(jq -r '.asset_version' "$job")"
             qa_path="$(jq -r '.qa_report_path' "$job")"
             thumb="assets/images/blog/thumb-${slug}-${version}.jpg"
             og="assets/images/blog/og/og-${slug}-${version}.jpg"
+
+            if [ "$mode" = "source-photo-lock-v1" ]; then
+              echo "Reference V2.2 source-photo-lock job: $job"
+              preservation="$(jq -r '.content_preservation // ""' "$job")"
+              [ "$preservation" = "crop-resize-only" ] || {
+                echo "::error::Refusing source-lock job without crop-resize-only preservation: $job"
+                exit 1
+              }
+
+              node scripts/render-blog-image.mjs "$job"
+              if ! node scripts/qa-editorial-image.mjs "$job"; then
+                echo "::error::Reference V2.2 source-photo fidelity / Brand QA failed: $job"
+                exit 1
+              fi
+              echo "Source-photo fidelity + Brand QA PASS"
+
+            elif [ "$mode" = "gpt-image-hybrid-v1" ]; then
+              echo "Reference V2.3 GPT Image hybrid job: $job"
+
+              test -f "$thumb" || { echo "::error::Hybrid thumbnail missing: $thumb"; exit 1; }
+              test -f "$og" || { echo "::error::Hybrid OGP missing: $og"; exit 1; }
+              test -f "$qa_path" || { echo "::error::Hybrid QA report missing: $qa_path"; exit 1; }
+
+              jq -e '
+                .pass == true and
+                (.series_consistency // 0) >= 8 and
+                (.editorial_quality // 0) >= 8 and
+                (.article_visual_relevance // 0) >= 8 and
+                (.rev_environment_consistency // 0) >= 8 and
+                (.brand_space_authenticity // 0) >= 8 and
+                .source_material_scope_pass == true and
+                .unknown_trainer_present == false and
+                .non_customer_people_present == false and
+                .customer_only_or_no_people == true
+              ' "$qa_path" > /dev/null || {
+                echo "::error::Hybrid Brand QA gate failed: $qa_path"
+                exit 1
+              }
+
+              [ "$(jq -r '.hybrid_policy.unknown_trainer_forbidden // false' "$job")" = "true" ] || {
+                echo "::error::Hybrid job must explicitly forbid unknown trainers: $job"
+                exit 1
+              }
+              [ "$(jq -r '.drive_source.selection_scope // ""' "$job")" = "specified-drive-root-only" ] || {
+                echo "::error::Hybrid job must use the approved Drive source scope: $job"
+                exit 1
+              }
+
+              echo "GPT Image hybrid Brand QA PASS"
+
+            else
+              echo "::error::Unsupported editorial image mode: $mode ($job)"
+              exit 1
+            fi
 
             test -f "$thumb"
             test -f "$og"
@@ -146,7 +184,7 @@ jobs:
           sort -u .rendered-image-paths -o .rendered-image-paths
           sort -u .rendered-qa-paths -o .rendered-qa-paths
 
-      - name: Commit Reference V2.2 assets and QA
+      - name: Commit editorial image assets and QA
         run: |
           set -euo pipefail
 
@@ -164,7 +202,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Reference V2.2 assets already match."
           else
-            git commit -m "Editorial Reference V2.2 source-locked images"
+            git commit -m "Editorial image assets and QA"
             git push origin main
           fi
 
@@ -211,7 +249,7 @@ jobs:
 
           TMP_DIR="$(mktemp -d)"
           trap 'rm -rf "$TMP_DIR"' EXIT
-          CACHE_BUST="reference-v2-2=${GITHUB_RUN_ID}"
+          CACHE_BUST="editorial-image=${GITHUB_RUN_ID}"
 
           while IFS= read -r image_path; do
             [ -z "$image_path" ] && continue
@@ -228,7 +266,7 @@ jobs:
               if [ "$code" = "200" ] && [ -s "$live_file" ]; then
                 live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
                 if [ "$live_sha" = "$local_sha" ]; then
-                  echo "Reference V2.2 image ready ${attempt}/20: /${image_path}"
+                  echo "Editorial image ready ${attempt}/20: /${image_path}"
                   ready=1
                   break
                 fi
@@ -239,9 +277,9 @@ jobs:
             done
 
             if [ "$ready" != "1" ]; then
-              echo "::error::Reference V2.2 image did not become publicly byte-identical: /${image_path}"
+              echo "::error::Editorial image did not become publicly byte-identical: /${image_path}"
               exit 1
             fi
           done < .rendered-image-paths
 
-          echo "Reference V2.2 source-locked assets are staged and publicly ready."
+          echo "Editorial image assets are staged and publicly byte-identical."
