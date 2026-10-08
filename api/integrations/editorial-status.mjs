@@ -44,6 +44,7 @@ import {
   threadsOAuthDiagnostics,threadsTokenExchangeRequestSummary,probeThreadsAppCredentials
 } from '../../lib/threadsOAuth.mjs';
 import {getThreadsConversationContext} from '../../lib/socialThreadsConversationSource.mjs';
+import {prepareThreadsV11Decision} from '../../lib/socialThreadsV11.mjs';
 import crypto from 'node:crypto';
 
 const DAILY_PLAN_MAX_ROWS = 500;
@@ -307,6 +308,52 @@ async function handleThreadsV11ShadowProbe(req,res){
       maxOwnPosts:10,
       maxRepliesPerPost:20
     });
+    const targetDate='2026-10-08';
+    const plan=await supabase.from('social_thread_daily_plans').select('*').eq('target_date',targetDate).maybeSingle();
+    if(plan.error)throw new Error('shadow_plan_read_failed');
+    let candidates=[];
+    if(plan.data){
+      const c=await supabase.from('social_thread_candidates').select('id,candidate_no,title,qc_decision,evidence_strength,status')
+        .eq('plan_id',plan.data.id).order('candidate_no',{ascending:true});
+      if(c.error)throw new Error('shadow_candidate_read_failed');
+      candidates=c.data||[];
+    }
+    const groundedReady=candidates.find(x=>x.qc_decision==='READY_FOR_APPROVAL'&&x.evidence_strength==='GROUNDED');
+    let primaryLinkCount=0;
+    if(groundedReady){
+      const links=await supabase.from('social_thread_candidate_evidence').select('*',{count:'exact',head:true})
+        .eq('candidate_id',groundedReady.id).eq('evidence_role','PRIMARY');
+      if(links.error)throw new Error('shadow_evidence_link_read_failed');
+      primaryLinkCount=links.count||0;
+    }
+    const originalRequired=Boolean(groundedReady&&primaryLinkCount>0);
+    const participationCount=(context.own_replies||[]).length+(context.mentions||[]).length+(context.keyword_results||[]).length;
+    const decision={
+      conversation_source_status:context.conversation_source_status,
+      conversation_capabilities:context.capabilities,
+      daily_mode:originalRequired?'ORIGINAL_ONLY':'HOLD',
+      participation_opportunities:[],
+      original_required:originalRequired,
+      original_reason:originalRequired
+        ? '2026-10-08 v1.0 Original has GROUNDED READY_FOR_APPROVAL status with PRIMARY Evidence lineage.'
+        : null,
+      hold_reason:originalRequired?null:'No grounded Original and no selected participation opportunity.',
+      primary_theme:plan.data?.primary_theme||null,
+      research_refs:['THREADS_OPERATIONS_V11','THREADS_CREATIVE_REASONING_V1'],
+      source_snapshot:{
+        retrieved_at:context.retrieved_at,
+        own_posts:(context.own_posts||[]).length,
+        own_replies:(context.own_replies||[]).length,
+        mentions:(context.mentions||[]).length,
+        keyword_results:(context.keyword_results||[]).length,
+        participation_source_items:participationCount,
+        grounded_original_candidate_no:groundedReady?.candidate_no||null,
+        primary_link_count:primaryLinkCount
+      }
+    };
+    const persisted=await prepareThreadsV11Decision({
+      supabase,targetDate,decision,runMode:'SHADOW'
+    });
     const clip=x=>({
       source_kind:x.source_kind||null,id:x.id||null,username:x.username||null,
       text:String(x.text||'').slice(0,500),timestamp:x.timestamp||null,
@@ -324,7 +371,14 @@ async function handleThreadsV11ShadowProbe(req,res){
       own_replies:(context.own_replies||[]).map(clip),
       mentions:(context.mentions||[]).map(clip),
       keyword_results:(context.keyword_results||[]).slice(0,30).map(clip),
-      errors:(context.errors||[]).map(e=>({capability:e.capability||null,code:e.code||null,status:e.status||null,message:e.message||null,query:e.query||null}))
+      errors:(context.errors||[]).map(e=>({capability:e.capability||null,code:e.code||null,status:e.status||null,message:e.message||null,query:e.query||null})),
+      shadow:{
+        storage:persisted.storage,
+        decision:persisted.decision,
+        original_candidate_count:candidates.length,
+        grounded_original_candidate_no:groundedReady?.candidate_no||null,
+        primary_link_count:primaryLinkCount
+      }
     });
   }catch(error){
     return res.status(502).json({ok:false,error:String(error?.code||error?.message||'threads_probe_failed').slice(0,240)});
