@@ -2,8 +2,8 @@
 // POST /api/admin/articles  … 新規下書きの作成（statusは常にdraftへ強制）
 import { getAuthedContext, normalizeArticleInput, sendError } from '../../../lib/supabaseAdmin.mjs';
 
-// source_path は一覧で「公開済み / 未公開」を出し分けるために取得する（Phase D）。
-const LIST_COLUMNS = 'id, title, slug, category, status, updated_at, created_at, source_path';
+// Publication Stateを一覧へ返し、DRAFT / PUBLISHING / PUBLISHEDを正しく表示する。
+const LIST_COLUMNS = 'id, title, slug, category, status, updated_at, created_at, source_path, publish_status, publish_commit_sha, publish_committed_at, published_at, publish_verified_at, published_url';
 
 export default async function handler(req, res) {
   const ctx = await getAuthedContext(req);

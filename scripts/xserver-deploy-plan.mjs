@@ -8,7 +8,7 @@ export const DEPLOY_MODE = Object.freeze({
 });
 
 const FULL_PUBLIC_PATHS = [
-  /^.*\.html$/,
+  /^(?!admin\/).*\.html$/,
   /^assets\//,
   /^templates\//,
   /^scripts\/build-blog\.mjs$/,

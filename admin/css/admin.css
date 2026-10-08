@@ -186,6 +186,7 @@ a{ color:inherit; }
    Phase D — Publish Review / Publish
    =================================================================== */
 .admin-badge-published{ background:#EFE6D3; color:#6B5433; border:1px solid var(--wood); }
+.admin-badge-publishing{ background:#EEF2F5; color:#425466; border:1px solid #B8C4CF; }
 
 .admin-editor-heading-row{ display:flex; align-items:center; gap:14px; }
 .admin-editor-heading-row .admin-page-title{ margin:0; }

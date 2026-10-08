@@ -32,6 +32,19 @@ test('API/lib-only changes do not occupy Xserver deploy lane', () => {
   assert.equal(plan.reason, 'no-xserver-public-impact');
 });
 
+test('admin-only changes do not occupy Xserver deploy lane', () => {
+  const plan = classifyXserverDeploy({
+    changedFiles: [
+      'admin/articles/index.html',
+      'admin/articles/review/index.html',
+      'admin/css/admin.css',
+      'api/admin/publish-status.mjs'
+    ]
+  });
+  assert.equal(plan.mode, DEPLOY_MODE.SKIP);
+  assert.equal(plan.reason, 'no-xserver-public-impact');
+});
+
 test('known Editorial image operator commit skips redundant full assets deploy', () => {
   const plan = classifyXserverDeploy({
     commitMessage: 'Generate Editorial Hybrid image assets',
