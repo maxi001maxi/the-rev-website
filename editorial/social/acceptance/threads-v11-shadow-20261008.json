@@ -2,12 +2,32 @@
   "version": "THREADS_OPERATIONS_V11_SHADOW",
   "run_mode": "SHADOW",
   "target_date": "2026-10-08",
-  "conversation_source_status": "NOT_CONFIGURED",
-  "daily_mode": "HOLD",
+  "conversation_source_status": "FRESH",
+  "conversation_capabilities": {
+    "OWN_REPLIES": {
+      "status": "FRESH",
+      "own_post_count": 3,
+      "count": 0
+    },
+    "MENTIONS": {
+      "status": "PERMISSION_NOT_GRANTED",
+      "count": 0,
+      "required_scope": "threads_manage_mentions"
+    },
+    "KEYWORD_SEARCH": {
+      "status": "PERMISSION_NOT_GRANTED",
+      "count": 0,
+      "required_scope": "threads_keyword_search",
+      "query_terms": [
+        "奈良"
+      ]
+    }
+  },
+  "daily_mode": "ORIGINAL_ONLY",
   "participation_opportunities": [],
-  "original_required": false,
-  "original_reason": null,
-  "hold_reason": "The 2026-10-08 v1.0 unattended run failed before Evidence / Opportunity / Candidate persistence, and no fresh Threads conversation source is configured. v1.1 must not invent a Reply target or an Original reason.",
+  "original_required": true,
+  "original_reason": "The existing 2026-10-08 v1.0 Threads plan is READY with one READY_FOR_APPROVAL Original candidate. No grounded participation opportunity was observed from the currently available FRESH OWN_REPLIES capability.",
+  "hold_reason": null,
   "measurement_windows": [
     7,
     30
@@ -19,28 +39,43 @@
   "evidence_snapshot": {
     "production_run": {
       "run_date": "2026-10-08",
-      "run_status": "ERROR",
-      "context_status": "BLOCKED",
-      "last_completed_stage": "TASK_TRIGGER_CONFIRMED"
+      "unattended_persistence_status": "MISSING",
+      "recovery_mode": "BOUNDED_MANUAL_RECOVERY",
+      "production_version": "v1.0"
     },
-    "published_threads_last_30d": 0,
-    "customer_signals_last_30d": 0,
     "latest_thread_plan": {
-      "target_date": "2026-10-07",
+      "target_date": "2026-10-08",
       "status": "READY",
-      "candidate_count": 2
+      "candidate_count": 1,
+      "candidate_qc": "READY_FOR_APPROVAL",
+      "primary_theme": "疲れている日のトレーニングを、休む/追い込むの二択にしない判断"
     },
-    "conversation_source": "NOT_CONFIGURED"
+    "conversation_source": {
+      "provider": "META_THREADS_API",
+      "profile": "@the.rev.nara",
+      "status": "FRESH",
+      "own_posts": 3,
+      "own_replies": 0,
+      "mentions_status": "PERMISSION_NOT_GRANTED",
+      "keyword_search_status": "PERMISSION_NOT_GRANTED"
+    }
   },
   "shadow_acceptance": {
-    "outcome": "PASS_SAFE_HOLD",
+    "outcome": "PASS_REAL_DATA_SHADOW_WITH_PERMISSION_LIMITATION",
     "checks": {
+      "real_data_shadow_inspected": true,
       "no_fabricated_conversation": true,
-      "no_unverified_original_reason": true,
+      "unavailable_capability_not_selected": true,
+      "v1_0_original_reason_preserved": true,
       "human_approval_preserved": true,
       "auto_reply_disabled": true,
       "auto_publish_disabled": true,
       "v1_0_production_not_overwritten": true
     }
-  }
+  },
+  "cutover_ready": false,
+  "cutover_blockers": [
+    "V1_0_UNATTENDED_PERSISTENCE_ACCEPTANCE_PENDING",
+    "EXPLICIT_V1_1_PRODUCTION_ACCEPTANCE_PENDING"
+  ]
 }
