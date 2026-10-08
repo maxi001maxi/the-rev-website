@@ -55,6 +55,35 @@ test('Threads conversation source reads own replies, mentions and keyword result
   assert.equal(JSON.stringify(context).includes('secret'),false);
 });
 
+test('permission-denied capabilities are explicit while available source stays FRESH',async()=>{
+  const fetchImpl=async(url)=>{
+    const u=new URL(String(url));
+    if(u.pathname==='/me') return response(200,{id:'u1',username:'the.rev.nara'});
+    if(u.pathname==='/me/threads') return response(200,{data:[
+      {id:'p1',username:'the.rev.nara',text:'one',timestamp:'2026-10-08T00:00:00+0000',permalink:'https://threads.com/p/1',has_replies:false},
+      {id:'p2',username:'the.rev.nara',text:'two',timestamp:'2026-10-08T01:00:00+0000',permalink:'https://threads.com/p/2',has_replies:false},
+      {id:'p3',username:'the.rev.nara',text:'three',timestamp:'2026-10-08T02:00:00+0000',permalink:'https://threads.com/p/3',has_replies:false}
+    ]});
+    if(u.pathname==='/me/mentions'||u.pathname==='/keyword_search'){
+      return response(403,{error:{message:'Application does not have permission for this action',code:10}});
+    }
+    return response(404,{error:{message:'not found'}});
+  };
+  const context=await getThreadsConversationContext({
+    env:{THREADS_ACCESS_TOKEN:'secret'},
+    fetchImpl,
+    queryTerms:['奈良']
+  });
+  assert.equal(context.conversation_source_status,'FRESH');
+  assert.equal(context.capabilities.OWN_REPLIES.status,'FRESH');
+  assert.equal(context.capabilities.OWN_REPLIES.own_post_count,3);
+  assert.equal(context.capabilities.MENTIONS.status,'PERMISSION_NOT_GRANTED');
+  assert.equal(context.capabilities.KEYWORD_SEARCH.status,'PERMISSION_NOT_GRANTED');
+  assert.equal(context.own_replies.length,0);
+  assert.equal(context.mentions.length,0);
+  assert.equal(context.keyword_results.length,0);
+});
+
 test('v1.1 selected participation requires its exact capability to be FRESH',()=>{
   const base={
     version:THREADS_OPERATIONS_V11,
