@@ -40,7 +40,7 @@ import { socialBridgeResponse } from '../../lib/socialBridgeApi.mjs';
 import {getAuthedContext,sendError} from '../../lib/supabaseAdmin.mjs';
 import {
   threadsAuthorizationUrl,verifyThreadsOAuthState,exchangeThreadsCode,
-  getThreadsProfile,saveThreadsConnection,getThreadsConnection
+  getThreadsProfile,saveThreadsConnection,getThreadsConnectionStatus,threadsOAuthDiagnostics
 } from '../../lib/threadsOAuth.mjs';
 import crypto from 'node:crypto';
 
@@ -92,7 +92,11 @@ async function requireThreadsAdmin(req,res){
 }
 async function handleThreadsOAuthConnect(req,res){
   const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
-  try{return res.status(200).json({authorizationUrl:threadsAuthorizationUrl(ctx.user.id)});}
+  try{
+    const authorizationUrl=threadsAuthorizationUrl(ctx.user.id);
+    console.info('[threads-oauth/authorize]',JSON.stringify({authorization_redirect_uri:new URL(authorizationUrl).searchParams.get('redirect_uri')}));
+    return res.status(200).json({authorizationUrl});
+  }
   catch(error){
     const suffix=error?.missing?.length?': '+error.missing.join(', '):'';
     return sendError(res,503,'threads_not_configured','Threads接続設定が不足しています'+suffix+'。');
@@ -101,9 +105,9 @@ async function handleThreadsOAuthConnect(req,res){
 async function handleThreadsOAuthStatus(req,res){
   const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
   try{
-    const c=await getThreadsConnection({supabase:ctx.supabase});
+    const c=await getThreadsConnectionStatus();
     return res.status(200).json({
-      connected:Boolean(c?.access_token),
+      connected:Boolean(c?.threads_user_id&&c?.last_verified_at),
       username:c?.username||null,
       threadsUserId:c?.threads_user_id||null,
       scopes:c?.scopes||[],
@@ -122,14 +126,17 @@ async function handleThreadsOAuthCallback(req,res){
   if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
   let state;
   try{state=verifyThreadsOAuthState(q.state);}
-  catch{return threadsOauthRedirect(res,'/admin/?threads=status-invalid');}
+  catch{return threadsOauthRedirect(res,'/admin/threads/?status=invalid');}
   try{
-    const tokenData=await exchangeThreadsCode(q.code);
+    const forwardedHost=String(req.headers?.['x-forwarded-host']||req.headers?.host||'').split(',')[0].trim();
+    const callbackUrl='https://'+forwardedHost+String(req.url||'').split('?')[0];
+    console.info('[threads-oauth/diagnostic]',JSON.stringify(threadsOAuthDiagnostics(state,{callbackUrl})));
+    const tokenData=await exchangeThreadsCode(q.code,{authorizationContext:state});
     const profile=await getThreadsProfile(tokenData.access_token);
     await saveThreadsConnection({userId:state.userId,tokenData,profile});
     return threadsOauthRedirect(res,'/admin/threads/?status=connected');
   }catch(error){
-    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,message:String(error?.message||'').slice(0,180)}));
+    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
     return threadsOauthRedirect(res,'/admin/threads/?status=error');
   }
 }

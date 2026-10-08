@@ -7,6 +7,8 @@ import {
   createThreadsOAuthState,
   verifyThreadsOAuthState,
   exchangeThreadsCode,
+  threadsOAuthDiagnostics,
+  getThreadsConnectionStatus,
   getActiveThreadsAccessToken
 } from '../lib/threadsOAuth.mjs';
 
@@ -87,8 +89,41 @@ test('Threads admin UI exposes authenticated connect flow',()=>{
   const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
   assert.match(page,/THE REV\. Threadsを接続/);
   assert.match(client,/AdminApi\.getThreadsConnect/);
-  assert.match(client,/target\.hostname!=='threads\.net'/);
+  assert.match(client,/target\.hostname!=='www\.threads\.com'/);
   assert.match(api,/threads_oauth_status/);
   assert.match(api,/threads_oauth_connect/);
   assert.match(endpoint,/\/admin\/threads\/\?status=connected/);
+});
+
+
+test('Production redirect is byte-identical at authorization and exchange',async()=>{
+  for(const redirect of ['https://the-rev-website.vercel.app/api/threads/oauth/callback/','https://example.test/callback/?next=a%2Fb&lang=ja']){
+    const current={...env,THREADS_REDIRECT_URI:redirect};
+    const url=new URL(threadsAuthorizationUrl('admin',current));
+    const state=verifyThreadsOAuthState(url.searchParams.get('state'),Date.now(),current);
+    const diagnostic=threadsOAuthDiagnostics(state,{env:current,callbackUrl:redirect+'?code=SECRET&state=SECRET'});
+    assert.equal(diagnostic.redirect_uri_equal,true);
+    assert.equal(diagnostic.app_id_equal,true);
+    assert.equal(JSON.stringify(diagnostic).includes('SECRET'),false);
+    await exchangeThreadsCode('code',{env:current,authorizationContext:state,fetchImpl:async(url,options)=>{
+      if(String(url).includes('/oauth/access_token')){
+        assert.deepEqual(Buffer.from(new URLSearchParams(options.body).get('redirect_uri')),Buffer.from(new URL(threadsAuthorizationUrl('admin',current)).searchParams.get('redirect_uri')));
+        return response(200,{access_token:'short',user_id:'u'});
+      }
+      return response(200,{access_token:'long',expires_in:5184000});
+    }});
+    await assert.rejects(exchangeThreadsCode('code',{env:{...current,THREADS_REDIRECT_URI:redirect+'changed'},authorizationContext:state,fetchImpl:()=>assert.fail('Must reject before sending code')}),/configuration_changed/);
+  }
+});
+
+test('Status reads metadata only using privileged server path after admin guard',async()=>{
+  const supabase={from(){return {select(columns){assert.equal(columns.includes('access_token'),false);return this;},eq(){return this;},maybeSingle:async()=>({data:null,error:null})};}};
+  assert.equal(await getThreadsConnectionStatus({supabase}),null);
+  const api=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  assert.match(api,/getThreadsConnectionStatus\(\)/);
+  assert.doesNotMatch(api,/getThreadsConnectionStatus\(\{supabase:ctx.supabase/);
+});
+
+test('Missing long token cannot silently save a short-lived token',async()=>{
+  await assert.rejects(exchangeThreadsCode('code',{env,fetchImpl:async url=>response(200,String(url).includes('/oauth/access_token')?{access_token:'short'}:{})}),/threads_long_token_missing/);
 });
