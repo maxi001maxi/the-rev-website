@@ -16,6 +16,14 @@
       "destination": "/api/integrations/editorial-status/?mode=threads_oauth_callback"
     },
     {
+      "source": "/api/threads/oauth/delete/",
+      "destination": "/api/integrations/editorial-status/?mode=threads_oauth_delete"
+    },
+    {
+      "source": "/api/threads/oauth/uninstall/",
+      "destination": "/api/integrations/editorial-status/?mode=threads_oauth_uninstall"
+    },
+    {
       "source": "/api/cron/company-os-ga4/",
       "destination": "/api/integrations/editorial-status/?mode=company_os_ga4_cron"
     },
