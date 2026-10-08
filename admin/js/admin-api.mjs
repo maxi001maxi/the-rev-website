@@ -68,6 +68,8 @@ export const AdminApi = {
   getSiteInsights: (range = '28d', date = '') => authedFetch(`/api/admin/site-insights?range=${encodeURIComponent(range)}${date ? `&date=${encodeURIComponent(date)}` : ''}`),
   getGoogleBusinessStatus: () => authedFetch('/api/admin/google-business?action=status'),
   getGoogleBusinessConnect: () => authedFetch('/api/admin/google-business?action=connect'),
+  getThreadsStatus: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_status'),
+  getThreadsConnect: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_connect'),
 
   // Phase D: Publish Review（Preflight）とPublish本体。
   // publishPreview は GitHubへの書き込みを行わない読み取り専用のPreflight。
