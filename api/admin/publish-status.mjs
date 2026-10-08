@@ -48,6 +48,8 @@ export default async function handler(req, res) {
       id: article.id,
       title: article.title,
       slug: article.slug,
+      source_path: article.source_path || null,
+      source_sha: article.source_sha || null,
       publish_status: article.publish_status || PUBLISH_STATUS.NOT_PUBLISHED,
       publish_commit_sha: article.publish_commit_sha || null,
       published_url: article.published_url || null,
