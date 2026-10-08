@@ -125,7 +125,12 @@ assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow m
 assertTrue(autoWorkflow.includes('XSERVER_FTP_USER'), 'Automated Hybrid workflow must stage assets to Xserver');
 assertTrue(autoWorkflow.includes('assets/images/gbp'), 'Automated Hybrid workflow must stage GBP 4:3 assets');
 assertTrue(autoWorkflow.includes('unattended-github-actions-v1'), 'Automated Hybrid workflow must ignore legacy/manual Hybrid jobs');
-assertTrue(autoWorkflow.includes('.automation.source_repo_path'), 'Automated Hybrid workflow must require a verified repo source before generation');
+assertTrue(autoWorkflow.includes("cron: '0 21 * * 1,2,3,5,6'"), 'Automated Hybrid safety schedule must run once on THE REV. business days');
+assertTrue(autoWorkflow.includes("id: select"), 'Automated Hybrid workflow must expose pending-job preflight state');
+assertTrue(autoWorkflow.includes("has_pending=true"), 'Automated Hybrid workflow must detect real pending work before heavy setup');
+assertTrue(autoWorkflow.indexOf('name: Select pending Hybrid jobs') < autoWorkflow.indexOf('name: Install dependencies'), 'Pending-job selection must happen before dependency installation');
+assertTrue(autoWorkflow.includes("if: steps.select.outputs.has_pending == 'true'"), 'Heavy Hybrid steps must be gated by pending work');
+assertTrue(autoWorkflow.includes("automation.get('source_repo_path')") && autoWorkflow.includes('Path(source_repo_path).is_file()'), 'Automated Hybrid workflow must require a verified repo source before generation');
 assertTrue(autoWorkflow.includes('Skipping legacy/manual Hybrid job'), 'Automated Hybrid workflow must skip legacy/manual jobs without failing the run');
 const autoRunner = fs.readFileSync(path.join(ROOT, 'scripts/auto-editorial-hybrid-image.mjs'), 'utf8');
 assertTrue(autoRunner.includes("operatorStateMatchesAsset(rawPreviousState, job, jobPath)"), 'Automated Hybrid runner must scope operator state to the current asset version');

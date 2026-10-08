@@ -11,6 +11,7 @@ function topologySandbox({ approval, initial = [] } = {}) {
   const triggers = initial.slice();
   const created = [];
   const deleted = [];
+  const intervals = [];
   const context = {
     console: { log: () => {} },
     String, Number, Boolean, Object, Array, JSON, Error,
@@ -34,7 +35,7 @@ function topologySandbox({ approval, initial = [] } = {}) {
           atHour: () => builder,
           everyDays: () => builder,
           everyHours: () => builder,
-          everyMinutes: () => builder,
+          everyMinutes: (minutes) => { intervals.push({ name, minutes }); return builder; },
           inTimezone: () => builder,
           create: () => {
             const t = trigger(name);
@@ -50,7 +51,7 @@ function topologySandbox({ approval, initial = [] } = {}) {
   vm.createContext(context);
   const source = fs.readFileSync(new URL('../editorial/gas/DailyEditorialTriggerTopology_v0.7.3.gs', import.meta.url), 'utf8');
   vm.runInContext(source, context);
-  return { context, triggers, created, deleted };
+  return { context, triggers, created, deleted, intervals };
 }
 
 test('Topic Approval mode has one Gate + one Topic Approval trigger, no Creator/Watchdog', () => {
@@ -80,6 +81,8 @@ test('Topic Approval mode has one Gate + one Topic Approval trigger, no Creator/
   );
   assert.deepEqual(JSON.parse(JSON.stringify(out.after.supervisors)), ['scheduledDailyEditorialSupervisorV065']);
   assert.equal(h.triggers.filter(t => t.getHandlerFunction() === 'scheduledDailyEditorialSupervisorV065').length, 1);
+  assert.deepEqual(h.intervals, [{ name: 'scheduledDailyEditorialTopicApprovalV070', minutes: 10 }]);
+  assert.equal(out.topic_approval_poll_minutes, 10);
 });
 
 test('Legacy Creator mode has Gate + Creator + Watchdog and no Topic Approval trigger', () => {

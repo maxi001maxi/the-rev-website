@@ -326,7 +326,7 @@ test('GPT installer uses existing LINE sender without pretending LINE replies ar
   props.THE_REV_LINE_USER_ID='configured-owner';props.THE_REV_LINE_CHANNEL_ACCESS_TOKEN='configured-token';
   assert.throws(()=>sandbox.installDailyEditorialTopicApprovalV070(),/LINE_RECEIVER_NOT_CONFIGURED/);assert.equal(st.daily_editorial_cadence,undefined);
   assert.equal(sandbox.installDailyEditorialTopicApprovalGPTV070().status,'TOPIC_SELECTION_WAITING');
-  assert.equal(st.daily_editorial_cadence,'DAILY');assert.equal(st.daily_editorial_topic_approval_required,'TRUE');assert.equal(props.THE_REV_TOPIC_REPLY_MODE,'GPT');assert.equal(triggers[0].minutes,1);
+  assert.equal(st.daily_editorial_cadence,'DAILY');assert.equal(st.daily_editorial_topic_approval_required,'TRUE');assert.equal(props.THE_REV_TOPIC_REPLY_MODE,'GPT');assert.equal(triggers[0].minutes,10);
 });
 test('GAS performs late-approval polling outside the creation window under a lock',()=>{
   const calls=[],rows=[],props={};

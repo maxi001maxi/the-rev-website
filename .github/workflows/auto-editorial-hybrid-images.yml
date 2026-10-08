@@ -16,10 +16,11 @@ on:
       - 'editorial/typography-golden-reference/**'
       - '.github/workflows/auto-editorial-hybrid-images.yml'
   schedule:
-    # Daily safety windows for the morning editorial pipeline.
-    # 06:00 / 07:00 / 08:00 JST = 21:00 / 22:00 / 23:00 UTC.
+    # One business-day safety window for the morning editorial pipeline.
+    # THE REV. business days: Tue/Wed/Thu/Sat/Sun JST.
+    # 06:00 JST = 21:00 UTC on the previous UTC day, so Mon/Tue/Wed/Fri/Sat UTC.
     # Push remains the primary event-driven trigger when a new image job is created.
-    - cron: '0 21,22,23 * * *'
+    - cron: '0 21 * * 1,2,3,5,6'
   workflow_dispatch:
 
 permissions:
@@ -59,23 +60,8 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - name: Validate required secrets
-        run: |
-          set -euo pipefail
-          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY is required."; exit 1; }
-          test -n "${XSERVER_FTP_USER:-}" || { echo "::error::XSERVER_FTP_USER is required."; exit 1; }
-          test -n "${XSERVER_FTP_PASSWORD:-}" || { echo "::error::XSERVER_FTP_PASSWORD is required."; exit 1; }
-
-      - name: Install dependencies
-        run: |
-          set -euo pipefail
-          npm ci
-          npm install --no-save --package-lock=false playwright@1.55.0
-          npx playwright install --with-deps chromium
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-noto-cjk lftp jq
-
       - name: Select pending Hybrid jobs
+        id: select
         env:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_BEFORE: ${{ github.event.before }}
@@ -84,65 +70,104 @@ jobs:
           : > .operator-jobs
 
           if [ "$EVENT_NAME" = "push" ] && [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
-            git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" -- 'editorial/hybrid-image-jobs/*.json'               | grep -E '^editorial/hybrid-image-jobs/[^/]+\.json$'               | grep -v '/_template\.json$'               | sort -u > .candidate-jobs || true
+            git diff --name-only "$EVENT_BEFORE" "$GITHUB_SHA" -- 'editorial/hybrid-image-jobs/*.json' \
+              | grep -E '^editorial/hybrid-image-jobs/[^/]+\.json$' \
+              | grep -v '/_template\.json$' \
+              | sort -u > .candidate-jobs || true
           else
-            find editorial/hybrid-image-jobs -maxdepth 1 -type f -name '*.json'               ! -name '_template.json' | sort > .candidate-jobs
+            find editorial/hybrid-image-jobs -maxdepth 1 -type f -name '*.json' \
+              ! -name '_template.json' | sort > .candidate-jobs
           fi
 
-          while IFS= read -r job; do
-            [ -n "$job" ] || continue
-            [ -f "$job" ] || continue
+          python3 <<'PY'
+          import json
+          from pathlib import Path
 
-            # This scheduled operator must only consume jobs created by the
-            # unattended Editorial Bridge. Legacy/manual Hybrid jobs may be
-            # intentionally incomplete and must never be treated as runnable.
-            automation_mode="$(jq -r '.automation.mode // ""' "$job")"
-            source_repo_path="$(jq -r '.automation.source_repo_path // ""' "$job")"
-            scene="$(jq -r '.generated_scene_path // ""' "$job")"
+          def read_json(path):
+              try:
+                  return json.loads(Path(path).read_text(encoding='utf-8'))
+              except Exception:
+                  return {}
 
-            if [ "$automation_mode" != "unattended-github-actions-v1" ]; then
-              echo "Skipping legacy/manual Hybrid job (not owned by automated operator): $job"
-              continue
-            fi
+          pending = []
+          candidates = Path('.candidate-jobs').read_text(encoding='utf-8').splitlines() if Path('.candidate-jobs').exists() else []
+          for raw in candidates:
+              job = Path(raw.strip())
+              if not raw.strip() or not job.is_file():
+                  continue
 
-            if [ -z "$source_repo_path" ] || [ ! -f "$source_repo_path" ]; then
-              echo "::warning::Skipping automated Hybrid job waiting for verified repo source: $job (${source_repo_path:-empty})"
-              continue
-            fi
+              data = read_json(job)
+              automation = data.get('automation') or {}
+              automation_mode = str(automation.get('mode') or '')
+              source_repo_path = str(automation.get('source_repo_path') or '')
+              scene = str(data.get('generated_scene_path') or '')
 
-            if [ -z "$scene" ]; then
-              echo "::warning::Skipping automated Hybrid job missing generated_scene_path: $job"
-              continue
-            fi
+              if automation_mode != 'unattended-github-actions-v1':
+                  print(f"Skipping legacy/manual Hybrid job (not owned by automated operator): {job}")
+                  continue
+              if not source_repo_path or not Path(source_repo_path).is_file():
+                  print(f"Skipping automated Hybrid job waiting for verified repo source: {job} ({source_repo_path or 'empty'})")
+                  continue
+              if not scene:
+                  print(f"Skipping automated Hybrid job missing generated_scene_path: {job}")
+                  continue
 
-            slug="$(jq -r '.slug // ""' "$job")"
-            qa="$(jq -r '.qa_report_path // ""' "$job")"
-            thumb="$(jq -r '.thumbnail // ""' "$job")"
-            og="$(jq -r '.og_image // ""' "$job")"
-            gbp="$(jq -r '.gbp_image // ""' "$job")"
-            state="editorial/image-operator-state/${slug}.json"
+              slug = str(data.get('slug') or '')
+              qa = str(data.get('qa_report_path') or '')
+              thumb = str(data.get('thumbnail') or '')
+              og = str(data.get('og_image') or '')
+              gbp = str(data.get('gbp_image') or '')
+              state = Path(f'editorial/image-operator-state/{slug}.json')
 
-            gbp_ready=1
-            if [ -n "$gbp" ] && [ ! -f "$gbp" ]; then
-              gbp_ready=0
-            fi
+              state_data = read_json(state) if state.is_file() else {}
+              qa_data = read_json(qa) if qa and Path(qa).is_file() else {}
+              gbp_ready = (not gbp) or Path(gbp).is_file()
+              already_ready = (
+                  state_data.get('xserver_verified') is True
+                  and bool(qa) and Path(qa).is_file() and qa_data.get('pass') is True
+                  and bool(thumb) and Path(thumb).is_file()
+                  and bool(og) and Path(og).is_file()
+                  and gbp_ready
+              )
+              if already_ready:
+                  print(f"Already generated and Xserver-verified: {job}")
+                  continue
+              pending.append(str(job))
 
-            if [ -f "$state" ] && [ "$(jq -r '.xserver_verified // false' "$state")" = "true" ] \
-              && [ -n "$qa" ] && [ -f "$qa" ] && [ "$(jq -r '.pass // false' "$qa")" = "true" ] \
-              && [ -n "$thumb" ] && [ -f "$thumb" ] && [ -n "$og" ] && [ -f "$og" ] \
-              && [ "$gbp_ready" = "1" ]; then
-              echo "Already generated and Xserver-verified: $job"
-              continue
-            fi
+          pending = sorted(set(pending))
+          Path('.operator-jobs').write_text(('\n'.join(pending) + '\n') if pending else '', encoding='utf-8')
+          print("Pending automated Hybrid jobs:")
+          for job in pending:
+              print(job)
+          PY
 
-            printf '%s\n' "$job" >> .operator-jobs
-          done < .candidate-jobs
+          if [ -s .operator-jobs ]; then
+            echo "has_pending=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_pending=false" >> "$GITHUB_OUTPUT"
+            echo "No pending Hybrid jobs; skipping dependency installation and generation."
+          fi
 
-          sort -u .operator-jobs -o .operator-jobs
-          echo "Pending automated Hybrid jobs:"
-          cat .operator-jobs || true
+      - name: Validate required secrets
+        if: steps.select.outputs.has_pending == 'true'
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY is required."; exit 1; }
+          test -n "${XSERVER_FTP_USER:-}" || { echo "::error::XSERVER_FTP_USER is required."; exit 1; }
+          test -n "${XSERVER_FTP_PASSWORD:-}" || { echo "::error::XSERVER_FTP_PASSWORD is required."; exit 1; }
+
+      - name: Install dependencies
+        if: steps.select.outputs.has_pending == 'true'
+        run: |
+          set -euo pipefail
+          npm ci
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk lftp jq
 
       - name: Generate scenes, render overlay and run multimodal QC
+        if: steps.select.outputs.has_pending == 'true'
         id: generate
         run: |
           set -euo pipefail
@@ -209,7 +234,7 @@ jobs:
           echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
       - name: Preserve operator output before GitHub synchronization
-        if: always()
+        if: always() && steps.select.outputs.has_pending == 'true'
         run: |
           set -euo pipefail
           : > .checkpoint-paths
@@ -229,7 +254,7 @@ jobs:
           fi
 
       - name: Upload operator recovery checkpoint
-        if: always() && hashFiles('editorial-operator-checkpoint.tar.gz') != ''
+        if: always() && steps.select.outputs.has_pending == 'true' && hashFiles('editorial-operator-checkpoint.tar.gz') != ''
         uses: actions/upload-artifact@v4
         with:
           name: editorial-operator-checkpoint-${{ github.run_id }}
@@ -237,7 +262,7 @@ jobs:
           retention-days: 7
 
       - name: Validate Hybrid image system
-        if: steps.generate.outputs.failed == '0'
+        if: steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '0'
         run: |
           set -euo pipefail
           node scripts/validate-hybrid-image-jobs.mjs
@@ -245,6 +270,7 @@ jobs:
           npm run test:phase-9
 
       - name: Commit operator output to main
+        if: steps.select.outputs.has_pending == 'true'
         run: |
           set -euo pipefail
           git config user.name "THE REV Editorial Image Operator"
@@ -268,7 +294,7 @@ jobs:
           fi
 
       - name: Stage READY image assets to Xserver
-        if: steps.generate.outputs.failed == '0'
+        if: steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '0'
         run: |
           set -euo pipefail
           if [ ! -s .ready-image-paths ]; then
@@ -316,7 +342,7 @@ jobs:
           trap - EXIT
 
       - name: Verify Xserver assets are byte-identical
-        if: steps.generate.outputs.failed == '0'
+        if: steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '0'
         run: |
           set -euo pipefail
           if [ ! -s .ready-image-paths ]; then
@@ -354,7 +380,7 @@ jobs:
           done < .ready-image-paths
 
       - name: Mark Xserver verification in operator state
-        if: steps.generate.outputs.failed == '0'
+        if: steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '0'
         run: |
           set -euo pipefail
           if [ ! -s .state-paths ]; then
@@ -382,7 +408,7 @@ jobs:
           fi
 
       - name: Fail closed if any operator job was rejected
-        if: steps.generate.outputs.failed != '0'
+        if: steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed != '0'
         run: |
           echo "::error::At least one automated Hybrid image job failed Visual QC or exhausted attempts."
           exit 1
