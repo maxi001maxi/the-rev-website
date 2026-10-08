@@ -37,6 +37,11 @@ import { autoPublishGate } from '../../lib/editorialAutoPublishGate.mjs';
 import lineEditorialWebhook from '../../lib/editorialLineWebhook.mjs';
 import { topicResponse } from '../../lib/editorialTopicApi.mjs';
 import { socialBridgeResponse } from '../../lib/socialBridgeApi.mjs';
+import {getAuthedContext,sendError} from '../../lib/supabaseAdmin.mjs';
+import {
+  threadsAuthorizationUrl,verifyThreadsOAuthState,exchangeThreadsCode,
+  getThreadsProfile,saveThreadsConnection,getThreadsConnection
+} from '../../lib/threadsOAuth.mjs';
 import crypto from 'node:crypto';
 
 const DAILY_PLAN_MAX_ROWS = 500;
@@ -66,7 +71,73 @@ export async function readEditorialJson(req) {
   return JSON.parse(Buffer.concat(parts).toString('utf8'));
 }
 
+
+function threadsOauthRedirect(res,path){
+  res.statusCode=302;
+  res.setHeader('Location',path);
+  res.end();
+}
+async function requireThreadsAdmin(req,res){
+  const ctx=await getAuthedContext(req);
+  if(ctx.error){
+    sendError(res,ctx.status,ctx.error,ctx.error==='unauthorized'?'ログインが必要です。':'Admin認証が未設定です。');
+    return null;
+  }
+  const membership=await ctx.supabase.from('admin_members').select('active').eq('user_id',ctx.user.id).maybeSingle();
+  if(membership.error||!membership.data?.active){
+    sendError(res,403,'forbidden','Threads APIの操作権限がありません。');
+    return null;
+  }
+  return ctx;
+}
+async function handleThreadsOAuthConnect(req,res){
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  try{return res.status(200).json({authorizationUrl:threadsAuthorizationUrl(ctx.user.id)});}
+  catch(error){
+    const suffix=error?.missing?.length?': '+error.missing.join(', '):'';
+    return sendError(res,503,'threads_not_configured','Threads接続設定が不足しています'+suffix+'。');
+  }
+}
+async function handleThreadsOAuthStatus(req,res){
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  try{
+    const c=await getThreadsConnection({supabase:ctx.supabase});
+    return res.status(200).json({
+      connected:Boolean(c?.access_token),
+      username:c?.username||null,
+      threadsUserId:c?.threads_user_id||null,
+      scopes:c?.scopes||[],
+      expiresAt:c?.expires_at||null,
+      connectedAt:c?.connected_at||null,
+      lastVerifiedAt:c?.last_verified_at||null,
+      lastError:c?.last_error||null
+    });
+  }catch{
+    return sendError(res,503,'threads_status_unavailable','Threads接続状態を確認できませんでした。');
+  }
+}
+async function handleThreadsOAuthCallback(req,res){
+  const q=req.query||{};
+  if(q.error)return threadsOauthRedirect(res,'/admin/?threads=status-cancelled');
+  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/?threads=status-invalid');
+  let state;
+  try{state=verifyThreadsOAuthState(q.state);}
+  catch{return threadsOauthRedirect(res,'/admin/?threads=status-invalid');}
+  try{
+    const tokenData=await exchangeThreadsCode(q.code);
+    const profile=await getThreadsProfile(tokenData.access_token);
+    await saveThreadsConnection({userId:state.userId,tokenData,profile});
+    return threadsOauthRedirect(res,'/admin/?threads=status-connected');
+  }catch(error){
+    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,message:String(error?.message||'').slice(0,180)}));
+    return threadsOauthRedirect(res,'/admin/?threads=status-error');
+  }
+}
+
 export default async function handler(req, res) {
+  if(req.query?.mode==='threads_oauth_connect') return handleThreadsOAuthConnect(req,res);
+  if(req.query?.mode==='threads_oauth_status') return handleThreadsOAuthStatus(req,res);
+  if(req.query?.mode==='threads_oauth_callback') return handleThreadsOAuthCallback(req,res);
   if (req.query?.mode === 'company_timeline_github_cron') {
     const secret=String(process.env.CRON_SECRET||'');
     const auth=String(req.headers?.authorization||'');
