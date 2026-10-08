@@ -84,17 +84,21 @@ test('Threads OAuth secrets never appear in browser-facing source',()=>{
 });
 
 
-test('Threads admin UI exposes authenticated connect flow',()=>{
+test('Threads admin UI uses authenticated Direct Token mode and pauses OAuth UI',()=>{
   const page=fs.readFileSync(new URL('../admin/threads/index.html',import.meta.url),'utf8');
   const client=fs.readFileSync(new URL('../admin/js/threads.mjs',import.meta.url),'utf8');
   const api=fs.readFileSync(new URL('../admin/js/admin-api.mjs',import.meta.url),'utf8');
   const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
-  assert.match(page,/THE REV\. Threadsを接続/);
-  assert.match(client,/AdminApi\.getThreadsConnect/);
-  assert.match(client,/target\.hostname!=='www\.threads\.com'/);
-  assert.match(api,/threads_oauth_status/);
-  assert.match(api,/threads_oauth_connect/);
-  assert.match(endpoint,/\/admin\/threads\/\?status=connected/);
+  assert.match(page,/DIRECT TOKEN MODE/);
+  assert.match(page,/type="password"/);
+  assert.match(page,/OAuth callback方式は現在PAUSED/);
+  assert.match(client,/AdminApi\.saveThreadsDirectToken/);
+  assert.match(client,/AdminApi\.probeThreadsDirectToken/);
+  assert.doesNotMatch(client,/getThreadsConnect/);
+  assert.match(api,/threads_direct_token_connect/);
+  assert.match(api,/threads_direct_token_probe/);
+  assert.match(endpoint,/handleThreadsDirectTokenConnect/);
+  assert.match(endpoint,/handleThreadsDirectTokenProbe/);
 });
 
 
@@ -177,4 +181,15 @@ test('Diagnostics require POST and admin membership, and never perform connectio
   assert.match(handler,/requireThreadsAdmin\(req,res\)/);
   assert.match(handler,/Cache-Control','no-store/);
   assert.doesNotMatch(handler,/saveThreadsConnection|authorizationUrl|exchangeThreadsCode/);
+});
+
+
+test('Direct Token handler verifies token server-side and never returns access_token',()=>{
+  const endpoint=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  const section=endpoint.split('async function handleThreadsDirectTokenConnect')[1].split('async function handleThreadsDirectTokenProbe')[0];
+  assert.match(section,/requireThreadsAdmin\(req,res\)/);
+  assert.match(section,/getThreadsProfile\(accessToken\)/);
+  assert.match(section,/saveThreadsConnection/);
+  assert.doesNotMatch(section,/json\([^)]*accessToken/);
+  assert.doesNotMatch(section,/console\.(log|info|error)\([^\n]*accessToken/);
 });
