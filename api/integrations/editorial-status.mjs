@@ -118,8 +118,8 @@ async function handleThreadsOAuthStatus(req,res){
 }
 async function handleThreadsOAuthCallback(req,res){
   const q=req.query||{};
-  if(q.error)return threadsOauthRedirect(res,'/admin/?threads=status-cancelled');
-  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/?threads=status-invalid');
+  if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
+  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
   let state;
   try{state=verifyThreadsOAuthState(q.state);}
   catch{return threadsOauthRedirect(res,'/admin/?threads=status-invalid');}
@@ -127,10 +127,10 @@ async function handleThreadsOAuthCallback(req,res){
     const tokenData=await exchangeThreadsCode(q.code);
     const profile=await getThreadsProfile(tokenData.access_token);
     await saveThreadsConnection({userId:state.userId,tokenData,profile});
-    return threadsOauthRedirect(res,'/admin/?threads=status-connected');
+    return threadsOauthRedirect(res,'/admin/threads/?status=connected');
   }catch(error){
     console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,message:String(error?.message||'').slice(0,180)}));
-    return threadsOauthRedirect(res,'/admin/?threads=status-error');
+    return threadsOauthRedirect(res,'/admin/threads/?status=error');
   }
 }
 
