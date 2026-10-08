@@ -1,0 +1,46 @@
+{
+  "version": "THREADS_OPERATIONS_V11_SHADOW",
+  "run_mode": "SHADOW",
+  "target_date": "2026-10-08",
+  "conversation_source_status": "NOT_CONFIGURED",
+  "daily_mode": "HOLD",
+  "participation_opportunities": [],
+  "original_required": false,
+  "original_reason": null,
+  "hold_reason": "The 2026-10-08 v1.0 unattended run failed before Evidence / Opportunity / Candidate persistence, and no fresh Threads conversation source is configured. v1.1 must not invent a Reply target or an Original reason.",
+  "measurement_windows": [
+    7,
+    30
+  ],
+  "one_post_rule_promotion": false,
+  "human_approval_required": true,
+  "auto_reply": false,
+  "auto_publish": false,
+  "evidence_snapshot": {
+    "production_run": {
+      "run_date": "2026-10-08",
+      "run_status": "ERROR",
+      "context_status": "BLOCKED",
+      "last_completed_stage": "TASK_TRIGGER_CONFIRMED"
+    },
+    "published_threads_last_30d": 0,
+    "customer_signals_last_30d": 0,
+    "latest_thread_plan": {
+      "target_date": "2026-10-07",
+      "status": "READY",
+      "candidate_count": 2
+    },
+    "conversation_source": "NOT_CONFIGURED"
+  },
+  "shadow_acceptance": {
+    "outcome": "PASS_SAFE_HOLD",
+    "checks": {
+      "no_fabricated_conversation": true,
+      "no_unverified_original_reason": true,
+      "human_approval_preserved": true,
+      "auto_reply_disabled": true,
+      "auto_publish_disabled": true,
+      "v1_0_production_not_overwritten": true
+    }
+  }
+}
