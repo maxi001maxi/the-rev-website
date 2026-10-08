@@ -42,7 +42,7 @@ async function connect(){
   try{
     const data=await AdminApi.getThreadsConnect();
     const target=new URL(data?.authorizationUrl||'');
-    if(target.protocol!=='https:'||target.hostname!=='threads.net'||target.pathname!=='/oauth/authorize'){
+    if(target.protocol!=='https:'||target.hostname!=='www.threads.com'||target.pathname!=='/oauth/authorize'){
       throw new Error('Threads認証URLを検証できませんでした。');
     }
     window.location.href=target.toString();
