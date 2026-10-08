@@ -229,5 +229,5 @@ test('Direct Token scope diagnostics are admin-only and browser output is secret
   assert.match(section,/actualScopes/);
   assert.match(section,/missingScopes/);
   assert.doesNotMatch(section,/accessToken\s*:/);
-  assert.match(client,/Token実権限/);
+  assert.match(client,/Token(?:の)?実権限/);
 });
