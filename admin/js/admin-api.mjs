@@ -69,6 +69,12 @@ export const AdminApi = {
   getGoogleBusinessStatus: () => authedFetch('/api/admin/google-business?action=status'),
   getGoogleBusinessConnect: () => authedFetch('/api/admin/google-business?action=connect'),
   getThreadsStatus: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_status'),
+  saveThreadsDirectToken: (accessToken) => authedFetch('/api/integrations/editorial-status?mode=threads_direct_token_connect', {
+    method:'POST',
+    body:JSON.stringify({access_token:accessToken})
+  }),
+  probeThreadsDirectToken: () => authedFetch('/api/integrations/editorial-status?mode=threads_direct_token_probe', {method:'POST'}),
+  // Legacy OAuth endpoints remain server-side for compatibility but are paused in the Admin UI.
   diagnoseThreads: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_diagnostics', {method:'POST'}),
   getThreadsConnect: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_connect'),
 
