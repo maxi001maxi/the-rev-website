@@ -134,10 +134,22 @@ async function handleThreadsOAuthCallback(req,res){
   }
 }
 
+function handleThreadsLifecycleCallback(req,res,event){
+  if(req.method!=='GET'&&req.method!=='POST'){
+    res.setHeader('Allow','GET, POST');
+    return res.status(405).json({ok:false,error:'method_not_allowed'});
+  }
+  res.setHeader('Cache-Control','no-store');
+  console.info(JSON.stringify({event:'threads_oauth_'+event,method:req.method,received:true}));
+  return res.status(200).json({ok:true,event});
+}
+
 export default async function handler(req, res) {
   if(req.query?.mode==='threads_oauth_connect') return handleThreadsOAuthConnect(req,res);
   if(req.query?.mode==='threads_oauth_status') return handleThreadsOAuthStatus(req,res);
   if(req.query?.mode==='threads_oauth_callback') return handleThreadsOAuthCallback(req,res);
+  if(req.query?.mode==='threads_oauth_uninstall') return handleThreadsLifecycleCallback(req,res,'uninstall');
+  if(req.query?.mode==='threads_oauth_delete') return handleThreadsLifecycleCallback(req,res,'delete');
   if (req.query?.mode === 'company_timeline_github_cron') {
     const secret=String(process.env.CRON_SECRET||'');
     const auth=String(req.headers?.authorization||'');
