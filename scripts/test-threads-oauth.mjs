@@ -196,13 +196,13 @@ test('Direct Token handler verifies token server-side and never returns access_t
 });
 
 
-test('Token debugger returns scopes only and never exposes user/app secrets',async()=>{
+test('Token debugger uses Threads user token as debugger credential and returns scopes only',async()=>{
   const result=await debugThreadsAccessToken('USER-TOKEN-SECRET',{env,fetchImpl:async(url,options)=>{
     const u=new URL(url);
     assert.equal(u.origin,'https://graph.threads.com');
     assert.equal(u.pathname,'/debug_token');
     assert.equal(u.searchParams.get('input_token'),'USER-TOKEN-SECRET');
-    assert.equal(u.searchParams.get('access_token'),'app123|secret456');
+    assert.equal(u.searchParams.get('access_token'),'USER-TOKEN-SECRET');
     assert.equal(options.method,'GET');
     return response(200,{data:{
       is_valid:true,
