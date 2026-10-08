@@ -267,6 +267,27 @@ async function handleThreadsDirectTokenProbe(req,res){
   }
 }
 
+async function handleThreadsOAuthCallback(req,res){
+  const q=req.query||{};
+  if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
+  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
+  let state;
+  try{state=verifyThreadsOAuthState(q.state);}
+  catch{return threadsOauthRedirect(res,'/admin/threads/?status=invalid');}
+  try{
+    const forwardedHost=String(req.headers?.['x-forwarded-host']||req.headers?.host||'').split(',')[0].trim();
+    const callbackUrl='https://'+forwardedHost+String(req.url||'').split('?')[0];
+    console.info('[threads-oauth/diagnostic]',JSON.stringify(threadsOAuthDiagnostics(state,{callbackUrl})));
+    const tokenData=await exchangeThreadsCode(q.code,{authorizationContext:state});
+    const profile=await getThreadsProfile(tokenData.access_token);
+    await saveThreadsConnection({userId:state.userId,tokenData,profile});
+    return threadsOauthRedirect(res,'/admin/threads/?status=connected');
+  }catch(error){
+    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
+    return threadsOauthRedirect(res,'/admin/threads/?status=error');
+  }
+}
+
 async function handleThreadsV11ShadowProbe(req,res){
   res.setHeader('Cache-Control','no-store');
   if(process.env.VERCEL_ENV!=='preview')return res.status(404).json({ok:false,error:'not_found'});
@@ -310,26 +331,6 @@ async function handleThreadsV11ShadowProbe(req,res){
   }
 }
 
-async function handleThreadsOAuthCallback(req,res){
-  const q=req.query||{};
-  if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
-  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
-  let state;
-  try{state=verifyThreadsOAuthState(q.state);}
-  catch{return threadsOauthRedirect(res,'/admin/threads/?status=invalid');}
-  try{
-    const forwardedHost=String(req.headers?.['x-forwarded-host']||req.headers?.host||'').split(',')[0].trim();
-    const callbackUrl='https://'+forwardedHost+String(req.url||'').split('?')[0];
-    console.info('[threads-oauth/diagnostic]',JSON.stringify(threadsOAuthDiagnostics(state,{callbackUrl})));
-    const tokenData=await exchangeThreadsCode(q.code,{authorizationContext:state});
-    const profile=await getThreadsProfile(tokenData.access_token);
-    await saveThreadsConnection({userId:state.userId,tokenData,profile});
-    return threadsOauthRedirect(res,'/admin/threads/?status=connected');
-  }catch(error){
-    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
-    return threadsOauthRedirect(res,'/admin/threads/?status=error');
-  }
-}
 
 function handleThreadsLifecycleCallback(req,res,event){
   if(req.method!=='GET'&&req.method!=='POST'){
