@@ -283,3 +283,38 @@ Do not change the scheduled 05:30 Production behavior to v1.1 until:
 5. explicit Production Acceptance records the cutover.
 
 END
+
+
+## Phase 3 Conversation Source
+
+Canonical live-source candidate: Meta Threads API.
+
+Environment:
+- `THREADS_ACCESS_TOKEN` is required.
+- Token must be provisioned through a Meta App using the Threads use case.
+- Do not store tokens in Supabase plan JSON, GitHub, logs, or acceptance artifacts.
+
+Capabilities are evaluated separately:
+- OWN_REPLIES -> `threads_basic` + `threads_read_replies`
+- MENTIONS -> `threads_basic` + `threads_manage_mentions`
+- KEYWORD_SEARCH -> `threads_basic` + `threads_keyword_search`
+
+Read endpoints used by SHADOW:
+- `GET /me/threads`
+- `GET /{thread_id}/replies`
+- `GET /me/mentions`
+- `GET /keyword_search`
+
+Runtime action:
+- `social_threads_conversation_context`
+
+Safety:
+- this action is read-only;
+- no reply, quote, repost, follow, hide, approve, or publish action is added;
+- selected participation must cite a real source_ref;
+- when capability health is not FRESH, that capability cannot support a selected participation item;
+- missing token => NOT_CONFIGURED;
+- auth/permission/API failure => UNKNOWN;
+- no result is not automatically a demand-zero or conversation-zero conclusion.
+
+Metricool remains useful for Threads analytics when connected, but it is not the canonical source for reply text / mention text / external keyword conversation discovery in this phase.
