@@ -22,17 +22,36 @@
 <div class="admin-shell-user"><span id="user-email" class="admin-shell-email"></span><button id="logout-btn" class="admin-logout" type="button">ログアウト</button></div>
 </header>
 <main class="admin-main" style="max-width:760px;margin:auto">
-<p style="letter-spacing:.16em;font-size:.75rem">THREADS API</p>
+<p style="letter-spacing:.16em;font-size:.75rem">THREADS API / DIRECT TOKEN MODE</p>
 <h1 class="admin-page-title">Threads会話データ接続</h1>
-<p>THE REV.のThreadsアカウントを接続し、返信・メンション・関連ConversationをSocial Director v1.1のSHADOW判断へ読み込みます。</p>
+<p>公開サイトOAuthではなく、THE REV.内部AI専用のSingle Account / Direct Token ModeでThreads APIを読み取ります。</p>
+
 <div class="admin-card" style="margin-top:16px">
 <p><strong>読み取り対象</strong></p>
 <p>自投稿への返信 / Mention / Keyword Search</p>
 <p style="margin-top:8px">自動返信・自動投稿は行いません。投稿や返信はHuman Approvalで止まります。</p>
 </div>
+
 <div id="status" class="admin-card">接続状態を確認中…</div>
 <div id="error" class="admin-error admin-hidden" role="alert"></div>
-<button id="connect-btn" class="admin-button" type="button">THE REV. Threadsを接続</button>
+
+<div class="admin-card" style="margin-top:16px">
+<p><strong>Direct Token登録</strong></p>
+<p style="margin:8px 0 12px">Meta Threads Token Generatorで発行したUser Access Tokenを登録します。Tokenはチャットには貼らないでください。</p>
+<label for="token-input" style="display:block;font-size:.85rem;margin-bottom:6px">Threads User Access Token</label>
+<input id="token-input" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"
+  style="box-sizing:border-box;width:100%;padding:12px;border:1px solid #bbb;border-radius:8px;margin-bottom:10px"
+  placeholder="Tokenをここに貼り付け">
+<button id="save-token-btn" class="admin-button" type="button">Direct Tokenを登録</button>
+</div>
+
+<button id="probe-btn" class="admin-button" type="button">read-only接続を確認</button>
+<pre id="probe-result" class="admin-card admin-hidden" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+
+<div class="admin-card" style="margin-top:16px">
+<p><strong>Legacy OAuth</strong></p>
+<p>OAuth callback方式は現在PAUSEDです。既存endpointは互換性のため残していますが、この画面からは使用しません。</p>
+</div>
 </main>
 </div>
 <script type="module" src="/admin/js/threads.mjs"></script>

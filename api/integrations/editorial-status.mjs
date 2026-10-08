@@ -40,8 +40,10 @@ import { socialBridgeResponse } from '../../lib/socialBridgeApi.mjs';
 import {getAuthedContext,sendError} from '../../lib/supabaseAdmin.mjs';
 import {
   threadsAuthorizationUrl,verifyThreadsOAuthState,exchangeThreadsCode,
-  getThreadsProfile,saveThreadsConnection,getThreadsConnection
+  getThreadsProfile,saveThreadsConnection,getThreadsConnectionStatus,getActiveThreadsAccessToken,
+  threadsOAuthDiagnostics,threadsTokenExchangeRequestSummary,probeThreadsAppCredentials
 } from '../../lib/threadsOAuth.mjs';
+import {getThreadsConversationContext} from '../../lib/socialThreadsConversationSource.mjs';
 import crypto from 'node:crypto';
 
 const DAILY_PLAN_MAX_ROWS = 500;
@@ -92,7 +94,11 @@ async function requireThreadsAdmin(req,res){
 }
 async function handleThreadsOAuthConnect(req,res){
   const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
-  try{return res.status(200).json({authorizationUrl:threadsAuthorizationUrl(ctx.user.id)});}
+  try{
+    const authorizationUrl=threadsAuthorizationUrl(ctx.user.id);
+    console.info('[threads-oauth/authorize]',JSON.stringify({authorization_redirect_uri:new URL(authorizationUrl).searchParams.get('redirect_uri')}));
+    return res.status(200).json({authorizationUrl});
+  }
   catch(error){
     const suffix=error?.missing?.length?': '+error.missing.join(', '):'';
     return sendError(res,503,'threads_not_configured','Threads接続設定が不足しています'+suffix+'。');
@@ -101,9 +107,9 @@ async function handleThreadsOAuthConnect(req,res){
 async function handleThreadsOAuthStatus(req,res){
   const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
   try{
-    const c=await getThreadsConnection({supabase:ctx.supabase});
+    const c=await getThreadsConnectionStatus();
     return res.status(200).json({
-      connected:Boolean(c?.access_token),
+      connected:Boolean(c?.threads_user_id&&c?.last_verified_at),
       username:c?.username||null,
       threadsUserId:c?.threads_user_id||null,
       scopes:c?.scopes||[],
@@ -116,20 +122,123 @@ async function handleThreadsOAuthStatus(req,res){
     return sendError(res,503,'threads_status_unavailable','Threads接続状態を確認できませんでした。');
   }
 }
+async function handleThreadsOAuthDiagnostics(req,res){
+  res.setHeader('Cache-Control','no-store');
+  if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  try{
+    const request=threadsTokenExchangeRequestSummary();
+    const probe=await probeThreadsAppCredentials();
+    console.info('[threads-oauth/app-credentials]',JSON.stringify({request,...probe}));
+    return res.status(200).json({request,...probe});
+  }catch{
+    return sendError(res,503,'threads_not_configured','Threads診断設定が不足しています。');
+  }
+}
+async function handleThreadsDirectTokenConnect(req,res){
+  res.setHeader('Cache-Control','no-store');
+  if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  let body;
+  try{body=await readEditorialJson(req);}
+  catch{return sendError(res,400,'invalid_request_body','Token登録リクエストを読み取れませんでした。');}
+  const accessToken=String(body?.access_token||'').trim();
+  if(!accessToken||accessToken.length<20||accessToken.length>4096){
+    return sendError(res,400,'threads_token_invalid','有効なThreads User Access Tokenを入力してください。');
+  }
+  try{
+    const profile=await getThreadsProfile(accessToken);
+    if(!profile?.id)throw Object.assign(new Error('threads_profile_missing'),{code:'threads_api_error'});
+    await saveThreadsConnection({
+      userId:ctx.user.id,
+      tokenData:{access_token:accessToken,token_type:'bearer',user_id:profile.id},
+      profile
+    });
+    console.info('[threads-direct-token/connected]',JSON.stringify({
+      threads_user_id:String(profile.id),
+      username:String(profile.username||'')
+    }));
+    return res.status(200).json({
+      ok:true,connected:true,mode:'DIRECT_TOKEN',
+      username:profile.username||null,threadsUserId:profile.id||null
+    });
+  }catch(error){
+    console.error('[threads-direct-token/connect]',JSON.stringify({
+      code:error?.code||null,status:error?.status||null,stage:error?.stage||null,
+      provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null
+    }));
+    return sendError(res,502,'threads_direct_token_rejected','Threads Tokenを検証できませんでした。MetaのToken Generatorで生成した有効なUser Tokenを確認してください。');
+  }
+}
+
+async function handleThreadsDirectTokenProbe(req,res){
+  res.setHeader('Cache-Control','no-store');
+  if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  try{
+    const tokenState=await getActiveThreadsAccessToken({env:process.env});
+    if(!tokenState?.accessToken){
+      return sendError(res,409,'threads_not_connected','Direct Tokenがまだ登録されていません。');
+    }
+    const context=await getThreadsConversationContext({
+      env:process.env,
+      accessToken:tokenState.accessToken,
+      queryTerms:['奈良'],
+      maxOwnPosts:5,
+      maxRepliesPerPost:10
+    });
+    const profile=context?.profile?{
+      id:context.profile.id||null,
+      username:context.profile.username||null,
+      name:context.profile.name||null
+    }:null;
+    const safeErrors=(Array.isArray(context?.errors)?context.errors:[]).map(e=>({
+      capability:e?.capability||null,
+      code:e?.code||null,
+      status:e?.status||null,
+      message:String(e?.message||'').slice(0,240),
+      query:e?.query||null
+    }));
+    return res.status(200).json({
+      ok:true,
+      mode:'DIRECT_TOKEN',
+      tokenSource:tokenState.source,
+      profile,
+      conversationSourceStatus:context?.conversation_source_status||'UNKNOWN',
+      capabilities:context?.capabilities||{},
+      counts:{
+        ownPosts:Array.isArray(context?.own_posts)?context.own_posts.length:0,
+        ownReplies:Array.isArray(context?.own_replies)?context.own_replies.length:0,
+        mentions:Array.isArray(context?.mentions)?context.mentions.length:0,
+        keywordResults:Array.isArray(context?.keyword_results)?context.keyword_results.length:0
+      },
+      errors:safeErrors
+    });
+  }catch(error){
+    console.error('[threads-direct-token/probe]',JSON.stringify({
+      code:error?.code||null,status:error?.status||null
+    }));
+    return sendError(res,502,'threads_direct_probe_failed','Threads APIの読み取り確認に失敗しました。');
+  }
+}
+
 async function handleThreadsOAuthCallback(req,res){
   const q=req.query||{};
   if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
   if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
   let state;
   try{state=verifyThreadsOAuthState(q.state);}
-  catch{return threadsOauthRedirect(res,'/admin/?threads=status-invalid');}
+  catch{return threadsOauthRedirect(res,'/admin/threads/?status=invalid');}
   try{
-    const tokenData=await exchangeThreadsCode(q.code);
+    const forwardedHost=String(req.headers?.['x-forwarded-host']||req.headers?.host||'').split(',')[0].trim();
+    const callbackUrl='https://'+forwardedHost+String(req.url||'').split('?')[0];
+    console.info('[threads-oauth/diagnostic]',JSON.stringify(threadsOAuthDiagnostics(state,{callbackUrl})));
+    const tokenData=await exchangeThreadsCode(q.code,{authorizationContext:state});
     const profile=await getThreadsProfile(tokenData.access_token);
     await saveThreadsConnection({userId:state.userId,tokenData,profile});
     return threadsOauthRedirect(res,'/admin/threads/?status=connected');
   }catch(error){
-    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,message:String(error?.message||'').slice(0,180)}));
+    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
     return threadsOauthRedirect(res,'/admin/threads/?status=error');
   }
 }
@@ -145,6 +254,9 @@ function handleThreadsLifecycleCallback(req,res,event){
 }
 
 export default async function handler(req, res) {
+  if(req.query?.mode==='threads_direct_token_connect') return handleThreadsDirectTokenConnect(req,res);
+  if(req.query?.mode==='threads_direct_token_probe') return handleThreadsDirectTokenProbe(req,res);
+  if(req.query?.mode==='threads_oauth_diagnostics') return handleThreadsOAuthDiagnostics(req,res);
   if(req.query?.mode==='threads_oauth_connect') return handleThreadsOAuthConnect(req,res);
   if(req.query?.mode==='threads_oauth_status') return handleThreadsOAuthStatus(req,res);
   if(req.query?.mode==='threads_oauth_callback') return handleThreadsOAuthCallback(req,res);
