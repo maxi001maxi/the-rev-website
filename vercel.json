@@ -12,6 +12,10 @@
       "destination": "/admin/index.html"
     },
     {
+      "source": "/api/threads/oauth/callback/",
+      "destination": "/api/integrations/editorial-status/?mode=threads_oauth_callback"
+    },
+    {
       "source": "/api/cron/company-os-ga4/",
       "destination": "/api/integrations/editorial-status/?mode=company_os_ga4_cron"
     },
