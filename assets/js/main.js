@@ -417,16 +417,13 @@
 
     if (pageType === 'home') {
       defs = [
-        { selector: '.trust-strip', id: 'trust' },
         { selector: '#service', id: 'service' },
-        { selector: '.empathy', id: 'empathy' },
-        { selector: '#voice', id: 'voice' },
         { selector: '#trainer', id: 'trainer' },
-        { selector: '#recovery', id: 'recovery' },
-        { selector: '.trial-guide', id: 'trial' },
+        { selector: '#voice', id: 'voice' },
+        { selector: '#trial', id: 'trial' },
         { selector: '#pricing', id: 'pricing' },
-        { selector: '#faq', id: 'faq' },
         { selector: '#access', id: 'access' },
+        { selector: '#faq', id: 'faq' },
         { selector: '#contact', id: 'final_cta' }
       ];
     } else if (pageType === 'price') {
@@ -554,3 +551,4 @@
     boot();
   }
 })();
+
