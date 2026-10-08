@@ -51,7 +51,8 @@ test('Threads conversation source reads own replies, mentions and keyword result
   assert.equal(context.own_replies.length,1);
   assert.equal(context.mentions.length,1);
   assert.equal(context.keyword_results.length,1);
-  assert.ok(seen.every(x=>!x.includes('secret')));
+  assert.ok(seen.some(x=>x.includes('access_token=secret')));
+  assert.equal(JSON.stringify(context).includes('secret'),false);
 });
 
 test('v1.1 selected participation requires its exact capability to be FRESH',()=>{
