@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Threads API｜THE REV. Editorial Console</title>
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/analytics/">Analytics</a>
+<a href="/admin/site-insights/">Site Insights</a>
+<a href="/admin/google-business/">Google Business</a>
+<a href="/admin/threads/" aria-current="page">Threads</a>
+</nav>
+<div class="admin-shell-user"><span id="user-email" class="admin-shell-email"></span><button id="logout-btn" class="admin-logout" type="button">ログアウト</button></div>
+</header>
+<main class="admin-main" style="max-width:760px;margin:auto">
+<p style="letter-spacing:.16em;font-size:.75rem">THREADS API</p>
+<h1 class="admin-page-title">Threads会話データ接続</h1>
+<p>THE REV.のThreadsアカウントを接続し、返信・メンション・関連ConversationをSocial Director v1.1のSHADOW判断へ読み込みます。</p>
+<div class="admin-card" style="margin-top:16px">
+<p><strong>読み取り対象</strong></p>
+<p>自投稿への返信 / Mention / Keyword Search</p>
+<p style="margin-top:8px">自動返信・自動投稿は行いません。投稿や返信はHuman Approvalで止まります。</p>
+</div>
+<div id="status" class="admin-card">接続状態を確認中…</div>
+<div id="error" class="admin-error admin-hidden" role="alert"></div>
+<button id="connect-btn" class="admin-button" type="button">THE REV. Threadsを接続</button>
+</main>
+</div>
+<script type="module" src="/admin/js/threads.mjs"></script>
+</body>
+</html>
