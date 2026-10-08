@@ -93,7 +93,7 @@ test('Threads bridge and authenticated endpoint expose evidence-first actions',(
     'social_threads_context'
   ]) assert.match(bridge,new RegExp(action));
   assert.match(endpoint,/customer_signals_\(ingest\|list\)/);
-  assert.match(endpoint,/threads_\(prepare\|poll\|choose\|list\|publication_link\|context\)/);
+  assert.match(endpoint,/threads_\(prepare\|poll\|choose\|list\|publication_link\|context\|conversation_context\)/);
 });
 
 test('Threads runtime keeps approval and verified publication gates',()=>{
