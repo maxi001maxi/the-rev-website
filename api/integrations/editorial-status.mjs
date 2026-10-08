@@ -136,6 +136,28 @@ async function handleThreadsOAuthDiagnostics(req,res){
     return sendError(res,503,'threads_not_configured','Threads診断設定が不足しています。');
   }
 }
+async function handleThreadsOAuthCallback(req,res){
+  const q=req.query||{};
+  if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
+  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
+  let state;
+  try{state=verifyThreadsOAuthState(q.state);}
+  catch{return threadsOauthRedirect(res,'/admin/threads/?status=invalid');}
+  try{
+    const forwardedHost=String(req.headers?.['x-forwarded-host']||req.headers?.host||'').split(',')[0].trim();
+    const callbackUrl='https://'+forwardedHost+String(req.url||'').split('?')[0];
+    console.info('[threads-oauth/diagnostic]',JSON.stringify(threadsOAuthDiagnostics(state,{callbackUrl})));
+    const tokenData=await exchangeThreadsCode(q.code,{authorizationContext:state});
+    const profile=await getThreadsProfile(tokenData.access_token);
+    await saveThreadsConnection({userId:state.userId,tokenData,profile});
+    return threadsOauthRedirect(res,'/admin/threads/?status=connected');
+  }catch(error){
+    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
+    return threadsOauthRedirect(res,'/admin/threads/?status=error');
+  }
+}
+
+
 async function handleThreadsDirectTokenConnect(req,res){
   res.setHeader('Cache-Control','no-store');
   if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
@@ -265,27 +287,6 @@ async function handleThreadsDirectTokenProbe(req,res){
       code:error?.code||null,status:error?.status||null
     }));
     return sendError(res,502,'threads_direct_probe_failed','Threads APIの読み取り確認に失敗しました。');
-  }
-}
-
-async function handleThreadsOAuthCallback(req,res){
-  const q=req.query||{};
-  if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
-  if(!q.code||!q.state)return threadsOauthRedirect(res,'/admin/threads/?status=invalid');
-  let state;
-  try{state=verifyThreadsOAuthState(q.state);}
-  catch{return threadsOauthRedirect(res,'/admin/threads/?status=invalid');}
-  try{
-    const forwardedHost=String(req.headers?.['x-forwarded-host']||req.headers?.host||'').split(',')[0].trim();
-    const callbackUrl='https://'+forwardedHost+String(req.url||'').split('?')[0];
-    console.info('[threads-oauth/diagnostic]',JSON.stringify(threadsOAuthDiagnostics(state,{callbackUrl})));
-    const tokenData=await exchangeThreadsCode(q.code,{authorizationContext:state});
-    const profile=await getThreadsProfile(tokenData.access_token);
-    await saveThreadsConnection({userId:state.userId,tokenData,profile});
-    return threadsOauthRedirect(res,'/admin/threads/?status=connected');
-  }catch(error){
-    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
-    return threadsOauthRedirect(res,'/admin/threads/?status=error');
   }
 }
 
@@ -549,7 +550,7 @@ export default async function handler(req, res) {
         }});
       } catch(e) { return res.status(/DB_|UNAVAILABLE|FAILED/.test(e.message) ? 502 : 422).json({error:e.message}); }
     }
-    if (/^social_(history_(upsert|list)|candidates_(prepare|poll|choose|notification_ack)|production_(finalize|event)|publication_link|learning_(upsert|list|context)|stories_(prepare|list)|story_(created|publication_link)|evidence_(context|prepare|poll)|opportunities_(prepare|poll)|portfolio_(context|prepare|poll|rankings_prepare)|director_(context|prepare|poll|qc)|reel_evidence_choose|story_evidence_approve|output_(created|publication_link)|learning_(observe|loop_context)|production_acceptance|creative_evidence_context|reel_evidence_(prepare|poll)|stories_evidence_(prepare|poll)|customer_signals_(ingest|list)|threads_(prepare|poll|choose|list|publication_link|context|conversation_context|v11_(prepare|poll|approve)))$/.test(body.action || '')) {
+    if (/^social_(history_(upsert|list)|candidates_(prepare|poll|choose|notification_ack)|production_(finalize|event)|publication_link|learning_(upsert|list|context)|stories_(prepare|list)|story_(created|publication_link)|evidence_(context|prepare|poll)|opportunities_(prepare|poll)|portfolio_(context|prepare|poll|rankings_prepare)|director_(context|prepare|poll|qc)|reel_evidence_choose|story_evidence_approve|output_(created|publication_link)|learning_(observe|loop_context)|production_acceptance|creative_evidence_context|reel_evidence_(prepare|poll)|stories_evidence_(prepare|poll)|customer_signals_(ingest|list)|threads_(prepare|poll|choose|list|publication_link|context|conversation_context)|threads_v11_(prepare|poll|approve))$/.test(body.action || '')) {
       const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
       try {
         const payload = await socialBridgeResponse({body,supabase});
