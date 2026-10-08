@@ -81,13 +81,19 @@ Current Truth
 
 ## Conversation Source Health
 
-Every run records one of:
+Overall conversation source health records one of:
 - FRESH
 - STALE
 - UNKNOWN
 - NOT_CONFIGURED
 
-Selected Reply / Quote / Repost opportunities require FRESH source evidence.
+Each capability is evaluated separately and may also report:
+- PERMISSION_NOT_GRANTED
+- NOT_REQUESTED
+
+The overall source may remain FRESH when at least one capability is FRESH. A capability that is PERMISSION_NOT_GRANTED must never support a selected participation item.
+
+Selected Reply / Quote / Repost opportunities require FRESH evidence from the exact capability used by that item.
 
 If source status is STALE / UNKNOWN / NOT_CONFIGURED:
 - do not fabricate a conversation;
@@ -314,7 +320,21 @@ Safety:
 - selected participation must cite a real source_ref;
 - when capability health is not FRESH, that capability cannot support a selected participation item;
 - missing token => NOT_CONFIGURED;
-- auth/permission/API failure => UNKNOWN;
+- HTTP 403 / Meta code 10 permission denial => PERMISSION_NOT_GRANTED for that capability;
+- other auth/API failure => UNKNOWN;
 - no result is not automatically a demand-zero or conversation-zero conclusion.
+
+### 2026-10-08 current live capability state
+
+Direct Token connection for `@the.rev.nara` is live and the token is valid.
+
+Observed real-data probe:
+- OWN_REPLIES = FRESH
+- own posts observed = 3
+- own replies observed = 0
+- MENTIONS = PERMISSION_NOT_GRANTED
+- KEYWORD_SEARCH = PERMISSION_NOT_GRANTED
+
+The missing Mention / Keyword permissions are Meta access-level limitations, not a broken Threads connection. v1.1 must continue with available FRESH capabilities and degrade safely for unavailable ones.
 
 Metricool remains useful for Threads analytics when connected, but it is not the canonical source for reply text / mention text / external keyword conversation discovery in this phase.
