@@ -346,7 +346,7 @@
     ],
     "interview_mode": "TOPIC_KNOWLEDGE_GAP_ONLY",
     "reply_resumes_all_target_dates": true,
-    "approval_poll_minutes": 1,
+    "approval_poll_minutes": 10,
     "proposal_table": "editorial_topic_proposals",
     "line_event_receipts_table": "editorial_line_receipts",
     "api": "POST /api/integrations/editorial-status {action:topic_*}",
@@ -443,7 +443,7 @@
       "supervisor_trigger": "existing_single_trigger_untouched"
     },
     "stale_creator_or_watchdog_behavior": "DELEGATED_TO_TOPIC_APPROVAL_TRIGGER_NO_OP",
-    "rationale": "Topic Approval 1-minute poll is the sole orchestration trigger while approval is enabled; Creator and Watchdog must not independently call v070TopicTick_.",
+    "rationale": "Topic Approval 10-minute poll is the sole orchestration trigger while approval is enabled; Creator and Watchdog must not independently call v070TopicTick_.",
     "publish_boundary_unchanged": true
   }
 }
