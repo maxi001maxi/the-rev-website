@@ -74,6 +74,7 @@ export const AdminApi = {
     body:JSON.stringify({access_token:accessToken})
   }),
   probeThreadsDirectToken: () => authedFetch('/api/integrations/editorial-status?mode=threads_direct_token_probe', {method:'POST'}),
+  inspectThreadsDirectTokenScopes: () => authedFetch('/api/integrations/editorial-status?mode=threads_direct_token_scopes', {method:'POST'}),
   // Legacy OAuth endpoints remain server-side for compatibility but are paused in the Admin UI.
   diagnoseThreads: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_diagnostics', {method:'POST'}),
   getThreadsConnect: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_connect'),
