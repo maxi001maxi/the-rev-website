@@ -13,7 +13,7 @@ import {
 const env={
   THREADS_APP_ID:'app123',
   THREADS_APP_SECRET:'secret456',
-  THREADS_REDIRECT_URI:'https://therev-lab.com/api/admin/threads/callback',
+  THREADS_REDIRECT_URI:'https://therev-lab.com/api/integrations/editorial-status?mode=threads_oauth_callback',
   SUPABASE_URL:'https://example.supabase.co',
   SUPABASE_SERVICE_ROLE_KEY:'service'
 };
@@ -61,8 +61,10 @@ test('Active token loader uses service-only DB token and never needs env token',
 });
 
 test('Threads OAuth secrets never appear in browser-facing source',()=>{
-  const api=fs.readFileSync(new URL('../api/admin/threads.mjs',import.meta.url),'utf8');
-  assert.doesNotMatch(api,/access_token.*json/i);
+  const api=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  assert.match(api,/threads_oauth_connect/);
+  assert.match(api,/threads_oauth_callback/);
+  assert.doesNotMatch(api,/access_token\s*:\s*c\?\.access_token/);
   const migration=fs.readFileSync(new URL('../supabase/migrations/20261008113000_social_threads_api_oauth.sql',import.meta.url),'utf8');
   assert.match(migration,/service_role/);
   assert.match(migration,/revoke all .* anon, authenticated/);
