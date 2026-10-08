@@ -552,6 +552,40 @@ function showSuccess(result) {
   pollPublication(result);
 }
 
+function restorePublicationProgress(payload) {
+  const article = payload?.article || {};
+  const state = String(article.publish_status || 'NOT_PUBLISHED');
+
+  $('review-body').classList.add('admin-hidden');
+  $('success-panel').classList.remove('admin-hidden');
+
+  const title = $('success-panel').querySelector('.admin-success-title');
+  if (title) {
+    title.textContent = state === 'PUBLISHED'
+      ? '本番公開完了'
+      : '本番公開の進捗を再開しました';
+  }
+
+  text('s-mode', state === 'PUBLISHED' ? 'PUBLISHED（本番確認済み）' : 'PUBLISHING（本番反映中）');
+  text('s-path', article.source_path || (article.slug ? `content/blog/${article.slug}.md` : '—'));
+  text('s-commit', article.publish_commit_sha || '—');
+
+  const liveUrl = productionPublicUrl(
+    article.published_url || (article.slug ? `/blog/${article.slug}/` : '/blog/')
+  );
+  text('s-url', liveUrl);
+  $('s-open').href = liveUrl;
+
+  const deployNote = $('s-deploy');
+  if (state === 'PUBLISHED') {
+    deployNote.innerHTML = '<strong>本番公開は完了しています。</strong> この画面は後から開き直しても公開状態を復元できます。';
+  } else {
+    deployNote.innerHTML = '<strong>Publish commitは完了しています。</strong> Xserver本番反映と最終確認を継続中です。この画面を離れても、同じ記事を開き直せば進捗確認を再開できます。';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function deploymentSummary(deployment) {
   if (!deployment) return 'Actions: 確認待ち';
   if (deployment.found === false) return 'Actions: 対応runの生成待ち';
@@ -653,6 +687,27 @@ async function init() {
   $('confirm-publish').addEventListener('click', doPublish);
   $('confirm-overlay').addEventListener('click', (e) => { if (e.target === $('confirm-overlay') && !publishing) closeConfirm(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !publishing) closeConfirm(); });
+
+  // Review画面を開き直した場合も、サーバー側のPublication Stateから進捗を復元する。
+  // ブラウザ内の一時的なpoll状態には依存しない。
+  try {
+    const payload = await AdminApi.publishStatus(articleId);
+    const state = String(payload?.article?.publish_status || 'NOT_PUBLISHED');
+
+    if (state === 'PUBLISH_COMMITTED' || state === 'PUBLISHED') {
+      restorePublicationProgress(payload);
+
+      if (renderFinalPublicationState(payload)) return;
+
+      // PUBLISH_COMMITTEDなら、ここから10秒間隔の進捗確認を再開する。
+      pollPublication();
+      return;
+    }
+  } catch (e) {
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    showError(e.message || '公開状態を確認できませんでした。再読み込みしてください。');
+    return;
+  }
 
   await loadPreflight();
 }
