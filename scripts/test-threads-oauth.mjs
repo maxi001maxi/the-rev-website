@@ -24,7 +24,7 @@ function response(status,payload){
 
 test('Threads OAuth URL requests only read/discovery scopes',()=>{
   const u=new URL(threadsAuthorizationUrl('00000000-0000-0000-0000-000000000001',env));
-  assert.equal(u.origin,'https://threads.net');
+  assert.equal(u.origin,'https://www.threads.com');
   assert.equal(u.pathname,'/oauth/authorize');
   assert.equal(u.searchParams.get('client_id'),'app123');
   assert.equal(u.searchParams.get('redirect_uri'),env.THREADS_REDIRECT_URI);
@@ -41,8 +41,17 @@ test('OAuth state is signed and expires',()=>{
 test('Code exchange upgrades short token to long-lived token',async()=>{
   const calls=[];
   const fetchImpl=async(url,opts={})=>{
-    calls.push(String(url));
-    if(String(url).includes('/oauth/access_token'))return response(200,{access_token:'short',user_id:'u1'});
+    calls.push({url:String(url),opts});
+    if(String(url).includes('/oauth/access_token')){
+      assert.equal(new URL(String(url)).origin,'https://graph.threads.com');
+      assert.equal(opts.method,'POST');
+      assert.equal(opts.headers['content-type'],'application/x-www-form-urlencoded');
+      const body=new URLSearchParams(opts.body);
+      assert.equal(body.get('client_id'),'app123');
+      assert.equal(body.get('redirect_uri'),env.THREADS_REDIRECT_URI);
+      assert.equal(body.get('code'),'code123');
+      return response(200,{access_token:'short',user_id:'u1'});
+    }
     if(String(url).includes('/access_token'))return response(200,{access_token:'long',token_type:'bearer',expires_in:5184000});
     return response(404,{error:{message:'not found'}});
   };
