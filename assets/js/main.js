@@ -429,6 +429,19 @@
         { selector: '#access', id: 'access' },
         { selector: '#contact', id: 'final_cta' }
       ];
+      // TOP v2.2 keeps canonical event IDs; the page version separates layouts.
+      if (trackingSiteVersion() === 'top_v2_2') {
+        defs = [
+          { selector: '#service', id: 'service' },
+          { selector: '#voice', id: 'voice' },
+          { selector: '#trial', id: 'trial' },
+          { selector: '#pricing', id: 'pricing' },
+          { selector: '#trainer', id: 'trainer' },
+          { selector: '#access', id: 'access' },
+          { selector: '#faq', id: 'faq' },
+          { selector: '#contact', id: 'final_cta' }
+        ];
+      }
     } else if (pageType === 'price') {
       // REV-EXP-2026-001 Control Capture reuses the existing section_view
       // contract so GTM does not need a new event/tag. This is the only
@@ -535,6 +548,21 @@
     initSectionTracking();
   }
 
+
+  function initTopV22Faq() {
+    if (!document.body.classList.contains('top-v22')) return;
+    document.querySelectorAll('details').forEach(function (details) {
+      var summary = details.querySelector('summary[data-faq-id][data-faq-topic]');
+      if (!summary) return;
+      details.addEventListener('toggle', function () {
+        if (details.open) pushTrackingEvent('faq_open', {
+          faq_id: summary.dataset.faqId,
+          faq_topic: summary.dataset.faqTopic
+        });
+      });
+    });
+  }
+
   /* ---------- 起動 ---------- */
   function boot() {
     restoreHomeTop();
@@ -542,6 +570,7 @@
     initHeader();
     initReveal();
     initFaq();
+    initTopV22Faq();
     initDrawer();
     initBrandHome();
     initRecoveryFx();
@@ -554,3 +583,4 @@
     boot();
   }
 })();
+
