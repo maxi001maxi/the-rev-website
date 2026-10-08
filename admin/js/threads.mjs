@@ -65,3 +65,13 @@ async function connect(){
 
 $('connect-btn').addEventListener('click',connect);
 $('logout-btn').addEventListener('click',()=>signOut());
+
+$('diagnose-btn').addEventListener('click',async()=>{
+  $('diagnose-btn').disabled=true;
+  try{
+    const result=await AdminApi.diagnoseThreads();
+    $('diagnostic-result').textContent=JSON.stringify(result,null,2);
+    $('diagnostic-result').classList.remove('admin-hidden');
+  }catch(error){showError(error.message||'接続設定の診断に失敗しました。');}
+  finally{$('diagnose-btn').disabled=false;}
+});

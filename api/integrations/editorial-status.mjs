@@ -40,7 +40,7 @@ import { socialBridgeResponse } from '../../lib/socialBridgeApi.mjs';
 import {getAuthedContext,sendError} from '../../lib/supabaseAdmin.mjs';
 import {
   threadsAuthorizationUrl,verifyThreadsOAuthState,exchangeThreadsCode,
-  getThreadsProfile,saveThreadsConnection,getThreadsConnectionStatus,threadsOAuthDiagnostics
+  getThreadsProfile,saveThreadsConnection,getThreadsConnectionStatus,threadsOAuthDiagnostics,threadsTokenExchangeRequestSummary,probeThreadsAppCredentials
 } from '../../lib/threadsOAuth.mjs';
 import crypto from 'node:crypto';
 
@@ -120,6 +120,19 @@ async function handleThreadsOAuthStatus(req,res){
     return sendError(res,503,'threads_status_unavailable','Threads接続状態を確認できませんでした。');
   }
 }
+async function handleThreadsOAuthDiagnostics(req,res){
+  res.setHeader('Cache-Control','no-store');
+  if(req.method!=='POST')return res.status(405).json({error:'method_not_allowed'});
+  const ctx=await requireThreadsAdmin(req,res); if(!ctx)return;
+  try{
+    const request=threadsTokenExchangeRequestSummary();
+    const probe=await probeThreadsAppCredentials();
+    console.info('[threads-oauth/app-credentials]',JSON.stringify({request,...probe}));
+    return res.status(200).json({request,...probe});
+  }catch{
+    return sendError(res,503,'threads_not_configured','Threads診断設定が不足しています。');
+  }
+}
 async function handleThreadsOAuthCallback(req,res){
   const q=req.query||{};
   if(q.error)return threadsOauthRedirect(res,'/admin/threads/?status=cancelled');
@@ -136,7 +149,7 @@ async function handleThreadsOAuthCallback(req,res){
     await saveThreadsConnection({userId:state.userId,tokenData,profile});
     return threadsOauthRedirect(res,'/admin/threads/?status=connected');
   }catch(error){
-    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
+    console.error('[threads-oauth/callback]',JSON.stringify({code:error?.code||null,status:error?.status||null,stage:error?.stage||null,provider_code:error?.providerCode||null,provider_trace_id:error?.providerTraceId||null,message: String(error?.message||'').startsWith('Invalid redirect_uri:')?String(error.message).slice(0,180):'Threads OAuth provider or storage request failed'}));
     return threadsOauthRedirect(res,'/admin/threads/?status=error');
   }
 }
@@ -152,6 +165,7 @@ function handleThreadsLifecycleCallback(req,res,event){
 }
 
 export default async function handler(req, res) {
+  if(req.query?.mode==='threads_oauth_diagnostics') return handleThreadsOAuthDiagnostics(req,res);
   if(req.query?.mode==='threads_oauth_connect') return handleThreadsOAuthConnect(req,res);
   if(req.query?.mode==='threads_oauth_status') return handleThreadsOAuthStatus(req,res);
   if(req.query?.mode==='threads_oauth_callback') return handleThreadsOAuthCallback(req,res);

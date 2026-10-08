@@ -8,6 +8,8 @@ import {
   verifyThreadsOAuthState,
   exchangeThreadsCode,
   threadsOAuthDiagnostics,
+  threadsTokenExchangeRequestSummary,
+  probeThreadsAppCredentials,
   getThreadsConnectionStatus,
   getActiveThreadsAccessToken
 } from '../lib/threadsOAuth.mjs';
@@ -126,4 +128,53 @@ test('Status reads metadata only using privileged server path after admin guard'
 
 test('Missing long token cannot silently save a short-lived token',async()=>{
   await assert.rejects(exchangeThreadsCode('code',{env,fetchImpl:async url=>response(200,String(url).includes('/oauth/access_token')?{access_token:'short'}:{})}),/threads_long_token_missing/);
+});
+
+
+test('Wire body matches official form serialization and summary excludes secret/code',async()=>{
+  const current={...env,THREADS_REDIRECT_URI:'https://the-rev-website.vercel.app/api/threads/oauth/callback/'};
+  await exchangeThreadsCode('wire-code',{env:current,fetchImpl:async(url,options)=>{
+    if(new URL(url).pathname==='/oauth/access_token'){
+      const wire=new Request(url,options);
+      const body=await wire.text();
+      const official=new URLSearchParams({client_id:current.THREADS_APP_ID,client_secret:current.THREADS_APP_SECRET,grant_type:'authorization_code',redirect_uri:current.THREADS_REDIRECT_URI,code:'wire-code'}).toString();
+      assert.equal(body,official);
+      assert.equal(new URL(url).search,'');
+      const summary=threadsTokenExchangeRequestSummary(current);
+      assert.equal(summary.client_id,current.THREADS_APP_ID);
+      assert.equal(summary.redirect_uri,new URLSearchParams(body).get('redirect_uri'));
+      assert.equal(summary.parameter_placement,'body');
+      assert.equal(JSON.stringify(summary).includes(current.THREADS_APP_SECRET),false);
+      assert.equal(JSON.stringify(summary).includes('wire-code'),false);
+      return response(200,{access_token:'short'});
+    }
+    return response(200,{access_token:'long'});
+  }});
+});
+
+test('App credential probe validates pair without OAuth code or exposing returned token',async()=>{
+  const result=await probeThreadsAppCredentials({env,fetchImpl:async(url,options)=>{
+    assert.equal(options.method,'GET');
+    assert.equal(new URL(url).pathname,'/oauth/access_token');
+    assert.equal(new URL(url).searchParams.get('grant_type'),'client_credentials');
+    assert.equal(new URL(url).searchParams.get('client_secret'),env.THREADS_APP_SECRET);
+    assert.equal(new URL(url).searchParams.has('code'),false);
+    return response(200,{access_token:'PRIVATE-APP-TOKEN'});
+  }});
+  assert.equal(result.credentials_accepted,true);
+  assert.equal(JSON.stringify(result).includes('PRIVATE-APP-TOKEN'),false);
+  const rejected=await probeThreadsAppCredentials({env,fetchImpl:async()=>response(400,{error:{message:'secret456 PRIVATE-CODE',code:190,fbtrace_id:'trace-test'}})});
+  assert.deepEqual(rejected,{credentials_accepted:false,http_status:400,provider_code:190,provider_trace_id:'trace-test'});
+  const unavailable=await probeThreadsAppCredentials({env,fetchImpl:async()=>{throw new Error('network contains secret456');}});
+  assert.equal(unavailable.credentials_accepted,null);
+  assert.equal(JSON.stringify(unavailable).includes('secret456'),false);
+});
+
+test('Diagnostics require POST and admin membership, and never perform connection save',()=>{
+  const api=fs.readFileSync(new URL('../api/integrations/editorial-status.mjs',import.meta.url),'utf8');
+  const handler=api.split('async function handleThreadsOAuthDiagnostics')[1].split('async function handleThreadsOAuthCallback')[0];
+  assert.match(handler,/req.method!=='POST'/);
+  assert.match(handler,/requireThreadsAdmin\(req,res\)/);
+  assert.match(handler,/Cache-Control','no-store/);
+  assert.doesNotMatch(handler,/saveThreadsConnection|authorizationUrl|exchangeThreadsCode/);
 });
