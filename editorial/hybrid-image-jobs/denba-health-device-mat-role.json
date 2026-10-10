@@ -3,31 +3,31 @@
   "article_title": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
   "category_label": "RECOVERY",
   "column_label": "COLUMN",
-  "image_headline_short": "本体とマット、\n役割は別。",
+  "image_headline_short": "鍛えたあとに、\n休む時間を。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-denba-20260924\",\"source_sha256\":\"ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16\",\"scene_type\":\"equipment_orientation\",\"location_type\":\"recovery_area\",\"human_action\":\"observing_real_equipment\",\"composition_type\":\"medium_side_portrait\",\"visual_role\":\"facility_inspection\",\"article_intent\":\"equipment_explanation\",\"required_equipment\":[\"denba_device\"],\"subject_zone\":\"recovery_area\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16\",\"primary_location\":\"recovery_area\",\"subject_zone\":\"recovery_area\",\"visible_equipment\":[{\"object\":\"denba_device\",\"zone\":\"recovery_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"recovery\",\"equipment_explanation\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add equipment.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be observing_real_equipment in recovery_area; visual role facility_inspection.\nThe customer studies the real DENBA main unit already present in the source from a safe distance, empty hands, no touching, adjusting or operating. Do not invent a DENBA mat or any component not visible in the source.\nThe article also explains the dedicated mat, but the photograph does not need to fabricate it. Let the headline carry the main-unit/mat distinction while the real main unit anchors the scene.\nPreserve the room geometry, cabinet, device position and furniture. Blur does not excuse moved or invented equipment.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-oxy-solution-20260924\",\"source_sha256\":\"1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60\",\"scene_type\":\"recovery_transition\",\"location_type\":\"recovery_area\",\"human_action\":\"rest\",\"composition_type\":\"medium_seated_portrait\",\"visual_role\":\"recovery_time\",\"article_intent\":\"recovery\",\"required_equipment\":[],\"subject_zone\":\"recovery_area\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":11,\"penalty\":0.16666666666666666,\"matches\":[{\"slug\":\"shinomiya-gym-beginner-choose\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"desk-work-stand-every-30-minutes\",\"unknown\":true},{\"slug\":\"boxing-beginner-scared-before-mitt-training\",\"unknown\":true},{\"slug\":\"denba-electric-potential-space-radio-wave-difference\",\"unknown\":true},{\"slug\":\"kenshin-ketsuatsu-takame-kinntore-hajimekata\",\"unknown\":true},{\"slug\":\"beginner-strength-training-few-exercises-frequency\",\"unknown\":true},{\"slug\":\"shinomiya-personal-gym-reservation-facility-the-rev\",\"unknown\":true},{\"slug\":\"oxygen-room-how-to-spend-time\",\"unknown\":true},{\"slug\":\"denba-health-what-is-it-the-rev\",\"unknown\":true},{\"slug\":\"oxygen-room-first-time-ear-clearing-guide\",\"unknown\":true},{\"slug\":\"shinomiya-gym-erabikata-dosen\",\"unknown\":true},{\"slug\":\"exercise-start-fatigue-anxiety-next-day-plan\",\"unknown\":true}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60\",\"primary_location\":\"recovery_area\",\"subject_zone\":\"recovery_area\",\"visible_equipment\":[{\"object\":\"oxygen_room\",\"zone\":\"recovery_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"recovery\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be rest in recovery_area; visual role recovery_time.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a beginner studying the real rack from a safe distance, empty hands, no adjusting/loading/gripping.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-e08367bc-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/denba-health-device-mat-role-reference-v26-grounded-auto-oxy-solution-20260924-b8288197-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-denba-20260924-e08367bc",
-  "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-e08367bc.jpg",
-  "og_image": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-e08367bc.jpg",
-  "gbp_image": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-e08367bc.jpg",
+  "asset_version": "reference-v26-grounded-auto-oxy-solution-20260924-b8288197",
+  "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-oxy-solution-20260924-b8288197.jpg",
+  "og_image": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-oxy-solution-20260924-b8288197.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-oxy-solution-20260924-b8288197.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-e08367bc.json",
+  "qa_report_path": "editorial/image-qa/denba-health-device-mat-role-reference-v26-grounded-auto-oxy-solution-20260924-b8288197.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -65,62 +65,111 @@
     "scene_plausibility_version": "the-rev-scene-plausibility-v1"
   },
   "background_source": {
-    "drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+    "drive_file_id": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
     "cached_frame_drive_file_id": "",
     "origin_video_file_id": "",
-    "origin_video_file_name": "AI_SOURCE_photo-solution-denba_20260924.jpg",
+    "origin_video_file_name": "AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
     "frame_position_ratio": null,
-    "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。DENBA本体の構成・役割説明に必要な唯一の検証済み実機ソースとして使用する。",
+    "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。回復導線や酸素ルーム記事の背景バリエーションとして使用する。",
     "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "scene_grounding_version": "the-rev-source-scene-v1",
   "scene_plan": {
     "version": "the-rev-source-scene-v1",
-    "source_id": "the-rev-denba-20260924",
-    "source_sha256": "ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16",
-    "scene_type": "equipment_orientation",
+    "source_id": "the-rev-oxy-solution-20260924",
+    "source_sha256": "1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60",
+    "scene_type": "recovery_transition",
     "location_type": "recovery_area",
-    "human_action": "observing_real_equipment",
-    "composition_type": "medium_side_portrait",
-    "visual_role": "facility_inspection",
-    "article_intent": "equipment_explanation",
-    "required_equipment": [
-      "denba_device"
-    ],
+    "human_action": "rest",
+    "composition_type": "medium_seated_portrait",
+    "visual_role": "recovery_time",
+    "article_intent": "recovery",
+    "required_equipment": [],
     "subject_zone": "recovery_area",
     "similarity": {
       "pass": true,
       "window": 12,
       "compared": 12,
-      "unknown_count": 0,
-      "penalty": 0,
-      "matches": []
+      "unknown_count": 11,
+      "penalty": 0.16666666666666666,
+      "matches": [
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "unknown": true
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "unknown": true
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "unknown": true
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "unknown": true
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "unknown": true
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "unknown": true
+        },
+        {
+          "slug": "oxygen-room-how-to-spend-time",
+          "unknown": true
+        },
+        {
+          "slug": "denba-health-what-is-it-the-rev",
+          "unknown": true
+        },
+        {
+          "slug": "oxygen-room-first-time-ear-clearing-guide",
+          "unknown": true
+        },
+        {
+          "slug": "shinomiya-gym-erabikata-dosen",
+          "unknown": true
+        },
+        {
+          "slug": "exercise-start-fatigue-anxiety-next-day-plan",
+          "unknown": true
+        }
+      ]
     }
   },
   "source_scene_inventory": {
     "version": "the-rev-source-scene-v1",
-    "source_sha256": "ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16",
+    "source_sha256": "1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60",
     "primary_location": "recovery_area",
     "subject_zone": "recovery_area",
     "visible_equipment": [
       {
-        "object": "denba_device",
+        "object": "oxygen_room",
         "zone": "recovery_area"
       }
     ],
     "allowed_generated_actions": [
       "prepare",
-      "rest",
-      "observing_real_equipment"
+      "rest"
     ],
     "forbidden_generated_objects": [
       "medical_device",
       "unverified_training_equipment"
     ],
     "suitable_article_intents": [
-      "recovery",
-      "equipment_explanation"
+      "recovery"
     ],
     "verification": {
       "method": "source image visual inspection + canonical scoped registry",
@@ -131,8 +180,8 @@
   "automation": {
     "mode": "unattended-github-actions-v1",
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-denba-20260924",
-    "source_repo_path": "assets/images/photo-solution-denba.jpg",
+    "selected_source_id": "the-rev-oxy-solution-20260924",
+    "source_repo_path": "assets/images/photo-solution-oxyroom.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
@@ -395,13 +444,6 @@
       "female",
       "male",
       "female"
-    ],
-    "repeated_due_to_relevance": true,
-    "repeat_distance": 3
-  },
-  "recovery_note": "2026-10-10 operator recovery after generic oxygen-room scene failed article relevance. Uses the only verified real DENBA device source after three intervening articles; reuse is explicitly recorded because product grounding is more truthful than an unrelated fresh background. Dedicated mat is not fabricated because it is not visible in the source.",
-  "typography_emphasis_text": "役割は別",
-  "visible_action": "顧客が実物のDENBA本体に視線を向け、構成を確かめる。操作・治療・運動はしない。手は自然に下げる。",
-  "emotional_state": "初めて機器の構成を理解しようとする穏やかな関心。効能を体験したような広告表情にはしない。",
-  "visual_claim": "DENBA Healthは本体と専用マットで構成され、それぞれ役割がある。写真では実在する本体を正直に見せ、見えないマットを捏造しない。"
+    ]
+  }
 }
