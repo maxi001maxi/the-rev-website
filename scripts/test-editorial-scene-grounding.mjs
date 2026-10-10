@@ -53,6 +53,7 @@ test('DENBA component explainer uses real-device equipment orientation, not gene
   assert.equal(p.article_intent,'equipment_explanation');
   assert.equal(p.scene_type,'equipment_orientation');
   assert.equal(p.human_action,'observing_real_equipment');
+  assert.equal(p.visual_role,'component_relationship');
   assert.deepEqual(p.required_equipment,['denba_device']);
 });
 
@@ -71,4 +72,15 @@ test('DENBA canonical source is reception and equipment explainer prefers a clos
   assert.equal(p.subject_zone,'reception');
   assert.equal(p.composition_type,'close_action_portrait');
   assert.deepEqual(p.required_equipment,['denba_device']);
+});
+
+test('DENBA component-role scene does not collide with generic DENBA facility inspection history',()=>{
+  const p=planGroundedScene({title:'DENBA Healthの機器とマット、それぞれ何をするもの？',primary_query:'DENBA Health 機器 マット'},denba);
+  const generic={...p,visual_role:'facility_inspection'};
+  const r=semanticSimilarity(p,[
+    {slug:'denba-electric-potential-space-radio-wave-difference',scene_fingerprint:generic},
+    {slug:'denba-health-what-is-it-the-rev',scene_fingerprint:generic}
+  ]);
+  assert.equal(r.pass,true);
+  assert.equal(r.matches.some(m=>m.hard_exclusion),false);
 });
