@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundingPass} from '../lib/editorialSceneGrounding.mjs';
+import {planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundingPass,canonicalizeRecentFingerprint} from '../lib/editorialSceneGrounding.mjs';
 import {hybridQaReady} from '../lib/editorialHybridImageFormat.mjs';
 const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.json'));
 const source=id=>registry.sources.find(s=>s.source_id===id);
@@ -83,4 +83,13 @@ test('DENBA component-role scene does not collide with generic DENBA facility in
   ]);
   assert.equal(r.pass,true);
   assert.equal(r.matches.some(m=>m.hard_exclusion),false);
+});
+
+test('historical DENBA concept articles cannot be retroactively relabeled as component explainers',()=>{
+  const guessed={scene_type:'equipment_orientation',location_type:'reception',human_action:'observing_real_equipment',composition_type:'medium_three_quarter_portrait',visual_role:'component_relationship',article_intent:'equipment_explanation'};
+  const oldConcept=canonicalizeRecentFingerprint({articleTitle:'DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理',imageHeadlineShort:'DENBAの基本 電位空間'},guessed);
+  assert.equal(oldConcept.article_intent,'recovery');
+  const component=canonicalizeRecentFingerprint({articleTitle:'DENBA Healthの機器とマット、それぞれ何をするもの？',imageHeadlineShort:'本体とマット、役割は別。'},guessed);
+  assert.equal(component.article_intent,'equipment_explanation');
+  assert.equal(semanticSimilarity(component,[{slug:'old-denba',scene_fingerprint:oldConcept}]).pass,true);
 });
