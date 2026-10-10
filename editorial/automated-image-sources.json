@@ -487,10 +487,15 @@
         "リカバリー",
         "疲労",
         "休養",
-        "コンディショニング"
+        "コンディショニング",
+        "機器",
+        "本体",
+        "マット",
+        "役割",
+        "構成"
       ],
       "scene_semantics": "THE REV.のDENBA利用環境を示す実景。機器・室内構造を維持する。",
-      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。DENBA・回復記事に適合する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。DENBA本体の構成・役割説明に必要な唯一の検証済み実機ソースとして使用する。",
       "scene_inventory": {
         "version": "the-rev-source-scene-v1",
         "source_sha256": "ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16",
@@ -504,14 +509,16 @@
         ],
         "allowed_generated_actions": [
           "prepare",
-          "rest"
+          "rest",
+          "observing_real_equipment"
         ],
         "forbidden_generated_objects": [
           "medical_device",
           "unverified_training_equipment"
         ],
         "suitable_article_intents": [
-          "recovery"
+          "recovery",
+          "equipment_explanation"
         ],
         "verification": {
           "method": "source image visual inspection + canonical scoped registry",
