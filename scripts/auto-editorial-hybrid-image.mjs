@@ -6,7 +6,7 @@ import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_
   GOLDEN_REFERENCE_REVISION, GOLDEN_REFERENCE_ASSETS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
 import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
-import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass } from '../lib/editorialSceneGrounding.mjs';
+import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass, canonicalizeRecentFingerprint } from '../lib/editorialSceneGrounding.mjs';
 
 const jobPath = process.argv[2];
 if (!jobPath) {
@@ -645,7 +645,7 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
     'Location is the customer activity area, not a distant room. Record equipment_relocated=true if copied, enlarged or moved across floor/room zones compared to the source.',
     `Generated planned meaning (judge actual image against this, do not infer observation from plan): ${JSON.stringify(inspectionJob.scene_plan)}`,
     'Return {source:{complete:boolean,equipment:[{object,zone}]},generated:{complete:boolean,equipment:[{object,zone}],location_type,subject_zone,human_action,equipment_relocated:boolean,room_geometry_preserved:boolean,article_scene_match:boolean,scene_fingerprint:{scene_type,location_type,human_action,composition_type,visual_role,article_intent}},recent:[{slug,scene_fingerprint:{same six fields}}]}.',
-    'Use plan vocabulary for actually matching actions only. rack_adjustment/cable_operation/strength_exercise cannot be renamed observing_real_equipment. Infer recent fingerprints from actual images and their supplied article titles/copies. Do not vary labels merely because person gender, clothes or file differ.',
+    'Use plan vocabulary for actually matching actions only. rack_adjustment/cable_operation/strength_exercise cannot be renamed observing_real_equipment. Infer recent visual fields from actual images, but article_intent will be normalized by canonical editorial title logic in code. Do not promote old DENBA concept/recovery articles into equipment_explanation merely because the product is visible. Do not vary labels merely because person gender, clothes or file differ.',
     'Missing or obscured evidence: complete=false. Do not guess a safe answer.'
   ].join('\n')}, {type:'input_text',text:'REAL SOURCE'}, {type:'input_image',image_url:dataUrl(inspectionSource),detail:'high'},
     {type:'input_text',text:'GENERATED SCENE'}, {type:'input_image',image_url:dataUrl(inspectionJob.generated_scene_path),detail:'high'}];
@@ -656,7 +656,10 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
   }
   const response=await openaiResponse({model:QA_MODEL,input:[{role:'user',content}]});
   const observed=extractJson(outputText(response));
-  const evaluatedHistory=recent.map(r=>({...r,scene_fingerprint:observed.recent?.find(x=>x.slug===r.slug)?.scene_fingerprint || r.sceneFingerprint}));
+  const evaluatedHistory=recent.map(r=>{
+    const observedFingerprint=observed.recent?.find(x=>x.slug===r.slug)?.scene_fingerprint || r.sceneFingerprint;
+    return {...r,scene_fingerprint:canonicalizeRecentFingerprint(r,observedFingerprint)};
+  });
   const evidence=evaluateSceneGrounding({inventory:inspectionJob.source_scene_inventory,plan:inspectionJob.scene_plan,sourceRecognition:observed.source,observation:observed.generated,recent:evaluatedHistory});
   if (evaluatedHistory.some(r=>!r.scene_fingerprint)) {evidence.pass=false;evidence.errors.push('semantic_history_observation_missing');}
   return {...evidence,recent:evaluatedHistory,asset_version:inspectionJob.asset_version,
