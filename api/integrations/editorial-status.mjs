@@ -439,7 +439,7 @@ export default async function handler(req, res) {
     let body;
     try { body = await readEditorialJson(req); }
     catch (e) { return res.status(e.message === 'EDITORIAL_BODY_TOO_LARGE' ? 413 : 400).json({error:'invalid_request_body'}); }
-    if (/^topic_(prepare|poll|choose|answer|notification_ack|queue_ack)$/.test(body.action || '')) {
+    if (/^topic_(prepare|poll|choose|answer|redeliver|notification_ack|queue_ack)$/.test(body.action || '')) {
       const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
       try {
         const payload = await topicResponse({...body,action:body.action.slice(6)},supabase);
