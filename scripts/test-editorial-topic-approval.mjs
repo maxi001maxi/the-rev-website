@@ -190,6 +190,22 @@ test('combined API preserves streamed Bridge JSON and does not authenticate LINE
     if(owner==null)delete process.env.THE_REV_LINE_USER_ID;else process.env.THE_REV_LINE_USER_ID=owner;
   }
 });
+test('confirmed LINE non-delivery creates a new topic notification generation without changing the topic choice',async()=>{
+  const p={...proposal(),notification_status:'SENT',notification_kind:'TOPICS',notification_sent_at:now.toISOString()};
+  const db=memoryDb([p]);
+  const r=await topicResponse({action:'redeliver',proposal_id:p.id,source:'GPT'},db,deps);
+  assert.equal(r.redelivery,'TOPICS_RETRY_1');
+  assert.equal(r.proposal.status,'TOPIC_SELECTION_WAITING');
+  assert.equal(r.proposal.notification_status,'PENDING');
+  assert.equal(r.proposal.notification_sent_at,null);
+  assert.match(topicNotification(r.proposal),/既存記事との違い/);
+  assert.match(topicNotification(r.proposal),/返信例:/);
+  const again=await topicResponse({action:'redeliver',proposal_id:p.id,source:'GPT'},db,deps);
+  assert.equal(again.redelivery,'ALREADY_PENDING');
+  assert.equal(again.proposal.notification_kind,'TOPICS_RETRY_1');
+  await assert.rejects(()=>topicResponse({action:'redeliver',proposal_id:p.id,source:'LINE'},db,deps),/GPT_REDELIVERY_SOURCE_REQUIRED/);
+});
+
 test('prepare is immutable, no-approval poll does not read GitHub, and notification failure cannot approve',async()=>{
   const db=memoryDb(),body={...args,action:'prepare'};
   // Test date must be explicit because the HTTP API uses the actual server clock.
