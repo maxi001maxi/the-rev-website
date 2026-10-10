@@ -289,7 +289,7 @@ jobs:
             git commit -m "Generate Editorial Hybrid image assets"
             # Other authorized workflows may advance main while generation runs.
             # Rebase only the staged operator output; a conflict stops acceptance.
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
 
@@ -403,7 +403,7 @@ jobs:
 
           if [ "$changed" = "1" ] && ! git diff --cached --quiet; then
             git commit -m "Mark Editorial Hybrid assets Xserver verified"
-            git pull --rebase origin main
+            git pull --rebase --autostash origin main
             git push origin HEAD:main
           fi
 
