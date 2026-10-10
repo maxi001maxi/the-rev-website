@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-denba-20260924\",\"source_sha256\":\"ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16\",\"scene_type\":\"equipment_orientation\",\"location_type\":\"reception\",\"human_action\":\"observing_real_equipment\",\"composition_type\":\"close_action_portrait\",\"visual_role\":\"facility_inspection\",\"article_intent\":\"equipment_explanation\",\"required_equipment\":[\"denba_device\"],\"subject_zone\":\"reception\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.5,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"denba_device\",\"zone\":\"reception\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"recovery\",\"equipment_explanation\"],\"verification\":{\"method\":\"source image visual inspection + multimodal production QA\",\"verified_at\":\"2026-10-10\",\"note\":\"Production QA independently recognized denba_device@reception. Canonical location corrected from recovery_area to reception; source bytes unchanged.\"}}\nCustomer is the dominant foreground subject at roughly 60-70% visual attention in a close side portrait, calmly looking at the real DENBA device.\nKeep the real DENBA device clearly recognizable as a secondary anchor. Use shallow depth and soft background blur; avoid a wide empty wall or logo-dominant composition.\nHands remain empty and lowered. No touching, operating, treatment gesture, cable handling or advertising pose.\nDo not invent a DENBA mat or any component not visible in the source. The headline carries the distinction between the main unit and dedicated mat.\nPreserve the real wall logo, switch, white cabinet, device position, room geometry and lighting relationships.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-denba-20260924\",\"source_sha256\":\"ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16\",\"scene_type\":\"equipment_orientation\",\"location_type\":\"reception\",\"human_action\":\"observing_real_equipment\",\"composition_type\":\"close_action_portrait\",\"visual_role\":\"component_relationship\",\"article_intent\":\"equipment_explanation\",\"required_equipment\":[\"denba_device\"],\"subject_zone\":\"reception\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.5,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"denba_device\",\"zone\":\"reception\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"recovery\",\"equipment_explanation\"],\"verification\":{\"method\":\"source image visual inspection + multimodal production QA\",\"verified_at\":\"2026-10-10\",\"note\":\"Production QA independently recognized denba_device@reception. Canonical location corrected from recovery_area to reception; source bytes unchanged.\"}}\nCustomer is the dominant foreground subject at roughly 60-70% visual attention in a close side portrait, calmly looking at the real DENBA device.\nVisual role is component_relationship: the photograph should feel like understanding how the verified main unit fits into the product setup, not a generic facility tour or recovery scene.\nKeep the real DENBA device clearly recognizable as a secondary anchor. Use shallow depth and soft background blur; avoid a wide empty wall or logo-dominant composition.\nHands remain empty and lowered. No touching, operating, treatment gesture, cable handling or advertising pose.\nDo not invent a DENBA mat or any component not visible in the source. The headline carries the distinction between the main unit and dedicated mat.\nPreserve the real wall logo, switch, white cabinet, device position, room geometry and lighting relationships.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r2-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r3-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-denba-20260924-r2",
-  "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r2.jpg",
-  "og_image": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r2.jpg",
+  "asset_version": "reference-v26-grounded-auto-denba-20260924-r3",
+  "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r3.jpg",
+  "og_image": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r3.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r3.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r2.json",
+  "qa_report_path": "editorial/image-qa/denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r3.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -83,7 +83,7 @@
     "location_type": "reception",
     "human_action": "observing_real_equipment",
     "composition_type": "close_action_portrait",
-    "visual_role": "facility_inspection",
+    "visual_role": "component_relationship",
     "article_intent": "equipment_explanation",
     "required_equipment": [
       "denba_device"
@@ -399,9 +399,9 @@
     "repeated_due_to_relevance": true,
     "repeat_distance": 3
   },
-  "recovery_note": "R2 after production QA: correct canonical DENBA location to reception; increase customer prominence to human-first 60-70%; soften background; keep actual device visible; avoid generic recovery scene and do not fabricate mat.",
+  "recovery_note": "R3: preserve corrected reception grounding and human-first framing; differentiate component-role explainer with visual_role=component_relationship so it is not semantically collapsed into prior generic DENBA facility-inspection articles.",
   "typography_emphasis_text": "役割は別",
   "visible_action": "顧客役1人を前景に大きく置き、横向き気味に実在DENBA本体へ穏やかに視線を向ける。人物の視覚占有は約60〜70%。手は下げたまま、接触・操作・配線操作はしない。",
   "emotional_state": "機器の構成を理解しようとする自然な関心。広告的な笑顔や効果を実感したような誇張表情は避ける。",
-  "visual_claim": "実在するDENBA本体を明確に見せ、本体と専用マットは役割が別であるという記事テーマをコピーと実機アンカーで伝える。見えていないマットは生成しない。"
+  "visual_claim": "DENBA Healthの本体と専用マットは同じものではなく役割が分かれている。写真では実在する本体を正直に見せ、component_relationshipとして理解の瞬間を表現し、見えていないマットは捏造しない。"
 }
