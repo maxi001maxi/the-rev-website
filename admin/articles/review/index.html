@@ -253,6 +253,12 @@ function renderChecks(checks) {
 function renderImageGate(a) {
   const qa = a?.image_qa || {};
   const pass = (value, expected = true) => value === expected ? 'PASS' : 'FAIL';
+  const groundedReuseException =
+    qa.background_reuse_relevance_exception === true &&
+    qa.recent_reference_guard?.repeated_due_to_relevance === true &&
+    Number(qa.recent_reference_guard?.repeat_distance) >= 3 &&
+    Array.isArray(qa.recent_reference_guard?.required_equipment) &&
+    qa.recent_reference_guard.required_equipment.length > 0;
   const mode = qa.review_mode || (
     a?.image_render_version === 'rev-column-reference-v2.3-hybrid'
       ? 'HYBRID_GENERATED'
@@ -279,7 +285,10 @@ function renderImageGate(a) {
     ? 'V2.3 DESIGN REFERENCE'
     : `${qa.policy_revision || 'MISSING'} / ${qa.layout_template_id || 'MISSING'}`);
   text('v-gate-image-reuse', pass(qa.same_image_as_recent_articles, false));
-  text('v-gate-background-reuse', pass(qa.same_background_as_recent_articles, false));
+  text('v-gate-background-reuse',
+    qa.same_background_as_recent_articles === false
+      ? 'PASS'
+      : (groundedReuseException ? 'PASS / GROUNDED EQUIPMENT EXCEPTION' : 'FAIL'));
   text('v-gate-trainer-reuse', pass(qa.trainer_photo_reused, false));
   text('v-gate-recent', qa.recent_similarity_check_pass === true
     ? `PASS / window=${qa.recent_similarity_window ?? '—'}`
@@ -302,7 +311,7 @@ function renderImageGate(a) {
     && qa.real_the_rev_background_confirmed === true
     && qa.recent_similarity_check_pass === true
     && qa.same_image_as_recent_articles === false
-    && qa.same_background_as_recent_articles === false
+    && (qa.same_background_as_recent_articles === false || groundedReuseException)
     && qa.trainer_photo_reused === false
       ? 'PASS'
       : 'FAIL');
