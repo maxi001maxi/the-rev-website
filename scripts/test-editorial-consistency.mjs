@@ -55,11 +55,19 @@ test('6 equipment and service misrepresentation fail shared image gate',()=>{
   assert.equal(missing.checks.scene_plausible_at_the_rev,false);
 });
 test('7 view formula contract follows append, dedupes and joins GBP by parent',()=>{
-  const f=imageSheetViewFormulas();assert.equal(f.length,14);
+  const f=imageSheetViewFormulas();assert.equal(f.length,15);
   assert.match(f[2],/FILTER.*C2:C/);assert.match(f[2],/SORTN/);assert.match(f[2],/FALSE/);
   assert.match(f[11],/22_GBP_POST.*\$D\$2:\$D/);
   assert(!f.join('').match(/BRIDGE'!\$?[A-Z]+\$?(?:4|8|21)\b/));
   assert.match(f[11],/\$M\$2:\$M<>""/);
+  // The view writes formulas ONLY to A2:O2, and spills at most 500 rows.
+  // Its source Bridge lookup must remain open-ended (different array length).
+  for(const i of [0,1,3,4,5,6,7,8,9,10,11,12,13,14])
+    assert.match(f[i],/\$C\$2:\$C\$501/, 'bounded destination in '+i);
+  assert.match(f[0],/25_WEB_PUBLISH_BRIDGE'!\$C\$2:\$C/);
+  assert.match(f[4],/s="READY"/);
+  assert.match(f[6],/OGP \(1200×630\)/);
+  assert.match(f[14],/Web画像が未完了/);
   const g=googleBusinessSheetViewFormulas();
   assert.match(g[0],/SORTN/);assert.match(g[0],/BLOCKED_URL/);assert.match(g[1],/MAP\(I2:I/);
 });
