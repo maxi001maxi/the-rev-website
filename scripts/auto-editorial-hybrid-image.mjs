@@ -656,7 +656,10 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
   }
   const response=await openaiResponse({model:QA_MODEL,input:[{role:'user',content}]});
   const observed=extractJson(outputText(response));
-  const evaluatedHistory=recent.map(r=>{\n    const observedFingerprint=observed.recent?.find(x=>x.slug===r.slug)?.scene_fingerprint || r.sceneFingerprint;\n    return {...r,scene_fingerprint:canonicalizeRecentFingerprint(r,observedFingerprint)};\n  });
+  const evaluatedHistory=recent.map(r=>{
+    const observedFingerprint=observed.recent?.find(x=>x.slug===r.slug)?.scene_fingerprint || r.sceneFingerprint;
+    return {...r,scene_fingerprint:canonicalizeRecentFingerprint(r,observedFingerprint)};
+  });
   const evidence=evaluateSceneGrounding({inventory:inspectionJob.source_scene_inventory,plan:inspectionJob.scene_plan,sourceRecognition:observed.source,observation:observed.generated,recent:evaluatedHistory});
   if (evaluatedHistory.some(r=>!r.scene_fingerprint)) {evidence.pass=false;evidence.errors.push('semantic_history_observation_missing');}
   return {...evidence,recent:evaluatedHistory,asset_version:inspectionJob.asset_version,
