@@ -1,6 +1,6 @@
 {
   "slug": "denba-health-device-mat-role",
-  "status": "ERROR",
+  "status": "BLOCKED_MAX_ATTEMPTS",
   "attempts_total": 2,
   "max_attempts": 2,
   "last_error": "Source/Scene FAIL: spatial_plausibility, recent_semantic_similarity. 人物の合成感、接地、照明、解剖は概ね自然で、実在する酸素ルームが場所のアンカーになっている。ただし背景は人間優先仕様としては鮮明すぎる。最大の不合格理由は、スマートフォンを見る一般的な休憩姿勢と酸素ルームではDENBA Healthの非接触利用という記事固有の内容が伝わらないこと、およびGBPの不自然な「鍛えた／あとに、」分割と誤った強調語である。",
@@ -1229,6 +1229,6 @@
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/denba-health-device-mat-role.json",
-  "updated_at": "2026-10-09T23:04:50.948Z",
+  "updated_at": "2026-10-10T00:30:15.908Z",
   "asset_version": "reference-v26-grounded-auto-oxy-solution-20260924-b8288197"
 }
