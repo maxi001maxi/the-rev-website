@@ -190,6 +190,35 @@ test('combined API preserves streamed Bridge JSON and does not authenticate LINE
     if(owner==null)delete process.env.THE_REV_LINE_USER_ID;else process.env.THE_REV_LINE_USER_ID=owner;
   }
 });
+test('daily prepare refreshes a stale waiting proposal before LINE notification',async()=>{
+  const old=proposal();
+  old.notification_status='SENT';
+  old.notification_kind='TOPICS';
+  old.notification_sent_at=now.toISOString();
+  // Simulate yesterday selecting one of today's snapshotted options.
+  const queuedCandidate=old.options[0].candidate_id;
+  const row={
+    content_id:'BLOG-YESTERDAY',
+    topic_candidate_id:queuedCandidate,
+    primary_query:old.options[0].candidate.primary_query,
+    queue_status:'REVIEW_READY',
+    run_date:'2026/10/04',
+    target_date:'2026/10/04'
+  };
+  const fresh=[
+    ...shortlist.map((x,i)=>({...x,candidate_id:'FRESH-'+i,primary_query:'fresh-query-'+i,topic:'fresh-topic-'+i,title_candidate:'fresh title '+i,generated_at:now.toISOString(),week_start:now.toISOString()}))
+  ];
+  const db=memoryDb([old]);
+  const r=await topicResponse({...args,action:'prepare',target_date:'2026-10-06',rows:[row],shortlist:fresh},db,deps);
+  const refreshed=db.tables.editorial_topic_proposals.find(x=>x.id===old.id);
+  assert.equal(refreshed.status,'TOPIC_SELECTION_WAITING');
+  assert.equal(refreshed.notification_status,'PENDING');
+  assert.equal(refreshed.notification_kind,'TOPICS_RETRY_1');
+  assert.equal(refreshed.options.length,3);
+  assert(!refreshed.options.some(o=>o.candidate_id===queuedCandidate));
+  assert(r.notifications.some(n=>n.proposal_id===old.id && n.kind==='TOPICS_RETRY_1'));
+});
+
 test('confirmed LINE non-delivery creates a new topic notification generation without changing the topic choice',async()=>{
   const p={...proposal(),notification_status:'SENT',notification_kind:'TOPICS',notification_sent_at:now.toISOString()};
   const db=memoryDb([p]);
