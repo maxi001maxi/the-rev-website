@@ -537,6 +537,54 @@ assert(evaluateEditorialImageReview({
   recentHistory: [{ contentReference: 'assets/images/editorial-source/drive/customer-free-background.jpg' }]
 }).ok === false, 'provenanceが直近記事と一致すれば自己申告に関係なくFAIL');
 
+const groundedEquipmentReuseQa = {
+  ...goodHybridQa,
+  same_background_as_recent_articles: true,
+  background_reuse_relevance_exception: true,
+  recent_reference_guard: {
+    ...(goodHybridQa.recent_reference_guard || {}),
+    repeated_due_to_relevance: true,
+    repeat_distance: 3,
+    required_equipment: ['denba_device']
+  }
+};
+const groundedEquipmentReuseDraft = {
+  ...gateDraft,
+  image_source_path: 'drive://verified/denba-device.jpg'
+};
+assert(evaluateEditorialImageReview({
+  draft: groundedEquipmentReuseDraft,
+  qa: {
+    ...groundedEquipmentReuseQa,
+    content_reference: 'drive://verified/denba-device.jpg'
+  },
+  recentHistory: [{ contentReference: 'drive://verified/denba-device.jpg' }]
+}).ok === true, '必要実機の検証済み再利用は距離3+required_equipment証拠が揃えばprovenance重複を許可');
+assert(evaluateEditorialImageReview({
+  draft: groundedEquipmentReuseDraft,
+  qa: {
+    ...groundedEquipmentReuseQa,
+    content_reference: 'drive://verified/denba-device.jpg',
+    recent_reference_guard: {
+      ...groundedEquipmentReuseQa.recent_reference_guard,
+      required_equipment: []
+    }
+  },
+  recentHistory: [{ contentReference: 'drive://verified/denba-device.jpg' }]
+}).ok === false, 'required_equipment証拠なしではprovenance重複例外を許可しない');
+assert(evaluateEditorialImageReview({
+  draft: groundedEquipmentReuseDraft,
+  qa: {
+    ...groundedEquipmentReuseQa,
+    content_reference: 'drive://verified/denba-device.jpg',
+    recent_reference_guard: {
+      ...groundedEquipmentReuseQa.recent_reference_guard,
+      repeat_distance: 2
+    }
+  },
+  recentHistory: [{ contentReference: 'drive://verified/denba-device.jpg' }]
+}).ok === false, '距離3未満ではprovenance重複例外を許可しない');
+
 const targetOldQa = JSON.parse(
   fs.readFileSync(new URL('../editorial/image-qa/strength-training-to-failure-when-to-stop-reference-v2-4f56d20ad4.json', import.meta.url), 'utf8')
 );
