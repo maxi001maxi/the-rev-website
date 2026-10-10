@@ -6,7 +6,7 @@ import {planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundi
 import {hybridQaReady} from '../lib/editorialHybridImageFormat.mjs';
 const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.json'));
 const source=id=>registry.sources.find(s=>s.source_id===id);
-const lobby=source('the-rev-lobby-sp-20260927'),training=source('the-rev-evolgear-20260922');
+const lobby=source('the-rev-lobby-sp-20260927'),training=source('the-rev-evolgear-20260922'),denba=source('the-rev-denba-20260924');
 const article={title:'新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い'};
 const plan=planGroundedScene(article,lobby);
 const valid={complete:true,equipment:[{object:'training_rack',zone:'rear_training_area'}],location_type:plan.location_type,subject_zone:plan.subject_zone,human_action:plan.human_action,equipment_relocated:false,room_geometry_preserved:true,article_scene_match:true,scene_fingerprint:plan};
@@ -46,4 +46,18 @@ test('unsupported scene/source intent cannot be chosen to escape recent exclusio
 test('many versions of one article occupy only one semantic slot',()=>{
   const r=semanticSimilarity(plan,Array.from({length:20},()=>({slug:'one',scene_fingerprint:{...plan,article_intent:'health_before_start'}})));
   assert.equal(r.compared,1);assert.equal(r.pass,true);
+});
+
+test('DENBA component explainer uses real-device equipment orientation, not generic recovery rest',()=>{
+  const p=planGroundedScene({title:'DENBA Healthの機器とマット、それぞれ何をするもの？',primary_query:'DENBA Health 機器 マット'},denba);
+  assert.equal(p.article_intent,'equipment_explanation');
+  assert.equal(p.scene_type,'equipment_orientation');
+  assert.equal(p.human_action,'observing_real_equipment');
+  assert.deepEqual(p.required_equipment,['denba_device']);
+});
+
+test('required-equipment relevance reuse evidence is explicit and cannot be generic recovery',()=>{
+  const p=planGroundedScene({title:'DENBA Healthの機器とマット、それぞれ何をするもの？',primary_query:'DENBA Health 機器 マット'},denba);
+  assert.deepEqual(p.required_equipment,['denba_device']);
+  assert.notEqual(p.article_intent,'recovery');
 });

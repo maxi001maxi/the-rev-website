@@ -321,7 +321,10 @@ function qaPass(qa) {
     qa.fallback_used === false &&
     qa.recent_similarity_check_pass === true &&
     qa.same_image_as_recent_articles === false &&
-    qa.same_background_as_recent_articles === false &&
+    (
+      qa.same_background_as_recent_articles === false ||
+      qa.background_reuse_relevance_exception === true
+    ) &&
     qa.trainer_photo_reused === false &&
     qa.expected_copy_present === true &&
     qa.copy_legible === true &&
@@ -512,6 +515,12 @@ async function visualQa(attempt) {
     String(bg.origin_video_file_id || '').trim()
   ].filter(Boolean);
   const recentRepeat = selectedIds.some((id) => recentIds.includes(id));
+  const repeatedDueToRelevance =
+    recentRepeat &&
+    job?.automation?.repeated_due_to_relevance === true &&
+    Number(job?.automation?.repeat_distance) >= 3 &&
+    Array.isArray(job?.scene_plan?.required_equipment) &&
+    job.scene_plan.required_equipment.length > 0;
 
   const qa = {
     ...modelQa,
@@ -536,7 +545,7 @@ async function visualQa(attempt) {
       art_direction: modelQa.visual_art_direction || {},
       golden_reference: { revision: GOLDEN_REFERENCE_REVISION, assets: GOLDEN_REFERENCE_ASSETS }
     },
-    pass: requiredBool(modelQa.pass) && !recentRepeat,
+    pass: requiredBool(modelQa.pass) && (!recentRepeat || repeatedDueToRelevance),
     source_material_scope_pass: true,
     generated_customer_allowed_under_policy: true,
     generated_customer_role: 'customer',
@@ -562,8 +571,9 @@ async function visualQa(attempt) {
     same_image_as_recent_articles: false,
     same_background_as_recent_articles: recentRepeat,
     trainer_photo_reused: false,
+    background_reuse_relevance_exception: repeatedDueToRelevance,
     recent_similarity_window: Number(job.policy?.recent_reference_window || 4),
-    recent_similarity_check_pass: !recentRepeat,
+    recent_similarity_check_pass: !recentRepeat || repeatedDueToRelevance,
     recent_background_source_ids: recentIds,
     recent_reference_guard: {
       window: Number(job.policy?.recent_reference_window || 4),
@@ -572,7 +582,9 @@ async function visualQa(attempt) {
       selected_content_reference: `drive://${bg.cached_frame_drive_file_id || bg.drive_file_id || ''}/${bg.origin_video_file_name || ''}`,
       selected_drive_file_id: bg.cached_frame_drive_file_id || bg.drive_file_id || '',
       avoided_repeat: !recentRepeat,
-      repeated_due_to_relevance: false
+      repeated_due_to_relevance: repeatedDueToRelevance,
+      repeat_distance: repeatedDueToRelevance ? Number(job?.automation?.repeat_distance) : null,
+      required_equipment: Array.isArray(job?.scene_plan?.required_equipment) ? job.scene_plan.required_equipment : []
     },
     template: job.image_style_template,
     render_version: job.render_version,
