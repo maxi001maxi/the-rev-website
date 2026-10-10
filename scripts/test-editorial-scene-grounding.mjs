@@ -55,3 +55,9 @@ test('DENBA component explainer uses real-device equipment orientation, not gene
   assert.equal(p.human_action,'observing_real_equipment');
   assert.deepEqual(p.required_equipment,['denba_device']);
 });
+
+test('required-equipment relevance reuse evidence is explicit and cannot be generic recovery',()=>{
+  const p=planGroundedScene({title:'DENBA Healthの機器とマット、それぞれ何をするもの？',primary_query:'DENBA Health 機器 マット'},denba);
+  assert.deepEqual(p.required_equipment,['denba_device']);
+  assert.notEqual(p.article_intent,'recovery');
+});
