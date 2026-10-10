@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "denba-health-device-mat-role",
+  "asset_version": "reference-v26-grounded-auto-denba-20260924-r5",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "本体とマット、",
+        "役割は別。"
+      ],
+      "text_preserved": true,
+      "font_size": 74,
+      "font_size_at_320": 19.733333333333334,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9938663846578912,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        74,
+        102.97029702970298
+      ],
+      "focus_line": 1,
+      "focus_text": "役割は別。",
+      "focus_scale": 1.3914905004013916,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.13851006527345697,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.09375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8862745098039215,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.933147579685566,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 217,
+          "right": 577.5625,
+          "bottom": 323,
+          "width": 513.5625
+        },
+        {
+          "left": 64,
+          "top": 312.875,
+          "right": 582.546875,
+          "bottom": 460.875,
+          "width": 518.546875
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+      "asset_sha256": "ce4b0863c214d8e05347732e2e184f2326fdddcb31174ab55c431d2aec79b359",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5-preview-320.jpg",
+          "sha256": "7fabb89c6f02a4d280138a82600472904cb93d6fc2a3eea23d2e9a831c02e382"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5-preview-400.jpg",
+          "sha256": "e726e0ab5fe58c839209c2dddcfc25b843001a710c5a446b4f12002310ba5e73"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "本体とマット、",
+        "役割は別。"
+      ],
+      "text_preserved": true,
+      "font_size": 74,
+      "font_size_at_320": 19.733333333333334,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9938663846578912,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        74,
+        102.97029702970298
+      ],
+      "focus_line": 1,
+      "focus_text": "役割は別。",
+      "focus_scale": 1.3914905004013916,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.1484036413644182,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.09375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8862745098039215,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.933147579685566,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 195,
+          "right": 577.5625,
+          "bottom": 301,
+          "width": 513.5625
+        },
+        {
+          "left": 64,
+          "top": 290.875,
+          "right": 582.546875,
+          "bottom": 438.875,
+          "width": 518.546875
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+      "asset_sha256": "1185f1ea59b50497e6e2e846c7039ecf6495eeab456aa5d0e6850dd97864e56d",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5-preview-320.jpg",
+          "sha256": "a072abfe5b575b96eaa4443ff96c28df5e604e10294d1e5d66f2fd460e2b720d"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5-preview-400.jpg",
+          "sha256": "23e9bc03f7147841758ef7361c424f59a899a7f0b129eafd3335e6d464677488"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "本体とマット、",
+        "役割は別。"
+      ],
+      "text_preserved": true,
+      "font_size": 63,
+      "font_size_at_320": 16.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9998224520103697,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        63,
+        87.12871287128714
+      ],
+      "focus_line": 1,
+      "focus_text": "役割は別。",
+      "focus_scale": 1.382995442401383,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9979767567027699,
+      "block_area_ratio": 0.07648845003339978,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.0625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 327,
+          "right": 497.234375,
+          "bottom": 418,
+          "width": 437.234375
+        },
+        {
+          "left": 60,
+          "top": 414.546875,
+          "right": 498.703125,
+          "bottom": 539.546875,
+          "width": 438.703125
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+      "asset_sha256": "be7b2ed684008d8c46b24204a0c2642e728cafbdf4a1814e9888d166864abf05",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5-preview-320.jpg",
+          "sha256": "e9b7e32dea7d829d87b1c1455e1c2ffd1ec9b1d3f93d6975348b5c092a56323d"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5-preview-400.jpg",
+          "sha256": "aa29c1ab555e016864074b8075d3dacf2f7a1629e295c91a0867d6936f6b70be"
+        }
+      }
+    }
+  }
+}
