@@ -61,3 +61,14 @@ test('required-equipment relevance reuse evidence is explicit and cannot be gene
   assert.deepEqual(p.required_equipment,['denba_device']);
   assert.notEqual(p.article_intent,'recovery');
 });
+
+test('DENBA canonical source is reception and equipment explainer prefers a closer human-first scene',()=>{
+  assert.equal(denba.scene_inventory.primary_location,'reception');
+  assert.equal(denba.scene_inventory.subject_zone,'reception');
+  assert(denba.scene_inventory.visible_equipment.some(e=>e.object==='denba_device' && e.zone==='reception'));
+  const p=planGroundedScene({title:'DENBA Healthの機器とマット、それぞれ何をするもの？',primary_query:'DENBA Health 機器 マット'},denba);
+  assert.equal(p.location_type,'reception');
+  assert.equal(p.subject_zone,'reception');
+  assert.equal(p.composition_type,'close_action_portrait');
+  assert.deepEqual(p.required_equipment,['denba_device']);
+});
