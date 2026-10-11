@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<!-- デザイン検討用プレビュー。本番GTM / GA4 / main.js は読み込まない（計測・送信なし）。 -->
+<title>THE REV. TOP C 検討</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="review.css">
+<script defer src="review.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へ進む</a>
+
+<div class="review-strip" role="note">
+  <span class="review-strip__tag">DESIGN REVIEW</span>
+  <span class="review-strip__long">デザイン検討用プレビュー ／ Ownerの完成承認待ち ／ Production未変更 ／ 予約・LINEはデモ表示（遷移・送信・計測なし）</span><span class="review-strip__short">検討用 ／ 承認待ち ／ Production未変更 ／ 予約・LINEはデモ</span>
+</div>
+
+<!-- ===================== 0 HEADER ===================== -->
+<header class="site-header" id="header" data-state="over-hero">
+  <div class="site-header__inner">
+    <a class="brand" href="#top" aria-label="THE REV. CONDITIONING LAB. ページ先頭へ">
+      <img class="brand__logo brand__logo--light" src="../../assets/images/logo-full-white.webp" width="1600" height="313" alt="THE REV. CONDITIONING LAB.">
+      <img class="brand__logo brand__logo--dark" src="../../assets/images/logo-full.webp" width="1600" height="313" alt="" aria-hidden="true">
+    </a>
+    <nav class="gnav" aria-label="メインナビゲーション">
+      <ul class="gnav__list">
+        <li><a href="#service">サービス</a></li>
+        <li><a href="#trial">初回体験</a></li>
+        <li><a href="#pricing">料金</a></li>
+        <li><a href="#person">トレーナー</a></li>
+        <li><a href="#place">アクセス</a></li>
+      </ul>
+      <a class="btn btn--header" href="#demo-cta" data-demo="reserve" data-track="reserve_click" data-placement="home_header">初回体験を予約</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="drawer">
+      <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
+      <span class="menu-toggle__label">メニュー</span>
+    </button>
+  </div>
+  <div class="drawer" id="drawer" hidden>
+    <nav class="drawer__nav" aria-label="モバイルナビゲーション">
+      <a href="#service"><span>サービス</span><small>Service</small></a>
+      <a href="#trial"><span>初回体験</span><small>First visit</small></a>
+      <a href="#pricing"><span>料金</span><small>Pricing</small></a>
+      <a href="#person"><span>トレーナー</span><small>Trainer</small></a>
+      <a href="#place"><span>アクセス</span><small>Access</small></a>
+      <a href="#questions"><span>よくある疑問</span><small>Questions</small></a>
+      <a href="/blog/"><span>コラム</span><small>Column</small></a>
+    </nav>
+    <div class="drawer__cta">
+      <a class="btn btn--primary btn--block" href="#demo-cta" data-demo="reserve" data-track="reserve_click" data-placement="home_drawer">初回体験を予約する</a>
+      <a class="btn btn--ghost-dark btn--block" href="#demo-cta" data-demo="line" data-track="line_click" data-placement="home_drawer">LINEで相談する</a>
+      <p class="ext-note">予約は外部サイトでメニューと日時を選びます。</p>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===================== 1 HERO ===================== -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <picture class="hero__media">
+    <source media="(max-width: 760px)" srcset="../../assets/images/photo-lobby-sp.webp" type="image/webp">
+    <img src="../../assets/images/photo-lobby.webp" width="1600" height="1409" alt="THE REV. CONDITIONING LAB. の入口。壁のロゴと観葉植物、受付の奥にトレーニングラックが見える" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="hero__shade" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <div class="hero__copy">
+      <p class="hero__eyebrow">奈良・新大宮 <span aria-hidden="true">｜</span> 完全予約制パーソナルジム</p>
+      <h1 class="hero__title" id="hero-title"><span>動く時間も、</span><span>休む時間も、</span><span>ここから。</span></h1>
+      <p class="hero__sub">自分の身体に向き合う時間を、新大宮で。<br>トレーニング、ボクシング、リカバリー。<br>完全予約制の空間から選べる三つの入口。</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#demo-cta" data-demo="reserve" data-track="reserve_click" data-placement="home_hero">初回体験を予約する<span class="btn__arrow" aria-hidden="true"></span></a>
+        <a class="btn btn--ghost-light" href="#demo-cta" data-demo="line" data-track="line_click" data-placement="home_hero_line">LINEで相談する</a>
+      </div>
+      <p class="hero__note">予約は外部サイトでメニューと日時を選びます。</p>
+    </div>
+  </div>
+  <div class="hero__foot">
+    <div class="hero__foot-inner">
+      <p class="hero__foot-label" lang="en">TRAINING <span>/</span> BOXING <span>/</span> RECOVERY</p>
+      <a class="hero__foot-link" href="#service">あなたの入口を見つける<span class="down" aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2 CHOICE ===================== -->
+<section class="sec choice" id="service" aria-labelledby="choice-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="label" lang="en">Service</p>
+      <h2 class="h2" id="choice-title">どんな時間から、<br class="sp-only">始めましょう。</h2>
+      <p class="lead">三つは、それぞれ別のメニューです。目的やその日の過ごし方に合わせて、入口を選べます。</p>
+    </header>
+
+    <article class="svc" aria-labelledby="svc-training">
+      <figure class="svc__media">
+        <img src="../../assets/images/photo-evolgear.webp" width="1400" height="1867" loading="lazy" decoding="async" alt="THE REV. のトレーニングフロア。マルチトレーニングラックとプレート">
+      </figure>
+      <div class="svc__body">
+        <p class="svc__no" lang="en"><span>01</span>Training</p>
+        <p class="svc__name">パーソナルトレーニング</p>
+        <h3 class="svc__title" id="svc-training">目的と状態から、<br>鍛え方を考える。</h3>
+        <p class="svc__text">運動をこれから始めたい方も、自己流を見直したい方も。目的と今の身体の状態、実際の動きを見ながら、種目と負荷を一緒に考えます。</p>
+        <p class="svc__meta"><span>マンツーマン</span><span>月額制（月2回／月4回）</span></p>
+        <a class="link-arrow" href="/price.html#cat-training" data-track="price_click" data-placement="home_service_training">月額プラン・入会金を見る</a>
+      </div>
+    </article>
+
+    <article class="svc svc--reverse" aria-labelledby="svc-boxing">
+      <figure class="svc__media svc__media--illust">
+        <svg class="illust" viewBox="0 0 640 520" role="img" aria-labelledby="ill-boxing-t">
+          <title id="ill-boxing-t">説明用イラスト：グローブを着けて構え、サンドバッグに向かって一打目を打つ人</title>
+          <!-- backdrop: ring ropes -->
+          <g class="ln ln--soft">
+            <path d="M40 150 H600 M40 210 H600 M40 270 H600"/>
+            <path d="M60 120 V330" />
+          </g>
+          <ellipse cx="262" cy="452" rx="120" ry="10" fill="#E2CFAF"/>
+          <ellipse cx="492" cy="452" rx="54" ry="7" fill="#E2CFAF"/>
+          <!-- heavy bag -->
+          <g class="ln">
+            <path d="M492 30 V88"/>
+            <path d="M474 96 L492 76 L510 96"/>
+            <rect x="450" y="96" width="84" height="250" rx="36" fill="#EFE3CF"/>
+            <path d="M450 140 h84 M450 300 h84" class="ln--soft"/>
+            <path d="M444 196 q-14 8 0 16 M432 182 q-26 22 0 44" class="ln--soft"/>
+          </g>
+          <!-- figure (pill limbs) -->
+          <g class="fig">
+            <path class="fig__limb fig__limb--back" d="M246 300 L 214 372 L 196 440"/>
+            <path class="fig__limb fig__limb--back" d="M258 212 L 252 250 L 290 200"/>
+            <path class="fig__body" d="M244 186 C 284 180, 300 206, 292 248 L 280 306 C 270 320, 236 318, 228 304 L 226 240 C 224 206, 228 190, 244 186 Z"/>
+            <path class="fig__limb" d="M262 304 L 298 372 L 330 438"/>
+            <path class="fig__limb" d="M276 206 L 338 214 L 392 206"/>
+            <circle class="fig__head" cx="268" cy="152" r="26"/>
+            <path class="fig__hair" d="M244 146 C 246 122, 284 116, 294 140 C 284 134, 262 134, 244 146 Z"/>
+          </g>
+          <g class="ln">
+            <rect x="388" y="186" width="46" height="38" rx="15" class="fill-accent"/>
+            <path d="M396 186 v38" class="ln--soft"/>
+            <rect x="278" y="172" width="36" height="32" rx="12" class="fill-accent"/>
+            <path d="M184 440 h30 M322 438 h34"/>
+          </g>
+        </svg>
+        <figcaption class="svc__caption">説明用イラスト（実際の指導写真ではありません）</figcaption>
+      </figure>
+      <div class="svc__body">
+        <p class="svc__no" lang="en"><span>02</span>Boxing</p>
+        <p class="svc__name">パーソナルボクシング</p>
+        <h3 class="svc__title" id="svc-boxing">初めての一打から、<br>技術まで。</h3>
+        <p class="svc__text">楽しく身体を動かしたい方も、ボクシングを技術として学びたい方も。元プロボクサーの代表トレーナーと、マンツーマンで進めます。</p>
+        <p class="svc__meta"><span>マンツーマン</span><span>回数券（5回／10回）</span></p>
+        <a class="link-arrow" href="/price.html#cat-boxing" data-track="price_click" data-placement="home_service_boxing">回数券の料金・有効期限を見る</a>
+      </div>
+    </article>
+
+    <article class="svc" aria-labelledby="svc-recovery">
+      <figure class="svc__media">
+        <img src="../../assets/images/photo-oxyroom.webp" width="1400" height="1867" loading="lazy" decoding="async" alt="THE REV. の酸素ルーム。白いルーム型の設備とトレーニングフロア">
+      </figure>
+      <div class="svc__body">
+        <p class="svc__no" lang="en"><span>03</span>Recovery</p>
+        <p class="svc__name">酸素ルーム × DENBA Health</p>
+        <h3 class="svc__title" id="svc-recovery">普段着のまま、<br>休む時間へ。</h3>
+        <p class="svc__text">酸素ルームとDENBA Healthのある空間で、静かに過ごす時間です。運動しない日の単独利用もできます。</p>
+        <p class="svc__meta"><span>着替え不要</span><span>トレーニングとは別料金</span></p>
+        <a class="link-arrow" href="/solution.html" data-track="recovery_click" data-placement="home_service_recovery">酸素ルーム・DENBAについて見る</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===================== 3 METHOD ===================== -->
+<section class="sec method" id="method" aria-labelledby="method-title">
+  <div class="wrap">
+    <div class="method__head">
+      <div>
+        <p class="label" lang="en">Method</p>
+        <h2 class="h2" id="method-title">「今日はどうですか」から、<br>内容を考える。</h2>
+      </div>
+      <div class="method__side">
+        <p class="lead">決まったメニューを当てはめるのではなく、その日の話と身体から組み立てます。現在、トレーニングとボクシングは代表トレーナーの<strong class="nowrap">服部 真騎士</strong>が担当しています。</p>
+        <a class="link-arrow" href="#person">担当トレーナーについて詳しく</a>
+      </div>
+    </div>
+
+    <ol class="method__steps">
+      <li class="mstep">
+        <svg class="micon" viewBox="0 0 72 72" aria-hidden="true"><g class="ln"><path d="M10 18 h30 a6 6 0 0 1 6 6 v12 a6 6 0 0 1 -6 6 h-18 l-8 7 v-7 h-4 a6 6 0 0 1 -6 -6 v-12 a6 6 0 0 1 6 -6z"/><path d="M50 30 h8 a6 6 0 0 1 6 6 v10 a6 6 0 0 1 -6 6 h-2 v6 l-7 -6 h-11 a6 6 0 0 1 -5 -3" class="ln--soft"/><path d="M18 30 h20 M18 36 h12"/></g></svg>
+        <p class="mstep__no" lang="en">01</p>
+        <h3 class="mstep__title">目的を聞く</h3>
+        <p class="mstep__text">何のために身体を動かしたいか、今の生活の中で無理のない形を伺います。</p>
+      </li>
+      <li class="mstep">
+        <svg class="micon" viewBox="0 0 72 72" aria-hidden="true"><g class="ln"><circle cx="30" cy="14" r="6"/><path d="M30 20 v22 M30 26 l-10 10 M30 26 l10 10 M30 42 l-7 20 M30 42 l7 20"/><path d="M50 18 h14 M50 30 h14 M50 42 h10" class="ln--soft"/><path d="M46 18 l1.5 1.5 2.5 -3 M46 30 l1.5 1.5 2.5 -3"/></g></svg>
+        <p class="mstep__no" lang="en">02</p>
+        <h3 class="mstep__title">状態を知る</h3>
+        <p class="mstep__text">その日の体調、気になるところ、これまでの運動経験を確認します。</p>
+      </li>
+      <li class="mstep">
+        <svg class="micon" viewBox="0 0 72 72" aria-hidden="true"><g class="ln"><circle cx="36" cy="12" r="6"/><path d="M36 18 l-2 18 l-10 6 l4 18 M34 36 l12 6 l-4 18 M35 24 l-14 6 M35 24 l14 6"/><path d="M14 50 q-6 -14 4 -26 M58 50 q6 -14 -4 -26" class="ln--soft"/></g></svg>
+        <p class="mstep__no" lang="en">03</p>
+        <h3 class="mstep__title">動きを見る</h3>
+        <p class="mstep__text">実際に動いてもらいながら、必要なところを一緒に確かめます。</p>
+      </li>
+      <li class="mstep">
+        <svg class="micon" viewBox="0 0 72 72" aria-hidden="true"><g class="ln"><rect x="14" y="10" width="36" height="50" rx="4"/><path d="M22 22 h20 M22 30 h20 M22 38 h12" class="ln--soft"/><path d="M22 22 h6 M22 30 h10"/><path d="M60 22 l-14 30 l-2 8 l6 -6 l14 -30z"/></g></svg>
+        <p class="mstep__no" lang="en">04</p>
+        <h3 class="mstep__title">内容を考える</h3>
+        <p class="mstep__text">聞いたことと見たことから、その日の種目と強度を決めます。</p>
+      </li>
+    </ol>
+
+    <div class="method__diff">
+      <div class="mdiff">
+        <p class="mdiff__label" lang="en">Training</p>
+        <p>目的と状態、実際の動きから、種目と負荷を選びます。固定のテストを全員に行うのではなく、必要な確認をその場で行います。</p>
+      </div>
+      <div class="mdiff">
+        <p class="mdiff__label" lang="en">Boxing</p>
+        <p>経験と目的に合わせて、楽しむところから技術を深めるところまで、進め方を変えます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4 VOICE ===================== -->
+<section class="sec voice" id="voice" aria-labelledby="voice-title">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <div>
+        <p class="label" lang="en">Voice</p>
+        <h2 class="h2" id="voice-title">通う人の、実感から。</h2>
+      </div>
+      <p class="lead">Googleに寄せられたクチコミから、トレーニングとボクシングの声を紹介します。</p>
+    </header>
+    <div class="voice__grid">
+      <figure class="quote">
+        <p class="quote__tag" lang="en">Personal Training</p>
+        <blockquote>
+          <p class="quote__title">自己流との違いを、<br>感じられた。</p>
+          <p class="quote__text">自己流でやっていた時と比べて、フォームをしっかり見てもらえることで違いを感じています。その日の体調に合わせて内容を調整してもらえるので、無理なく続けられています。完全予約制で人目を気にせず通えるのも嬉しいです。</p>
+        </blockquote>
+        <figcaption class="quote__attr">30代・パーソナルトレーニング <span aria-hidden="true">｜</span> <span class="nowrap">Googleクチコミ ★5.0</span></figcaption>
+      </figure>
+      <figure class="quote quote--offset">
+        <p class="quote__tag" lang="en">Personal Boxing</p>
+        <blockquote>
+          <p class="quote__title">楽しく続けられる、<br>ボクシング。</p>
+          <p class="quote__text">落ち着いた空間で、気持ちよく通えています。毎回楽しくボクシングに取り組めて、こちらに合わせて丁寧に見てもらえる安心感があります。これからも続けていきたいと思っています。</p>
+        </blockquote>
+        <figcaption class="quote__attr">50代・パーソナルボクシング <span aria-hidden="true">｜</span> <span class="nowrap">Googleクチコミ ★5.0</span></figcaption>
+      </figure>
+    </div>
+    <div class="voice__foot">
+      <p class="fine">Googleに寄せられたクチコミをもとに、内容を損なわない範囲で要約しています。感じ方には個人差があります。</p>
+      <a class="link-arrow" href="https://www.google.com/maps/place/THE+REV.+CONDITIONING+LAB./@34.6877544,135.8069459,17z/data=!4m8!3m7!1s0x60013b025ea78b0d:0x9025b4535d75fc6b!8m2!3d34.6877544!4d135.8095262!9m1!1b1!16s%2Fg%2F11z8gn4zt9?hl=ja" target="_blank" rel="noopener" data-track="review_click" data-placement="home_voice">Googleのクチコミを見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5 TRIAL ===================== -->
+<section class="sec trial" id="trial" aria-labelledby="trial-title">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <div>
+        <p class="label" lang="en">First visit</p>
+        <h2 class="h2" id="trial-title">最初の一回を、<br>思い描けるように。</h2>
+      </div>
+      <p class="lead">どのメニューでも、初回の基本は同じです。準備と当日の流れは、選ぶメニューで少し変わります。</p>
+    </header>
+
+    <div class="trial__layout">
+      <aside class="trial__common" aria-labelledby="trial-common-title">
+        <p class="trial__common-label" id="trial-common-title">3メニュー共通の初回体験</p>
+        <p class="trial__price"><span class="num" lang="en">3,300</span><span class="yen">円</span><span class="tax">（税込）</span></p>
+        <ul class="facts">
+          <li><span class="facts__k">所要時間</span><span class="facts__v">約60分が目安</span></li>
+          <li><span class="facts__k">来店</span><span class="facts__v">予約時間の約5分前に</span></li>
+          <li><span class="facts__k">お支払い</span><span class="facts__v">体験後に店頭で。現金・クレジットカード・PayPay</span></li>
+          <li><span class="facts__k">入会</span><span class="facts__v">必要に応じて料金プランをご案内します。その場で決める必要はなく、持ち帰って検討できます。</span></li>
+        </ul>
+      </aside>
+
+      <div class="trial__tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="体験メニューを選ぶ">
+          <button class="tab" role="tab" id="tab-training" aria-controls="panel-training" aria-selected="true"><span lang="en">Training</span>トレーニング</button>
+          <button class="tab" role="tab" id="tab-boxing" aria-controls="panel-boxing" aria-selected="false" tabindex="-1"><span lang="en">Boxing</span>ボクシング</button>
+          <button class="tab" role="tab" id="tab-recovery" aria-controls="panel-recovery" aria-selected="false" tabindex="-1"><span lang="en">Recovery</span>リカバリー</button>
+        </div>
+
+        <!-- Training -->
+        <div class="panel" role="tabpanel" id="panel-training" aria-labelledby="tab-training" tabindex="0">
+          <h3 class="panel__title"><span class="nojs-only">トレーニング体験：</span>話して、動いて、<br class="sp-only">数種目を一緒に。</h3>
+          <ol class="stages" aria-label="当日の大まかな流れ">
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><path d="M8 12 h22 a4 4 0 0 1 4 4 v8 a4 4 0 0 1 -4 4 h-12 l-6 5 v-5 h-4 a4 4 0 0 1 -4 -4 v-8 a4 4 0 0 1 4 -4z"/><path d="M12 19 h14 M12 23 h8" class="ln--soft"/></g></svg><span>聞く</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><circle cx="24" cy="9" r="4"/><path d="M24 13 l-1 12 l-7 4 l3 12 M23 25 l8 4 l-3 12 M23 17 l-9 4 M23 17 l9 4"/><path d="M8 34 q-4 -10 3 -18 M40 34 q4 -10 -3 -18" class="ln--soft"/></g></svg><span>動いて確かめる</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><path d="M12 24 h24"/><rect x="6" y="16" width="6" height="16" rx="2" class="fill-accent"/><rect x="36" y="16" width="6" height="16" rx="2" class="fill-accent"/><path d="M2 20 v8 M46 20 v8"/></g></svg><span>数種目を一緒に</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><rect x="8" y="12" width="32" height="22" rx="3"/><path d="M8 18 h32" class="ln--soft"/><path d="M14 28 h8"/><path d="M18 40 l4 -4 l4 4" class="ln--soft"/></g></svg><span>振り返り・会計</span></li>
+          </ol>
+          <div class="panel__cols">
+            <div>
+              <h4 class="panel__h">実際の流れ</h4>
+              <ol class="flow">
+                <li>受付</li>
+                <li>カウンセリング（目的と今の状態を確認）</li>
+                <li>実際に動きながら、必要なところを確認</li>
+                <li>その人に合わせた数種目のトレーニング</li>
+                <li>振り返り・今後のご案内</li>
+                <li>会計・終了</li>
+              </ol>
+            </div>
+            <div>
+              <h4 class="panel__h">服装・持ち物</h4>
+              <ul class="prep">
+                <li>動きやすい服装</li>
+                <li>室内用シューズ（土足不可）。シューズの貸し出しもあります</li>
+                <li>タオルは貸し出しあり。持参がおすすめです</li>
+                <li>お水は店内にあります</li>
+                <li>初回でもシャワーを使えます</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boxing -->
+        <div class="panel" role="tabpanel" id="panel-boxing" aria-labelledby="tab-boxing" tabindex="0">
+          <h3 class="panel__title"><span class="nojs-only">ボクシング体験：</span>グローブを着けて、<br class="sp-only">最初の一打へ。</h3>
+          <ol class="stages" aria-label="当日の大まかな流れ">
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><path d="M8 12 h22 a4 4 0 0 1 4 4 v8 a4 4 0 0 1 -4 4 h-12 l-6 5 v-5 h-4 a4 4 0 0 1 -4 -4 v-8 a4 4 0 0 1 4 -4z"/><path d="M12 19 h14 M12 23 h8" class="ln--soft"/></g></svg><span>聞く</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><circle cx="24" cy="9" r="4"/><path d="M24 13 v14 M24 17 l-10 -6 M24 17 l10 -6 M24 27 l-8 14 M24 27 l8 14"/><path d="M10 6 q-4 4 -2 9 M38 6 q4 4 2 9" class="ln--soft"/></g></svg><span>身体を動かす</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><path d="M14 10 h14 a8 8 0 0 1 8 8 v8 a6 6 0 0 1 -6 6 h-16 a4 4 0 0 1 -4 -4 v-14 a4 4 0 0 1 4 -4z" class="fill-accent"/><path d="M14 32 v8 h16 v-8"/><path d="M10 20 h12" class="ln--soft"/></g></svg><span>ボクシングを体験</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><rect x="8" y="12" width="32" height="22" rx="3"/><path d="M8 18 h32" class="ln--soft"/><path d="M14 28 h8"/><path d="M18 40 l4 -4 l4 4" class="ln--soft"/></g></svg><span>振り返り・会計</span></li>
+          </ol>
+          <div class="panel__cols">
+            <div>
+              <h4 class="panel__h">実際の流れ</h4>
+              <ol class="flow">
+                <li>受付</li>
+                <li>簡単なカウンセリング</li>
+                <li>身体を動かす</li>
+                <li>ボクシング体験</li>
+                <li>振り返り・今後のご案内</li>
+                <li>会計・終了</li>
+              </ol>
+            </div>
+            <div>
+              <h4 class="panel__h">服装・持ち物</h4>
+              <ul class="prep">
+                <li>動きやすい服装</li>
+                <li>室内用シューズ（土足不可）</li>
+                <li>シューズ・タオル・グローブ・バンテージは無料で貸し出し</li>
+                <li>タオルは持参がおすすめです</li>
+                <li>お水は店内にあります。初回でもシャワーを使えます</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recovery -->
+        <div class="panel" role="tabpanel" id="panel-recovery" aria-labelledby="tab-recovery" tabindex="0">
+          <h3 class="panel__title"><span class="nojs-only">リカバリー体験：</span>普段着のまま、<br class="sp-only">入って過ごすだけ。</h3>
+          <ol class="stages" aria-label="当日の大まかな流れ">
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><rect x="12" y="6" width="24" height="32" rx="3"/><path d="M17 14 h14 M17 20 h14 M17 26 h8" class="ln--soft"/><path d="M28 42 l12 -12 l3 3 l-12 12 h-3z"/></g></svg><span>説明・同意</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><rect x="10" y="6" width="28" height="36" rx="12"/><path d="M18 14 h12 v10 h-12z" class="fill-accent"/><path d="M4 42 h40" class="ln--soft"/></g></svg><span>入室</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><circle cx="14" cy="18" r="4"/><path d="M18 22 l10 6 h12 M16 23 l2 11 h18" /><path d="M6 36 h36" class="ln--soft"/><path d="M30 12 h6 l-6 6 h6" class="ln--soft"/></g></svg><span>静かに滞在</span></li>
+            <li><svg viewBox="0 0 48 48" aria-hidden="true"><g class="ln"><rect x="8" y="12" width="32" height="22" rx="3"/><path d="M8 18 h32" class="ln--soft"/><path d="M14 28 h8"/><path d="M18 40 l4 -4 l4 4" class="ln--soft"/></g></svg><span>退室・会計</span></li>
+          </ol>
+          <div class="panel__cols">
+            <div>
+              <h4 class="panel__h">実際の流れ</h4>
+              <ol class="flow">
+                <li>来店</li>
+                <li>注意事項のご説明と、所定の用紙の記入・同意</li>
+                <li>靴を脱いで、着衣のまま入室</li>
+                <li>ゆるやかに加圧して滞在し、ゆるやかに戻す</li>
+                <li>退室・会計</li>
+              </ol>
+            </div>
+            <div>
+              <h4 class="panel__h">服装・持ち物</h4>
+              <ul class="prep">
+                <li>普段着のままで大丈夫です</li>
+                <li>特別な持ち物・着替えは不要です</li>
+                <li>滞在は約60分が目安です</li>
+              </ul>
+            </div>
+          </div>
+          <div class="panel__note">
+            <h4 class="panel__h">耳に違和感があるとき</h4>
+            <p>無理をせず、スタッフへお知らせください。耳抜きをしながら進め、圧力の調整や途中での終了もできます（途中で終了した場合、その回のご利用はその時点で終了です）。初めての方などは約1.1気圧から始めることもでき、様子を見ながら最大1.35気圧まで調整します。</p>
+            <a class="link-arrow" href="/solution.html" data-track="recovery_click" data-placement="home_trial_recovery">詳しい注意事項を見る</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trial__cta">
+      <a class="btn btn--dark" href="#demo-cta" data-demo="reserve" data-track="reserve_click" data-placement="home_trial">初回体験を予約する<span class="btn__arrow" aria-hidden="true"></span></a>
+      <p class="trial__cta-text">どの体験が合うか迷ったら、<a class="inline-link" href="#demo-cta" data-demo="line" data-track="line_click" data-placement="home_trial_guide">LINEで相談</a>できます。<br class="sp-only">予約は外部サイトでメニューと日時を選びます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6 PRICING ===================== -->
+<section class="sec pricing" id="pricing" aria-labelledby="pricing-title">
+  <div class="wrap pricing__layout">
+    <header class="pricing__head">
+      <p class="label" lang="en">Pricing</p>
+      <h2 class="h2" id="pricing-title">続け方にも、<br>選択肢を。</h2>
+      <p class="lead">初回体験のあとは、目的と通い方に合わせて選べます。表示はすべて税込です。</p>
+      <a class="guide-card" href="/blog/personal-training-frequency/" data-track="article_click" data-placement="home_pricing_frequency">
+        <span class="guide-card__q">月2回と月4回、どう選ぶ？</span>
+        <span class="guide-card__a">目的と生活リズムから考える、通う頻度の考え方を読む</span>
+      </a>
+    </header>
+    <div class="ptable">
+      <div class="prow">
+        <div class="prow__head">
+          <p class="prow__en" lang="en">Training</p>
+          <h3 class="prow__name">パーソナルトレーニング</h3>
+          <p class="prow__kind">月額制</p>
+        </div>
+        <dl class="prow__items">
+          <div><dt>月2回</dt><dd><span class="num">17,600</span>円<small>／月</small></dd></div>
+          <div><dt>月4回</dt><dd><span class="num">30,800</span>円<small>／月</small></dd></div>
+          <div class="prow__sub"><dt>入会金<small>月額トレーニングのご契約時のみ</small></dt><dd><span class="num">22,000</span>円</dd></div>
+        </dl>
+        <a class="link-arrow" href="/price.html#cat-training" data-track="price_click" data-placement="home_pricing_training">月額プラン・入会金を見る</a>
+      </div>
+      <div class="prow">
+        <div class="prow__head">
+          <p class="prow__en" lang="en">Boxing</p>
+          <h3 class="prow__name">パーソナルボクシング</h3>
+          <p class="prow__kind">回数券</p>
+        </div>
+        <dl class="prow__items">
+          <div><dt>5回券</dt><dd><span class="num">29,700</span>円</dd></div>
+          <div><dt>10回券</dt><dd><span class="num">55,000</span>円</dd></div>
+        </dl>
+        <a class="link-arrow" href="/price.html#cat-boxing" data-track="price_click" data-placement="home_pricing_boxing">回数券の料金・有効期限を見る</a>
+      </div>
+      <div class="prow">
+        <div class="prow__head">
+          <p class="prow__en" lang="en">Recovery</p>
+          <h3 class="prow__name">酸素ルーム × DENBA</h3>
+          <p class="prow__kind">都度利用・トレーニングとは別料金</p>
+        </div>
+        <dl class="prow__items">
+          <div><dt>60分</dt><dd><span class="num">5,500</span>円</dd></div>
+        </dl>
+        <a class="link-arrow" href="/price.html#cat-recovery" data-track="price_click" data-placement="home_pricing_recovery">30・60・90分の料金を見る</a>
+      </div>
+      <p class="ptable__all"><a class="link-arrow" href="/price.html" data-track="price_click" data-placement="home_pricing">すべての料金を見る</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 7 PERSON ===================== -->
+<section class="sec person" id="person" aria-labelledby="person-title">
+  <div class="wrap person__layout">
+    <figure class="person__photo">
+      <img src="../../assets/images/trainer-portrait.webp" width="820" height="885" loading="lazy" decoding="async" alt="THE REV. 代表トレーナー 服部 真騎士。店内のロゴ壁の前で腕を組む">
+    </figure>
+    <div class="person__body">
+      <p class="label" lang="en">Trainer</p>
+      <h2 class="person__name" id="person-title">服部 真騎士<span lang="en">Makishi Hattori</span></h2>
+      <p class="person__role">代表トレーナー</p>
+      <p class="person__text">二輪ロードレースとプロボクシングを経て、パーソナル指導へ。現在はトレーニングとボクシングの初回・継続を担当し、リカバリーのご案内もしています。</p>
+      <ul class="person__career">
+        <li><span lang="en">Boxing</span>プロボクサーとして10戦／インターハイ ピン級 ベスト8</li>
+        <li><span lang="en">Motorsports</span>スズキ・アジアン・チャレンジ／出光アジア・タレント・カップ</li>
+        <li><span lang="en">Training</span>個人の累計指導 約5,000セッション</li>
+      </ul>
+      <a class="link-arrow" href="/trainer.html" data-track="trainer_click" data-placement="home_trainer">経歴と指導の考え方を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 8 PLACE ===================== -->
+<section class="place" id="place" aria-labelledby="place-title">
+  <figure class="place__photo">
+    <img src="../../assets/images/access-parking-approach.webp" width="1100" height="1467" loading="lazy" decoding="async" alt="川沿い道路側から見たTHE REV.駐車場の入口。建物脇の開口部から奥へ進む">
+    <figcaption>川沿い道路側から見た、駐車場の入口</figcaption>
+  </figure>
+  <div class="place__info">
+    <p class="label label--light" lang="en">Access</p>
+    <h2 class="h2 h2--light" id="place-title">新大宮駅から、<br>徒歩7分。</h2>
+    <dl class="place__list">
+      <div><dt>住所</dt><dd>〒630-8001<br>奈良県奈良市法華寺町126−1 FKビル 1F</dd></div>
+      <div><dt>最寄駅</dt><dd>近鉄「新大宮」駅から徒歩7分。建物1階・道路側の入口からお入りください。</dd></div>
+      <div><dt>営業時間</dt><dd>火・水・木　9:00–13:00 ／ 15:00–19:00<br>土・日　9:00–13:00 ／ 14:00–18:00<br>月・金 定休／完全予約制</dd></div>
+      <div><dt>駐車場</dt><dd>専用駐車場あり。国道24号線側からは入れません。川沿い道路側からお入りください。</dd></div>
+    </dl>
+    <a class="link-arrow link-arrow--light" href="/access.html" data-track="access_click" data-placement="home_access">入口と駐車場の写真を見る</a>
+  </div>
+</section>
+
+<!-- ===================== 9 QUESTIONS ===================== -->
+<section class="sec questions" id="questions" aria-labelledby="questions-title">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <div>
+        <p class="label" lang="en">Questions</p>
+        <h2 class="h2" id="questions-title">気になることから、<br>知っていく。</h2>
+      </div>
+      <p class="lead">体験の前によく聞かれる疑問に、コラムで答えています。</p>
+    </header>
+    <ul class="qgrid">
+      <li class="qitem">
+        <a href="/blog/personal-gym-trial-checkpoints/" data-track="article_click" data-placement="home_questions">
+          <span class="qitem__q">体験では、どんなところを見る？</span>
+          <span class="qitem__cue">入会前に確かめたい5つのこと</span>
+          <span class="qitem__link">体験で確認したいポイントを読む</span>
+        </a>
+      </li>
+      <li class="qitem">
+        <a href="/blog/personal-training-frequency/" data-track="article_click" data-placement="home_questions">
+          <span class="qitem__q">月2回と月4回、どう選ぶ？</span>
+          <span class="qitem__cue">目的と生活リズムから考える</span>
+          <span class="qitem__link">通う頻度の考え方を読む</span>
+        </a>
+      </li>
+      <li class="qitem">
+        <a href="/blog/boxing-beginner-first-step/" data-track="article_click" data-placement="home_questions">
+          <span class="qitem__q">ボクシングは、初めてでも大丈夫？</span>
+          <span class="qitem__cue">最初に覚えることと、強度の考え方</span>
+          <span class="qitem__link">初心者の最初の一歩を読む</span>
+        </a>
+      </li>
+      <li class="qitem">
+        <a href="/blog/training-how-hard-to-push/" data-track="article_click" data-placement="home_questions">
+          <span class="qitem__q">毎回、限界まで追い込む？</span>
+          <span class="qitem__cue">「必要な負荷」とその日の状態</span>
+          <span class="qitem__link">負荷の決め方と考え方を読む</span>
+        </a>
+      </li>
+      <li class="qitem">
+        <a href="/blog/muscle-mass-not-increasing-progress-signs/" data-track="article_click" data-placement="home_questions">
+          <span class="qitem__q">体重以外の進歩は、どう見る？</span>
+          <span class="qitem__cue">体重計に出ない「3つの進歩」</span>
+          <span class="qitem__link">身体の変化の見つけ方を読む</span>
+        </a>
+      </li>
+      <li class="qitem qitem--more">
+        <a href="/blog/" data-track="blog_click" data-placement="home_questions">
+          <span class="qitem__q">ほかに気になることは？</span>
+          <span class="qitem__cue">身体づくりとリカバリーのコラム</span>
+          <span class="qitem__link">コラムの一覧を見る</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== 10 FINAL ===================== -->
+<section class="final" id="final" aria-labelledby="final-title">
+  <svg class="final__art" viewBox="0 0 420 300" aria-hidden="true">
+    <g class="ln">
+      <path d="M20 280 H400"/>
+      <rect x="150" y="40" width="130" height="240" rx="2"/>
+      <path d="M162 52 h106 v216 h-106z" class="ln--soft"/>
+      <path d="M250 162 v18"/>
+      <path d="M88 280 l-6 -54 h44 l-6 54z" class="fill-soft"/>
+      <path d="M104 226 C 96 190, 70 172, 54 168 M104 226 C 104 186, 118 160, 136 150 M104 226 C 92 200, 92 160, 104 130 M104 226 C 116 204, 140 196, 156 198" />
+      <path d="M318 280 v-120 M300 160 h36" class="ln--soft"/>
+    </g>
+  </svg>
+  <div class="wrap final__inner">
+    <p class="label" lang="en">Trial</p>
+    <h2 class="h2" id="final-title">自分に合うか、<br class="sp-only">確かめる一回へ。</h2>
+    <p class="lead">迷っていることがあれば、予約の前にLINEで相談できます。</p>
+    <div class="final__cta">
+      <a class="btn btn--dark" href="#demo-cta" data-demo="reserve" data-track="reserve_click" data-placement="home_final">初回体験を予約する<span class="btn__arrow" aria-hidden="true"></span></a>
+      <a class="btn btn--ghost-dark" href="#demo-cta" data-demo="line" data-track="line_click" data-placement="home_final">LINEで相談する</a>
+    </div>
+    <p class="ext-note">予約は外部サイトでメニューと日時を選びます。</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== 11 FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <img class="footer__logo" src="../../assets/images/logo-full-white.webp" width="1600" height="313" alt="THE REV. CONDITIONING LAB." loading="lazy">
+      <p>奈良・新大宮の完全予約制パーソナルジム</p>
+      <p class="footer__addr">〒630-8001 奈良県奈良市法華寺町126−1 FKビル 1F<br>火・水・木 9:00–13:00 ／ 15:00–19:00<br>土・日 9:00–13:00 ／ 14:00–18:00<br>月・金 定休／完全予約制</p>
+      <p class="footer__op">運営会社：ファルクサービス株式会社</p>
+    </div>
+    <nav class="footer__nav" aria-label="フッターナビゲーション">
+      <div>
+        <p class="footer__h" lang="en">Menu</p>
+        <ul>
+          <li><a href="#service">サービス</a></li>
+          <li><a href="#trial">初回体験</a></li>
+          <li><a href="/price.html">料金</a></li>
+          <li><a href="/solution.html">リカバリー</a></li>
+          <li><a href="/trainer.html">トレーナー</a></li>
+          <li><a href="/access.html">アクセス</a></li>
+          <li><a href="/blog/">コラム</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__h" lang="en">Contact</p>
+        <ul>
+          <li><a href="#demo-cta" data-demo="reserve" data-track="reserve_click" data-placement="home_footer">初回体験予約</a></li>
+          <li><a href="#demo-cta" data-demo="line" data-track="line_click" data-placement="home_footer">公式LINE</a></li>
+          <li><a href="https://www.instagram.com/the.rev.nara/" target="_blank" rel="noopener" data-track="instagram_click" data-placement="home_footer">Instagram</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="wrap footer__legal">
+    <ul>
+      <li><a href="/privacy.html">プライバシーポリシー</a></li>
+      <li><a href="/legal.html">特定商取引法に基づく表記</a></li>
+      <li><a href="/terms.html">会員規約・利用規約</a></li>
+    </ul>
+    <p lang="en">© 2026 THE REV. CONDITIONING LAB.</p>
+  </div>
+</footer>
+
+<!-- デモ用：予約・LINEの行き先確認（JSなしの場合はこの一覧へ移動） -->
+<section class="demo-list" id="demo-cta" aria-labelledby="demo-list-title">
+  <div class="wrap">
+    <h2 id="demo-list-title">予約・LINE（デモ表示）</h2>
+    <p>この検討画面では外部へ移動しません。本番接続時の予定先：</p>
+    <ul>
+      <li>予約：https://cl.gyms.jp/t/CC2237480443/?utm_source=website&amp;utm_medium=referral&amp;utm_campaign=trial&amp;utm_content=&lt;placement&gt;（新しいタブ）</li>
+      <li>LINE：https://lin.ee/UXE0bLd（新しいタブ）</li>
+    </ul>
+  </div>
+</section>
+
+<dialog class="demo-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+  <form method="dialog">
+    <p class="demo-dialog__tag" lang="en">Demo</p>
+    <h2 id="demo-dialog-title">外部ページへの移動（デモ）</h2>
+    <p class="demo-dialog__lead" data-slot="lead"></p>
+    <dl class="demo-dialog__meta">
+      <div><dt>行き先</dt><dd data-slot="url"></dd></div>
+      <div><dt>配置</dt><dd data-slot="placement"></dd></div>
+      <div><dt>将来のイベント</dt><dd data-slot="event"></dd></div>
+    </dl>
+    <p class="demo-dialog__fine">検討用プレビューのため、実際の遷移・予約送信・LINE送信・GTM/GA4計測は行いません。</p>
+    <button class="btn btn--dark" value="close" autofocus>閉じる</button>
+  </form>
+</dialog>
+</body>
+</html>
