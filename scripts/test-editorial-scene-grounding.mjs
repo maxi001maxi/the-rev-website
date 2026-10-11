@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundingPass,canonicalizeRecentFingerprint} from '../lib/editorialSceneGrounding.mjs';
+import {articleSceneIntent,planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundingPass,canonicalizeRecentFingerprint} from '../lib/editorialSceneGrounding.mjs';
 import {hybridQaReady} from '../lib/editorialHybridImageFormat.mjs';
 const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.json'));
 const source=id=>registry.sources.find(s=>s.source_id===id);
