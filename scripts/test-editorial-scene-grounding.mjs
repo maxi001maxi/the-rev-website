@@ -93,3 +93,19 @@ test('historical DENBA concept articles cannot be retroactively relabeled as com
   assert.equal(component.article_intent,'equipment_explanation');
   assert.equal(semanticSimilarity(component,[{slug:'old-denba',scene_fingerprint:oldConcept}]).pass,true);
 });
+
+test('pre-workout stretching mentioning boxing stays training-start and uses an activity area',()=>{
+  const article={
+    title:'運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番',
+    description:'筋トレ・ボクシング・ランニング前の準備',
+    primary_query:'運動前 ストレッチ 何分'
+  };
+  assert.equal(articleSceneIntent(article),'training_start');
+  assert.throws(()=>planGroundedScene(article,lobby),/warmup_requires_activity_area/);
+  const p=planGroundedScene(article,training);
+  assert.equal(p.article_intent,'training_start');
+  assert.equal(p.location_type,'training_area');
+  assert.equal(p.human_action,'prepare');
+  assert.match(p.article_specific_directive,/dynamic warm-up/);
+  assert.doesNotMatch(p.article_specific_directive,/boxing stance/i);
+});
