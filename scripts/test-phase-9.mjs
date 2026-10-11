@@ -173,7 +173,7 @@ const warmupCopy = buildImageHeadlineShort({
   description: '筋トレ・ボクシング・ランニング前の準備',
   bodyMarkdown: '疲労が強い日は調整しつつ、動的ストレッチから種目に近い動きへつなげます。'
 });
-assert(warmupCopy === '長く伸ばすより、\n動く準備を。', '運動前ストレッチ記事は本文中の疲労語より主題コピーを優先');
+assert(warmupCopy === '運動前は、\n動ける状態へ。', '運動前ストレッチ記事は本文中の疲労語より主題コピーを優先し、GBPでも意味単位を保てる主見出しを使う');
 assert(validateImageHeadlineShort(warmupCopy).ok === true, '運動前ストレッチ専用Copyが画像文字規則を通過');
 
 const shortCopy = buildImageHeadlineShort(fatigueArticle);
