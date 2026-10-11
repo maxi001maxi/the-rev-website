@@ -1,11 +1,10 @@
 {
   "slug": "pre-workout-stretching-duration",
-  "status": "ERROR",
+  "status": "BLOCKED_PROVIDER_CREDITS",
   "attempts_total": 1,
   "max_attempts": 2,
-  "last_error": "Thumbnail Typography FAIL: deterministic overlay rejected the layout.",
-  "last_qa": null,
+  "last_error": "OpenAI Responses API failed: HTTP 429 / You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
   "job_path": "editorial/hybrid-image-jobs/pre-workout-stretching-duration.json",
-  "updated_at": "2026-10-11T00:49:56.514Z",
-  "asset_version": "reference-v26-grounded-auto-4387-75-d6be4260"
+  "updated_at": "2026-10-11T00:57:25.459Z",
+  "asset_version": "reference-v26-grounded-auto-4387-75-dd2bec81"
 }
