@@ -1,16 +1,11 @@
 {
   "slug": "pre-workout-stretching-duration",
-  "status": "READY_CANDIDATE",
+  "status": "ERROR",
   "attempts_total": 1,
   "max_attempts": 2,
+  "last_error": "Thumbnail Typography FAIL: deterministic overlay rejected the layout.",
+  "last_qa": null,
   "job_path": "editorial/hybrid-image-jobs/pre-workout-stretching-duration.json",
-  "generated_scene_path": "assets/images/editorial-generated/pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-scene.png",
-  "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
-  "og_image": "assets/images/blog/og/og-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
-  "qa_report_path": "editorial/image-qa/pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.json",
-  "asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
-  "updated_at": "2026-10-11T00:47:06.304Z",
-  "xserver_verified": true,
-  "xserver_verified_at": "2026-10-11T00:47:20Z"
+  "updated_at": "2026-10-11T00:49:56.514Z",
+  "asset_version": "reference-v26-grounded-auto-4387-75-d6be4260"
 }
