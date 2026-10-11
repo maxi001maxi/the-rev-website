@@ -8,6 +8,28 @@ const jobs = fs.readdirSync('editorial/hybrid-image-jobs').filter((f) => f !== '
 const browser = await chromium.launch({ headless: true });
 let count = 0;
 try {
+  // Regression: the canonical warm-up copy must fit all three production ratios
+  // with its intended positive focus phrase before image-generation credits are spent.
+  for (const height of [675, 630, 900]) {
+    const page = await browser.newPage({ viewport: { width: 1200, height } });
+    await page.setContent(`<style>.headline{position:absolute;font-family:${REV_COLUMN_REFERENCE_V2.overlay.headline.family};letter-spacing:.01em}.headline-line{display:block;white-space:nowrap}</style><div class="paper"></div><div class="label"></div><div class="hairline"></div><h1 class="headline"></h1>`);
+    await page.evaluate(() => document.fonts.ready);
+    const m = await page.evaluate(fitThumbnailHeadline, {
+      text: '運動前は、\\n動く準備。',
+      width: 1200,
+      height,
+      gbp: height === 900,
+      override: { emphasis_text: '動く準備。' },
+      rule: GOLDEN_LAYOUT_RULES[height === 900 ? 'gbp' : 'wide']
+    });
+    assert.equal(m.pass, true, 'warm-up copy must fit before generation');
+    assert.deepEqual(m.lines, ['運動前は、', '動く準備。']);
+    assert.equal(m.focus_text, '動く準備。');
+    assert.ok(m.focus_scale >= 1.3);
+    count++;
+    await page.close();
+  }
+
   for (const file of jobs) {
     const job = JSON.parse(fs.readFileSync(`editorial/hybrid-image-jobs/${file}`));
     for (const height of [675, 630, 900]) {
