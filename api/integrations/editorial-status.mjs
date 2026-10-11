@@ -299,56 +299,7 @@ function handleThreadsLifecycleCallback(req,res,event){
   return res.status(200).json({ok:true,event});
 }
 
-
-async function handleWarmupR3Acceptance(req,res){
-  const ARTICLE_ID='93ca4aad-b886-43cf-a40d-1b76d15b043e';
-  const TOKEN='warmup-r3-accept-20261011';
-  if(req.method!=='GET') return res.status(405).json({ok:false,error:'method_not_allowed'});
-  if(String(req.query?.token||'')!==TOKEN) return res.status(404).json({ok:false,error:'not_found'});
-  if(!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY){
-    return res.status(503).json({ok:false,error:'supabase_not_configured'});
-  }
-  process.env.GITHUB_REPO='maxi001maxi/the-rev-website';
-  process.env.GITHUB_BRANCH='main';
-
-  const supabase=createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY,
-    {auth:{persistSession:false,autoRefreshToken:false}}
-  );
-  const found=await supabase.from('admin_article_drafts').select('*').eq('id',ARTICLE_ID).maybeSingle();
-  if(found.error||!found.data) return res.status(404).json({ok:false,error:'draft_not_found'});
-
-  const image=await checkEditorialImageReady(found.data);
-  if(!image.ready){
-    return res.status(409).json({
-      ok:false,stage:'image_readiness',reason:image.reason||'not_ready',
-      image_status:found.data.image_status,
-      asset_version:found.data.image_asset_version,
-      publish_requires_human_approval:true,publish_executed:false
-    });
-  }
-
-  const preflight=await runPreflight({supabase,user:null,articleId:ARTICLE_ID,actor:'automation'});
-  const readiness=readinessFromPreflight(preflight);
-  return res.status(readiness.ready?200:409).json({
-    ok:readiness.ready,
-    content_id:found.data.editorial_content_id,
-    image_status:found.data.image_status,
-    image_asset_ready:found.data.image_asset_ready===true,
-    asset_version:found.data.image_asset_version,
-    readiness,
-    checks:(preflight.checks||[]).map(x=>({id:x.id,status:x.status,message:x.message||null})),
-    blocker:preflight.blocker||null,
-    targetPath:preflight.targetPath||null,
-    publicUrl:preflight.publicUrl||null,
-    publish_requires_human_approval:true,
-    publish_executed:false
-  });
-}
-
 export default async function handler(req, res) {
-  if(req.query?.mode==='warmup_r3_acceptance') return handleWarmupR3Acceptance(req,res);
   if(req.query?.mode==='threads_direct_token_connect') return handleThreadsDirectTokenConnect(req,res);
   if(req.query?.mode==='threads_direct_token_scopes') return handleThreadsDirectTokenScopes(req,res);
   if(req.query?.mode==='threads_direct_token_probe') return handleThreadsDirectTokenProbe(req,res);
