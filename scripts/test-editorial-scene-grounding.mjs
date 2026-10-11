@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundingPass,canonicalizeRecentFingerprint} from '../lib/editorialSceneGrounding.mjs';
+import {articleSceneIntent,planGroundedScene,evaluateSceneGrounding,semanticSimilarity,sceneGroundingPass,canonicalizeRecentFingerprint} from '../lib/editorialSceneGrounding.mjs';
 import {hybridQaReady} from '../lib/editorialHybridImageFormat.mjs';
 const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.json'));
 const source=id=>registry.sources.find(s=>s.source_id===id);
@@ -92,4 +92,20 @@ test('historical DENBA concept articles cannot be retroactively relabeled as com
   const component=canonicalizeRecentFingerprint({articleTitle:'DENBA Healthの機器とマット、それぞれ何をするもの？',imageHeadlineShort:'本体とマット、役割は別。'},guessed);
   assert.equal(component.article_intent,'equipment_explanation');
   assert.equal(semanticSimilarity(component,[{slug:'old-denba',scene_fingerprint:oldConcept}]).pass,true);
+});
+
+test('pre-workout stretching mentioning boxing stays training-start and uses an activity area',()=>{
+  const article={
+    title:'運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番',
+    description:'筋トレ・ボクシング・ランニング前の準備',
+    primary_query:'運動前 ストレッチ 何分'
+  };
+  assert.equal(articleSceneIntent(article),'training_start');
+  assert.throws(()=>planGroundedScene(article,lobby),/warmup_requires_activity_area/);
+  const p=planGroundedScene(article,training);
+  assert.equal(p.article_intent,'training_start');
+  assert.equal(p.location_type,'training_area');
+  assert.equal(p.human_action,'prepare');
+  assert.match(p.article_specific_directive,/dynamic warm-up/);
+  assert.notEqual(p.human_action,'boxing_stance');
 });
