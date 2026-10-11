@@ -172,6 +172,13 @@ const shortCopy = buildImageHeadlineShort(fatigueArticle);
 assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事タイトルと分離した短いEditorial Copyを生成');
 assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
 assert(validateImageHeadlineShort(shortCopy).ok === true, '画像コピーが長さ・トーン規則を通過');
+const warmupCopy = buildImageHeadlineShort({
+  title:'運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番',
+  description:'筋トレやボクシング前の準備。疲労がある日は内容を調整する。',
+  bodyMarkdown:'運動前はダイナミックストレッチから種目に近い軽い動きへつなげます。'
+});
+assert(warmupCopy === '伸ばすだけでなく、\n動いて準備する。', 'ストレッチ主題は本文中の疲労語より優先して画像Copyを選ぶ');
+assert(validateImageHeadlineShort(warmupCopy).ok === true, 'warm-up Copyも長さ・トーン規則を通過');
 assert(imageHeadlineIsRecentRepeat('設備だけで、\n決めない。', ['体験で見るのは、\n設備だけじゃない。']) === true, '主要フレーズが近いThumbnail Copyを近似重複として検出');
 const uniqueGymCopy = selectUniqueImageHeadlineShort({
   title: '新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント'
