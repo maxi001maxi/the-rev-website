@@ -107,5 +107,9 @@ test('pre-workout stretching mentioning boxing stays training-start and uses an 
   assert.equal(p.location_type,'training_area');
   assert.equal(p.human_action,'prepare');
   assert.match(p.article_specific_directive,/dynamic warm-up/);
+  assert.match(p.article_specific_directive,/60-70%/);
+  assert.match(p.article_specific_directive,/exact source room geometry/);
+  assert.match(p.article_specific_directive,/shallow depth-of-field/);
+  assert.match(p.article_specific_directive,/not a wide full-room view/);
   assert.notEqual(p.human_action,'boxing_stance');
 });
