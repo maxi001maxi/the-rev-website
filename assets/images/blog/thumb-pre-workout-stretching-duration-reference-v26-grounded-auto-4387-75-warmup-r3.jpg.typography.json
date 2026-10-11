@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "pre-workout-stretching-duration",
+  "asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "運動前は、",
+        "動ける状態へ。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9930966224374196,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        102.97029702970298,
+        73
+      ],
+      "focus_line": 0,
+      "focus_text": "運動前は、",
+      "focus_scale": 1.4105520141055203,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.13778928436136612,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.53125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8901960784313725,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.979150214640286,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 213,
+          "right": 582.5,
+          "bottom": 361,
+          "width": 518.5
+        },
+        {
+          "left": 64,
+          "top": 351.3125,
+          "right": 580.125,
+          "bottom": 456.3125,
+          "width": 516.125
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+      "asset_sha256": "319bce25bf7985cce024615035272389fa6cf3cace86abb40e60e520ad546dab",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-preview-320.jpg",
+          "sha256": "002bfbcc585c5c7a867fae87f5784458659fff5360add5cb24e40287d9cb6d40"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-preview-400.jpg",
+          "sha256": "bdaa9d5ba6b33ae1cec3ee12cf4eb00948ad5321cd9574beb667b9c99fa5b276"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "運動前は、",
+        "動ける状態へ。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9930966224374196,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        102.97029702970298,
+        73
+      ],
+      "focus_line": 0,
+      "focus_text": "運動前は、",
+      "focus_scale": 1.4105520141055203,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.1476313761014637,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 314.53125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8901960784313725,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.979150214640286,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 190,
+          "right": 582.5,
+          "bottom": 338,
+          "width": 518.5
+        },
+        {
+          "left": 64,
+          "top": 328.3125,
+          "right": 580.125,
+          "bottom": 433.3125,
+          "width": 516.125
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+      "asset_sha256": "b0eaa8905f21540f88e6c003bde0b98a28f1456a48eb0302e80c3847b4374c1b",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-preview-320.jpg",
+          "sha256": "e5d10e1c7889016819bfba7d8ab8b482b939cb5ac70d665a9aab317a863cb8c4"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-preview-400.jpg",
+          "sha256": "211191f0ee4f6598388a28c28c2b61b310e24574e24c97a91648d7c5bf257439"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "運動前は、",
+        "動ける状態へ。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9970125256548474,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        87.12871287128714,
+        62
+      ],
+      "focus_line": 0,
+      "focus_text": "運動前は、",
+      "focus_scale": 1.4053018205046313,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9977995679359195,
+      "block_area_ratio": 0.0760238965942565,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.5078125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 324,
+          "right": 498.65625,
+          "bottom": 449,
+          "width": 438.65625
+        },
+        {
+          "left": 60,
+          "top": 445.578125,
+          "right": 498.34375,
+          "bottom": 534.578125,
+          "width": 438.34375
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+      "asset_sha256": "be8b8864a4c16da14f7892b6efbb64a18037563722e3ee284f6251f216ae31fa",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-preview-320.jpg",
+          "sha256": "0d65f82f3038f772ade18acc811b7d940bbbdf39996382f3c6c1569d131caa47"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3-preview-400.jpg",
+          "sha256": "f626957d91c65e6159b9ba2faa44b90d7df5d123026fa00dc40de0763fa59e23"
+        }
+      }
+    }
+  }
+}
