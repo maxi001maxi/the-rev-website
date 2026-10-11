@@ -10,5 +10,7 @@
   "gbp_image": "assets/images/gbp/gbp-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
   "qa_report_path": "editorial/image-qa/pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.json",
   "asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
-  "updated_at": "2026-10-11T00:47:06.304Z"
+  "updated_at": "2026-10-11T00:47:06.304Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-11T00:47:20Z"
 }
