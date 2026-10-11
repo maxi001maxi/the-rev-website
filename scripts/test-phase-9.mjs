@@ -168,6 +168,14 @@ const fatigueArticle = {
   imageSeriesLabel: 'COLUMN 06'
 };
 
+const warmupCopy = buildImageHeadlineShort({
+  title: '運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番',
+  description: '筋トレ・ボクシング・ランニング前の準備',
+  bodyMarkdown: '疲労が強い日は調整しつつ、動的ストレッチから種目に近い動きへつなげます。'
+});
+assert(warmupCopy === '長く伸ばすより、\n動く準備を。', '運動前ストレッチ記事は本文中の疲労語より主題コピーを優先');
+assert(validateImageHeadlineShort(warmupCopy).ok === true, '運動前ストレッチ専用Copyが画像文字規則を通過');
+
 const shortCopy = buildImageHeadlineShort(fatigueArticle);
 assert(shortCopy === '疲れた日は、\n軽く始めて決める。', '記事タイトルと分離した短いEditorial Copyを生成');
 assert(imageCopyIsArticleTitle(fatigueArticle, shortCopy) === false, '画像コピーはSEO記事タイトルの丸写しではない');
