@@ -179,6 +179,13 @@ section('1.1. Blog category taxonomy is resolved before Queue creation');
   assert(resolveDailyEditorialCategory({ editorial_lane:'BOXING', category:'body-knowledge' }) === 'boxing', 'deprecated category is replaced by lane mapping');
   assert(resolveDailyEditorialCategory({ editorial_lane:'DENBA' }) === 'recovery', 'DENBA -> recovery');
   assert(resolveDailyEditorialCategory({ content_cluster:'HEALTH_SAFETY' }) === 'health', 'health safety -> health');
+  assert(
+    resolveDailyEditorialCategory({
+      primary_query:'運動前 ストレッチ 何分',
+      title_candidate:'運動前のストレッチは何分？筋トレやボクシング前に長く伸ばしすぎない考え方'
+    }) === 'training',
+    'pre-workout stretching stays training even when boxing is mentioned'
+  );
   const unresolved = selectDailyCandidate({
     shortlist:[{candidate_id:'CAT-X',week_start:'2026/09/28',status:'CANDIDATE',decision:'PUBLISH',route_lane:'WEB_BLOG',total_score:90,primary_query:'曖昧な話題'}],
     queueRows:[],now:at('2026-10-02T05:00:00+09:00'),settings:SETTINGS
