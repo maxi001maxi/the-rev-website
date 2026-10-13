@@ -83,6 +83,16 @@ var V070_WEEKLY_ADAPTER = (function () {
   return 'topic-weekly-gate-v1';
 })();
 
+// Phase 6B: reuse the ONE existing topic-generation model call.
+// OFF and SHADOW use the legacy prompt. ENFORCE asks for a durable
+// audience contract encoded in the existing notes column.
+function v080AudienceDirection_(props) {
+  var legacy = '毎日の候補だけを5件提案。記事本文はまだ作らない。一般的な運動の検索ニーズ、ボクシング、酸素ルーム、DENBAの商品説明を散りばめる。同じ悩みの言い換えを避ける。未確認の店内運用・顧客実績・効果を作らない。';
+  var mode = String(props.getProperty('THE_REV_AUDIENCE_DISCOVERY_MODE') || 'OFF').toUpperCase();
+  if (mode !== 'ENFORCE') return legacy;
+  return legacy + '\nAudience Discovery v0.8: サービス名やSEOキーワードより先に、運動未経験者を含む人々の生活場面・悩み・好奇心・代替行動から幅広く発想してから、最も異なる読者の疑問5つへ絞る。ミット打ち経験者しか分からない悩みだけで埋めない。ジム選びのコツの反復、DENBAとはの言い換えは提案しない。過去のblog_historyと新たに得られる具体的な答えを比較。酸素ルームやDENBAの疾病治療・症状改善・アスリート回復効果は実証済みでない限り断言しない。すべての候補で notes を1行の AUDIENCE_V08: から始まるJSON文字列にする。キーは audience_stage (PROBLEM_AWARE|EXPLORING_OPTIONS|CATEGORY_AWARE|READY_TO_VISIT|EXISTING_USER), psychological_hook (RECOGNITION|MISCONCEPTION|DISCOVERY|COMPARISON|SITUATION|UNCERTAINTY), reader_scene (具体的な生活場面、12字以上), reader_job (読者の求める判断、6字以上), reader_question, new_reader_takeaway (記事で新たに学べること、15字以上), incremental_answer (過去記事と違う具体的な答え、12字以上), natural_service_fit (THE REV.のどこに自然につながるか、またはつながらないか、14字以上), content_action (NEW_ARTICLE|UPDATE_EXISTING|HOLD_FOR_FACTS|REJECT), search_signal_type (QUERY_HYPOTHESIS。GSC実測が渡されない限りMEASUREDとしない), nearest_content_ids (不明なら空配列), same_answer_as_existing (boolean), unverified_health_claim (boolean), evidence_items (array of {kind,source}; kind は FIRST_PARTY_VERIFIED|EXTERNAL_VERIFIED|RESEARCH_INTERPRETATION|HYPOTHESIS|UNKNOWN、根拠が未確認ならHYPOTHESIS)。notesはこのJSONだけで余計な文章をつけず、ほかの既存必須フィールド why_now, audience_question, unique_angle, score_breakdown を従来どおり必ず埋める。1回のモデル呼び出し内で完結し追加のAI批評呼び出しをしない。';
+}
+
 function v070RefreshTopicPool_() {
   var today = v069TodayKey_(), props = PropertiesService.getScriptProperties();
   var key = 'THE_REV_TOPIC_POOL_GENERATED_' + today;
@@ -94,10 +104,19 @@ function v070RefreshTopicPool_() {
   if (existing.length === 5) {props.setProperty(key,'TRUE');return {status:'ALREADY_GENERATED'};}
   var week = getTargetWeekStart_(), ctx = buildM6Context_(week);
   ctx.weekly_editorial_brief = {brief:ctx.weekly_editorial_brief,
-    direction:'毎日の候補だけを5件提案。記事本文はまだ作らない。一般的な運動の検索ニーズ、ボクシング、酸素ルーム、DENBAの商品説明を散りばめる。同じ悩みの言い換えを避ける。未確認の店内運用・顧客実績・効果を作らない。',
+    direction:v080AudienceDirection_(props),
     blog_history:getObjectsWithRow_(ss_().getSheetByName('21_WEB_BLOG_OUTPUT')).slice(-100).map(function(r) {return {title:r.title,query:r.target_keyword,status:r.status};})};
   var candidates = generateBlogTopicCandidates_(ctx,5);
   if (!Array.isArray(candidates) || candidates.length !== 5 || candidates.some(function(c) {return !String(c.title_candidate || '').trim() || !String(c.why_now || '').trim();})) throw new Error('TOPIC_POOL_RESPONSE_INVALID');
+  if (String(props.getProperty('THE_REV_AUDIENCE_DISCOVERY_MODE') || 'OFF').toUpperCase() === 'ENFORCE' && candidates.some(function(c) {
+    var note = String(c.notes || '');
+    if (note.indexOf('AUDIENCE_V08:') !== 0) return true;
+    try {
+      var m = JSON.parse(note.slice('AUDIENCE_V08:'.length));
+      return !m.audience_stage || !m.reader_scene || !m.reader_job || !m.new_reader_takeaway ||
+        !m.incremental_answer || !m.content_action || !Array.isArray(m.evidence_items);
+    } catch (_) { return true; }
+  })) throw new Error('AUDIENCE_CONTRACT_INVALID');
   candidates.forEach(function(c,i) {
     var scores = c.score_breakdown || {};
     var row = Object.assign({},c,scores,{candidate_id:prefix+(i+1),generated_at:new Date(),week_start:new Date(),rank:i+1,status:'CANDIDATE',total_score:Object.keys(scores).reduce(function(n,k) {return n+Number(scores[k] || 0);},0)});
