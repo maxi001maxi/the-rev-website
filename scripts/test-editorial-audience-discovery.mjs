@@ -65,6 +65,14 @@ test('only server-supplied GSC source can raise measured section',()=>{
   assert.equal(evaluateAudienceCandidate(n[0],{history,gscEvidenceByQuery:{[q]:{verified:true,source:'AI_ESTIMATE',impressions:999}}}).scores.seo_intent,12);
   assert.equal(evaluateAudienceCandidate(n[0],{history,gscEvidenceByQuery:{[q]:{verified:true,source:'GOOGLE_SEARCH_CONSOLE',impressions:1}}}).scores.seo_intent,20);
 });
+test('model cannot self-certify first-party sources without trusted collector evidence',()=>{
+  const altered={...n[0],audience_v08:{...n[0].audience_v08,evidence_items:[{kind:'FIRST_PARTY_VERIFIED',source:'unverified invented source'}]}};
+  const untrusted=evaluateAudienceCandidate(altered,{history});
+  assert.equal(untrusted.scores.evidence_readiness,8);
+  assert(untrusted.notices.includes('SOURCE_CLAIM_NOT_VERIFIED_BY_COLLECTOR'));
+  const verified=evaluateAudienceCandidate(altered,{history,trustedEvidenceRefs:['unverified invented source']});
+  assert.equal(verified.scores.evidence_readiness,15);
+});
 test('missing metadata fails closed for ENFORCE but is valid for legacy',()=>{
   const without={...n[0],audience_v08:undefined,notes:'ordinary notes'};
   assert.equal(evaluateAudienceCandidate(without,{history}).eligible,false);
