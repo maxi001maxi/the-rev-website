@@ -209,7 +209,7 @@ test('daily prepare refreshes a stale waiting proposal before LINE notification'
     ...shortlist.map((x,i)=>({...x,candidate_id:'FRESH-'+i,primary_query:'fresh-query-'+i,topic:'fresh-topic-'+i,title_candidate:'fresh title '+i,generated_at:now.toISOString(),week_start:now.toISOString()}))
   ];
   const db=memoryDb([old]);
-  const r=await topicResponse({...args,action:'prepare',target_date:'2026-10-06',rows:[row],shortlist:fresh},db,deps);
+  const r=await topicResponse({...args,action:'prepare',target_date:old.target_date,rows:[row],shortlist:fresh},db,deps);
   const refreshed=db.tables.editorial_topic_proposals.find(x=>x.id===old.id);
   assert.equal(refreshed.status,'TOPIC_SELECTION_WAITING');
   assert.equal(refreshed.notification_status,'PENDING');
