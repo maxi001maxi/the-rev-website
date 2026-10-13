@@ -13,7 +13,7 @@ for(const c of [newTwo,newFour])c.notes='AUDIENCE_V08:'+JSON.stringify(meta);
 
 test('real Oct14 shortlist blocks rejected and earlier higher-rated records',()=>{
  const p=freshDailyShortlist([old,seed,rejected,newTwo,newFour],when);
- assert.equal(p.strict,true);assert.equal(p.source,'TODAY_DAILY_ONLY');
+ assert.equal(p.strict,true);assert.equal(p.source,'TODAY_DAILY_AUDIENCE_CONTRACT_REQUIRED');
  assert.deepEqual(p.candidates.map(c=>c.candidate_id),['BT-20261014-DAILY-2','BT-20261014-DAILY-4']);
 });
 test('no today daily pool never quietly backfills old daily or v07 seeds',()=>{
@@ -25,7 +25,8 @@ test('proper changes do not unexpectedly reject distinct new research questions'
  assert.equal(isDismissedTopic({title_candidate:'パーソナルジム 選び方 初心者'}),true);
 });
 test('waiting target must refresh when it contains dismissed, missing-day, or ineligible options',()=>{
- const pool=freshDailyShortlist([old,rejected,newTwo,newFour,candidate('BT-20261014-DAILY-5','新しい運動比較')],when);
+ const newFive=candidate('BT-20261014-DAILY-5','新しい運動比較');newFive.notes='AUDIENCE_V08:'+JSON.stringify(meta);
+ const pool=freshDailyShortlist([old,rejected,newTwo,newFour,newFive],when);
  const stale={options:[{candidate_id:old.candidate_id,candidate:old},{candidate_id:seed.candidate_id,candidate:seed},{candidate_id:newTwo.candidate_id,candidate:newTwo}]};
  assert(shouldReplaceWaitingProposal(stale,pool,[{eligible:true},{eligible:true},{eligible:true}]));
  const fresh={options:pool.candidates.slice(0,3).map(c=>({candidate_id:c.candidate_id,candidate:c}))};
