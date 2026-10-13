@@ -34,7 +34,8 @@
     "test:vercel-release-policy": "node scripts/test-vercel-release-policy.mjs",
     "test:control-capture": "node scripts/test-control-capture.mjs",
     "test:gsc-production": "node scripts/test-gsc-production-contract.mjs",
-    "test:editorial-quality-v080": "node --test scripts/test-editorial-quality-v080.mjs"
+    "test:editorial-quality-v080": "node --test scripts/test-editorial-quality-v080.mjs",
+    "test:audience-discovery": "node --test scripts/test-editorial-audience-discovery.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
