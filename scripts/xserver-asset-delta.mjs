@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 const arg=k=>{const i=process.argv.indexOf(k);return i<0?null:process.argv[i+1];};
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
-const safe=p=>/^assets\/[A-Za-z0-9_.\/-]+$/.test(p)&&!p.split('/').includes('..')&&!p.includes('//')&&!p.endsWith('/');
+const safe=p=>/^assets\/images\/[A-Za-z0-9_.\/-]+\.(?:png|jpe?g|webp|avif|gif|svg)$/i.test(p)&&!p.split('/').includes('..')&&!p.includes('//')&&!p.endsWith('/');
 const quote=p=>'"'+p.replaceAll('\\','\\\\').replaceAll('"','\\"')+'"';
 export function planAssetDelta({files,distRoot='dist',before,oldBlob,liveBlob,backupDir='delta-backup'}){
   if(!/^[a-f0-9]{40}$/.test(before||''))throw Error('DELTA_PARENT_UNVERIFIED');
@@ -43,17 +43,20 @@ async function liveBlobHttps(p){
     return Buffer.from(await res.arrayBuffer());
   }finally{clearTimeout(timeout);}
 }
-async function verifyCurrent(manifestPath){
+async function verifyCurrent(manifestPath,{rollback=false}={}){
   const j=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
   for(const x of j.items){
     const live=await liveBlobHttps(x.path);
-    if(!live||sha(live)!==x.new_sha256)throw Error('DELTA_LIVE_BYTES_MISMATCH: '+x.path);
+    const expected=rollback?x.old_sha256:x.new_sha256;
+    if(expected===null){if(live!==null)throw Error('DELTA_ROLLBACK_NEW_FILE_STILL_PRESENT: '+x.path);}
+    else if(!live||sha(live)!==expected)throw Error('DELTA_LIVE_BYTES_MISMATCH: '+x.path);
   }
-  console.log('DELTA_LIVE_VERIFY_PASS',j.items.length);
+  console.log(rollback?'DELTA_ROLLBACK_VERIFY_PASS':'DELTA_LIVE_VERIFY_PASS',j.items.length);
 }
 if(process.argv[1] && import.meta.url === new URL('file://'+path.resolve(process.argv[1])).href){
  const mode=arg('--mode'),before=arg('--before'),manifest=arg('--manifest')||'delta-backup/manifest.json';
  if(mode==='verify')await verifyCurrent(manifest);
+ else if(mode==='verify-rollback')await verifyCurrent(manifest,{rollback:true});
  else if(mode==='prepare'){
    const files=fs.readFileSync(arg('--paths'),'utf8').trim().split(/\r?\n/).filter(Boolean);
    const oldBlob=p=>{try{return execFileSync('git',['show',before+':'+p],{maxBuffer:50*1024*1024});}catch(e){if(e.status===128)return null;throw e;}};
