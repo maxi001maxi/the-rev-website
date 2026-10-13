@@ -87,7 +87,7 @@ jobs:
           HAS_BEFORE_SHA=false
           if [ "$GITHUB_EVENT_NAME" = "push" ] && [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
             HAS_BEFORE_SHA=true
-            git diff --name-only --diff-filter=D "$EVENT_BEFORE" "$GITHUB_SHA" > .xserver-deleted-files
+            git diff --name-only --diff-filter=DRTU "$EVENT_BEFORE" "$GITHUB_SHA" > .xserver-deleted-files
           fi
           node scripts/xserver-deploy-plan.mjs \
             --event-name "$GITHUB_EVENT_NAME" \
@@ -762,6 +762,10 @@ jobs:
           put -O "$XSERVER_REMOTE_DIR" "deploy/sitemap.xml"
           bye
           EOF
+
+      - name: Verify changed BLOG_FAST public bytes
+        if: env.DEPLOY_MODE == 'BLOG_FAST' && steps.blog_delta.outputs.use_delta == 'true'
+        run: node scripts/verify-blog-delta-live.mjs
 
       - name: Verify live production
         if: env.DEPLOY_MODE != 'FULL_DELTA'
