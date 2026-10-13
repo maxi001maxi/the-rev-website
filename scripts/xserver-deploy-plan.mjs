@@ -127,7 +127,7 @@ export function classifyXserverDeploy({
   // A narrowly scoped, verifiable asset-only route. Never use it for deletions,
   // unknown base commits, blog changes, templates, or build changes.
   // It verifies remote BEFORE bytes against the Git parent before uploading.
-  const assetOnly = publicImpactFiles.every(file => /^assets\/[A-Za-z0-9_./-]+$/.test(file)
+  const assetOnly = publicImpactFiles.every(file => /^assets\/images\/[A-Za-z0-9_./-]+\.(?:png|jpe?g|webp|avif|gif|svg)$/i.test(file)
     && !file.includes('..') && !file.endsWith('/'));
   if (hasBeforeSha && assetOnly && deletedFiles.length === 0
       && files.length <= 30 && publicImpactFiles.length > 0) {
