@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-lobby-20260924\",\"source_sha256\":\"37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0\",\"scene_type\":\"before_start\",\"location_type\":\"reception\",\"human_action\":\"rest\",\"composition_type\":\"medium_seated_portrait\",\"visual_role\":\"checking_readiness\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"One generated adult Japanese female customer calmly seated ON THE EXISTING STOOL visible in the reception photograph, subtly straightening then relaxing her shoulders as she considers her posture. Natural everyday posture; neither exaggerated hunched posture nor fake medical before/after. Face and upper torso visible, no coach, trainer, extra people or additional equipment. Preserve THE REV logo wall, plant, counter, stool, rear rack and exact room geometry. Soft camera depth, customer visual emphasis 60-70%; do not depict exercise in reception.\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":0,\"unknown_count\":0,\"penalty\":0,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"rear_training_area\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nReal THE REV reception source must remain true in placement/geometry. Rear rack must not be moved to reception. One adult customer sits on the existing stool, gently changing from tense shoulders to a relaxed neutral posture. Do not portray posture as a medical diagnosis, miracle cure or binary 'bad vs correct' example. No trainer, no new person, no invented equipment.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-lobby-20260924\",\"source_sha256\":\"37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0\",\"scene_type\":\"before_start\",\"location_type\":\"reception\",\"human_action\":\"rest\",\"composition_type\":\"medium_seated_portrait\",\"visual_role\":\"checking_readiness\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"One generated adult Japanese female customer calmly seated ON THE EXISTING STOOL visible in the reception photograph, subtly straightening then relaxing her shoulders as she considers her posture. Natural everyday posture; neither exaggerated hunched posture nor fake medical before/after. Face and upper torso visible, no coach, trainer, extra people or additional equipment. Preserve THE REV logo wall, plant, counter, stool, rear rack and exact room geometry. Soft camera depth, customer visual emphasis 60-70%; do not depict exercise in reception. Verified rear equipment list: training_rack, weight_plates, training_bench stay in rear_training_area; all remain soft background. No such equipment in foreground reception.\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":0,\"unknown_count\":0,\"penalty\":0,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"rear_training_area\"},{\"object\":\"weight_plates\",\"zone\":\"rear_training_area\"},{\"object\":\"training_bench\",\"zone\":\"rear_training_area\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-13\",\"note\":\"Ground truth visually re-inspected using the actual source photo: rear training_rack, weight_plates and training_bench behind the reception counter. Independent source/scene QC for the 2026-10-13 posture article detected both equipment items in SOURCE and GENERATED views at rear_training_area; source asset bytes and sha256 are unchanged. Items are NOT in reception foreground.\"}}\nReal THE REV reception source must remain true in placement/geometry. Rear rack must not be moved to reception. One adult customer sits on the existing stool, gently changing from tense shoulders to a relaxed neutral posture. Do not portray posture as a medical diagnosis, miracle cure or binary 'bad vs correct' example. No trainer, no new person, no invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r1-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r1",
-  "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r1.jpg",
-  "og_image": "assets/images/blog/og/og-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r1.jpg",
-  "gbp_image": "assets/images/gbp/gbp-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r1.jpg",
+  "asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+  "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+  "og_image": "assets/images/blog/og/og-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r1.json",
+  "qa_report_path": "editorial/image-qa/nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -87,7 +87,7 @@
     "article_intent": "training_start",
     "required_equipment": [],
     "subject_zone": "reception",
-    "article_specific_directive": "One generated adult Japanese female customer calmly seated ON THE EXISTING STOOL visible in the reception photograph, subtly straightening then relaxing her shoulders as she considers her posture. Natural everyday posture; neither exaggerated hunched posture nor fake medical before/after. Face and upper torso visible, no coach, trainer, extra people or additional equipment. Preserve THE REV logo wall, plant, counter, stool, rear rack and exact room geometry. Soft camera depth, customer visual emphasis 60-70%; do not depict exercise in reception.",
+    "article_specific_directive": "One generated adult Japanese female customer calmly seated ON THE EXISTING STOOL visible in the reception photograph, subtly straightening then relaxing her shoulders as she considers her posture. Natural everyday posture; neither exaggerated hunched posture nor fake medical before/after. Face and upper torso visible, no coach, trainer, extra people or additional equipment. Preserve THE REV logo wall, plant, counter, stool, rear rack and exact room geometry. Soft camera depth, customer visual emphasis 60-70%; do not depict exercise in reception. Verified rear equipment list: training_rack, weight_plates, training_bench stay in rear_training_area; all remain soft background. No such equipment in foreground reception.",
     "similarity": {
       "pass": true,
       "window": 12,
@@ -105,6 +105,14 @@
     "visible_equipment": [
       {
         "object": "training_rack",
+        "zone": "rear_training_area"
+      },
+      {
+        "object": "weight_plates",
+        "zone": "rear_training_area"
+      },
+      {
+        "object": "training_bench",
         "zone": "rear_training_area"
       }
     ],
@@ -128,8 +136,8 @@
     ],
     "verification": {
       "method": "source image visual inspection + canonical scoped registry",
-      "verified_at": "2026-10-07",
-      "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+      "verified_at": "2026-10-13",
+      "note": "Ground truth visually re-inspected using the actual source photo: rear training_rack, weight_plates and training_bench behind the reception counter. Independent source/scene QC for the 2026-10-13 posture article detected both equipment items in SOURCE and GENERATED views at rear_training_area; source asset bytes and sha256 are unchanged. Items are NOT in reception foreground."
     }
   },
   "automation": {
@@ -407,6 +415,6 @@
   "visible_action": "座った姿勢から肩をゆるめ、自分の身体に自然に意識を向ける",
   "emotional_state": "calm, curious, reassured",
   "visual_claim": "固定した理想姿勢ではなく、動ける選択肢を考える",
-  "recovery_note": "New original article; no existing assets or evidence can be reused as PASS; generate and QC from zero. Manual Publish only.",
+  "recovery_note": "Root cause repaired in source registry: legitimate rear weight plates and training bench were omitted from canonical source inventory. Fresh r2 asset; previous failed QA remains preserved. Do not skip independent visual observation or typography gate; human final publish only.",
   "composition_hint": "Golden Typography V1. One young adult woman seated on the REAL reception stool in the REAL THE REV source photo, medium seated portrait, expression readable, left editorial copy not blocking her face or the authentic brand anchor, softly blurred source room without furniture/equipment relocation."
 }
