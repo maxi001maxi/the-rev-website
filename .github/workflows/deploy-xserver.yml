@@ -675,7 +675,7 @@ jobs:
           PARENT_DIR="$RUNNER_TEMP/blog-parent"
           if git worktree add --detach "$PARENT_DIR" "$BEFORE" &&
              ln -s "$GITHUB_WORKSPACE/node_modules" "$PARENT_DIR/node_modules" &&
-             (cd "$PARENT_DIR" && node scripts/build-blog.mjs >/dev/null) &&
+             (cd "$PARENT_DIR" && npm run vercel-build >/dev/null) &&
              node scripts/xserver-blog-delta.mjs --old-root "$PARENT_DIR/dist/blog" --new-root "deploy/blog"; then
             echo "use_delta=true" >> "$GITHUB_OUTPUT"
           else
