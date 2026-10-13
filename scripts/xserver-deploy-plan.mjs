@@ -19,8 +19,7 @@ const FULL_PUBLIC_PATHS = [
   /^package\.json$/,
   /^package-lock\.json$/,
   /^favicon\.ico$/,
-  /^robots\.txt$/,
-  /^\.github\/workflows\/deploy-xserver\.yml$/
+  /^robots\.txt$/
 ];
 
 const BLOG_PATH = /^content\/blog\/.*\.md$/;
