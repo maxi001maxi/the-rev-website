@@ -1,0 +1,215 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "nekose-strength-training-posture",
+  "asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "姿勢は、",
+        "動きから見直す。"
+      ],
+      "text_preserved": true,
+      "font_size": 65,
+      "font_size_at_320": 17.333333333333332,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8793924088858833,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        113.33333333333333,
+        65
+      ],
+      "focus_line": 0,
+      "focus_text": "姿勢は、",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9987509155273436,
+      "block_area_ratio": 0.1395954771145479,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.859375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8823529411764706,
+      "fade_start": 607,
+      "fade_end": 744,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.887411790283348,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 211,
+          "right": 519.921875,
+          "bottom": 373,
+          "width": 455.921875
+        },
+        {
+          "left": 64,
+          "top": 362.921875,
+          "right": 584.015625,
+          "bottom": 456.921875,
+          "width": 520.015625
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+      "asset_sha256": "c3354d63ecafbd95d8c0c047e7175d6c5f7d928771be30ac33d04390db48074f",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-preview-320.jpg",
+          "sha256": "f252148e08825a8992651b2c40ba2779bee02c8f522213ac3f3f89a116a261f4"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-preview-400.jpg",
+          "sha256": "a672d069be55ea27be869b8cb906539ed37bb7687364653d4053ffdc51a67271"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "姿勢は、",
+        "動きから見直す。"
+      ],
+      "text_preserved": true,
+      "font_size": 65,
+      "font_size_at_320": 17.333333333333332,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8793924088858833,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        113.33333333333333,
+        65
+      ],
+      "focus_line": 0,
+      "focus_text": "姿勢は、",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9987509155273436,
+      "block_area_ratio": 0.1495665826227299,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 314.859375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8823529411764706,
+      "fade_start": 607,
+      "fade_end": 744,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.887411790283348,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 188,
+          "right": 519.921875,
+          "bottom": 350,
+          "width": 455.921875
+        },
+        {
+          "left": 64,
+          "top": 339.921875,
+          "right": 584.015625,
+          "bottom": 433.921875,
+          "width": 520.015625
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+      "asset_sha256": "756d1e3607acb3fff0dc2b556af7bff9ff544ddb06da26d042853c7e2b68e559",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-preview-320.jpg",
+          "sha256": "a8593ef813345b73dcdc389d0ccbef517c53bd7c50086f74468e4ce10fa4cfab"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-preview-400.jpg",
+          "sha256": "828ec8c589e7293d32046a47d265d6c13b837e713827656d0ecbae2520ce4c03"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "姿勢は、",
+        "動きから",
+        "見直す。"
+      ],
+      "text_preserved": true,
+      "font_size": 68,
+      "font_size_at_320": 18.133333333333333,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.6243906543230965,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        108.91089108910892,
+        68,
+        76.16000000000001
+      ],
+      "focus_line": 0,
+      "focus_text": "姿勢は、",
+      "focus_scale": 1.6016307513104253,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9974826994723398,
+      "block_area_ratio": 0.1314264271125367,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.703125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 252,
+          "right": 498.359375,
+          "bottom": 408,
+          "width": 438.359375
+        },
+        {
+          "left": 60,
+          "top": 400.96875,
+          "right": 334.734375,
+          "bottom": 497.96875,
+          "width": 274.734375
+        },
+        {
+          "left": 60,
+          "top": 495.125,
+          "right": 361.265625,
+          "bottom": 605.125,
+          "width": 301.265625
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+      "asset_sha256": "4310fbd1b86ab0a6fd7a6fb9127d449aea223538a73d3ee95d9e277a9da2cfc9",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-preview-320.jpg",
+          "sha256": "6f4a329cc7ec824d0d5674344cc396f9574b1506d6b9b5d373444845efaca0bb"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2-preview-400.jpg",
+          "sha256": "b5d3809c713e3c50f0cd8ad6170946299f83f630ba074c86dc14d433a764478f"
+        }
+      }
+    }
+  }
+}
