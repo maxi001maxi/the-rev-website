@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {audienceMode,audienceMetadata,auditAudienceScores,evaluateAudienceCandidate,selectAudienceCandidates} from '../lib/editorialAudienceDiscovery.mjs';
-import {prepareTopicProposal,approvedQueue,chooseTopic,topicNotification} from '../lib/editorialTopicApproval.mjs';
+import {prepareTopicProposal,approvedQueue,chooseTopic,answerInterview,topicNotification} from '../lib/editorialTopicApproval.mjs';
 
 const fixture=JSON.parse(fs.readFileSync(new URL('../editorial/audience-discovery-v08-fixtures.json',import.meta.url),'utf8'));
 const date=new Date('2026-10-13T08:00:00+09:00');
@@ -103,8 +103,9 @@ test('owner approval retains revalidation before queue creation',()=>{
     const chosen=p.options.find(o=>o.candidate_id==='NEW-3');
     assert(chosen);
     const approved={...p,...chooseTopic(p,{candidateId:chosen.candidate_id,source:'GPT',actor:'test-owner',now:date})};
-    assert.equal(approvedQueue(approved,defaults).status,'READY_TO_CREATE');
-    const bad={...approved,options:approved.options.map(o=>o.candidate_id!==chosen.candidate_id?o:{...o,candidate:{...o.candidate,audience_v08:{...o.candidate.audience_v08,content_action:'REJECT'}}})};
+    const interviewed=approved.status==='INTERVIEW_WAITING'?{...approved,...answerInterview(approved,{answers:['安全に実施できる具体的な説明をします。','必要な調整をして無理なく進めます。'],source:'GPT',actor:'test-owner',now:date})}:approved;
+    assert.equal(approvedQueue(interviewed,defaults).status,'READY_TO_CREATE');
+    const bad={...interviewed,options:interviewed.options.map(o=>o.candidate_id!==chosen.candidate_id?o:{...o,candidate:{...o.candidate,audience_v08:{...o.candidate.audience_v08,content_action:'REJECT'}}})};
     assert.equal(approvedQueue(bad,defaults).status,'CANDIDATE_NO_LONGER_ELIGIBLE');
   });
 });
@@ -115,7 +116,7 @@ test('SHADOW preserves option ranking and human choice',()=>{
 });
 test('GAS generation prompt only enabled by script property',()=>{
   const source=fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8');
-  const context={PropertiesService:{getScriptProperties:()=>({getProperty:key=>'ENFORCE'})}};
+  const context={V069_STATUS_URL:'https://example.invalid',PropertiesService:{getScriptProperties:()=>({getProperty:key=>'ENFORCE'})}};
   vm.createContext(context);vm.runInContext(source,context);
   const live=context.v080AudienceDirection_({getProperty:()=> 'ENFORCE'});
   const off=context.v080AudienceDirection_({getProperty:()=> 'OFF'});
