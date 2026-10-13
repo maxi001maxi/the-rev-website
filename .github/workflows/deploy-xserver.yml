@@ -659,6 +659,32 @@ jobs:
             fi
           done < .deploy-target-images
 
+      - name: Build previous Blog snapshot for exact BLOG_FAST delta
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        id: blog_delta
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "use_delta=false" >> "$GITHUB_OUTPUT"
+            echo "No trustworthy parent SHA: falling back to complete Blog mirror."
+            exit 0
+          fi
+          PARENT_DIR="$RUNNER_TEMP/blog-parent"
+          if git worktree add --detach "$PARENT_DIR" "$BEFORE" &&
+             ln -s "$GITHUB_WORKSPACE/node_modules" "$PARENT_DIR/node_modules" &&
+             (cd "$PARENT_DIR" && node scripts/build-blog.mjs >/dev/null) &&
+             node scripts/xserver-blog-delta.mjs --old-root "$PARENT_DIR/dist/blog" --new-root "deploy/blog"; then
+            echo "use_delta=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Exact Blog delta unavailable. Retaining the proven full Blog mirror and verification."
+            rm -f .blog-delta.lftp .deploy-changed-slugs
+            echo "use_delta=false" >> "$GITHUB_OUTPUT"
+          fi
+          git worktree remove --force "$PARENT_DIR" 2>/dev/null || true
+
       - name: Deploy Blog LAST
         if: env.DEPLOY_MODE != 'FULL_DELTA'
         id: xserver_deploy
@@ -671,7 +697,9 @@ jobs:
           DEPLOY_OK=0
           for ATTEMPT in 1 2 3; do
             echo "Blog deploy attempt ${ATTEMPT}/3"
-            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+            if [ "$DEPLOY_MODE" = "BLOG_FAST" ] && [ "${{ steps.blog_delta.outputs.use_delta }}" = "true" ]; then
+              echo "Blog exact delta attempt ${ATTEMPT}/3"
+              if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ftp:passive-mode true
@@ -679,12 +707,28 @@ jobs:
           set net:max-retries 5
           set net:timeout 30
           set net:reconnect-interval-base 5
+          set cmd:fail-exit yes
+          source .blog-delta.lftp
+          bye
+          EOF
+              then DEPLOY_OK=1; break; fi
+            else
+              if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
           mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
           put -O "${XSERVER_REMOTE_DIR}blog/" "deploy/blog/.htaccess"
           bye
           EOF
-            then
+              then DEPLOY_OK=1; break; fi
+            fi
+            if [ "$DEPLOY_OK" = "1" ]; then
               DEPLOY_OK=1
               break
             fi
@@ -948,7 +992,12 @@ jobs:
             else
               echo "| Blog link: ${slug} | ✅ listed |" >> "$SUMMARY"
             fi
-            fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+            if [ "$DEPLOY_MODE" != "BLOG_FAST" ] || [ ! -f .deploy-changed-slugs ] \
+                || grep -Fxq "$slug" .deploy-changed-slugs; then
+              fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+            else
+              echo "Unchanged article: ${slug} (link in complete index verified)"
+            fi
           done < .deploy-published-slugs
 
           while IFS= read -r slug; do
