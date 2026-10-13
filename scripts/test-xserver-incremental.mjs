@@ -6,6 +6,7 @@ import path from 'node:path';
 import { DEPLOY_MODE, classifyXserverDeploy } from './xserver-deploy-plan.mjs';
 import { planAssetDelta } from './xserver-asset-delta.mjs';
 import { planBlogDelta } from './xserver-blog-delta.mjs';
+import { verifyBlogDeltaLive } from './verify-blog-delta-live.mjs';
 import { githubDeployProgressFromJobs } from '../lib/githubContent.mjs';
 const before='a'.repeat(40);
 test('image-only known base uses exact delta, while unsafe changes stay FULL',()=>{
@@ -60,4 +61,16 @@ test('Github Actions stage progress is grounded in completed and in-progress ste
  assert.equal(output.stage,'upload');assert.equal(output.mode,'BLOG_FAST');assert.equal(output.completedSteps,2);
  assert.equal(output.label,'Deploy Blog LAST');
  assert.equal(githubDeployProgressFromJobs([]).stage,'workflow_queued');
+});
+
+test('BLOG_FAST live gate requires exact new bytes and removed pages to be absent',async()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'bloglive-'));
+ try{
+ fs.mkdirSync(path.join(root,'topic'),{recursive:true});fs.writeFileSync(path.join(root,'topic/index.html'),'NEW');
+ let calls=0;
+ const fake=async(url)=>{calls++;return String(url).includes('deleted/index.html')?{status:404,ok:false}:{status:200,ok:true,arrayBuffer:async()=>Buffer.from('NEW')};};
+ assert.equal(await verifyBlogDeltaLive({changed:['topic/index.html'],deleted:['deleted/index.html']},{root,fetchImpl:fake,attempts:1}),true);
+ assert.equal(calls,2);
+ await assert.rejects(()=>verifyBlogDeltaLive({changed:['topic/index.html'],deleted:[]},{root,fetchImpl:async()=>({ok:true,status:200,arrayBuffer:async()=>Buffer.from('STALE')}),attempts:1}),/BLOG_DELTA_LIVE_SHA/);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
