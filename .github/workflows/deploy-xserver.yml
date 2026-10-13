@@ -83,9 +83,17 @@ jobs:
             fi
           fi
 
+          : > .xserver-deleted-files
+          HAS_BEFORE_SHA=false
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            HAS_BEFORE_SHA=true
+            git diff --name-only --diff-filter=D "$EVENT_BEFORE" "$GITHUB_SHA" > .xserver-deleted-files
+          fi
           node scripts/xserver-deploy-plan.mjs \
             --event-name "$GITHUB_EVENT_NAME" \
             --changed-file-list .xserver-changed-files \
+            --deleted-file-list .xserver-deleted-files \
+            --has-before-sha "$HAS_BEFORE_SHA" \
             --commit-message-file .xserver-commit-message \
             --github-output "$GITHUB_OUTPUT"
 
@@ -283,6 +291,79 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
+
+      # Exact-byte asset-only delta. Every old public file must match the Git
+      # parent BEFORE uploading; retain a rollback artifact for every mutation.
+      - name: Prepare safe image delta and preimage backup
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_prepare
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          test "$BEFORE" != "0000000000000000000000000000000000000000"
+          git diff --name-only "$BEFORE" "$GITHUB_SHA" -- assets/images/ > .delta-assets
+          node scripts/xserver-asset-delta.mjs --mode prepare --before "$BEFORE" --paths .delta-assets
+
+      - name: Preserve image delta rollback archive
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xserver-delta-backup-${{ github.run_id }}
+          path: delta-backup/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload verified image delta only
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_upload
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for ATTEMPT in 1 2 3; do
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-upload.lftp
+          bye
+          EOF
+            then
+              echo "Changed images uploaded only"
+              exit 0
+            fi
+            sleep "$((ATTEMPT * 10))"
+          done
+          echo "::error::Delta upload failed; rollback will be attempted."
+          exit 1
+
+      - name: Verify exact delta bytes on public Xserver
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_verify
+        run: node scripts/xserver-asset-delta.mjs --mode verify
+
+      - name: Restore previous images if delta upload or verification fails
+        if: ${{ failure() && env.DEPLOY_MODE == 'FULL_DELTA' && (steps.delta_upload.outcome == 'failure' || steps.delta_verify.outcome == 'failure') }}
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-rollback.lftp
+          bye
+          EOF
+          node scripts/xserver-asset-delta.mjs --mode verify-rollback
 
       - name: Backup current Xserver production
         if: env.DEPLOY_MODE == 'FULL'
@@ -579,6 +660,7 @@ jobs:
           done < .deploy-target-images
 
       - name: Deploy Blog LAST
+        if: env.DEPLOY_MODE != 'FULL_DELTA'
         id: xserver_deploy
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
@@ -638,6 +720,7 @@ jobs:
           EOF
 
       - name: Verify live production
+        if: env.DEPLOY_MODE != 'FULL_DELTA'
         run: |
           set -euo pipefail
           FAIL=0
