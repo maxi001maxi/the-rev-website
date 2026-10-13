@@ -1,0 +1,11 @@
+{
+  "slug": "nekose-strength-training-posture",
+  "status": "ERROR",
+  "attempts_total": 1,
+  "max_attempts": 2,
+  "last_error": "Thumbnail Typography FAIL: deterministic overlay rejected the layout.",
+  "last_qa": null,
+  "job_path": "editorial/hybrid-image-jobs/nekose-strength-training-posture.json",
+  "updated_at": "2026-10-13T01:39:32.123Z",
+  "asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r1"
+}
