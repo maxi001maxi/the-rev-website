@@ -18,6 +18,7 @@ test('image-only known base uses exact delta, while unsafe changes stay FULL',()
  assert.equal(classifyXserverDeploy({changedFiles:['content/blog/hello.md'],hasBeforeSha:true}).mode,DEPLOY_MODE.BLOG_FAST);
  assert.equal(classifyXserverDeploy({changedFiles:[...img,'content/blog/hello.md'],hasBeforeSha:true}).mode,DEPLOY_MODE.FULL);
  assert.equal(classifyXserverDeploy({changedFiles:img,eventName:'workflow_dispatch',hasBeforeSha:true}).mode,DEPLOY_MODE.FULL);
+ assert.equal(classifyXserverDeploy({changedFiles:['.github/workflows/deploy-xserver.yml','admin/articles/review/index.html','scripts/xserver-blog-delta.mjs','lib/githubContent.mjs'],hasBeforeSha:true}).mode,DEPLOY_MODE.SKIP);
 });
 test('asset delta requires verified preimage, saves rollback bytes and orders FTPS',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xdelta-')),prev=process.cwd();
