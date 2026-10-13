@@ -48,7 +48,7 @@
 <div><dt>Commit SHA</dt><dd><code id="s-commit">—</code></dd></div>
 <div><dt>公開予定URL</dt><dd><code id="s-url">—</code></dd></div>
 </dl>
-<p id="s-deploy" class="admin-success-note"><strong>GitHubへのPublish commitは完了しましたが、本番公開はまだ完了していません。</strong> Xserver deployが続けて実行されます。バックアップ・画像先行配置・Blog切替・本番検証まで行うため、10分前後かかる場合があります。下の確認表示が「本番公開完了」になるまで反映待ちです。</p>
+<p id="s-deploy" class="admin-success-note"><strong>GitHubへのPublish commitは完了しましたが、本番公開はまだ完了していません。</strong> Xserverへのデプロイが続きます。更新内容によって転送手順と所要時間は異なります。下にGitHub Actionsの実際の処理段階を表示します。「本番公開完了」の表示まで公開済みとは判定しません。</p>
 <p id="s-poll" class="admin-success-poll"></p>
 <p id="s-warning" class="admin-success-warning admin-hidden"></p>
 <div class="admin-success-actions">
@@ -604,6 +604,25 @@ function deploymentSummary(deployment) {
   return `Actions: ${status}${conclusion}`;
 }
 
+function deployProgressSummary(deployment) {
+  const progress = deployment?.progress;
+  if (!progress) return deploymentSummary(deployment);
+  const labels = {
+    workflow_queued: 'Actions起動待ち',
+    planning: '変更内容を確認中',
+    build: 'ブログ・サイトを構築中',
+    backup: '復旧用バックアップを確認中',
+    upload: 'Xserverへ差分・必要ファイルを転送中',
+    verification: '本番URLとファイルを検証中'
+  };
+  const phase = labels[progress.stage] || '進行中';
+  const mode = progress.mode ? `［${progress.mode}］` : '';
+  const count = progress.totalSteps > 0
+    ? `・成功ステップ ${progress.completedSteps}/${progress.totalSteps}`
+    : '';
+  return `${phase}${mode}（${progress.label || '処理中'}）${count}`;
+}
+
 function renderFinalPublicationState(payload) {
   const publication = payload?.publication || {};
   const deployment = publication.deployment || {};
@@ -630,9 +649,17 @@ function renderFinalPublicationState(payload) {
 async function pollPublication(result) {
   // commit SHAに紐づくDeploy to Xserver workflow runをサーバー側で照合する。
   // URLが200というだけでは既存記事の更新反映を証明できないため、CREATE/UPDATE共通で同じ判定を使う。
-  const MAX_ATTEMPTS = 90;  // 10秒間隔 × 90回 = 最大15分
+  // Actions deploy can legitimately outlast 15 minutes for a FULL release.
+  // Display actual observed steps and elapsed time, never a made-up ETA.
+  const MAX_ATTEMPTS = 210;  // 35-minute observation safety cap, not an ETA.
   const INTERVAL_MS = 10000;
+  const startedAt = Date.now();
   const poll = $('s-poll');
+  const elapsed = () => {
+    const m = Math.floor((Date.now() - startedAt) / 60000);
+    const sec = Math.floor(((Date.now() - startedAt) % 60000) / 1000);
+    return `${m}分${String(sec).padStart(2, '0')}秒`;
+  };
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
     try {
@@ -640,16 +667,16 @@ async function pollPublication(result) {
       if (renderFinalPublicationState(payload)) return;
 
       const publication = payload?.publication || {};
-      poll.textContent = `GitHub commit完了。Xserver本番公開を確認しています…（${attempt}/${MAX_ATTEMPTS} / 最大15分） ${deploymentSummary(publication.deployment)}`;
+      poll.textContent = `GitHub commit完了・経過${elapsed()}｜${deployProgressSummary(publication.deployment)}。本番公開の確定を確認中です。`;
     } catch (e) {
       if (e.status === 401) { location.replace('/admin/login/'); return; }
-      poll.textContent = `公開状態の確認通信に一時失敗しました。自動再確認します…（${attempt}/${MAX_ATTEMPTS}）`;
+      poll.textContent = `公開状態の取得に一時失敗しました（経過${elapsed()}）。再確認します。`;
     }
 
     await new Promise((r) => setTimeout(r, INTERVAL_MS));
   }
 
-  // 15分到達時も「失敗」と決めつけない。最後にActionsの実状態を再照会して表示を分ける。
+  // Observation cap does not imply deployment failure: query the exact run once more.
   try {
     const payload = await AdminApi.publishStatus(articleId);
     if (renderFinalPublicationState(payload)) return;
@@ -657,7 +684,7 @@ async function pollPublication(result) {
     const publication = payload?.publication || {};
     const deployment = publication.deployment || {};
     if (deployment.found === true && deployment.status !== 'completed') {
-      poll.textContent = `15分を超えていますが、Xserverデプロイはまだ ${deployment.status || '進行中'} です。公開失敗とは確定していません。ページを再読み込みすると最新状態を再確認します。`;
+      poll.textContent = `経過${elapsed()}。${deployProgressSummary(deployment)}。確認画面の自動監視は終了しましたが、公開失敗とは確定していません。ページを再読み込みして最新状態を確認できます。`;
       return;
     }
     if (deployment.found === true && deployment.status === 'completed' && deployment.conclusion === 'success') {
@@ -671,7 +698,7 @@ async function pollPublication(result) {
     poll.textContent = 'GitHub Actionsの状態を取得できませんでした。公開失敗とは確定していません。ページを再読み込みすると再確認します。';
   } catch (e) {
     if (e.status === 401) { location.replace('/admin/login/'); return; }
-    poll.textContent = '15分経過後の最終状態確認に失敗しました。公開失敗とは確定していません。GitHub Actionsの実状態を確認してください。';
+    poll.textContent = `経過${elapsed()}。最終状態の確認に失敗しました。公開失敗とは確定していません。GitHub Actionsの実状態を確認してください。`;
   }
 }
 
