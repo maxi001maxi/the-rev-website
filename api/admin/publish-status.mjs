@@ -8,6 +8,7 @@
 import { getAuthedContext, sendError } from '../../lib/supabaseAdmin.mjs';
 import { PUBLISH_STATUS } from '../../lib/editorialPublication.mjs';
 import { reconcilePublication } from '../../lib/editorialPublicationStatus.mjs';
+import { getWorkflowRunProgress } from '../../lib/githubContent.mjs';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -40,6 +41,15 @@ export default async function handler(req, res) {
 
   const publication = await reconcilePublication({ supabase, article: found.data });
   const article = publication.article || found.data;
+  // Progress is optional; a transient GitHub jobs API error must never make
+  // the canonical published/unpublished reconciliation fail.
+  if (publication.deployment?.found === true && publication.deployment.id) {
+    try {
+      publication.deployment.progress = await getWorkflowRunProgress(publication.deployment.id);
+    } catch {
+      publication.deployment.progress = null;
+    }
+  }
 
   res.setHeader('Cache-Control', 'no-store');
   return res.status(200).json({
