@@ -83,9 +83,17 @@ jobs:
             fi
           fi
 
+          : > .xserver-deleted-files
+          HAS_BEFORE_SHA=false
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            HAS_BEFORE_SHA=true
+            git diff --name-only --diff-filter=DRTU "$EVENT_BEFORE" "$GITHUB_SHA" > .xserver-deleted-files
+          fi
           node scripts/xserver-deploy-plan.mjs \
             --event-name "$GITHUB_EVENT_NAME" \
             --changed-file-list .xserver-changed-files \
+            --deleted-file-list .xserver-deleted-files \
+            --has-before-sha "$HAS_BEFORE_SHA" \
             --commit-message-file .xserver-commit-message \
             --github-output "$GITHUB_OUTPUT"
 
@@ -283,6 +291,79 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y -qq lftp
+
+      # Exact-byte asset-only delta. Every old public file must match the Git
+      # parent BEFORE uploading; retain a rollback artifact for every mutation.
+      - name: Prepare safe image delta and preimage backup
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_prepare
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          test "$BEFORE" != "0000000000000000000000000000000000000000"
+          git diff --name-only "$BEFORE" "$GITHUB_SHA" -- assets/images/ > .delta-assets
+          node scripts/xserver-asset-delta.mjs --mode prepare --before "$BEFORE" --paths .delta-assets
+
+      - name: Preserve image delta rollback archive
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xserver-delta-backup-${{ github.run_id }}
+          path: delta-backup/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload verified image delta only
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_upload
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for ATTEMPT in 1 2 3; do
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-upload.lftp
+          bye
+          EOF
+            then
+              echo "Changed images uploaded only"
+              exit 0
+            fi
+            sleep "$((ATTEMPT * 10))"
+          done
+          echo "::error::Delta upload failed; rollback will be attempted."
+          exit 1
+
+      - name: Verify exact delta bytes on public Xserver
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_verify
+        run: node scripts/xserver-asset-delta.mjs --mode verify
+
+      - name: Restore previous images if delta upload or verification fails
+        if: ${{ failure() && env.DEPLOY_MODE == 'FULL_DELTA' && (steps.delta_upload.outcome == 'failure' || steps.delta_verify.outcome == 'failure') }}
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-rollback.lftp
+          bye
+          EOF
+          node scripts/xserver-asset-delta.mjs --mode verify-rollback
 
       - name: Backup current Xserver production
         if: env.DEPLOY_MODE == 'FULL'
@@ -578,7 +659,34 @@ jobs:
             fi
           done < .deploy-target-images
 
+      - name: Build previous Blog snapshot for exact BLOG_FAST delta
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        id: blog_delta
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "use_delta=false" >> "$GITHUB_OUTPUT"
+            echo "No trustworthy parent SHA: falling back to complete Blog mirror."
+            exit 0
+          fi
+          PARENT_DIR="$RUNNER_TEMP/blog-parent"
+          if git worktree add --detach "$PARENT_DIR" "$BEFORE" &&
+             ln -s "$GITHUB_WORKSPACE/node_modules" "$PARENT_DIR/node_modules" &&
+             (cd "$PARENT_DIR" && npm run vercel-build >/dev/null) &&
+             node scripts/xserver-blog-delta.mjs --old-root "$PARENT_DIR/dist/blog" --new-root "deploy/blog"; then
+            echo "use_delta=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Exact Blog delta unavailable. Retaining the proven full Blog mirror and verification."
+            rm -f .blog-delta.lftp .deploy-changed-slugs
+            echo "use_delta=false" >> "$GITHUB_OUTPUT"
+          fi
+          git worktree remove --force "$PARENT_DIR" 2>/dev/null || true
+
       - name: Deploy Blog LAST
+        if: env.DEPLOY_MODE != 'FULL_DELTA'
         id: xserver_deploy
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
@@ -589,7 +697,9 @@ jobs:
           DEPLOY_OK=0
           for ATTEMPT in 1 2 3; do
             echo "Blog deploy attempt ${ATTEMPT}/3"
-            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+            if [ "$DEPLOY_MODE" = "BLOG_FAST" ] && [ "${{ steps.blog_delta.outputs.use_delta }}" = "true" ]; then
+              echo "Blog exact delta attempt ${ATTEMPT}/3"
+              if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
           set ftp:passive-mode true
@@ -597,12 +707,28 @@ jobs:
           set net:max-retries 5
           set net:timeout 30
           set net:reconnect-interval-base 5
+          set cmd:fail-exit yes
+          source .blog-delta.lftp
+          bye
+          EOF
+              then DEPLOY_OK=1; break; fi
+            else
+              if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
           mkdir -p "${XSERVER_REMOTE_DIR}blog"
           mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
           put -O "${XSERVER_REMOTE_DIR}blog/" "deploy/blog/.htaccess"
           bye
           EOF
-            then
+              then DEPLOY_OK=1; break; fi
+            fi
+            if [ "$DEPLOY_OK" = "1" ]; then
               DEPLOY_OK=1
               break
             fi
@@ -637,7 +763,12 @@ jobs:
           bye
           EOF
 
+      - name: Verify changed BLOG_FAST public bytes
+        if: env.DEPLOY_MODE == 'BLOG_FAST' && steps.blog_delta.outputs.use_delta == 'true'
+        run: node scripts/verify-blog-delta-live.mjs
+
       - name: Verify live production
+        if: env.DEPLOY_MODE != 'FULL_DELTA'
         run: |
           set -euo pipefail
           FAIL=0
@@ -865,7 +996,12 @@ jobs:
             else
               echo "| Blog link: ${slug} | ✅ listed |" >> "$SUMMARY"
             fi
-            fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+            if [ "$DEPLOY_MODE" != "BLOG_FAST" ] || [ ! -f .deploy-changed-slugs ] \
+                || grep -Fxq "$slug" .deploy-changed-slugs; then
+              fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+            else
+              echo "Unchanged article: ${slug} (link in complete index verified)"
+            fi
           done < .deploy-published-slugs
 
           while IFS= read -r slug; do

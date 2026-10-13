@@ -4,6 +4,7 @@ import path from 'node:path';
 export const DEPLOY_MODE = Object.freeze({
   SKIP: 'SKIP',
   BLOG_FAST: 'BLOG_FAST',
+  FULL_DELTA: 'FULL_DELTA',
   FULL: 'FULL'
 });
 
@@ -18,8 +19,7 @@ const FULL_PUBLIC_PATHS = [
   /^package\.json$/,
   /^package-lock\.json$/,
   /^favicon\.ico$/,
-  /^robots\.txt$/,
-  /^\.github\/workflows\/deploy-xserver\.yml$/
+  /^robots\.txt$/
 ];
 
 const BLOG_PATH = /^content\/blog\/.*\.md$/;
@@ -67,6 +67,8 @@ function isEditorialStagedAsset(file) {
 export function classifyXserverDeploy({
   eventName = 'push',
   changedFiles = [],
+  deletedFiles = [],
+  hasBeforeSha = false,
   commitMessage = ''
 } = {}) {
   const files = uniq(changedFiles);
@@ -116,6 +118,21 @@ export function classifyXserverDeploy({
     return {
       mode: DEPLOY_MODE.SKIP,
       reason: 'editorial-assets-already-staged-and-verified',
+      changedFiles: files,
+      publicImpactFiles
+    };
+  }
+
+  // A narrowly scoped, verifiable asset-only route. Never use it for deletions,
+  // unknown base commits, blog changes, templates, or build changes.
+  // It verifies remote BEFORE bytes against the Git parent before uploading.
+  const assetOnly = publicImpactFiles.every(file => /^assets\/images\/[A-Za-z0-9_./-]+\.(?:png|jpe?g|webp|avif|gif|svg)$/i.test(file)
+    && !file.includes('..') && !file.endsWith('/'));
+  if (hasBeforeSha && assetOnly && deletedFiles.length === 0
+      && files.length <= 30 && publicImpactFiles.length > 0) {
+    return {
+      mode: DEPLOY_MODE.FULL_DELTA,
+      reason: 'asset-only-exact-delta-with-preimage-backup',
       changedFiles: files,
       publicImpactFiles
     };
@@ -176,6 +193,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const changedFileList = argValue('--changed-file-list');
   const eventName = argValue('--event-name') || process.env.GITHUB_EVENT_NAME || 'push';
   const commitMessageFile = argValue('--commit-message-file');
+  const deletedFileList = argValue('--deleted-file-list');
+  const hasBeforeSha = argValue('--has-before-sha') === 'true';
+  const deltaAssetList = argValue('--write-delta-assets');
   const githubOutput = argValue('--github-output');
   const writeTargetImages = argValue('--write-target-images');
 
@@ -184,7 +204,11 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     ? fs.readFileSync(commitMessageFile, 'utf8')
     : '';
 
-  const plan = classifyXserverDeploy({ eventName, changedFiles, commitMessage });
+  const plan = classifyXserverDeploy({ eventName, changedFiles, deletedFiles: readLines(deletedFileList), hasBeforeSha, commitMessage });
+  if (deltaAssetList) {
+    fs.writeFileSync(deltaAssetList, plan.mode === DEPLOY_MODE.FULL_DELTA
+      ? plan.publicImpactFiles.join('\n') + '\n' : '');
+  }
 
   if (writeTargetImages) {
     const targets = collectBlogFastTargetImages({ changedFiles });
