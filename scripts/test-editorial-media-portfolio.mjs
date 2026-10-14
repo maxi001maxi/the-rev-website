@@ -99,7 +99,7 @@ test('GAS five-candidate preflight rejects a knowledge-only batch BEFORE Sheet w
      score_breakdown:{audience:75},notes:'AUDIENCE_V08:'+JSON.stringify({editorial_role:role,editorial_role_reason:'Deliver a useful different answer',
      audience_stage:'PROBLEM_AWARE',reader_scene:'A reader in a real daily setting',reader_job:'Learn or decide',
      new_reader_takeaway:'Genuinely useful discovery and decision',incremental_answer:'New specific answer',
-     content_action:'NEW_ARTICLE',evidence_items:[{kind:'HYPOTHESIS',source:'research plan'}]})})))
+     content_action:'NEW_ARTICLE',evidence_items:[{kind:'HYPOTHESIS',source:'research plan'}]})}))
  };
  vm.createContext(sandbox);vm.runInContext(src,sandbox);
  assert.throws(()=>sandbox.v070RefreshTopicPool_(),/MEDIA_ROLE_DIVERSITY_INSUFFICIENT/);
