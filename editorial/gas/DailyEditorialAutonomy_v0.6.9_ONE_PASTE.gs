@@ -2180,7 +2180,7 @@ var V080_QUALITY_ADAPTER = (function () {
         var writer=name==='web_blog_draft_v1', editor=name==='web_blog_final_editor_v1';
         if(writer||editor) {
           var guidance=writer ?
-            'Editorial Quality v0.8 WRITER: Answer the reader question within the opening paragraphs. Deliver one genuinely useful distinction, concrete decision/action, appropriate research limitations and a real example. Separate verified store facts from assumptions. Do not invent a trainer/client story. Local comparison titles require verified local options. Protect safety exceptions. STANDARD body 1600-2400 non-whitespace characters; never pad.' :
+            'Editorial Quality v0.8 WRITER: Answer the reader question within the opening paragraphs. Deliver one genuinely useful distinction, concrete decision/action, appropriate research limitations and a real example. Separate verified store facts from assumptions. Do not invent a trainer/client story. Local comparison titles require verified local options. Protect safety exceptions. For COMPARISON_GUIDE, help readers compare meaningful responses or decision options explicitly rather than offering only an undifferentiated checklist. In exercise-safety topics, distinguish discomfort from red flags such as chest pain, faintness or sudden severe pain: do not encourage trial exercise, and guide stopping activity and prompt appropriate medical attention. Do not diagnose. STANDARD body 1600-2400 non-whitespace characters; never pad.' :
             'Editorial Quality v0.8 PRESERVATION EDITOR: Keep the writer answer, knowledge gain, next action, meaningful examples, every safety caveat and source limitation. Edit style and order, never delete essential details for shortness. No new store procedures, medical promises, unverified outcomes or invented quotes. If uncertain, set fact_check_status REVIEW. STANDARD body 1600-2400 excluding whitespace; never pad.';
           payload.input[0].content.push({type:'input_text',text:guidance});
         }
@@ -2204,4 +2204,56 @@ var V080_QUALITY_ADAPTER = (function () {
   };
   return 'ACTIVE_'+V080_QUALITY_MODE;
 })();
+
+/**
+ * One-shot, content-ID scoped editorial re-review.
+ * To be run manually in the bound GAS project ONLY AFTER this exact source
+ * has been installed and QUALITY_V08_MODE=ENFORCE was read back.
+ * Never changes human publication approval or fakes a QC pass.
+ */
+function requeueOct15EditorialIndependentQcReview() {
+  if (V080_QUALITY_MODE !== 'ENFORCE') throw new Error('V080_NOT_ENFORCED');
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(1000)) throw new Error('OCT15_REVIEW_RETRY_LOCKED');
+  try {
+    var contentId = 'BLOG-20261015-fac1fd';
+    var proposalId = 'TP-20261015';
+    var sheet = ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE');
+    var blogSheet = ss_().getSheetByName('21_WEB_BLOG_OUTPUT');
+    if (!sheet || !blogSheet) throw new Error('EDITORIAL_SHEETS_NOT_FOUND');
+    var row = getObjectsWithRow_(sheet).filter(function(r) { return String(r.content_id || '') === contentId; })[0];
+    if (!row || !row.__row) throw new Error('OCT15_QUEUE_ROW_NOT_FOUND');
+    if (String(row.queue_status) !== 'REVIEW_REQUIRED' || String(row.draft_status) !== 'REVIEW_REQUIRED')
+      return {status:'NOOP_NOT_QC_REVIEW',content_id:contentId,queue_status:row.queue_status};
+    var originalError=String(row.last_error||'');
+    if (originalError !== 'Final Editor / Fact / Topic Gate requires review')
+      throw new Error('OCT15_REVIEW_REASON_CHANGED');
+    if (String(row.notes || '').indexOf('[V080_OCT15_REVIEW_RETRY]') >= 0)
+      return {status:'NOOP_ALREADY_REQUEUED',content_id:contentId};
+    var k={};
+    try { k=JSON.parse(String(row.knowledge_context_json||'{}')); } catch (_) {throw new Error('OCT15_KNOWLEDGE_JSON_INVALID');}
+    if (!k.topic_approval || k.topic_approval.proposal_id!==proposalId ||
+      !Array.isArray(k.interview) || k.interview.length!==2 ||
+      k.interview.some(function(x) {return !String(x.answer||'').trim();}))
+      throw new Error('OCT15_APPROVED_INTERVIEW_MISSING');
+    var blog=getObjectsWithRow_(blogSheet).filter(function(r){return String(r.content_id||'')===contentId;})[0];
+    if (!blog || String(blog.status)!=='REVIEW_REQUIRED') throw new Error('OCT15_QC_BLOG_MISMATCH');
+    var editor={};
+    try {editor=JSON.parse(String(blog.editor_notes||'{}'));}catch(_){throw new Error('OCT15_EDITOR_NOTES_INVALID');}
+    if (editor.quality_v080?.mode !== 'ENFORCE' || editor.quality_v080?.independent?.pass !== false)
+      throw new Error('OCT15_INDEPENDENT_QC_FAILURE_NOT_CONFIRMED');
+    var now=new Date();
+    setObjectRow_(sheet,row.__row,{
+      queue_status:'PATCHING',
+      draft_status:'NOT_STARTED',
+      failed_stage:'',
+      next_stage:'BLOG_DRAFT',
+      human_action_required:'NONE',
+      last_error:'',
+      notes:String(row.notes||'')+' | [V080_OCT15_REVIEW_RETRY] Approved interview retained; rerun with verified QC evidence and safety/comparison improvements.',
+      updated_at:now
+    });
+    return {status:'REQUEUED_FOR_CANONICAL_QC',content_id:contentId,proposal_id:proposalId,auto_publish:false};
+  } finally {lock.releaseLock();}
+}
 
