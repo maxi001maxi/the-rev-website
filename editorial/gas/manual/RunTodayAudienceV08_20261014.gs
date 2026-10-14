@@ -48,9 +48,9 @@ function runTodayEditorialAudienceV08Once() {
         !m.editorial_role_reason || !m.reader_scene || !m.reader_job || !m.reader_question ||
         !m.new_reader_takeaway || !m.incremental_answer || !m.natural_service_fit ||
         !m.search_signal_type || !Array.isArray(m.evidence_items) || m.evidence_items.length===0 ||
-        m.content_action !== 'NEW_ARTICLE' || m.unverified_health_claim === true)
+        !['NEW_ARTICLE','HOLD_FOR_FACTS','UPDATE_EXISTING','REJECT'].includes(m.content_action) || m.unverified_health_claim === true)
         throw new Error('AUDIENCE_V08_CONTRACT_FAILED_'+(i+1));
-      roles[m.editorial_role]=true;
+      if (m.content_action === 'NEW_ARTICLE') roles[m.editorial_role]=true;
     });
     if (Object.keys(roles).length<3)
       throw new Error('AUDIENCE_LIVE_ROLE_DIVERSITY_INSUFFICIENT');
