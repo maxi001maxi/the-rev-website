@@ -988,6 +988,11 @@ var V070_LENGTH_ADAPTER = (function () {
   var request = openAIRequest_, finalize = finalizeWebBlog_;
   openAIRequest_ = function (endpoint, payload) {
     var format = payload && payload.text && payload.text.format;
+    // Audience v0.8 adds five structured reader/evidence contracts; legacy 5200 truncates the response.
+    if (endpoint === 'responses' && format && format.name === 'blog_topic_shortlist' &&
+        String(PropertiesService.getScriptProperties().getProperty('THE_REV_AUDIENCE_DISCOVERY_MODE') || 'OFF').toUpperCase() === 'ENFORCE') {
+      payload.max_output_tokens = Math.max(Number(payload.max_output_tokens || 0), 14000);
+    }
     if (format && ['web_blog_draft_v1','web_blog_final_editor_v1'].indexOf(format.name) >= 0) {
       var input = JSON.parse(payload.input[1].content[0].text);
       var gate = input.topic_gate || {}, article = input.article || {};
@@ -1233,6 +1238,9 @@ function v070Notify_(n) {
       payload:JSON.stringify({to:owner,messages:[{type:'text',text:message}]})
     });
     var code = r.getResponseCode();
+    Logger.log(JSON.stringify({event:'EDITORIAL_LINE_PUSH_HTTP',proposal_id:n.proposal_id,kind:n.kind,http_status:code,
+      request_id:String((r.getAllHeaders() || {})['x-line-request-id'] || (r.getAllHeaders() || {})['X-Line-Request-Id'] || ''),
+      accepted_request_id:String((r.getAllHeaders() || {})['x-line-accepted-request-id'] || (r.getAllHeaders() || {})['X-Line-Accepted-Request-Id'] || '')}));
     var acceptedRetry = code === 409 && String((r.getAllHeaders() || {})['x-line-accepted-request-id'] || (r.getAllHeaders() || {})['X-Line-Accepted-Request-Id'] || '') !== '';
     if ((code >= 200 && code < 300) || acceptedRetry) { status = 'SENT'; error = ''; }
     else error = 'LINE_HTTP_' + code;
