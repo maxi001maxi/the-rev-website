@@ -2132,6 +2132,23 @@ function v080QcEvidence_(edited, ctx) {
     ],
     scope:'Only these directly verified statements. Do not infer incident counts, individual store practices, guarantees or medical conclusions.'
   }] : [];
+  if(refs.some(function(ref){return String(ref||'').indexOf('caa.go.jp/policies/policy/consumer_safety/caution/caution_086')!==-1;}))official.push({
+    source_type:'OFFICIAL_SOURCE_VERIFIED_EXCERPT',
+    url:'https://www.caa.go.jp/policies/policy/consumer_safety/caution/caution_086',
+    verified_at:'2026-10-14',section:'事故事例・事故防止のポイント',
+    verified_points:[
+      '消費者庁は、運動中の違和感をトレーナーへ伝えた後も続けてけがをしたという相談事例を紹介している。これは相談として報告された事例であり、独立に因果関係を確定した臨床研究ではない。',
+      '気になる情報は運動前・中・後に伝え、伝え方や合図を事前に話し合い、不安が残る運動は一旦止めるよう案内している。'
+    ],
+    scope:'Reported examples and official advice only. No incidence rate, store protocol or guarantee.'
+  });
+  if(refs.some(function(ref){return String(ref||'').indexOf('kennet.mhlw.go.jp/information/information/exercise/s-00-008.html')!==-1;}))official.push({
+    source_type:'OFFICIAL_SOURCE_VERIFIED_EXCERPT',
+    url:'https://kennet.mhlw.go.jp/information/information/exercise/s-00-008.html',
+    verified_at:'2026-10-14',section:'運動中の注意',
+    verified_points:['厚生労働省は、胸痛・動悸・めまいやふらつき・いつもと違う強い疲れ・関節や筋肉の強い痛み・冷や汗等の体調の異変を感じたら直ちに運動を中止するよう案内している。'],
+    scope:'General stop-exercise guidance. Do not infer diagnosis or clinic/store treatment.'
+  });
   return {first_party_owner_interview:owner,verified_official_excerpts:official};
 }
 
@@ -2142,9 +2159,9 @@ function v080IndependentQc_(edited, ctx) {
   var schema={type:'object',additionalProperties:false,properties:{scores:{type:'object',additionalProperties:false,properties:props,required:axes},issues:{type:'array',items:{type:'string'}},source_unverified:{type:'boolean'},reason:{type:'string'}},required:['scores','issues','source_unverified','reason']};
   var settings=getSettings_();
   var payload={model:settings.blog_editor_model||settings.blog_model,store:false,input:[
-    {role:'system',content:[{type:'input_text',text:'You are an INDEPENDENT QC reviewer, NOT the writer or editor. Judge reader value without viewing writer/editor self-scores. Return five scores (0-4): question answered, new understanding, decision support, concrete grounded detail, readability/originality. Check factual claims against supplied verified facts, narrow official excerpts and the explicitly sourced owner interview. Treat the owner interview as evidence of the owner's stated position ONLY, not independent proof of store protocols or clinical effectiveness. Unverified claims must still set source_unverified=true. Never fabricate verification. issues must list every material blocker. Be critical. Score is NOT a human-reader measurement.'}]},
+    {role:'system',content:[{type:'input_text',text:'You are an INDEPENDENT QC reviewer, NOT the writer or editor. Judge reader value without viewing writer/editor self-scores. Return five scores (0-4): question answered, new understanding, decision support, concrete grounded detail, readability/originality. Check factual claims against supplied verified facts, narrow official excerpts and the explicitly sourced owner interview. Treat the owner interview as evidence of the position stated by the owner ONLY, not independent proof of store protocols or clinical effectiveness. Unverified claims must still set source_unverified=true. Never fabricate verification. issues must list every material blocker. Be critical. Score is NOT a human-reader measurement.'}]},
     {role:'user',content:[{type:'input_text',text:JSON.stringify({title:edited.title,article_type:edited.article_type,body_markdown:edited.body_markdown,verified_public_facts:ctx&&ctx.verified_public_facts||[],blocked_facts:ctx&&ctx.blocked_facts||[],source_refs:edited.source_refs||[],qc_evidence:v080QcEvidence_(edited,ctx)})}]}
-  ],text:{format:{type:'json_schema',name:'editorial_quality_v080',strict:true,schema:schema}},max_output_tokens:1300};
+  ],text:{format:{type:'json_schema',name:'editorial_quality_v080',strict:true,schema:schema}},max_output_tokens:4000};
   var output=parseStructuredResponse_(openAIRequest_('responses',payload),'Editorial Independent QC v0.8');
   var sum=0,valid=true;
   axes.forEach(function(k){var n=output.scores&&output.scores[k];if(typeof n!=='number'||!isFinite(n)||Math.floor(n)!==n||n<0||n>4)valid=false;else sum+=n;});
