@@ -22,6 +22,9 @@ const manifest=JSON.parse(execFileSync(process.execPath,['scripts/prepare-editor
 if(cohort.mode!=='OFFLINE_ONLY'||manifest.mode!=='OFFLINE_ONLY'||manifest.cases?.length!==5)
   throw new Error('P2_MUST_BE_FIVE_ARTICLE_OFFLINE_COHORT');
 const cases=cohort.cases.filter(c=>selection==='all'||c.case_id===selection);
+const holds=getJson('editorial/experiments/image-quality-p2/pilot-holds.json');
+if(holds.mode!=='OFFLINE_EXPERIMENT_MANUAL_REVIEW'||!Array.isArray(holds.cases))throw new Error('P2_HOLD_LEDGER_INVALID');
+const enforceHolds=process.env.P2_ENFORCE_HOLDS==='1';
 const results=[];
 let failCount=0;
 for(const c of cases){
@@ -31,6 +34,8 @@ for(const c of cases){
     questions:['Provider API credits cannot be checked by local preflight']};
   let createdPath=null;
   try{
+    const hold=holds.cases.find(x=>x.case_id===c.case_id&&x.status==='PAUSED');
+    if(enforceHolds&&hold)throw new Error('P2_MANUAL_HOLD_'+c.case_id+': '+hold.reason_code+'; rework source-locked composition before paying for more image generations');
     const a=getJson('editorial/hybrid-image-jobs/'+c.slug+'.json');
     const qa=getJson(a.qa_report_path);
     const plan=manifest.cases.find(x=>x.case_id===c.case_id);
@@ -81,6 +86,7 @@ const report={
   all_pass:failCount===0,preflight_failures:failCount,
   no_api_calls:true,provider_credits_verified:false,
   model_qc_status:'NOT_RUN',image_generation_status:'NOT_RUN',
+  manual_holds_enforced:enforceHolds,
   historical_fingerprints_require_real_image_review:true,
   results
 };
