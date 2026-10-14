@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawnSync} from 'node:child_process';
 import {buildP2Case,buildP2ComparisonManifest,assessP2PairedResults,validateP2Cohort,P2_AXES} from '../lib/editorialImagePhase2.mjs';
 
 const cohort=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/cohort.json','utf8'));
@@ -421,4 +421,39 @@ test('P2 keeps true visual QC failure distinct from missing blind-pair error',()
   const upload=flow.indexOf('Upload offline evidence ONLY');
   assert(run>0&&reason>run&&upload>reason);
   assert(flow.includes("if: steps.pilot.outputs.failed == 'true'"));
+});
+
+
+test('P2 stops repeat p2-02 geometry drift BEFORE any billable generation, while other cases remain available',()=>{
+  const ledger=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/pilot-holds.json','utf8'));
+  assert.equal(ledger.cases.length,1);
+  const hold=ledger.cases[0];
+  assert.equal(hold.case_id,'p2-02');
+  assert.equal(hold.status,'PAUSED');
+  assert.equal(hold.reason_code,'REPEAT_SOURCE_GEOMETRY_DRIFT');
+  assert.deepEqual([hold.first_failed_run_id,hold.second_failed_run_id],[38552625358,38649697529]);
+  const execPreflight=(selection)=>spawnSync(process.execPath,['scripts/preflight-editorial-image-p2.mjs',selection],{
+    encoding:'utf8',env:{...process.env,P2_ENFORCE_HOLDS:'1'}
+  });
+  const held=execPreflight('p2-02');
+  assert.equal(held.status,1);
+  const report=JSON.parse(held.stdout);
+  assert.equal(report.manual_holds_enforced,true);
+  assert.equal(report.no_api_calls,true);
+  assert.equal(report.image_generation_status,'NOT_RUN');
+  assert.equal(report.preflight_failures,1);
+  assert.match(report.results[0].reason,/P2_MANUAL_HOLD_p2-02.*REPEAT_SOURCE_GEOMETRY_DRIFT/);
+  const all=execPreflight('all');
+  assert.equal(all.status,1);
+  const full=JSON.parse(all.stdout);
+  assert.equal(full.case_count,5);
+  assert.equal(full.results.filter(x=>x.reason?.includes('P2_MANUAL_HOLD_')).length,1);
+  assert.equal(full.results.find(x=>x.case_id==='p2-01').preflight,'PASS');
+  assert.equal(full.results.find(x=>x.case_id==='p2-03').preflight,'PASS');
+  const allowed=execPreflight('p2-03');
+  assert.equal(allowed.status,0);
+  assert.equal(JSON.parse(allowed.stdout).all_pass,true);
+  const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  assert.match(flow,/P2_ENFORCE_HOLDS: '1'/);
+  assert(flow.indexOf('node scripts/preflight-editorial-image-p2.mjs')<flow.indexOf('- name: Install renderer and review dependencies'));
 });
