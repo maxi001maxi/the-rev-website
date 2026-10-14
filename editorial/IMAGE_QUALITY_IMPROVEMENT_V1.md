@@ -186,3 +186,17 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 - `p2-offline-image-comparison-<run_id>`: QC記録・ジョブ・生成証拠・元画像との比較資料。運用者用で、匿名性確保のためレビュー担当には渡さない。
 
 `scripts/package-editorial-image-p2-results.mjs` はBの`READY_CANDIDATE`、実QC合格、元写真・シーン・Thumbnail/OGP/GBPのSHA256一致を確認したケースだけ匿名比較セットを作る。1件でも未合格なら`PARTIAL_OR_QC_REJECTED`として記録し、勝手に公開や採用判定をしない。
+
+## 10. Phase 2の実画像試験を開始する前のpreflight（2026-10-14追加）
+
+手動のP2 Offline Image Pilotでは、OpenAI呼出し／Chromium依存インストールの**前**に
+`node scripts/preflight-editorial-image-p2.mjs all` を必須実行する。
+
+- 5記事の元画像のSHA256と独立QC結果、実THE REV素材のSHA256を照合
+- 画像スタイル参照や直近12記事の画像ファイルの存在を確認
+- 改善版Bのジョブを隔離パスに一時作成して、slug・asset version・source・copy・人物属性・公開境界・1試行上限をチェックし、検査直後に削除
+- 未解決の欠落・変更・不一致がある場合は**画像生成前に停止**。5枚分をまとめて課金しながら落ちる事態を避ける
+- `provider_credits_verified=false` は仕様。APIクレジットの充足はローカルpreflightで確認できないため、生成未実行のまま成功扱いにしない
+- 履歴に旧記事のscene fingerprintが欠けている場合は件数をそのまま記録し、実画像生成時の独立観察・QCを省略しない
+
+本番公開・既存サムネイルの置換・Xserver上書きは一切なし。初回の費用リスクを抑えるなら、5記事一括実行の前に単独の`p2-01`で実写真・独立QC・匿名比較パッケージを試す。
