@@ -212,3 +212,34 @@ test('manual P2 workflow packages each randomized blind comparison exactly once'
   assert.equal(evidence.includes('private-answer-key'),false);
   assert.equal(evidence.includes('offline-output/reviewer/**'),false);
 });
+
+test('Phase 2 no-cost preflight verifies ALL five article cases and leaves no scratch production files',()=>{
+  const out=JSON.parse(execFileSync(process.execPath,['scripts/preflight-editorial-image-p2.mjs','all'],{encoding:'utf8',maxBuffer:10*1024*1024}));
+  assert.equal(out.case_count,5);
+  assert.equal(out.mode,'OFFLINE_PREFLIGHT');
+  assert.equal(out.no_api_calls,true);
+  assert.equal(out.provider_credits_verified,false);
+  assert.equal(out.image_generation_status,'NOT_RUN');
+  assert.equal(out.all_pass,true);
+  assert.equal(out.preflight_failures,0);
+  for(const item of out.results){
+    assert.equal(item.preflight,'PASS');
+    assert.equal(item.candidate_isolated,true);
+    assert.equal(item.baseline_qa_pass,true);
+    assert.equal(item.baseline_image_verified,true);
+    assert.equal(item.source_sha256_verified,true);
+    assert.equal(item.missing_recent_images.length,0);
+    assert.equal(item.estimated_image_scene_attempts,1);
+    const jobPath='editorial/experiments/image-quality-p2/offline-output/jobs/p2-'+item.case_id+'-'+item.slug+'.json';
+    assert.equal(fs.existsSync(jobPath),false);
+  }
+});
+
+test('Phase 2 manual workflow runs preflight before dependencies, API calls and imagery',()=>{
+  const yaml=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  const pre=yaml.indexOf('node scripts/preflight-editorial-image-p2.mjs');
+  const dep=yaml.indexOf('      - name: Install renderer and review dependencies');
+  const render=yaml.indexOf('      - name: Render B scenes and check independent QC');
+  assert(pre>0&&dep>pre&&render>dep);
+  assert.match(yaml,/name: p2-preflight-/);
+});
