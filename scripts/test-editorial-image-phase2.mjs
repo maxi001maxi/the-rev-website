@@ -141,3 +141,32 @@ test('manual P2 workflow has no push trigger, production sync, or write token',(
   assert.doesNotMatch(flow,/git push|lftp|XSERVER_FTP|SUPABASE_URL|publish-preview|AUTO_PUBLISH_ENABLED/i);
   assert.match(flow,/upload-artifact@v4/);
 });
+
+test('P2 evidence packager leaves missing B images unreviewable and never forges QC',()=>{
+  const raw=execFileSync(process.execPath,['scripts/package-editorial-image-p2-results.mjs','p2-03'],{encoding:'utf8'});
+  const status=JSON.parse(raw);
+  assert.equal(status.selected,1);
+  assert.equal(status.ready,0);
+  assert.equal(status.status,'PARTIAL_OR_QC_REJECTED');
+  const base='editorial/experiments/image-quality-p2/offline-output/';
+  const evidence=JSON.parse(fs.readFileSync(base+'reports/evidence.json','utf8'));
+  const reviewer=JSON.parse(fs.readFileSync(base+'reviewer/review-sheet.json','utf8'));
+  const key=JSON.parse(fs.readFileSync(base+'private-answer-key/answer-key.json','utf8'));
+  assert.equal(evidence.all_requested_pairs_ready,false);
+  assert.equal(evidence.publish_eligible,false);
+  assert.equal(evidence.results[0].qa_pass,false);
+  assert.equal(reviewer.cases.length,0);
+  assert.equal(key.keys.length,0);
+  assert(!fs.existsSync(base+'reviewer/p2-03/image-01.jpg'));
+});
+
+test('blind P2 review package excludes private answer key and production side effects',()=>{
+  const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  assert.match(flow,/name: p2-blind-review-/);
+  assert.match(flow,/name: p2-unblind-key-/);
+  assert.match(flow,/scripts\/package-editorial-image-p2-results\.mjs/);
+  const reporter=fs.readFileSync('scripts/package-editorial-image-p2-results.mjs','utf8');
+  assert(!/XSERVER_FTP|SUPABASE_URL|git push/.test(reporter));
+  assert(reporter.includes('unblind_only_after_review:true'));
+  assert(reporter.includes('qa.scene_grounding?.asset_hashes'));
+});
