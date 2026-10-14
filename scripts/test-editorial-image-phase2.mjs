@@ -281,3 +281,17 @@ test('P2 remains a five case trial and r2 metadata never reduces image QC thresh
   assert.match(flow,/EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'/);
   assert.match(flow,/workflow_dispatch:/);
 });
+
+test('P2 pilot blocks stale re-run attempts before checkout, secrets, or image costs',()=>{
+  const yaml=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  const safety=yaml.indexOf('- name: Reject re-runs and stale branches before any billable API call');
+  const checkout=yaml.indexOf('- name: Checkout canonical baseline (read only)');
+  const preflight=yaml.indexOf('- name: Preflight all requested cases before billable image generation');
+  assert(safety>0&&safety<checkout&&checkout<preflight);
+  assert(yaml.includes('RUN_ATTEMPT: '));
+  assert(yaml.includes('github.run_attempt'));
+  assert(yaml.includes('RUN_ATTEMPT\" != \"1\"'));
+  assert(yaml.includes('REF_NAME\" != \"refs/heads/main\"'));
+  assert(yaml.includes('Run workflow on main to start a NEW run'));
+  assert.equal(yaml.split('node scripts/package-editorial-image-p2-results.mjs').length-1,1);
+});
