@@ -1,33 +1,33 @@
 {
   "slug": "personal-gym-first-session-pain-health-history",
-  "article_title": "パーソナルジム初回に伝えること｜痛み・体調は「小さなこと」でも話していい",
-  "category_label": "GYM GUIDE",
+  "article_title": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+  "category_label": "HEALTH",
   "column_label": "COLUMN",
-  "image_headline_short": "痛みも体調も、\n伝えていい。",
+  "image_headline_short": "最初の一回で、\n相性を確かめる。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "The customer performs a simple, clearly recognizable preparing-for-exercise action in the existing training area before the first session. No documents, forms or objects; no coaching or pain acting.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-evolgear-20260922\",\"source_sha256\":\"437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea\",\"scene_type\":\"before_start\",\"location_type\":\"training_area\",\"human_action\":\"prepare\",\"composition_type\":\"medium_three_quarter_portrait\",\"visual_role\":\"checking_readiness\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"training_area\",\"article_specific_directive\":\"\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":7,\"penalty\":0.8333333333333334,\"matches\":[{\"slug\":\"the-rev-trial-three-menus-first-visit\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"nekose-strength-training-posture\",\"score\":0.5,\"equal\":[\"scene_type\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"pre-workout-stretching-duration\",\"score\":0.8333333333333334,\"equal\":[\"scene_type\",\"location_type\",\"human_action\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-device-mat-role\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"shinomiya-gym-beginner-choose\",\"score\":0.5,\"equal\":[\"scene_type\",\"location_type\",\"human_action\"],\"hard_exclusion\":false},{\"slug\":\"desk-work-stand-every-30-minutes\",\"unknown\":true},{\"slug\":\"boxing-beginner-scared-before-mitt-training\",\"unknown\":true},{\"slug\":\"denba-electric-potential-space-radio-wave-difference\",\"unknown\":true},{\"slug\":\"kenshin-ketsuatsu-takame-kinntore-hajimekata\",\"unknown\":true},{\"slug\":\"beginner-strength-training-few-exercises-frequency\",\"unknown\":true},{\"slug\":\"shinomiya-personal-gym-reservation-facility-the-rev\",\"unknown\":true},{\"slug\":\"oxygen-room-how-to-spend-time\",\"unknown\":true}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea\",\"primary_location\":\"training_area\",\"subject_zone\":\"training_area\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"training_area\"},{\"object\":\"cable_machine\",\"zone\":\"training_area\"},{\"object\":\"barbell\",\"zone\":\"training_area\"},{\"object\":\"weight_plates\",\"zone\":\"training_area\"},{\"object\":\"training_bench\",\"zone\":\"training_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\",\"rack_adjustment\",\"cable_operation\",\"barbell_operation\",\"strength_exercise\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\",\"training_execution\",\"training_progress\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be prepare in training_area; visual role checking_readiness.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-owner-interview-frame4387-20261015-r3",
-  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.jpg",
-  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.jpg",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.json",
+  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -65,21 +65,172 @@
     "scene_plausibility_version": "the-rev-scene-plausibility-v1"
   },
   "background_source": {
-    "drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
     "cached_frame_drive_file_id": "",
-    "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
-    "origin_video_file_name": "IMG_4387.MOV",
-    "frame_position_ratio": 0.75,
-    "treatment": "real THE REV. source preserved as spatial truth; soften background naturally to keep customer expressions primary",
-    "selection_reason": "実THE REV.トレーニングエリア。初回体験の運動開始前に、自分の痛み・体調・運動歴を伝える準備をする来店者の気持ちを、診断や過剰な演出なしに表現する。直近4記事の背景重複を避ける。"
+    "origin_video_file_id": "",
+    "origin_video_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
+    "frame_position_ratio": null,
+    "selection_reason": "THE REV.実店舗のトレーニング空間で、身体知識・運動開始・一般トレーニング記事に最も広く適合する。Drive root内のAI_SOURCE_photo-evolgear_20260922.jpgとrepo_pathは同一bytesとして検証済み。",
+    "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "scene_grounding_version": "the-rev-source-scene-v1",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-evolgear-20260922",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "scene_type": "before_start",
+    "location_type": "training_area",
+    "human_action": "prepare",
+    "composition_type": "medium_three_quarter_portrait",
+    "visual_role": "checking_readiness",
+    "article_intent": "training_start",
+    "required_equipment": [],
+    "subject_zone": "training_area",
+    "article_specific_directive": "",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 7,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.5,
+          "equal": [
+            "scene_type",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.5,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "unknown": true
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "unknown": true
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "unknown": true
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "unknown": true
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "unknown": true
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "unknown": true
+        },
+        {
+          "slug": "oxygen-room-how-to-spend-time",
+          "unknown": true
+        }
+      ]
+    }
+  },
+  "source_scene_inventory": {
+    "version": "the-rev-source-scene-v1",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "primary_location": "training_area",
+    "subject_zone": "training_area",
+    "visible_equipment": [
+      {
+        "object": "training_rack",
+        "zone": "training_area"
+      },
+      {
+        "object": "cable_machine",
+        "zone": "training_area"
+      },
+      {
+        "object": "barbell",
+        "zone": "training_area"
+      },
+      {
+        "object": "weight_plates",
+        "zone": "training_area"
+      },
+      {
+        "object": "training_bench",
+        "zone": "training_area"
+      }
+    ],
+    "allowed_generated_actions": [
+      "prepare",
+      "rest",
+      "observing_real_equipment",
+      "rack_adjustment",
+      "cable_operation",
+      "barbell_operation",
+      "strength_exercise"
+    ],
+    "forbidden_generated_objects": [
+      "medical_device",
+      "unverified_training_equipment"
+    ],
+    "suitable_article_intents": [
+      "facility_selection",
+      "health_before_start",
+      "readiness",
+      "training_start",
+      "training_execution",
+      "training_progress"
+    ],
+    "verification": {
+      "method": "source image visual inspection + canonical scoped registry",
+      "verified_at": "2026-10-07",
+      "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+    }
+  },
   "automation": {
     "mode": "unattended-github-actions-v1",
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-frame-4387-75",
-    "source_repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+    "selected_source_id": "the-rev-evolgear-20260922",
+    "source_repo_path": "assets/images/photo-evolgear.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
@@ -91,7 +242,7 @@
         "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
         "imageHeadlineShort": "初回体験、\n何を選ぶ？",
         "customerPresentation": "male",
-        "articleTitle": "",
+        "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
         "sceneFingerprint": {
           "scene_type": "arrival",
           "location_type": "reception",
@@ -111,7 +262,7 @@
         "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
         "imageHeadlineShort": "姿勢は、\n動きから見直す。",
         "customerPresentation": "female",
-        "articleTitle": "",
+        "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
         "sceneFingerprint": {
           "scene_type": "before_start",
           "location_type": "reception",
@@ -123,37 +274,44 @@
         "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg"
       },
       {
-        "slug": "shinomiya-gym-beginner-choose",
-        "checkedAt": "2026-10-07T05:24:50.575Z",
-        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
-        "originVideoFileId": "",
-        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
-        "assetVersion": "reference-v26-grounded-evolgear-20261007-r4",
-        "imageHeadlineShort": "続けやすさで、\n選ぶ。",
+        "slug": "pre-workout-stretching-duration",
+        "checkedAt": "2026-10-11T00:47:06.303Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+        "imageHeadlineShort": "運動前は、\n動ける状態へ。",
         "customerPresentation": "male",
-        "articleTitle": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
+        "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
         "sceneFingerprint": {
           "scene_type": "before_start",
           "location_type": "training_area",
           "human_action": "prepare",
-          "composition_type": "medium_seated_portrait",
-          "visual_role": "deciding_own_start",
-          "article_intent": "facility_selection"
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
         },
-        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg"
+        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg"
       },
       {
-        "slug": "desk-work-stand-every-30-minutes",
-        "checkedAt": "2026-10-06T01:08:15.230Z",
-        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
-        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
-        "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
-        "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
-        "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+        "slug": "denba-health-device-mat-role",
+        "checkedAt": "2026-10-10T02:43:04.486Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+        "imageHeadlineShort": "本体とマット、\n役割は別。",
         "customerPresentation": "female",
-        "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
-        "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg"
+        "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+        "sceneFingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "close_action_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg"
       }
     ],
     "recent_semantic_articles": [
@@ -166,7 +324,7 @@
         "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
         "imageHeadlineShort": "初回体験、\n何を選ぶ？",
         "customerPresentation": "male",
-        "articleTitle": "",
+        "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
         "sceneFingerprint": {
           "scene_type": "arrival",
           "location_type": "reception",
@@ -186,7 +344,7 @@
         "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
         "imageHeadlineShort": "姿勢は、\n動きから見直す。",
         "customerPresentation": "female",
-        "articleTitle": "",
+        "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
         "sceneFingerprint": {
           "scene_type": "before_start",
           "location_type": "reception",
@@ -196,6 +354,46 @@
           "article_intent": "training_start"
         },
         "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg"
+      },
+      {
+        "slug": "pre-workout-stretching-duration",
+        "checkedAt": "2026-10-11T00:47:06.303Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+        "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+        "customerPresentation": "male",
+        "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg"
+      },
+      {
+        "slug": "denba-health-device-mat-role",
+        "checkedAt": "2026-10-10T02:43:04.486Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+        "imageHeadlineShort": "本体とマット、\n役割は別。",
+        "customerPresentation": "female",
+        "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+        "sceneFingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "close_action_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg"
       },
       {
         "slug": "shinomiya-gym-beginner-choose",
@@ -307,62 +505,16 @@
         "articleTitle": "酸素ルームの中では何をする？｜横になって過ごす時間の使い方",
         "sceneFingerprint": null,
         "thumbnail": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg"
-      },
-      {
-        "slug": "denba-health-what-is-it-the-rev",
-        "checkedAt": "2026-09-29T08:23:10.408Z",
-        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
-        "originVideoFileId": "",
-        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
-        "assetVersion": "reference-v26-auto-denba-intro-20260929-r3",
-        "imageHeadlineShort": "DENBAって何？",
-        "customerPresentation": "male",
-        "articleTitle": "",
-        "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-denba-health-what-is-it-the-rev-reference-v26-auto-denba-intro-20260929-r3.jpg"
-      },
-      {
-        "slug": "oxygen-room-first-time-ear-clearing-guide",
-        "checkedAt": "2026-09-29T07:14:14.478Z",
-        "driveFileId": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
-        "originVideoFileId": "",
-        "contentReference": "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
-        "assetVersion": "reference-v26-auto-oxy-overview-20260929-r3",
-        "imageHeadlineShort": "酸素ルームって、\n何する場所？",
-        "customerPresentation": "male",
-        "articleTitle": "酸素ルームの中にあるDENBAって何？｜THE REV.での使い方をやさしく紹介",
-        "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-oxygen-room-first-time-ear-clearing-guide-reference-v26-auto-oxy-overview-20260929-r3.jpg"
-      },
-      {
-        "slug": "shinomiya-gym-erabikata-dosen",
-        "checkedAt": "2026-09-27T04:24:58.456Z",
-        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
-        "originVideoFileId": "",
-        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
-        "assetVersion": "reference-v26-semantic-xl-20260927-r1",
-        "imageHeadlineShort": "設備だけで、\n決めない。",
-        "customerPresentation": "female",
-        "articleTitle": "新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント",
-        "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg"
-      },
-      {
-        "slug": "exercise-start-fatigue-anxiety-next-day-plan",
-        "checkedAt": "2026-09-27T04:23:55.287Z",
-        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
-        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
-        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
-        "assetVersion": "reference-v26-semantic-xl-20260927-r1",
-        "imageHeadlineShort": "軽く動いて、\n調子を見る。",
-        "customerPresentation": "male",
-        "articleTitle": "運動を始めたい。でも疲れそうで続かない人へ｜最初に決めるのは翌日の予定です",
-        "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-exercise-start-fatigue-anxiety-next-day-plan-reference-v26-semantic-xl-20260927-r1.jpg"
       }
     ],
+    "repeated_due_to_relevance": false,
+    "repeat_distance": null,
     "recent_thumbnail_copy_window": 25,
     "recent_thumbnail_headlines": [
+      "初回体験、\n何を選ぶ？",
+      "姿勢は、\n動きから見直す。",
+      "運動前は、\n動ける状態へ。",
+      "本体とマット、\n役割は別。",
       "続けやすさで、\n選ぶ。",
       "座り仕事、\n30分ごとに立つ？",
       "怖くても、\n最初は基本から。",
@@ -383,11 +535,7 @@
       "軽く動いて、\n調子を見る。",
       "軽く動いて、\n調子を見る。",
       "設備だけで、\n決めない。",
-      "設備だけで、\n決めない。",
-      "体重計に出ない、\n進歩がある。",
-      "健診のあとこそ、\n無理なく始める。",
-      "体重計に出ない、\n進歩がある。",
-      "体重計に出ない、\n進歩がある。"
+      "設備だけで、\n決めない。"
     ],
     "recent_customer_presentations": [
       "male",
@@ -396,102 +544,6 @@
       "female",
       "male",
       "female"
-    ],
-    "repeated_due_to_relevance": false,
-    "repeat_distance": null,
-    "customer_presentation": "male"
-  },
-  "visible_action": "トレーニング開始前にウエアの袖をそっと直して、体調を確かめながら準備している一般顧客",
-  "emotional_state": "初回の小さな緊張、無理せず始めたい慎重さと穏やかな安心感",
-  "visual_claim": "痛みや体調について、運動前に伝えられる安心感",
-  "composition_hint": "Source-image spatial lock, no room hallucination. CUSTOMER is sole hero (60-70% visual attention), background naturally softened while recognizable. Natural gesture adjusting sleeve before training. Keep walls, windows, rack, cables, bench EXACTLY as shown in source; do not add openings, plants, new machinery, altered zones or staged props. Keep textless scene; stable 16:9 hero crop.",
-  "scene_plan": {
-    "version": "the-rev-source-scene-v1",
-    "source_id": "the-rev-frame-4387-75",
-    "source_sha256": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
-    "scene_type": "before_start",
-    "location_type": "training_area",
-    "human_action": "prepare",
-    "composition_type": "medium_three_quarter_portrait",
-    "visual_role": "checking_readiness",
-    "article_intent": "training_start",
-    "required_equipment": [],
-    "subject_zone": "training_area",
-    "article_specific_directive": "One adult Japanese woman customer PREPARES before her first exercise in the verified THE REV. training area, by gently adjusting the sleeve of her clothing, showing natural first-time cautious readiness. Absolutely preserve the SOURCE's exact real room geometry, actual rack/cable/bench positions, walls, perspective, room boundaries and lighting architecture, and do not invent open spaces, new windows, plants or additional machines. Real equipment stays a soft blurred secondary background, with the customer as clear primary visual subject. No health records, text, paper, phone, medical props, new people or trainers. Planned fields: before_start / training_area / prepare / medium_three_quarter_portrait / checking_readiness / training_start.",
-    "similarity": {
-      "pass": true,
-      "window": 12,
-      "compared": 12,
-      "unknown_count": 9,
-      "penalty": 0.5,
-      "matches": [
-        {
-          "slug": "the-rev-trial-three-menus-first-visit",
-          "score": 0.16666666666666666,
-          "equal": [
-            "composition_type"
-          ],
-          "hard_exclusion": false
-        },
-        {
-          "slug": "nekose-strength-training-posture",
-          "score": 0.5,
-          "equal": [
-            "scene_type",
-            "visual_role",
-            "article_intent"
-          ],
-          "hard_exclusion": false
-        },
-        {
-          "slug": "shinomiya-gym-beginner-choose",
-          "score": 0.5,
-          "equal": [
-            "scene_type",
-            "location_type",
-            "human_action"
-          ],
-          "hard_exclusion": false
-        },
-        {
-          "slug": "desk-work-stand-every-30-minutes",
-          "unknown": true
-        },
-        {
-          "slug": "boxing-beginner-scared-before-mitt-training",
-          "unknown": true
-        },
-        {
-          "slug": "denba-electric-potential-space-radio-wave-difference",
-          "unknown": true
-        },
-        {
-          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
-          "unknown": true
-        },
-        {
-          "slug": "beginner-strength-training-few-exercises-frequency",
-          "unknown": true
-        },
-        {
-          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
-          "unknown": true
-        },
-        {
-          "slug": "oxygen-room-how-to-spend-time",
-          "unknown": true
-        },
-        {
-          "slug": "denba-health-what-is-it-the-rev",
-          "unknown": true
-        },
-        {
-          "slug": "oxygen-room-first-time-ear-clearing-guide",
-          "unknown": true
-        }
-      ]
-    }
-  },
-  "recovery_note": "R3 bounded last retry: R2 independent QC rejected an awkward GBP headline split on one attempt and spatially inaccurate over-open background on the other. Short balanced headline, spatially locked training-room source, exactly one generation attempt; fail closed if rejected.",
-  "max_generation_attempts": 1
+    ]
+  }
 }
