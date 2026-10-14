@@ -66,6 +66,7 @@ on:
       - 'scripts/prepare-editorial-image-p2.mjs'
       - 'scripts/materialize-editorial-image-p2-job.mjs'
       - 'scripts/package-editorial-image-p2-results.mjs'
+      - 'scripts/package-editorial-image-p2-results.mjs'
       - '.github/workflows/editorial-image-p2-offline-pilot.yml'
       - 'scripts/test-editorial-image-phase2.mjs'
       - 'editorial/experiments/image-quality-p2/**'
