@@ -147,3 +147,16 @@ npm run test:editorial-images
 ```
 
 **禁止**: B未生成での品質改善宣言／ソース違い比較／元画像の差し替え／他の記事の自動再生成／本番QCを飛ばす比較／P2を理由とした自動Publish。
+
+### P2実画像制作の専用ランナー（手動・本番非接続）
+
+`.github/workflows/editorial-image-p2-offline-pilot.yml` は **workflow_dispatch のみ**。自動記事制作／定時トリガー／Xserver展開／GitHub本番画像のcommitは行わない。
+
+- GitHub Actions → **P2 Offline Image Pilot** → **Run workflow** を開く。case_id は `p2-01`〜`p2-05` の1記事か `all`（5記事）から選ぶ。
+- 旧ジョブは読み取り専用で参照。各ケースのB用scratch jobは `scripts/materialize-editorial-image-p2-job.mjs` が新しいslug、別asset version、別QA report、別状態ファイルで生成。
+- 検証済み実THE REV.ソース、同一Editorial Copy、同一人物属性、同一Human First Overlayを使い、違いは承認対象の情景指示だけ。**1ケース画像生成1回まで**、5記事まとめても画像生成最大5回に制限する（画像QC/API利用自体には別途課金の可能性）。
+- 成功／不合格のいずれも `p2-offline-image-comparison-{run_id}` アーティファクトに可能な証拠を保持。採用画像は自動で本番へ昇格しない。
+- 独立QC不合格なら判定を変更せず、対象記事の試験画像だけREJECTとして記録。A画像を消さない。
+- GitHub Actionsの手動実行が現環境からできない場合は、Workflow作成だけを画像生成実施と誤認しない。5枚すべての実画像制作・独立QC・人間採点の完了を確認してから「5記事比較完了」と言う。
+
+実行時間・API費用の見積もりや統一的な85点評価は、自動で推測しない。結果の採用はP2-Eの判定後、オーナーの明示承認を要求する。
