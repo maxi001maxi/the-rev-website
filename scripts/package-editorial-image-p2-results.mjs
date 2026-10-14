@@ -44,7 +44,7 @@ for(const c of selected){
     ||trial.article_title!==original.article_title
     ||trial.customer_presentation!==original.customer_presentation
     ||trial.policy?.publish_boundary!=='REVIEW_AND_PUBLISH'
-    ||state?.asset_version!=='p2-offline-v1') {
+    ||state?.asset_version!==trial.asset_version) {
     status.image_status='EXPERIMENT_ISOLATION_MISMATCH';pairs.push(status);continue;
   }
   status.image_status=String(state.status||'INVALID_STATE');
@@ -58,7 +58,8 @@ for(const c of selected){
     &&qa.background_source_drive_file_id===original.background_source.drive_file_id
     &&qa.scene_grounding.plan?.source_sha256===original.scene_plan.source_sha256
     &&shaOk(sourcePath,h.source)&&shaOk(trial.generated_scene_path,h.scene)
-    &&shaOk(trial.thumbnail,h.thumbnail)&&shaOk(trial.og_image,h.og)&&shaOk(trial.gbp_image,h.gbp);
+    &&shaOk(trial.thumbnail,h.thumbnail)&&shaOk(trial.og_image,h.og)&&shaOk(trial.gbp_image,h.gbp)
+    &&digest(trial.thumbnail)!==digest(original.thumbnail);
   status.qa_pass=qa.pass===true;
   status.sha256_verified=good;
   if(!good){status.image_status='QA_OR_HASH_REJECTED';pairs.push(status);continue;}
