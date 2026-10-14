@@ -233,3 +233,26 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 - R2の元GitHub artifactは歴史的事実としてそのまま保持し、旧実行を再実行してAPI課金し直さない。
 - このチャットの検証では artifact に含まれる元画像/新画像を別途確認・比較し、scene, thumbnail, OGP, GBP各SHA256と保存された独立QAハッシュが一致した。評価は**画像候補QC合格／人間の好み評価未確定**。自動公開・本番差替なし。
 - 次の対象は`p2-02`。新規に`Run workflow` →`Branch main` → `p2-02` を選び、独立QCと匿名ペアが両方合格してから残り3記事に広げる。
+
+## 14. p2-02 R1実画像QC不合格とR2改修（2026-10-15）
+
+GitHub Actions実行 #38552625358（workflow #3 / attempt 1 / main=5cef614c）でp2-02 Bを実際に1回生成。
+事前検査・画像レンダリング・見出し文字組みは完了したが、独立Visual QCはFAIL。
+- Source/Scene Grounding: FAIL。理由: spatial_plausibility, article_scene_match_visual。
+- 記事の動的ウォームアップを、胸の前に腕を保持した静的肩ストレッチのような姿勢で表現してしまった。
+- 現場のラック、床、機材配置が大きく変わり、別の広いジムに見える。
+- 人物の主役感約45%、実店舗環境の一致4、記事の主張可視化2。文字組み・接地等は概ね正しい。
+- 失敗証拠: editorial/experiments/image-quality-p2/p2-02-r1-qc-evidence.json（生成物は元run artifactに保存）。
+- 現行Aは変更されていない。R1は比較/採用不可。
+
+**R2候補:** p2-offline-r2 を独立バージョンとし、同じTHE REV.実画像を物理位置の絶対基準として保持。
+静的なクロスボディ肩ストレッチ禁止。腕を自然に交互に振り、体幹に小さな回旋・穏やかな重心移動が分かる動的ウォームアップの中間フレームを、実写中距離・やや横から撮る。
+実際のラック/ベンチ/窓/床/天井の位置を絶対に変更しない。Human First人物中心構図と既存文字レイアウト維持。
+画像生成1回上限と独立QAの合格基準は据え置く。
+
+**エラーハンドリング修正:** workflowパッケージ検証はVisual QC自体がFAILのとき「Visual QC PASSなのに比較画像がない」と誤表示しない。
+QCがFAILなら拒否成果物をアップロードし、最後のFail closed if any case is rejectedで正しくFAILとする。
+QCがPASSして比較ペアだけ欠けた場合は引き続きFAILにする。
+
+次のR2試行はGitHub Actionsワークフロー一覧から新規Run workflow -> main -> p2-02 -> Run workflow。
+古いrunのRe-runは使用禁止。API費用を要するため自動起動しない。R2画像の成功や品質はまだ未確認。
