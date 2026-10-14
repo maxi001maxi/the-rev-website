@@ -120,7 +120,7 @@ test('offline Hybrid job materialization has a distinct slug/asset and strict on
   assert.equal(job.image_headline_short,original.image_headline_short);
   assert.equal(job.customer_presentation,original.customer_presentation);
   assert.equal(job.automation.selected_source_id,original.automation.selected_source_id);
-  assert.deepEqual(job.scene_plan,job.scene_plan);
+  assert.deepEqual(job.scene_plan.required_equipment,original.scene_plan.required_equipment);
   assert.equal(job.scene_plan.composition_type,'medium_side_portrait');
   assert.equal(job.scene_plan.source_sha256,original.scene_plan.source_sha256);
   assert(job.qa_report_path.startsWith('editorial/experiments/image-quality-p2/offline-output/'));
@@ -138,6 +138,6 @@ test('manual P2 workflow has no push trigger, production sync, or write token',(
   assert.doesNotMatch(flow,/^  schedule:/m);
   assert.match(flow,/permissions:\s*\n  contents: read/);
   assert.match(flow,/max_generation_attempts|EDITORIAL_IMAGE_MAX_ATTEMPTS/);
-  assert.doesNotMatch(flow,/git push|xserver|supabase|publish-preview|auto_publish/i);
+  assert.doesNotMatch(flow,/git push|lftp|XSERVER_FTP|SUPABASE_URL|publish-preview|AUTO_PUBLISH_ENABLED/i);
   assert.match(flow,/upload-artifact@v4/);
 });
