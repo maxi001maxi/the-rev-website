@@ -122,6 +122,14 @@ function v070RefreshTopicPool_() {
         !m.incremental_answer || !m.content_action || !Array.isArray(m.evidence_items);
     } catch (_) { return true; }
   })) throw new Error('AUDIENCE_CONTRACT_INVALID');
+  if (String(props.getProperty('THE_REV_AUDIENCE_DISCOVERY_MODE') || 'OFF').toUpperCase() === 'ENFORCE') {
+    var assignedRoles = {};
+    candidates.forEach(function(c) {
+      var m = JSON.parse(String(c.notes).slice('AUDIENCE_V08:'.length));
+      if (m.content_action === 'NEW_ARTICLE') assignedRoles[m.editorial_role] = true;
+    });
+    if (Object.keys(assignedRoles).length < 3) throw new Error('MEDIA_ROLE_DIVERSITY_INSUFFICIENT_BEFORE_SHEET_WRITE');
+  }
   candidates.forEach(function(c,i) {
     var scores = c.score_breakdown || {};
     var row = Object.assign({},c,scores,{candidate_id:prefix+(i+1),generated_at:new Date(),week_start:new Date(),rank:i+1,status:'CANDIDATE',total_score:Object.keys(scores).reduce(function(n,k) {return n+Number(scores[k] || 0);},0)});
