@@ -3,7 +3,7 @@
   "article_title": "パーソナルジム初回に伝えること｜痛み・体調は「小さなこと」でも話していい",
   "category_label": "GYM GUIDE",
   "column_label": "COLUMN",
-  "image_headline_short": "小さな不安も、\n話していい。",
+  "image_headline_short": "痛みも体調も、\n伝えていい。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -12,22 +12,22 @@
   "scene_intent": "The customer performs a simple, clearly recognizable preparing-for-exercise action in the existing training area before the first session. No documents, forms or objects; no coaching or pain acting.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r2-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-owner-interview-frame4387-20261015-r2",
-  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r2.jpg",
-  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r2.jpg",
+  "asset_version": "reference-v26-owner-interview-frame4387-20261015-r3",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r2.json",
+  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-owner-interview-frame4387-20261015-r3.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -403,8 +403,8 @@
   },
   "visible_action": "トレーニング開始前にウエアの袖をそっと直して、体調を確かめながら準備している一般顧客",
   "emotional_state": "初回の小さな緊張、無理せず始めたい慎重さと穏やかな安心感",
-  "visual_claim": "運動前に自分の体調を確かめ、違和感を見過ごさず共有するという準備",
-  "composition_hint": "Medium three-quarter portrait in verified training area, with one natural clothing adjustment gesture (preparing for gym); EXACT scene plan fields: before_start/training_area/prepare/medium_three_quarter_portrait/checking_readiness/training_start. No paper, health reports, questionnaires, clipboards, phones, extra gym equipment or medical acts. Real THE REV. racks/bench stay in their source zones. Customer realistic, not sticker.",
+  "visual_claim": "痛みや体調について、運動前に伝えられる安心感",
+  "composition_hint": "Source-image spatial lock, no room hallucination. CUSTOMER is sole hero (60-70% visual attention), background naturally softened while recognizable. Natural gesture adjusting sleeve before training. Keep walls, windows, rack, cables, bench EXACTLY as shown in source; do not add openings, plants, new machinery, altered zones or staged props. Keep textless scene; stable 16:9 hero crop.",
   "scene_plan": {
     "version": "the-rev-source-scene-v1",
     "source_id": "the-rev-frame-4387-75",
@@ -417,7 +417,7 @@
     "article_intent": "training_start",
     "required_equipment": [],
     "subject_zone": "training_area",
-    "article_specific_directive": "One adult Japanese woman customer in the verified real THE REV. TRAINING AREA is calmly PREPARING for the first training session, lightly adjusting the cuff of her workout top before any exercise, looking thoughtfully at her own physical readiness. This is a natural preparatory action, NOT studying records, checking forms or reviewing a medical report. Hands empty except naturally touching clothing. No paper, clipboard, questionnaire, notebook, phone, medical device, medical gesture, trainer or extra human. Fixed action: prepare. Fixed visual role: checking_readiness. Fixed article intent: training_start. Location and source equipment geometry remain unchanged.",
+    "article_specific_directive": "One adult Japanese woman customer PREPARES before her first exercise in the verified THE REV. training area, by gently adjusting the sleeve of her clothing, showing natural first-time cautious readiness. Absolutely preserve the SOURCE's exact real room geometry, actual rack/cable/bench positions, walls, perspective, room boundaries and lighting architecture, and do not invent open spaces, new windows, plants or additional machines. Real equipment stays a soft blurred secondary background, with the customer as clear primary visual subject. No health records, text, paper, phone, medical props, new people or trainers. Planned fields: before_start / training_area / prepare / medium_three_quarter_portrait / checking_readiness / training_start.",
     "similarity": {
       "pass": true,
       "window": 12,
@@ -492,5 +492,6 @@
       ]
     }
   },
-  "recovery_note": "R2 real scene correction: R1 failed observed_plan_mismatch due model depicting review_paper/health report instead of the permitted prepare action. Do not weaken source or image QC."
+  "recovery_note": "R3 bounded last retry: R2 independent QC rejected an awkward GBP headline split on one attempt and spatially inaccurate over-open background on the other. Short balanced headline, spatially locked training-room source, exactly one generation attempt; fail closed if rejected.",
+  "max_generation_attempts": 1
 }
