@@ -47,11 +47,9 @@ var V081_GBP_VOICE_RUNTIME=(function(){
  return 'GBP_VOICE_V081';
 })();
 function verifyGoogleBusinessVoiceV081(){
- const sh=ss_().getSheetByName('21_WEB_BLOG_OUTPUT');
- const blog=getObjectsWithRow_(sh).filter(r=>r.content_id==='BLOG-20261011-36b42e')[0];
- if(!blog)throw new Error('GBP_VERIFICATION_PARENT_MISSING');
- const found=v068StatusRequest_(blog.content_id);if(!found.ok)throw new Error('GBP_PARENT_CMS_MISSING');
- const a=found.json.article||{};const parent=Object.assign({},blog,{title:a.title||blog.title,lead:a.description||blog.lead,body_markdown:a.body_markdown||blog.body_markdown});
+ const parent={title:'運動前のストレッチは何分？ 筋トレ・ボクシングで変わる準備の順番',
+ lead:'CMSの現行親記事の抜粋で実生成を確認する。記事やGoogle投稿は更新しない。',
+ body_markdown:'ストレッチだけを何分するかより、今日の運動を始められる状態になったかで決める方が実用的です。\n\n8〜12分は全員に必要な標準時間ではなく組み立て方の例です。2〜3分の足踏みや軽い歩行、2〜3分の関節運動、4〜6分の種目に似た軽い動作という例があります。\n\nスクワット前は自重や軽い重量でしゃがむ動きを確認します。ボクシング前は足踏み、肩・股関節・体幹の動き、スピードを落としたシャドーへつなげます。\n\n動き、コントロール、体調を確認します。強い痛みやしびれ、めまいなどが残る場合は運動を中断し、必要に応じて医療機関へ相談してください。\n\nTHE REV.では、その日の目的・身体の状態・実際の動きを見て準備を考えます。',cta:''};
  const made=generateGBPFromBlog_(parent,{verified_public_facts:[]});
- Logger.log(JSON.stringify({status:'GENERATED_NOT_POSTED',voice_runtime:V081_GBP_VOICE_RUNTIME,parent_id:blog.content_id,copy:made,chars:made.body_copy_paste.length,google_post_sent:false}));return made;
+ Logger.log(JSON.stringify({status:'GENERATED_NOT_POSTED',verification_input:'CURRENT_CMS_EXCERPTS',voice_runtime:V081_GBP_VOICE_RUNTIME,parent_id:'BLOG-20261011-36b42e',copy:made,chars:made.body_copy_paste.length,google_post_sent:false,sheet_copy_updated:false}));return made;
 }
