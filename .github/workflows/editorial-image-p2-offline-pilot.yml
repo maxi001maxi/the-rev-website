@@ -36,6 +36,20 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
+      - name: Reject re-runs and stale branches before any billable API call
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          REF_NAME: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          if [ "$RUN_ATTEMPT" != "1" ]; then
+            echo "::error::Re-run jobs repeats the old commit and may waste image API credits. Open Actions > P2 Offline Image Pilot > Run workflow on main to start a NEW run."
+            exit 1
+          fi
+          if [ "$REF_NAME" != "refs/heads/main" ]; then
+            echo "::error::P2 pilot must be dispatched from main, not an old feature branch."
+            exit 1
+          fi
       - name: Checkout canonical baseline (read only)
         uses: actions/checkout@v4
         with:
