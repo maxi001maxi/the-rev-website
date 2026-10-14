@@ -188,11 +188,16 @@ test('offline review packaging without accepted B cannot falsely make a blind co
 test('reviewer and private key are separated into different upload-artifacts',()=>{
   const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
   assert.match(flow,/package-editorial-image-p2-results.mjs/);
-  const reviewerBlock=flow.slice(flow.indexOf('- name: Upload BLIND reviewer material'),flow.indexOf('- name: Upload PRIVATE unblinding key'));
-  const privateBlock=flow.slice(flow.indexOf('- name: Upload PRIVATE unblinding key'),flow.indexOf('- name: Upload offline evidence ONLY'));
-  const evidenceBlock=flow.slice(flow.indexOf('- name: Upload offline evidence ONLY'));
+  const evidenceStart=flow.indexOf('- name: Upload offline evidence ONLY');
+  const reviewerStart=flow.indexOf('- name: Upload anonymous gallery for blind human scoring');
+  const privateStart=flow.indexOf('- name: Upload separate answer key (do not open until after scoring)');
+  const end=flow.indexOf('- name: Fail closed if any case is rejected');
+  assert(evidenceStart>=0 && reviewerStart>evidenceStart && privateStart>reviewerStart && end>privateStart);
+  const evidenceBlock=flow.slice(evidenceStart,reviewerStart);
+  const reviewerBlock=flow.slice(reviewerStart,privateStart);
+  const privateBlock=flow.slice(privateStart,end);
   assert.match(reviewerBlock,/offline-output\/reviewer\/\*\*/);
-  assert.doesNotMatch(reviewerBlock,/answer-key/);
+  assert.doesNotMatch(reviewerBlock,/private-answer-key/);
   assert.match(privateBlock,/offline-output\/private-answer-key\/\*\*/);
   assert.doesNotMatch(evidenceBlock,/private-answer-key|offline-output\/reviewer\/\*\*/);
 });
