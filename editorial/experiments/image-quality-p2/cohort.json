@@ -14,8 +14,17 @@
         "composition_type": "medium_seated_portrait",
         "visual_role": "deciding_own_start"
       },
-      "improved_brief": "実際のTHE REV.受付の既存スツールに自然に座り、顧客役1人が体験メニューの選択を考える。空白のスマートフォン画面または抽象的な短い個人メモを静かに見ている。表情は不安一色ではなく、納得して選ぼうとする落ち着き。既存の受付・壁・ロゴ・植物・奥のラックを移動しない。トレーナーや余分な人を描かない。",
-      "hypothesis": "単に施設を眺める場面より、初回体験を自分で選ぶ状況が一目で伝わる"
+      "improved_brief": "ONE Japanese adult male customer, on the EXISTING THE REV reception stool, studying a small personal note and blank phone. CRITICAL CAMERA FRAMING: true MEDIUM SEATED PORTRAIT, NOT a wide full-body shot. Crop from around upper thigh/waist to head with both hands, small phone and note fully readable as an action. Head and shoulders prominently fill the CENTER-RIGHT of the image; subject's face/upper body are visually dominant, target 60–70% of total attention, with enough upper-body scale for 320px thumbnails. Camera moves closer to the real stool, not the stool/person to camera. Natural eye-level angle with modest three-quarter turn. Do not show both feet, large empty floor, the whole reception room, or oversized blank walls. Do not place subject at the far right edge. Authentic THE REV wall logo, plant, reception counter and rear rack remain in their original positions as recognizable softly defocused anchors; never rebuild room geometry, rack/bench placement, plants, wall, or lighting. Use optical shallow depth, not artificial opaque blur; keep realistic contact shadows and lighting. The face communicates calm consideration and a slight sense of choosing, not anxiety or staged grin. Exactly one customer, no trainer/staff, no extra equipment, no fictitious props, no readable commercial screen content. FINAL IMAGE MUST support the existing quiet ivory-on-left Golden Typography in both wide and GBP 4:3 layouts, and must not create a conspicuous bright rectangular wall/fade transition. Do not alter typography or overlay in the image; the deterministic renderer adds copy later.",
+      "hypothesis": "単に施設を眺める場面より、初回体験を自分で選ぶ状況が一目で伝わる",
+      "revision": "p2-01-r2-after-qc-fail-38540625251",
+      "previous_rejected_asset_version": "p2-offline-v1",
+      "r2_expected_visual_checks": [
+        "person_visual_attention_58_to_75",
+        "medium_seated_portrait_not_wide_full_body",
+        "background_secondary_pass",
+        "background_soft_blur_pass",
+        "gbp_art_direction_fade_integrated"
+      ]
     },
     {
       "case_id": "p2-02",

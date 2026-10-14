@@ -200,3 +200,17 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 - 履歴に旧記事のscene fingerprintが欠けている場合は件数をそのまま記録し、実画像生成時の独立観察・QCを省略しない
 
 本番公開・既存サムネイルの置換・Xserver上書きは一切なし。初回の費用リスクを抑えるなら、5記事一括実行の前に単独の`p2-01`で実写真・独立QC・匿名比較パッケージを試す。
+
+## 11. P2 p2-01｜実モデル生成R1の結果とR2（2026-10-14）
+
+**実行:** `P2 Offline Image Pilot` / case `p2-01`, [GitHub Actions #38540625251](https://github.com/maxi001maxi/the-rev-website/actions/runs/38540625251)。
+
+**実結果**: 事前検査PASS、実際の画像生成1回成功、3比率のGolden Typography deterministic PASS、独立Source/Scene Grounding PASS。しかしVisual QCはFAIL。画面を見て発見した具体的問題は、生成Bが`wide_full_body`の引き構図になり、人物の存在感42%（基準58〜75%）、壁・床・奥の設備が人物より目立ち、GBPの白ベールが矩形パネルのように見えること。Thumbnail/OGPの可読性自体はPASS。実行により本番画像は変更していない。
+
+- 公式拒否エビデンス: `editorial/experiments/image-quality-p2/p2-01-r1-qc-evidence.json`
+- R1は本番採用不可。見た目を良くするためにQC閾値やGolden Typographyを変更・緩和しない。
+- R2は`p2-01`の**シーンブリーフだけ**、腰〜頭・両手・スマホ・メモが明確に映る近めのmedium seated portraitへ強化。既存スツール、ロゴ、植物、受付、奥のラックと空間構造を保持。自然な被写界深度。人物を動かすのではなくカメラを近づける。
+- R2の新asset versionは`p2-offline-r2`。R1 `p2-offline-v1` を上書きして合格を偽装しない。
+- 残り4記事のtrial version / source / brief / editorial copy / baseline / production変更なし。
+- 同じ`p2-01`を手動で再実行すると**追加の1回分の画像生成とQC API費用**が発生する。再実行はオーナーの任意操作。R2は現時点では生成・合格未確認。
+- R2がQCを通った場合のみ匿名A/B比較へ。再失敗なら同じ画像案を無制限にリトライしない。
