@@ -222,3 +222,14 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 - P2手動Actionの先頭に `github.run_attempt==1` / `github.ref==refs/heads/main` 必須のguardを追加。**再実行や旧ブランチ指定は画像生成前にFAIL**。
 - R2は必ず Actionsの `P2 Offline Image Pilot` **ワークフローページ**から`Run workflow`→`Branch: main`→`p2-01`→`Run workflow`を押して、新しいrun IDが付いたことを確認する。`Re-run jobs` / `Re-run all jobs` は使わない。
 - R2が正常に実行されたログでは `asset_version: p2-offline-r2` が示される。変わらず`p2-offline-v1`なら再実行を止める。
+
+## 13. p2-01 R2 実画像のQC合格と匿名A/Bパッケージ修正（2026-10-14）
+
+- 最新のP2手動新規実行 `#38546378095` / `run_number=2` / `run_attempt=1` / `main=fe95bde7` は実際に `p2-offline-r2` を生成。画像1試行。
+- 独立Visual QCは**PASS**（`qa.pass=true`）、実施設のSource/Scene Groundingも**PASS**。人物視覚占有64%、存在感9、背景secondaryとsoft blurがPASS、見出し・構図・GBPアートディレクションも合格。既存本番への書き込みなし。
+- ただし旧 `package-editorial-image-p2-results.mjs` は`trial.asset_version==='p2-offline-r2'`に改修済なのに、`state.asset_version==='p2-offline-v1'`を要求する不整合が残り、`EXPERIMENT_ISOLATION_MISMATCH`、`blind_pairs_ready=0`だった。したがって元のGitHub実行画面がsuccessでも**匿名レビュー完成とは言えなかった**。
+- 修正: `state.asset_version===trial.asset_version`を強制。さらに改善Bと現行Aの画像SHA256が同一なら比較とみなさず拒否。画像/ソース/他のQC SHA256確認も維持。
+- workflow成功条件に`evidence.all_requested_pairs_ready===true`を追加。画像QCはPASSでも匿名ペアが作れなければ、次回からAction自体がFAILとなる。
+- R2の元GitHub artifactは歴史的事実としてそのまま保持し、旧実行を再実行してAPI課金し直さない。
+- このチャットの検証では artifact に含まれる元画像/新画像を別途確認・比較し、scene, thumbnail, OGP, GBP各SHA256と保存された独立QAハッシュが一致した。評価は**画像候補QC合格／人間の好み評価未確定**。自動公開・本番差替なし。
+- 次の対象は`p2-02`。新規に`Run workflow` →`Branch main` → `p2-02` を選び、独立QCと匿名ペアが両方合格してから残り3記事に広げる。
