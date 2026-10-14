@@ -113,7 +113,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: p2-blind-reviewer-${{ github.run_id }}
+          name: p2-blind-review-${{ github.run_id }}
           retention-days: 7
           if-no-files-found: warn
           path: editorial/experiments/image-quality-p2/offline-output/reviewer/**
@@ -121,7 +121,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: p2-private-answer-key-${{ github.run_id }}
+          name: p2-unblind-key-${{ github.run_id }}
           retention-days: 7
           if-no-files-found: warn
           path: editorial/experiments/image-quality-p2/offline-output/private-answer-key/**
