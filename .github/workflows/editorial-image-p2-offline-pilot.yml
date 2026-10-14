@@ -127,10 +127,15 @@ jobs:
         if: always() && steps.pilot.outcome != 'skipped'
         env:
           CASE_ID: ${{ inputs.case_id }}
+          PILOT_FAILED: ${{ steps.pilot.outputs.failed }}
         run: |
           set -euo pipefail
           node scripts/package-editorial-image-p2-results.mjs "$CASE_ID"
-          node -e "const e=require('./editorial/experiments/image-quality-p2/offline-output/reports/evidence.json'); if (e.all_requested_pairs_ready !== true) { console.error('::error::P2 generated candidate not packaged as a verified A/B pair, aborting despite Visual QC PASS'); process.exit(1); }"
+          if [ "$PILOT_FAILED" = "true" ]; then
+            echo "::warning::P2 image failed independent Visual QC. Review rejected-candidate QA evidence; no blind A/B pair or publication is permitted."
+          else
+            node -e "const e=require('./editorial/experiments/image-quality-p2/offline-output/reports/evidence.json'); if (e.all_requested_pairs_ready !== true) { console.error('::error::P2 Visual QC PASS but the verified A/B pair is missing; refusing success.'); process.exit(1); }"
+          fi
       - name: Upload offline evidence ONLY
         if: always()
         uses: actions/upload-artifact@v4
