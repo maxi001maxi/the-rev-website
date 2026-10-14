@@ -1,0 +1,77 @@
+{
+  "experiment_id": "THE_REV_IMAGE_P2_20261014",
+  "version": "p2-five-article-brief-trial-v1",
+  "mode": "OFFLINE_ONLY",
+  "cases": [
+    {
+      "case_id": "p2-01",
+      "slug": "the-rev-trial-three-menus-first-visit",
+      "baseline_asset_version": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+      "article_context": "パーソナルジムの初回体験メニューの選び方。",
+      "target_fingerprint": {
+        "scene_type": "personal_choice",
+        "human_action": "compare_notes",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "deciding_own_start"
+      },
+      "improved_brief": "実際のTHE REV.受付の既存スツールに自然に座り、顧客役1人が体験メニューの選択を考える。空白のスマートフォン画面または抽象的な短い個人メモを静かに見ている。表情は不安一色ではなく、納得して選ぼうとする落ち着き。既存の受付・壁・ロゴ・植物・奥のラックを移動しない。トレーナーや余分な人を描かない。",
+      "hypothesis": "単に施設を眺める場面より、初回体験を自分で選ぶ状況が一目で伝わる"
+    },
+    {
+      "case_id": "p2-02",
+      "slug": "pre-workout-stretching-duration",
+      "baseline_asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
+      "article_context": "運動前の軽い動的ウォームアップ、準備運動の順番。",
+      "target_fingerprint": {
+        "scene_type": "before_start",
+        "human_action": "prepare",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "checking_readiness"
+      },
+      "improved_brief": "同じTHE REV.トレーニングエリアで顧客役1人が軽い動的ウォームアップを行う。肩から体幹へのゆったりした連動が自然な瞬間を、やや横からの中距離で捉える。静的ストレッチや大げさな苦痛表情ではない。ラック、床、窓、照明の配置は元写真に忠実。床接地と可動域、自然な光・影を優先。",
+      "hypothesis": "安全な中間姿勢を保ちながら、動作の意味が一覧サイズでも読み取れる"
+    },
+    {
+      "case_id": "p2-03",
+      "slug": "denba-health-device-mat-role",
+      "baseline_asset_version": "reference-v26-grounded-auto-denba-20260924-r5",
+      "article_context": "DENBA Healthの実機とマットの構成・役割の解説。",
+      "target_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "human_action": "observing_real_equipment",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "component_relationship"
+      },
+      "improved_brief": "THE REV.受付に実在するDENBA本体が背景に自然に確認でき、一般の成人女性顧客が無理のない横寄り構図で実機を注意深く見ている。顧客を主役に、実機は従のアンカーとして残す。元写真に写っていないマット、医療行為、新機器・配線・スタッフを作らない。光と遠近の一体感を重視。",
+      "hypothesis": "既存の近接画より、顧客と実機の位置関係が自然に伝わる"
+    },
+    {
+      "case_id": "p2-04",
+      "slug": "nekose-strength-training-posture",
+      "baseline_asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+      "article_context": "猫背と筋トレ、姿勢と身体の動きの関係。",
+      "target_fingerprint": {
+        "scene_type": "before_start",
+        "human_action": "prepare",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "checking_readiness"
+      },
+      "improved_brief": "THE REV.実受付にある既存スツールへ自然に座った女性顧客1人が、運動前に肩の位置を軽く整え、自分の姿勢と動きを確かめる静かな瞬間。過度な猫背の誇張、医学的ビフォーアフター、受付での筋トレを描かない。ロゴ壁、植物、カウンター、後方ラックの位置を厳密に保持。",
+      "hypothesis": "『ただ座る』から『自分の姿勢と動きに気づく』へ情景の意味を高める"
+    },
+    {
+      "case_id": "p2-05",
+      "slug": "shinomiya-gym-beginner-choose",
+      "baseline_asset_version": "reference-v26-grounded-evolgear-20261007-r4",
+      "article_context": "新大宮で初心者がジムの種類を比較し、自分に合う始め方を選ぶ。",
+      "target_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "human_action": "observing_real_equipment",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "safe_first_step"
+      },
+      "improved_brief": "THE REV.実トレーニングエリアで成人男性顧客1人が実際のラックやベンチを安全な距離から眺め、自分に合うスタートを考えている。手には何も持たず器具に触れない。ベンチ、プレート、ラックの位置と大きさを固定し、余分な機材を作らない。背景は分かる程度に柔らかくし、本人の自然な表情を主役にする。",
+      "hypothesis": "靴ひもの準備動作より、施設の見極めという記事目的が直感的に伝わる"
+    }
+  ]
+}

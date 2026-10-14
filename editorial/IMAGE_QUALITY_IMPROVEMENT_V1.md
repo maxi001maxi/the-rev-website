@@ -116,3 +116,34 @@ GitHub / Xserver exact assets検証
 ## 8. 2026-10-15記事との関係
 
 `BLOG-20261015-fac1fd` は既存の本番原稿QCと画像QCで止まっていた**別の復旧案件**。改善研究を理由に既存記事のステータス、オーナーのInterview、画像不合格履歴を改ざんしない。P1のコミットだけで記事が公開可能になることはない。
+
+## 9. Phase 2｜5記事の実画像A/B比較（2026-10-14開始）
+
+**試験台帳**: `editorial/experiments/image-quality-p2/cohort.json`。対象5件は既存の independent Visual QC / Source-Scene Grounding PASS の画像が存在する記事だけを採用。B用の元ソース・記事見出し・人物属性・レンダラーはAと同じ。
+
+| ID | 記事 | 比較する情景変更 |
+|---|---|---|
+| p2-01 | 初回体験はどれを選ぶ？ | 施設を眺める → 自分で選択肢を比較する |
+| p2-02 | 運動前のストレッチ | 正面寄りの準備 → 横寄りの軽い動的動作 |
+| p2-03 | DENBA機器・マット | 製品を間近で見る → 人と実機の距離が自然な横構図 |
+| p2-04 | 猫背・筋トレ | 休息姿勢 → 姿勢を意識して準備する動き |
+| p2-05 | 初心者のジム選び | ベンチで準備する → 安全距離から実設備を確認する |
+
+**P2-A 現行画像の固定**: `node scripts/prepare-editorial-image-p2.mjs` を実行。5件のslug、asset version、source/thumbnail SHA256、元QCのPASS、現行fingerprintを比較用に読み出す。元ファイルは一切変更しない。
+
+**P2-B 情景改善候補の審査**: 変更はscene fingerprint／情景の具体性のみ。5記事の同じ実素材を使い、許可された動作、source inventory、記事との意味の一致、直近12記事の重複を必ず確認する。旧履歴にfingerprint欠落があれば `requires_history_review=true` のまま記録し、既存の反復がないと推測しない。Bの見出しを新しく変えて公平性を損なわない。
+
+**P2-C 実画像の制作・QC**: B画像は *別のoffline実験出力領域* へ生成する必要がある。現時点の`prepare-editorial-image-p2.mjs`は**ブリーフ作成専用であり、画像生成を実行しない**。Bが生成される前にA/Bの勝敗を宣言しない。画像ができたら現在の独立Visual QC、Source/Scene Grounding、3比率の可読性をすべて審査。公開用画像ジョブの上書き・Supabase READY操作・Xserver配置は禁止。
+
+**P2-D ブラインド評価**: `node scripts/prepare-editorial-image-p2.mjs --review-template`。B画像とQCが揃った時点でA/Bの提示順だけをランダム化し、5軸（記事との一致、情景の独自性、人物の自然さ、実店舗らしさ、コピーの可読性）を1～5点で採点する。実店舗構造、動作、人物数・トレーナー不在、光の整合性は**別の必須ゲート**。5画像の相対比較を、制作側の自画自賛スコアで代替しない。
+
+**P2-E 採用条件**: 5記事中4記事以上で総合的に上回り、自然さ・実店舗らしさ・コピーを悪化させず、すべて独立QCを通過したときに限り、**オーナー評価へ提案**。`assessP2PairedResults` は条件を満たしても `adopt:false`。P5 Canaryと本番反映は別の承認フェーズ。
+
+**検証**:
+```bash
+npm run test:image-phase2
+npm run image:prepare-phase2
+npm run test:editorial-images
+```
+
+**禁止**: B未生成での品質改善宣言／ソース違い比較／元画像の差し替え／他の記事の自動再生成／本番QCを飛ばす比較／P2を理由とした自動Publish。
