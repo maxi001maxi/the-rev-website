@@ -20,8 +20,6 @@
  * v0.8.0 adds opt-in Writer/Editor prompts + independent quality gate (OFF by default).
  */
 
-
-
 /**
  * THE REV. Editorial AI v0.6.9
  * Daily Editorial Gate + Publish Reconciliation + Missed-Creation Watchdog
