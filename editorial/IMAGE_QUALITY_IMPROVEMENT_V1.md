@@ -256,3 +256,18 @@ QCがPASSして比較ペアだけ欠けた場合は引き続きFAILにする。
 
 次のR2試行はGitHub Actionsワークフロー一覧から新規Run workflow -> main -> p2-02 -> Run workflow。
 古いrunのRe-runは使用禁止。API費用を要するため自動起動しない。R2画像の成功や品質はまだ未確認。
+
+## 15. p2-02 R2二度目の店舗空間QC不合格：課金停止（2026-10-15）
+
+実行: GitHub Actions P2 Offline Image Pilot #4 / Run 38649697529 / main a4053dc、p2-offline-r2。
+実生成1回・Golden Typography・人物の動的ウォームアップ・解剖・照明は改善したが、独立Visual QCはFAIL。
+実店舗source/sceneの spatial_plausibility でFAIL。左の空き床・平滑な壁が広がり、ラック・ベンチが右奥へ再構成された。
+R2 QC実測: human_visual_attention_share=63, main_claim_visualization=8, rev_environment_consistency=3, brand_space_authenticity=4, background_secondary_pass=false。
+p2-02で前回R1、今回R2の連続失敗が同じ『実店舗背景の再構成』なので、プロンプト文字数をさらに増やす方式で即時R3はしない。
+
+原因の技術的制約: scripts/auto-editorial-hybrid-image.mjs は source photoをinput_imageとして渡す image_generationツールから1536x1024の新しいシーン画像全体を受け取る。元写真の背景ピクセルを固定して合成する処理ではないため、プロンプトの部屋配置指示を破る生成が起こり得る。
+
+安全対策: editorial/experiments/image-quality-p2/pilot-holds.json にp2-02のPAUSEDを記録。手動P2 workflowに P2_ENFORCE_HOLDS=1 を設定し、OpenAI APIやPlaywrightのインストールより前の無料preflightで p2-02 と all の実行を止める。p2-01,p2-03,p2-04,p2-05 は継続可能。一般的な製品公開ジョブは変更しない。
+
+再開条件: source geometry固定型の画像編集・マスキング・合成など、背景の壁・窓・床・ラック・ベンチを動かさず人物動作を制作する設計を別工程で確認する。原画像ハッシュを固定し、独立QC・目視検証・新試験asset_versionとAPI上限を明文化した上でholdsを解除。
+既存本番画像の置換・公開は行っていない。R2の拒否された証拠は元GitHub Actions artifactに保持（保存期限7日）。
