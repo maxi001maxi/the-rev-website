@@ -2099,6 +2099,42 @@ function v080BaseQuality_(draft, edited) {
   return {pass:errors.length === 0,errors:errors,notices:notices,body_chars:count,score_total:score.total,inspection:'DETERMINISTIC_ONLY'};
 }
 
+/**
+ * Independent QC receives the owner-approved interview as primary-source
+ * evidence. It is not permission to infer undocumented store procedures.
+ * The official excerpt below is a narrow, manually verified PDF fact pack,
+ * used only when that exact source is listed in the finalized article.
+ */
+function v080QcEvidence_(edited, ctx) {
+  var interview = ctx && ctx.first_party_interview;
+  var owner = interview && String(interview.source_id || '').trim() &&
+    String(interview.raw_answer || '').trim() ? {
+      source_type:'FIRST_PARTY_OWNER_INTERVIEW',
+      source_id:String(interview.source_id).trim(),
+      raw_answer:String(interview.raw_answer).slice(0,10000),
+      scope:'Owner statements only; no inferred clinical protocol, safety guarantee or operational procedure.'
+    } : null;
+  var refs = Array.isArray(edited && edited.source_refs) ? edited.source_refs : [];
+  var hasOfficialPdf = refs.some(function(ref) {
+    var value=String(ref||'');
+    return value.indexOf('caa.go.jp/policies/council/csic/report/report_024/assets/csic_cms201_260527_11.pdf')!==-1;
+  });
+  var official = hasOfficialPdf ? [{
+    source_type:'OFFICIAL_SOURCE_VERIFIED_EXCERPT',
+    document:'消費者安全調査委員会 消費者事故等調査報告書 パーソナルトレーニングにおける事故',
+    publication_date:'2026-05-27',
+    url:'https://www.caa.go.jp/policies/council/csic/report/report_024/assets/csic_cms201_260527_11.pdf',
+    page_reference:'PDF pages 58-60 (printed 59-61)',
+    verified_points:[
+      'トレーナーは利用者の体調や痛みの全てを把握できない。過去のけが、寝不足、痛みや違和感等は運動前・中・後に伝えるよう案内している。',
+      'トレーナーに不安・痛みを申告された際には当該種目を一旦中止し、確認したうえで変更・中止・受診勧奨等、安全優先で対応するよう提言している。',
+      '指導者の大丈夫という指示に従い、けがをした相談が寄せられている。不安が残る運動は一旦止め、話し合いによる見直しを勧めている。'
+    ],
+    scope:'Only these directly verified statements. Do not infer incident counts, individual store practices, guarantees or medical conclusions.'
+  }] : [];
+  return {first_party_owner_interview:owner,verified_official_excerpts:official};
+}
+
 function v080IndependentQc_(edited, ctx) {
   if (typeof openAIRequest_ !== 'function' || typeof parseStructuredResponse_ !== 'function') throw new Error('V080_QC_API_NOT_AVAILABLE');
   var axes=['question_resolution','understanding_gain','decision_support','concreteness_evidence','originality_readability'];
@@ -2106,8 +2142,8 @@ function v080IndependentQc_(edited, ctx) {
   var schema={type:'object',additionalProperties:false,properties:{scores:{type:'object',additionalProperties:false,properties:props,required:axes},issues:{type:'array',items:{type:'string'}},source_unverified:{type:'boolean'},reason:{type:'string'}},required:['scores','issues','source_unverified','reason']};
   var settings=getSettings_();
   var payload={model:settings.blog_editor_model||settings.blog_model,store:false,input:[
-    {role:'system',content:[{type:'input_text',text:'You are an INDEPENDENT QC reviewer, NOT the writer or editor. Judge reader value without viewing writer/editor self-scores. Return five scores (0-4): question answered, new understanding, decision support, concrete grounded detail, readability/originality. Flag factual or store claims that cannot be checked against supplied verified facts as source_unverified=true. Never fabricate verification. issues must list every material blocker. Be critical. Score is NOT a human-reader measurement.'}]},
-    {role:'user',content:[{type:'input_text',text:JSON.stringify({title:edited.title,article_type:edited.article_type,body_markdown:edited.body_markdown,verified_public_facts:ctx&&ctx.verified_public_facts||[],blocked_facts:ctx&&ctx.blocked_facts||[],source_refs:edited.source_refs||[]})}]}
+    {role:'system',content:[{type:'input_text',text:'You are an INDEPENDENT QC reviewer, NOT the writer or editor. Judge reader value without viewing writer/editor self-scores. Return five scores (0-4): question answered, new understanding, decision support, concrete grounded detail, readability/originality. Check factual claims against supplied verified facts, narrow official excerpts and the explicitly sourced owner interview. Treat the owner interview as evidence of the owner's stated position ONLY, not independent proof of store protocols or clinical effectiveness. Unverified claims must still set source_unverified=true. Never fabricate verification. issues must list every material blocker. Be critical. Score is NOT a human-reader measurement.'}]},
+    {role:'user',content:[{type:'input_text',text:JSON.stringify({title:edited.title,article_type:edited.article_type,body_markdown:edited.body_markdown,verified_public_facts:ctx&&ctx.verified_public_facts||[],blocked_facts:ctx&&ctx.blocked_facts||[],source_refs:edited.source_refs||[],qc_evidence:v080QcEvidence_(edited,ctx)})}]}
   ],text:{format:{type:'json_schema',name:'editorial_quality_v080',strict:true,schema:schema}},max_output_tokens:1300};
   var output=parseStructuredResponse_(openAIRequest_('responses',payload),'Editorial Independent QC v0.8');
   var sum=0,valid=true;
