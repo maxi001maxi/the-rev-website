@@ -103,3 +103,41 @@ test('cohort cannot silently expand or deduplicate',()=>{
   assert.throws(()=>validateP2Cohort({...cohort,cases:cohort.cases.slice(1)}),/EXACTLY_FIVE/);
   assert.throws(()=>validateP2Cohort({...cohort,cases:[...cohort.cases.slice(0,4),cohort.cases[0]]}),/DUPLICATE/);
 });
+
+test('offline Hybrid job materialization has a distinct slug/asset and strict one-attempt limit',()=>{
+  const caseId='p2-03';
+  const candidate=manifest.cases.find(c=>c.case_id===caseId);
+  const run=execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs',caseId],{encoding:'utf8'}).trim();
+  assert(run.startsWith('editorial/experiments/image-quality-p2/offline-output/jobs/'));
+  const job=JSON.parse(fs.readFileSync(run,'utf8'));
+  const original=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/'+candidate.slug+'.json','utf8'));
+  assert.notEqual(job.slug,original.slug);
+  assert.equal(job.max_generation_attempts,1);
+  assert.equal(job.automation.mode,'OFFLINE_P2_DO_NOT_PUBLISH');
+  assert.equal(job.publish_requires_human_approval,true);
+  assert.equal(job.policy.publish_boundary,'REVIEW_AND_PUBLISH');
+  assert.equal(job.article_title,original.article_title);
+  assert.equal(job.image_headline_short,original.image_headline_short);
+  assert.equal(job.customer_presentation,original.customer_presentation);
+  assert.equal(job.automation.selected_source_id,original.automation.selected_source_id);
+  assert.deepEqual(job.scene_plan,job.scene_plan);
+  assert.equal(job.scene_plan.composition_type,'medium_side_portrait');
+  assert.equal(job.scene_plan.source_sha256,original.scene_plan.source_sha256);
+  assert(job.qa_report_path.startsWith('editorial/experiments/image-quality-p2/offline-output/'));
+  assert(job.generated_scene_path.startsWith('editorial/experiments/image-quality-p2/offline-output/'));
+  assert(!fs.existsSync(job.thumbnail));
+  assert(!fs.existsSync(job.qa_report_path));
+  assert.throws(()=>execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs',caseId],{encoding:'utf8',stdio:'pipe'}));
+  fs.unlinkSync(run);
+});
+
+test('manual P2 workflow has no push trigger, production sync, or write token',()=>{
+  const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  assert.match(flow,/workflow_dispatch:/);
+  assert.doesNotMatch(flow,/^  push:/m);
+  assert.doesNotMatch(flow,/^  schedule:/m);
+  assert.match(flow,/permissions:\s*\n  contents: read/);
+  assert.match(flow,/max_generation_attempts|EDITORIAL_IMAGE_MAX_ATTEMPTS/);
+  assert.doesNotMatch(flow,/git push|xserver|supabase|publish-preview|auto_publish/i);
+  assert.match(flow,/upload-artifact@v4/);
+});
