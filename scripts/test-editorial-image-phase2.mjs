@@ -201,3 +201,14 @@ test('reviewer and private key are separated into different upload-artifacts',()
   assert.match(privateBlock,/offline-output\/private-answer-key\/\*\*/);
   assert.doesNotMatch(evidenceBlock,/private-answer-key|offline-output\/reviewer\/\*\*/);
 });
+
+test('manual P2 workflow packages each randomized blind comparison exactly once',()=>{
+  const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  assert.equal(flow.split('node scripts/package-editorial-image-p2-results.mjs').length-1,1,'rerandomization of A/B key forbidden');
+  assert.equal(flow.split('name: p2-blind-review-').length-1,1,'duplicate blinded reviewer artifact forbidden');
+  assert.equal(flow.split('name: p2-unblind-key-').length-1,1,'duplicate private key artifact forbidden');
+  assert.equal(flow.split('name: p2-offline-image-comparison-').length-1,1,'duplicate operational evidence forbidden');
+  const evidence=flow.slice(flow.indexOf('- name: Upload offline evidence ONLY'),flow.indexOf('- name: Upload anonymous gallery'));
+  assert.equal(evidence.includes('private-answer-key'),false);
+  assert.equal(evidence.includes('offline-output/reviewer/**'),false);
+});

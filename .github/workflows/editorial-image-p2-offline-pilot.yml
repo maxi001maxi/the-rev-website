@@ -102,29 +102,6 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/package-editorial-image-p2-results.mjs "$CASE_ID"
-      - name: Verify offline QA evidence and prepare anonymous comparisons
-        if: always()
-        env:
-          CASE_ID: ${{ inputs.case_id }}
-        run: |
-          set -euo pipefail
-          node scripts/package-editorial-image-p2-results.mjs "$CASE_ID"
-      - name: Upload BLIND reviewer material
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: p2-blind-reviewer-${{ github.run_id }}
-          retention-days: 7
-          if-no-files-found: warn
-          path: editorial/experiments/image-quality-p2/offline-output/reviewer/**
-      - name: Upload PRIVATE unblinding key separately
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: p2-private-answer-key-${{ github.run_id }}
-          retention-days: 7
-          if-no-files-found: warn
-          path: editorial/experiments/image-quality-p2/offline-output/private-answer-key/**
       - name: Upload offline evidence ONLY
         if: always()
         uses: actions/upload-artifact@v4
