@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-lobby-sp-20260927\",\"source_sha256\":\"ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662\",\"scene_type\":\"arrival\",\"location_type\":\"reception\",\"human_action\":\"enter\",\"composition_type\":\"medium_three_quarter_portrait\",\"visual_role\":\"first_visit_reassurance\",\"article_intent\":\"facility_selection\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"Generate exactly ONE adult Japanese male CUSTOMER naturally arriving at the verified THE REV reception, pausing in a comfortable relaxed standing posture to take in the room. Adult is fully clothed in understated practical everyday clothes, no extra bag or equipment. Keep the original reception counter, brand wall, floor, existing furniture and rear rack in their exact positions. The real weight rack remains ONLY in the rear_training_area; it must not appear in reception foreground. No trainer, no other customers, no new objects, no medical device, no imaginary checkout equipment. Mid three-quarter portrait, believable human proportions, realistic light from verified source. A natural 'first visit' moment, never depict exercising at the reception.\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":0,\"unknown_count\":0,\"penalty\":0,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"rear_training_area\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nSource object positions and brand identity MUST remain truthful; no relocated/multiplied equipment. One new customer in reception, no staff.\nGenerate exactly ONE adult Japanese male CUSTOMER naturally arriving at the verified THE REV reception, pausing in a comfortable relaxed standing posture to take in the room. Adult is fully clothed in understated practical everyday clothes, no extra bag or equipment. Keep the original reception counter, brand wall, floor, existing furniture and rear rack in their exact positions. The real weight rack remains ONLY in the rear_training_area; it must not appear in reception foreground. No trainer, no other customers, no new objects, no medical device, no imaginary checkout equipment. Mid three-quarter portrait, believable human proportions, realistic light from verified source. A natural 'first visit' moment, never depict exercising at the reception.\nThumbnail headline only: 初回体験、\n何を選ぶ？\nDo not infer photos of actual customers; this is an illustrative generated anonymous subject grounded in the authentic THE REV location.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-lobby-sp-20260927\",\"source_sha256\":\"ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662\",\"scene_type\":\"arrival\",\"location_type\":\"reception\",\"human_action\":\"observe_facility\",\"composition_type\":\"medium_three_quarter_portrait\",\"visual_role\":\"first_visit_reassurance\",\"article_intent\":\"facility_selection\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"Exactly ONE generated Japanese adult male CUSTOMER at the REAL THE REV reception, already inside and calmly looking at the actual facility to consider which experience to choose. Naturally relaxed standing posture, looking into the room or at its real architectural features, no walking motion or fake check-in transaction. Neutral practical clothes; no extra handbag, clipboard or props. Preserve wall logo, plants, reception counter, floor, existing stool and original rear training rack exactly. Rear weight plates and bench remain ONLY in rear_training_area; never create or move equipment to reception foreground. No trainer, staff, additional customer, medical or commercial devices. Natural soft light and physical scale. The visible action is OBSERVING the existing facility, not entering, not exercising, not touching equipment.\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":0,\"unknown_count\":0,\"penalty\":0,\"matches\":[]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"rear_training_area\"},{\"object\":\"weight_plates\",\"zone\":\"rear_training_area\"},{\"object\":\"training_bench\",\"zone\":\"rear_training_area\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-14\",\"note\":\"Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC.\"}}\nRear equipment is present in actual source and stays at rear; no equipment relocation or inventing props.\nExactly ONE generated Japanese adult male CUSTOMER at the REAL THE REV reception, already inside and calmly looking at the actual facility to consider which experience to choose. Naturally relaxed standing posture, looking into the room or at its real architectural features, no walking motion or fake check-in transaction. Neutral practical clothes; no extra handbag, clipboard or props. Preserve wall logo, plants, reception counter, floor, existing stool and original rear training rack exactly. Rear weight plates and bench remain ONLY in rear_training_area; never create or move equipment to reception foreground. No trainer, staff, additional customer, medical or commercial devices. Natural soft light and physical scale. The visible action is OBSERVING the existing facility, not entering, not exercising, not touching equipment.\nThumbnail text: 初回体験、\n何を選ぶ？\nOne anonymous generated customer only. No real customer representation.",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r1-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-lobbysp-20261014-trial-r1",
-  "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r1.jpg",
-  "og_image": "assets/images/blog/og/og-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r1.jpg",
-  "gbp_image": "assets/images/gbp/gbp-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r1.jpg",
+  "asset_version": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+  "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+  "og_image": "assets/images/blog/og/og-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r1.json",
+  "qa_report_path": "editorial/image-qa/the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -81,13 +81,13 @@
     "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
     "scene_type": "arrival",
     "location_type": "reception",
-    "human_action": "enter",
+    "human_action": "observe_facility",
     "composition_type": "medium_three_quarter_portrait",
     "visual_role": "first_visit_reassurance",
     "article_intent": "facility_selection",
     "required_equipment": [],
     "subject_zone": "reception",
-    "article_specific_directive": "Generate exactly ONE adult Japanese male CUSTOMER naturally arriving at the verified THE REV reception, pausing in a comfortable relaxed standing posture to take in the room. Adult is fully clothed in understated practical everyday clothes, no extra bag or equipment. Keep the original reception counter, brand wall, floor, existing furniture and rear rack in their exact positions. The real weight rack remains ONLY in the rear_training_area; it must not appear in reception foreground. No trainer, no other customers, no new objects, no medical device, no imaginary checkout equipment. Mid three-quarter portrait, believable human proportions, realistic light from verified source. A natural 'first visit' moment, never depict exercising at the reception.",
+    "article_specific_directive": "Exactly ONE generated Japanese adult male CUSTOMER at the REAL THE REV reception, already inside and calmly looking at the actual facility to consider which experience to choose. Naturally relaxed standing posture, looking into the room or at its real architectural features, no walking motion or fake check-in transaction. Neutral practical clothes; no extra handbag, clipboard or props. Preserve wall logo, plants, reception counter, floor, existing stool and original rear training rack exactly. Rear weight plates and bench remain ONLY in rear_training_area; never create or move equipment to reception foreground. No trainer, staff, additional customer, medical or commercial devices. Natural soft light and physical scale. The visible action is OBSERVING the existing facility, not entering, not exercising, not touching equipment.",
     "similarity": {
       "pass": true,
       "window": 12,
@@ -105,6 +105,14 @@
     "visible_equipment": [
       {
         "object": "training_rack",
+        "zone": "rear_training_area"
+      },
+      {
+        "object": "weight_plates",
+        "zone": "rear_training_area"
+      },
+      {
+        "object": "training_bench",
         "zone": "rear_training_area"
       }
     ],
@@ -128,8 +136,8 @@
     ],
     "verification": {
       "method": "source image visual inspection + canonical scoped registry",
-      "verified_at": "2026-10-07",
-      "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+      "verified_at": "2026-10-14",
+      "note": "Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC."
     }
   },
   "automation": {
@@ -404,9 +412,9 @@
     "repeat_distance": null,
     "customer_presentation": "male"
   },
-  "visible_action": "初来店の顧客が受付に入り、実際の空間を見ながら落ち着いている",
+  "visible_action": "初来店の男性利用者が実際の受付で立ち止まり、室内を見渡して選択を考える",
   "emotional_state": "curious, calm, welcomed but not theatrical",
   "visual_claim": "初来店でも自分の目的に合う体験を選べる場所であること",
-  "recovery_note": "New standalone production draft, not a pending unapproved owner topic. Source is an officially verified real THE REV lobby photograph; do not infer trainer or novel equipment. Automated visual QC, exact asset verification and human final Publish required.",
-  "composition_hint": "Golden Typography V1. One adult Japanese MALE customer naturally entering or pausing in actual THE REV reception area from verified source photo. Medium three-quarter framing. Keep the authentic brand wall, counter and rear rack unchanged; headline on image-negative-space left without obscuring face. No staff, fake products, logos, or additional objects."
+  "recovery_note": "Independent r1 QC legitimately recognized weight plates and training bench in BOTH actual source and generated image rear_training_area, revealing missing source registry facts. Exact source SHA unchanged; inventory corrected centrally in source registry 2026-10-14. Scene action corrected from entering to observing_facility to match independent observation. All image/art-direction/typography/scene verification gates remain mandatory. Separate r2 images, preserve rejected r1 history.",
+  "composition_hint": "Golden Typography V1. One male adult customer in authentic THE REV lobby; relaxed upright observing existing facility, near reception. No simulated arrival walk. Left 2-line headline; preserve brand anchor, counter, stool, plant and rear-only weight rack, plates, bench."
 }
