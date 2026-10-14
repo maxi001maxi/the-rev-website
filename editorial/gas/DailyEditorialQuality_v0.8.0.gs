@@ -77,7 +77,7 @@ function v080QcEvidence_(edited, ctx) {
     url:'https://www.caa.go.jp/policies/council/csic/report/report_024/assets/csic_cms201_260527_11.pdf',
     page_reference:'PDF pages 58-60 (printed 59-61)',
     verified_points:[
-      'トレーナーは利用者の体調や痛みの全てを把握できない。過去のけが、寝不足、痛みや違和感等は運動前・中・後に伝えるよう案内している。',
+      'トレーナーは利用者の体調や痛みの全てを把握できない。服用薬、健診で指摘されたこと、過去のけが、寝不足、痛みや違和感等は運動前・中・後に伝えるよう案内している。',
       'トレーナーに不安・痛みを申告された際には当該種目を一旦中止し、確認したうえで変更・中止・受診勧奨等、安全優先で対応するよう提言している。',
       '指導者の大丈夫という指示に従い、けがをした相談が寄せられている。不安が残る運動は一旦止め、話し合いによる見直しを勧めている。'
     ],
@@ -99,6 +99,18 @@ function v080QcEvidence_(edited, ctx) {
     verified_at:'2026-10-14',section:'運動中の注意',
     verified_points:['厚生労働省は、胸痛・動悸・めまいやふらつき・いつもと違う強い疲れ・関節や筋肉の強い痛み・冷や汗等の体調の異変を感じたら直ちに運動を中止するよう案内している。'],
     scope:'General stop-exercise guidance. Do not infer diagnosis or clinic/store treatment.'
+  });
+  if(refs.some(function(ref){return String(ref||'').indexOf('mhlw.go.jp/content/001195872.pdf')!==-1;}))official.push({
+    source_type:'OFFICIAL_SOURCE_VERIFIED_EXCERPT',
+    document:'健康づくりのための身体活動・運動ガイド2023 身体活動・運動を安全に行うためのポイント（正式版）',
+    url:'https://www.mhlw.go.jp/content/001195872.pdf',
+    verified_at:'2026-10-14',page_reference:'PDF pages 1-2: 普段の健康管理・内服薬・運動開始前の健康チェックシート',
+    verified_points:[
+      '運動開始時に健診結果や治療中の病気を共有し、健康状態を把握するよう案内している。内服薬と、薬剤の変更・追加についても情報共有が必要と記載している。',
+      '健康チェックシートでは、慢性疾患や手術歴に伴う運動制限、慢性疾患の薬の運動時の注意について、分からない場合は受診するよう案内している。全員に一律の受診を求める趣旨ではない。',
+      '胸痛、めまいでバランスを崩すことや過去1年の意識消失、運動で悪化しそうな骨・関節・筋肉等の問題がある場合は、運動開始前に医療機関を受診するよう案内している。'
+    ],
+    scope:'General official pre-exercise screening advice only. No diagnosis, medication adjustment, guaranteed safety or verified THE REV. medical protocol.'
   });
   return {first_party_owner_interview:owner,verified_official_excerpts:official};
 }
@@ -132,7 +144,7 @@ var V080_QUALITY_ADAPTER = (function () {
         if(writer||editor) {
           var guidance=writer ?
             'Editorial Quality v0.8 WRITER: Answer the reader question within the opening paragraphs. Deliver one genuinely useful distinction, concrete decision/action, appropriate research limitations and a real example. Separate verified store facts from assumptions. Do not invent a trainer/client story. Local comparison titles require verified local options. Protect safety exceptions. For COMPARISON_GUIDE, help readers compare meaningful responses or decision options explicitly rather than offering only an undifferentiated checklist. In exercise-safety topics, distinguish discomfort from red flags such as chest pain, faintness or sudden severe pain: do not encourage trial exercise, and guide stopping activity and prompt appropriate medical attention. Do not diagnose. STANDARD body 1600-2400 non-whitespace characters; never pad.' :
-            'Editorial Quality v0.8 PRESERVATION EDITOR: Keep the writer answer, knowledge gain, next action, meaningful examples, every safety caveat and source limitation. Edit style and order, never delete essential details for shortness. No new store procedures, medical promises, unverified outcomes or invented quotes. If uncertain, set fact_check_status REVIEW. STANDARD body 1600-2400 excluding whitespace; never pad.';
+            'Editorial Quality v0.8 PRESERVATION EDITOR: Keep the writer answer, knowledge gain, next action, meaningful examples, every safety caveat and source limitation. Edit style and order, never delete essential details for shortness. No new store procedures, medical promises, unverified outcomes or invented quotes. If uncertain, set fact_check_status REVIEW. Preserve the final topic-specific THE REV. conclusion in body_markdown, grounded in the owner interview; the separate CTA is not a substitute. Keep only verified store positions, not inferred procedures. STANDARD body 1600-2400 excluding whitespace; never pad.';
           payload.input[0].content.push({type:'input_text',text:guidance});
         }
       }
