@@ -50,6 +50,12 @@
 - 同じslugの履歴版を重複カウントしない。履歴が欠けていたら `HISTORY_FINGERPRINT_INCOMPLETE` と記録し、不明なまま「十分に多様」としない。
 - SOURCEの許容行動・zone・source hashから外れた画像案を生成しない。候補は現行の`source_id`と`source_sha256`に結び付ける。
 
+### 既存画像ジョブの診断（読み取り専用）
+
+`node scripts/inspect-image-variation-v1.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json`
+
+標準出力に実ジョブのSOURCE照合、直近履歴、構図候補、コピー警告をJSONで出す。Driveや外部APIは使わず、既存のジョブ/QA/画像/公開状態を一切変更しない。個別記事のQC合否や公開準備完了を意味しない。
+
 ### テスト
 
 ```bash
