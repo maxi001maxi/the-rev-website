@@ -399,7 +399,7 @@ test('p2-02 real R1 rejected reason is preserved and only that case uses a new R
     assert.equal(j.automation.source_repo_path,original.automation.source_repo_path);
     assert.equal(j.image_headline_short,original.image_headline_short);
     assert.match(j.composition_hint,/Use the FIRST real THE REV photo/);
-    assert.match(j.visible_action,/dynamic pre-exercise warm-up/);
+    assert.match(j.visible_action,/DYNAMIC pre-exercise warm-up/i);
     assert.equal(j.scene_plan.composition_type,'medium_side_portrait');
   } finally {fs.unlinkSync(rel);}
   for(const p of cohort.cases.slice(2)){
