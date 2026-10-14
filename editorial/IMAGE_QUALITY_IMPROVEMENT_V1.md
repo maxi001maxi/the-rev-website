@@ -214,3 +214,11 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 - 残り4記事のtrial version / source / brief / editorial copy / baseline / production変更なし。
 - 同じ`p2-01`を手動で再実行すると**追加の1回分の画像生成とQC API費用**が発生する。再実行はオーナーの任意操作。R2は現時点では生成・合格未確認。
 - R2がQCを通った場合のみ匿名A/B比較へ。再失敗なら同じ画像案を無制限にリトライしない。
+
+## 12. P2古い実行の再実行を禁止する（2026-10-14）
+
+- 実ラン `38540625251` の `run_attempt=3` は修正版R2のmainを起動していない。元runのhead commitは `b1f5671cab7e87152fb4cdd27f5842a10eb454cf`、R2のmainは `df14f6cacb1eed53f60228a16d1c5756f559a4e7`。古い`Re-run jobs`では以前のR1（`p2-offline-v1`）を再生成してしまう。
+- このR1再試行でも実生成1回と独立QCが動き、人物視覚占有約52%、背景secondary/blur不足でFAIL。本番は変更していないが、API費用が追加発生している。
+- P2手動Actionの先頭に `github.run_attempt==1` / `github.ref==refs/heads/main` 必須のguardを追加。**再実行や旧ブランチ指定は画像生成前にFAIL**。
+- R2は必ず Actionsの `P2 Offline Image Pilot` **ワークフローページ**から`Run workflow`→`Branch: main`→`p2-01`→`Run workflow`を押して、新しいrun IDが付いたことを確認する。`Re-run jobs` / `Re-run all jobs` は使わない。
+- R2が正常に実行されたログでは `asset_version: p2-offline-r2` が示される。変わらず`p2-offline-v1`なら再実行を止める。
