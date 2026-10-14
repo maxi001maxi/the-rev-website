@@ -243,3 +243,41 @@ test('Phase 2 manual workflow runs preflight before dependencies, API calls and 
   assert(pre>0&&dep>pre&&render>dep);
   assert.match(yaml,/name: p2-preflight-/);
 });
+
+test('p2-01 failed R1 is preserved and new R2 is the only changed scene brief',()=>{
+  const evidence=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/p2-01-r1-qc-evidence.json','utf8'));
+  assert.equal(evidence.status,'IMAGE_GENERATED_BUT_INDEPENDENT_VISUAL_QC_REJECTED');
+  assert.equal(evidence.source_scene_grounding_pass,true);
+  assert.equal(evidence.human_visual_attention_share,42);
+  assert.equal(evidence.improved_candidate_asset_version,'p2-offline-v1');
+  assert.equal(evidence.manual_visual_rejection,true);
+  const plan=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/cohort.json','utf8'));
+  const p=plan.cases.find(c=>c.case_id==='p2-01');
+  assert.equal(p.revision,'p2-01-r2-after-qc-fail-38540625251');
+  assert.equal(p.target_fingerprint.composition_type,'medium_seated_portrait');
+  assert.match(p.improved_brief,/NOT a wide full-body shot/);
+  assert.match(p.improved_brief,/60–70%/);
+  assert.match(p.improved_brief,/GBP 4:3/);
+  const file=execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs','p2-01'],{encoding:'utf8'}).trim();
+  try{
+    const job=JSON.parse(fs.readFileSync(file,'utf8'));
+    assert.equal(job.asset_version,'p2-offline-r2');
+    assert.equal(job.max_generation_attempts,1);
+    assert.equal(job.automation.mode,'OFFLINE_P2_DO_NOT_PUBLISH');
+    assert.match(job.composition_hint,/NOT a wide full-body shot/);
+    assert.equal(job.image_headline_short,'初回体験、\\n何を選ぶ？');
+    assert.equal(job.scene_plan.composition_type,'medium_seated_portrait');
+  }finally{fs.unlinkSync(file);}
+  assert.equal(plan.cases.filter(c=>c.revision).length,1);
+  assert(plan.cases.slice(1).every(c=>!c.previous_rejected_asset_version));
+});
+
+test('P2 remains a five case trial and r2 metadata never reduces image QC thresholds',()=>{
+  const code=fs.readFileSync('scripts/package-editorial-image-p2-results.mjs','utf8');
+  assert.match(code,/p2-offline-r2/);
+  assert.match(code,/qa\\.pass===true/);
+  assert.match(code,/qa\\.scene_grounding\\?\\.pass===true/);
+  const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  assert.match(flow,/EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'/);
+  assert.match(flow,/workflow_dispatch:/);
+});
