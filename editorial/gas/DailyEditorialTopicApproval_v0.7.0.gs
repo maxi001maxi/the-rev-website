@@ -89,8 +89,12 @@ var V070_WEEKLY_ADAPTER = (function () {
 function v080AudienceDirection_(props) {
   var legacy = '毎日の候補だけを5件提案。記事本文はまだ作らない。一般的な運動の検索ニーズ、ボクシング、酸素ルーム、DENBAの商品説明を散りばめる。同じ悩みの言い換えを避ける。未確認の店内運用・顧客実績・効果を作らない。';
   var mode = String(props.getProperty('THE_REV_AUDIENCE_DISCOVERY_MODE') || 'OFF').toUpperCase();
+  // The old topic lane targets already exist in policy Sheets. The media-role
+  // budget is an INDEPENDENT axis: an oxygen-room topic can explain science OR
+  // show a real first visit. Never invent store facts to fill an article slot.
+  var mediaPortfolioBrief = 'ブログを単発SEO記事ではなく一つのメディアとして編成。候補5件は同じ知識解説で埋めず、読者の疑問の新規性を維持しつつ「知識・生活の疑問」「実際のサービス体験と流れ」「実店舗・空間・指導者・設備の紹介」「選び方・初回来店の判断」「地域の人物・物語・季節の企画」から最低3種類の編集役割をカバーする。直近12公開記事の柔軟目安: 知識5、サービス体験3、施設と信頼2、比較と判断2。これは記事の役割であり、酸素ルーム・筋トレ等の分野と別軸。店舗や人物、イベントの事実/写真/客の声が未確認なら作らず、HOLD_FOR_FACTSと必要な確認事項を書く。記事の実例を捏造しない。実際の店舗紹介だけにせず、無料でできる代替策や合わない読者も扱う。別の読者の問いと読後価値がない類似記事は提案しない。';
   if (mode !== 'ENFORCE') return legacy;
-  return legacy + '\nAudience Discovery v0.8: サービス名やSEOキーワードより先に、運動未経験者を含む人々の生活場面・悩み・好奇心・代替行動から幅広く発想してから、最も異なる読者の疑問5つへ絞る。ミット打ち経験者しか分からない悩みだけで埋めない。ジム選びのコツの反復、DENBAとはの言い換えは提案しない。過去のblog_historyと新たに得られる具体的な答えを比較。酸素ルームやDENBAの疾病治療・症状改善・アスリート回復効果は実証済みでない限り断言しない。すべての候補で notes を1行の AUDIENCE_V08: から始まるJSON文字列にする。キーは audience_stage (PROBLEM_AWARE|EXPLORING_OPTIONS|CATEGORY_AWARE|READY_TO_VISIT|EXISTING_USER), psychological_hook (RECOGNITION|MISCONCEPTION|DISCOVERY|COMPARISON|SITUATION|UNCERTAINTY), reader_scene (具体的な生活場面、12字以上), reader_job (読者の求める判断、6字以上), reader_question, new_reader_takeaway (記事で新たに学べること、15字以上), incremental_answer (過去記事と違う具体的な答え、12字以上), natural_service_fit (THE REV.のどこに自然につながるか、またはつながらないか、14字以上), content_action (NEW_ARTICLE|UPDATE_EXISTING|HOLD_FOR_FACTS|REJECT), search_signal_type (QUERY_HYPOTHESIS。GSC実測が渡されない限りMEASUREDとしない), nearest_content_ids (不明なら空配列), same_answer_as_existing (boolean), unverified_health_claim (boolean), evidence_items (array of {kind,source}; kind は FIRST_PARTY_VERIFIED|EXTERNAL_VERIFIED|RESEARCH_INTERPRETATION|HYPOTHESIS|UNKNOWN、根拠が未確認ならHYPOTHESIS)。notesはこのJSONだけで余計な文章をつけず、ほかの既存必須フィールド why_now, audience_question, unique_angle, score_breakdown を従来どおり必ず埋める。1回のモデル呼び出し内で完結し追加のAI批評呼び出しをしない。';
+  return legacy + '\n' + mediaPortfolioBrief + '\nAudience Discovery v0.8: サービス名やSEOキーワードより先に、運動未経験者を含む人々の生活場面・悩み・好奇心・代替行動から幅広く発想してから、最も異なる読者の疑問5つへ絞る。ミット打ち経験者しか分からない悩みだけで埋めない。ジム選びのコツの反復、DENBAとはの言い換えは提案しない。過去のblog_historyと新たに得られる具体的な答えを比較。酸素ルームやDENBAの疾病治療・症状改善・アスリート回復効果は実証済みでない限り断言しない。すべての候補で notes を1行の AUDIENCE_V08: から始まるJSON文字列にする。キーは editorial_role (KNOWLEDGE|SERVICE_EXPERIENCE|FACILITY_AND_TRUST|COMPARISON_DECISION|COMMUNITY_STORY、記事の目的の主役を1つ選ぶ), editorial_role_reason (読者に何を体験・理解・判断してほしいか), audience_stage (PROBLEM_AWARE|EXPLORING_OPTIONS|CATEGORY_AWARE|READY_TO_VISIT|EXISTING_USER), psychological_hook (RECOGNITION|MISCONCEPTION|DISCOVERY|COMPARISON|SITUATION|UNCERTAINTY), reader_scene (具体的な生活場面、12字以上), reader_job (読者の求める判断、6字以上), reader_question, new_reader_takeaway (記事で新たに学べること、15字以上), incremental_answer (過去記事と違う具体的な答え、12字以上), natural_service_fit (THE REV.のどこに自然につながるか、またはつながらないか、14字以上), content_action (NEW_ARTICLE|UPDATE_EXISTING|HOLD_FOR_FACTS|REJECT), search_signal_type (QUERY_HYPOTHESIS。GSC実測が渡されない限りMEASUREDとしない), nearest_content_ids (不明なら空配列), same_answer_as_existing (boolean), unverified_health_claim (boolean), evidence_items (array of {kind,source}; kind は FIRST_PARTY_VERIFIED|EXTERNAL_VERIFIED|RESEARCH_INTERPRETATION|HYPOTHESIS|UNKNOWN、根拠が未確認ならHYPOTHESIS)。notesはこのJSONだけで余計な文章をつけず、ほかの既存必須フィールド why_now, audience_question, unique_angle, score_breakdown を従来どおり必ず埋める。1回のモデル呼び出し内で完結し追加のAI批評呼び出しをしない。';
 }
 
 function v070RefreshTopicPool_() {
@@ -113,7 +117,8 @@ function v070RefreshTopicPool_() {
     if (note.indexOf('AUDIENCE_V08:') !== 0) return true;
     try {
       var m = JSON.parse(note.slice('AUDIENCE_V08:'.length));
-      return !m.audience_stage || !m.reader_scene || !m.reader_job || !m.new_reader_takeaway ||
+      return ['KNOWLEDGE','SERVICE_EXPERIENCE','FACILITY_AND_TRUST','COMPARISON_DECISION','COMMUNITY_STORY'].indexOf(m.editorial_role) < 0 || !m.editorial_role_reason ||
+        !m.audience_stage || !m.reader_scene || !m.reader_job || !m.new_reader_takeaway ||
         !m.incremental_answer || !m.content_action || !Array.isArray(m.evidence_items);
     } catch (_) { return true; }
   })) throw new Error('AUDIENCE_CONTRACT_INVALID');
