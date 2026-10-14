@@ -265,7 +265,7 @@ test('p2-01 failed R1 is preserved and new R2 is the only changed scene brief',(
     assert.equal(job.max_generation_attempts,1);
     assert.equal(job.automation.mode,'OFFLINE_P2_DO_NOT_PUBLISH');
     assert.match(job.composition_hint,/NOT a wide full-body shot/);
-    assert.equal(job.image_headline_short,'初回体験、\\n何を選ぶ？');
+    assert.equal(job.image_headline_short,['初回体験、','何を選ぶ？'].join(String.fromCharCode(10)));
     assert.equal(job.scene_plan.composition_type,'medium_seated_portrait');
   }finally{fs.unlinkSync(file);}
   assert.equal(plan.cases.filter(c=>c.revision).length,1);
@@ -275,8 +275,8 @@ test('p2-01 failed R1 is preserved and new R2 is the only changed scene brief',(
 test('P2 remains a five case trial and r2 metadata never reduces image QC thresholds',()=>{
   const code=fs.readFileSync('scripts/package-editorial-image-p2-results.mjs','utf8');
   assert.match(code,/p2-offline-r2/);
-  assert.match(code,/qa\\.pass===true/);
-  assert.match(code,/qa\\.scene_grounding\\?\\.pass===true/);
+  assert.equal(code.includes('qa.pass===true'),true);
+  assert.equal(code.includes('qa.scene_grounding?.pass===true'),true);
   const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
   assert.match(flow,/EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'/);
   assert.match(flow,/workflow_dispatch:/);
