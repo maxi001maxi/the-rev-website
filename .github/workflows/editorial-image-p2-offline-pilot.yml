@@ -145,22 +145,6 @@ jobs:
             assets/images/blog/og/og-p2-*.jpg
             assets/images/gbp/gbp-p2-*.jpg
             assets/images/gbp/gbp-p2-*-preview-*.jpg
-      - name: Upload anonymous gallery for blind human scoring
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: p2-blind-review-${{ github.run_id }}
-          retention-days: 7
-          if-no-files-found: ignore
-          path: editorial/experiments/image-quality-p2/offline-output/reviewer/**
-      - name: Upload separate answer key (do not open until after scoring)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: p2-unblind-key-${{ github.run_id }}
-          retention-days: 7
-          if-no-files-found: ignore
-          path: editorial/experiments/image-quality-p2/offline-output/private-answer-key/**
       - name: Fail closed if any case is rejected
         if: steps.pilot.outputs.failed == 'true'
         run: |
