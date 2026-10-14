@@ -1,0 +1,61 @@
+name: Editorial API Connectivity Probe (one request)
+
+on:
+  push:
+    branches:
+      - diagnostics/editorial-api-20261015
+    paths:
+      - .github/workflows/editorial-api-connectivity-probe.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: One minimal Responses API request (no images, no publication)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error, sys
+          key=os.environ.get("OPENAI_API_KEY", "").strip()
+          if not key:
+              print("PROBE_RESULT=KEY_MISSING")
+              sys.exit(2)
+          payload={
+              "model":"gpt-5.6",
+              "input":"Reply with OK.",
+              "max_output_tokens":24,
+              "store":False
+          }
+          req=urllib.request.Request(
+              "https://api.openai.com/v1/responses",
+              json.dumps(payload).encode("utf-8"),
+              {"Authorization":"Bearer "+key,"Content-Type":"application/json"},
+              method="POST")
+          try:
+              with urllib.request.urlopen(req,timeout=25) as resp:
+                  body=json.load(resp)
+                  print("PROBE_RESULT=SUCCESS")
+                  print("HTTP_STATUS="+str(resp.status))
+                  print("MODEL="+str(body.get("model","")))
+                  print("OUTPUT_TOKENS="+str((body.get("usage") or {}).get("output_tokens","unknown")))
+          except urllib.error.HTTPError as err:
+              try: details=json.loads(err.read().decode("utf-8","replace"))
+              except Exception: details={}
+              api_error=details.get("error") or {}
+              print("PROBE_RESULT=API_REJECTED")
+              print("HTTP_STATUS="+str(err.code))
+              print("ERROR_TYPE="+str(api_error.get("type",""))[:100])
+              print("ERROR_CODE="+str(api_error.get("code",""))[:100])
+              print("ERROR_MESSAGE="+str(api_error.get("message",""))[:320])
+              sys.exit(1)
+          except Exception as err:
+              print("PROBE_RESULT=TRANSPORT_ERROR")
+              print("ERROR_TYPE="+type(err).__name__)
+              sys.exit(3)
+          PY
