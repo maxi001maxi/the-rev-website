@@ -170,3 +170,29 @@ test('blind P2 review package excludes private answer key and production side ef
   assert(reporter.includes('unblind_only_after_review:true'));
   assert(reporter.includes('qa.scene_grounding?.asset_hashes'));
 });
+
+test('offline review packaging without accepted B cannot falsely make a blind comparison ready',()=>{
+  const output=execFileSync(process.execPath,['scripts/package-editorial-image-p2-results.mjs','p2-01'],{encoding:'utf8'});
+  const status=JSON.parse(output);
+  assert.equal(status.selected,1);
+  assert.equal(status.ready,0);
+  assert.equal(status.status,'PARTIAL_OR_QC_REJECTED');
+  const evidence=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/offline-output/reports/evidence.json','utf8'));
+  assert.equal(evidence.publish_eligible,false);
+  assert.equal(evidence.production_assets_modified,false);
+  assert.equal(evidence.all_requested_pairs_ready,false);
+  const reviewer=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/offline-output/reviewer/review-sheet.json','utf8'));
+  assert.equal(reviewer.cases.length,0);
+});
+
+test('reviewer and private key are separated into different upload-artifacts',()=>{
+  const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
+  assert.match(flow,/package-editorial-image-p2-results.mjs/);
+  const reviewerBlock=flow.slice(flow.indexOf('- name: Upload BLIND reviewer material'),flow.indexOf('- name: Upload PRIVATE unblinding key'));
+  const privateBlock=flow.slice(flow.indexOf('- name: Upload PRIVATE unblinding key'),flow.indexOf('- name: Upload offline evidence ONLY'));
+  const evidenceBlock=flow.slice(flow.indexOf('- name: Upload offline evidence ONLY'));
+  assert.match(reviewerBlock,/offline-output\/reviewer\/\*\*/);
+  assert.doesNotMatch(reviewerBlock,/answer-key/);
+  assert.match(privateBlock,/offline-output\/private-answer-key\/\*\*/);
+  assert.doesNotMatch(evidenceBlock,/private-answer-key|offline-output\/reviewer\/\*\*/);
+});
