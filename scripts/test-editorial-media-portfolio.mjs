@@ -70,3 +70,43 @@ test('legacy proposal human approval and final publishing gates remain unchanged
  assert(topicNotification(proposal).includes('記事の役割'));
  assert(!topicNotification(proposal).includes('公開済み'));
 });
+
+test('single existing GAS generation call explains diverse editorial roles in ENFORCE',()=>{
+ const src=fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8');
+ const sandbox={V069_STATUS_URL:'status',String,JSON,Array,Number,Object,Boolean,Date,Math,RegExp,Error};
+ vm.createContext(sandbox);vm.runInContext(src,sandbox);
+ const props={getProperty:k=>k==='THE_REV_AUDIENCE_DISCOVERY_MODE'?'ENFORCE':null};
+ const text=sandbox.v080AudienceDirection_(props);
+ assert(text.includes('editorial_role ('));
+ assert(text.includes('FACILITY_AND_TRUST'));
+ assert(text.includes('SERVICE_EXPERIENCE'));
+ assert(text.includes('COMPARISON_DECISION'));
+ assert(text.includes('COMMUNITY_STORY'));
+ assert(text.includes('未確認')||text.includes('捏造'));
+ assert(sandbox.v080AudienceDirection_({getProperty:()=> 'OFF'}).includes('毎日の候補だけを5件提案'));
+});
+test('GAS five-candidate preflight rejects a knowledge-only batch BEFORE Sheet writing',()=>{
+ const src=fs.readFileSync(new URL('../editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs',import.meta.url),'utf8');
+ const rows=[],store={},allRoles=['KNOWLEDGE','SERVICE_EXPERIENCE','FACILITY_AND_TRUST','COMPARISON_DECISION','COMMUNITY_STORY'];
+ let emitted=Array(5).fill('KNOWLEDGE');
+ const sandbox={V069_STATUS_URL:'status',String,JSON,Array,Number,Object,Boolean,Date,Math,RegExp,Error,
+   PropertiesService:{getScriptProperties:()=>({getProperty:key=>key==='THE_REV_AUDIENCE_DISCOVERY_MODE'?'ENFORCE':store[key],setProperty:(key,val)=>{store[key]=val;}})},
+   ss_:()=>({getSheetByName:()=>({})}),getObjectsWithRow_:()=>rows,
+   v069TodayKey_:()=> '2026-10-14',getTargetWeekStart_:()=>new Date('2026-10-14T00:00:00+09:00'),
+   buildM6Context_:()=>({weekly_editorial_brief:'brief'}),
+   appendObjectRow_:(_,row)=>rows.push(row),
+   generateBlogTopicCandidates_:()=>emitted.map((role,i)=>({title_candidate:'Reader-first new idea '+i,why_now:'Readable context '+i,
+     score_breakdown:{audience:75},notes:'AUDIENCE_V08:'+JSON.stringify({editorial_role:role,editorial_role_reason:'Deliver a useful different answer',
+     audience_stage:'PROBLEM_AWARE',reader_scene:'A reader in a real daily setting',reader_job:'Learn or decide',
+     new_reader_takeaway:'Genuinely useful discovery and decision',incremental_answer:'New specific answer',
+     content_action:'NEW_ARTICLE',evidence_items:[{kind:'HYPOTHESIS',source:'research plan'}]})})))
+ };
+ vm.createContext(sandbox);vm.runInContext(src,sandbox);
+ assert.throws(()=>sandbox.v070RefreshTopicPool_(),/MEDIA_ROLE_DIVERSITY_INSUFFICIENT/);
+ assert.equal(rows.length,0);
+ emitted=allRoles;
+ assert.equal(sandbox.v070RefreshTopicPool_().status,'GENERATED');
+ assert.equal(rows.length,5);
+ assert.equal(sandbox.v070RefreshTopicPool_().status,'ALREADY_GENERATED');
+ assert.equal(rows.length,5);
+});
