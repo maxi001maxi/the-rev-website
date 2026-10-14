@@ -1,0 +1,29 @@
+{
+  "version": "p2-structural-drift-hold-v1",
+  "mode": "OFFLINE_EXPERIMENT_MANUAL_REVIEW",
+  "purpose": "Prevent further paid, instruction-only whole-scene regeneration for cases failing twice on real facility geometry.",
+  "cases": [
+    {
+      "case_id": "p2-02",
+      "status": "PAUSED",
+      "reason_code": "REPEAT_SOURCE_GEOMETRY_DRIFT",
+      "first_failed_run_id": 38552625358,
+      "second_failed_run_id": 38649697529,
+      "tested_asset_versions": [
+        "p2-offline-v1",
+        "p2-offline-r2"
+      ],
+      "original_baseline_asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
+      "preserved_source": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "observed_result": "R1: static stretching and altered gym; R2: dynamic motion improves but original gym geometry still broadened, rack/bench shifts.",
+      "diagnosis": "Reference-image-guided image_generation redraws a whole scene; the source is not a pixel-locked background. Stronger prompts alone did not preserve gym geometry.",
+      "hold_release_requirements": [
+        "Implement or demonstrate a source-locked composition or masked edit that cannot relocate original rack, bench, window, walls, floor and ceiling",
+        "Pass independent source/scene geometry QC with unchanged source SHA",
+        "Document new isolated trial asset version and cost cap in tests before re-enabling"
+      ],
+      "human_review_required": true,
+      "production_unmodified": true
+    }
+  ]
+}
