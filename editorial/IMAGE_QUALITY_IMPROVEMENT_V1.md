@@ -181,8 +181,8 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 
 手動実行の出力は3種類のGitHub Actionsアーティファクトに分離する。
 
-- `p2-blind-reviewer-<run_id>`: 順序をランダム化したimage-01 / image-02、匿名化された採点票。評価者はこのファイルだけを見る。
-- `p2-private-answer-key-<run_id>`: 画像の実際のA/B対応表。**評価を回収するまで開封しない**。
+- `p2-blind-review-<run_id>`: 順序をランダム化したimage-01 / image-02、匿名化された採点票。評価者はこのファイルだけを見る。
+- `p2-unblind-key-<run_id>`: 画像の実際のA/B対応表。**評価を回収するまで開封しない**。
 - `p2-offline-image-comparison-<run_id>`: QC記録・ジョブ・生成証拠・元画像との比較資料。運用者用で、匿名性確保のためレビュー担当には渡さない。
 
 `scripts/package-editorial-image-p2-results.mjs` はBの`READY_CANDIDATE`、実QC合格、元写真・シーン・Thumbnail/OGP/GBPのSHA256一致を確認したケースだけ匿名比較セットを作る。1件でも未合格なら`PARTIAL_OR_QC_REJECTED`として記録し、勝手に公開や採用判定をしない。
