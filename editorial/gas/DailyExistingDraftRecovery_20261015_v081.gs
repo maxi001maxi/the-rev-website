@@ -25,11 +25,16 @@ function repairApprovedDailyExistingDraftV081(){
   const safetyUrl='https://kennet.mhlw.go.jp/information/information/exercise/s-00-008.html';
   if(!refs.some(r=>String(r).indexOf(safetyUrl)!==-1))refs.push('厚生労働省「身体活動・運動を安全に行うためのポイント」 '+safetyUrl);
   if(!urls.includes(safetyUrl))urls.push(safetyUrl);
+  const safetyPdf='https://www.mhlw.go.jp/content/001195872.pdf';
+  if(!refs.some(r=>String(r).indexOf(safetyPdf)!==-1))refs.push('厚生労働省 運動ガイド2023・安全に行うためのポイント（正式版） '+safetyPdf);
+  if(!urls.includes(safetyPdf))urls.push(safetyPdf);
   const narrow=v080QcEvidence_({source_refs:refs},ctx);
   ctx.verified_public_facts=(ctx.verified_public_facts||[]).concat(narrow.verified_official_excerpts.map(s=>({source_type:s.source_type,source_url:s.url,verified_at:s.verified_at||'2026-10-14',verified_points:s.verified_points,scope:s.scope})));
   let body=String(old.body_markdown||'');
-  if(body.indexOf('### 運動を続けず、まず止めるサイン')===-1){
-   const safety='### 運動を続けず、まず止めるサイン\n\n胸の痛み、動悸、めまいやふらつき、冷や汗、いつもと違う強い疲れ、関節や筋肉の強い痛みが出たら、軽く試して様子を見る場面ではありません。直ちに運動を中止し、スタッフに伝えてください。必要に応じて医療機関に相談します。これは厚生労働省が案内する一般的な注意点であり、ジムで病名や治療の必要性を判断するものではありません。([運動を安全に行うためのポイント]('+safetyUrl+'))\n\n';
+  body=body.replace('医療的な判断が必要な症状がある場合は、無理に体験を進めず、まず医療機関に確認してください。','通院している病気や服薬があり、運動の制限・注意点が分からない場合は、体験で試す前に医療機関で確認してください。厚生労働省の運動開始前の健康チェックでも、このような場合の受診を案内しています。([運動開始前の健康チェック]('+safetyPdf+'))');
+  body=body.replace('ジムは病名や治療の必要性を判断する場所ではありません。','ここで挙げたサインは、病名や治療の必要性を判断するための一覧ではありません。');
+  if(!/^### .*止める.*サイン/m.test(body)){
+   const safety='### 運動を続けず、まず止めるサイン\n\n胸の痛み、動悸、めまいやふらつき、冷や汗、いつもと違う強い疲れ、関節や筋肉の強い痛みが出たら、軽く試して様子を見る場面ではありません。直ちに運動を中止し、スタッフに伝えてください。必要に応じて医療機関に相談します。これは厚生労働省が案内する一般的な注意点であり、この記事で病名や治療の必要性を判断するものではありません。([運動を安全に行うためのポイント]('+safetyUrl+'))\n\n';
    body=body.replace('## 運動が苦手だった経験も、隠さなくていい',safety+'## 運動が苦手だった経験も、隠さなくていい');
   }
   if(body.indexOf('## THE REV.で初回を迎える前に')===-1)body+='\n\n## THE REV.で初回を迎える前に\n\nTHE REV.では、運動との関係が自分では分からない小さな痛みや違和感も、できれば共有してほしいと考えています。予約前に「気になる場所」「気になる動き」「当日の体調」を短くメモしておくと、言い出すきっかけになります。初回にすべてを話し切ることは強制していません。動いてから気になったことや思い出したことがあれば、その時点でお伝えください。体験では運動の内容に加え、自分の疑問を相談しやすいかも確かめてみてください。';
