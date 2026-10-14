@@ -16,7 +16,8 @@ function repairApprovedDailyExistingDraftV081(){
   const gate=v065Json_(q.topic_gate_json,{}),knowledge=v065Json_(q.knowledge_context_json,{});
   if(q.topic_candidate_id!=='BT-20261014-AUD08-LIVE-3'||!knowledge.topic_approval||!knowledge.topic_approval.approved_at)throw new Error('OWNER_TOPIC_APPROVAL_MISSING');
   if(props.getProperty(key)==='SUCCESS'&&old.status==='READY'){Logger.log(JSON.stringify({status:'EXISTING_SUCCESS_PRESERVED',content_id:id}));return;}
-  const interview=gate.first_party_interview;
+  const approvedAnswers=Array.isArray(knowledge.interview)?knowledge.interview:[];
+  const interview=gate.first_party_interview||(knowledge.source_id==='TP-20261015'&&knowledge.topic_approval.proposal_id==='TP-20261015'&&approvedAnswers.length===2&&approvedAnswers.every(x=>String(x.answer||'').trim())?{source_id:knowledge.source_id,raw_answer:approvedAnswers.map((x,i)=>String(i+1)+'. '+String(x.question||'')+'\n'+String(x.answer)).join('\n\n'),main_claim:knowledge.main_claim||'',topic_candidate_id:q.topic_candidate_id,extracted_insights:[],usable_quotes:[]}:null);
   if(!interview||!interview.raw_answer||interview.source_id!=='TP-20261015')throw new Error('APPROVED_FIRST_PARTY_EVIDENCE_MISSING');
   const ctx=buildM6Context_(v065WeekDate_(q.week_start||q.run_date));ctx.first_party_interview=interview;
   const parse=v=>v065Json_(v,[]);
@@ -56,3 +57,4 @@ function repairApprovedDailyExistingDraftV081(){
   }catch(e){setObjectRow_(qsh,q.__row,{queue_status:'BRIDGE_ERROR',draft_status:'READY',failed_stage:'WEB_BRIDGE',next_stage:'WEB_BRIDGE',last_error:String(e),updated_at:new Date()});throw e;}
  }finally{lock.releaseLock();}
 }
+
