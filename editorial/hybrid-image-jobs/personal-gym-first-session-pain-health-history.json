@@ -12,22 +12,22 @@
   "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-evolgear-20260922\",\"source_sha256\":\"437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea\",\"scene_type\":\"before_start\",\"location_type\":\"training_area\",\"human_action\":\"prepare\",\"composition_type\":\"medium_three_quarter_portrait\",\"visual_role\":\"checking_readiness\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"training_area\",\"article_specific_directive\":\"\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":7,\"penalty\":0.8333333333333334,\"matches\":[{\"slug\":\"the-rev-trial-three-menus-first-visit\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"nekose-strength-training-posture\",\"score\":0.5,\"equal\":[\"scene_type\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"pre-workout-stretching-duration\",\"score\":0.8333333333333334,\"equal\":[\"scene_type\",\"location_type\",\"human_action\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-device-mat-role\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"shinomiya-gym-beginner-choose\",\"score\":0.5,\"equal\":[\"scene_type\",\"location_type\",\"human_action\"],\"hard_exclusion\":false},{\"slug\":\"desk-work-stand-every-30-minutes\",\"unknown\":true},{\"slug\":\"boxing-beginner-scared-before-mitt-training\",\"unknown\":true},{\"slug\":\"denba-electric-potential-space-radio-wave-difference\",\"unknown\":true},{\"slug\":\"kenshin-ketsuatsu-takame-kinntore-hajimekata\",\"unknown\":true},{\"slug\":\"beginner-strength-training-few-exercises-frequency\",\"unknown\":true},{\"slug\":\"shinomiya-personal-gym-reservation-facility-the-rev\",\"unknown\":true},{\"slug\":\"oxygen-room-how-to-spend-time\",\"unknown\":true}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea\",\"primary_location\":\"training_area\",\"subject_zone\":\"training_area\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"training_area\"},{\"object\":\"cable_machine\",\"zone\":\"training_area\"},{\"object\":\"barbell\",\"zone\":\"training_area\"},{\"object\":\"weight_plates\",\"zone\":\"training_area\"},{\"object\":\"training_bench\",\"zone\":\"training_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\",\"rack_adjustment\",\"cable_operation\",\"barbell_operation\",\"strength_exercise\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\",\"training_execution\",\"training_progress\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be prepare in training_area; visual role checking_readiness.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d",
-  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.jpg",
-  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.jpg",
-  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.jpg",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d.json",
+  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -87,7 +87,7 @@
     "article_intent": "training_start",
     "required_equipment": [],
     "subject_zone": "training_area",
-    "article_specific_directive": "",
+    "article_specific_directive": "One standing adult customer in the existing training area, adjusting one sleeve before the first session. This is preparation (prepare), not exercise, rest, health-report review or a pain examination. A mildly hesitant expression conveys readiness to mention a small concern; no hand clutching the neck, shoulder or joint, and no medical acting. Empty hands except touching own sleeve. NO paper, checklist, phone, clipboard, forms, mat or other props. Customer remains standing and does not sit on, touch, move or use any bench or equipment. Keep exact room geometry, source camera perspective, rack/cable/bench positions, floor, windows and walls; add only this customer. Do not expand the room. Medium three-quarter portrait with the customer dominant at 60-70% visual attention; existing background anchors softly out of focus. The customer's face and sleeve adjustment remain visible in both wide and 4:3 crops.",
     "similarity": {
       "pass": true,
       "window": 12,
@@ -544,6 +544,18 @@
       "female",
       "male",
       "female"
-    ]
-  }
+    ],
+    "repair": {
+      "version": "2026-10-14-source-scene-r2",
+      "previous_asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d",
+      "reason": "Independent QC rejected seated paper review and relocated foreground bench. Restrict approved prepare action to standing sleeve adjustment with no props or equipment contact.",
+      "source_preserved": true,
+      "qc_thresholds_preserved": true,
+      "publish_requires_human_approval": true
+    }
+  },
+  "visible_action": "A standing first-time customer adjusts a sleeve in preparation to start; empty hands, no equipment contact, no paper or phone.",
+  "emotional_state": "Mild first-session hesitation, attentive rather than smiling advertisement; ready to speak about a small concern.",
+  "visual_claim": "Initial hesitation can be voiced before training. Show one customer's quiet preparation, without depicting a consultation, examination or guaranteed safety.",
+  "composition_hint": "Standing medium three-quarter portrait within the exact source environment. Never create a foreground seat or move the real background bench. No seated pose and no room expansion. Customer at center-right, sharp face and sleeve action, authentic source geometry with soft background."
 }
