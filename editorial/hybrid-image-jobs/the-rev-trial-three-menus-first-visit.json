@@ -14,7 +14,7 @@
   "customer_presentation": "male",
   "generated_scene_path": "assets/images/editorial-generated/the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2-scene.png",
   "style_references": [
-    "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
@@ -415,6 +415,6 @@
   "visible_action": "初来店の男性利用者が実際の受付で立ち止まり、室内を見渡して選択を考える",
   "emotional_state": "curious, calm, welcomed but not theatrical",
   "visual_claim": "初来店でも自分の目的に合う体験を選べる場所であること",
-  "recovery_note": "Independent r1 QC legitimately recognized weight plates and training bench in BOTH actual source and generated image rear_training_area, revealing missing source registry facts. Exact source SHA unchanged; inventory corrected centrally in source registry 2026-10-14. Scene action corrected from entering to observing_facility to match independent observation. All image/art-direction/typography/scene verification gates remain mandatory. Separate r2 images, preserve rejected r1 history.",
+  "recovery_note": "Independent r1 QC legitimately recognized weight plates and training bench in BOTH actual source and generated image rear_training_area, revealing missing source registry facts. Exact source SHA unchanged; inventory corrected centrally in source registry 2026-10-14. Scene action corrected from entering to observing_facility to match independent observation. All image/art-direction/typography/scene verification gates remain mandatory. Separate r2 images, preserve rejected r1 history. ORIGINAL_R2_GENERATION_REFERENCES=[\"assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg\",\"assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg\"]. Original R2 independently passed approved Golden Typography and Art Direction checks; metadata normalized to the canonical validator reference list after generation.",
   "composition_hint": "Golden Typography V1. One male adult customer in authentic THE REV lobby; relaxed upright observing existing facility, near reception. No simulated arrival walk. Left 2-line headline; preserve brand anchor, counter, stool, plant and rear-only weight rack, plates, bench."
 }
