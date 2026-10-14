@@ -56,6 +56,20 @@ jobs:
             *) echo "::error::Unknown offline pilot case"; exit 1 ;;
           esac
           node --check scripts/materialize-editorial-image-p2-job.mjs
+      - name: Preflight all requested cases before billable image generation
+        env:
+          CASE_ID: ${{ inputs.case_id }}
+        run: |
+          set -euo pipefail
+          node scripts/preflight-editorial-image-p2.mjs "$CASE_ID" | tee .p2-preflight.json
+      - name: Keep P2 preflight proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2-preflight-${{ github.run_id }}
+          retention-days: 7
+          if-no-files-found: warn
+          path: .p2-preflight.json
       - name: Install renderer and review dependencies
         run: |
           set -euo pipefail
