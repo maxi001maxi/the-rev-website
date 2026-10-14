@@ -27,3 +27,9 @@
 - Browser and local execution environment became offline after actual article/QC/Bridge success; connected GitHub, Supabase and Sheets checks/writes remain available.
 - Canonical source persisted in GitHub commits 6074d5b (QC evidence/closing), 45dd757 (existing-draft recovery), cf346ac (generated one-paste bundle), 7d91c7a (scoped existing-job scene repair).
 - Mandatory repository test suite passed before the environment disconnect; expanded QC patch passed 20 checks locally before disconnect. No unexecuted later checks claimed.
+
+## Final verified blocker (14:01 JST)
+- Scoped repaired-image run 38514170461 ended with provider block, not image success. OpenAI Responses HTTP 429: You have no credits remaining.
+- Operator status BLOCKED_PROVIDER_CREDITS. Supabase Web/GBP images BLOCKED, image_asset_ready=false, publish_status NOT_PUBLISHED, published_at null. Queue human_action_required RESTORE_PROVIDER_CREDITS; final LINE PENDING.
+- Repaired scene QC and Xserver staging/byte verification did not complete. GitHub workflow conclusion success indicates handled blocking state, not asset completion. No credits purchased, no publication performed.
+- The latest approved article appeared on article-image row 2 without blank gaps, demonstrating the live newest-first repair with an actual added article. Previous completed trial and posture assets remained present below.
