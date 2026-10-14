@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
 import { classifyEditorialRole,editorialPortfolioSnapshot,selectEditorialPortfolio,publishedMediaHistory,EDITORIAL_ROLES } from '../lib/editorialMediaPortfolio.mjs';
 import { proposalOptions,topicNotification,prepareTopicProposal } from '../lib/editorialTopicApproval.mjs';
 const titles=[
