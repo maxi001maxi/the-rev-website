@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import {
   IMAGE_VARIATION_VERSION,imageVariationMode,auditEditorialCopy,
   diagnoseSceneRepetition,proposeSafeSceneVariations,buildImageVariationShadowReport
@@ -101,4 +102,17 @@ test('safe baseline plan is not converted into publish/visual QC authority',()=>
   assert(!('pass' in report));
   assert(!('human_quality_score' in report));
   assert(report.offline_candidate_fingerprints.every(x=>x.caution.includes('SHADOW')));
+});
+
+test('read-only offline inspector on current canonical job has no publish decision',()=>{
+  const path='editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json';
+  const before=fs.readFileSync(path,'utf8');
+  const output=execFileSync(process.execPath,['scripts/inspect-image-variation-v1.mjs',path],{encoding:'utf8'});
+  const report=JSON.parse(output);
+  assert.equal(report.warning,'OFFLINE_SHADOW_ONLY_NO_VISUAL_QC_OR_READY_STATUS');
+  assert.equal(report.slug,'personal-gym-first-session-pain-health-history');
+  assert.equal(report.report.mode,'SHADOW');
+  assert.equal(report.report.changes_production_scene,false);
+  assert(report.report.repetitions.observed>=0);
+  assert.equal(fs.readFileSync(path,'utf8'),before);
 });
