@@ -42,6 +42,14 @@
           {
             "object": "training_rack",
             "zone": "rear_training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "rear_training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "rear_training_area"
           }
         ],
         "allowed_generated_actions": [
@@ -64,8 +72,8 @@
         ],
         "verification": {
           "method": "source image visual inspection + canonical scoped registry",
-          "verified_at": "2026-10-07",
-          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+          "verified_at": "2026-10-14",
+          "note": "Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC."
         }
       }
     },
