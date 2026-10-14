@@ -56,6 +56,11 @@ Hobby quotaをGit commit単位で消費しないため、`vercel.json` の `git.
 - 最終PublishとGBP投稿は人間承認で停止する。自動公開のSafety Gateは `lib/editorialAutoPublishGate.mjs`（Vercel env `AUTO_PUBLISH_ENABLED=true` と 08_SETTINGS `auto_publish=TRUE` の両方 + executor登録）。現在はexecutor未実装で、両方ONでも公開しない
 - Blogの公開履歴を `01_POST_HISTORY` に書かない（Instagramの企画・類似判定・実績同期が `post_id` で参照するため）。Blogの履歴はQueue / Bridge
 
+## Editorial Image Improvement v1（開発中、OFFが正式）
+
+画質向上の開発工程・A/B評価・公開までの境界は `editorial/IMAGE_QUALITY_IMPROVEMENT_V1.md` を参照する。
+`EDITORIAL_IMAGE_VARIATION_V1_MODE` 未設定/OFFでは従来の画像Job/シーン/アセットを完全維持。SHADOWは診断メタデータだけを加え、別案を採用しない。オーナー承認なしにシーン選定・画像生成エンジン・Visual QC・Publish Gateを差し替えない。
+
 ## Blog / Column画像を扱うAIへの必須ルール
 
 記事サムネイル、OGP、Editorial AI画像、Hybrid画像、Reference V2.xに関する作業を始める前に、必ず次の順で読んでください。
