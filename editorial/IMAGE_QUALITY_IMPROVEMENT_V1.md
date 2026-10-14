@@ -176,3 +176,13 @@ GitHub Actionsは次のように別々のartifactを保存する。採点者が�
 作成手順は `node scripts/package-editorial-image-p2-results.mjs all`。5件が完了していない場合も失敗を明示するが、画像未作成やQC不合格を成功に書き換えない。
 
 この方式でも、実際の人間評価はまだ行われていない。画像5件のA/B比較が完了したと述べられるのは、**実画像QCをすべて通過し、匿名比較の採点まで完了した場合のみ**。
+
+### P2ブラインド比較の出力
+
+手動実行の出力は3種類のGitHub Actionsアーティファクトに分離する。
+
+- `p2-blind-reviewer-<run_id>`: 順序をランダム化したimage-01 / image-02、匿名化された採点票。評価者はこのファイルだけを見る。
+- `p2-private-answer-key-<run_id>`: 画像の実際のA/B対応表。**評価を回収するまで開封しない**。
+- `p2-offline-image-comparison-<run_id>`: QC記録・ジョブ・生成証拠・元画像との比較資料。運用者用で、匿名性確保のためレビュー担当には渡さない。
+
+`scripts/package-editorial-image-p2-results.mjs` はBの`READY_CANDIDATE`、実QC合格、元写真・シーン・Thumbnail/OGP/GBPのSHA256一致を確認したケースだけ匿名比較セットを作る。1件でも未合格なら`PARTIAL_OR_QC_REJECTED`として記録し、勝手に公開や採用判定をしない。
