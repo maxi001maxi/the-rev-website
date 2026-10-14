@@ -63,6 +63,7 @@ on:
       - 'lib/editorialSceneGrounding.mjs'
       - 'lib/editorialImageVariationV1.mjs'
       - 'scripts/test-editorial-image-variation-v1.mjs'
+      - 'scripts/inspect-image-variation-v1.mjs'
       - 'editorial/IMAGE_QUALITY_IMPROVEMENT_V1.md'
       - 'lib/editorialImageOperatorRecovery.mjs'
       - 'scripts/test-editorial-image-operator-recovery.mjs'
@@ -165,5 +166,6 @@ jobs:
       - run: npm run test:image-operator-primary-status
       - run: node --test scripts/test-editorial-scene-grounding.mjs
       - run: node --test scripts/test-editorial-image-variation-v1.mjs
+      - run: node scripts/inspect-image-variation-v1.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null
       - run: npm run test:editorial-images
       - run: npm run build:blog
