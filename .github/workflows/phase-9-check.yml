@@ -65,6 +65,7 @@ on:
       - 'lib/editorialImagePhase2.mjs'
       - 'scripts/prepare-editorial-image-p2.mjs'
       - 'scripts/materialize-editorial-image-p2-job.mjs'
+      - 'scripts/preflight-editorial-image-p2.mjs'
       - 'scripts/package-editorial-image-p2-results.mjs'
       - 'scripts/package-editorial-image-p2-results.mjs'
       - '.github/workflows/editorial-image-p2-offline-pilot.yml'
@@ -175,6 +176,7 @@ jobs:
       - run: node --test scripts/test-editorial-scene-grounding.mjs
       - run: node --test scripts/test-editorial-image-variation-v1.mjs
       - run: node --test scripts/test-editorial-image-phase2.mjs
+      - run: node scripts/preflight-editorial-image-p2.mjs all > /dev/null
       - run: node scripts/prepare-editorial-image-p2.mjs > /dev/null
       - run: node scripts/inspect-image-variation-v1.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null
       - run: npm run test:editorial-images
