@@ -75,6 +75,10 @@ on:
       - 'scripts/preflight-auto-editorial-image.mjs'
       - 'scripts/test-editorial-production-image-preflight.mjs'
       - 'scripts/test-editorial-rejected-media-preservation.mjs'
+      - 'scripts/prepare-editorial-r5-depth-review.mjs'
+      - 'scripts/offline-r5-depth-recovery.py'
+      - 'scripts/test-editorial-r5-depth-recovery.mjs'
+      - '.github/workflows/editorial-r5-depth-recovery.yml'
       - 'editorial/experiments/image-quality-p2/**'
       - 'scripts/test-editorial-image-variation-v1.mjs'
       - 'scripts/inspect-image-variation-v1.mjs'
@@ -184,6 +188,8 @@ jobs:
       - run: node --test scripts/test-editorial-20261015-pain-production.mjs
       - run: node --test scripts/test-editorial-production-image-preflight.mjs
       - run: node --test scripts/test-editorial-rejected-media-preservation.mjs
+      - run: node --test scripts/test-editorial-r5-depth-recovery.mjs
+      - run: python3 -m py_compile scripts/offline-r5-depth-recovery.py
       - run: node scripts/preflight-auto-editorial-image.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null
       - run: node scripts/preflight-editorial-image-p2.mjs all > /dev/null
       - run: node scripts/prepare-editorial-image-p2.mjs > /dev/null

@@ -753,6 +753,10 @@ const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
 const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED';
+// A repaired scene may be re-graded, but must never silently incur a new
+// image generation call if state routing does not match the requested asset.
+if(process.env.EDITORIAL_IMAGE_DISABLE_GENERATION === '1' && !forceOverlayRerender)
+  throw new Error('OFFLINE_QC_REQUIRED: refusing paid image generation; missing verified overlay-rerender state');
 const needsGbpBackfill = gbpRequested && (
   forceGbpBackfill ||
   (previousState?.status === 'READY_CANDIDATE' && !gbpAlreadyExists)
@@ -810,12 +814,14 @@ if (forceOverlayRerender) {
       process.exit(0);
     }
 
+    preserveRejectedCandidate('OFFLINE_RERENDER_VISUAL_QC_REJECTED');
     lastError = String(lastQa.comments || 'Overlay Visual QC failed.');
     for (const p of [job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
   } catch (e) {
     lastError = String(e?.message || e);
+    preserveRejectedCandidate('OFFLINE_RERENDER_EXCEPTION');
     console.error(`Overlay rerender failed: ${lastError}`);
     for (const p of [job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
