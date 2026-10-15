@@ -11,7 +11,9 @@ const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.jso
 const report=job=>preflightEditorialImage(job,registry);
 
 test('the actual R3 rejected pose would be blocked BEFORE using the image API',()=>{
- const old={...job,scene_plan:state.last_qa.scene_grounding.plan};
+ const observedPrior=job.automation.recent_semantic_articles.find(x=>x.slug==='kenshin-ketsuatsu-takame-kinntore-hajimekata');
+ assert(observedPrior?.scene_fingerprint);
+ const old={...job,scene_plan:{...job.scene_plan,...observedPrior.scene_fingerprint}};
  const observed=report(old);
  assert.equal(observed.pass,false);
  assert.equal(observed.no_api_calls,true);
@@ -20,7 +22,7 @@ test('the actual R3 rejected pose would be blocked BEFORE using the image API',(
  assert.equal(observed.history_unknown,0);
 });
 
-test('the R4 corrected real room/customer pose does not copy health-check paperwork',()=>{
+test('the R5 unique real room/customer pose does not copy health-check paperwork',()=>{
  const observed=report(job);
  assert.equal(observed.pass,true,JSON.stringify(observed));
  assert.equal(observed.status,'PASS_BEFORE_MODEL');
@@ -34,8 +36,9 @@ test('the R4 corrected real room/customer pose does not copy health-check paperw
  assert.equal(job.scene_plan.article_intent,'health_before_start');
  assert.match(job.scene_plan.article_specific_directive,/NO paper/);
  assert.equal(job.automation.require_complete_semantic_preflight,true);
- assert.equal(job.asset_version,'reference-v26-grounded-lobbysp-20261015-pain-r4');
+ assert.equal(job.asset_version,'reference-v26-grounded-lobbysp-20261015-pain-r5');
  assert.equal(job.max_generation_attempts,1);
+ assert.equal(job.gbp_fade_variant,'portrait-safe-mask-v1');
  assert.equal(job.policy.publish_boundary,'REVIEW_AND_PUBLISH');
 });
 

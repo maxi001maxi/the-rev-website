@@ -291,6 +291,11 @@ jobs:
             done
             printf '%s\n' "$state" "$job" >> .rejected-paths
           done < .operator-jobs
+          # Image operator has already removed rejected media from public asset paths.
+          # Its private quarantine is safe to archive but NEVER to publish or commit.
+          if [ -d .operator-rejected-evidence ]; then
+            find .operator-rejected-evidence -type f -print >> .rejected-paths
+          fi
           sort -u .rejected-paths -o .rejected-paths
           if [ -s .rejected-paths ]; then
             tar -czf editorial-operator-rejected.tar.gz -T .rejected-paths

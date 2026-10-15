@@ -50,6 +50,46 @@ const stateDir = path.join(ROOT, 'editorial', 'image-operator-state');
 fs.mkdirSync(stateDir, { recursive: true });
 const statePath = path.join(stateDir, `${job.slug}.json`);
 
+/**
+ * Copy rejected media OUTSIDE publishing paths before cleanup.
+ * GitHub Actions archives this temporary directory for visual review/overlay
+ * repairs, while canonical assets remain deleted until independent QC PASS.
+ * No extra generation or model calls.
+ */
+function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
+  const safeSlug=String(job.slug||'unknown').replace(/[^a-zA-Z0-9._-]/g,'_');
+  const safeVersion=String(job.asset_version||'unknown').replace(/[^a-zA-Z0-9._-]/g,'_');
+  const root=path.resolve(ROOT,'.operator-rejected-evidence',safeSlug,safeVersion);
+  const candidates=[
+    job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
+    job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
+    ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
+      [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
+  ].filter(Boolean);
+  const files=[];
+  try {
+    for(const relative of candidates) {
+      const abs=path.resolve(ROOT,relative);
+      if(!abs.startsWith(ROOT+path.sep)||!fs.existsSync(abs)||!fs.statSync(abs).isFile())continue;
+      const dest=path.resolve(root,relative);
+      fs.mkdirSync(path.dirname(dest),{recursive:true});
+      fs.copyFileSync(abs,dest);
+      files.push({path:relative,sha256:hashFile(abs),bytes:fs.statSync(abs).size});
+    }
+    if(files.length){
+      fs.mkdirSync(root,{recursive:true});
+      fs.writeFileSync(path.join(root,'evidence-manifest.json'),JSON.stringify({
+        slug:job.slug,asset_version:job.asset_version,reason,
+        qa_pass:false,approved_for_publishing:false,
+        original_media_retained_only_in_quarantine:true,files
+      },null,2)+'\n');
+      console.log(JSON.stringify({status:'REJECTED_MEDIA_QUARANTINED',slug:job.slug,media_files:files.length}));
+    }
+  }catch(err) {
+    console.warn('::warning::Could not preserve some rejected media: '+String(err?.message||err));
+  }
+}
+
 function readJson(filePath, fallback = null) {
   try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return fallback; }
 }
@@ -918,6 +958,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
       process.exit(0);
     }
 
+    preserveRejectedCandidate('INDEPENDENT_VISUAL_QC_REJECTED');
     lastError = String(lastQa.comments || 'Visual QC failed.');
     console.warn(`Visual QC REJECT: ${lastError}`);
     // A typography-only failure must not spend another image-generation attempt.
@@ -959,6 +1000,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
       process.exit(0);
     }
 
+    preserveRejectedCandidate('GENERATION_OR_OVERLAY_EXCEPTION');
     console.error(`Automated image attempt failed: ${lastError}`);
     if (e.code === 'THUMBNAIL_TYPOGRAPHY_FAILED') break;
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
