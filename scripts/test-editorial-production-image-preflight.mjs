@@ -11,7 +11,9 @@ const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.jso
 const report=job=>preflightEditorialImage(job,registry);
 
 test('the actual R3 rejected pose would be blocked BEFORE using the image API',()=>{
- const old={...job,scene_plan:state.last_qa.scene_grounding.plan};
+ const observedPrior=job.automation.recent_semantic_articles.find(x=>x.slug==='kenshin-ketsuatsu-takame-kinntore-hajimekata');
+ assert(observedPrior?.scene_fingerprint);
+ const old={...job,scene_plan:{...job.scene_plan,...observedPrior.scene_fingerprint}};
  const observed=report(old);
  assert.equal(observed.pass,false);
  assert.equal(observed.no_api_calls,true);
