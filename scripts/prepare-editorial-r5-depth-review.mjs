@@ -40,11 +40,20 @@ const job={
   qa_report_path:'editorial/image-qa/'+slug+'-'+R6+'.json',
   max_generation_attempts:1,
   offline_review_photo_zoom:{thumbnail:1.30,og:1.30,gbp:1.25},
+  // Approval is scoped to reviewing the article as a separate scene inside
+  // a verified real reception, not approving repeated artwork or publication.
+  // The independent visual scene/QC still must pass every original threshold.
   automation:{
     ...previous.automation,
     mode:'OFFLINE_RECOVERED_R5_QC_ONLY_NOT_PUBLISH',
     recovery_from_run:38673164344,
-    paid_image_generation_allowed:false
+    paid_image_generation_allowed:false,
+    contextual_facility_source_reuse:{
+      review_scope:'OFFLINE_R7_ONLY_NO_PUBLICATION',
+      reason:'AUTHENTIC_RECEPTION_REQUIRED_DISTINCT_HEALTH_STORY',
+      distinct_from_recent:previous.automation.recent_semantic_articles.slice(0,4).map(x=>x.slug),
+      record:'The physically real lobby was last used in a facility-choice article. This customer action/intent differs and the fake-room alternative is forbidden.'
+    }
   },
   policy:{...previous.policy,publish_boundary:'REVIEW_AND_PUBLISH'},
   recovery_provenance:{

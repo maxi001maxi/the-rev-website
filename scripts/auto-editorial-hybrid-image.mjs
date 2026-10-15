@@ -6,6 +6,7 @@ import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_
   GOLDEN_REFERENCE_REVISION, GOLDEN_REFERENCE_ASSETS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
 import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
+import {verifyDistinctContextualFacilitySourceReuse} from '../lib/editorialContextualSourceReuse.mjs';
 import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass, canonicalizeRecentFingerprint } from '../lib/editorialSceneGrounding.mjs';
 
 const jobPath = process.argv[2];
@@ -561,6 +562,12 @@ async function visualQa(attempt) {
     Number(job?.automation?.repeat_distance) >= 3 &&
     Array.isArray(job?.scene_plan?.required_equipment) &&
     job.scene_plan.required_equipment.length > 0;
+  const contextualReuse=recentRepeat
+    ? verifyDistinctContextualFacilitySourceReuse({
+        job,sourceIds:selectedIds,recentIds,grounding:groundingEvidence
+      })
+    : {allowed:false,policy:null,errors:[],source_repeated:false,scene_repeated:false};
+  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed;
 
   const qa = {
     ...modelQa,
@@ -585,7 +592,7 @@ async function visualQa(attempt) {
       art_direction: modelQa.visual_art_direction || {},
       golden_reference: { revision: GOLDEN_REFERENCE_REVISION, assets: GOLDEN_REFERENCE_ASSETS }
     },
-    pass: requiredBool(modelQa.pass) && (!recentRepeat || repeatedDueToRelevance),
+    pass: requiredBool(modelQa.pass) && (!recentRepeat || sourceReuseAccepted),
     source_material_scope_pass: true,
     generated_customer_allowed_under_policy: true,
     generated_customer_role: 'customer',
@@ -611,9 +618,10 @@ async function visualQa(attempt) {
     same_image_as_recent_articles: false,
     same_background_as_recent_articles: recentRepeat,
     trainer_photo_reused: false,
-    background_reuse_relevance_exception: repeatedDueToRelevance,
+    background_reuse_relevance_exception: sourceReuseAccepted,
+    contextual_verified_facility_source_reuse:contextualReuse,
     recent_similarity_window: Number(job.policy?.recent_reference_window || 4),
-    recent_similarity_check_pass: !recentRepeat || repeatedDueToRelevance,
+    recent_similarity_check_pass: !recentRepeat || sourceReuseAccepted,
     recent_background_source_ids: recentIds,
     recent_reference_guard: {
       window: Number(job.policy?.recent_reference_window || 4),
