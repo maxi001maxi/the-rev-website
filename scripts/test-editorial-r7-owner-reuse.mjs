@@ -50,7 +50,7 @@ test('different slug, asset version, image hash and scene evidence fail closed',
     [(d,q)=>{q.pass=false;}],
     [(d,q)=>{q.manual_visual_rejection=true;}]
   ];
-  for(const mutate of mutations){
+  for(const [mutate] of mutations){
     const d=clone(draft),q=clone(qa);
     mutate(d,q);d.image_qa=q;
     assert.equal(r7OwnerApprovedDistinctSceneReuse(d,q),false);
