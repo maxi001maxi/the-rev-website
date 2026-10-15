@@ -12,22 +12,22 @@
   "scene_intent": "One real THE REV reception source with one female customer silently considering a small unmarked personal note before sharing minor health/condition concerns; no trainer, no medical actions, no fake room.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r5-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r4",
-  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.jpg",
-  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.jpg",
-  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.jpg",
+  "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r5",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r5.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r5.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r5.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.json",
+  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r5.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -87,7 +87,7 @@
     "article_intent": "health_before_start",
     "required_equipment": [],
     "subject_zone": "reception",
-    "article_specific_directive": "Depict EXACTLY ONE Japanese adult FEMALE CUSTOMER in the EXISTING real THE REV reception space. NO trainer, coach, staff, friend or other persons. Her facial expression is calm but thoughtful, as if deciding how to mention a minor ache or a change in condition before her first session. ARTICLE-SPECIFIC ACTION: customer is seated naturally on the real reception stool, preparing to speak. Her one open hand rests loosely against her own upper arm/sleeve near her shoulder, the other hand naturally rests on her lap. This is a small, realistic moment of hesitation, NOT a painful pose, medical exam, injury diagnosis, exercise set, fitness demonstration or showing paperwork. NO paper, medical charts, phone, clipboard, additional equipment or forms. COMPOSITION: natural side/three-quarter medium seated portrait, waist-to-head with both hands recognizable. Subject FACE, natural hand action and shoulder are prominent at the right/center-right. Aim for human visual attention 60-70%, not wide room view; keep original face/body comfortably inside the future GBP 4:3 crop without pale fade over face. ABSOLUTE REAL-ROOM ANCHOR: source photo is the verified original THE REV reception; preserve exact existing wall logo, plants, cabinet/counter, real stool, floor perspective, lighting geometry, original window/walls, and rear rack, bench and plates ONLY in the source's rear_training_area. Do not widen reception or move/add/clone gym equipment. The real room must remain recognizably THE REV, never a generic gym. Change the person, not the building. Use real-looking photographic shallow depth and subdued soft optical defocus across all REAR equipment and wall details behind the customer, preserving one legible authentic facility anchor, with realistic shadows/contact and light. Strongly prioritize human over visually sharp racks and architecture. No fake rectangular fog panels or smooth white screens behind the person. Leave ample photo-to-ivory negative space at left for fixed, genuine Golden Typography; NEVER draw letters in generated photo. Keep subject's head, eyes and hands clear of the left fade. The approved production renderer alone adds exact text later.",
+    "article_specific_directive": "Depict EXACTLY ONE Japanese adult FEMALE CUSTOMER in the EXISTING real THE REV reception space. NO trainer, coach, staff, friend or other persons. Her facial expression is calm but thoughtful, as if deciding how to mention a minor ache or a change in condition before her first session. ARTICLE-SPECIFIC ACTION: customer is seated naturally on the real reception stool, preparing to speak. Her one open hand rests loosely against her own upper arm/sleeve near her shoulder, the other hand naturally rests on her lap. This is a small, realistic moment of hesitation, NOT a painful pose, medical exam, injury diagnosis, exercise set, fitness demonstration or showing paperwork. NO paper, medical charts, phone, clipboard, additional equipment or forms. COMPOSITION: natural side/three-quarter medium seated portrait, waist-to-head with both hands recognizable. Subject FACE, natural hand action and shoulder are prominent at the right/center-right. Aim for human visual attention 60-70%, not wide room view; keep original face/body comfortably inside the future GBP 4:3 crop without pale fade over face. ABSOLUTE REAL-ROOM ANCHOR: source photo is the verified original THE REV reception; preserve exact existing wall logo, plants, cabinet/counter, real stool, floor perspective, lighting geometry, original window/walls, and rear rack, bench and plates ONLY in the source's rear_training_area. Do not widen reception or move/add/clone gym equipment. The real room must remain recognizably THE REV, never a generic gym. Change the person, not the building. Use real-looking photographic shallow depth and subdued soft optical defocus across all REAR equipment and wall details behind the customer, preserving one legible authentic facility anchor, with realistic shadows/contact and light. Strongly prioritize human over visually sharp racks and architecture. No fake rectangular fog panels or smooth white screens behind the person. Leave ample photo-to-ivory negative space at left for fixed, genuine Golden Typography; NEVER draw letters in generated photo. Keep subject's head, eyes and hands clear of the left fade. The approved production renderer alone adds exact text later. FINAL SOURCE FIDELITY CHECK: The reception's actual wooden counter edge/profile, wall logo proportions, visible flower/plant/ornament shapes, stool leg alignment and rear rack edges must match the one verified source photo rather than be stylistically reimagined. Retain the real camera and furniture proportions. Treat source as existing photograph onto which a human visitor is naturally introduced; keep background photoreal and UNCHANGED structurally. Place woman right of the text, foreground naturally sharp and rear background naturally softer. No generic spa, no new decorative objects, no relocated flowers, no fictional interior.",
     "similarity": {
       "pass": true,
       "window": 12,
@@ -664,9 +664,9 @@
       "female"
     ],
     "repair": {
-      "version": "2026-10-15-preflight-history-r4",
-      "previous_asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3",
-      "reason": "Paid R3 generation rejected after QA discovered duplicate health-check paper scene and too-sharp background; preflight now uses all twelve independent historical observations to reject repeats BEFORE calling image API. New scene avoids paper/consultation and is a distinct private pre-session expression of a concern.",
+      "version": "2026-10-15-r5-source-locked-brief-with-gbp-mask",
+      "previous_asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r4",
+      "reason": "Real R4 independent QC showed correct woman/customer/article/lighting and PASS for wide/OG typography, source grounding, human visual attention 64, but rejected because GBP rectangular ivory overlay and source-room details were reconstructed (environment/authenticity 7). First fix deterministic GBP masking rather than weaken QC; one final generation attempt with stronger exact source-photo fidelity and fail-media quarantine.",
       "source_preserved": true,
       "qc_thresholds_preserved": true,
       "publish_requires_human_approval": true,
@@ -680,6 +680,7 @@
   "visible_action": "One real-world female customer sits on the existing THE REV reception stool and calmly prepares to mention a mild concern. She gently rests one hand against her own upper sleeve and the other in her lap; no paper or trainer, no medical drama.",
   "emotional_state": "Calm, thoughtful, minor pre-first-visit hesitation, human and candid.",
   "visual_claim": "Even small concerns about pain or physical condition can be shared before training. Depict one client's quiet decision to speak up without inventing medical procedures.",
-  "composition_hint": "Human-first side/three-quarter waist-to-head seated portrait at actual THE REV reception, realistic optical background blur and real rack only in rear; face/hands always in safe area for GBP crop. No fictitious gym.",
-  "max_generation_attempts": 1
+  "composition_hint": "Human-first side/three-quarter waist-to-head seated portrait at actual THE REV reception, realistic optical background blur and real rack only in rear; face/hands always in safe area for GBP crop. No fictitious gym. GBP uses a deterministic image alpha mask into true ivory canvas (not a translucent white rectangle) while protecting the customer's face; original environment stays physically accurate.",
+  "max_generation_attempts": 1,
+  "gbp_fade_variant": "portrait-safe-mask-v1"
 }
