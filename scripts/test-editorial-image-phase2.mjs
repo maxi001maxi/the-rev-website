@@ -426,7 +426,7 @@ test('P2 keeps true visual QC failure distinct from missing blind-pair error',()
 
 test('P2 stops repeat p2-02 geometry drift BEFORE any billable generation, while other cases remain available',()=>{
   const ledger=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/pilot-holds.json','utf8'));
-  assert.equal(ledger.cases.length,1);
+  assert.equal(ledger.cases.length,2);
   const hold=ledger.cases[0];
   assert.equal(hold.case_id,'p2-02');
   assert.equal(hold.status,'PAUSED');
@@ -447,10 +447,13 @@ test('P2 stops repeat p2-02 geometry drift BEFORE any billable generation, while
   assert.equal(all.status,1);
   const full=JSON.parse(all.stdout);
   assert.equal(full.case_count,5);
-  assert.equal(full.results.filter(x=>x.reason?.includes('P2_MANUAL_HOLD_')).length,1);
+  assert.equal(full.results.filter(x=>x.reason?.includes('P2_MANUAL_HOLD_')).length,2);
   assert.equal(full.results.find(x=>x.case_id==='p2-01').preflight,'PASS');
-  assert.equal(full.results.find(x=>x.case_id==='p2-03').preflight,'PASS');
-  const allowed=execPreflight('p2-03');
+  assert.match(full.results.find(x=>x.case_id==='p2-03').reason,/P2_MANUAL_HOLD_p2-03/);
+  const heldDenba=execPreflight('p2-03');
+  assert.equal(heldDenba.status,1);
+  assert.match(JSON.parse(heldDenba.stdout).results[0].reason,/P2_MANUAL_HOLD_p2-03/);
+  const allowed=execPreflight('p2-04');
   assert.equal(allowed.status,0);
   assert.equal(JSON.parse(allowed.stdout).all_pass,true);
   const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
@@ -501,17 +504,40 @@ test('p2-03 R1 actual QA failure is recorded; R2 narrows framing while preservin
   assert.match(pack,/state\?\.asset_version!==trial\.asset_version/);
 });
 
-test('p2-03 R2 is not blocked by the separate p2-02 hold, nor does it affect p2-04/05',()=>{
+test('p2-03 two failed R1/R2 runs are cost-paused; p2-04/05 remain available',()=>{
   const preflight=spawnSync(process.execPath,['scripts/preflight-editorial-image-p2.mjs','p2-03'],{
     encoding:'utf8',env:{...process.env,P2_ENFORCE_HOLDS:'1'}
   });
-  assert.equal(preflight.status,0);
-  assert.equal(JSON.parse(preflight.stdout).all_pass,true);
+  assert.equal(preflight.status,1);
+  const report=JSON.parse(preflight.stdout);
+  assert.equal(report.no_api_calls,true);
+  assert.equal(report.preflight_failures,1);
+  assert.match(report.results[0].reason,/P2_MANUAL_HOLD_p2-03.*REPEAT_HUMAN_FIRST_AND_GBP_FACE_FADE_FAILURE/);
   const holds=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/pilot-holds.json','utf8'));
   assert.equal(holds.cases.find(x=>x.case_id==='p2-02').status,'PAUSED');
+  const denba=holds.cases.find(x=>x.case_id==='p2-03');
+  assert.equal(denba.status,'PAUSED');
+  assert.equal(denba.first_failed_run_id,38658404670);
+  assert.equal(denba.second_failed_run_id,38659378986);
+  assert.match(denba.diagnosis,/GBP overlay/);
   for(const x of ['p2-04','p2-05']){
     const rel=execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs',x],{encoding:'utf8'}).trim();
     try {assert.equal(JSON.parse(fs.readFileSync(rel,'utf8')).asset_version,'p2-offline-v1');}
     finally{fs.unlinkSync(rel);}
   }
+});
+
+
+test('unpaused p2-04/05 can still run no-cost preflight independently',()=>{
+ const cases=['p2-04','p2-05'];
+ for(const item of cases){
+  const result=spawnSync(process.execPath,['scripts/preflight-editorial-image-p2.mjs',item],{
+   encoding:'utf8',env:{...process.env,P2_ENFORCE_HOLDS:'1'}
+  });
+  assert.equal(result.status,0);
+  const report=JSON.parse(result.stdout);
+  assert.equal(report.all_pass,true);
+  assert.equal(report.no_api_calls,true);
+  assert.equal(report.results[0].preflight,'PASS');
+ }
 });
