@@ -38,7 +38,6 @@ test('no model image creation; the only paid model capability is independent QC'
  const blur=flow.indexOf('python3 scripts/offline-r5-depth-recovery.py');
  const qc=flow.indexOf('node scripts/auto-editorial-hybrid-image.mjs .offline-review/r6-image-job.json');
  assert(blur>0&&blur<qc);
- assert(flow.includes('QA_MODEL:')===false); // uses real operator model via environment
  assert(flow.includes('EDITORIAL_IMAGE_QA_MODEL:'));
  assert(flow.includes('independent_qa_model_may_be_billed'));
  assert(flow.includes('image_generation_api_calls'));
