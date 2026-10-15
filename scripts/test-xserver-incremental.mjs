@@ -44,6 +44,10 @@ test('blog exact delta includes only affected pages and removes stale pages afte
  const result=planBlogDelta({oldRoot:a,newRoot:b});
  assert.deepEqual(result.changed,['topic/index.html','index.html']);
  assert.deepEqual(result.slugs,['topic']);
+ assert(result.commands.some(x=>x==='mkdir -pf "/blog/topic"'));
+ assert(result.commands.some(x=>x==='mkdir -pf "/blog/"'));
+ assert(!result.commands.some(x=>x.startsWith('mkdir -p ')));
+ assert(result.commands.every(x=>!x.startsWith('rm -r ')));
  assert(result.commands.findIndex(x=>x.includes('topic/index.html'))<result.commands.findIndex(x=>x.includes('"deploy/blog/index.html"')));
  fs.mkdirSync(path.join(a,'orphan'),{recursive:true});fs.writeFileSync(path.join(a,'orphan/index.html'),'REMOVED');
  const removed=planBlogDelta({oldRoot:a,newRoot:b});
