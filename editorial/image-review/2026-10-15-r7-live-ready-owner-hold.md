@@ -1,5 +1,15 @@
 # 2026-10-15 Editorial R7｜LIVE READY / Owner Hold (NOT PUBLISHED)
 
+## 2026-10-15 ADMIN SSL/DNS ACCESS BLOCKER (CRITICAL)
+- Owner received Chrome `net::ERR_CERT_COMMON_NAME_INVALID` when following `https://admin.therev-lab.com/admin/articles/review/?id=9a1fd56a-be01-4687-9474-f2377dc7e978`.
+- Vercel current domain config `admin.therev-lab.com`: `misconfigured:true`, nameservers `ns1.xserver.jp` through `ns5.xserver.jp`, public IPv4 `162.43.104.3` (Xserver). Vercel recommended CNAME target `cname.vercel-dns.com.` for this hostname.
+- Vercel project-domain record is `verified:true` and its alias maps to live READY production deployment `dpl_GNCXNfjbwCoFepNeSJeZpAvyoKtR`; verification is not a substitute for valid DNS/TLS routing.
+- Fix external Xserver DNS ONLY for hostname `admin` to CNAME `cname.vercel-dns.com.`. If explicit `admin` A/AAAA exists, remove it before installing the exact-name CNAME. If only a wildcard `*.therev-lab.com` A exists, do not delete the wildcard; adding a specific CNAME for `admin` overrides it. Do not change apex, www, MX, SPF, DKIM or nameservers.
+- Vercel can automatically provision HTTPS after correct DNS propagates. Recheck domain config `misconfigured:false`, certificate issued for `admin.therev-lab.com`, secure HTTPS before credentials, then run the admin Review preflight.
+- Vercel DNS management APIs are not authoritative because the delegated nameservers are Xserver. The current connected tools cannot update Xserver DNS. No DNS records were modified.
+- **Do NOT bypass the Chrome certificate warning or enter credentials over that URL until corrected.** No Blog or GBP publication authorized. Supabase R7 image+GBP READY is independent of safe Admin UI connectivity.
+
+
 **Read this after older R7 candidate/checklist/progress snapshots.** This supersedes their pre-connection/blocker status.
 
 ## Owner intent and permission
