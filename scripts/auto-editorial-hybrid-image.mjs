@@ -64,7 +64,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
     job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
     job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
     ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
-      [320,400].map(width=>p.replace(/\\.jpg$/,`-preview-${width}.jpg`)))
+      [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
   ].filter(Boolean);
   const files=[];
   try {
@@ -82,7 +82,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
         slug:job.slug,asset_version:job.asset_version,reason,
         qa_pass:false,approved_for_publishing:false,
         original_media_retained_only_in_quarantine:true,files
-      },null,2)+'\\n');
+      },null,2)+'\n');
       console.log(JSON.stringify({status:'REJECTED_MEDIA_QUARANTINED',slug:job.slug,media_files:files.length}));
     }
   }catch(err) {
