@@ -61,7 +61,7 @@ test('no stranger-trainer, fake room, medical acting, or unchecked person count'
  assert.equal(job.policy.real_the_rev_background_required,true);
  assert.equal(job.policy.generated_customer_required,true);
  assert.match(job.scene_plan.article_specific_directive,/NO trainer/);
- assert.match(job.scene_plan.article_specific_directive,/Exactly ONE/);
+ assert.match(job.scene_plan.article_specific_directive,/exactly one/i);
  assert.match(job.scene_plan.article_specific_directive,/ABSOLUTE REAL-ROOM ANCHOR/);
  assert.match(job.scene_plan.article_specific_directive,/rear_training_area/);
  assert.match(job.scene_plan.article_specific_directive,/NO paper/);
