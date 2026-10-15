@@ -93,6 +93,8 @@ on:
       - 'scripts/test-image-operator-primary-status.mjs'
       - 'lib/editorialAutomatedHybridImage.mjs'
       - 'lib/editorialImageReviewGate.mjs'
+      - 'lib/editorialR7ApprovedReuse.mjs'
+      - 'scripts/test-editorial-r7-owner-reuse.mjs'
       - 'AGENTS.md'
       - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
       - 'editorial/editorial-image-system.json'
@@ -197,6 +199,7 @@ jobs:
       - run: node --test scripts/test-editorial-contextual-reuse.mjs
       - run: node --check scripts/stage-verified-editorial-r7-candidate.mjs
       - run: node --test scripts/test-editorial-r7-prepublication-staging.mjs
+      - run: node --test scripts/test-editorial-r7-owner-reuse.mjs
       - run: python3 -m py_compile scripts/offline-r5-depth-recovery.py
       - run: node scripts/preflight-auto-editorial-image.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null
       - run: node scripts/preflight-editorial-image-p2.mjs all > /dev/null
