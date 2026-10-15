@@ -36,7 +36,7 @@ for(const c of selected){
   if(!exists(scratchRel)||!exists(stateRel)){pairs.push(status);continue;}
   let trial,state;
   try{trial=json(scratchRel);state=json(stateRel)}catch {status.image_status='INVALID_RUN_DATA';pairs.push(status);continue;}
-  if(trial.slug!==trialSlug||trial.asset_version!==(['p2-01','p2-02'].includes(c.case_id)?'p2-offline-r2':'p2-offline-v1')||trial.automation?.mode!=='OFFLINE_P2_DO_NOT_PUBLISH'
+  if(trial.slug!==trialSlug||trial.asset_version!==(['p2-01','p2-02','p2-03'].includes(c.case_id)?'p2-offline-r2':'p2-offline-v1')||trial.automation?.mode!=='OFFLINE_P2_DO_NOT_PUBLISH'
     ||original.slug!==c.slug||original.asset_version!==c.baseline_asset_version
     ||trial.automation?.source_repo_path!==sourcePath
     ||trial.automation?.selected_source_id!==original.automation?.selected_source_id
