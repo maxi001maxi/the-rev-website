@@ -8,6 +8,10 @@ const workflow=fs.readFileSync('.github/workflows/editorial-r7-prepublication-st
 
 test('staging is tied to exact independently approved R7 run, SHA hashes and real THE REV source',()=>{
  assert(script.includes('const RUN_ID=38677888686;'));
+ const fixed=Object.fromEntries([...script.matchAll(/'([^']+)':'([a-f0-9]+)'/g)].filter(x=>['.jpg','.png','.json'].some(ext=>x[1].endsWith(ext))).map(x=>[x[1],x[2]]));
+ assert.equal(Object.keys(fixed).length,6);
+ for(const [name,sha] of Object.entries(fixed))assert.equal(sha.length,64,'SHA256 must be 64 hex chars: '+name);
+ assert.equal(fixed['gbp_image.jpg'],'b9663c392be7e849c35e2321479d6cbaae3c8050204983b4d3c3ad5888407505');
  assert(script.includes("const VERSION='reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline';"));
  assert(script.includes("const SOURCE_SHA='ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662';"));
  assert(script.includes("qa.pass===true"));

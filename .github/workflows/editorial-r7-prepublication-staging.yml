@@ -1,4 +1,5 @@
 name: Editorial R7 Verified Prepublication Staging
+# 2026-10-15: re-dispatch after correcting immutable GBP SHA256 pin
 
 on:
   push:

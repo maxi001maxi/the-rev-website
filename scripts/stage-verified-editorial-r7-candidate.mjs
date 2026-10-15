@@ -16,12 +16,13 @@ const SOURCE_SHA='ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e4086
 const FILE_SHA=Object.freeze({
   'thumbnail.jpg':'ed41051a375fb46c780d640698fb5a36392d3e70be65bbc4302b2015cef70670',
   'og_image.jpg':'e5a29df585189a77ef25af812d256ae55cf870b3b9d55b45d85e74183a928c7b',
-  'gbp_image.jpg':'b9663c392be7e849c35e2321479d6cbaae3c8050204983b4d3ad5888407505',
+  'gbp_image.jpg':'b9663c392be7e849c35e2321479d6cbaae3c8050204983b4d3c3ad5888407505',
   'scene-depth.png':'f4626ed4af71a51e6c358482c151225edfc49d419b3c25cfa20f18d0e0f513b1',
   'independent-visual-qa.json':'760ea97e085f8f1336fe2b27cd54f8b46ba9c4c235f93c56851d902d9eb8472f',
   'r6-image-job.json':'5729ced40bb97734b2bfe3450336cb6da32a2e9c183887885ecbb2f48623622c'
 });
 // Files use fixed hashes obtained from the separately QC-accepted GitHub run.
+for(const [name,sha] of Object.entries(FILE_SHA)) { if(!/^[a-f0-9]{64}$/.test(sha))throw new Error('Invalid fixed SHA256 '+name); }
 const digest=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const fail=message=>{throw new Error('R7_PREPUBLICATION_BLOCKED: '+message);};
 const read=p=>JSON.parse(fs.readFileSync(path.join(ARTIFACT_DIR,p),'utf8'));
