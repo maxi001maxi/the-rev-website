@@ -270,8 +270,8 @@ test('p2-01 rejected R1 remains recorded and its R2 plan is unchanged',()=>{
     assert.equal(job.image_headline_short,['初回体験、','何を選ぶ？'].join(String.fromCharCode(10)));
     assert.equal(job.scene_plan.composition_type,'medium_seated_portrait');
   }finally{fs.unlinkSync(file);}
-  assert.equal(plan.cases.filter(c=>c.revision).length,2);
-  assert(plan.cases.slice(2).every(c=>!c.previous_rejected_asset_version));
+  assert.equal(plan.cases.filter(c=>c.revision).length,3);
+  assert(plan.cases.slice(3).every(c=>!c.previous_rejected_asset_version));
 });
 
 test('P2 remains a five case trial and r2 metadata never reduces image QC thresholds',()=>{
@@ -372,7 +372,7 @@ test('P2 success requires independent QC AND the actual verified blind-review ev
 });
 
 
-test('p2-02 real R1 rejected reason is preserved and only that case uses a new R2 attempt',()=>{
+test('p2-02 R1 rejection remains preserved and the isolated R2 version does not change',()=>{
   const evidence=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/p2-02-r1-qc-evidence.json','utf8'));
   assert.equal(evidence.workflow_run_id,38552625358);
   assert.equal(evidence.status,'IMAGE_GENERATED_BUT_INDEPENDENT_VISUAL_QC_REJECTED');
@@ -402,7 +402,7 @@ test('p2-02 real R1 rejected reason is preserved and only that case uses a new R
     assert.match(j.visible_action,/DYNAMIC pre-exercise warm-up/i);
     assert.equal(j.scene_plan.composition_type,'medium_side_portrait');
   } finally {fs.unlinkSync(rel);}
-  for(const p of cohort.cases.slice(2)){
+  for(const p of cohort.cases.slice(3)){
     const file=execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs',p.case_id],{encoding:'utf8'}).trim();
     try {assert.equal(JSON.parse(fs.readFileSync(file,'utf8')).asset_version,'p2-offline-v1');}
     finally {fs.unlinkSync(file);}
@@ -456,4 +456,62 @@ test('P2 stops repeat p2-02 geometry drift BEFORE any billable generation, while
   const flow=fs.readFileSync('.github/workflows/editorial-image-p2-offline-pilot.yml','utf8');
   assert.match(flow,/P2_ENFORCE_HOLDS: '1'/);
   assert(flow.indexOf('node scripts/preflight-editorial-image-p2.mjs')<flow.indexOf('- name: Install renderer and review dependencies'));
+});
+
+
+test('p2-03 R1 actual QA failure is recorded; R2 narrows framing while preserving source and policy',()=>{
+  const evidence=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/p2-03-r1-qc-evidence.json','utf8'));
+  assert.equal(evidence.workflow_run_id,38658404670);
+  assert.equal(evidence.status,'IMAGE_GENERATED_BUT_INDEPENDENT_VISUAL_QC_REJECTED');
+  assert.equal(evidence.independent_visual_qc_pass,false);
+  assert.equal(evidence.source_scene_grounding_pass,true);
+  assert.deepEqual(evidence.source_scene_grounding_errors,[]);
+  assert.equal(evidence.human_visual_attention_share,52);
+  assert.equal(evidence.background_secondary_pass,false);
+  assert.equal(evidence.background_soft_blur_pass,false);
+  const c=cohort.cases.find(x=>x.case_id==='p2-03');
+  assert.equal(c.revision,'p2-03-r2-after-qc-fail-38658404670');
+  assert.equal(c.target_fingerprint.human_action,'observing_real_equipment');
+  assert.equal(c.target_fingerprint.composition_type,'medium_side_portrait');
+  assert.match(c.improved_brief,/Move the CAMERA CLOSER/);
+  assert.match(c.improved_brief,/60–70%/);
+  assert.match(c.improved_brief,/DENBA unit visible and legible/);
+  assert.match(c.improved_brief,/No new mat/);
+  const rel=execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs','p2-03'],{encoding:'utf8'}).trim();
+  try {
+    const j=JSON.parse(fs.readFileSync(rel,'utf8'));
+    const original=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/'+c.slug+'.json','utf8'));
+    assert.equal(j.asset_version,'p2-offline-r2');
+    assert.equal(j.max_generation_attempts,1);
+    assert.equal(j.automation.mode,'OFFLINE_P2_DO_NOT_PUBLISH');
+    assert.equal(j.policy.publish_boundary,'REVIEW_AND_PUBLISH');
+    assert.equal(j.publish_requires_human_approval,true);
+    assert.equal(j.automation.source_repo_path,original.automation.source_repo_path);
+    assert.equal(j.automation.selected_source_id,original.automation.selected_source_id);
+    assert.equal(j.scene_plan.source_sha256,original.scene_plan.source_sha256);
+    assert.equal(j.scene_plan.composition_type,'medium_side_portrait');
+    assert.equal(j.image_headline_short,original.image_headline_short);
+    assert.equal(j.customer_presentation,original.customer_presentation);
+    assert.match(j.composition_hint,/camera closer/i);
+  }finally{fs.unlinkSync(rel);}
+  const pack=fs.readFileSync('scripts/package-editorial-image-p2-results.mjs','utf8');
+  assert.match(pack,/p2-03/);
+  assert.match(pack,/p2-offline-r2/);
+  assert.match(pack,/qa\.scene_grounding\?\.pass===true/);
+  assert.match(pack,/state\?\.asset_version!==trial\.asset_version/);
+});
+
+test('p2-03 R2 is not blocked by the separate p2-02 hold, nor does it affect p2-04/05',()=>{
+  const preflight=spawnSync(process.execPath,['scripts/preflight-editorial-image-p2.mjs','p2-03'],{
+    encoding:'utf8',env:{...process.env,P2_ENFORCE_HOLDS:'1'}
+  });
+  assert.equal(preflight.status,0);
+  assert.equal(JSON.parse(preflight.stdout).all_pass,true);
+  const holds=JSON.parse(fs.readFileSync('editorial/experiments/image-quality-p2/pilot-holds.json','utf8'));
+  assert.equal(holds.cases.find(x=>x.case_id==='p2-02').status,'PAUSED');
+  for(const x of ['p2-04','p2-05']){
+    const rel=execFileSync(process.execPath,['scripts/materialize-editorial-image-p2-job.mjs',x],{encoding:'utf8'}).trim();
+    try {assert.equal(JSON.parse(fs.readFileSync(rel,'utf8')).asset_version,'p2-offline-v1');}
+    finally{fs.unlinkSync(rel);}
+  }
 });
