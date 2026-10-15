@@ -66,3 +66,17 @@ test('source depth mask leaves person and base pixel positions while preserving 
  assert(depth.includes('image_generation_api_calls":0'));
  assert(depth.includes('Image.composite(im,base,protect)'));
 });
+
+
+test('R7 independent portrait-framing adjustment is available only for QC-only private jobs',()=>{
+ const code=fs.readFileSync('scripts/render-hybrid-editorial-overlay.mjs','utf8');
+ const setup=fs.readFileSync('scripts/prepare-editorial-r5-depth-review.mjs','utf8');
+ assert(setup.includes("offline_review_photo_zoom:{thumbnail:1.30,og:1.30,gbp:1.25}"));
+ assert(code.includes("job?.automation?.mode==='OFFLINE_RECOVERED_R5_QC_ONLY_NOT_PUBLISH'"));
+ assert(code.includes("OFFLINE_ZOOM_FORBIDDEN_IN_PRODUCTION"));
+ assert(code.includes("OFFLINE_ZOOM_OUT_OF_SAFE_RANGE"));
+ assert(code.includes("reviewZoomValue<1||reviewZoomValue>1.35"));
+ assert(code.includes("transform:scale("));
+ assert(code.includes("transform-origin:"));
+ assert(!fs.readFileSync('editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json','utf8').includes('offline_review_photo_zoom'));
+});

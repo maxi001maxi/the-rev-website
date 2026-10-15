@@ -11,7 +11,7 @@ import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.
 
 const slug='personal-gym-first-session-pain-health-history';
 const R5='reference-v26-grounded-lobbysp-20261015-pain-r5';
-const R6='reference-v26-grounded-lobbysp-20261015-pain-r6-depth-offline';
+const R6='reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline';
 const root=path.resolve('.offline-review');
 const jobPath=path.join(root,'r6-image-job.json');
 const sourceRoot=path.join(root,'rejected-source');
@@ -39,6 +39,7 @@ const job={
   gbp_image:paths.gbpRepoPath,
   qa_report_path:'editorial/image-qa/'+slug+'-'+R6+'.json',
   max_generation_attempts:1,
+  offline_review_photo_zoom:{thumbnail:1.30,og:1.30,gbp:1.25},
   automation:{
     ...previous.automation,
     mode:'OFFLINE_RECOVERED_R5_QC_ONLY_NOT_PUBLISH',

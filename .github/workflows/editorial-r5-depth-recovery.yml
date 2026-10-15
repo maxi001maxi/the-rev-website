@@ -1,4 +1,4 @@
-name: Editorial R5 Depth Recovery QC Only
+name: Editorial R7 Portrait Framing QC Only
 
 on:
   push:
@@ -14,7 +14,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: editorial-r5-depth-qc-no-image-api
+  group: editorial-r7-portrait-qc-no-image-api
   cancel-in-progress: false
 
 jobs:
@@ -86,7 +86,7 @@ jobs:
           test "$(node -p "require('./.offline-review/r6-image-job.json').automation.paid_image_generation_allowed")" = 'false'
           node scripts/auto-editorial-hybrid-image.mjs .offline-review/r6-image-job.json
 
-      - name: Assemble private R6 compare/QC artifact (never publish)
+      - name: Assemble private R7 compare/QC artifact (never publish)
         if: always()
         run: |
           set -euo pipefail
@@ -96,7 +96,7 @@ jobs:
           done
           state='editorial/image-operator-state/personal-gym-first-session-pain-health-history.json'
           if [ -f "$state" ]; then cp "$state" .offline-review/reviewer/operator-state.json; fi
-          qa='editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r6-depth-offline.json'
+          qa='editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json'
           if [ -f "$qa" ]; then cp "$qa" .offline-review/reviewer/independent-visual-qa.json; fi
           if [ -s .offline-review/r6-image-job.json ]; then
             for key in thumbnail og_image gbp_image; do
@@ -134,11 +134,11 @@ jobs:
           print(json.dumps({'ready_for_human_review':ready,'files':list(files)}))
           PY
 
-      - name: Upload source-preserving R6 outputs for owner review
+      - name: Upload source-preserving R7 outputs for owner review
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: editorial-20261015-depth-r6-review-${{ github.run_id }}
+          name: editorial-20261015-portrait-r7-review-${{ github.run_id }}
           path: .offline-review/reviewer/
           retention-days: 7
           if-no-files-found: warn
@@ -148,5 +148,5 @@ jobs:
         run: |
           set -euo pipefail
           test -s .offline-review/reviewer/evaluation.json
-          node -e "const e=require('./.offline-review/reviewer/evaluation.json'); if(e.qc_pass_and_three_images_present!==true){console.error('::error::R6 independent Visual QC rejected. No FTP/commit/publish; evidence saved.');process.exit(1)}"
-          echo "::notice::R6 QC PASS but held for owner's review. No publish or Xserver stage."
+          node -e "const e=require('./.offline-review/reviewer/evaluation.json'); if(e.qc_pass_and_three_images_present!==true){console.error('::error::R7 independent Visual QC rejected. No FTP/commit/publish; evidence saved.');process.exit(1)}"
+          echo "::notice::R7 QC PASS but held for owner's review. No publish or Xserver stage."
