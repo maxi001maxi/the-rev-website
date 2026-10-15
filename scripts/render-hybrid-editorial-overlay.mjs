@@ -217,7 +217,10 @@ function html({ width, height, og = false, gbp = false }) {
     .join('');
   const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
   const scenePosition = esc(job?.scene_object_position?.[variant] || (typeof job?.scene_object_position === 'string' ? job.scene_object_position : '') || 'center');
-  const paperBackground = humanFirstLayout
+  const portraitSafeGbp = gbp && job.gbp_fade_variant === 'portrait-safe-mask-v1';
+  const paperBackground = portraitSafeGbp
+    ? 'transparent'
+    : humanFirstLayout
     ? (gbp
         ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 28%,rgba(247,244,236,.92) 34%,rgba(247,244,236,.68) 40%,rgba(247,244,236,.28) 47%,rgba(247,244,236,.04) 54%,transparent 60%)'
         : 'radial-gradient(ellipse at 13% 88%,rgba(161,128,72,.07),transparent 30%),linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 31%,rgba(245,241,232,.98) 36%,rgba(245,241,232,.78) 42%,rgba(245,241,232,.30) 48%,rgba(245,241,232,.04) 53%,transparent 58%)')
@@ -228,8 +231,14 @@ function html({ width, height, og = false, gbp = false }) {
     : (gbp
         ? 'linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 38%,rgba(245,241,232,.97) 43%,rgba(245,241,232,.88) 47%,rgba(245,241,232,.56) 52%,rgba(245,241,232,.12) 58%,transparent 64%)'
         : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)');
-  const sceneCss = gbp
-    ? `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};`
+  // For verified reception portraits, fade the PHOTO itself into the true
+  // ivory canvas rather than placing a translucent white rectangle over a face.
+  // Non-GBP and all non-opted-in articles retain their existing renderer.
+  const portraitMask = 'linear-gradient(90deg,transparent 0%,transparent 22%,rgba(0,0,0,.05) 29%,rgba(0,0,0,.31) 36%,rgba(0,0,0,.72) 45%,#000 54%,#000 100%)';
+  const sceneCss = portraitSafeGbp
+    ? `position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};-webkit-mask-image:${portraitMask};mask-image:${portraitMask};`
+    : gbp
+      ? `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};`
     : humanFirstLayout
       ? `position:absolute;right:0;top:0;width:66%;height:100%;object-fit:cover;object-position:${scenePosition};`
       : impactLayout
