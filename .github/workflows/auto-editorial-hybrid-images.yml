@@ -148,6 +148,15 @@ jobs:
             echo "No pending Hybrid jobs; skipping dependency installation and generation."
           fi
 
+      - name: Free approved source and actual history preflight before any API costs
+        if: steps.select.outputs.has_pending == 'true'
+        run: |
+          set -euo pipefail
+          while IFS= read -r job; do
+            [ -n "$job" ] || continue
+            node scripts/preflight-auto-editorial-image.mjs "$job"
+          done < .operator-jobs
+
       - name: Validate required secrets
         if: steps.select.outputs.has_pending == 'true'
         run: |
@@ -260,6 +269,42 @@ jobs:
           name: editorial-operator-checkpoint-${{ github.run_id }}
           path: editorial-operator-checkpoint.tar.gz
           retention-days: 7
+
+      - name: Preserve rejected actual images for cost-free review and repair
+        if: always() && steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '1'
+        run: |
+          set -euo pipefail
+          : > .rejected-paths
+          while IFS= read -r job; do
+            [ -n "$job" ] || continue
+            slug="$(jq -r '.slug' "$job")"
+            state="editorial/image-operator-state/${slug}.json"
+            [ -f "$state" ] || continue
+            status="$(jq -r '.status // ""' "$state")"
+            [ "$status" = "ERROR" ] || continue
+            for field in generated_scene_path thumbnail og_image gbp_image qa_report_path; do
+              path="$(jq -r ".$field // \"\"" "$job")"
+              if [ -n "$path" ] && [ -f "$path" ]; then printf '%s\n' "$path" >> .rejected-paths; fi
+              if [ "$field" = "thumbnail" ] && [ -f "${path}.typography.json" ]; then
+                printf '%s\n' "${path}.typography.json" >> .rejected-paths
+              fi
+            done
+            printf '%s\n' "$state" "$job" >> .rejected-paths
+          done < .operator-jobs
+          sort -u .rejected-paths -o .rejected-paths
+          if [ -s .rejected-paths ]; then
+            tar -czf editorial-operator-rejected.tar.gz -T .rejected-paths
+            echo "Rejected scene, all image sizes and QA archived for offline human review only."
+          fi
+
+      - name: Upload rejected image evidence WITHOUT publishing
+        if: always() && steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '1' && hashFiles('editorial-operator-rejected.tar.gz') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: editorial-rejected-image-evidence-${{ github.run_id }}
+          path: editorial-operator-rejected.tar.gz
+          retention-days: 7
+          if-no-files-found: error
 
       - name: Validate Hybrid image system
         if: steps.select.outputs.has_pending == 'true' && steps.generate.outputs.failed == '0'
