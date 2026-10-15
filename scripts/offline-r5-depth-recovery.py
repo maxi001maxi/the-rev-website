@@ -65,7 +65,7 @@ def main():
     protect = Image.composite(Image.new("L", (w,h),255),protect,logo)
     result = Image.composite(im,base,protect)
     # Identity validation in central facial region before saving.
-    for xy in [(1132,300),(1150,350),(1100,480)]:
+    for xy in [(1140,375),(1150,350),(1100,480)]:
         if result.getpixel(xy) != im.getpixel(xy):
             raise SystemExit(f"SUBJECT_FACE_PIXELS_CHANGED_AT_{xy}")
     output = Path(a.output)
