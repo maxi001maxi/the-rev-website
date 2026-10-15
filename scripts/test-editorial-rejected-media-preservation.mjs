@@ -44,7 +44,7 @@ test('portrait GBP fades actual photo alpha without white translucent board and 
  assert(overlay.includes("const sceneCss = portraitSafeGbp"));
  assert(overlay.includes(': gbp'));
  assert(overlay.includes('humanFirstLayout'));
- assert(overlay.includes('thumbnail-golden-typography'));
+ assert(overlay.includes('THUMBNAIL_TYPOGRAPHY_REVISION'));
  assert.equal(job.policy.publish_boundary,'REVIEW_AND_PUBLISH');
  assert.equal(job.max_generation_attempts,1);
 });
