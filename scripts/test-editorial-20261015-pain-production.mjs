@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {semanticSimilarity,SCENE_ONTOLOGY} from '../lib/editorialSceneGrounding.mjs';
+import {semanticSimilarity,SCENE_ONTOLOGY,articleSceneIntent} from '../lib/editorialSceneGrounding.mjs';
 import {HYBRID_IMAGE_FORMAT,hybridAssetPaths} from '../lib/editorialHybridImageFormat.mjs';
 import {validateImageHeadlineShort,imageHeadlineIsRecentRepeat} from '../lib/editorialImageCopy.mjs';
 
@@ -37,6 +37,9 @@ test('real THE REV reception source has independently registered SHA and allowed
  assert.equal(job.scene_plan.location_type,'reception');
  assert.equal(job.scene_plan.human_action,'review_paper');
  assert.equal(job.scene_plan.article_intent,'health_before_start');
+ assert.equal(articleSceneIntent({title:job.article_title}),job.scene_plan.article_intent);
+ assert.equal(articleSceneIntent({title:'運動前のストレッチは何分？'}),'training_start');
+ assert.equal(articleSceneIntent({title:'THE REV.の3つの体験はどれを選ぶ？'}),'facility_selection');
  assert.equal(job.scene_plan.composition_type,'medium_seated_portrait');
  assert.equal(job.scene_plan.subject_zone,source.scene_inventory.subject_zone);
  assert(source.scene_inventory.allowed_generated_actions.includes(job.scene_plan.human_action));
