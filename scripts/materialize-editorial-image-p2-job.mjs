@@ -27,7 +27,7 @@ const planOutput=JSON.parse(execFileSync(process.execPath,['scripts/prepare-edit
 const casePlan=planOutput.cases.find(x=>x.case_id===caseId);
 if(!casePlan||casePlan.slug!==c.slug||casePlan.comparison.generation_status!=='NOT_GENERATED')throw new Error('P2_VALIDATED_PLAN_MISSING');
 const trialSlug='p2-'+caseId+'-'+c.slug;
-const trialVersion=['p2-01','p2-02'].includes(caseId) ? 'p2-offline-r2' : 'p2-offline-v1';
+const trialVersion=['p2-01','p2-02','p2-03'].includes(caseId) ? 'p2-offline-r2' : 'p2-offline-v1';
 const paths=hybridAssetPaths(trialSlug,trialVersion);
 const b=structuredClone(original);
 b.slug=trialSlug;
