@@ -271,3 +271,19 @@ p2-02で前回R1、今回R2の連続失敗が同じ『実店舗背景の再構�
 
 再開条件: source geometry固定型の画像編集・マスキング・合成など、背景の壁・窓・床・ラック・ベンチを動かさず人物動作を制作する設計を別工程で確認する。原画像ハッシュを固定し、独立QC・目視検証・新試験asset_versionとAPI上限を明文化した上でholdsを解除。
 既存本番画像の置換・公開は行っていない。R2の拒否された証拠は元GitHub Actions artifactに保持（保存期限7日）。
+
+## 16. p2-03 DENBA Health R1（2026-10-15）
+
+実行: P2 Offline Image Pilot #5 / run 38658404670 / 1回の実画像生成 / asset p2-offline-v1。
+独立 Source/Scene Grounding: PASS。実物DENBA、THE REV受付・ロゴ・収納台、成人女性の機器観察に矛盾なし。新規マット・医療器具・スタッフもない。
+独立 Visual QC: FAIL。人物視覚的注意量52%（基準58〜75%）、人物の主役感6、background_secondary=false、background_soft_blur=false。記事の視覚的関連8、実店舗一致8、実店舗真正性8。Golden TypographyはPASS。
+過去の合格Aと生成Bを実画像比較したところ、現行Aの方が顔とDENBAの関係が読みやすい。R1の画像採用は不可、本番Aを維持。
+失敗記録: editorial/experiments/image-quality-p2/p2-03-r1-qc-evidence.json。生成物と元QCはGitHub Runのartifactsを参照。
+
+**R2設計**: p2-offline-r2という新versionで別試験とし、元THE REV.実店舗画像と実DENBA/収納台/ロゴをそのまま空間的基準とする。
+女性を小さく描かず、腰または胸下〜顔を中心に近く捉え、落ち着いて実機を見ている視線・自然な表情が320pxでも読める構図にする。
+一方でDENBA本体自体は写真右側に十分見える大きさで残し、商品や背景が主役になることを防ぐ。
+背景は実際の光学的被写界深度でやわらげ、家具・壁・スイッチ・機器の位置関係を変えない。
+検証対象はp2-03だけ。画像生成最大1回、実素材SHA256・Golden Typography・独立QC閾値・本番境界すべて維持。p2-02 holdは継続。
+
+**重要**: R2の実生成や合格はまだ確認されていない。API費用を使う場合のみ、ワークフロー一覧から新規 Run workflow -> main -> p2-03 を選択する。旧runのRe-runは禁止。
