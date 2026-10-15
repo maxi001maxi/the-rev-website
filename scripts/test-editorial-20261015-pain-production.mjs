@@ -15,8 +15,9 @@ test('today article is restored to the actual GitHub production auto operator, o
  assert.equal(job.slug,slug);
  assert.match(job.article_title,/痛みや体調/);
  assert.equal(job.automation.mode,'unattended-github-actions-v1');
- assert.equal(job.asset_version,'reference-v26-grounded-lobbysp-20261015-pain-r4');
+ assert.equal(job.asset_version,'reference-v26-grounded-lobbysp-20261015-pain-r5');
  assert.equal(job.max_generation_attempts,1);
+ assert.equal(job.gbp_fade_variant,'portrait-safe-mask-v1');
  assert.equal(job.automation.require_complete_semantic_preflight,true);
  assert.equal(job.automation.recent_semantic_articles.filter(x=>!x.scene_fingerprint).length,0);
  assert.equal(job.publish_requires_human_approval,true);
