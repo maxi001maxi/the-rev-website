@@ -37,7 +37,8 @@ test('reuse of one authenticated reception SOURCE is allowed when independent ac
  assert.equal(result.scene_repeated,false);
  assert.equal(result.published,false);
  assert.equal(result.errors.length,0);
- assert.equal(recent[0].scene_fingerprint.article_intent,'facility_selection');
+ assert.equal(recent[0].scene_fingerprint.article_intent,'training_start');
+ assert.equal(canonical.automation.recent_articles[0].sceneFingerprint.article_intent,'facility_selection');
  assert.equal(plan.article_intent,'health_before_start');
  assert.equal(currentId,previousIds[0]);
 });
