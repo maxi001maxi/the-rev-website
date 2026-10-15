@@ -12,22 +12,22 @@
   "scene_intent": "One real THE REV reception source with one female customer silently considering a small unmarked personal note before sharing minor health/condition concerns; no trainer, no medical actions, no fake room.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3",
-  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
-  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
+  "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r4",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.json",
+  "qa_report_path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r4.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -81,19 +81,19 @@
     "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
     "scene_type": "before_start",
     "location_type": "reception",
-    "human_action": "review_paper",
-    "composition_type": "medium_seated_portrait",
+    "human_action": "prepare",
+    "composition_type": "medium_side_portrait",
     "visual_role": "considering_health_report",
     "article_intent": "health_before_start",
     "required_equipment": [],
     "subject_zone": "reception",
-    "article_specific_directive": "Exactly ONE adult Japanese female CUSTOMER, no trainer or staff, in THE REAL REV reception on the EXISTING wooden stool, gently considering a small simple UNMARKED paper with her own notes before a first training session. This is a private, natural moment before telling a trainer about minor discomfort or current health; NO trainer or consultation partner must appear. CAMERA: realistic medium seated portrait from waist to head, closer to the customer, subject in center-right, face and hands visible, human shares 60-70% of visual attention; avoid a full-room / tiny-customer frame. Expression calm, reflective and ready to speak, NOT a staged pain demonstration, injury diagnosis or medical treatment. Exactly one small plain unmarked piece of paper, not a medical chart or visible personal health data. No phone or clipboard. SOURCE GEOMETRY LOCK: original wall logo THE REV., plant, counter, wooden stool, light wood floor, existing wall corners and natural ceiling/window geometry stay in identical relative positions and scale to the source photo. The rack, bench and weights remain ONLY in rear_training_area. Never enlarge the room, move a rack into reception, invent equipment, remove a real feature, change the camera to reveal an imaginary room, or add a second person. One approved authentic facility anchor stays recognizable behind customer but background is optically softly defocused and SECONDARY; original scale, contact shadows and lighting remain natural. Right-hand subject in BOTH thumbnail/OGP wide crops and GBP 4:3 crop; protect face/hands from ivory text veil and keep clean text area left. The meaning must be understandable without an examiner or trainer: she is thinking about how to explain a small physical concern. Do not draw captions/text in the generated photograph; the approved deterministic Golden Typography renderer creates words later.",
+    "article_specific_directive": "Depict EXACTLY ONE Japanese adult FEMALE CUSTOMER in the EXISTING real THE REV reception space. NO trainer, coach, staff, friend or other persons. Her facial expression is calm but thoughtful, as if deciding how to mention a minor ache or a change in condition before her first session. ARTICLE-SPECIFIC ACTION: customer is seated naturally on the real reception stool, preparing to speak. Her one open hand rests loosely against her own upper arm/sleeve near her shoulder, the other hand naturally rests on her lap. This is a small, realistic moment of hesitation, NOT a painful pose, medical exam, injury diagnosis, exercise set, fitness demonstration or showing paperwork. NO paper, medical charts, phone, clipboard, additional equipment or forms. COMPOSITION: natural side/three-quarter medium seated portrait, waist-to-head with both hands recognizable. Subject FACE, natural hand action and shoulder are prominent at the right/center-right. Aim for human visual attention 60-70%, not wide room view; keep original face/body comfortably inside the future GBP 4:3 crop without pale fade over face. ABSOLUTE REAL-ROOM ANCHOR: source photo is the verified original THE REV reception; preserve exact existing wall logo, plants, cabinet/counter, real stool, floor perspective, lighting geometry, original window/walls, and rear rack, bench and plates ONLY in the source's rear_training_area. Do not widen reception or move/add/clone gym equipment. The real room must remain recognizably THE REV, never a generic gym. Change the person, not the building. Use real-looking photographic shallow depth and subdued soft optical defocus across all REAR equipment and wall details behind the customer, preserving one legible authentic facility anchor, with realistic shadows/contact and light. Strongly prioritize human over visually sharp racks and architecture. No fake rectangular fog panels or smooth white screens behind the person. Leave ample photo-to-ivory negative space at left for fixed, genuine Golden Typography; NEVER draw letters in generated photo. Keep subject's head, eyes and hands clear of the left fade. The approved production renderer alone adds exact text later.",
     "similarity": {
       "pass": true,
       "window": 12,
       "compared": 12,
-      "unknown_count": 7,
-      "penalty": 0.5,
+      "unknown_count": 0,
+      "penalty": 0.6666666666666666,
       "matches": [
         {
           "slug": "the-rev-trial-three-menus-first-visit",
@@ -109,15 +109,16 @@
           "equal": [
             "scene_type",
             "location_type",
-            "composition_type"
+            "human_action"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "pre-workout-stretching-duration",
-          "score": 0.16666666666666666,
+          "score": 0.3333333333333333,
           "equal": [
-            "scene_type"
+            "scene_type",
+            "human_action"
           ],
           "hard_exclusion": false
         },
@@ -134,37 +135,60 @@
           "score": 0.3333333333333333,
           "equal": [
             "scene_type",
-            "composition_type"
+            "human_action"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "desk-work-stand-every-30-minutes",
-          "unknown": true
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
         },
         {
           "slug": "boxing-beginner-scared-before-mitt-training",
-          "unknown": true
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
         },
         {
           "slug": "denba-electric-potential-space-radio-wave-difference",
-          "unknown": true
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
         },
         {
           "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
-          "unknown": true
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
         },
         {
           "slug": "beginner-strength-training-few-exercises-frequency",
-          "unknown": true
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
         },
         {
           "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
-          "unknown": true
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
         },
         {
           "slug": "oxygen-room-how-to-spend-time",
-          "unknown": true
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
         }
       ]
     }
@@ -319,7 +343,16 @@
           "visual_role": "first_visit_reassurance",
           "article_intent": "facility_selection"
         },
-        "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg"
+        "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "wide_full_body",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "nekose-strength-training-posture",
@@ -339,7 +372,16 @@
           "visual_role": "checking_readiness",
           "article_intent": "training_start"
         },
-        "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg"
+        "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "pre-workout-stretching-duration",
@@ -359,7 +401,16 @@
           "visual_role": "checking_readiness",
           "article_intent": "training_start"
         },
-        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg"
+        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "denba-health-device-mat-role",
@@ -379,7 +430,16 @@
           "visual_role": "component_relationship",
           "article_intent": "equipment_explanation"
         },
-        "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg"
+        "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "shinomiya-gym-beginner-choose",
@@ -399,7 +459,16 @@
           "visual_role": "deciding_own_start",
           "article_intent": "facility_selection"
         },
-        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg"
+        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "facility_selection"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "desk-work-stand-every-30-minutes",
@@ -412,7 +481,16 @@
         "customerPresentation": "female",
         "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg"
+        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "workday_break",
+          "location_type": "reception",
+          "human_action": "standing_break",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "workday_movement_break",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "boxing-beginner-scared-before-mitt-training",
@@ -425,7 +503,16 @@
         "customerPresentation": "male",
         "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg"
+        "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "boxing_area",
+          "human_action": "boxing_stance",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "safe_first_step",
+          "article_intent": "boxing_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "denba-electric-potential-space-radio-wave-difference",
@@ -438,7 +525,16 @@
         "customerPresentation": "female",
         "articleTitle": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg"
+        "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "recovery"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
@@ -451,7 +547,16 @@
         "customerPresentation": "male",
         "articleTitle": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg"
+        "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "beginner-strength-training-few-exercises-frequency",
@@ -464,7 +569,16 @@
         "customerPresentation": "female",
         "articleTitle": "筋トレ初心者は種目が少なくても効果はある？週の回数と始め方",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg"
+        "thumbnail": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "training_area",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_execution"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
@@ -477,7 +591,16 @@
         "customerPresentation": "male",
         "articleTitle": "新大宮で完全予約制のパーソナルジムを探す方へ｜THE REV.の設備と過ごし方",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg"
+        "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "training_area",
+          "human_action": "rack_adjustment",
+          "composition_type": "wide_full_body",
+          "visual_role": "facility_inspection",
+          "article_intent": "facility_selection"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       },
       {
         "slug": "oxygen-room-how-to-spend-time",
@@ -490,7 +613,16 @@
         "customerPresentation": "female",
         "articleTitle": "酸素ルームの中では何をする？｜横になって過ごす時間の使い方",
         "sceneFingerprint": null,
-        "thumbnail": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg"
+        "thumbnail": "assets/images/blog/thumb-oxygen-room-how-to-spend-time-reference-v26-auto-oxyroom-20260924-ef33bf94.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "recovery_area",
+          "human_action": "rest",
+          "composition_type": "wide_full_body",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
       }
     ],
     "repeated_due_to_relevance": true,
@@ -532,10 +664,9 @@
       "female"
     ],
     "repair": {
-      "version": "2026-10-15-canonical-reception-r3",
-      "previous_asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2",
-      "cause": "Current production article first-session pain/condition is visually poorly served by sleeve-adjustment in equipment area and two scene QA failures showed gym-geometry drift.",
-      "reason": "Switch to approved real THE REV reception source and article-specific private preparation, without generating trainer/staff or fictitious gym. Reset only this slug via distinct asset version, one trial attempt. Source/Scene independent QC is not weakened.",
+      "version": "2026-10-15-preflight-history-r4",
+      "previous_asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3",
+      "reason": "Paid R3 generation rejected after QA discovered duplicate health-check paper scene and too-sharp background; preflight now uses all twelve independent historical observations to reject repeats BEFORE calling image API. New scene avoids paper/consultation and is a distinct private pre-session expression of a concern.",
       "source_preserved": true,
       "qc_thresholds_preserved": true,
       "publish_requires_human_approval": true,
@@ -543,11 +674,12 @@
     },
     "selected_content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
     "selected_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
-    "avoided_repeat": false
+    "avoided_repeat": false,
+    "require_complete_semantic_preflight": true
   },
-  "visible_action": "An adult female customer sits naturally on the real reception stool, thoughtfully reviewing a small plain unmarked paper about what to mention before training; no trainer, other person or equipment handling.",
-  "emotional_state": "Quiet, reassuring, thoughtful, a little unsure how much to share, but not distressed or demonstrating pain.",
-  "visual_claim": "Even a small pain or change in condition is worth mentioning before exercise. One customer takes a calm moment to decide what to say; no diagnosis or treatment is depicted.",
-  "composition_hint": "ONE subject only. Waist-up medium seated candid photo at real THE REV reception, face/hand note prominently on the right; maintain original THE REV logo and original stool, counter and plant; optical shallow depth of field (background second). Keep person clear in both 16:9 and GBP 4:3 including face safe areas, left side for Golden Typography. No imagined room architecture.",
+  "visible_action": "One real-world female customer sits on the existing THE REV reception stool and calmly prepares to mention a mild concern. She gently rests one hand against her own upper sleeve and the other in her lap; no paper or trainer, no medical drama.",
+  "emotional_state": "Calm, thoughtful, minor pre-first-visit hesitation, human and candid.",
+  "visual_claim": "Even small concerns about pain or physical condition can be shared before training. Depict one client's quiet decision to speak up without inventing medical procedures.",
+  "composition_hint": "Human-first side/three-quarter waist-to-head seated portrait at actual THE REV reception, realistic optical background blur and real rack only in rear; face/hands always in safe area for GBP crop. No fictitious gym.",
   "max_generation_attempts": 1
 }
