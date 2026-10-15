@@ -1,0 +1,116 @@
+rvices a span:last-child{font-size:16.5px!important;font-weight:600!important;letter-spacing:.015em!important}
+}
+@media(max-width:1199px){
+  #top .rev-hero-mobile-copy .rev-hero-eyebrow{font-size:14.5px!important}
+  #top .rev-hero-mobile-copy h1{font-size:clamp(28px,7.95vw,33px)!important;letter-spacing:.008em!important;line-height:1.53!important}
+  #top .rev-hero-mobile-copy .rev-hero-lead{font-size:17px!important;line-height:1.83!important;max-width:100%!important}
+  #top .rev-hero-mobile-copy .rev-hero-help{font-size:14px!important;line-height:1.65!important}
+  #top .rev-hero-mobile-copy .rev-hero-services a span:first-child{font-size:12px!important}
+  #top .rev-hero-mobile-copy .rev-hero-services a span:last-child{font-size:15.5px!important;font-weight:600!important}
+}
+@media(max-width:359px){
+  #top .rev-hero-mobile-copy h1{font-size:28px!important;letter-spacing:0!important}
+  #top .rev-hero-mobile-copy .rev-hero-lead{font-size:16px!important}
+  #top .rev-hero-mobile-copy .rev-hero-services a span:last-child{font-size:14px!important}
+}
+
+/* v7 HEADER ONLY: balanced frame, readable nav typography, restrained breathing room */
+@media (min-width:1200px) {
+  #site-header .rev-home-header-inner {
+    max-width:1710px!important;
+    margin-inline:auto!important;
+    padding-inline:clamp(48px,4vw,72px)!important;
+    gap:clamp(20px,2vw,34px)!important;
+    min-height:80px!important;
+  }
+  #site-header .rev-home-brand {flex:0 0 auto;}
+  #site-header .rev-home-header-inner nav[aria-label="メインナビゲーション"]{
+    gap:clamp(22px,2vw,34px)!important;
+    flex:0 0 auto;
+  }
+  #site-header .rev-home-header-inner nav ul {
+    font-size:clamp(15px,.9vw,16px)!important;
+    letter-spacing:.025em!important;
+    gap:clamp(2px,.4vw,7px)!important;
+  }
+  #site-header .rev-home-header-inner nav ul li a {
+    padding-inline:clamp(9px,.72vw,13px)!important;
+    white-space:nowrap;
+    font-size:inherit!important;
+    font-weight:500;
+    text-shadow:0 1px 3px rgba(21,20,19,.22);
+  }
+  #site-header.rev-is-scrolled nav ul li a {text-shadow:none;}
+  #site-header .rev-home-header-inner nav [data-placement="home_header"]{
+    font-size:15px!important;
+    padding-inline:clamp(18px,1.25vw,24px)!important;
+    white-space:nowrap;
+    letter-spacing:.03em!important;
+    min-height:46px!important;
+    flex:0 0 auto;
+  }
+}
+@media (min-width:1200px) and (max-width:1499px) {
+  #site-header .rev-home-header-inner nav ul {font-size:14.5px!important;gap:1px!important;}
+  #site-header .rev-home-header-inner nav ul li a {padding-inline:8px!important;}
+  #site-header .rev-home-header-inner nav[aria-label="メインナビゲーション"] {gap:20px!important;}
+  #site-header .rev-home-header-inner nav [data-placement="home_header"] {font-size:14px!important;padding-inline:18px!important;}
+}
+@media (min-width:1500px) {
+  #site-header .rev-home-header-inner nav ul {gap:clamp(5px,.5vw,10px)!important;}
+}
+/* Preserve single-line CTA labels at tight desktop widths. */
+@media(min-width:1200px) and (max-width:1380px){
+  #top .rev-hero-copy .rev-hero-actions a:first-child{padding-inline:14px!important;gap:8px!important;white-space:nowrap!important}
+  #top .rev-hero-copy .rev-hero-actions a:last-child{padding-inline:16px!important;white-space:nowrap!important}
+}
+</style>
+<script>(() => {
+ const reduce=matchMedia('(prefers-reduced-motion:reduce)');
+ const seen=new WeakSet();
+ let observer=null,booted=false,header=null,pending=false;
+ function headerState(){
+  pending=false;
+  if(header)header.classList.toggle('rev-is-scrolled',scrollY>24);
+ }
+ function scheduleHeader(){if(!pending){pending=true;requestAnimationFrame(headerState);}}
+ function discover(){
+  if(!booted)return;
+  const selectors=document.querySelector('.rev-home-hero')
+   ?'main h2,main article,main figure'
+   :'.rv-section h2,.rv-benefit-grid article,.rv-oxygen-compare figure,.rv-equipment-photo,.rv-denba-product,.rv-place figure';
+  document.querySelectorAll(selectors).forEach((el,index)=>{
+   if(seen.has(el))return;
+   seen.add(el);el.dataset.revReveal='';
+   el.style.setProperty('--rev-reveal-delay',(index%3)*65+'ms');
+   if(reduce.matches||!observer)return;
+   const rect=el.getBoundingClientRect();
+   // Already-visible content stays visible; animate only approaching sections.
+   if(rect.height>0&&rect.top>=innerHeight-24){el.classList.add('rev-reveal-pending');observer.observe(el);}
+  });
+ }
+ function boot(){
+  const home=document.querySelector('.rev-home-hero');
+  if(home&&!home.closest('.sc-host'))return;
+  if(!document.querySelector('main h1'))return;
+  if(!booted){
+   booted=true;
+   document.documentElement.classList.toggle('rev-motion-ready',!reduce.matches);
+   if('IntersectionObserver' in window)observer=new IntersectionObserver(entries=>{
+    for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('rev-is-revealed');observer.unobserve(entry.target);}
+   },{rootMargin:'0px 0px -30px 0px',threshold:.08});
+   header=document.querySelector('#site-header.rev-home-header');
+   if(header){window.addEventListener('scroll',scheduleHeader,{passive:true});window.addEventListener('resize',scheduleHeader);headerState();}
+  }
+  discover();
+ }
+ const start=()=>{boot();new MutationObserver(boot).observe(document.body,{childList:true,subtree:true});};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+ reduce.addEventListener('change',()=>{
+  document.documentElement.classList.toggle('rev-motion-ready',!reduce.matches);
+  if(reduce.matches)document.querySelectorAll('.rev-reveal-pending').forEach(el=>el.classList.add('rev-is-revealed'));
+ });
+})();
+</script>
+</body>
+</html>
