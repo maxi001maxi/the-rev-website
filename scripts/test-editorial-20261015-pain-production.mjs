@@ -15,8 +15,10 @@ test('today article is restored to the actual GitHub production auto operator, o
  assert.equal(job.slug,slug);
  assert.match(job.article_title,/痛みや体調/);
  assert.equal(job.automation.mode,'unattended-github-actions-v1');
- assert.equal(job.asset_version,'reference-v26-grounded-lobbysp-20261015-pain-r3');
+ assert.equal(job.asset_version,'reference-v26-grounded-lobbysp-20261015-pain-r4');
  assert.equal(job.max_generation_attempts,1);
+ assert.equal(job.automation.require_complete_semantic_preflight,true);
+ assert.equal(job.automation.recent_semantic_articles.filter(x=>!x.scene_fingerprint).length,0);
  assert.equal(job.publish_requires_human_approval,true);
  assert.equal(job.policy.publish_boundary,'REVIEW_AND_PUBLISH');
  const workflow=fs.readFileSync('.github/workflows/auto-editorial-hybrid-images.yml','utf8');
@@ -35,12 +37,12 @@ test('real THE REV reception source has independently registered SHA and allowed
  assert.equal(job.scene_plan.source_sha256,fileHash(source.repo_path));
  assert.equal(job.source_scene_inventory.source_sha256,fileHash(source.repo_path));
  assert.equal(job.scene_plan.location_type,'reception');
- assert.equal(job.scene_plan.human_action,'review_paper');
+ assert.equal(job.scene_plan.human_action,'prepare');
  assert.equal(job.scene_plan.article_intent,'health_before_start');
  assert.equal(articleSceneIntent({title:job.article_title}),job.scene_plan.article_intent);
  assert.equal(articleSceneIntent({title:'運動前のストレッチは何分？'}),'training_start');
  assert.equal(articleSceneIntent({title:'パーソナルジムの体験はどれを選ぶ？'}),'facility_selection');
- assert.equal(job.scene_plan.composition_type,'medium_seated_portrait');
+ assert.equal(job.scene_plan.composition_type,'medium_side_portrait');
  assert.equal(job.scene_plan.subject_zone,source.scene_inventory.subject_zone);
  assert(source.scene_inventory.allowed_generated_actions.includes(job.scene_plan.human_action));
  assert(source.scene_inventory.suitable_article_intents.includes(job.scene_plan.article_intent));
@@ -60,9 +62,9 @@ test('no stranger-trainer, fake room, medical acting, or unchecked person count'
  assert.equal(job.policy.generated_customer_required,true);
  assert.match(job.scene_plan.article_specific_directive,/NO trainer/);
  assert.match(job.scene_plan.article_specific_directive,/Exactly ONE/);
- assert.match(job.scene_plan.article_specific_directive,/SOURCE GEOMETRY LOCK/);
+ assert.match(job.scene_plan.article_specific_directive,/ABSOLUTE REAL-ROOM ANCHOR/);
  assert.match(job.scene_plan.article_specific_directive,/rear_training_area/);
- assert.match(job.scene_plan.article_specific_directive,/No phone or clipboard/);
+ assert.match(job.scene_plan.article_specific_directive,/NO paper/);
 });
 
 test('new file paths for all three required formats, copy and original failed QC remain independent',()=>{
