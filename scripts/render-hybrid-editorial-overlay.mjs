@@ -235,6 +235,18 @@ function html({ width, height, og = false, gbp = false }) {
   // ivory canvas rather than placing a translucent white rectangle over a face.
   // Non-GBP and all non-opted-in articles retain their existing renderer.
   const portraitMask = 'linear-gradient(90deg,transparent 0%,transparent 22%,rgba(0,0,0,.05) 29%,rgba(0,0,0,.31) 36%,rgba(0,0,0,.72) 45%,#000 54%,#000 100%)';
+  // Only an explicitly quarantined QC-only job may adjust framing. This is a
+  // non-generative camera crop; production articles keep exactly their old CSS.
+  const reviewZoomValue=Number(job?.offline_review_photo_zoom?.[variant] || 1);
+  const reviewZoomAllowed=job?.automation?.mode==='OFFLINE_RECOVERED_R5_QC_ONLY_NOT_PUBLISH' &&
+    job?.recovery_provenance?.kind==='SOURCE_HASH_VERIFIED_QUARANTINED_R5_DEPTH_FILTER';
+  if(job?.offline_review_photo_zoom && !reviewZoomAllowed)
+    throw new Error('OFFLINE_ZOOM_FORBIDDEN_IN_PRODUCTION');
+  if(!Number.isFinite(reviewZoomValue)||reviewZoomValue<1||reviewZoomValue>1.35)
+    throw new Error('OFFLINE_ZOOM_OUT_OF_SAFE_RANGE');
+  const reviewZoomCss=reviewZoomAllowed&&reviewZoomValue>1
+    ? `transform:scale(${reviewZoomValue});transform-origin:${gbp?'78% 39%':'83% 42%'};`
+    : '';
   const sceneCss = portraitSafeGbp
     ? `position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};-webkit-mask-image:${portraitMask};mask-image:${portraitMask};`
     : gbp
@@ -266,6 +278,7 @@ body{position:relative;color:${style.overlay.headline.color}}
 }
 .scene{
   ${sceneCss}
+  ${reviewZoomCss}
   z-index:0;
 }
 .scene-shade{
