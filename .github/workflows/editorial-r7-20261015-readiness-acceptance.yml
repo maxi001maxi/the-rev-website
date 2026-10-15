@@ -1,0 +1,76 @@
+name: Editorial R7 2026-10-15 Readiness Acceptance (NO PUBLISH)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/editorial-r7-20261015-readiness-acceptance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: editorial-20261015-r7-readiness-one-time
+  cancel-in-progress: false
+
+jobs:
+  canonical-ready-without-publish:
+    name: Authenticated R7 readiness and canonical Preflight only
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      EDITORIAL_BRIDGE_SECRET: ${{ secrets.EDITORIAL_BRIDGE_SECRET }}
+      CONTENT_ID: BLOG-20261015-fac1fd
+      API_URL: https://admin.therev-lab.com/api/integrations/editorial-status
+      REQUIRED_VERSION: reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline
+    steps:
+      - name: Require runtime bearer secret without disclosing it
+        run: |
+          if [ -z "${EDITORIAL_BRIDGE_SECRET:-}" ]; then
+            echo "::error::R7_BRIDGE_CREDENTIAL_NOT_AVAILABLE_IN_ACTIONS"
+            exit 1
+          fi
+          echo "::notice::R7 credential available (not printed)."
+
+      - name: Call production canonical image read-check only (NEVER Publish)
+        run: |
+          set -euo pipefail
+          TMP="$(mktemp)"
+          trap 'rm -f "$TMP"' EXIT
+          status="$(curl -sS -L --connect-timeout 12 --max-time 100 -o "$TMP" -w '%{http_code}' \
+            -H "Authorization: Bearer $EDITORIAL_BRIDGE_SECRET" \
+            -H "Accept: application/json" \
+            "$API_URL?content_id=$CONTENT_ID")"
+          if [ "$status" != '200' ]; then
+            echo "::error::R7_EDITORIAL_STATUS_HTTP_$status"
+            exit 1
+          fi
+          node - "$TMP" <<'JS'
+          const fs=require('node:fs');
+          const j=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
+          const a=j.article||{}, c=j.canonical_preflight||null;
+          const report={
+            verified_content_id:j.content_id,
+            image_status:a.image_status,
+            image_asset_ready:a.image_asset_ready,
+            gbp_image_status:a.gbp_image_status,
+            exact_version_match:a.image_asset_version===process.env.REQUIRED_VERSION,
+            publish_status:a.publish_status,
+            published_url_absent:!a.published_url,
+            review_preflight_ok:c?.ok===true,
+            failed_check_ids:(c?.checks||[]).filter(x=>x.status==='error').map(x=>x.id),
+            blocker_code:c?.blocker?.code||null,
+            readiness_reason:j.readiness?.reason||null
+          };
+          console.log(JSON.stringify(report));
+          if(!(j.ok===true&&j.content_id===process.env.CONTENT_ID&&
+             a.image_status==='READY'&&a.image_asset_ready===true&&
+             a.gbp_image_status==='READY'&&report.exact_version_match&&
+             a.publish_status==='NOT_PUBLISHED'&&report.published_url_absent&&
+             c?.ok===true)){
+             console.error('::error::R7_NOT_FINAL_PREFLIGHT_READY_OR_PUBLISH_BOUNDARY_CHANGED');
+             process.exit(1);
+          }
+          console.log('::notice::READY_TO_REVIEW_ONLY: no article or GBP publish performed.');
+          JS
