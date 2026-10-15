@@ -1,9 +1,9 @@
 {
   "slug": "personal-gym-first-session-pain-health-history",
   "status": "ERROR",
-  "attempts_total": 2,
-  "max_attempts": 2,
-  "last_error": "Source/Scene FAIL: spatial_plausibility. タイポグラフィは全形式で合格。ただし生成シーンは原景よりカメラが大きく後退・横移動したように見え、左壁の面積、ラックの縮尺と位置関係が変化しており、指定された同一カメラ視点・厳密な室内形状保持を満たさない。背景も鮮明で高コントラストなため器具の存在感が強く、人物の視覚占有が要求の60〜70％に届かない。人物自体の袖調整、表情、解剖、照明統合は自然だが、背景真正性とHuman Firstの必須条件により不合格。",
+  "attempts_total": 1,
+  "max_attempts": 1,
+  "last_error": "Source/Scene FAIL: recent_semantic_similarity. 人物、紙を見る行為、椅子との接触、照明、解剖は自然で、顧客は1名のみ。THE REV.ロゴ、植栽、受付、後方トレーニングエリアも認識でき、医療行為や未確認サービスの示唆はない。一方、生成背景は要求された浅い被写界深度より明瞭で、後方設備や受付の再構成差が目立つ。さらにタイトルなしでは紙が痛み・体調を伝えるための確認物だとまでは断定しにくい。Human First V1の背景ソフト化が必須条件のため総合不合格。",
   "last_qa": {
     "pass": false,
     "thumbnail_typography_visual": {
@@ -93,38 +93,38 @@
           "fade_integrated": true
         }
       },
-      "comments": "3形式とも実寸プレビューで見出しが即読でき、「相性を」の暖色強調、補助行との大小差、柔らかな写真移行がゴールデンの文法に合う。改行も意味単位で自然で、GBPは左中央に独立して再配置され、人物の顔と袖調整を妨げていない。"
+      "comments": "3形式とも、黒の補助句と大きな暖色キーワード「伝える？」による階層が明快で、ゴールデン参照の編集的な文法に沿っている。320pxでも見出しは主役として即読でき、「痛みや体調は、／どこまで／伝える？」の改行も不自然な孤立文字や助詞を生んでいない。アイボリーのフェードは写真へ柔らかく接続し、GBPも横長テンプレートの流用ではなく4:3に合わせて人物と左側タイトルを釣り合わせている。"
     },
     "series_consistency": 9,
-    "editorial_quality": 8,
+    "editorial_quality": 9,
     "typography_harmony": 9,
     "negative_space": 8,
     "photo_treatment": 7,
-    "article_visual_relevance": 7,
+    "article_visual_relevance": 8,
     "main_claim_visualization": 7,
-    "human_subject_prominence": 7,
-    "human_visual_attention_share": 58,
+    "human_subject_prominence": 9,
+    "human_visual_attention_share": 65,
     "face_expression_readable": true,
-    "background_secondary_pass": false,
+    "background_secondary_pass": true,
     "background_soft_blur_pass": false,
     "the_rev_anchor_visible": true,
     "customer_presentation_matches_plan": true,
     "article_theme_inferable_without_title": false,
     "scene_action_has_article_specific_meaning": true,
     "generic_passive_pose_without_article_reason": false,
-    "rev_environment_consistency": 5,
-    "brand_space_authenticity": 6,
-    "human_environment_integration": 8,
-    "perspective_scale_consistency": 7,
-    "ground_contact_shadow_consistency": 7,
-    "lighting_consistency": 8,
+    "rev_environment_consistency": 7,
+    "brand_space_authenticity": 7,
+    "human_environment_integration": 9,
+    "perspective_scale_consistency": 8,
+    "ground_contact_shadow_consistency": 8,
+    "lighting_consistency": 9,
     "anatomy_pose_realism": 9,
     "no_cutout_or_sticker_look": true,
     "location_semantics_pass": true,
     "location_behavior_plausible": true,
     "service_misrepresentation_absent": true,
     "unsupported_equipment_absent": true,
-    "scene_plausible_at_the_rev": false,
+    "scene_plausible_at_the_rev": true,
     "exercise_pose_plausible": true,
     "manual_visual_rejection": true,
     "trainer_present": false,
@@ -134,7 +134,7 @@
     "generated_customer_present": true,
     "generated_customer_count": 1,
     "facility_only_thumbnail": false,
-    "real_the_rev_background_confirmed": false,
+    "real_the_rev_background_confirmed": true,
     "expected_copy_present": true,
     "copy_legible": true,
     "headline_line_break_quality": true,
@@ -143,49 +143,40 @@
     "gbp_aspect_ratio_pass": true,
     "gbp_safe_area_pass": true,
     "gbp_copy_legible": true,
-    "comments": "Source/Scene FAIL: spatial_plausibility. タイポグラフィは全形式で合格。ただし生成シーンは原景よりカメラが大きく後退・横移動したように見え、左壁の面積、ラックの縮尺と位置関係が変化しており、指定された同一カメラ視点・厳密な室内形状保持を満たさない。背景も鮮明で高コントラストなため器具の存在感が強く、人物の視覚占有が要求の60〜70％に届かない。人物自体の袖調整、表情、解剖、照明統合は自然だが、背景真正性とHuman Firstの必須条件により不合格。",
+    "comments": "Source/Scene FAIL: recent_semantic_similarity. 人物、紙を見る行為、椅子との接触、照明、解剖は自然で、顧客は1名のみ。THE REV.ロゴ、植栽、受付、後方トレーニングエリアも認識でき、医療行為や未確認サービスの示唆はない。一方、生成背景は要求された浅い被写界深度より明瞭で、後方設備や受付の再構成差が目立つ。さらにタイトルなしでは紙が痛み・体調を伝えるための確認物だとまでは断定しにくい。Human First V1の背景ソフト化が必須条件のため総合不合格。",
     "scene_grounding_version": "the-rev-source-scene-v1",
     "scene_grounding": {
       "version": "the-rev-source-scene-v1",
       "pass": false,
       "errors": [
-        "spatial_plausibility"
+        "recent_semantic_similarity"
       ],
       "inventory": {
         "version": "the-rev-source-scene-v1",
-        "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
-        "primary_location": "training_area",
-        "subject_zone": "training_area",
+        "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+        "primary_location": "reception",
+        "subject_zone": "reception",
         "visible_equipment": [
           {
             "object": "training_rack",
-            "zone": "training_area"
-          },
-          {
-            "object": "cable_machine",
-            "zone": "training_area"
-          },
-          {
-            "object": "barbell",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           },
           {
             "object": "weight_plates",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           },
           {
             "object": "training_bench",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           }
         ],
         "allowed_generated_actions": [
+          "enter",
           "prepare",
           "rest",
-          "observing_real_equipment",
-          "rack_adjustment",
-          "cable_operation",
-          "barbell_operation",
-          "strength_exercise"
+          "compare_notes",
+          "review_paper",
+          "observe_facility"
         ],
         "forbidden_generated_objects": [
           "medical_device",
@@ -195,41 +186,39 @@
           "facility_selection",
           "health_before_start",
           "readiness",
-          "training_start",
-          "training_execution",
-          "training_progress"
+          "training_start"
         ],
         "verification": {
           "method": "source image visual inspection + canonical scoped registry",
-          "verified_at": "2026-10-07",
-          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+          "verified_at": "2026-10-14",
+          "note": "Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC."
         }
       },
       "plan": {
         "version": "the-rev-source-scene-v1",
-        "source_id": "the-rev-evolgear-20260922",
-        "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "source_id": "the-rev-lobby-sp-20260927",
+        "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
         "scene_type": "before_start",
-        "location_type": "training_area",
-        "human_action": "prepare",
-        "composition_type": "medium_three_quarter_portrait",
-        "visual_role": "checking_readiness",
-        "article_intent": "training_start",
+        "location_type": "reception",
+        "human_action": "review_paper",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "considering_health_report",
+        "article_intent": "health_before_start",
         "required_equipment": [],
-        "subject_zone": "training_area",
-        "article_specific_directive": "One standing adult customer in the existing training area, adjusting one sleeve before the first session. This is preparation (prepare), not exercise, rest, health-report review or a pain examination. A mildly hesitant expression conveys readiness to mention a small concern; no hand clutching the neck, shoulder or joint, and no medical acting. Empty hands except touching own sleeve. NO paper, checklist, phone, clipboard, forms, mat or other props. Customer remains standing and does not sit on, touch, move or use any bench or equipment. Keep exact room geometry, source camera perspective, rack/cable/bench positions, floor, windows and walls; add only this customer. Do not expand the room. Medium three-quarter portrait with the customer dominant at 60-70% visual attention; existing background anchors softly out of focus. The customer's face and sleeve adjustment remain visible in both wide and 4:3 crops.",
+        "subject_zone": "reception",
+        "article_specific_directive": "Exactly ONE adult Japanese female CUSTOMER, no trainer or staff, in THE REAL REV reception on the EXISTING wooden stool, gently considering a small simple UNMARKED paper with her own notes before a first training session. This is a private, natural moment before telling a trainer about minor discomfort or current health; NO trainer or consultation partner must appear. CAMERA: realistic medium seated portrait from waist to head, closer to the customer, subject in center-right, face and hands visible, human shares 60-70% of visual attention; avoid a full-room / tiny-customer frame. Expression calm, reflective and ready to speak, NOT a staged pain demonstration, injury diagnosis or medical treatment. Exactly one small plain unmarked piece of paper, not a medical chart or visible personal health data. No phone or clipboard. SOURCE GEOMETRY LOCK: original wall logo THE REV., plant, counter, wooden stool, light wood floor, existing wall corners and natural ceiling/window geometry stay in identical relative positions and scale to the source photo. The rack, bench and weights remain ONLY in rear_training_area. Never enlarge the room, move a rack into reception, invent equipment, remove a real feature, change the camera to reveal an imaginary room, or add a second person. One approved authentic facility anchor stays recognizable behind customer but background is optically softly defocused and SECONDARY; original scale, contact shadows and lighting remain natural. Right-hand subject in BOTH thumbnail/OGP wide crops and GBP 4:3 crop; protect face/hands from ivory text veil and keep clean text area left. The meaning must be understandable without an examiner or trainer: she is thinking about how to explain a small physical concern. Do not draw captions/text in the generated photograph; the approved deterministic Golden Typography renderer creates words later.",
         "similarity": {
           "pass": true,
           "window": 12,
           "compared": 12,
           "unknown_count": 7,
-          "penalty": 0.8333333333333334,
+          "penalty": 0.5,
           "matches": [
             {
               "slug": "the-rev-trial-three-menus-first-visit",
               "score": 0.16666666666666666,
               "equal": [
-                "composition_type"
+                "location_type"
               ],
               "hard_exclusion": false
             },
@@ -238,36 +227,33 @@
               "score": 0.5,
               "equal": [
                 "scene_type",
-                "visual_role",
-                "article_intent"
+                "location_type",
+                "composition_type"
               ],
               "hard_exclusion": false
             },
             {
               "slug": "pre-workout-stretching-duration",
-              "score": 0.8333333333333334,
+              "score": 0.16666666666666666,
               "equal": [
-                "scene_type",
-                "location_type",
-                "human_action",
-                "visual_role",
-                "article_intent"
+                "scene_type"
               ],
               "hard_exclusion": false
             },
             {
               "slug": "denba-health-device-mat-role",
-              "score": 0,
-              "equal": [],
+              "score": 0.16666666666666666,
+              "equal": [
+                "location_type"
+              ],
               "hard_exclusion": false
             },
             {
               "slug": "shinomiya-gym-beginner-choose",
-              "score": 0.5,
+              "score": 0.3333333333333333,
               "equal": [
                 "scene_type",
-                "location_type",
-                "human_action"
+                "composition_type"
               ],
               "hard_exclusion": false
             },
@@ -307,19 +293,15 @@
         "equipment": [
           {
             "object": "training_rack",
-            "zone": "training_area"
-          },
-          {
-            "object": "barbell",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           },
           {
             "object": "weight_plates",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           },
           {
             "object": "training_bench",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           }
         ]
       },
@@ -328,97 +310,87 @@
         "equipment": [
           {
             "object": "training_rack",
-            "zone": "training_area"
-          },
-          {
-            "object": "barbell",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           },
           {
             "object": "weight_plates",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           },
           {
             "object": "training_bench",
-            "zone": "training_area"
+            "zone": "rear_training_area"
           }
         ],
-        "location_type": "training_area",
-        "subject_zone": "training_area",
-        "human_action": "prepare",
+        "location_type": "reception",
+        "subject_zone": "reception",
+        "human_action": "review_paper",
         "equipment_relocated": false,
-        "room_geometry_preserved": false,
+        "room_geometry_preserved": true,
         "article_scene_match": true,
         "scene_fingerprint": {
           "scene_type": "before_start",
-          "location_type": "training_area",
-          "human_action": "prepare",
-          "composition_type": "medium_three_quarter_portrait",
-          "visual_role": "checking_readiness",
-          "article_intent": "training_start"
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
         }
       },
       "similarity": {
-        "pass": true,
+        "pass": false,
         "window": 12,
         "compared": 12,
         "unknown_count": 0,
-        "penalty": 0.8333333333333334,
+        "penalty": 1,
         "matches": [
           {
             "slug": "the-rev-trial-three-menus-first-visit",
-            "score": 0.3333333333333333,
+            "score": 0.16666666666666666,
             "equal": [
-              "composition_type",
-              "article_intent"
+              "location_type"
             ],
             "hard_exclusion": false
           },
           {
             "slug": "nekose-strength-training-posture",
-            "score": 0.6666666666666666,
+            "score": 0.5,
             "equal": [
               "scene_type",
-              "human_action",
-              "visual_role",
-              "article_intent"
+              "location_type",
+              "composition_type"
             ],
             "hard_exclusion": false
           },
           {
             "slug": "pre-workout-stretching-duration",
-            "score": 0.8333333333333334,
+            "score": 0.16666666666666666,
             "equal": [
-              "scene_type",
-              "location_type",
-              "human_action",
-              "visual_role",
-              "article_intent"
+              "scene_type"
             ],
             "hard_exclusion": false
           },
           {
             "slug": "denba-health-device-mat-role",
-            "score": 0,
-            "equal": [],
+            "score": 0.16666666666666666,
+            "equal": [
+              "location_type"
+            ],
             "hard_exclusion": false
           },
           {
             "slug": "shinomiya-gym-beginner-choose",
-            "score": 0.5,
+            "score": 0.3333333333333333,
             "equal": [
               "scene_type",
-              "location_type",
-              "human_action"
+              "composition_type"
             ],
             "hard_exclusion": false
           },
           {
             "slug": "desk-work-stand-every-30-minutes",
-            "score": 0.3333333333333333,
+            "score": 0.16666666666666666,
             "equal": [
-              "composition_type",
-              "article_intent"
+              "location_type"
             ],
             "hard_exclusion": false
           },
@@ -430,32 +402,37 @@
           },
           {
             "slug": "denba-electric-potential-space-radio-wave-difference",
-            "score": 0,
-            "equal": [],
+            "score": 0.16666666666666666,
+            "equal": [
+              "location_type"
+            ],
             "hard_exclusion": false
           },
           {
             "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
-            "score": 0.16666666666666666,
+            "score": 1,
             "equal": [
-              "scene_type"
+              "scene_type",
+              "location_type",
+              "human_action",
+              "composition_type",
+              "visual_role",
+              "article_intent"
             ],
-            "hard_exclusion": false
+            "hard_exclusion": true
           },
           {
             "slug": "beginner-strength-training-few-exercises-frequency",
             "score": 0.16666666666666666,
             "equal": [
-              "location_type"
+              "composition_type"
             ],
             "hard_exclusion": false
           },
           {
             "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
-            "score": 0.16666666666666666,
-            "equal": [
-              "location_type"
-            ],
+            "score": 0,
+            "equal": [],
             "hard_exclusion": false
           },
           {
@@ -490,7 +467,7 @@
             "scene_type": "personal_choice",
             "location_type": "reception",
             "human_action": "observe_facility",
-            "composition_type": "medium_three_quarter_portrait",
+            "composition_type": "wide_full_body",
             "visual_role": "deciding_own_start",
             "article_intent": "training_start"
           }
@@ -572,9 +549,9 @@
           "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
           "scene_fingerprint": {
             "scene_type": "equipment_orientation",
-            "location_type": "recovery_area",
+            "location_type": "reception",
             "human_action": "observing_real_equipment",
-            "composition_type": "medium_side_portrait",
+            "composition_type": "medium_three_quarter_portrait",
             "visual_role": "component_relationship",
             "article_intent": "equipment_explanation"
           }
@@ -644,7 +621,7 @@
             "scene_type": "exercise",
             "location_type": "boxing_area",
             "human_action": "boxing_stance",
-            "composition_type": "close_action_portrait",
+            "composition_type": "medium_three_quarter_portrait",
             "visual_role": "safe_first_step",
             "article_intent": "boxing_start"
           }
@@ -663,9 +640,9 @@
           "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
           "scene_fingerprint": {
             "scene_type": "equipment_orientation",
-            "location_type": "recovery_area",
+            "location_type": "reception",
             "human_action": "observing_real_equipment",
-            "composition_type": "medium_side_portrait",
+            "composition_type": "medium_three_quarter_portrait",
             "visual_role": "component_relationship",
             "article_intent": "recovery"
           }
@@ -706,7 +683,7 @@
           "scene_fingerprint": {
             "scene_type": "personal_choice",
             "location_type": "training_area",
-            "human_action": "review_paper",
+            "human_action": "compare_notes",
             "composition_type": "medium_seated_portrait",
             "visual_role": "deciding_own_start",
             "article_intent": "training_execution"
@@ -755,90 +732,84 @@
           }
         }
       ],
-      "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2",
+      "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3",
       "asset_hashes": {
-        "source": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
-        "scene": "91673509f1c43a6d7dca2d8be4d38d18dfe5a0d55b092aea17b98db228287455",
-        "thumbnail": "df946588ddeefd258fda24f4a12d7bdfb3cf331e8c47139f63e9957296bf790b",
-        "og": "f0e3988483eae74c2c32d2a5de28a0da3b9c89bc249f23ee0627f1dcfaa01f9e",
-        "gbp": "d17b5784f648a4e7c4b8386804bfd4df3ec0d80291aba0e12b91c4dedd081f32"
+        "source": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+        "scene": "c4141650efd557091ef4df571c211822cd28401cd59acd69e2c239c6f5c2a128",
+        "thumbnail": "9e0178dea8d806456519fd7e1c11aa81e07e500f79ef92e2b000c1168322a279",
+        "og": "89ca6e35255ce2c4faad4cb157f9fb03604737aad26336b68dd96afab42f93a9",
+        "gbp": "5c0e5aa7d0d721ebd4470cd158def7ca486b627f824e68b3fec79054a0bdb8ab"
       },
       "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
     },
     "scene_fingerprint": {
       "scene_type": "before_start",
-      "location_type": "training_area",
-      "human_action": "prepare",
-      "composition_type": "medium_three_quarter_portrait",
-      "visual_role": "checking_readiness",
-      "article_intent": "training_start"
+      "location_type": "reception",
+      "human_action": "review_paper",
+      "composition_type": "medium_seated_portrait",
+      "visual_role": "considering_health_report",
+      "article_intent": "health_before_start"
     },
     "scene_location_consistency": true,
     "equipment_source_grounding": true,
-    "spatial_plausibility": false,
+    "spatial_plausibility": true,
     "action_location_consistency": true,
     "article_scene_match": true,
     "recent_semantic_similarity": {
-      "pass": true,
+      "pass": false,
       "window": 12,
       "compared": 12,
       "unknown_count": 0,
-      "penalty": 0.8333333333333334,
+      "penalty": 1,
       "matches": [
         {
           "slug": "the-rev-trial-three-menus-first-visit",
-          "score": 0.3333333333333333,
+          "score": 0.16666666666666666,
           "equal": [
-            "composition_type",
-            "article_intent"
+            "location_type"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "nekose-strength-training-posture",
-          "score": 0.6666666666666666,
+          "score": 0.5,
           "equal": [
             "scene_type",
-            "human_action",
-            "visual_role",
-            "article_intent"
+            "location_type",
+            "composition_type"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "pre-workout-stretching-duration",
-          "score": 0.8333333333333334,
+          "score": 0.16666666666666666,
           "equal": [
-            "scene_type",
-            "location_type",
-            "human_action",
-            "visual_role",
-            "article_intent"
+            "scene_type"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "denba-health-device-mat-role",
-          "score": 0,
-          "equal": [],
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
           "hard_exclusion": false
         },
         {
           "slug": "shinomiya-gym-beginner-choose",
-          "score": 0.5,
+          "score": 0.3333333333333333,
           "equal": [
             "scene_type",
-            "location_type",
-            "human_action"
+            "composition_type"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "desk-work-stand-every-30-minutes",
-          "score": 0.3333333333333333,
+          "score": 0.16666666666666666,
           "equal": [
-            "composition_type",
-            "article_intent"
+            "location_type"
           ],
           "hard_exclusion": false
         },
@@ -850,32 +821,37 @@
         },
         {
           "slug": "denba-electric-potential-space-radio-wave-difference",
-          "score": 0,
-          "equal": [],
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
           "hard_exclusion": false
         },
         {
           "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
-          "score": 0.16666666666666666,
+          "score": 1,
           "equal": [
-            "scene_type"
+            "scene_type",
+            "location_type",
+            "human_action",
+            "composition_type",
+            "visual_role",
+            "article_intent"
           ],
-          "hard_exclusion": false
+          "hard_exclusion": true
         },
         {
           "slug": "beginner-strength-training-few-exercises-frequency",
           "score": 0.16666666666666666,
           "equal": [
-            "location_type"
+            "composition_type"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
-          "score": 0.16666666666666666,
-          "equal": [
-            "location_type"
-          ],
+          "score": 0,
+          "equal": [],
           "hard_exclusion": false
         },
         {
@@ -892,231 +868,231 @@
       "deterministic": {
         "revision": "thumbnail-golden-typography-v1",
         "slug": "personal-gym-first-session-pain-health-history",
-        "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2",
+        "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3",
         "pass": true,
         "variants": {
           "thumbnail": {
             "pass": true,
             "lines": [
-              "最初の一回で、",
-              "相性を",
-              "確かめる。"
+              "痛みや体調は、",
+              "どこまで",
+              "伝える？"
             ],
             "text_preserved": true,
             "font_size": 73,
             "font_size_at_320": 19.466666666666665,
             "line_count": 3,
             "line_height": 1.12,
-            "line_balance": 0.7478653171584677,
+            "line_balance": 0.5708215462678679,
             "layout_rule": "golden-wide-v1",
             "line_font_sizes": [
               73,
-              127.28205128205128,
-              86.14
+              73,
+              127.28205128205128
             ],
-            "focus_line": 1,
-            "focus_text": "相性を",
+            "focus_line": 2,
+            "focus_text": "伝える？",
             "focus_scale": 1.7435897435897436,
             "hierarchy_kind": "lines",
             "hierarchy_pass": true,
             "label_subordinate": true,
             "label_removed": true,
             "bottom_mark_removed": true,
-            "width_occupancy": 0.9883070631760817,
-            "block_area_ratio": 0.22635663368479408,
+            "width_occupancy": 0.9911147390512319,
+            "block_area_ratio": 0.2176345723637475,
             "safe_area_pass": true,
             "fade_contains_text": true,
             "layout_balance_revision": "centered-organic-v1",
-            "headline_center_y": 337.3828125,
+            "headline_center_y": 337.0234375,
             "paper_profile": "local-curved-veil",
-            "paper_opacity_floor": 0.9176470588235294,
-            "fade_start": 601,
-            "fade_end": 738,
+            "paper_opacity_floor": 0.8823529411764706,
+            "fade_start": 603,
+            "fade_end": 740,
             "fade_vertical_tail": 125,
-            "contrast_floor": 5.308677408263676,
+            "contrast_floor": 4.887411790283348,
             "line_rects": [
               {
                 "left": 64,
-                "top": 147,
-                "right": 578.65625,
-                "bottom": 252,
-                "width": 514.65625
+                "top": 154,
+                "right": 580.125,
+                "bottom": 259,
+                "width": 516.125
               },
               {
                 "left": 64,
-                "top": 238.75,
-                "right": 448,
-                "bottom": 420.75,
-                "width": 384
+                "top": 253.75,
+                "right": 358.921875,
+                "bottom": 358.75,
+                "width": 294.921875
               },
               {
                 "left": 64,
-                "top": 405.296875,
-                "right": 498.28125,
-                "bottom": 529.296875,
-                "width": 434.28125
+                "top": 345.5,
+                "right": 575.984375,
+                "bottom": 527.5,
+                "width": 511.984375
               }
             ],
-            "asset_path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
-            "asset_sha256": "df946588ddeefd258fda24f4a12d7bdfb3cf331e8c47139f63e9957296bf790b",
+            "asset_path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
+            "asset_sha256": "9e0178dea8d806456519fd7e1c11aa81e07e500f79ef92e2b000c1168322a279",
             "previews": {
               "320": {
-                "path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-preview-320.jpg",
-                "sha256": "eb79a9fd1ae05cada4716e1b28bb7560f8af334399bc1fa87a50dd459b865948"
+                "path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-preview-320.jpg",
+                "sha256": "a8f776fe3c5f3a99ed34b6ea4f2ca5f220bb7d24b19b6a00def425cae783d7c4"
               },
               "400": {
-                "path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-preview-400.jpg",
-                "sha256": "fa42c50e5a1ad6315644f204d698048e6c7f43641ce22c0ad9879febbda0e740"
+                "path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-preview-400.jpg",
+                "sha256": "83a63c80f1cce40dd99816bf047b6a4d71d2738fe8b66d151f998b0936d2cb57"
               }
             }
           },
           "og": {
             "pass": true,
             "lines": [
-              "最初の一回で、",
-              "相性を",
-              "確かめる。"
+              "痛みや体調は、",
+              "どこまで",
+              "伝える？"
             ],
             "text_preserved": true,
             "font_size": 73,
             "font_size_at_320": 19.466666666666665,
             "line_count": 3,
             "line_height": 1.12,
-            "line_balance": 0.7478653171584677,
+            "line_balance": 0.5708215462678679,
             "layout_rule": "golden-wide-v1",
             "line_font_sizes": [
               73,
-              127.28205128205128,
-              86.14
+              73,
+              127.28205128205128
             ],
-            "focus_line": 1,
-            "focus_text": "相性を",
+            "focus_line": 2,
+            "focus_text": "伝える？",
             "focus_scale": 1.7435897435897436,
             "hierarchy_kind": "lines",
             "hierarchy_pass": true,
             "label_subordinate": true,
             "label_removed": true,
             "bottom_mark_removed": true,
-            "width_occupancy": 0.9883070631760817,
-            "block_area_ratio": 0.24252496466227938,
+            "width_occupancy": 0.9911147390512319,
+            "block_area_ratio": 0.23317989896115804,
             "safe_area_pass": true,
             "fade_contains_text": true,
             "layout_balance_revision": "centered-organic-v1",
-            "headline_center_y": 315.3828125,
+            "headline_center_y": 315.0234375,
             "paper_profile": "local-curved-veil",
-            "paper_opacity_floor": 0.9176470588235294,
-            "fade_start": 601,
-            "fade_end": 738,
+            "paper_opacity_floor": 0.8823529411764706,
+            "fade_start": 603,
+            "fade_end": 740,
             "fade_vertical_tail": 125,
-            "contrast_floor": 5.308677408263676,
+            "contrast_floor": 4.887411790283348,
             "line_rects": [
               {
                 "left": 64,
-                "top": 125,
-                "right": 578.65625,
-                "bottom": 230,
-                "width": 514.65625
+                "top": 132,
+                "right": 580.125,
+                "bottom": 237,
+                "width": 516.125
               },
               {
                 "left": 64,
-                "top": 216.75,
-                "right": 448,
-                "bottom": 398.75,
-                "width": 384
+                "top": 231.75,
+                "right": 358.921875,
+                "bottom": 336.75,
+                "width": 294.921875
               },
               {
                 "left": 64,
-                "top": 383.296875,
-                "right": 498.28125,
-                "bottom": 507.296875,
-                "width": 434.28125
+                "top": 323.5,
+                "right": 575.984375,
+                "bottom": 505.5,
+                "width": 511.984375
               }
             ],
-            "asset_path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
-            "asset_sha256": "f0e3988483eae74c2c32d2a5de28a0da3b9c89bc249f23ee0627f1dcfaa01f9e",
+            "asset_path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
+            "asset_sha256": "89ca6e35255ce2c4faad4cb157f9fb03604737aad26336b68dd96afab42f93a9",
             "previews": {
               "320": {
-                "path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-preview-320.jpg",
-                "sha256": "aee460f26d8be5722d89c9a9cc7ee76e5903ca013c11616a0ba7d3c05f9f9e20"
+                "path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-preview-320.jpg",
+                "sha256": "074d3217c6e770831bc5afeb4d6c650982cd8d32ee9453f923e6fd68996a0792"
               },
               "400": {
-                "path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-preview-400.jpg",
-                "sha256": "dc4f5e132fb58a58639fed252ef6d2b021c6751c26abfc4064501478f34f3123"
+                "path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-preview-400.jpg",
+                "sha256": "2094e555ec9c0913f271ff0b62b438864e094f4ddd37b6ee57867b5ba9adba7c"
               }
             }
           },
           "gbp": {
             "pass": true,
             "lines": [
-              "最初の一回で、",
-              "相性を",
-              "確かめる。"
+              "痛みや体調は、",
+              "どこまで",
+              "伝える？"
             ],
             "text_preserved": true,
             "font_size": 62,
             "font_size_at_320": 16.533333333333335,
             "line_count": 3,
             "line_height": 1.12,
-            "line_balance": 0.706494054216377,
+            "line_balance": 0.5708215300413004,
             "layout_rule": "golden-gbp-v1",
             "line_font_sizes": [
               62,
-              102.11764705882354,
-              69.44000000000001
+              62,
+              102.11764705882354
             ],
-            "focus_line": 1,
-            "focus_text": "相性を",
+            "focus_line": 2,
+            "focus_text": "伝える？",
             "focus_scale": 1.647058823529412,
             "hierarchy_kind": "lines",
             "hierarchy_pass": true,
             "label_subordinate": true,
             "label_removed": true,
             "bottom_mark_removed": true,
-            "width_occupancy": 0.9920004383433949,
-            "block_area_ratio": 0.12188229459787299,
+            "width_occupancy": 0.9948186673251066,
+            "block_area_ratio": 0.1188531968934801,
             "safe_area_pass": true,
             "fade_contains_text": true,
             "layout_balance_revision": "centered-organic-v1",
-            "headline_center_y": 431.7890625,
+            "headline_center_y": 431.625,
             "paper_profile": "local-curved-veil",
             "paper_opacity_floor": 0.9215686274509803,
-            "fade_start": 520,
-            "fade_end": 639,
+            "fade_start": 521,
+            "fade_end": 640,
             "fade_vertical_tail": 125,
             "contrast_floor": 5.356830663826178,
             "line_rects": [
               {
                 "left": 60,
-                "top": 271,
-                "right": 497.109375,
-                "bottom": 360,
-                "width": 437.109375
+                "top": 275,
+                "right": 498.34375,
+                "bottom": 364,
+                "width": 438.34375
               },
               {
                 "left": 60,
-                "top": 353.4375,
-                "right": 368.203125,
-                "bottom": 500.4375,
-                "width": 308.203125
+                "top": 364.4375,
+                "right": 310.484375,
+                "bottom": 453.4375,
+                "width": 250.484375
               },
               {
                 "left": 60,
-                "top": 492.8125,
-                "right": 410.296875,
-                "bottom": 592.8125,
-                "width": 350.296875
+                "top": 446.875,
+                "right": 470.921875,
+                "bottom": 593.875,
+                "width": 410.921875
               }
             ],
-            "asset_path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
-            "asset_sha256": "d17b5784f648a4e7c4b8386804bfd4df3ec0d80291aba0e12b91c4dedd081f32",
+            "asset_path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
+            "asset_sha256": "5c0e5aa7d0d721ebd4470cd158def7ca486b627f824e68b3fec79054a0bdb8ab",
             "previews": {
               "320": {
-                "path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-preview-320.jpg",
-                "sha256": "cbcd4b654587673d7fe13813c824f03c83b9a6a8fc656dd0e4bf1da4fd49911c"
+                "path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-preview-320.jpg",
+                "sha256": "96e7fa8c3d4cd18dd64dbeed8ef279e7f5695adcbd19ea10690e6349d78c1ccc"
               },
               "400": {
-                "path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2-preview-400.jpg",
-                "sha256": "638a89dc6a4e2839a11df30b896e5bd256ddbc9d081c347a5d750a454ac9130b"
+                "path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3-preview-400.jpg",
+                "sha256": "fdd1ac5f8a26da24fef1b6d81f5c646ffaf8e02b836c5f9fcb3767aee3fa888f"
               }
             }
           }
@@ -1209,7 +1185,7 @@
             "fade_integrated": true
           }
         },
-        "comments": "3形式とも実寸プレビューで見出しが即読でき、「相性を」の暖色強調、補助行との大小差、柔らかな写真移行がゴールデンの文法に合う。改行も意味単位で自然で、GBPは左中央に独立して再配置され、人物の顔と袖調整を妨げていない。"
+        "comments": "3形式とも、黒の補助句と大きな暖色キーワード「伝える？」による階層が明快で、ゴールデン参照の編集的な文法に沿っている。320pxでも見出しは主役として即読でき、「痛みや体調は、／どこまで／伝える？」の改行も不自然な孤立文字や助詞を生んでいない。アイボリーのフェードは写真へ柔らかく接続し、GBPも横長テンプレートの流用ではなく4:3に合わせて人物と左側タイトルを釣り合わせている。"
       },
       "golden_reference": {
         "revision": "approved-typography-20261001-v1",
@@ -1236,30 +1212,30 @@
     "generated_customer_allowed_under_policy": true,
     "generated_customer_role": "customer",
     "customer_presentation": "female",
-    "image_headline_short": "最初の一回で、\n相性を確かめる。",
+    "image_headline_short": "痛みや体調は、\nどこまで伝える？",
     "fixed_overlay_layout_confirmed": true,
     "policy_revision": "editorial-thumbnail-v2.4",
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
     "design_revision": "editorial-thumbnail-v2.6-human-first",
     "layout_variant": "human-first-v1",
     "background_source_type": "verified_the_rev_repo_mirror",
-    "content_reference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
-    "background_source_drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+    "content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "background_source_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
     "background_origin_video_file_id": "",
-    "background_origin_video_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
+    "background_origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
     "background_frame_position_ratio": null,
-    "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+    "background_treatment": "Strict real THE REV location and scale; one female customer only; natural photographic depth and lighting; customer close portrait, background soft and secondary.",
     "background_source_recorded": true,
     "background_selection_reason_recorded": true,
     "image_generation_used": true,
     "fallback_used": false,
     "fallback_reason": "",
     "same_image_as_recent_articles": false,
-    "same_background_as_recent_articles": false,
+    "same_background_as_recent_articles": true,
     "trainer_photo_reused": false,
     "background_reuse_relevance_exception": false,
     "recent_similarity_window": 4,
-    "recent_similarity_check_pass": true,
+    "recent_similarity_check_pass": false,
     "recent_background_source_ids": [
       "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
       "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
@@ -1356,9 +1332,9 @@
           "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg"
         }
       ],
-      "selected_content_reference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
-      "selected_drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
-      "avoided_repeat": true,
+      "selected_content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "selected_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "avoided_repeat": false,
       "repeated_due_to_relevance": false,
       "repeat_distance": null,
       "required_equipment": []
@@ -1369,18 +1345,18 @@
     "qa_model": "gpt-5.6",
     "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
     "slug": "personal-gym-first-session-pain-health-history",
-    "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2",
-    "checked_at": "2026-10-14T23:44:20.034Z",
+    "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3",
+    "checked_at": "2026-10-15T02:24:14.452Z",
     "review_mode": "HYBRID_GENERATED",
     "realism_qc_version": "v1",
     "scene_plausibility_version": "the-rev-scene-plausibility-v1",
     "gbp_image_required": true,
-    "gbp_image_path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2.jpg",
+    "gbp_image_path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r3.jpg",
     "gbp_image_width": 1200,
     "gbp_image_height": 900,
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json",
-  "updated_at": "2026-10-14T23:44:20.037Z",
-  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-fb45e04d-scene-r2"
+  "updated_at": "2026-10-15T02:24:14.455Z",
+  "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r3"
 }
