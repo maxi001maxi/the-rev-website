@@ -12,6 +12,7 @@ on:
       - 'supabase/migrations/*editorial_topic_approval.sql'
       - 'api/admin/publish-status.mjs'
       - 'lib/editorialPublicationStatus.mjs'
+      - 'scripts/test-editorial-20261015-recovered-publication.mjs'
       - 'lib/githubContent.mjs'
       - 'lib/editorialBridge.mjs'
       - 'lib/supabaseAdmin.mjs'
@@ -185,6 +186,7 @@ jobs:
       - run: npm run test:blog-taxonomy
       - run: npm run test:blog-card-dates
       - run: npm run test:phase-d
+      - run: node --test scripts/test-editorial-20261015-recovered-publication.mjs
       - run: npm run test:phase-e
       - run: npm run test:site-insights
       - run: npm run test:google-business
