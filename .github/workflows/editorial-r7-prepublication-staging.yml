@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      GH_TOKEN: \${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
       XSERVER_FTP_HOST: 'sv14602.xserver.jp'
-      XSERVER_FTP_USER: \${{ secrets.XSERVER_FTP_USER }}
-      XSERVER_FTP_PASSWORD: \${{ secrets.XSERVER_FTP_PASSWORD }}
+      XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+      XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
 
     steps:
       - name: Checkout main
