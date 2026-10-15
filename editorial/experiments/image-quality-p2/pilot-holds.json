@@ -1,7 +1,7 @@
 {
-  "version": "p2-structural-drift-hold-v1",
+  "version": "p2-repeated-qc-holds-v2",
   "mode": "OFFLINE_EXPERIMENT_MANUAL_REVIEW",
-  "purpose": "Prevent further paid, instruction-only whole-scene regeneration for cases failing twice on real facility geometry.",
+  "purpose": "Stop repeat paid image regeneration for P2 cases that failed independent Visual QC twice. Require mechanism-level correction and a separate verified offline test before retry.",
   "cases": [
     {
       "case_id": "p2-02",
@@ -21,6 +21,29 @@
         "Implement or demonstrate a source-locked composition or masked edit that cannot relocate original rack, bench, window, walls, floor and ceiling",
         "Pass independent source/scene geometry QC with unchanged source SHA",
         "Document new isolated trial asset version and cost cap in tests before re-enabling"
+      ],
+      "human_review_required": true,
+      "production_unmodified": true
+    },
+    {
+      "case_id": "p2-03",
+      "status": "PAUSED",
+      "reason_code": "REPEAT_HUMAN_FIRST_AND_GBP_FACE_FADE_FAILURE",
+      "first_failed_run_id": 38658404670,
+      "second_failed_run_id": 38659378986,
+      "tested_asset_versions": [
+        "p2-offline-v1",
+        "p2-offline-r2"
+      ],
+      "original_baseline_asset_version": "reference-v26-grounded-auto-denba-20260924-r5",
+      "preserved_source": "assets/images/photo-solution-denba.jpg",
+      "observed_result": "R1 human visual attention 52%; R2 55%, still below minimum 58%; background never secondary/soft. R2 GBP 4:3 ivory/white veil occludes woman's mouth, face and chest. Source/scene geometry, genuine DENBA and article action passed both attempts.",
+      "diagnosis": "Prompt-only camera requests cannot reliably meet human-first visual attention; GBP overlay is rendered deterministically after scene generation and overlaps this particular subject placement. More scene prompt alone cannot repair downstream overlay safety.",
+      "hold_release_requirements": [
+        "Implement safe-area/portrait-aware GBP overlay using a no-cost local preview, preserve current Golden Typography for all other articles",
+        "Verify woman's face and torso are not occluded in GBP 4:3 with actual tested R2 rendered assets before another image generation",
+        "Prove human-first framing and subdued background using a source-grounded composition method or a documented lower-cost crop/edit option",
+        "Complete independent visual QA plus owner-visible A/B and record new isolated asset version before release"
       ],
       "human_review_required": true,
       "production_unmodified": true
