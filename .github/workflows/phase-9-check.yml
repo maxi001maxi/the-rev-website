@@ -23,6 +23,8 @@ on:
       - 'scripts/test-supervisor-qc-recovery.mjs'
       - 'scripts/test-editorial-trigger-topology.mjs'
       - 'scripts/xserver-deploy-plan.mjs'
+      - 'scripts/xserver-blog-delta.mjs'
+      - 'scripts/test-xserver-incremental.mjs'
       - 'scripts/test-xserver-deploy-plan.mjs'
       - 'scripts/daily-editorial-connector-plan.mjs'
       - 'scripts/test-daily-editorial-connector-plan.mjs'
@@ -174,6 +176,7 @@ jobs:
       - run: npm run test:supervisor-qc-recovery
       - run: npm run test:trigger-topology
       - run: node --test scripts/test-xserver-deploy-plan.mjs
+      - run: node --test scripts/test-xserver-incremental.mjs
       - run: npm run test:topic-approval
       - run: node --test scripts/test-daily-editorial-connector-plan.mjs
       - run: node --test scripts/test-editorial-consistency.mjs

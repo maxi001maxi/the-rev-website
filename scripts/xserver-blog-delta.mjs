@@ -28,7 +28,7 @@ export function planBlogDelta({oldRoot,newRoot,maxChanged=50}){
  const order=p=>p==='index.html'?2:p==='.htaccess'?3:1;
  changed.sort((x,y)=>order(x)-order(y)||x.localeCompare(y));
  const cmds=[];
- for(const p of changed){let dir=path.posix.dirname(p);cmds.push('mkdir -p '+quote('/blog/'+(dir==='.'?'':dir)), 'put -O '+quote('/blog/'+(dir==='.'?'':dir))+' '+quote(path.posix.join('deploy/blog',p)));}
+ for(const p of changed){let dir=path.posix.dirname(p);cmds.push('mkdir -pf '+quote('/blog/'+(dir==='.'?'':dir)), 'put -O '+quote('/blog/'+(dir==='.'?'':dir))+' '+quote(path.posix.join('deploy/blog',p)));}
  // Delete stale published pages only after replacements have been uploaded.
  for(const p of deleted)cmds.push('rm -f '+quote('/blog/'+p));
  // Always restore cache policy in the same session, and index was uploaded LAST.
