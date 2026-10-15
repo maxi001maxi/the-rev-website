@@ -3,7 +3,7 @@
   "slug": "personal-gym-first-session-pain-health-history",
   "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
   "source_run_id": 38677888686,
-  "status": "IMAGE_ASSETS_PREPARED_FOR_XSERVER_VERIFICATION",
+  "status": "XSERVER_BYTE_VERIFIED_OWNER_REVIEW_PENDING",
   "approval_boundary": "OWNER_APPROVAL_REQUIRED_BEFORE_ANY_ARTICLE_OR_GBP_PUBLICATION",
   "independent_qc_pass": true,
   "source_scene_qc_pass": true,
@@ -43,6 +43,7 @@
   "gbp_posted": false,
   "canonical_job_modified": false,
   "reviewed_by_owner": false,
-  "staging_on_xserver_verified": false,
-  "notes": "Reuses the verified real THE REV reception; repetition exception remains limited to QC-only evidence. Staged file availability is NOT human approval or article publication."
+  "staging_on_xserver_verified": true,
+  "notes": "Reuses the verified real THE REV reception; repetition exception remains limited to QC-only evidence. Staged file availability is NOT human approval or article publication.",
+  "staging_run_id": "38680168911"
 }
