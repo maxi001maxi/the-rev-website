@@ -1,6 +1,6 @@
 {
   "slug": "personal-gym-first-session-pain-health-history",
-  "status": "ERROR",
+  "status": "BLOCKED_MAX_ATTEMPTS",
   "attempts_total": 1,
   "max_attempts": 1,
   "last_error": "文字設計と記事固有の腕に触れる仕草は良好で、人物の合成感や解剖上の重大破綻もない。ただし背景のラック、配管、受付造作、植物が全体に鮮明で、指定された自然な浅い被写界深度になっていない。カードサイズでは人物の視覚占有が約55%に留まり、背景設備が競合して人間第一の60〜70%基準を満たさないため不合格。",
@@ -1397,6 +1397,6 @@
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json",
-  "updated_at": "2026-10-15T02:53:31.364Z",
+  "updated_at": "2026-10-16T23:16:01.288Z",
   "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r5"
 }
