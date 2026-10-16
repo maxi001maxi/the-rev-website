@@ -2,7 +2,7 @@
 // Does not run for production. Keep the current main deploy route unchanged.
 import fs from 'node:fs';
 import path from 'node:path';
-const isPreview = process.env.VERCEL_ENV === 'preview' || process.env.REV_STAGE_FULL_SITE === '1';
+const isPreview = process.env.REV_STAGE_FULL_SITE === '1' || (process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_GIT_COMMIT_REF === 'feature/unified-v7-header-20261015');
 if (!isPreview) {
   console.log('[stage] skipping review-only page overlay outside preview');
   process.exit(0);
