@@ -20,8 +20,19 @@ await ctx.route('**/*',async route=>{
   await route.continue();
  }else{log.blockedReads.push(url.origin+url.pathname);await route.abort();}
 });
+let page;
 try{
- const page=await ctx.newPage();
+ page=await ctx.newPage();
+ // Diagnostics log only request path/status (never query strings or secrets).
+ page.on('response',response=>{
+   if(response.status()>=400){
+     try{const u=new URL(response.url());log.httpErrors??=[];log.httpErrors.push({host:u.hostname,path:u.pathname,status:response.status()});}catch{}
+   }
+ });
+ page.on('requestfailed',request=>{
+   try{const u=new URL(request.url());log.failedRequests??=[];log.failedRequests.push({host:u.hostname,path:u.pathname,reason:request.failure()?.errorText});}catch{}
+ });
+ page.on('pageerror',error=>{log.pageErrors??=[];log.pageErrors.push(String(error.message).slice(0,250));});
  const masterResponse=page.waitForResponse(r=>r.url().includes('/cli/public/reserve_master.json')&&r.status()===200,{timeout:30000});
  const params={utm_source:'website',utm_medium:'referral',utm_campaign:'trial',utm_content:'home_hero'};
  await page.goto('https://cl.gyms.jp/t/CC2237480443/?'+new URLSearchParams(params),{waitUntil:'load',timeout:30000});
@@ -49,6 +60,15 @@ try{
  log.status='PASS';log.redirectStatus='PASS';log.menuDisplay='PASS: actual three trial menu options rendered/operated; no customer input';
 }catch(error){
  log.error=error.message;
+ if(page&&!page.isClosed()){
+   try{
+     log.currentPath=new URL(page.url()).pathname;
+     log.formControlsFound=await page.locator('input,select').count();
+     log.visibleFormControls=await page.locator('input:visible,select:visible').count();
+     log.pageTextExcerpt=(await page.locator('body').innerText({timeout:3000})).slice(0,1200);
+     await page.screenshot({path:out+'/booking-failure.png',fullPage:true,timeout:5000});
+   }catch(diagnosticError){log.diagnosticError=String(diagnosticError.message).slice(0,250);}
+ }
  // A transport failure is not a successful redirect. A product assertion fails CI.
  if(/net::ERR_|Navigation.*timeout|page.goto: Timeout/.test(error.message))log.status='UNVERIFIED';
  else{log.status='FAIL';process.exitCode=1;}
