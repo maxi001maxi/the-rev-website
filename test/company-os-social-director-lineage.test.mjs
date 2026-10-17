@@ -96,3 +96,13 @@ test('v1.0.1 production cannot silently bypass portfolio verification',()=>{
   assert.equal(requiresSocialPortfolio('SHADOW',{contract_version:'v1.0.1'}),false);
   assert.equal(requiresSocialPortfolio('SHADOW',{portfolio_required:true}),true);
 });
+
+test('review-pending Director cannot feed READY creative',()=>{
+  const c={plan:{status:'REVIEW_REQUIRED',channel_states:{REEL:{status:'ACTIVE'}}},assignments:[{channel:'REEL',qc_decision:'REVIEW_REQUIRED'}]};
+  assert.throws(()=>selectReadyDirectorAssignments(c,'REEL',true),/PLAN_NOT_READY/);
+  assert.equal(selectReadyDirectorAssignments(c,'REEL',false),null);
+});
+test('only READY assignments are passed downstream',()=>{
+  const c={plan:{status:'READY',channel_states:{REEL:{status:'ACTIVE'}}},assignments:[{channel:'REEL',qc_decision:'READY',id:'yes'},{channel:'REEL',qc_decision:'REVIEW_REQUIRED',id:'no'}]};
+  assert.deepEqual(selectReadyDirectorAssignments(c,'REEL',true).assignments.map(x=>x.id),['yes']);
+});
