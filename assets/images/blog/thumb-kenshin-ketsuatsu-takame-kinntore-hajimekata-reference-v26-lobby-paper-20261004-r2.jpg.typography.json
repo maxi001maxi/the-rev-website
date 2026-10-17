@@ -1,0 +1,233 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+  "asset_version": "reference-v26-lobby-paper-20261004-r2",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "始める前に、",
+        "状態を",
+        "確かめる。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.45390628285238405,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 2,
+      "focus_text": "確かめる。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.20888631266232674,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.015625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8666666666666667,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.707128189580959,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 161,
+          "right": 536.6875,
+          "bottom": 273,
+          "width": 472.6875
+        },
+        {
+          "left": 64,
+          "top": 266.359375,
+          "right": 300.34375,
+          "bottom": 378.359375,
+          "width": 236.34375
+        },
+        {
+          "left": 64,
+          "top": 367.71875,
+          "right": 582.75,
+          "bottom": 515.71875,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+      "asset_sha256": "56c31d2f6ee9821a133cabdf0ee85214c69568b7f201016f71ed0f50fbc98e6f",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-preview-320.jpg",
+          "sha256": "2329552fd354e47273f3e9669111c2b1e9d82f23e96bdf484a2b23d5a777fafe"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-preview-400.jpg",
+          "sha256": "cb2572517848a98e7ffb394d35547e380dd464ea61df555b1e4088f01fd91e20"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "始める前に、",
+        "状態を",
+        "確かめる。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.45390628285238405,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 2,
+      "focus_text": "確かめる。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.22380676356677867,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.015625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8666666666666667,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.707128189580959,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 139,
+          "right": 536.6875,
+          "bottom": 251,
+          "width": 472.6875
+        },
+        {
+          "left": 64,
+          "top": 244.359375,
+          "right": 300.34375,
+          "bottom": 356.359375,
+          "width": 236.34375
+        },
+        {
+          "left": 64,
+          "top": 345.71875,
+          "right": 582.75,
+          "bottom": 493.71875,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+      "asset_sha256": "26e5455562a53334d8f8adc61c6b8191535cd5defc40d9fef62d9bf932b7129e",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-preview-320.jpg",
+          "sha256": "e2273d86eb0059bc2c0f176c8faf3a5734df3b3436c7df9b26c967074a715bc3"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-preview-400.jpg",
+          "sha256": "3b41d85ab91cdb016271c686e0d60999352f86abf729892eabfac0e4ba5c6ca6"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "始める前に、",
+        "状態を",
+        "確かめる。"
+      ],
+      "text_preserved": true,
+      "font_size": 67,
+      "font_size_at_320": 17.866666666666667,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.4608771409790595,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        67,
+        67,
+        87.12871287128714
+      ],
+      "focus_line": 2,
+      "focus_text": "確かめる。",
+      "focus_scale": 1.3004285503177184,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9977995679359195,
+      "block_area_ratio": 0.11692905943718504,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.8203125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9098039215686274,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.213181538979519,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 277,
+          "right": 466.03125,
+          "bottom": 373,
+          "width": 406.03125
+        },
+        {
+          "left": 60,
+          "top": 372.03125,
+          "right": 263.015625,
+          "bottom": 468.03125,
+          "width": 203.015625
+        },
+        {
+          "left": 60,
+          "top": 464.0625,
+          "right": 498.90625,
+          "bottom": 589.0625,
+          "width": 438.90625
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+      "asset_sha256": "85d7f4477ce8b2eff6c3078033d789112121a97576dabd22a413918fcee6c713",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-preview-320.jpg",
+          "sha256": "e2156fb0bb67809e81dc8bde27e95be0af92a5d2a47e72c395aca5313b2d5419"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2-preview-400.jpg",
+          "sha256": "0e5450f21891578d3a2a4385cf2d51e5f4100073ff0dd6f5b908cf77ca120607"
+        }
+      }
+    }
+  }
+}

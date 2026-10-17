@@ -1,0 +1,191 @@
+# THE REV. — Xserver document-root diagnostic
+#
+# Purpose:
+#   Verify which FTP path is actually served by https://therev-lab.com/
+#   before asking the hosting administrator. This workflow only creates
+#   short-lived text probe files, checks them over HTTPS, then deletes them.
+name: Diagnose Xserver Mapping
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: xserver-diagnostic
+  cancel-in-progress: false
+
+env:
+  XSERVER_FTP_HOST: 'sv14602.xserver.jp'
+  PRODUCTION_URL: 'https://therev-lab.com'
+
+jobs:
+  diagnose:
+    name: DNS → FTP probes → HTTPS mapping → Cleanup
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Validate Xserver secrets
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${XSERVER_FTP_USER:-}" ] || [ -z "${XSERVER_FTP_PASSWORD:-}" ]; then
+            echo "::error::XSERVER_FTP_USER / XSERVER_FTP_PASSWORD are missing."
+            exit 1
+          fi
+
+      - name: Install FTPS client
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+      - name: Resolve DNS
+        id: dns
+        run: |
+          set -euo pipefail
+          PROD_IPS="$(getent ahostsv4 therev-lab.com | awk '{print $1}' | sort -u | paste -sd, - || true)"
+          FTP_IPS="$(getent ahostsv4 "$XSERVER_FTP_HOST" | awk '{print $1}' | sort -u | paste -sd, - || true)"
+          echo "prod_ips=$PROD_IPS" >> "$GITHUB_OUTPUT"
+          echo "ftp_ips=$FTP_IPS" >> "$GITHUB_OUTPUT"
+          echo "therev-lab.com: $PROD_IPS"
+          echo "$XSERVER_FTP_HOST: $FTP_IPS"
+
+      - name: Create temporary probe
+        id: probe
+        run: |
+          set -euo pipefail
+          NAME="__rev_probe_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}.txt"
+          TOKEN="REV_PROBE_${GITHUB_RUN_ID}_${GITHUB_RUN_ATTEMPT}_${GITHUB_SHA}"
+          printf '%s\n' "$TOKEN" > "/tmp/$NAME"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Inspect FTP paths and upload probes
+        id: ftp
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+          PROBE_NAME: ${{ steps.probe.outputs.name }}
+        run: |
+          set -u
+          COMMON='set ftp:ssl-force true; set ftp:ssl-protect-data true; set ftp:passive-mode true; set ssl:verify-certificate yes; set net:max-retries 1; set net:timeout 20;'
+
+          set +e
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" \
+            -e "$COMMON cls -la /; bye" > /tmp/root-listing.txt 2>&1
+          ROOT_LIST_RC=$?
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" \
+            -e "$COMMON cls -la /unlimited-dev; bye" > /tmp/dev-listing.txt 2>&1
+          DEV_LIST_RC=$?
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" \
+            -e "$COMMON put /tmp/$PROBE_NAME -o /$PROBE_NAME; bye"
+          ROOT_UPLOAD_RC=$?
+
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" \
+            -e "$COMMON put /tmp/$PROBE_NAME -o /unlimited-dev/$PROBE_NAME; bye"
+          DEV_UPLOAD_RC=$?
+          set -e
+
+          echo "root_upload_rc=$ROOT_UPLOAD_RC" >> "$GITHUB_OUTPUT"
+          echo "dev_upload_rc=$DEV_UPLOAD_RC" >> "$GITHUB_OUTPUT"
+          echo "root_list_rc=$ROOT_LIST_RC" >> "$GITHUB_OUTPUT"
+          echo "dev_list_rc=$DEV_LIST_RC" >> "$GITHUB_OUTPUT"
+
+          echo '--- FTP root listing ---'
+          sed -n '1,80p' /tmp/root-listing.txt
+          echo '--- FTP /unlimited-dev listing ---'
+          sed -n '1,80p' /tmp/dev-listing.txt
+
+      - name: Check public HTTPS mapping
+        id: http
+        env:
+          PROBE_NAME: ${{ steps.probe.outputs.name }}
+          PROBE_TOKEN: ${{ steps.probe.outputs.token }}
+        run: |
+          set -u
+          check_url() {
+            local url="$1" body="$2" headers="$3"
+            curl -sS -L --max-time 30 -D "$headers" -o "$body" -w '%{http_code}' "$url" || printf '000'
+          }
+
+          ROOT_CODE="$(check_url "${PRODUCTION_URL}/${PROBE_NAME}?run=${GITHUB_RUN_ID}" /tmp/root-body.txt /tmp/root-headers.txt)"
+          DEV_CODE="$(check_url "${PRODUCTION_URL}/unlimited-dev/${PROBE_NAME}?run=${GITHUB_RUN_ID}" /tmp/dev-body.txt /tmp/dev-headers.txt)"
+          DEV_DIR_CODE="$(check_url "${PRODUCTION_URL}/unlimited-dev/?run=${GITHUB_RUN_ID}" /tmp/dev-dir-body.txt /tmp/dev-dir-headers.txt)"
+
+          ROOT_MATCH=false
+          DEV_MATCH=false
+          grep -qF "$PROBE_TOKEN" /tmp/root-body.txt 2>/dev/null && ROOT_MATCH=true
+          grep -qF "$PROBE_TOKEN" /tmp/dev-body.txt 2>/dev/null && DEV_MATCH=true
+
+          DEV_AUTH=false
+          grep -qi '^www-authenticate:' /tmp/dev-dir-headers.txt 2>/dev/null && DEV_AUTH=true
+
+          echo "root_code=$ROOT_CODE" >> "$GITHUB_OUTPUT"
+          echo "dev_code=$DEV_CODE" >> "$GITHUB_OUTPUT"
+          echo "dev_dir_code=$DEV_DIR_CODE" >> "$GITHUB_OUTPUT"
+          echo "root_match=$ROOT_MATCH" >> "$GITHUB_OUTPUT"
+          echo "dev_match=$DEV_MATCH" >> "$GITHUB_OUTPUT"
+          echo "dev_auth=$DEV_AUTH" >> "$GITHUB_OUTPUT"
+
+      - name: Write diagnosis summary
+        env:
+          PROD_IPS: ${{ steps.dns.outputs.prod_ips }}
+          FTP_IPS: ${{ steps.dns.outputs.ftp_ips }}
+          ROOT_UPLOAD_RC: ${{ steps.ftp.outputs.root_upload_rc }}
+          DEV_UPLOAD_RC: ${{ steps.ftp.outputs.dev_upload_rc }}
+          ROOT_CODE: ${{ steps.http.outputs.root_code }}
+          DEV_CODE: ${{ steps.http.outputs.dev_code }}
+          DEV_DIR_CODE: ${{ steps.http.outputs.dev_dir_code }}
+          ROOT_MATCH: ${{ steps.http.outputs.root_match }}
+          DEV_MATCH: ${{ steps.http.outputs.dev_match }}
+          DEV_AUTH: ${{ steps.http.outputs.dev_auth }}
+        run: |
+          set -euo pipefail
+          S="$GITHUB_STEP_SUMMARY"
+          echo '# Xserver document-root diagnosis' >> "$S"
+          echo '' >> "$S"
+          echo '| Check | Result |' >> "$S"
+          echo '|---|---|' >> "$S"
+          echo "| therev-lab.com IP | \`${PROD_IPS:-unresolved}\` |" >> "$S"
+          echo "| FTP host IP | \`${FTP_IPS:-unresolved}\` |" >> "$S"
+          echo "| FTP upload to / | rc=${ROOT_UPLOAD_RC} |" >> "$S"
+          echo "| FTP upload to /unlimited-dev | rc=${DEV_UPLOAD_RC} |" >> "$S"
+          echo "| https://therev-lab.com/probe | HTTP ${ROOT_CODE}, token match=${ROOT_MATCH} |" >> "$S"
+          echo "| https://therev-lab.com/unlimited-dev/probe | HTTP ${DEV_CODE}, token match=${DEV_MATCH} |" >> "$S"
+          echo "| /unlimited-dev/ directory | HTTP ${DEV_DIR_CODE}, auth header=${DEV_AUTH} |" >> "$S"
+          echo '' >> "$S"
+
+          if [ "$ROOT_MATCH" = 'true' ]; then
+            echo '**判定: FTP `/` が `https://therev-lab.com/` の公開ルートです。**' >> "$S"
+          elif [ "$DEV_MATCH" = 'true' ]; then
+            echo '**判定: `/unlimited-dev` はURL `/unlimited-dev/` として公開されています。ルート配信先は別です。**' >> "$S"
+          elif [ -n "${PROD_IPS:-}" ] && [ -n "${FTP_IPS:-}" ] && [ "$PROD_IPS" != "$FTP_IPS" ]; then
+            echo '**判定: 本番ドメインとFTPホストの解決先IPが異なります。別配信先の可能性が高いです。**' >> "$S"
+          else
+            echo '**判定: このFTPアカウント内の `/` と `/unlimited-dev` のどちらも本番ルートとの直接対応を確認できませんでした。VirtualHost / proxy / 別DocumentRootの確認が必要です。**' >> "$S"
+          fi
+
+          if [ "$DEV_AUTH" = 'true' ] || [ "$DEV_DIR_CODE" = '401' ]; then
+            echo '' >> "$S"
+            echo '補足: `/unlimited-dev/` はHTTP認証で保護されていることも確認できました。' >> "$S"
+          fi
+
+      - name: Cleanup temporary probes
+        if: always()
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+          PROBE_NAME: ${{ steps.probe.outputs.name }}
+        run: |
+          set +e
+          COMMON='set ftp:ssl-force true; set ftp:ssl-protect-data true; set ftp:passive-mode true; set ssl:verify-certificate yes; set net:max-retries 1; set net:timeout 20;'
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" \
+            -e "$COMMON rm -f /$PROBE_NAME; rm -f /unlimited-dev/$PROBE_NAME; bye"
+          exit 0

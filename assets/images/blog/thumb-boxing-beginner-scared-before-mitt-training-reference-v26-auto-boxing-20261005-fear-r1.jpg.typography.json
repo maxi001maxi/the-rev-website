@@ -1,0 +1,233 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "boxing-beginner-scared-before-mitt-training",
+  "asset_version": "reference-v26-auto-boxing-20261005-fear-r1",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "怖くても、",
+        "最初は",
+        "基本から。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.45390628285238405,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 2,
+      "focus_text": "基本から。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.20888631266232674,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.015625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8666666666666667,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.707128189580959,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 161,
+          "right": 457.90625,
+          "bottom": 273,
+          "width": 393.90625
+        },
+        {
+          "left": 64,
+          "top": 266.359375,
+          "right": 300.34375,
+          "bottom": 378.359375,
+          "width": 236.34375
+        },
+        {
+          "left": 64,
+          "top": 367.71875,
+          "right": 582.75,
+          "bottom": 515.71875,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+      "asset_sha256": "42cd8ac88cf04bbf5ab16b03803c70835b63fe93cc84fbf2ae44752664e1d712",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1-preview-320.jpg",
+          "sha256": "892c2d214be6a58e1c8c3504d4a2673b1af4fb307ae87a18a9e418cb5cb75f17"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1-preview-400.jpg",
+          "sha256": "0dfbe6d4e251538fdf3887a4687b805463e4e5c33bb959ffafb4f89c34747ab9"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "怖くても、",
+        "最初は",
+        "基本から。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.45390628285238405,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 2,
+      "focus_text": "基本から。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.22380676356677867,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.015625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8666666666666667,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.707128189580959,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 139,
+          "right": 457.90625,
+          "bottom": 251,
+          "width": 393.90625
+        },
+        {
+          "left": 64,
+          "top": 244.359375,
+          "right": 300.34375,
+          "bottom": 356.359375,
+          "width": 236.34375
+        },
+        {
+          "left": 64,
+          "top": 345.71875,
+          "right": 582.75,
+          "bottom": 493.71875,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+      "asset_sha256": "5480c8946a64802b57dc3a23c57c712847b95a4841d405fd93e98179af55798a",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1-preview-320.jpg",
+          "sha256": "28b96e3b770fdecad40c09510b2e093ebe3d74aad4150e900fbdfa3b5799ba73"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1-preview-400.jpg",
+          "sha256": "1a13b6471e2b4fc6d923df22f50e29fc732e93af2c19295c584f185ae9201a6e"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "怖くても、",
+        "最初は",
+        "基本から。"
+      ],
+      "text_preserved": true,
+      "font_size": 67,
+      "font_size_at_320": 17.866666666666667,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.4608771409790595,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        67,
+        67,
+        87.12871287128714
+      ],
+      "focus_line": 2,
+      "focus_text": "基本から。",
+      "focus_scale": 1.3004285503177184,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9977995679359195,
+      "block_area_ratio": 0.11692905943718504,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.8203125,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9098039215686274,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.213181538979519,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 277,
+          "right": 398.359375,
+          "bottom": 373,
+          "width": 338.359375
+        },
+        {
+          "left": 60,
+          "top": 372.03125,
+          "right": 263.015625,
+          "bottom": 468.03125,
+          "width": 203.015625
+        },
+        {
+          "left": 60,
+          "top": 464.0625,
+          "right": 498.90625,
+          "bottom": 589.0625,
+          "width": 438.90625
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+      "asset_sha256": "e9298dc22da048143b49972c657438cb879b3cb2db059ae2ebe900fcfc86e733",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1-preview-320.jpg",
+          "sha256": "9be3c488b233d58f918ae5ebd2b4dca2e5f42add3ffd175b0b80c36476d54002"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1-preview-400.jpg",
+          "sha256": "0ffe41c8efca5e56c752ce4de8f7769a04d7b762063d5370e60df94da46e0133"
+        }
+      }
+    }
+  }
+}

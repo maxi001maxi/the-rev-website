@@ -1,0 +1,62 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": false
+  },
+  "outputDirectory": "dist",
+  "trailingSlash": true,
+  "cleanUrls": false,
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/api/threads/oauth/callback/",
+      "destination": "/api/integrations/editorial-status/?mode=threads_oauth_callback"
+    },
+    {
+      "source": "/api/threads/oauth/delete/",
+      "destination": "/api/integrations/editorial-status/?mode=threads_oauth_delete"
+    },
+    {
+      "source": "/api/threads/oauth/uninstall/",
+      "destination": "/api/integrations/editorial-status/?mode=threads_oauth_uninstall"
+    },
+    {
+      "source": "/api/cron/company-os-ga4/",
+      "destination": "/api/integrations/editorial-status/?mode=company_os_ga4_cron"
+    },
+    {
+      "source": "/api/cron/company-os-gsc/",
+      "destination": "/api/integrations/editorial-status/?mode=company_os_gsc_cron"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/admin/login/",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin\\.therev-lab\\.com"
+        }
+      ],
+      "permanent": false
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/company-os-ga4/",
+      "schedule": "10 22 * * *"
+    },
+    {
+      "path": "/api/cron/company-os-gsc/",
+      "schedule": "15 22 * * *"
+    },
+    {
+      "path": "/api/integrations/editorial-status?mode=company_timeline_github_cron",
+      "schedule": "20 20 * * *"
+    }
+  ]
+}

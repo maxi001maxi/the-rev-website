@@ -1,0 +1,21 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 9,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "too_promotional": false,
+  "comments": "The new card is a strong sixth member of the series. It preserves the restrained Japanese editorial structure, warm neutral treatment, fine border, small spaced category label, elegant Japanese headline typography, and clear left-text/right-image split. The composition remains distinct rather than mechanically copied, with generous negative space and a natural, premium gym photograph. Both expected text elements are present and legible.",
+  "correction": "No correction required.",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v2-680884f683",
+  "checked_at": "2026-09-19T01:39:10.557Z"
+}

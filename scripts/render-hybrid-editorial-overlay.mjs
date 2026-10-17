@@ -1,0 +1,411 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { createHash } from 'node:crypto';
+import { fitThumbnailHeadline, THUMBNAIL_TYPOGRAPHY_REVISION, GOLDEN_LAYOUT_RULES } from '../lib/editorialThumbnailTypography.mjs';
+import { chromium } from 'playwright';
+import { REV_COLUMN_REFERENCE_V2 } from '../lib/editorialImageStyle.mjs';
+import { HYBRID_IMAGE_FORMAT } from '../lib/editorialHybridImageFormat.mjs';
+import { validateImageHeadlineShort } from '../lib/editorialImageCopy.mjs';
+
+const jobPath = process.argv[2];
+if (!jobPath) throw new Error('Usage: node scripts/render-hybrid-editorial-overlay.mjs <hybrid-job.json>');
+
+const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
+const {
+  slug,
+  category_label = 'COLUMN',
+  column_label = '',
+  image_headline_short = '',
+  asset_version = '',
+  generated_scene_path = '',
+  layout_template_id = '',
+  policy_revision = '',
+  design_revision = '',
+  layout_variant = 'legacy-v24'
+} = job;
+
+const humanFirstLayout = layout_variant === 'human-first-v1';
+const impactLayout = layout_variant === 'impact-v1' || humanFirstLayout;
+
+function headlineTier(value) {
+  const lines = String(value || '')
+    .split(/\r?\n/)
+    .map((line) => line.replace(/\s+/g, '').trim())
+    .filter(Boolean);
+  const totalCharacters = lines.join('').length;
+  const longestLine = Math.max(0, ...lines.map((line) => line.length));
+
+  if (lines.length === 2 && totalCharacters <= 14 && longestLine <= 8) return 'XL';
+  if (totalCharacters <= 22 && longestLine <= 12) return 'L';
+  return 'M';
+}
+
+const resolvedHeadlineTier = headlineTier(image_headline_short);
+
+if (!slug || !image_headline_short || !asset_version || !generated_scene_path) {
+  throw new Error('Hybrid V2.4 job requires slug, image_headline_short, asset_version and generated_scene_path.');
+}
+if (layout_template_id !== HYBRID_IMAGE_FORMAT.layoutTemplateId) {
+  throw new Error(`layout_template_id must be ${HYBRID_IMAGE_FORMAT.layoutTemplateId}`);
+}
+if (policy_revision !== HYBRID_IMAGE_FORMAT.policyRevision) {
+  throw new Error(`policy_revision must be ${HYBRID_IMAGE_FORMAT.policyRevision}`);
+}
+if (!fs.existsSync(generated_scene_path)) {
+  throw new Error(`generated scene missing: ${generated_scene_path}`);
+}
+
+const copyCheck = validateImageHeadlineShort(image_headline_short);
+if (!copyCheck.ok) throw new Error(`invalid image_headline_short: ${copyCheck.errors.join(', ')}`);
+
+const safeVersion = String(asset_version)
+  .trim()
+  .toLowerCase()
+  .replace(/[^a-z0-9-]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+
+function mimeFor(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === '.png') return 'image/png';
+  if (ext === '.webp') return 'image/webp';
+  return 'image/jpeg';
+}
+
+const sceneUrl = `data:${mimeFor(generated_scene_path)};base64,${fs.readFileSync(generated_scene_path).toString('base64')}`;
+const suffix = safeVersion ? `-${safeVersion}` : '';
+const outThumb = path.resolve(`assets/images/blog/thumb-${slug}${suffix}.jpg`);
+const outOg = path.resolve(`assets/images/blog/og/og-${slug}${suffix}.jpg`);
+const outGbp = path.resolve(`assets/images/gbp/gbp-${slug}${suffix}.jpg`);
+fs.mkdirSync(path.dirname(outThumb), { recursive: true });
+fs.mkdirSync(path.dirname(outOg), { recursive: true });
+fs.mkdirSync(path.dirname(outGbp), { recursive: true });
+
+function esc(value) {
+  return String(value || '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
+
+function boundedNumber(value, fallback, min, max) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
+
+function typographySpec({ og = false, gbp = false }) {
+  const style = REV_COLUMN_REFERENCE_V2;
+  const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
+  const override = job?.typography_override?.[variant] || {};
+
+  const legacyDefaults = gbp
+    ? {
+        labelSize: Math.max(17, style.overlay.label.sizeThumb),
+        headlineSize: Math.max(56, style.overlay.headline.sizeThumb + 4),
+        lineHeight: 1.38,
+        top: 224,
+        left: 66,
+        headlineTop: 326,
+        maxWidth: 480,
+        hairlineWidth: 170
+      }
+    : og
+      ? {
+          labelSize: style.overlay.label.sizeOg,
+          headlineSize: style.overlay.headline.sizeOg,
+          lineHeight: style.overlay.headline.lineHeight,
+          top: 165,
+          left: 76,
+          headlineTop: 252,
+          maxWidth: 480,
+          hairlineWidth: 160
+        }
+      : {
+          labelSize: style.overlay.label.sizeThumb,
+          headlineSize: style.overlay.headline.sizeThumb,
+          lineHeight: style.overlay.headline.lineHeight,
+          top: 177,
+          left: 80,
+          headlineTop: 270,
+          maxWidth: 500,
+          hairlineWidth: 180
+        };
+
+  const impactDefaults = gbp
+    ? {
+        labelSize: 18,
+        headlineSize: 68,
+        lineHeight: 1.24,
+        top: 176,
+        left: 68,
+        headlineTop: 274,
+        maxWidth: 450,
+        hairlineWidth: 124
+      }
+    : og
+      ? {
+          labelSize: 17,
+          headlineSize: 62,
+          lineHeight: 1.24,
+          top: 102,
+          left: 64,
+          headlineTop: 184,
+          maxWidth: 430,
+          hairlineWidth: 116
+        }
+      : {
+          labelSize: 18,
+          headlineSize: 68,
+          lineHeight: 1.22,
+          top: 112,
+          left: 64,
+          headlineTop: 202,
+          maxWidth: 440,
+          hairlineWidth: 122
+        };
+
+  const responsiveHeadline = {
+    XL: gbp
+      ? { headlineSize: 76, lineHeight: 1.18, maxWidth: 520 }
+      : og
+        ? { headlineSize: 72, lineHeight: 1.18, maxWidth: 500 }
+        : { headlineSize: 76, lineHeight: 1.16, maxWidth: 500 },
+    L: gbp
+      ? { headlineSize: 68, lineHeight: 1.24, maxWidth: 500 }
+      : og
+        ? { headlineSize: 64, lineHeight: 1.22, maxWidth: 470 }
+        : { headlineSize: 68, lineHeight: 1.20, maxWidth: 480 },
+    M: gbp
+      ? { headlineSize: 62, lineHeight: 1.30, maxWidth: 500 }
+      : og
+        ? { headlineSize: 58, lineHeight: 1.28, maxWidth: 470 }
+        : { headlineSize: 60, lineHeight: 1.26, maxWidth: 480 }
+  }[resolvedHeadlineTier];
+
+  const defaults = impactLayout
+    ? { ...impactDefaults, ...responsiveHeadline }
+    : legacyDefaults;
+
+  return {
+    labelSize: boundedNumber(override.label_size, defaults.labelSize, 12, 28),
+    headlineSize: boundedNumber(override.headline_size, defaults.headlineSize, 36, 76),
+    lineHeight: boundedNumber(override.line_height, defaults.lineHeight, 1.15, 1.7),
+    top: boundedNumber(override.top, defaults.top, 80, 360),
+    left: boundedNumber(override.left, defaults.left, 40, 140),
+    headlineTop: boundedNumber(override.headline_top, defaults.headlineTop, 180, 520),
+    maxWidth: boundedNumber(override.max_width, defaults.maxWidth, 320, 560),
+    hairlineWidth: boundedNumber(override.hairline_width, defaults.hairlineWidth, 60, 240)
+  };
+}
+
+function html({ width, height, og = false, gbp = false }) {
+  const style = REV_COLUMN_REFERENCE_V2;
+  const {
+    labelSize,
+    headlineSize,
+    lineHeight,
+    top,
+    left,
+    headlineTop,
+    maxWidth,
+    hairlineWidth
+  } = typographySpec({ og, gbp });
+  const headlineHtml = esc(image_headline_short)
+    .split('\n')
+    .map((line) => `<span class="headline-line">${line}</span>`)
+    .join('');
+  const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
+  const scenePosition = esc(job?.scene_object_position?.[variant] || (typeof job?.scene_object_position === 'string' ? job.scene_object_position : '') || 'center');
+  const portraitSafeGbp = gbp && job.gbp_fade_variant === 'portrait-safe-mask-v1';
+  const paperBackground = portraitSafeGbp
+    ? 'transparent'
+    : humanFirstLayout
+    ? (gbp
+        ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 28%,rgba(247,244,236,.92) 34%,rgba(247,244,236,.68) 40%,rgba(247,244,236,.28) 47%,rgba(247,244,236,.04) 54%,transparent 60%)'
+        : 'radial-gradient(ellipse at 13% 88%,rgba(161,128,72,.07),transparent 30%),linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 31%,rgba(245,241,232,.98) 36%,rgba(245,241,232,.78) 42%,rgba(245,241,232,.30) 48%,rgba(245,241,232,.04) 53%,transparent 58%)')
+    : impactLayout
+      ? (gbp
+        ? 'linear-gradient(90deg,#f7f4ec 0%,rgba(247,244,236,.99) 31%,rgba(247,244,236,.93) 36%,rgba(247,244,236,.72) 43%,rgba(247,244,236,.34) 51%,rgba(247,244,236,.06) 59%,transparent 65%)'
+        : 'radial-gradient(ellipse at 14% 88%,rgba(161,128,72,.08),transparent 32%),linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 34%,rgba(245,241,232,.98) 39%,rgba(245,241,232,.83) 44%,rgba(245,241,232,.35) 50%,rgba(245,241,232,.06) 55%,transparent 59%)')
+    : (gbp
+        ? 'linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 38%,rgba(245,241,232,.97) 43%,rgba(245,241,232,.88) 47%,rgba(245,241,232,.56) 52%,rgba(245,241,232,.12) 58%,transparent 64%)'
+        : 'radial-gradient(ellipse at 18% 84%,rgba(183,168,139,.08),transparent 36%), linear-gradient(90deg,#f7f4ec 0%,#f5f1e8 48.8%,#eee9df 49%,#eee9df 49.2%,transparent 49.2%)');
+  // For verified reception portraits, fade the PHOTO itself into the true
+  // ivory canvas rather than placing a translucent white rectangle over a face.
+  // Non-GBP and all non-opted-in articles retain their existing renderer.
+  const portraitMask = 'linear-gradient(90deg,transparent 0%,transparent 22%,rgba(0,0,0,.05) 29%,rgba(0,0,0,.31) 36%,rgba(0,0,0,.72) 45%,#000 54%,#000 100%)';
+  // Only an explicitly quarantined QC-only job may adjust framing. This is a
+  // non-generative camera crop; production articles keep exactly their old CSS.
+  const reviewZoomValue=Number(job?.offline_review_photo_zoom?.[variant] || 1);
+  const reviewZoomAllowed=job?.automation?.mode==='OFFLINE_RECOVERED_R5_QC_ONLY_NOT_PUBLISH' &&
+    job?.recovery_provenance?.kind==='SOURCE_HASH_VERIFIED_QUARANTINED_R5_DEPTH_FILTER';
+  if(job?.offline_review_photo_zoom && !reviewZoomAllowed)
+    throw new Error('OFFLINE_ZOOM_FORBIDDEN_IN_PRODUCTION');
+  if(!Number.isFinite(reviewZoomValue)||reviewZoomValue<1||reviewZoomValue>1.35)
+    throw new Error('OFFLINE_ZOOM_OUT_OF_SAFE_RANGE');
+  const reviewZoomCss=reviewZoomAllowed&&reviewZoomValue>1
+    ? `transform:scale(${reviewZoomValue});transform-origin:${gbp?'78% 39%':'83% 42%'};`
+    : '';
+  const sceneCss = portraitSafeGbp
+    ? `position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};-webkit-mask-image:${portraitMask};mask-image:${portraitMask};`
+    : gbp
+      ? `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};`
+    : humanFirstLayout
+      ? `position:absolute;right:0;top:0;width:66%;height:100%;object-fit:cover;object-position:${scenePosition};`
+      : impactLayout
+        ? `position:absolute;right:0;top:0;width:62%;height:100%;object-fit:cover;object-position:${scenePosition};`
+        : `position:absolute;right:0;top:0;width:50.8%;height:100%;object-fit:cover;object-position:${scenePosition};`;
+  const shadeCss = gbp
+    ? 'position:absolute;inset:0;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
+    : humanFirstLayout
+      ? 'position:absolute;right:0;top:0;width:66%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.01),rgba(0,0,0,.025));pointer-events:none;'
+      : impactLayout
+        ? 'position:absolute;right:0;top:0;width:62%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.02),rgba(0,0,0,.035));pointer-events:none;'
+        : 'position:absolute;right:0;top:0;width:50.8%;height:100%;background:linear-gradient(90deg,rgba(245,241,232,.04),rgba(0,0,0,.015));pointer-events:none;';
+
+  return `<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:${width}px;height:${height}px;overflow:hidden;background:#f5f1e8}
+body{position:relative;color:${style.overlay.headline.color}}
+.paper{
+  position:absolute;inset:0;z-index:1;
+  background:${paperBackground};
+}
+.scene{
+  ${sceneCss}
+  ${reviewZoomCss}
+  z-index:0;
+}
+.scene-shade{
+  ${shadeCss}
+  z-index:1;
+}
+.frame{position:absolute;inset:0;border:1px solid rgba(74,68,58,.16);pointer-events:none;z-index:3}
+.label{
+  position:absolute;left:${left}px;top:${top}px;
+  font-family:${style.overlay.label.family};
+  font-size:${labelSize}px;font-weight:${style.overlay.label.weight};
+  letter-spacing:${style.overlay.label.letterSpacing};line-height:1.4;
+  color:${style.overlay.label.color};white-space:nowrap;z-index:2;
+}
+.hairline{
+  position:absolute;left:${left}px;top:${top + (og ? 38 : 42)}px;
+  width:${hairlineWidth}px;height:1px;background:${style.overlay.headline.color};opacity:.45;z-index:2;
+}
+.headline{
+  position:absolute;left:${left}px;top:${headlineTop}px;margin:0;
+  max-width:${maxWidth}px;
+  font-family:${style.overlay.headline.family};
+  font-size:${headlineSize}px;font-weight:${style.overlay.headline.weight};
+  line-height:${lineHeight};
+  letter-spacing:${style.overlay.headline.letterSpacing};
+  color:${style.overlay.headline.color};
+  word-break:keep-all;overflow-wrap:anywhere;text-rendering:optimizeLegibility;z-index:2;
+}
+.headline-line{display:block;white-space:nowrap}
+.journal-mark{
+  display:${impactLayout ? 'block' : 'none'};
+  position:absolute;left:${left}px;bottom:${gbp ? 54 : 42}px;
+  font-family:${style.overlay.label.family};
+  font-size:${gbp ? 13 : 12}px;font-weight:500;
+  letter-spacing:.20em;color:#8b6e3e;z-index:2;
+}
+</style>
+</head>
+<body>
+<div class="paper"></div>
+<img class="scene" src="${sceneUrl}" alt="">
+<div class="scene-shade"></div>
+<div class="frame"></div>
+<div class="label">${esc(category_label)}${column_label ? ' / ' + esc(column_label) : ''}</div>
+<div class="hairline"></div>
+<h1 class="headline">${headlineHtml}</h1>
+<div class="journal-mark">THE REV. / JOURNAL</div>
+</body>
+</html>`;
+}
+
+const browser = await chromium.launch({ headless: true });
+const typographyReport = {
+  revision: THUMBNAIL_TYPOGRAPHY_REVISION,
+  slug, asset_version: safeVersion, pass: false, variants: {}
+};
+const hashFile = (file) => createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+const created = [];
+try {
+  for (const spec of [
+    { width: 1200, height: 675, out: outThumb, og: false, gbp: false, variant: 'thumbnail' },
+    { width: 1200, height: 630, out: outOg, og: true, gbp: false, variant: 'og' },
+    { width: 1200, height: 900, out: outGbp, og: false, gbp: true, variant: 'gbp' }
+  ]) {
+    const page = await browser.newPage({ viewport: { width: spec.width, height: spec.height }, deviceScaleFactor: 1 });
+    try {
+      await page.setContent(html(spec), { waitUntil: 'load' });
+      await page.evaluate(() => document.fonts.ready);
+      const metrics = await page.evaluate(fitThumbnailHeadline, {
+        text: image_headline_short, width: spec.width, height: spec.height,
+        gbp: spec.gbp, override: { emphasis_text: job.typography_emphasis_text, ...job?.typography_override?.[spec.variant] },
+        rule: { ...GOLDEN_LAYOUT_RULES[spec.gbp ? 'gbp' : 'wide'],
+          photoStart: spec.gbp ? 0 : spec.width * (humanFirstLayout ? .34 : impactLayout ? .38 : .492) }
+      });
+      await page.screenshot({ path: spec.out, type: 'jpeg', quality: 94 });
+      created.push(spec.out);
+      metrics.asset_path = path.relative(process.cwd(), spec.out);
+      metrics.asset_sha256 = hashFile(spec.out);
+      metrics.previews = {};
+      // Downsample actual JPEG bytes, not an imagined CSS/font-size reduction.
+      for (const displayWidth of [320, 400]) {
+        const previewPath = spec.out.replace(/\.jpg$/, `-preview-${displayWidth}.jpg`);
+        const preview = await page.evaluate(async ({ url, width, height }) => {
+          const image = new Image(); image.src = url; await image.decode();
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(image, 0, 0, width, height);
+          return canvas.toDataURL('image/jpeg', 0.94).split(',')[1];
+        }, { url: `data:image/jpeg;base64,${fs.readFileSync(spec.out).toString('base64')}`,
+          width: displayWidth, height: Math.round(spec.height * displayWidth / spec.width) });
+        fs.writeFileSync(previewPath, Buffer.from(preview, 'base64'));
+        created.push(previewPath);
+        metrics.previews[displayWidth] = {
+          path: path.relative(process.cwd(), previewPath), sha256: hashFile(previewPath)
+        };
+      }
+      typographyReport.variants[spec.variant] = metrics;
+    } finally { await page.close(); }
+  }
+  typographyReport.pass = Object.values(typographyReport.variants).every((m) => m.pass === true);
+  fs.writeFileSync(`${outThumb}.typography.json`, JSON.stringify(typographyReport, null, 2) + '\n');
+} catch (error) {
+  for (const file of created) fs.rmSync(file, { force: true });
+  fs.rmSync(`${outThumb}.typography.json`, { force: true });
+  throw error;
+} finally {
+  await browser.close();
+}
+
+console.log(JSON.stringify({
+  slug,
+  asset_version: safeVersion,
+  policy_revision,
+  layout_template_id,
+  design_revision,
+  layout_variant,
+  headline_tier: resolvedHeadlineTier,
+  thumbnail_typography_revision: THUMBNAIL_TYPOGRAPHY_REVISION,
+  typography_report: `${outThumb}.typography.json`,
+  typography: typographyReport,
+  generated_scene_path,
+  thumbnail: outThumb,
+  og: outOg,
+  gbp: outGbp,
+  thumbnail_public: `/assets/images/blog/thumb-${slug}${suffix}.jpg`,
+  og_public: `/assets/images/blog/og/og-${slug}${suffix}.jpg`,
+  gbp_public: `/assets/images/gbp/gbp-${slug}${suffix}.jpg`
+}));

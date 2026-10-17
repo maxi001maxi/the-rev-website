@@ -1,0 +1,322 @@
+{
+  "reviewer": "ChatGPT visual inspection of the actual files",
+  "review_method": "原寸3形式と実320px JPEGを直接目視し、承認済みwide/GBP原画像の文字組み文法と比較。API QCの実行ではない。",
+  "pass": false,
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003",
+  "deterministic": {
+    "revision": "thumbnail-golden-typography-v1",
+    "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003",
+    "pass": true,
+    "variants": {
+      "thumbnail": {
+        "pass": true,
+        "lines": [
+          "通いやすさまで、",
+          "選ぶ基準に。"
+        ],
+        "text_preserved": true,
+        "font_size": 64,
+        "font_size_at_320": 17.066666666666666,
+        "line_count": 2,
+        "line_height": 1.12,
+        "line_balance": 0.9925399117906174,
+        "layout_rule": "golden-wide-v1",
+        "line_font_sizes": [
+          64,
+          85.8085808580858
+        ],
+        "focus_line": 1,
+        "focus_text": "選ぶ基準に。",
+        "focus_scale": 1.3407590759075907,
+        "hierarchy_kind": "lines",
+        "hierarchy_pass": true,
+        "label_subordinate": true,
+        "bottom_mark_removed": true,
+        "width_occupancy": 0.9982142978889986,
+        "block_area_ratio": 0.11520902642719186,
+        "safe_area_pass": true,
+        "fade_contains_text": true,
+        "fade_start": 606,
+        "fade_end": 772,
+        "fade_vertical_tail": null,
+        "contrast_floor": 5.586785391534058,
+        "line_rects": [
+          {
+            "left": 64,
+            "top": 237,
+            "right": 579.84375,
+            "bottom": 329,
+            "width": 515.84375
+          },
+          {
+            "left": 64,
+            "top": 317.671875,
+            "right": 582.625,
+            "bottom": 441.671875,
+            "width": 518.625
+          }
+        ],
+        "asset_path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
+        "asset_sha256": "1fec4eb0bdac643b31095b8c561a36de3f810b6f8270a78778b9c0b14c71ddcb",
+        "previews": {
+          "320": {
+            "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
+            "sha256": "87d3dcae32efeddf89cce7e6096c92578bbc23abe86142f441629537fa3577d7"
+          },
+          "400": {
+            "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
+            "sha256": "f5f6bfd97dc313d54be298ab95bbd2005fd37898ac785a79096d2d751d73f461"
+          }
+        }
+      },
+      "og": {
+        "pass": true,
+        "lines": [
+          "通いやすさまで、",
+          "選ぶ基準に。"
+        ],
+        "text_preserved": true,
+        "font_size": 64,
+        "font_size_at_320": 17.066666666666666,
+        "line_count": 2,
+        "line_height": 1.12,
+        "line_balance": 0.9925399117906174,
+        "layout_rule": "golden-wide-v1",
+        "line_font_sizes": [
+          64,
+          85.8085808580858
+        ],
+        "focus_line": 1,
+        "focus_text": "選ぶ基準に。",
+        "focus_scale": 1.3407590759075907,
+        "hierarchy_kind": "lines",
+        "hierarchy_pass": true,
+        "label_subordinate": true,
+        "bottom_mark_removed": true,
+        "width_occupancy": 0.9982142978889986,
+        "block_area_ratio": 0.1234382426005627,
+        "safe_area_pass": true,
+        "fade_contains_text": true,
+        "fade_start": 606,
+        "fade_end": 772,
+        "fade_vertical_tail": null,
+        "contrast_floor": 5.586785391534058,
+        "line_rects": [
+          {
+            "left": 64,
+            "top": 214,
+            "right": 579.84375,
+            "bottom": 306,
+            "width": 515.84375
+          },
+          {
+            "left": 64,
+            "top": 294.671875,
+            "right": 582.625,
+            "bottom": 418.671875,
+            "width": 518.625
+          }
+        ],
+        "asset_path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
+        "asset_sha256": "3c23edf695b51ac22a3cdba851c1dce3657704cb079a8d0b70be23b5d7e7754f",
+        "previews": {
+          "320": {
+            "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
+            "sha256": "78212e1a94ae006b598a8251af17d22b92a207c848d237083810e9682780a12b"
+          },
+          "400": {
+            "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
+            "sha256": "c5a4394a669e70e8eb3d7319b955d374a9beb47dc71528692cc4375a7f5e3093"
+          }
+        }
+      },
+      "gbp": {
+        "pass": true,
+        "lines": [
+          "通いやすさまで、",
+          "選ぶ基準に。"
+        ],
+        "text_preserved": true,
+        "font_size": 62,
+        "font_size_at_320": 16.533333333333335,
+        "line_count": 2,
+        "line_height": 1.12,
+        "line_balance": 0.9999497779791653,
+        "layout_rule": "golden-gbp-v1",
+        "line_font_sizes": [
+          62,
+          82.5082508250825
+        ],
+        "focus_line": 1,
+        "focus_text": "選ぶ基準に。",
+        "focus_scale": 1.3307782391142338,
+        "hierarchy_kind": "lines",
+        "hierarchy_pass": true,
+        "label_subordinate": true,
+        "bottom_mark_removed": true,
+        "width_occupancy": 0.9982506419770395,
+        "block_area_ratio": 0.07941811748020458,
+        "safe_area_pass": true,
+        "fade_contains_text": true,
+        "fade_start": 582,
+        "fade_end": 690,
+        "fade_vertical_tail": 150,
+        "contrast_floor": 5.586785391534058,
+        "line_rects": [
+          {
+            "left": 60,
+            "top": 190,
+            "right": 559.734375,
+            "bottom": 279,
+            "width": 499.734375
+          },
+          {
+            "left": 60,
+            "top": 265.4375,
+            "right": 558.734375,
+            "bottom": 384.4375,
+            "width": 498.734375
+          }
+        ],
+        "asset_path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
+        "asset_sha256": "a88b6087468ce2fb960aadfc594c4794ea1e07bb8893fc9aba8276c6d8345fa3",
+        "previews": {
+          "320": {
+            "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
+            "sha256": "97bccf9895911daad1d0d95024199c152039227e4bec24452d7541f01dc4457b"
+          },
+          "400": {
+            "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
+            "sha256": "05289388f92f23b137a2468131ea88856604f9cbd6511dfb6ba7600b764a4f18"
+          }
+        }
+      }
+    }
+  },
+  "golden_reference": {
+    "revision": "approved-typography-20261001-v1",
+    "approval": "User instruction GOLDEN REFERENCE LOCK / THUMBNAIL TYPOGRAPHY IMPLEMENTATION, 2026-10-01",
+    "scope": "Typography / Layout / Fade / Spacing / Readability only. Do not inherit golden sample photo generation, scene, subject or crop.",
+    "layout_rules": "lib/editorialThumbnailTypography.mjs#GOLDEN_LAYOUT_RULES",
+    "wide_grammar": "2-3 semantic lines; central keyword larger and warm ochre; preceding/closing phrases subordinate; quiet small label; soft horizontal paper-to-photo blend",
+    "gbp_grammar": "Independent compact block, narrower text field, dedicated vertical position and vertical fade; preserve face and body; no stretching wide layout",
+    "assets": [
+      {
+        "variant": "wide",
+        "path": "editorial/typography-golden-reference/reference-16x9.png",
+        "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e",
+        "source_library_file_id": "libfile_5654eea9b3848191a001f52d0ea7c033"
+      },
+      {
+        "variant": "gbp",
+        "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+        "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640",
+        "source_library_file_id": "libfile_e3a67dac6fd88191a8188e264d5943f0"
+      },
+      {
+        "variant": "list",
+        "path": "editorial/typography-golden-reference/reference-list-view.png",
+        "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7",
+        "source_library_file_id": "libfile_209660ffb7b08191b1f2536167d538d8"
+      }
+    ],
+    "implementation_branch": "feature/golden-typography-v1-20261003",
+    "implementation_base": "e06720b865c33c70f2dfb19a6c1d6e6b51879f93"
+  },
+  "visual": {
+    "thumbnail": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "og": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "gbp": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    }
+  },
+  "art_direction": {
+    "pass": false,
+    "variants": {
+      "thumbnail": {
+        "pass": false,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "comments": "「通いやすさまで、」を補助行、「選ぶ基準に。」を金茶色と約1.34倍のサイズで焦点にした2行。320pxでも両行を読める。人物の顔・手・身体と見出しが競合せず、横fadeで写真につながる。",
+        "composition_balanced": false,
+        "fade_integrated": false
+      },
+      "og": {
+        "pass": false,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "comments": "630pxの高さに合わせたwide配置。焦点と補助行の差を保ち、320pxでも即読できる。写真の人物と設備が認識できる。",
+        "composition_balanced": false,
+        "fade_integrated": false
+      },
+      "gbp": {
+        "pass": false,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "comments": "専用の上部blockと縦fade。顔・腕・身体を右側に保ち、下部の受付・植物・荷物へ写真が戻る。wideの縦伸ばしではない。320pxでも2行の焦点が成立。",
+        "composition_balanced": false,
+        "fade_integrated": false
+      }
+    }
+  },
+  "scope_limit": "Typographyの実記事Acceptance。既存のgenerated sceneを再利用し、写真生成API呼出しは0回。main/Production反映、Draft変更、GBP投稿は実施していない。今後の自動適用はmainへの反映後。",
+  "manual_visual_rejection": true,
+  "human_feedback": "ユーザー: 左上の白い枠に文字がまとまり、バランスが悪く見える。以前の可読性PASSを構図の承認と扱わない。",
+  "superseded_by": "balance-r2/visual-qc.json"
+}

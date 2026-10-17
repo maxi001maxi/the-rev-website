@@ -1,0 +1,1043 @@
+# THE REV. — Xserver Production Deploy
+#
+# mainへの本番関連変更で自動起動し、必要に応じてworkflow_dispatchでも手動起動できる。
+# 目的：
+#   1) GitHub mainから公開物をビルドして事前検証
+#   2) 変更内容を SKIP / BLOG_FAST / FULL に分類
+#   3) FULLのみ現在のXserver本番をFTPSでバックアップ
+#   4) BLOG_FASTは既にstage/verify済みの対象画像だけ再確認し、Blog + sitemapだけ反映
+#   5) FULLは従来どおりassets → root → Blog LASTで反映
+#   6) therev-lab.com のTOP / Blog / 公開記事を実通信で確認
+#
+# 2026-09-17 に手動probeで確認:
+#   - FTP / に置いたtxt → https://therev-lab.com/<file> で配信
+#   - FTP /unlimited-dev は https://therev-lab.com/unlimited-dev/ でBasic認証
+# よって本番DocumentRootはFTP / とする。
+#
+# 重要：
+#   - Xserver側ルート全体には --delete を使わない。
+#   - /unlimited-dev やXserver固有ファイルは削除しない。
+#   - Blog配下だけは、GitHubの公開状態と一致させるため完全同期（--delete）する。
+#   - dist/admin はVercel Functions前提の管理画面を含むためXserverへは配信しない。
+#   - FTPパスワードはRepository Secretsからのみ読み、ログへ出さない。
+#   - 当回バックアップがXserver側の一時的なFTPS不調で失敗した場合でも、48時間以内の
+#     非expiredバックアップArtifactが存在する場合に限り、そのArtifactを安全網としてDeployを継続する。
+name: Deploy to Xserver
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '*.html'
+      - 'assets/**'
+      - 'content/blog/**'
+      - 'templates/**'
+      - 'scripts/**'
+      - 'lib/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'favicon.ico'
+      - 'robots.txt'
+      - '.github/workflows/deploy-xserver.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  NODE_VERSION: '22'
+  XSERVER_FTP_HOST: 'sv14602.xserver.jp'
+  XSERVER_REMOTE_DIR: '/'
+  PRODUCTION_URL: 'https://therev-lab.com'
+
+jobs:
+  plan:
+    name: Plan Xserver deployment
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.plan.outputs.mode }}
+      reason: ${{ steps.plan.outputs.reason }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Classify deploy mode
+        id: plan
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          : > .xserver-changed-files
+          git log -1 --pretty=%B > .xserver-commit-message
+
+          if [ "$GITHUB_EVENT_NAME" != "workflow_dispatch" ]; then
+            BEFORE="${EVENT_BEFORE:-}"
+            if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+              git diff --name-only "$BEFORE" "$GITHUB_SHA" > .xserver-changed-files
+            else
+              git show --pretty='' --name-only "$GITHUB_SHA" > .xserver-changed-files
+            fi
+          fi
+
+          : > .xserver-deleted-files
+          HAS_BEFORE_SHA=false
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ -n "${EVENT_BEFORE:-}" ] && [ "$EVENT_BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            HAS_BEFORE_SHA=true
+            git diff --name-only --diff-filter=DRTU "$EVENT_BEFORE" "$GITHUB_SHA" > .xserver-deleted-files
+          fi
+          node scripts/xserver-deploy-plan.mjs \
+            --event-name "$GITHUB_EVENT_NAME" \
+            --changed-file-list .xserver-changed-files \
+            --deleted-file-list .xserver-deleted-files \
+            --has-before-sha "$HAS_BEFORE_SHA" \
+            --commit-message-file .xserver-commit-message \
+            --github-output "$GITHUB_OUTPUT"
+
+          echo "Changed files:"
+          cat .xserver-changed-files || true
+
+  deploy:
+    name: Build → Deploy → Verify (${{ needs.plan.outputs.mode }})
+    needs: plan
+    if: needs.plan.outputs.mode != 'SKIP'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: xserver-production-v3
+      cancel-in-progress: false
+    env:
+      DEPLOY_MODE: ${{ needs.plan.outputs.mode }}
+      DEPLOY_REASON: ${{ needs.plan.outputs.reason }}
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production files
+        run: npm run vercel-build
+
+      - name: Validate generated Blog against source status
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import matter from 'gray-matter';
+
+          const contentDir = 'content/blog';
+          const distBlogDir = 'dist/blog';
+          const indexPath = path.join(distBlogDir, 'index.html');
+
+          if (!fs.existsSync(indexPath)) {
+            throw new Error('dist/blog/index.html が生成されていません。');
+          }
+
+          const cachePolicyPath = path.join(distBlogDir, '.htaccess');
+          if (!fs.existsSync(cachePolicyPath)) {
+            throw new Error('Blog cache policy is missing: dist/blog/.htaccess');
+          }
+          const cachePolicy = fs.readFileSync(cachePolicyPath, 'utf8');
+          if (!cachePolicy.includes('Cache-Control "no-store, no-cache, max-age=0, must-revalidate"')) {
+            throw new Error('Blog cache policy does not require HTML revalidation.');
+          }
+
+          const files = fs.readdirSync(contentDir).filter((name) => name.endsWith('.md'));
+          const published = [];
+          const publishedCards = [];
+          const drafts = [];
+          const publishedImages = new Set();
+
+          for (const file of files) {
+            const raw = fs.readFileSync(path.join(contentDir, file), 'utf8');
+            const { data } = matter(raw);
+            const slug = String(data.slug || path.basename(file, '.md')).trim();
+            const status = String(data.status || 'draft').trim().toLowerCase();
+
+            if (!/^[a-z0-9-]+$/.test(slug)) {
+              throw new Error(`不正なslug: ${slug}`);
+            }
+
+            const generated = path.join(distBlogDir, slug, 'index.html');
+            if (status === 'published') {
+              if (!fs.existsSync(generated)) {
+                throw new Error(`公開記事がdistにありません: ${slug}`);
+              }
+              published.push(slug);
+              const publishedDate = String(data.published || '').trim();
+              if (!/^\d{4}-\d{2}-\d{2}$/.test(publishedDate)) {
+                throw new Error(`公開記事のpublished日付が不正です: ${slug} -> ${publishedDate || '(empty)'}`);
+              }
+              publishedCards.push(`${slug}|${publishedDate.replaceAll('-', '.')}`);
+              for (const imagePath of [data.thumbnail, data.og_image]) {
+                if (typeof imagePath !== 'string' || !imagePath.startsWith('/assets/')) {
+                  throw new Error(`公開記事の画像パスが不正です: ${slug} -> ${imagePath || '(empty)'}`);
+                }
+                const localImage = path.join('dist', imagePath.replace(/^\//, ''));
+                if (!fs.existsSync(localImage)) {
+                  throw new Error(`公開記事の画像がdistにありません: ${slug} -> ${imagePath}`);
+                }
+                publishedImages.add(imagePath);
+              }
+            } else {
+              if (fs.existsSync(generated)) {
+                throw new Error(`下書き記事がdistへ混入しています: ${slug}`);
+              }
+              drafts.push(slug);
+            }
+          }
+
+          if (published.length === 0) {
+            throw new Error('公開記事が0件です。デプロイを停止します。');
+          }
+
+          const indexPaths = [indexPath];
+          const paginatedDir = path.join(distBlogDir, 'page');
+          if (fs.existsSync(paginatedDir)) {
+            for (const entry of fs.readdirSync(paginatedDir, { withFileTypes: true })) {
+              if (!entry.isDirectory() || !/^\d+$/.test(entry.name)) continue;
+              const pageIndex = path.join(paginatedDir, entry.name, 'index.html');
+              if (fs.existsSync(pageIndex)) indexPaths.push(pageIndex);
+            }
+          }
+          const blogIndexCorpus = indexPaths
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+            .map((p) => fs.readFileSync(p, 'utf8'))
+            .join('\\n');
+
+          for (const slug of published) {
+            if (!blogIndexCorpus.includes(`/blog/${slug}/`)) {
+              throw new Error(`Blog一覧（全ページ）に公開記事がありません: ${slug}`);
+            }
+          }
+          for (const slug of drafts) {
+            if (blogIndexCorpus.includes(`/blog/${slug}/`)) {
+              throw new Error(`Blog一覧（全ページ）に下書き記事が混入しています: ${slug}`);
+            }
+          }
+
+          fs.writeFileSync('.deploy-published-slugs', `${published.join('\n')}\n`);
+          fs.writeFileSync('.deploy-published-card-expectations', `${publishedCards.join('\n')}\n`);
+          fs.writeFileSync('.deploy-draft-slugs', drafts.length ? `${drafts.join('\n')}\n` : '');
+          fs.writeFileSync('.deploy-published-images', `${[...publishedImages].join('\n')}\n`);
+          console.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}, images: ${publishedImages.size}`);
+          NODE
+
+      - name: Validate Blog categories in dist (before production switch)
+        run: node scripts/verify-blog-categories.mjs dist
+
+
+      - name: Prepare BLOG_FAST target image list
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          if [ -n "$BEFORE" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+            git diff --name-only "$BEFORE" "$GITHUB_SHA" > .xserver-changed-files
+          else
+            git show --pretty='' --name-only "$GITHUB_SHA" > .xserver-changed-files
+          fi
+          git log -1 --pretty=%B > .xserver-commit-message
+          node scripts/xserver-deploy-plan.mjs \
+            --event-name "$GITHUB_EVENT_NAME" \
+            --changed-file-list .xserver-changed-files \
+            --commit-message-file .xserver-commit-message \
+            --write-target-images .deploy-target-images
+          echo "BLOG_FAST target images:"
+          cat .deploy-target-images || true
+
+      - name: Prepare Xserver payload
+        run: |
+          set -euo pipefail
+          rm -rf deploy
+          cp -a dist deploy
+          rm -rf deploy/admin
+          test -f deploy/index.html
+          test -f deploy/blog/index.html
+          test -f deploy/blog/.htaccess
+          test ! -e deploy/admin
+          echo "Xserver payload prepared (dist/admin excluded)."
+
+      - name: Validate Xserver secrets
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${XSERVER_FTP_USER:-}" ] || [ -z "${XSERVER_FTP_PASSWORD:-}" ]; then
+            echo "::error::Repository Secrets XSERVER_FTP_USER / XSERVER_FTP_PASSWORD が未設定です。"
+            exit 1
+          fi
+          echo "Xserver credentials: configured"
+
+      - name: Install FTPS client
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+      # Exact-byte asset-only delta. Every old public file must match the Git
+      # parent BEFORE uploading; retain a rollback artifact for every mutation.
+      - name: Prepare safe image delta and preimage backup
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_prepare
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          test "$BEFORE" != "0000000000000000000000000000000000000000"
+          git diff --name-only "$BEFORE" "$GITHUB_SHA" -- assets/images/ > .delta-assets
+          node scripts/xserver-asset-delta.mjs --mode prepare --before "$BEFORE" --paths .delta-assets
+
+      - name: Preserve image delta rollback archive
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xserver-delta-backup-${{ github.run_id }}
+          path: delta-backup/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload verified image delta only
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_upload
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for ATTEMPT in 1 2 3; do
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-upload.lftp
+          bye
+          EOF
+            then
+              echo "Changed images uploaded only"
+              exit 0
+            fi
+            sleep "$((ATTEMPT * 10))"
+          done
+          echo "::error::Delta upload failed; rollback will be attempted."
+          exit 1
+
+      - name: Verify exact delta bytes on public Xserver
+        if: env.DEPLOY_MODE == 'FULL_DELTA'
+        id: delta_verify
+        run: node scripts/xserver-asset-delta.mjs --mode verify
+
+      - name: Restore previous images if delta upload or verification fails
+        if: ${{ failure() && env.DEPLOY_MODE == 'FULL_DELTA' && (steps.delta_upload.outcome == 'failure' || steps.delta_verify.outcome == 'failure') }}
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-rollback.lftp
+          bye
+          EOF
+          node scripts/xserver-asset-delta.mjs --mode verify-rollback
+
+      - name: Backup current Xserver production
+        if: env.DEPLOY_MODE == 'FULL'
+        id: backup
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -u
+          STAMP="$(date -u +'%Y%m%dT%H%M%SZ')"
+          BACKUP_DIR="xserver-backup/${STAMP}"
+          mkdir -p "$BACKUP_DIR"
+
+          BACKUP_OK=0
+          for ATTEMPT in 1 2; do
+            echo "Backup attempt ${ATTEMPT}/2"
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 2
+          set net:timeout 20
+          set net:reconnect-interval-base 5
+          mirror --continue --verbose --exclude-glob 'unlimited-dev/' --exclude-glob 'unlimited-dev/**' "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
+          bye
+          EOF
+            then
+              if [ -f "$BACKUP_DIR/index.html" ]; then
+                BACKUP_OK=1
+                break
+              fi
+              echo "::warning::Backup接続は完了しましたが index.html を取得できませんでした。"
+            fi
+            echo "::warning::Xserver backup attempt ${ATTEMPT} failed. Retrying..."
+            sleep $((ATTEMPT * 10))
+          done
+
+          echo "backup_dir=$BACKUP_DIR" >> "$GITHUB_OUTPUT"
+          if [ "$BACKUP_OK" = "1" ]; then
+            echo "backup_ok=true" >> "$GITHUB_OUTPUT"
+            echo "Backup complete: $BACKUP_DIR"
+          else
+            echo "backup_ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Current Xserver backup failed. Checking recent backup Artifact before deploy."
+          fi
+
+      - name: Check recent backup safety net
+        id: backup_safety
+        if: env.DEPLOY_MODE == 'FULL' && steps.backup.outputs.backup_ok != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          API="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100"
+          JSON="$(curl -fsSL \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$API")"
+
+          LATEST_LINE="$(printf '%s' "$JSON" | jq -r '
+            [.artifacts[]
+              | select(.expired == false)
+              | select(.name | startswith("xserver-backup-"))
+              | {name, created_at}]
+            | sort_by(.created_at)
+            | reverse
+            | .[0] // empty
+            | if . == "" then "" else "\(.name)|\(.created_at)" end
+          ')"
+
+          if [ -z "$LATEST_LINE" ]; then
+            echo "::error::Current backup failed and no usable prior Xserver backup Artifact exists. Deployment stopped."
+            exit 1
+          fi
+
+          FALLBACK_NAME="${LATEST_LINE%%|*}"
+          FALLBACK_CREATED="${LATEST_LINE#*|}"
+          FALLBACK_TS="$(date -u -d "$FALLBACK_CREATED" +%s)"
+          CUTOFF_TS="$(date -u -d '48 hours ago' +%s)"
+
+          if [ "$FALLBACK_TS" -lt "$CUTOFF_TS" ]; then
+            echo "::error::Latest prior backup Artifact is older than 48 hours (${FALLBACK_CREATED}). Deployment stopped."
+            exit 1
+          fi
+
+          echo "fallback_artifact=$FALLBACK_NAME" >> "$GITHUB_OUTPUT"
+          echo "fallback_created_at=$FALLBACK_CREATED" >> "$GITHUB_OUTPUT"
+          echo "::warning::Using recent prior backup safety net: ${FALLBACK_NAME} (${FALLBACK_CREATED})"
+
+      - name: Store production backup artifact
+        if: env.DEPLOY_MODE == 'FULL' && steps.backup.outputs.backup_ok == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xserver-backup-${{ github.run_id }}
+          path: ${{ steps.backup.outputs.backup_dir }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+
+      - name: Deploy assets FIRST
+        if: env.DEPLOY_MODE == 'FULL'
+        id: xserver_assets_deploy
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          DEPLOY_OK=0
+          for ATTEMPT in 1 2 3; do
+            echo "Asset deploy attempt ${ATTEMPT}/3"
+            if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          mkdir -p "${XSERVER_REMOTE_DIR}assets"
+          mirror --reverse --verbose "deploy/assets/" "${XSERVER_REMOTE_DIR}assets/"
+          # TOP共通style.cssはmtime判定に任せず、必ず明示上書きする。
+          mkdir -p "${XSERVER_REMOTE_DIR}assets/css"
+          put -O "${XSERVER_REMOTE_DIR}assets/css/" "deploy/assets/css/style.css"
+          bye
+          EOF
+            then
+              DEPLOY_OK=1
+              break
+            fi
+            echo "::warning::Xserver asset deploy attempt ${ATTEMPT} failed. Retrying..."
+            sleep $((ATTEMPT * 20))
+          done
+
+          if [ "$DEPLOY_OK" != "1" ]; then
+            echo "::error::Xserver asset upload failed after 3 attempts. Existing Blog remains untouched."
+            exit 1
+          fi
+
+          echo "Xserver assets upload complete."
+
+      - name: Wait until root stylesheet is live
+        if: env.DEPLOY_MODE == 'FULL'
+        run: |
+          set -euo pipefail
+          LOCAL_CSS="dist/assets/css/style.css"
+          LIVE_CSS="$(mktemp)"
+          trap 'rm -f "$LIVE_CSS"' EXIT
+
+          if [ ! -f "$LOCAL_CSS" ]; then
+            echo "::error::比較元のstyle.cssがありません: $LOCAL_CSS"
+            exit 1
+          fi
+
+          LOCAL_SHA="$(sha256sum "$LOCAL_CSS" | awk '{print $1}')"
+          for ATTEMPT in $(seq 1 20); do
+            CODE=$(curl -sS -L -o "$LIVE_CSS" -w '%{http_code}' \
+              --connect-timeout 8 --max-time 20 \
+              "${PRODUCTION_URL}/assets/css/style.css?root-css=${GITHUB_RUN_ID}&attempt=${ATTEMPT}" || echo '000')
+
+            if [ "$CODE" = "200" ] && [ -s "$LIVE_CSS" ]; then
+              LIVE_SHA="$(sha256sum "$LIVE_CSS" | awk '{print $1}')"
+              if [ "$LIVE_SHA" = "$LOCAL_SHA" ]; then
+                echo "Root style.css ready ${ATTEMPT}/20: exact SHA256 match"
+                exit 0
+              fi
+            fi
+
+            echo "Waiting for root style.css propagation ${ATTEMPT}/20 (HTTP ${CODE})"
+            sleep 15
+          done
+
+          echo "::error::本番style.cssが今回のdistと一致しません。TOP HTMLの切替を停止します。"
+          exit 1
+
+      - name: Wait until published images are live
+        if: env.DEPLOY_MODE == 'FULL'
+        run: |
+          set -euo pipefail
+          CACHE_BUST="asset-gate=${GITHUB_RUN_ID}"
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+
+          wait_for_image() {
+            local image_path="$1"
+            local image_label="${image_path#/}"
+            local local_file="dist/${image_label}"
+            local live_file="$TMP_DIR/live-$(printf '%s' "$image_label" | tr '/ ' '__')"
+
+            if [ ! -f "$local_file" ]; then
+              echo "::error::比較元のdist画像がありません: ${image_path}"
+              return 1
+            fi
+
+            local local_sha
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+
+            # CDN / browser-facing cache can trail FTPS by several minutes.
+            # Do not switch Blog HTML until the public URL serves the exact new bytes.
+            for ATTEMPT in $(seq 1 20); do
+              code=$(curl -sS -L -o "$live_file" -w '%{http_code}' \
+                --connect-timeout 8 --max-time 20 \
+                "${PRODUCTION_URL}${image_path}?${CACHE_BUST}&attempt=${ATTEMPT}" || echo '000')
+
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "Image ready ${ATTEMPT}/20: ${image_path}"
+                  return 0
+                fi
+              fi
+
+              echo "Waiting for image propagation ${ATTEMPT}/20: ${image_path} (HTTP ${code})"
+              sleep 15
+            done
+
+            echo "::error::本番画像が新しいdist画像へ切り替わりませんでした: ${image_path}"
+            return 1
+          }
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+            wait_for_image "$image_path"
+          done < .deploy-published-images
+
+          echo "All published image assets are live and byte-identical. Blog switch is now safe."
+
+      - name: Deploy root files after image gate
+        if: env.DEPLOY_MODE == 'FULL'
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          cd "$XSERVER_REMOTE_DIR"
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.html
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.xml
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.txt
+          mput -O "$XSERVER_REMOTE_DIR" deploy/*.ico
+          rm -f "${XSERVER_REMOTE_DIR}__rev_root_probe.txt"
+          rm -f "${XSERVER_REMOTE_DIR}unlimited-dev/__rev_dev_probe.txt"
+          bye
+          EOF
+
+      - name: Verify BLOG_FAST target images are already live
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+          CACHE_BUST="blog-fast-image=${GITHUB_RUN_ID}"
+
+          if [ ! -s .deploy-target-images ]; then
+            echo "No published target images changed; image gate is a no-op."
+            exit 0
+          fi
+
+          while IFS= read -r image_path; do
+            [ -n "$image_path" ] || continue
+            local_file="dist/${image_path#/}"
+            live_file="$TMP_DIR/$(basename "$image_path")"
+            test -f "$local_file"
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+            ready=0
+
+            for attempt in $(seq 1 6); do
+              code="$(curl -sS -L -o "$live_file" -w '%{http_code}' \
+                --connect-timeout 8 --max-time 20 \
+                "${PRODUCTION_URL}${image_path}?${CACHE_BUST}&attempt=${attempt}" || echo '000')"
+              if [ "$code" = "200" ] && [ -s "$live_file" ]; then
+                live_sha="$(sha256sum "$live_file" | awk '{print $1}')"
+                if [ "$live_sha" = "$local_sha" ]; then
+                  echo "BLOG_FAST image ready ${attempt}/6: ${image_path}"
+                  ready=1
+                  break
+                fi
+              fi
+              sleep 5
+            done
+
+            if [ "$ready" != "1" ]; then
+              echo "::error::BLOG_FAST target image is not byte-identical on production: ${image_path}"
+              exit 1
+            fi
+          done < .deploy-target-images
+
+      - name: Build previous Blog snapshot for exact BLOG_FAST delta
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        id: blog_delta
+        env:
+          EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BEFORE="${EVENT_BEFORE:-}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "use_delta=false" >> "$GITHUB_OUTPUT"
+            echo "No trustworthy parent SHA: falling back to complete Blog mirror."
+            exit 0
+          fi
+          PARENT_DIR="$RUNNER_TEMP/blog-parent"
+          if git worktree add --detach "$PARENT_DIR" "$BEFORE" &&
+             ln -s "$GITHUB_WORKSPACE/node_modules" "$PARENT_DIR/node_modules" &&
+             (cd "$PARENT_DIR" && npm run vercel-build >/dev/null) &&
+             node scripts/xserver-blog-delta.mjs --old-root "$PARENT_DIR/dist/blog" --new-root "deploy/blog"; then
+            echo "use_delta=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::Exact Blog delta unavailable. Retaining the proven full Blog mirror and verification."
+            rm -f .blog-delta.lftp .deploy-changed-slugs
+            echo "use_delta=false" >> "$GITHUB_OUTPUT"
+          fi
+          git worktree remove --force "$PARENT_DIR" 2>/dev/null || true
+
+      - name: Deploy Blog LAST
+        if: env.DEPLOY_MODE != 'FULL_DELTA'
+        id: xserver_deploy
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          DEPLOY_OK=0
+          for ATTEMPT in 1 2 3; do
+            echo "Blog deploy attempt ${ATTEMPT}/3"
+            if [ "$DEPLOY_MODE" = "BLOG_FAST" ] && [ "${{ steps.blog_delta.outputs.use_delta }}" = "true" ]; then
+              echo "Blog exact delta attempt ${ATTEMPT}/3"
+              if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          set cmd:fail-exit yes
+          source .blog-delta.lftp
+          bye
+          EOF
+              then DEPLOY_OK=1; break; fi
+            else
+              if lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          mkdir -p "${XSERVER_REMOTE_DIR}blog"
+          mirror --reverse --delete --verbose "deploy/blog/" "${XSERVER_REMOTE_DIR}blog/"
+          put -O "${XSERVER_REMOTE_DIR}blog/" "deploy/blog/.htaccess"
+          bye
+          EOF
+              then DEPLOY_OK=1; break; fi
+            fi
+            if [ "$DEPLOY_OK" = "1" ]; then
+              DEPLOY_OK=1
+              break
+            fi
+            echo "::warning::Xserver Blog deploy attempt ${ATTEMPT} failed. Retrying..."
+            sleep $((ATTEMPT * 20))
+          done
+
+          if [ "$DEPLOY_OK" != "1" ]; then
+            echo "::error::Xserver Blog switch failed after 3 attempts. Assets are present but Blog HTML was not intentionally advanced."
+            exit 1
+          fi
+
+          echo "Xserver Blog switch complete."
+
+      - name: Deploy BLOG_FAST sitemap metadata
+        if: env.DEPLOY_MODE == 'BLOG_FAST'
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -f deploy/sitemap.xml
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" "$XSERVER_FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 5
+          set net:timeout 30
+          set net:reconnect-interval-base 5
+          put -O "$XSERVER_REMOTE_DIR" "deploy/sitemap.xml"
+          bye
+          EOF
+
+      - name: Verify changed BLOG_FAST public bytes
+        if: env.DEPLOY_MODE == 'BLOG_FAST' && steps.blog_delta.outputs.use_delta == 'true'
+        run: node scripts/verify-blog-delta-live.mjs
+
+      - name: Verify live production
+        if: env.DEPLOY_MODE != 'FULL_DELTA'
+        run: |
+          set -euo pipefail
+          FAIL=0
+          SUMMARY="$GITHUB_STEP_SUMMARY"
+          CACHE_BUST="deploy=${GITHUB_RUN_ID}"
+          TMP_DIR="$(mktemp -d)"
+
+          echo "# Xserver Production Deploy" >> "$SUMMARY"
+          echo "" >> "$SUMMARY"
+          echo "- Trigger: \`${GITHUB_EVENT_NAME}\`" >> "$SUMMARY"
+          echo "- Commit: \`${GITHUB_SHA}\`" >> "$SUMMARY"
+          echo "- Mode: \`${DEPLOY_MODE}\` (${DEPLOY_REASON})" >> "$SUMMARY"
+          echo "- Target: \`${PRODUCTION_URL}\`" >> "$SUMMARY"
+          echo "- Remote: \`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}\`" >> "$SUMMARY"
+          if [ "$DEPLOY_MODE" = "BLOG_FAST" ]; then
+            echo "- Rollback source: Git parent commit + deterministic Blog rebuild" >> "$SUMMARY"
+          elif [ "${{ steps.backup.outputs.backup_ok }}" = "true" ]; then
+            echo "- Backup: \`xserver-backup-${GITHUB_RUN_ID}\` (current run)" >> "$SUMMARY"
+          else
+            echo "- Backup safety net: \`${{ steps.backup_safety.outputs.fallback_artifact }}\`" >> "$SUMMARY"
+          fi
+          echo "" >> "$SUMMARY"
+          echo "| Check | Result |" >> "$SUMMARY"
+          echo "|---|---|" >> "$SUMMARY"
+
+          fetch_page() {
+            local label="$1"
+            local url="$2"
+            local outfile="$3"
+            local code
+            code=$(curl -sS -L -o "$outfile" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 "$url" || echo '000')
+            if [ "$code" = "200" ]; then
+              echo "| ${label} | ✅ HTTP 200 |" >> "$SUMMARY"
+            else
+              echo "| ${label} | ❌ HTTP ${code} |" >> "$SUMMARY"
+              FAIL=1
+            fi
+          }
+
+          fetch_page "TOP" "${PRODUCTION_URL}/?${CACHE_BUST}" "$TMP_DIR/top.html"
+          if ! grep -qF 'THE REV' "$TMP_DIR/top.html"; then
+            echo "::error::TOPページ本文に THE REV が見つかりません。"
+            FAIL=1
+          fi
+
+          ROOT_CSS_URL="$(grep -oE 'assets/css/style\.css\?v=[a-f0-9]{12}' "$TMP_DIR/top.html" | head -n1 || true)"
+          if [ -z "$ROOT_CSS_URL" ]; then
+            echo "::error::本番TOP HTMLにfingerprint付きstyle.cssがありません。"
+            echo "| Root CSS fingerprint | ❌ missing |" >> "$SUMMARY"
+            FAIL=1
+          else
+            ROOT_CSS_LIVE="$TMP_DIR/style.css"
+            ROOT_CSS_CODE=$(curl -sS -L -o "$ROOT_CSS_LIVE" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}/${ROOT_CSS_URL}&${CACHE_BUST}" || echo '000')
+            if [ "$ROOT_CSS_CODE" != "200" ]; then
+              echo "::error::本番style.cssがHTTP ${ROOT_CSS_CODE}です: ${ROOT_CSS_URL}"
+              echo "| Root CSS live | ❌ HTTP ${ROOT_CSS_CODE} |" >> "$SUMMARY"
+              FAIL=1
+            else
+              ROOT_LIVE_SHA="$(sha256sum "$ROOT_CSS_LIVE" | awk '{print $1}')"
+              ROOT_LOCAL_SHA="$(sha256sum dist/assets/css/style.css | awk '{print $1}')"
+              if [ "$ROOT_LIVE_SHA" != "$ROOT_LOCAL_SHA" ]; then
+                echo "::error::本番style.cssが今回のdistと一致しません。"
+                echo "| Root CSS bytes | ❌ SHA256 mismatch |" >> "$SUMMARY"
+                FAIL=1
+              elif ! grep -qF '.voice-cards{' "$ROOT_CSS_LIVE" || ! grep -qF 'overflow-x:auto' "$ROOT_CSS_LIVE"; then
+                echo "::error::本番style.cssにREAL VOICE横スクロール指定がありません。"
+                echo "| REAL VOICE carousel CSS | ❌ missing |" >> "$SUMMARY"
+                FAIL=1
+              else
+                echo "| Root CSS fingerprint | ✅ ${ROOT_CSS_URL} |" >> "$SUMMARY"
+                echo "| Root CSS bytes | ✅ exact match |" >> "$SUMMARY"
+                echo "| REAL VOICE carousel CSS | ✅ present |" >> "$SUMMARY"
+              fi
+            fi
+          fi
+
+          fetch_page "Blog index" "${PRODUCTION_URL}/blog/?${CACHE_BUST}" "$TMP_DIR/blog.html"
+          BLOG_INDEX_CORPUS="$TMP_DIR/blog-index-all.html"
+          cp "$TMP_DIR/blog.html" "$BLOG_INDEX_CORPUS"
+
+          while IFS= read -r local_page; do
+            [ -z "$local_page" ] && continue
+            page_num="$(basename "$(dirname "$local_page")")"
+            live_page="$TMP_DIR/blog-page-${page_num}.html"
+            fetch_page "Blog page ${page_num}" "${PRODUCTION_URL}/blog/page/${page_num}/?${CACHE_BUST}" "$live_page"
+            cat "$live_page" >> "$BLOG_INDEX_CORPUS"
+          done < <(find dist/blog/page -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)
+
+          # Plain Blog URL freshness: the normal URL used by visitors must already
+          # expose the new article set. A cache-busted URL alone is not sufficient.
+          PLAIN_READY=0
+          PLAIN_CACHE_CONTROL=""
+          for ATTEMPT in $(seq 1 12); do
+            PLAIN_BLOG_INDEX_CORPUS="$TMP_DIR/blog-index-plain-all.html"
+            : > "$PLAIN_BLOG_INDEX_CORPUS"
+            PLAIN_HEADERS="$TMP_DIR/blog-plain.headers"
+            PLAIN_INDEX="$TMP_DIR/blog-plain.html"
+
+            PLAIN_CODE=$(curl -sS -L -D "$PLAIN_HEADERS" -o "$PLAIN_INDEX" -w '%{http_code}' \
+              --retry 1 --retry-delay 1 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}/blog/" || echo '000')
+
+            if [ "$PLAIN_CODE" = "200" ]; then
+              cat "$PLAIN_INDEX" >> "$PLAIN_BLOG_INDEX_CORPUS"
+              PLAIN_PAGES_OK=1
+              while IFS= read -r local_page; do
+                [ -z "$local_page" ] && continue
+                page_num="$(basename "$(dirname "$local_page")")"
+                plain_page="$TMP_DIR/blog-page-${page_num}-plain.html"
+                page_code=$(curl -sS -L -o "$plain_page" -w '%{http_code}' \
+                  --retry 1 --retry-delay 1 --retry-all-errors --connect-timeout 8 --max-time 15 \
+                  "${PRODUCTION_URL}/blog/page/${page_num}/" || echo '000')
+                if [ "$page_code" != "200" ]; then
+                  PLAIN_PAGES_OK=0
+                  break
+                fi
+                cat "$plain_page" >> "$PLAIN_BLOG_INDEX_CORPUS"
+              done < <(find dist/blog/page -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)
+
+              PLAIN_ALL_LISTED=1
+              while IFS= read -r slug; do
+                [ -z "$slug" ] && continue
+                if ! grep -qF "/blog/${slug}/" "$PLAIN_BLOG_INDEX_CORPUS"; then
+                  PLAIN_ALL_LISTED=0
+                  break
+                fi
+              done < .deploy-published-slugs
+
+              PLAIN_DATES_OK=1
+              if ! node scripts/verify-blog-card-dates.mjs "$PLAIN_BLOG_INDEX_CORPUS" .deploy-published-card-expectations; then
+                PLAIN_DATES_OK=0
+              fi
+
+              PLAIN_CACHE_CONTROL="$(grep -i '^cache-control:' "$PLAIN_HEADERS" | tail -n1 | cut -d: -f2- | tr -d '\r' | xargs || true)"
+              if [ "$PLAIN_PAGES_OK" = "1" ] && [ "$PLAIN_ALL_LISTED" = "1" ] && [ "$PLAIN_DATES_OK" = "1" ] \
+                && printf '%s' "$PLAIN_CACHE_CONTROL" | grep -Eqi 'no-cache|max-age=0|must-revalidate'; then
+                PLAIN_READY=1
+                break
+              fi
+            fi
+
+            echo "Waiting for plain /blog/ freshness ${ATTEMPT}/12 (HTTP ${PLAIN_CODE}, Cache-Control: ${PLAIN_CACHE_CONTROL:-missing})"
+            sleep 5
+          done
+
+          if [ "$PLAIN_READY" != "1" ]; then
+            echo "::error::Plain /blog/ is stale or lacks revalidation cache headers after deploy."
+            echo "| Plain Blog URL freshness | ❌ stale or cacheable |" >> "$SUMMARY"
+            FAIL=1
+          else
+            echo "| Plain Blog URL freshness | ✅ all published articles listed |" >> "$SUMMARY"
+            echo "| Plain Blog card dates | ✅ match published front matter |" >> "$SUMMARY"
+            echo "| Blog HTML Cache-Control | ✅ ${PLAIN_CACHE_CONTROL} |" >> "$SUMMARY"
+          fi
+
+          BLOG_CSS_URL="$(grep -oE '/assets/css/blog\.css\?v=[a-f0-9]{12}' "$TMP_DIR/blog.html" | head -n1 || true)"
+          if [ -z "$BLOG_CSS_URL" ]; then
+            echo "::error::本番Blog HTMLにfingerprint付きblog.cssがありません。"
+            echo "| Blog CSS fingerprint | ❌ missing |" >> "$SUMMARY"
+            FAIL=1
+          else
+            CSS_LIVE="$TMP_DIR/blog.css"
+            CSS_CODE=$(curl -sS -L -o "$CSS_LIVE" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}${BLOG_CSS_URL}&${CACHE_BUST}" || echo '000')
+            if [ "$CSS_CODE" != "200" ]; then
+              echo "::error::本番blog.cssがHTTP ${CSS_CODE}です: ${BLOG_CSS_URL}"
+              echo "| Blog CSS live | ❌ HTTP ${CSS_CODE} |" >> "$SUMMARY"
+              FAIL=1
+            else
+              LIVE_CSS_SHA="$(sha256sum "$CSS_LIVE" | awk '{print $1}')"
+              LOCAL_CSS_SHA="$(sha256sum dist/assets/css/blog.css | awk '{print $1}')"
+              if [ "$LIVE_CSS_SHA" != "$LOCAL_CSS_SHA" ]; then
+                echo "::error::本番blog.cssが今回のdistと一致しません。"
+                echo "| Blog CSS bytes | ❌ SHA256 mismatch |" >> "$SUMMARY"
+                FAIL=1
+              elif ! grep -qF 'aspect-ratio:16/9' "$CSS_LIVE"; then
+                echo "::error::本番blog.cssに16:9カード指定がありません。"
+                echo "| Blog card ratio CSS | ❌ missing 16:9 |" >> "$SUMMARY"
+                FAIL=1
+              else
+                echo "| Blog CSS fingerprint | ✅ ${BLOG_CSS_URL} |" >> "$SUMMARY"
+                echo "| Blog CSS bytes | ✅ exact match |" >> "$SUMMARY"
+                echo "| Blog card ratio CSS | ✅ 16:9 |" >> "$SUMMARY"
+              fi
+            fi
+          fi
+
+          while IFS= read -r image_path; do
+            [ -z "$image_path" ] && continue
+            image_label="${image_path#/}"
+            image_file="$TMP_DIR/image-$(printf '%s' "$image_label" | tr '/ ' '__')"
+            local_file="dist/${image_label}"
+            fetch_page "Image: ${image_label}" "${PRODUCTION_URL}${image_path}?${CACHE_BUST}" "$image_file"
+            if [ ! -s "$image_file" ]; then
+              echo "::error::本番画像が空です: ${image_path}"
+              FAIL=1
+              continue
+            fi
+            if [ ! -f "$local_file" ]; then
+              echo "::error::比較元のdist画像がありません: ${image_path}"
+              FAIL=1
+              continue
+            fi
+            live_sha="$(sha256sum "$image_file" | awk '{print $1}')"
+            local_sha="$(sha256sum "$local_file" | awk '{print $1}')"
+            if [ "$live_sha" != "$local_sha" ]; then
+              echo "::error::本番画像が今回のdist画像と一致しません: ${image_path}"
+              echo "| Image bytes: ${image_label} | ❌ SHA256 mismatch |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Image bytes: ${image_label} | ✅ exact match |" >> "$SUMMARY"
+            fi
+          done < .deploy-published-images
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+            if ! grep -qF "/blog/${slug}/" "$BLOG_INDEX_CORPUS"; then
+              echo "::error::本番Blog一覧に公開記事がありません: ${slug}"
+              echo "| Blog link: ${slug} | ❌ missing |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Blog link: ${slug} | ✅ listed |" >> "$SUMMARY"
+            fi
+            if [ "$DEPLOY_MODE" != "BLOG_FAST" ] || [ ! -f .deploy-changed-slugs ] \
+                || grep -Fxq "$slug" .deploy-changed-slugs; then
+              fetch_page "Article: ${slug}" "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" "$TMP_DIR/article-${slug}.html"
+            else
+              echo "Unchanged article: ${slug} (link in complete index verified)"
+            fi
+          done < .deploy-published-slugs
+
+          while IFS= read -r slug; do
+            [ -z "$slug" ] && continue
+            if grep -qF "/blog/${slug}/" "$BLOG_INDEX_CORPUS"; then
+              echo "::error::本番Blog一覧に下書き記事が表示されています: ${slug}"
+              echo "| Draft hidden: ${slug} | ❌ listed |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Draft hidden: ${slug} | ✅ not listed |" >> "$SUMMARY"
+            fi
+
+            code=$(curl -sS -L -o "$TMP_DIR/draft-${slug}.html" -w '%{http_code}' \
+              --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \
+              "${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}" || echo '000')
+            if [ "$code" = "200" ]; then
+              echo "::error::下書き記事URLが本番でHTTP 200を返しています: ${slug}"
+              echo "| Draft URL: ${slug} | ❌ HTTP 200 |" >> "$SUMMARY"
+              FAIL=1
+            else
+              echo "| Draft URL: ${slug} | ✅ HTTP ${code} |" >> "$SUMMARY"
+            fi
+          done < .deploy-draft-slugs
+
+          # Category Architecture v1.0: キャッシュバスターなしの通常訪問者URLでカテゴリー導線を検証する。
+          if ! node scripts/verify-blog-categories.mjs live "${PRODUCTION_URL}"; then
+            echo "::error::本番のBlogカテゴリー検証に失敗しました。"
+            FAIL=1
+          fi
+
+          echo "" >> "$SUMMARY"
+          if [ "$FAIL" = "0" ]; then
+            echo "**結果: Xserver本番公開・公開記事・下書き非公開を確認しました。**" >> "$SUMMARY"
+          else
+            echo "**結果: 本番確認で失敗した項目があります。バックアップ安全網を保持したまま停止しました。**" >> "$SUMMARY"
+          fi
+
+          rm -rf "$TMP_DIR"
+          exit "$FAIL"

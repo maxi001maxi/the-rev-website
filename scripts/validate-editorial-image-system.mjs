@@ -1,0 +1,189 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { HYBRID_IMAGE_FORMAT } from '../lib/editorialHybridImageFormat.mjs';
+import { REV_COLUMN_REFERENCE_V2 } from '../lib/editorialImageStyle.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+
+function fail(message) {
+  throw new Error(message);
+}
+function readJson(rel) {
+  return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+}
+function exists(rel) {
+  return fs.existsSync(path.join(ROOT, rel));
+}
+function assertTrue(value, message) {
+  if (!value) fail(message);
+}
+function assertEqual(actual, expected, message) {
+  if (actual !== expected) fail(`${message}: expected=${JSON.stringify(expected)} actual=${JSON.stringify(actual)}`);
+}
+
+const manifestPath = 'editorial/editorial-image-system.json';
+const manifest = readJson(manifestPath);
+
+const required = [
+  'AGENTS.md',
+  'editorial/EDITORIAL_IMAGE_RUNBOOK.md',
+  manifestPath,
+  'editorial/REFERENCE_V23_HYBRID_FORMAT.md',
+  'editorial/reference-v23-hybrid-format.json',
+  'editorial/hybrid-image-request.template.json',
+  'editorial/fixtures/hybrid-image-request.sample.json',
+  'editorial/hybrid-image-jobs/_template.json',
+  'scripts/compile-hybrid-image-job.mjs',
+  'scripts/render-hybrid-editorial-overlay.mjs',
+  'scripts/auto-editorial-hybrid-image.mjs',
+  'scripts/validate-hybrid-image-jobs.mjs',
+  'lib/editorialHybridImageFormat.mjs',
+  'lib/editorialAutomatedHybridImage.mjs',
+  'editorial/automated-image-sources.json',
+  'lib/editorialImageReviewGate.mjs',
+  'lib/editorialImageStyle.mjs',
+  '.github/workflows/phase-9-check.yml',
+  '.github/workflows/auto-editorial-hybrid-images.yml',
+  '.github/workflows/deploy-xserver.yml'
+];
+for (const rel of required) assertTrue(exists(rel), `required image-system file missing: ${rel}`);
+
+assertEqual(manifest.current_standard.format_id, HYBRID_IMAGE_FORMAT.id, 'manifest/current Hybrid format drift');
+assertEqual(manifest.current_standard.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'manifest V2.4 policy drift');
+assertEqual(manifest.current_standard.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'manifest fixed overlay drift');
+assertEqual(manifest.current_standard.design_revision, HYBRID_IMAGE_FORMAT.designRevision, 'manifest design revision drift');
+assertEqual(manifest.current_standard.default_layout_variant, HYBRID_IMAGE_FORMAT.defaultLayoutVariant, 'manifest layout variant drift');
+assertEqual(manifest.source_policy.recent_thumbnail_copy_window, HYBRID_IMAGE_FORMAT.recentThumbnailCopyWindow, 'thumbnail-copy recent window drift');
+assertEqual(manifest.current_standard.code_contract, 'lib/editorialHybridImageFormat.mjs', 'manifest code contract drift');
+assertEqual(manifest.source_policy.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'manifest Drive root drift');
+assertEqual(manifest.release_boundary, HYBRID_IMAGE_FORMAT.publishBoundary, 'manifest publish boundary drift');
+
+const sourceRegistry = readJson('editorial/automated-image-sources.json');
+assertEqual(sourceRegistry.drive_root_folder_id, HYBRID_IMAGE_FORMAT.driveRootFolderId, 'automated source registry Drive root drift');
+assertTrue(Array.isArray(sourceRegistry.sources) && sourceRegistry.sources.length >= 3, 'automated source registry needs at least 3 verified THE REV sources');
+for (const source of sourceRegistry.sources) {
+  assertTrue(Boolean(source.source_id), 'automated source source_id missing');
+  assertTrue(Boolean(source.repo_path), `automated source repo_path missing: ${source.source_id || '(unknown)'}`);
+  assertTrue(Boolean(source.drive_file_id), `automated source Drive provenance missing: ${source.source_id || '(unknown)'}`);
+  assertTrue(exists(source.repo_path), `automated source repo mirror missing: ${source.repo_path}`);
+}
+assertEqual(manifest.system_status, 'AUTOMATED_TO_REVIEW_READY', 'manifest automation status drift');
+assertEqual(manifest.fully_automated, true, 'Hybrid image generation must be automated to Review Ready');
+assertEqual(manifest.current_standard.automated_operator, HYBRID_IMAGE_FORMAT.activationMode, 'manifest automated operator drift');
+
+assertEqual(manifest.output_contract.thumbnail.width, HYBRID_IMAGE_FORMAT.output.thumbnail.width, 'manifest thumbnail width drift');
+assertEqual(manifest.output_contract.thumbnail.height, HYBRID_IMAGE_FORMAT.output.thumbnail.height, 'manifest thumbnail height drift');
+assertEqual(manifest.output_contract.ogp.width, HYBRID_IMAGE_FORMAT.output.ogp.width, 'manifest OGP width drift');
+assertEqual(manifest.output_contract.ogp.height, HYBRID_IMAGE_FORMAT.output.ogp.height, 'manifest OGP height drift');
+assertEqual(manifest.output_contract.gbp.width, HYBRID_IMAGE_FORMAT.output.gbp.width, 'manifest GBP width drift');
+assertEqual(manifest.output_contract.gbp.height, HYBRID_IMAGE_FORMAT.output.gbp.height, 'manifest GBP height drift');
+assertEqual(manifest.output_contract.gbp.ratio, HYBRID_IMAGE_FORMAT.output.gbp.ratio, 'manifest GBP ratio drift');
+
+assertEqual(HYBRID_IMAGE_FORMAT.output.thumbnail.width, 1200, 'Hybrid thumbnail width must stay 1200');
+assertEqual(HYBRID_IMAGE_FORMAT.output.thumbnail.height, 675, 'Hybrid thumbnail height must stay 675');
+assertEqual(HYBRID_IMAGE_FORMAT.output.ogp.width, 1200, 'Hybrid OGP width must stay 1200');
+assertEqual(HYBRID_IMAGE_FORMAT.output.ogp.height, 630, 'Hybrid OGP height must stay 630');
+assertEqual(HYBRID_IMAGE_FORMAT.output.gbp.width, 1200, 'Hybrid GBP width must stay 1200');
+assertEqual(HYBRID_IMAGE_FORMAT.output.gbp.height, 900, 'Hybrid GBP height must stay 900');
+assertEqual(HYBRID_IMAGE_FORMAT.output.gbp.ratio, '4:3', 'Hybrid GBP ratio must stay 4:3');
+
+assertEqual(REV_COLUMN_REFERENCE_V2.thumb.width, 1200, 'source-lock thumbnail width must match site contract');
+assertEqual(REV_COLUMN_REFERENCE_V2.thumb.height, 675, 'source-lock thumbnail height must match site contract');
+assertEqual(REV_COLUMN_REFERENCE_V2.og.width, 1200, 'source-lock OGP width must stay 1200');
+assertEqual(REV_COLUMN_REFERENCE_V2.og.height, 630, 'source-lock OGP height must stay 630');
+
+assertEqual(
+  JSON.stringify(manifest.design_reference_assets),
+  JSON.stringify(HYBRID_IMAGE_FORMAT.designReferenceAssets),
+  'manifest Design Reference drift'
+);
+for (const rel of HYBRID_IMAGE_FORMAT.designReferenceAssets) {
+  assertTrue(exists(rel), `Design Reference asset missing: ${rel}`);
+}
+
+const packageJson = readJson('package.json');
+assertTrue(packageJson.scripts?.['image:compile-job'], 'package script image:compile-job missing');
+assertTrue(packageJson.scripts?.['image:render-hybrid-overlay'], 'package script image:render-hybrid-overlay missing');
+assertTrue(packageJson.scripts?.['test:editorial-images'], 'package script test:editorial-images missing');
+
+const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/phase-9-check.yml'), 'utf8');
+assertTrue(workflow.includes('npm run test:editorial-images'), 'Phase 9 CI must run canonical editorial image test');
+assertTrue(workflow.includes('lib/editorialImageReviewGate.mjs'), 'Phase 9 CI must watch Editorial Image Review Gate');
+assertTrue(workflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Phase 9 CI must watch automated Hybrid runner');
+const hybridRenderer = fs.readFileSync(path.join(ROOT, 'scripts/render-hybrid-editorial-overlay.mjs'), 'utf8');
+assertTrue(hybridRenderer.includes('typography_override'), 'Hybrid renderer must support per-article typography overrides');
+assertTrue(hybridRenderer.includes('headline_size'), 'Hybrid renderer typography override must support headline_size');
+assertTrue(hybridRenderer.includes('label_size'), 'Hybrid renderer typography override must support label_size');
+assertTrue(hybridRenderer.includes('headlineSize: Math.max(56'), 'Hybrid GBP default headline must stay at least 56px for mobile legibility');
+
+const autoWorkflow = fs.readFileSync(path.join(ROOT, '.github/workflows/auto-editorial-hybrid-images.yml'), 'utf8');
+assertTrue(autoWorkflow.includes('scripts/auto-editorial-hybrid-image.mjs'), 'Automated Hybrid workflow must call the runner');
+assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow must require OPENAI_API_KEY');
+assertTrue(autoWorkflow.includes('XSERVER_FTP_USER'), 'Automated Hybrid workflow must stage assets to Xserver');
+assertTrue(autoWorkflow.includes('assets/images/gbp'), 'Automated Hybrid workflow must stage GBP 4:3 assets');
+assertTrue(autoWorkflow.includes('unattended-github-actions-v1'), 'Automated Hybrid workflow must ignore legacy/manual Hybrid jobs');
+assertTrue(autoWorkflow.includes("cron: '0 21 * * 1,2,3,5,6'"), 'Automated Hybrid safety schedule must run once on THE REV. business days');
+assertTrue(autoWorkflow.includes("id: select"), 'Automated Hybrid workflow must expose pending-job preflight state');
+assertTrue(autoWorkflow.includes("has_pending=true"), 'Automated Hybrid workflow must detect real pending work before heavy setup');
+assertTrue(autoWorkflow.indexOf('name: Select pending Hybrid jobs') < autoWorkflow.indexOf('name: Install dependencies'), 'Pending-job selection must happen before dependency installation');
+assertTrue(autoWorkflow.includes("if: steps.select.outputs.has_pending == 'true'"), 'Heavy Hybrid steps must be gated by pending work');
+assertTrue(autoWorkflow.includes("automation.get('source_repo_path')") && autoWorkflow.includes('Path(source_repo_path).is_file()'), 'Automated Hybrid workflow must require a verified repo source before generation');
+assertTrue(autoWorkflow.includes('Skipping legacy/manual Hybrid job'), 'Automated Hybrid workflow must skip legacy/manual jobs without failing the run');
+const autoRunner = fs.readFileSync(path.join(ROOT, 'scripts/auto-editorial-hybrid-image.mjs'), 'utf8');
+assertTrue(autoRunner.includes("operatorStateMatchesAsset(rawPreviousState, job, jobPath)"), 'Automated Hybrid runner must scope operator state to the current asset version');
+assertTrue(autoRunner.includes("RESET_STATE_FOR_NEW_ASSET_VERSION"), 'Automated Hybrid runner must visibly reset stale state when a new asset version is queued');
+
+const agents = fs.readFileSync(path.join(ROOT, 'AGENTS.md'), 'utf8');
+const readme = fs.readFileSync(path.join(ROOT, 'BLOG_README.md'), 'utf8');
+assertTrue(agents.includes('editorial/EDITORIAL_IMAGE_RUNBOOK.md'), 'AGENTS.md must point to Editorial Image Runbook');
+assertTrue(readme.includes('editorial/EDITORIAL_IMAGE_RUNBOOK.md'), 'BLOG_README must point to Editorial Image Runbook');
+
+const compileSmoke = spawnSync(
+  process.execPath,
+  ['scripts/compile-hybrid-image-job.mjs', 'editorial/fixtures/hybrid-image-request.sample.json', '--stdout'],
+  { cwd: ROOT, encoding: 'utf8' }
+);
+if (compileSmoke.status !== 0) {
+  process.stderr.write(compileSmoke.stderr || '');
+  fail('Hybrid Job compiler smoke test failed.');
+}
+let compiledFixture;
+try {
+  compiledFixture = JSON.parse(compileSmoke.stdout);
+} catch {
+  fail('Hybrid Job compiler did not emit valid JSON in --stdout mode.');
+}
+assertEqual(compiledFixture.render_version, HYBRID_IMAGE_FORMAT.id, 'compiled fixture render_version drift');
+assertEqual(compiledFixture.image_strategy, HYBRID_IMAGE_FORMAT.strategy, 'compiled fixture image_strategy drift');
+assertEqual(compiledFixture.publish_requires_human_approval, true, 'compiled fixture lost human publish gate');
+assertEqual(compiledFixture.policy_revision, HYBRID_IMAGE_FORMAT.policyRevision, 'compiled fixture V2.4 policy drift');
+assertEqual(compiledFixture.layout_template_id, HYBRID_IMAGE_FORMAT.layoutTemplateId, 'compiled fixture layout drift');
+assertEqual(compiledFixture.generated_customer_count, 1, 'compiled fixture customer count drift');
+assertEqual(compiledFixture.customer_presentation, 'female', 'compiled fixture customer presentation drift');
+assertEqual(compiledFixture.design_revision, HYBRID_IMAGE_FORMAT.designRevision, 'compiled fixture design revision drift');
+assertEqual(compiledFixture.layout_variant, HYBRID_IMAGE_FORMAT.defaultLayoutVariant, 'compiled fixture Human First layout drift');
+assertTrue(Boolean(compiledFixture.scene_intent), 'compiled fixture scene_intent missing');
+assertTrue(compiledFixture.thumbnail.endsWith('-reference-v23-hybrid-fixture-50.jpg'), 'compiled fixture thumbnail path is not versioned');
+assertTrue(compiledFixture.gbp_image?.includes('assets/images/gbp/gbp-'), 'compiled fixture GBP image path missing');
+assertEqual(compiledFixture.gbp_image_width, 1200, 'compiled fixture GBP width drift');
+assertEqual(compiledFixture.gbp_image_height, 900, 'compiled fixture GBP height drift');
+assertEqual(compiledFixture.gbp_image_aspect_ratio, '4:3', 'compiled fixture GBP ratio drift');
+assertTrue(compiledFixture.background_source?.selection_reason === 'compiler contract test fixture', 'compiled fixture lost source selection rationale');
+
+const child = spawnSync(process.execPath, ['scripts/validate-hybrid-image-jobs.mjs'], {
+  cwd: ROOT,
+  stdio: 'inherit'
+});
+if (child.status !== 0) fail('Hybrid Job validator failed.');
+
+console.log('Editorial image system validation: PASS');
+console.log(`- engine: ${HYBRID_IMAGE_FORMAT.id}`);
+console.log(`- policy: ${HYBRID_IMAGE_FORMAT.policyRevision}`);
+console.log(`- layout: ${HYBRID_IMAGE_FORMAT.layoutTemplateId}`);
+console.log(`- hybrid thumbnail: ${HYBRID_IMAGE_FORMAT.output.thumbnail.width}x${HYBRID_IMAGE_FORMAT.output.thumbnail.height}`);
+console.log(`- hybrid GBP: ${HYBRID_IMAGE_FORMAT.output.gbp.width}x${HYBRID_IMAGE_FORMAT.output.gbp.height} (${HYBRID_IMAGE_FORMAT.output.gbp.ratio})`);
+console.log(`- fallback thumbnail: ${REV_COLUMN_REFERENCE_V2.thumb.width}x${REV_COLUMN_REFERENCE_V2.thumb.height}`);
+console.log(`- publish boundary: ${HYBRID_IMAGE_FORMAT.publishBoundary}`);

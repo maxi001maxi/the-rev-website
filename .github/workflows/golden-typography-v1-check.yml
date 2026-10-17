@@ -1,0 +1,49 @@
+name: Golden Typography V1 Check
+
+on:
+  push:
+    branches: [feature/golden-typography-v1-20261003]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/feature/golden-typography-v1-20261003'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Install renderer dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+      - run: npm run test:thumbnail-typography
+      - run: npm run test:thumbnail-typography-browser
+      - run: npm run test:editorial-images
+      - run: npm run test:phase-9
+      - run: npm run test:daily-editorial-contract
+      - run: npm run test:daily-editorial-state-machine
+      - run: npm run test:daily-creator
+      - run: npm run build:blog
+      - name: Render the real article from the unchanged scene
+        run: |
+          node scripts/render-hybrid-editorial-overlay.mjs editorial/golden-typography-v1-acceptance/balance-r2/job.json > golden-render-result.json
+          node scripts/render-hybrid-editorial-overlay.mjs editorial/golden-typography-v1-acceptance/shinomiya-personal-gym-reservation-facility-the-rev/balance-r2/job.json > golden-shinomiya-render-result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: golden-typography-v1-evidence
+          path: |
+            golden-render-result.json
+            golden-shinomiya-render-result.json
+            assets/images/blog/*golden-v1-20261003*
+            assets/images/blog/og/*golden-v1-20261003*
+            assets/images/gbp/*golden-v1-20261003*

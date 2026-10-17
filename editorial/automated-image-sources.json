@@ -1,0 +1,601 @@
+{
+  "schema_version": "1.2.0",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+  "selection_policy": "relevance-first-recent4-hard-exclusion-v2",
+  "note": "Only repo-local mirrors whose provenance is verified against the scoped THE REV Drive source root may be used by the unattended image operator. Official site photos copied into the scoped root are byte-verified against the repo asset before registry inclusion.",
+  "sources": [
+    {
+      "source_id": "the-rev-lobby-sp-20260927",
+      "repo_path": "assets/images/photo-lobby-sp.jpg",
+      "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "drive_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "lobby-sp-20260927",
+      "categories": [
+        "training",
+        "gym-guide"
+      ],
+      "keywords": [
+        "新大宮",
+        "ジム",
+        "パーソナルジム",
+        "設備",
+        "マシン",
+        "選び方",
+        "比較",
+        "通いやすさ",
+        "来店",
+        "仕事帰り",
+        "生活動線"
+      ],
+      "scene_semantics": "THE REV.の実受付。奥のラックはrear_training_areaに固定。受付前景へ設備を複製・移動しない。顧客は相談前・入店・比較メモ確認などの自然な受付行動のみ。",
+      "selection_reason": "初心者の見学・来店前後に適した実受付写真。奥のラックは背景のみで、受付前景での器具操作には使用しない。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+        "primary_location": "reception",
+        "subject_zone": "reception",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "rear_training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "rear_training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "rear_training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "enter",
+          "prepare",
+          "rest",
+          "compare_notes",
+          "review_paper",
+          "observe_facility"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-14",
+          "note": "Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-evolgear-20260922",
+      "repo_path": "assets/images/photo-evolgear.jpg",
+      "drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+      "drive_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "evolgear-20260922",
+      "categories": [
+        "training",
+        "health",
+        "gym-guide"
+      ],
+      "keywords": [
+        "運動",
+        "トレーニング",
+        "筋トレ",
+        "健康診断",
+        "健診",
+        "血圧",
+        "血糖",
+        "脂質",
+        "体組成",
+        "フォーム",
+        "強度",
+        "初心者",
+        "再開"
+      ],
+      "scene_semantics": "THE REV.の実トレーニングフロア。EVOLGEARラックと床・窓・鏡の空間構造を維持する。",
+      "selection_reason": "THE REV.実店舗のトレーニング空間で、身体知識・運動開始・一般トレーニング記事に最も広く適合する。Drive root内のAI_SOURCE_photo-evolgear_20260922.jpgとrepo_pathは同一bytesとして検証済み。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-frame-3978-20",
+      "repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+      "drive_file_id": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+      "drive_file_name": "AI_FRAME_IMG_3978_20.jpg",
+      "origin_video_file_id": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+      "origin_video_file_name": "IMG_3978.MOV",
+      "frame_position_ratio": 0.2,
+      "lineage_key": "3978-20",
+      "categories": [
+        "training",
+        "gym-guide"
+      ],
+      "keywords": [
+        "時間",
+        "続かない",
+        "習慣",
+        "来店",
+        "仕事",
+        "生活",
+        "始める",
+        "初心者"
+      ],
+      "scene_semantics": "THE REV.の実受付。奥のラックはrear_training_areaに固定。受付前景へ設備を複製・移動しない。顧客は相談前・入店・比較メモ確認などの自然な受付行動のみ。",
+      "selection_reason": "生活導線・来店・習慣化テーマに適合する、指定Drive root由来の承認済みContent Reference。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
+        "primary_location": "reception",
+        "subject_zone": "reception",
+        "visible_equipment": [],
+        "allowed_generated_actions": [
+          "enter",
+          "prepare",
+          "rest",
+          "compare_notes",
+          "review_paper",
+          "observe_facility"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-frame-4387-75",
+      "repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+      "drive_file_name": "AI_FRAME_IMG_4387_75.jpg",
+      "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+      "origin_video_file_name": "IMG_4387.MOV",
+      "frame_position_ratio": 0.75,
+      "lineage_key": "4387-75",
+      "categories": [
+        "training",
+        "health"
+      ],
+      "keywords": [
+        "疲労",
+        "疲れ",
+        "仕事終わり",
+        "状態",
+        "判断",
+        "軽く",
+        "回復"
+      ],
+      "scene_semantics": "THE REV.実店舗で、その日の状態を見ながら運動する文脈に適した実景。元動画の構造を維持する。",
+      "selection_reason": "疲労・状態判断テーマに適合する、指定Drive root由来の承認済みContent Reference。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-lobby-20260924",
+      "repo_path": "assets/images/photo-lobby.jpg",
+      "drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "drive_file_name": "AI_SOURCE_photo-lobby_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "lobby-20260924",
+      "categories": [
+        "training",
+        "health",
+        "gym-guide"
+      ],
+      "keywords": [
+        "来店",
+        "初心者",
+        "体験",
+        "習慣",
+        "始める",
+        "運動",
+        "健康診断",
+        "健診",
+        "安心",
+        "継続"
+      ],
+      "scene_semantics": "THE REV.の実受付。奥のラックはrear_training_areaに固定。受付前景へ設備を複製・移動しない。顧客は相談前・入店・比較メモ確認などの自然な受付行動のみ。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。来店・開始・初心者・生活導線テーマに適合する。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+        "primary_location": "reception",
+        "subject_zone": "reception",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "rear_training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "rear_training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "rear_training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "enter",
+          "prepare",
+          "rest",
+          "compare_notes",
+          "review_paper",
+          "observe_facility"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-13",
+          "note": "Ground truth visually re-inspected using the actual source photo: rear training_rack, weight_plates and training_bench behind the reception counter. Independent source/scene QC for the 2026-10-13 posture article detected both equipment items in SOURCE and GENERATED views at rear_training_area; source asset bytes and sha256 are unchanged. Items are NOT in reception foreground."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-boxing-20260924",
+      "repo_path": "assets/images/photo-boxing.jpg",
+      "drive_file_id": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+      "drive_file_name": "AI_SOURCE_photo-boxing_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "boxing-20260924",
+      "categories": [
+        "boxing"
+      ],
+      "keywords": [
+        "ボクシング",
+        "ミット",
+        "パンチ",
+        "構え",
+        "フットワーク",
+        "初心者",
+        "パーソナルボクシング"
+      ],
+      "scene_semantics": "THE REV.の実ボクシングエリア。床・鏡・器具・空間構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。ボクシング記事専用の実環境として使用する。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "004fb1a4d56c8d5bae7ee09c77dd12674047107e5c006de5550d66f586452090",
+        "primary_location": "boxing_area",
+        "subject_zone": "boxing_area",
+        "visible_equipment": [
+          {
+            "object": "boxing_gloves",
+            "zone": "boxing_area"
+          },
+          {
+            "object": "boxing_mitt",
+            "zone": "boxing_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "boxing_stance",
+          "rest"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "boxing_start"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-oxyroom-20260924",
+      "repo_path": "assets/images/photo-oxyroom.jpg",
+      "drive_file_id": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+      "drive_file_name": "AI_SOURCE_photo-oxyroom_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "oxyroom-20260924",
+      "categories": [
+        "recovery"
+      ],
+      "keywords": [
+        "酸素",
+        "酸素ルーム",
+        "OXY",
+        "回復",
+        "リカバリー",
+        "疲労",
+        "休養",
+        "コンディショニング"
+      ],
+      "scene_semantics": "THE REV.の酸素ルーム実景。機器形状・壁・床・室内構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。酸素ルーム・回復テーマに適合する。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "e4ae7b35097876940d49d862044765f570dd3582a7cbad73cee3928388b2fbb6",
+        "primary_location": "recovery_area",
+        "subject_zone": "recovery_area",
+        "visible_equipment": [
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          },
+          {
+            "object": "training_rack",
+            "zone": "rear_training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "recovery"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-denba-20260924",
+      "repo_path": "assets/images/photo-solution-denba.jpg",
+      "drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+      "drive_file_name": "AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "denba-20260924",
+      "categories": [
+        "recovery"
+      ],
+      "keywords": [
+        "DENBA",
+        "電場",
+        "回復",
+        "リカバリー",
+        "疲労",
+        "休養",
+        "コンディショニング",
+        "機器",
+        "本体",
+        "マット",
+        "役割",
+        "構成"
+      ],
+      "scene_semantics": "THE REV.受付側のDENBA本体実景。壁面ロゴ、スイッチ、白いキャビネット、本体の位置関係を維持する。",
+      "selection_reason": "THE REV.公式実写と一致する唯一の検証済みDENBA本体ソース。構成・役割説明では無関係な回復背景より実機の事実性を優先する。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16",
+        "primary_location": "reception",
+        "subject_zone": "reception",
+        "visible_equipment": [
+          {
+            "object": "denba_device",
+            "zone": "reception"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "recovery",
+          "equipment_explanation"
+        ],
+        "verification": {
+          "method": "source image visual inspection + multimodal production QA",
+          "verified_at": "2026-10-10",
+          "note": "Production QA independently recognized denba_device@reception in both source and generated scene. Canonical location corrected from recovery_area to reception; source bytes unchanged."
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-oxy-solution-20260924",
+      "repo_path": "assets/images/photo-solution-oxyroom.jpg",
+      "drive_file_id": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+      "drive_file_name": "AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "oxy-solution-20260924",
+      "categories": [
+        "recovery"
+      ],
+      "keywords": [
+        "酸素",
+        "酸素ルーム",
+        "OXY",
+        "回復",
+        "リカバリー",
+        "運動後",
+        "休む",
+        "コンディショニング"
+      ],
+      "scene_semantics": "THE REV.の酸素ルーム周辺・回復導線を示す実景。空間構造を維持する。",
+      "selection_reason": "THE REV.公式サイト実写と完全一致するDriveコピーを指定Editorial rootへ保存済み。回復導線や酸素ルーム記事の背景バリエーションとして使用する。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60",
+        "primary_location": "recovery_area",
+        "subject_zone": "recovery_area",
+        "visible_equipment": [
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "recovery"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      }
+    }
+  ],
+  "scene_grounding_version": "the-rev-source-scene-v1"
+}

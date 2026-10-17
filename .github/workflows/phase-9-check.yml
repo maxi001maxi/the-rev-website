@@ -1,0 +1,214 @@
+name: Phase 9 Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'api/integrations/editorial.mjs'
+      - 'api/integrations/editorial-status.mjs'
+      - 'lib/editorialLineWebhook.mjs'
+      - 'lib/editorialTopic*.mjs'
+      - 'scripts/test-editorial-topic-approval.mjs'
+      - 'supabase/migrations/*editorial_topic_approval.sql'
+      - 'api/admin/publish-status.mjs'
+      - 'lib/editorialPublicationStatus.mjs'
+      - 'scripts/test-editorial-20261015-recovered-publication.mjs'
+      - 'lib/githubContent.mjs'
+      - 'lib/editorialBridge.mjs'
+      - 'lib/supabaseAdmin.mjs'
+      - 'lib/blogMarkdown.mjs'
+      - 'scripts/test-phase-9.mjs'
+      - 'scripts/test-daily-editorial-contract.mjs'
+      - 'scripts/test-daily-editorial-state-machine.mjs'
+      - 'scripts/test-daily-creator-integration.mjs'
+      - 'scripts/test-supervisor-qc-recovery.mjs'
+      - 'scripts/test-editorial-trigger-topology.mjs'
+      - 'scripts/xserver-deploy-plan.mjs'
+      - 'scripts/xserver-blog-delta.mjs'
+      - 'scripts/test-xserver-incremental.mjs'
+      - 'scripts/test-xserver-deploy-plan.mjs'
+      - 'scripts/daily-editorial-connector-plan.mjs'
+      - 'scripts/test-daily-editorial-connector-plan.mjs'
+      - 'scripts/build-gas-bundle.mjs'
+      - 'scripts/helpers/**'
+      - 'lib/dailyEditorialStateMachine.mjs'
+      - 'lib/dailyEditorialCreator.mjs'
+      - 'lib/dailyEditorialKnowledge.mjs'
+      - 'lib/editorialArticleOverlap.mjs'
+      - 'lib/editorialArticleHistory.mjs'
+      - 'lib/editorialReadiness.mjs'
+      - 'lib/editorialImageSheetView.mjs'
+      - 'lib/editorialScenePlausibility.mjs'
+      - 'scripts/test-editorial-consistency.mjs'
+      - 'lib/editorialAutoPublishGate.mjs'
+      - 'editorial/DAILY_CREATOR_RUNBOOK.md'
+      - 'lib/editorialPublication.mjs'
+      - 'editorial/gas/**'
+      - 'scripts/test-editorial-brand-qc.mjs'
+      - 'scripts/test-phase-d.mjs'
+      - 'scripts/build-blog.mjs'
+      - 'assets/css/blog.css'
+      - 'templates/blog-index.html'
+      - 'templates/blog-post.html'
+      - '.github/qa/visual-qa.mjs'
+      - 'scripts/generate-editorial-image.mjs'
+      - 'scripts/render-blog-image.mjs'
+      - 'scripts/render-hybrid-editorial-overlay.mjs'
+      - 'scripts/auto-editorial-hybrid-image.mjs'
+      - 'scripts/qa-editorial-image.mjs'
+      - 'lib/editorialImage.mjs'
+      - 'lib/editorialImageStyle.mjs'
+      - 'lib/editorialThumbnailTypography.mjs'
+      - 'scripts/test-thumbnail-typography*.mjs'
+      - 'editorial/typography-golden-reference/**'
+      - 'lib/editorialImageCopy.mjs'
+      - 'lib/editorialHybridImageFormat.mjs'
+      - 'lib/editorialSceneGrounding.mjs'
+      - 'lib/editorialImageVariationV1.mjs'
+      - 'lib/editorialImagePhase2.mjs'
+      - 'scripts/prepare-editorial-image-p2.mjs'
+      - 'scripts/materialize-editorial-image-p2-job.mjs'
+      - 'scripts/preflight-editorial-image-p2.mjs'
+      - 'scripts/package-editorial-image-p2-results.mjs'
+      - 'scripts/package-editorial-image-p2-results.mjs'
+      - '.github/workflows/editorial-image-p2-offline-pilot.yml'
+      - 'scripts/test-editorial-image-phase2.mjs'
+      - 'scripts/test-editorial-20261015-pain-production.mjs'
+      - 'lib/editorialProductionImagePreflight.mjs'
+      - 'scripts/preflight-auto-editorial-image.mjs'
+      - 'scripts/test-editorial-production-image-preflight.mjs'
+      - 'scripts/test-editorial-rejected-media-preservation.mjs'
+      - 'scripts/prepare-editorial-r5-depth-review.mjs'
+      - 'scripts/offline-r5-depth-recovery.py'
+      - 'scripts/test-editorial-r5-depth-recovery.mjs'
+      - 'lib/editorialContextualSourceReuse.mjs'
+      - 'scripts/test-editorial-contextual-reuse.mjs'
+      - '.github/workflows/editorial-r7-prepublication-staging.yml'
+      - 'scripts/stage-verified-editorial-r7-candidate.mjs'
+      - 'scripts/test-editorial-r7-prepublication-staging.mjs'
+      - '.github/workflows/editorial-r5-depth-recovery.yml'
+      - 'editorial/experiments/image-quality-p2/**'
+      - 'scripts/test-editorial-image-variation-v1.mjs'
+      - 'scripts/inspect-image-variation-v1.mjs'
+      - 'editorial/IMAGE_QUALITY_IMPROVEMENT_V1.md'
+      - 'lib/editorialImageOperatorRecovery.mjs'
+      - 'scripts/test-editorial-image-operator-recovery.mjs'
+      - 'scripts/test-image-operator-primary-status.mjs'
+      - 'lib/editorialAutomatedHybridImage.mjs'
+      - 'lib/editorialImageReviewGate.mjs'
+      - 'lib/editorialR7ApprovedReuse.mjs'
+      - 'scripts/test-editorial-r7-owner-reuse.mjs'
+      - 'AGENTS.md'
+      - 'editorial/EDITORIAL_IMAGE_RUNBOOK.md'
+      - 'editorial/editorial-image-system.json'
+      - 'editorial/daily-editorial-state-contract.json'
+      - 'editorial/hybrid-image-request.template.json'
+      - 'editorial/automated-image-sources.json'
+      - 'editorial/fixtures/**.json'
+      - 'scripts/compile-hybrid-image-job.mjs'
+      - 'scripts/validate-editorial-image-system.mjs'
+      - 'editorial/image-jobs/**.json'
+      - 'editorial/hybrid-image-jobs/**.json'
+      - 'editorial/reference-v23-hybrid-format.json'
+      - 'editorial/REFERENCE_V23_HYBRID_FORMAT.md'
+      - 'scripts/validate-hybrid-image-jobs.mjs'
+      - 'lib/publishFlow.mjs'
+      - 'api/admin/publish-preview.mjs'
+      - 'api/admin/analytics.mjs'
+      - 'api/admin/site-insights.mjs'
+      - 'api/admin/google-business.mjs'
+      - 'api/admin/google-business/**'
+      - 'lib/googleBusiness.mjs'
+      - 'admin/google-business/**'
+      - 'admin/js/google-business.mjs'
+      - 'admin/site-insights/**'
+      - 'admin/js/site-insights.mjs'
+      - 'lib/ga4Data.mjs'
+      - 'lib/siteInsights/**'
+      - 'admin/analytics/**'
+      - 'admin/js/admin-api.mjs'
+      - 'scripts/test-phase-e.mjs'
+      - 'scripts/test-google-business.mjs'
+      - 'privacy.html'
+      - '.env.example'
+      - 'ADMIN_SETUP.md'
+      - 'admin/articles/review/**'
+      - '.github/workflows/render-editorial-images.yml'
+      - '.github/workflows/auto-editorial-hybrid-images.yml'
+      - '.github/workflows/deploy-xserver.yml'
+      - 'lib/social*.mjs'
+      - 'scripts/test-social-*.mjs'
+      - 'supabase/migrations/*social*.sql'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'supabase/migrations/**'
+      - '.github/workflows/phase-9-check.yml'
+      - 'vercel.json'
+      - 'docs/operations/VERCEL_RELEASE_POLICY_V1.md'
+      - 'scripts/test-vercel-release-policy.mjs'
+      - '.github/workflows/preview-qa.yml'
+  push:
+    branches: [phase-9-editorial-bridge]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:vercel-release-policy
+      - run: node --check api/integrations/editorial.mjs
+      - run: node --check api/integrations/editorial-status.mjs
+      - run: node --check .github/qa/visual-qa.mjs
+      - run: node --check scripts/compile-hybrid-image-job.mjs
+      - run: node --check scripts/render-hybrid-editorial-overlay.mjs
+      - run: node --check scripts/auto-editorial-hybrid-image.mjs
+      - run: node --check lib/editorialAutomatedHybridImage.mjs
+      - run: node --check scripts/validate-editorial-image-system.mjs
+      - run: node --check lib/editorialImageReviewGate.mjs
+      - run: node --check scripts/test-daily-editorial-contract.mjs
+      - run: npm run test:daily-editorial-contract
+      - run: npm run test:daily-editorial-state-machine
+      - run: npm run test:daily-creator
+      - run: npm run test:supervisor-qc-recovery
+      - run: npm run test:trigger-topology
+      - run: node --test scripts/test-xserver-deploy-plan.mjs
+      - run: node --test scripts/test-xserver-incremental.mjs
+      - run: npm run test:topic-approval
+      - run: node --test scripts/test-daily-editorial-connector-plan.mjs
+      - run: node --test scripts/test-editorial-consistency.mjs
+      - run: npm run test:phase-9
+      - run: node scripts/test-editorial-brand-qc.mjs
+      - run: npm run test:blog-taxonomy
+      - run: npm run test:blog-card-dates
+      - run: npm run test:phase-d
+      - run: node --test scripts/test-editorial-20261015-recovered-publication.mjs
+      - run: npm run test:phase-e
+      - run: npm run test:site-insights
+      - run: npm run test:google-business
+      - run: npm run test:social-director
+      - run: npm run test:thumbnail-typography
+      - run: node --test scripts/test-editorial-image-operator-recovery.mjs
+      - run: npm run test:image-operator-primary-status
+      - run: node --test scripts/test-editorial-scene-grounding.mjs
+      - run: node --test scripts/test-editorial-image-variation-v1.mjs
+      - run: node --test scripts/test-editorial-image-phase2.mjs
+      - run: node --test scripts/test-editorial-20261015-pain-production.mjs
+      - run: node --test scripts/test-editorial-production-image-preflight.mjs
+      - run: node --test scripts/test-editorial-rejected-media-preservation.mjs
+      - run: node --test scripts/test-editorial-r5-depth-recovery.mjs
+      - run: node --test scripts/test-editorial-contextual-reuse.mjs
+      - run: node --check scripts/stage-verified-editorial-r7-candidate.mjs
+      - run: node --test scripts/test-editorial-r7-prepublication-staging.mjs
+      - run: node --test scripts/test-editorial-r7-owner-reuse.mjs
+      - run: python3 -m py_compile scripts/offline-r5-depth-recovery.py
+      - run: node scripts/preflight-auto-editorial-image.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null
+      - run: node scripts/preflight-editorial-image-p2.mjs all > /dev/null
+      - run: node scripts/prepare-editorial-image-p2.mjs > /dev/null
+      - run: node scripts/inspect-image-variation-v1.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null
+      - run: npm run test:editorial-images
+      - run: npm run build:blog

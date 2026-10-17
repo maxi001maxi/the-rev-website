@@ -1,0 +1,103 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 10,
+  "photo_treatment": 9,
+  "article_visual_relevance": 9,
+  "rev_environment_consistency": 10,
+  "brand_space_authenticity": 10,
+  "source_material_scope_pass": true,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "generated_customer_allowed_under_policy": true,
+  "generated_customer_role": "customer",
+  "facility_only_thumbnail": false,
+  "fixed_overlay_layout_confirmed": true,
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "background_source_type": "real_the_rev_static_image",
+  "content_reference": "drive://1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg/IMG_4201.DNG.jpg",
+  "background_source_drive_file_id": "1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "IMG_4201.DNG.jpg",
+  "background_frame_position_ratio": null,
+  "background_treatment": "THE REV.実店舗写真はcrop/resizeのみ。顧客役1人を別生成し合成。空間構造は生成置換していない。",
+  "real_the_rev_background_confirmed": true,
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "too_promotional": false,
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol-visual-qc",
+  "qa_method": "multimodal visual inspection against Drive source IMG_4201.DNG.jpg and V2.4 fixed overlay contract",
+  "slug": "muscle-mass-not-increasing-progress-signs",
+  "asset_version": "reference-v24-hybrid-4201-01",
+  "checked_at": "2026-09-24T00:10:00Z",
+  "review_mode": "HYBRID_GENERATED",
+  "image_generation_used": true,
+  "fallback_used": false,
+  "fallback_reason": "",
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_window": 4,
+  "recent_similarity_check_pass": true,
+  "recent_background_source_ids": [
+    "1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU",
+    "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+    "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "assets/images/blog/thumb-self-training-form-check.jpg"
+  ],
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "recent_articles": [
+      {
+        "slug": "strength-training-to-failure-when-to-stop",
+        "content_reference": "drive://1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU/IMG_4207.DNG",
+        "asset_version": "reference-v24-hybrid-4207-01"
+      },
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+        "asset_version": "reference-v23-hybrid-3978-20"
+      },
+      {
+        "slug": "after-work-tired-strength-training",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+        "asset_version": "reference-v23-hybrid-4387-75"
+      },
+      {
+        "slug": "self-training-form-check",
+        "content_reference": "assets/images/blog/thumb-self-training-form-check.jpg",
+        "asset_version": "legacy"
+      }
+    ],
+    "recent_content_references": [
+      "drive://1ORDXb6XjsmpeC_59l5b11vRC5erJUWiU/IMG_4207.DNG",
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "assets/images/blog/thumb-self-training-form-check.jpg"
+    ],
+    "selected_content_reference": "drive://1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg/IMG_4201.DNG.jpg",
+    "selected_drive_file_id": "1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg",
+    "selected_relevance_level": "primary",
+    "avoided_repeat": true,
+    "repeated_due_to_relevance": false
+  },
+  "generated_asset_drive_file_ids": {
+    "thumbnail": "1Kd4e-eZUiQBMcF65CF1pqxenlmi6y3NT",
+    "og_image": "1w2sJfwzwux2AWZjVzGLNHTbQJl99RlO7",
+    "scene": "1SU9ChB8_aDa7Yv4RUQd40NujqqB3BnbY"
+  },
+  "comments": "THE REV.実店舗のIMG_4201.DNG.jpgを背景正本として使用。空間構造は生成せず、一般顧客役の成人女性1人のみを別生成・合成。トレーナー/スタッフ/コーチ風人物は不在。固定Overlay『数字が同じでも、動きは変わる。』を適用。直近4記事の背景provenanceと重複なし。"
+}

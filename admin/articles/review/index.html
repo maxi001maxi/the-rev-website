@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review &amp; Publish｜THE REV. Editorial Console</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/articles/" aria-current="page">Articles</a>
+<a href="/admin/analytics/">Analytics</a>
+</nav>
+<div class="admin-shell-user">
+<span id="user-email" class="admin-shell-email"></span>
+<button id="logout-btn" class="admin-logout" type="button">ログアウト</button>
+</div>
+</header>
+
+<main class="admin-main admin-review-main">
+<a id="back-link" class="admin-back-link" href="/admin/articles/">← Back to Articles</a>
+<div class="admin-page-head-row">
+<div>
+<h1 class="admin-page-title">Review &amp; Publish</h1>
+<p class="admin-page-lead">公開前の最終確認です。ここで「Review &amp; Publish」を押すと、GitHubの <code id="repo-label">content/blog/</code> へMarkdownがコミットされ、Xserver本番デプロイが始まります。文字入りThumbnail / OGPが揃っていない記事は公開できません。</p>
+</div>
+</div>
+
+<div id="error-box" class="admin-error admin-hidden" role="alert"></div>
+<div id="loading-box" class="admin-card admin-hidden">Preflightを実行中…</div>
+
+<!-- ===== 公開成功パネル ===== -->
+<section id="success-panel" class="admin-success admin-hidden" aria-live="polite">
+<p class="admin-success-title">GitHubへの反映に成功しました</p>
+<dl class="admin-success-list">
+<div><dt>Mode</dt><dd id="s-mode">—</dd></div>
+<div><dt>File</dt><dd><code id="s-path">—</code></dd></div>
+<div><dt>Commit SHA</dt><dd><code id="s-commit">—</code></dd></div>
+<div><dt>公開予定URL</dt><dd><code id="s-url">—</code></dd></div>
+</dl>
+<p id="s-deploy" class="admin-success-note"><strong>GitHubへのPublish commitは完了しましたが、本番公開はまだ完了していません。</strong> Xserverへのデプロイが続きます。更新内容によって転送手順と所要時間は異なります。下にGitHub Actionsの実際の処理段階を表示します。「本番公開完了」の表示まで公開済みとは判定しません。</p>
+<p id="s-poll" class="admin-success-poll"></p>
+<p id="s-warning" class="admin-success-warning admin-hidden"></p>
+<div class="admin-success-actions">
+<a id="s-open" class="admin-btn-primary" href="#" target="_blank" rel="noopener">Open Live Article</a>
+<a id="s-commit-link" class="admin-btn-mini admin-hidden" href="#" target="_blank" rel="noopener">View commit on GitHub</a>
+<a class="admin-btn-mini" href="/admin/articles/">Back to Articles</a>
+</div>
+</section>
+
+<!-- ===== Review本体 ===== -->
+<div id="review-body" class="admin-hidden">
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">PREFLIGHT</h2>
+<ul id="checks-list" class="admin-checks"></ul>
+<div id="blocker-box" class="admin-error admin-hidden" role="alert"></div>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">PUBLISH TARGET</h2>
+<dl class="admin-kv">
+<div><dt>公開予定URL</dt><dd><code id="v-public-url">—</code></dd></div>
+<div><dt>GitHub file</dt><dd><code id="v-path">—</code></dd></div>
+<div><dt>Repository</dt><dd><code id="v-repo">—</code></dd></div>
+<div><dt>Commit message</dt><dd><code id="v-commit-message">—</code></dd></div>
+<div><dt>source_path</dt><dd><code id="v-source-path">—</code></dd></div>
+<div><dt>source_sha</dt><dd><code id="v-source-sha">—</code></dd></div>
+</dl>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">IMAGE REVIEW GATE</h2>
+<dl class="admin-kv">
+<div><dt>Mode</dt><dd id="v-gate-mode">—</dd></div>
+<div><dt>Image generation</dt><dd id="v-gate-generation">—</dd></div>
+<div><dt>Real THE REV. background</dt><dd id="v-gate-background">—</dd></div>
+<div><dt>Trainer absent</dt><dd id="v-gate-trainer">—</dd></div>
+<div><dt>Customer role</dt><dd id="v-gate-people">—</dd></div>
+<div><dt>Generated customer count</dt><dd id="v-gate-customer-count">—</dd></div>
+<div><dt>Facility-only</dt><dd id="v-gate-facility-only">—</dd></div>
+<div><dt>Fixed overlay</dt><dd id="v-gate-overlay">—</dd></div>
+<div><dt>Policy / Layout</dt><dd id="v-gate-policy">—</dd></div>
+<div><dt>Recent-4 same image</dt><dd id="v-gate-image-reuse">—</dd></div>
+<div><dt>Recent-4 same background</dt><dd id="v-gate-background-reuse">—</dd></div>
+<div><dt>Trainer photo reuse</dt><dd id="v-gate-trainer-reuse">—</dd></div>
+<div><dt>Recent similarity check</dt><dd id="v-gate-recent">—</dd></div>
+<div><dt>Final image gate</dt><dd id="v-gate-final">—</dd></div>
+</dl>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">ARTICLE META</h2>
+<dl class="admin-kv">
+<div><dt>Title</dt><dd id="v-title">—</dd></div>
+<div><dt>Slug</dt><dd><code id="v-slug">—</code></dd></div>
+<div><dt>Category</dt><dd id="v-category">—</dd></div>
+<div><dt>Description</dt><dd id="v-description">—</dd></div>
+<div><dt>Published / Updated</dt><dd id="v-dates">—</dd></div>
+<div><dt>Author</dt><dd id="v-author">—</dd></div>
+<div><dt>Thumbnail</dt><dd id="v-thumbnail">—</dd></div>
+<div><dt>OGP</dt><dd id="v-og">—</dd></div>
+<div><dt>GBP 4:3</dt><dd id="v-gbp">—</dd></div>
+<div><dt>GBP image status</dt><dd id="v-gbp-status">—</dd></div>
+<div><dt>Image status</dt><dd id="v-image-status">—</dd></div>
+<div><dt>Image render</dt><dd id="v-image-render">—</dd></div>
+<div><dt>Image style</dt><dd id="v-image-style">—</dd></div>
+<div><dt>Content Reference</dt><dd><code id="v-image-source">—</code></dd></div>
+<div><dt>Recent-4 guard</dt><dd id="v-image-recent">—</dd></div>
+<div><dt>Image copy</dt><dd id="v-image-copy">—</dd></div>
+<div><dt>Image series</dt><dd id="v-image-series">—</dd></div>
+<div><dt>Image asset version</dt><dd id="v-image-version">—</dd></div>
+<div><dt>Generation model</dt><dd id="v-image-model">—</dd></div>
+<div><dt>Brand QA</dt><dd id="v-image-qa">—</dd></div>
+<div><dt>Brand score</dt><dd id="v-image-score">—</dd></div>
+<div><dt>CTA</dt><dd id="v-cta">—</dd></div>
+<div><dt>Keywords</dt><dd id="v-keywords">—</dd></div>
+<div><dt>Featured</dt><dd id="v-featured">—</dd></div>
+<div><dt>Noindex</dt><dd id="v-noindex">—</dd></div>
+</dl>
+<div id="v-images" class="admin-review-images"></div>
+</section>
+
+<section class="admin-review-section">
+<h2 class="admin-section-title">ARTICLE PREVIEW</h2>
+<p class="admin-field-hint">公開サイトと同じCSS（style.css / blog.css）で表示しています。ヘッダー・フッター・関連記事は含みません。</p>
+<iframe id="preview-frame" class="admin-review-frame" title="記事プレビュー"></iframe>
+</section>
+
+<details class="admin-advanced">
+<summary>生成されるMarkdown（content/blog/*.md）を確認する</summary>
+<pre id="markdown-pre" class="admin-md-pre"></pre>
+</details>
+
+<div class="admin-publish-bar">
+<div class="admin-publish-note" id="publish-note"></div>
+<div class="admin-publish-actions">
+<a id="edit-link" class="admin-btn-mini" href="/admin/articles/">Back to Editor</a>
+<button id="publish-btn" class="admin-btn-primary" type="button" disabled>Review &amp; Publish</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- ===== 確認ダイアログ ===== -->
+<div id="confirm-overlay" class="admin-modal-overlay admin-hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+<div class="admin-modal">
+<p id="confirm-title" class="admin-modal-title">記事を公開します</p>
+<p class="admin-modal-text">この記事を公開します。GitHub mainへ反映され、Xserver本番デプロイが開始されます。</p>
+<p class="admin-modal-sub"><code id="confirm-path"></code></p>
+<div class="admin-modal-actions">
+<button id="confirm-cancel" class="admin-btn-mini" type="button">Cancel</button>
+<button id="confirm-publish" class="admin-btn-primary" type="button">Review &amp; Publish</button>
+</div>
+</div>
+</div>
+
+<script type="module">
+import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
+import { AdminApi } from '/admin/js/admin-api.mjs';
+import { BLOG_CATEGORIES } from '/assets/js/blog-taxonomy.mjs';
+import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12/+esm';
+
+const params = new URLSearchParams(location.search);
+const articleId = params.get('id');
+
+const CATEGORY_LABELS = Object.fromEntries(BLOG_CATEGORIES.map((c) => [c.slug, c.labelEn]));
+const PRODUCTION_ORIGIN = 'https://therev-lab.com';
+
+function productionPublicUrl(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return PRODUCTION_ORIGIN + '/blog/';
+  try {
+    return /^https?:\/\//i.test(raw) ? new URL(raw).href : new URL(raw.startsWith('/') ? raw : '/' + raw, PRODUCTION_ORIGIN).href;
+  } catch {
+    return PRODUCTION_ORIGIN + '/blog/';
+  }
+}
+
+let publishing = false;
+let preflight = null;
+let imageReadyRetryCount = 0;
+const IMAGE_READY_MAX_RETRIES = 120; // Reference V2生成・Brand QA・Xserver stageを最大約10分待つ
+
+function $(id) { return document.getElementById(id); }
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function showError(message) {
+  const box = $('error-box');
+  box.textContent = message;
+  box.classList.remove('admin-hidden');
+}
+function clearError() { $('error-box').classList.add('admin-hidden'); }
+function text(id, value) { $(id).textContent = value === null || value === undefined || value === '' ? '—' : String(value); }
+
+function publicAssetUrl(src, publicUrl, cacheKey = '') {
+  const raw = String(src || '').trim();
+  if (!raw) return '';
+  try {
+    const url = /^https?:\/\//i.test(raw)
+      ? new URL(raw)
+      : new URL(
+          raw.startsWith('/') ? raw : '/' + raw,
+          PRODUCTION_ORIGIN
+        );
+    if (cacheKey) url.searchParams.set('review_asset', String(cacheKey));
+    return url.href;
+  } catch {
+    return raw;
+  }
+}
+
+function imageReviewCacheKey(a) {
+  return [
+    a?.image_asset_version || 'legacy',
+    a?.image_status || 'unknown',
+    a?.image_asset_ready ? 'ready' : 'pending',
+    a?.image_qa?.checked_at || a?.image_checked_at || Date.now()
+  ].join('-');
+}
+
+function imageReadyForReview(a) {
+  if (!a?.image_asset_version) return true;
+  return a.image_status === 'READY' && a.image_asset_ready === true;
+}
+
+/* ---------- Preflight結果の描画 ---------- */
+
+function renderChecks(checks) {
+  const icons = { ok: '✓', error: '✕', skip: '–' };
+  $('checks-list').innerHTML = (checks || []).map((c) => `
+<li class="admin-check admin-check-${escapeHtml(c.status)}">
+<span class="admin-check-icon" aria-hidden="true">${icons[c.status] || '?'}</span>
+<span class="admin-check-body">
+<span class="admin-check-label">${escapeHtml(c.label)}</span>
+<span class="admin-check-message">${escapeHtml(c.message || '')}</span>
+</span>
+</li>`).join('');
+}
+
+function renderImageGate(a) {
+  const qa = a?.image_qa || {};
+  const pass = (value, expected = true) => value === expected ? 'PASS' : 'FAIL';
+  const groundedReuseException =
+    qa.background_reuse_relevance_exception === true &&
+    qa.recent_reference_guard?.repeated_due_to_relevance === true &&
+    Number(qa.recent_reference_guard?.repeat_distance) >= 3 &&
+    Array.isArray(qa.recent_reference_guard?.required_equipment) &&
+    qa.recent_reference_guard.required_equipment.length > 0;
+  const mode = qa.review_mode || (
+    a?.image_render_version === 'rev-column-reference-v2.3-hybrid'
+      ? 'HYBRID_GENERATED'
+      : (String(a?.image_strategy || '').startsWith('reference-v2-source-lock-') ? 'SOURCE_LOCK_FALLBACK' : 'UNKNOWN')
+  );
+
+  text('v-gate-mode', mode);
+  text('v-gate-generation', mode === 'HYBRID_GENERATED'
+    ? pass(qa.image_generation_used, true)
+    : (qa.fallback_used === true && String(qa.fallback_reason || '').trim() ? 'FALLBACK / REASON RECORDED' : 'FAIL'));
+  text('v-gate-background', pass(qa.real_the_rev_background_confirmed, true));
+  text('v-gate-trainer', pass(qa.trainer_present, false));
+  text('v-gate-people', pass(qa.customer_only_or_no_people, true));
+  const legacyAccepted = ['reference-v23-hybrid-4387-75', 'reference-v23-hybrid-3978-20']
+    .includes(String(a?.image_asset_version || qa.asset_version || ''));
+  text('v-gate-customer-count', legacyAccepted
+    ? 'LEGACY APPROVED REF'
+    : (qa.generated_customer_present === true && Number(qa.generated_customer_count) >= 1 && Number(qa.generated_customer_count) <= 2
+      ? `PASS / ${qa.generated_customer_count}`
+      : 'FAIL'));
+  text('v-gate-facility-only', legacyAccepted ? 'LEGACY APPROVED REF' : pass(qa.facility_only_thumbnail, false));
+  text('v-gate-overlay', legacyAccepted ? 'LEGACY APPROVED REF' : pass(qa.fixed_overlay_layout_confirmed, true));
+  text('v-gate-policy', legacyAccepted
+    ? 'V2.3 DESIGN REFERENCE'
+    : `${qa.policy_revision || 'MISSING'} / ${qa.layout_template_id || 'MISSING'}`);
+  text('v-gate-image-reuse', pass(qa.same_image_as_recent_articles, false));
+  text('v-gate-background-reuse',
+    qa.same_background_as_recent_articles === false
+      ? 'PASS'
+      : (groundedReuseException ? 'PASS / GROUNDED EQUIPMENT EXCEPTION' : 'FAIL'));
+  text('v-gate-trainer-reuse', pass(qa.trainer_photo_reused, false));
+  text('v-gate-recent', qa.recent_similarity_check_pass === true
+    ? `PASS / window=${qa.recent_similarity_window ?? '—'}`
+    : 'FAIL');
+  const v24ScenePass = legacyAccepted || (
+    qa.generated_customer_present === true
+    && Number(qa.generated_customer_count) >= 1
+    && Number(qa.generated_customer_count) <= 2
+    && qa.facility_only_thumbnail === false
+    && qa.fixed_overlay_layout_confirmed === true
+    && qa.policy_revision === 'editorial-thumbnail-v2.4'
+    && qa.layout_template_id === 'rev-column-v24-fixed-overlay-v1'
+  );
+  text('v-gate-final', qa.pass === true
+    && qa.trainer_present === false
+    && qa.unknown_trainer_present === false
+    && qa.non_customer_people_present === false
+    && qa.customer_only_or_no_people === true
+    && v24ScenePass
+    && qa.real_the_rev_background_confirmed === true
+    && qa.recent_similarity_check_pass === true
+    && qa.same_image_as_recent_articles === false
+    && (qa.same_background_as_recent_articles === false || groundedReuseException)
+    && qa.trainer_photo_reused === false
+      ? 'PASS'
+      : 'FAIL');
+}
+
+function renderMeta(a, data) {
+  renderImageGate(a);
+  text('v-title', a.title);
+  text('v-slug', a.slug);
+  text('v-category', `${CATEGORY_LABELS[a.category] || a.category || '—'}（${a.category || '—'}）`);
+  text('v-description', a.description);
+  text('v-dates', `${a.published || '—'} / ${a.updated || '—'}`);
+  text('v-author', a.author_role && a.author_role !== a.author ? `${a.author}（${a.author_role}）` : a.author);
+  text('v-thumbnail', a.thumbnail);
+  text('v-og', a.og_image);
+  text('v-gbp', a.gbp_image);
+  text('v-gbp-status', a.gbp_image_status || '—');
+  text('v-image-status', a.image_status || '—');
+  text('v-image-render', a.image_render_version
+    ? `${a.image_render_version} / asset_ready=${a.image_asset_ready ? 'true' : 'false'}`
+    : '—');
+  text('v-image-style', a.image_style_template || '—');
+  text('v-image-source', a.image_source_path || a.image_qa?.content_reference || '—');
+  const recentGuard = a.image_qa?.recent_reference_guard;
+  text('v-image-recent', recentGuard
+    ? `${recentGuard.selection_policy || '—'} / recent=${(recentGuard.recent_content_references || []).join(', ') || 'none'} / selected=${recentGuard.selected_content_reference || '—'}`
+    : '—');
+  text('v-image-copy', a.image_headline_short || '—');
+  text('v-image-series', [a.image_category_label, a.image_series_label].filter(Boolean).join(' / ') || '—');
+  text('v-image-version', a.image_asset_version || '—');
+  text('v-image-model', a.image_generation_model
+    ? `${a.image_generation_model} / QA: ${a.image_qa_model || '—'}`
+    : '—');
+  text('v-image-qa', a.image_qa
+    ? [
+        a.image_qa.pass ? 'PASS' : 'FAIL',
+        `consistency=${a.image_qa.series_consistency ?? '—'}`,
+        `relevance=${a.image_qa.article_visual_relevance ?? '—'}`,
+        a.image_qa.source_identity_preservation != null
+          ? `source_fidelity=${a.image_qa.source_identity_preservation}`
+          : `rev_space=${a.image_qa.rev_environment_consistency ?? '—'}`,
+        a.image_qa.unknown_trainer_present != null
+          ? `unknown_trainer=${a.image_qa.unknown_trainer_present ? 'YES' : 'NO'}`
+          : '',
+        `editorial=${a.image_qa.editorial_quality ?? '—'}`
+      ].filter(Boolean).join(' / ')
+    : '—');
+  text('v-image-score', a.image_brand_qa_score ?? a.image_qa?.series_consistency ?? '—');
+  text('v-cta', a.cta_type || 'general');
+  text('v-keywords', (a.keywords || []).join(' / '));
+  text('v-featured', a.featured ? 'true' : 'false');
+  text('v-noindex', a.noindex ? 'true（検索エンジンにインデックスさせない）' : 'false');
+
+  const images = [];
+  if (a.thumbnail) images.push({ label: 'THUMBNAIL', src: a.thumbnail });
+  if (a.og_image) images.push({ label: 'OGP', src: a.og_image });
+  if (a.gbp_image) images.push({ label: 'GBP 4:3', src: a.gbp_image });
+  const imageCacheKey = imageReviewCacheKey(a);
+  const canShowImages = imageReadyForReview(a);
+  $('v-images').innerHTML = images.map((im) => {
+    if (!canShowImages) {
+      return `
+<figure class="admin-review-image">
+<div class="admin-image-pending">画像準備中…</div>
+<figcaption>${im.label}</figcaption>
+</figure>`;
+    }
+    return `
+<figure class="admin-review-image">
+<img src="${escapeHtml(publicAssetUrl(im.src, data.publicUrl, imageCacheKey))}" alt="" loading="eager"
+  onerror="this.hidden=true; this.nextElementSibling.hidden=false;">
+<div class="admin-image-load-error" hidden>画像を再取得できませんでした。Preflightを再読込してください。</div>
+<figcaption>${im.label}</figcaption>
+</figure>`;
+  }).join('');
+
+  text('v-public-url', productionPublicUrl(data.publicUrl));
+  text('v-path', data.targetPath);
+  text('v-repo', data.github?.repo ? `${data.github.repo} @ ${data.github.branch}` : '未設定');
+  text('v-commit-message', data.commitMessage);
+  text('v-source-path', a.source_path || '（未公開）');
+  text('v-source-sha', a.source_sha || '（未公開）');
+  $('repo-label').textContent = data.targetPath || 'content/blog/';
+  $('edit-link').href = `/admin/articles/editor/?id=${encodeURIComponent(a.id)}`;
+  $('back-link').href = `/admin/articles/editor/?id=${encodeURIComponent(a.id)}`;
+}
+
+// 公開サイトと同じCSSで、記事本体の見た目に近い形をiframeへ描画する。
+function renderPreview(a, publicUrl) {
+  const bodyHtml = marked.parse(a.body_markdown || '', { gfm: true, breaks: false });
+  const categoryLabel = CATEGORY_LABELS[a.category] || a.category || '';
+  const updatedBlock = a.updated && a.updated !== a.published
+    ? ` <time class="blog-update">UPDATE ${escapeHtml(String(a.updated).replace(/-/g, '.'))}</time>`
+    : '';
+  const hero = a.thumbnail && imageReadyForReview(a)
+    ? `<figure class="blog-hero-media"><img src="${escapeHtml(publicAssetUrl(a.thumbnail, publicUrl, imageReviewCacheKey(a)))}" alt="${escapeHtml(a.title || '')}" width="1200" height="675"></figure>`
+    : (a.thumbnail ? `<p style="margin:24px auto;max-width:980px;padding:16px;border:1px solid #d9d2c4;color:#7a7469;">画像準備中。READY後に自動表示されます。</p>` : '');
+  const doc = `<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/blog.css">
+<style>
+  body{margin:0;}
+  /* 本番の .reveal はJSで表示されるため、Preview側では常に表示状態にする */
+  .reveal{opacity:1 !important; transform:none !important;}
+</style>
+</head><body class="blog blog-post">
+<main>
+<article class="blog-article">
+<header class="blog-article-hero">
+<div class="wrap blog-article-hero-wrap">
+<p class="eyebrow">COLUMN / ${escapeHtml(categoryLabel)}</p>
+<div class="blog-article-dates"><time>${escapeHtml(String(a.published || '').replace(/-/g, '.'))}</time>${updatedBlock}</div>
+<h1 class="blog-article-title">${escapeHtml(a.title || '')}</h1>
+<p class="blog-article-lead">${escapeHtml(a.description || '')}</p>
+<p class="blog-article-author"><span class="blog-article-author-label">WRITTEN BY</span>${escapeHtml(a.author || '')}${a.author_role && a.author_role !== a.author ? `<span>${escapeHtml(a.author_role)}</span>` : ''}</p>
+</div>
+</header>
+${hero}
+<div class="wrap blog-post-wrap">
+<div class="blog-body">${bodyHtml}</div>
+</div>
+</article>
+</main>
+</body></html>`;
+  $('preview-frame').srcdoc = doc;
+}
+
+/* ---------- Preflight実行 ---------- */
+
+async function loadPreflight() {
+  clearError();
+  $('loading-box').classList.remove('admin-hidden');
+  try {
+    const data = await AdminApi.publishPreview(articleId);
+    preflight = data;
+    $('loading-box').classList.add('admin-hidden');
+
+    renderChecks(data.checks);
+    renderMeta(data.article, data);
+    renderPreview(data.article, data.publicUrl);
+    $('markdown-pre').textContent = data.markdown || '（必須項目が不足しているため、Markdownを生成できません）';
+
+    const btn = $('publish-btn');
+    const note = $('publish-note');
+    if (data.ok) {
+      imageReadyRetryCount = 0;
+      btn.disabled = false;
+      note.textContent = data.mode === 'create'
+        ? '本番準備は完了しています。ここで停止しています。Review & Publishを押すまで公開しません。'
+        : '本番準備は完了しています。ここで停止しています。Review & Publishを押すまで既存記事は変更しません。';
+      $('blocker-box').classList.add('admin-hidden');
+    } else {
+      btn.disabled = true;
+      const waitingForImage = data.blocker?.code === 'image_live_not_ready' || data.blocker?.code === 'image_not_ready';
+      note.textContent = waitingForImage
+        ? '記事画像を準備中です。反映確認が完了すると自動でPublish可能になります。'
+        : '上のPreflightで✕になっている項目を解消すると公開できます。';
+      const blocker = $('blocker-box');
+      blocker.textContent = data.blocker?.message || '公開前チェックに失敗しました。';
+      blocker.classList.remove('admin-hidden');
+
+      if (waitingForImage && imageReadyRetryCount < IMAGE_READY_MAX_RETRIES) {
+        imageReadyRetryCount += 1;
+        window.setTimeout(() => loadPreflight(), 5000);
+      }
+    }
+
+    $('confirm-path').textContent = data.targetPath || '';
+    $('review-body').classList.remove('admin-hidden');
+  } catch (e) {
+    $('loading-box').classList.add('admin-hidden');
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    showError(e.status === 404
+      ? 'この記事は見つかりませんでした。削除された可能性があります。'
+      : (e.message || 'Preflightの実行に失敗しました。'));
+  }
+}
+
+/* ---------- Publish ---------- */
+
+function openConfirm() {
+  $('confirm-overlay').classList.remove('admin-hidden');
+  $('confirm-publish').focus();
+}
+function closeConfirm() {
+  $('confirm-overlay').classList.add('admin-hidden');
+}
+
+async function doPublish() {
+  if (publishing) return;            // 二重送信禁止
+  publishing = true;
+  const confirmBtn = $('confirm-publish');
+  const publishBtn = $('publish-btn');
+  confirmBtn.disabled = true;
+  publishBtn.disabled = true;
+  confirmBtn.textContent = 'Publishing…';
+  clearError();
+
+  try {
+    const result = await AdminApi.publish(
+      articleId,
+      preflight?.article?.image_asset_version || ''
+    );
+    closeConfirm();
+    showSuccess(result);
+  } catch (e) {
+    closeConfirm();
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    const message = e.code === 'source_conflict'
+      ? 'GitHub側の記事が別経路で変更されています。Adminからの上書きはできません。GitHub上の内容を確認してください。'
+      : (e.message || '公開に失敗しました。');
+    // 失敗後は最新状態でPreflightをやり直す（Supabase Draftは壊れていない）。
+    // loadPreflight() はエラー表示をクリアするため、やり直したあとに改めて表示する。
+    await loadPreflight();
+    showError(message);
+  } finally {
+    publishing = false;
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = 'Review & Publish';
+  }
+}
+
+function showSuccess(result) {
+  $('review-body').classList.add('admin-hidden');
+  text('s-mode', result.mode === 'create' ? 'CREATE（新規作成）' : 'UPDATE（既存ファイルの更新）');
+  text('s-path', `${result.repo}@${result.branch}:${result.path}`);
+  text('s-commit', result.commitSha || '—');
+  const liveUrl = productionPublicUrl(result.publicUrl);
+  text('s-url', liveUrl);
+  $('s-open').href = liveUrl;
+  if (result.commitUrl) {
+    const link = $('s-commit-link');
+    link.href = result.commitUrl;
+    link.classList.remove('admin-hidden');
+  }
+  if (result.syncWarning) {
+    const w = $('s-warning');
+    w.textContent = result.syncWarning;
+    w.classList.remove('admin-hidden');
+  }
+  $('success-panel').classList.remove('admin-hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  pollPublication(result);
+}
+
+function restorePublicationProgress(payload) {
+  const article = payload?.article || {};
+  const state = String(article.publish_status || 'NOT_PUBLISHED');
+
+  $('review-body').classList.add('admin-hidden');
+  $('success-panel').classList.remove('admin-hidden');
+
+  const title = $('success-panel').querySelector('.admin-success-title');
+  if (title) {
+    title.textContent = state === 'PUBLISHED'
+      ? '本番公開完了'
+      : '本番公開の進捗を再開しました';
+  }
+
+  text('s-mode', state === 'PUBLISHED' ? 'PUBLISHED（本番確認済み）' : 'PUBLISHING（本番反映中）');
+  text('s-path', article.source_path || (article.slug ? `content/blog/${article.slug}.md` : '—'));
+  text('s-commit', article.publish_commit_sha || '—');
+
+  const liveUrl = productionPublicUrl(
+    article.published_url || (article.slug ? `/blog/${article.slug}/` : '/blog/')
+  );
+  text('s-url', liveUrl);
+  $('s-open').href = liveUrl;
+
+  const deployNote = $('s-deploy');
+  if (state === 'PUBLISHED') {
+    deployNote.innerHTML = '<strong>本番公開は完了しています。</strong> この画面は後から開き直しても公開状態を復元できます。';
+  } else {
+    deployNote.innerHTML = '<strong>Publish commitは完了しています。</strong> Xserver本番反映と最終確認を継続中です。この画面を離れても、同じ記事を開き直せば進捗確認を再開できます。';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deploymentSummary(deployment) {
+  if (!deployment) return 'Actions: 確認待ち';
+  if (deployment.found === false) return 'Actions: 対応runの生成待ち';
+  if (deployment.found === null) return 'Actions: 状態取得待ち';
+  const status = deployment.status || 'unknown';
+  const conclusion = deployment.conclusion ? `/${deployment.conclusion}` : '';
+  return `Actions: ${status}${conclusion}`;
+}
+
+function deployProgressSummary(deployment) {
+  const progress = deployment?.progress;
+  if (!progress) return deploymentSummary(deployment);
+  const labels = {
+    workflow_queued: 'Actions起動待ち',
+    planning: '変更内容を確認中',
+    build: 'ブログ・サイトを構築中',
+    backup: '復旧用バックアップを確認中',
+    upload: 'Xserverへ差分・必要ファイルを転送中',
+    verification: '本番URLとファイルを検証中'
+  };
+  const phase = labels[progress.stage] || '進行中';
+  const mode = progress.mode ? `［${progress.mode}］` : '';
+  const count = progress.totalSteps > 0
+    ? `・成功ステップ ${progress.completedSteps}/${progress.totalSteps}`
+    : '';
+  return `${phase}${mode}（${progress.label || '処理中'}）${count}`;
+}
+
+function renderFinalPublicationState(payload) {
+  const publication = payload?.publication || {};
+  const deployment = publication.deployment || {};
+  const poll = $('s-poll');
+
+  if (publication.state === 'PUBLISHED') {
+    poll.textContent = '本番公開完了。GitHub Actionsの成功とXserver本番URLの応答を確認しました。';
+    return true;
+  }
+
+  if (
+    deployment.found === true
+    && deployment.status === 'completed'
+    && deployment.conclusion
+    && deployment.conclusion !== 'success'
+  ) {
+    poll.textContent = `Xserverデプロイが ${deployment.conclusion} で終了しました。GitHub commitは保持されていますが、本番公開完了にはしていません。`;
+    return true;
+  }
+
+  return false;
+}
+
+async function pollPublication(result) {
+  // commit SHAに紐づくDeploy to Xserver workflow runをサーバー側で照合する。
+  // URLが200というだけでは既存記事の更新反映を証明できないため、CREATE/UPDATE共通で同じ判定を使う。
+  // Actions deploy can legitimately outlast 15 minutes for a FULL release.
+  // Display actual observed steps and elapsed time, never a made-up ETA.
+  const MAX_ATTEMPTS = 210;  // 35-minute observation safety cap, not an ETA.
+  const INTERVAL_MS = 10000;
+  const startedAt = Date.now();
+  const poll = $('s-poll');
+  const elapsed = () => {
+    const m = Math.floor((Date.now() - startedAt) / 60000);
+    const sec = Math.floor(((Date.now() - startedAt) % 60000) / 1000);
+    return `${m}分${String(sec).padStart(2, '0')}秒`;
+  };
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    try {
+      const payload = await AdminApi.publishStatus(articleId);
+      if (renderFinalPublicationState(payload)) return;
+
+      const publication = payload?.publication || {};
+      poll.textContent = `GitHub commit完了・経過${elapsed()}｜${deployProgressSummary(publication.deployment)}。本番公開の確定を確認中です。`;
+    } catch (e) {
+      if (e.status === 401) { location.replace('/admin/login/'); return; }
+      poll.textContent = `公開状態の取得に一時失敗しました（経過${elapsed()}）。再確認します。`;
+    }
+
+    await new Promise((r) => setTimeout(r, INTERVAL_MS));
+  }
+
+  // Observation cap does not imply deployment failure: query the exact run once more.
+  try {
+    const payload = await AdminApi.publishStatus(articleId);
+    if (renderFinalPublicationState(payload)) return;
+
+    const publication = payload?.publication || {};
+    const deployment = publication.deployment || {};
+    if (deployment.found === true && deployment.status !== 'completed') {
+      poll.textContent = `経過${elapsed()}。${deployProgressSummary(deployment)}。確認画面の自動監視は終了しましたが、公開失敗とは確定していません。ページを再読み込みして最新状態を確認できます。`;
+      return;
+    }
+    if (deployment.found === true && deployment.status === 'completed' && deployment.conclusion === 'success') {
+      poll.textContent = 'GitHub Actionsは成功していますが、本番URLの最終確認がまだ取れていません。公開失敗とは確定していません。ページを再読み込みすると再検証します。';
+      return;
+    }
+    if (deployment.found === false) {
+      poll.textContent = 'Publish commitに対応するDeploy to Xserver runを確認できませんでした。公開失敗とは確定せず、Actionsの起動状況を確認してください。';
+      return;
+    }
+    poll.textContent = 'GitHub Actionsの状態を取得できませんでした。公開失敗とは確定していません。ページを再読み込みすると再確認します。';
+  } catch (e) {
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    poll.textContent = `経過${elapsed()}。最終状態の確認に失敗しました。公開失敗とは確定していません。GitHub Actionsの実状態を確認してください。`;
+  }
+}
+
+/* ---------- 初期化 ---------- */
+
+async function init() {
+  const result = await requireSession();
+  if (!result) return;
+
+  $('user-email').textContent = result.session.user.email;
+  $('checking').classList.add('admin-hidden');
+  $('app').classList.remove('admin-hidden');
+  $('logout-btn').addEventListener('click', () => signOut());
+
+  if (!articleId) {
+    showError('記事IDが指定されていません。Articles一覧から記事を選び直してください。');
+    return;
+  }
+
+  $('publish-btn').addEventListener('click', openConfirm);
+  $('confirm-cancel').addEventListener('click', closeConfirm);
+  $('confirm-publish').addEventListener('click', doPublish);
+  $('confirm-overlay').addEventListener('click', (e) => { if (e.target === $('confirm-overlay') && !publishing) closeConfirm(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !publishing) closeConfirm(); });
+
+  // Review画面を開き直した場合も、サーバー側のPublication Stateから進捗を復元する。
+  // ブラウザ内の一時的なpoll状態には依存しない。
+  try {
+    const payload = await AdminApi.publishStatus(articleId);
+    const state = String(payload?.article?.publish_status || 'NOT_PUBLISHED');
+
+    if (state === 'PUBLISH_COMMITTED' || state === 'PUBLISHED') {
+      restorePublicationProgress(payload);
+
+      if (renderFinalPublicationState(payload)) return;
+
+      // PUBLISH_COMMITTEDなら、ここから10秒間隔の進捗確認を再開する。
+      pollPublication();
+      return;
+    }
+  } catch (e) {
+    if (e.status === 401) { location.replace('/admin/login/'); return; }
+    showError(e.message || '公開状態を確認できませんでした。再読み込みしてください。');
+    return;
+  }
+
+  await loadPreflight();
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "policy": "content-reference-lineage-v1",
+  "note": "Canonical legacy/current Content Reference lineage for blog image reuse checks. New Reference V2.2+ jobs also carry their own audit metadata.",
+  "usages": [
+    {
+      "slug": "personal-gym-trial-checkpoints",
+      "title": "パーソナルジムの体験では何を見る？入会前に確認したい5つのこと",
+      "content_reference": "assets/images/trainer-coaching.jpg",
+      "status": "published",
+      "published": "2026-09-13",
+      "provenance": "legacy-confirmed-by-owner"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+name: GSC Direct Contract
+on:
+  push:
+    branches: [fix/gsc-direct-production-acceptance]
+  pull_request:
+    paths:
+      - lib/gsc*.mjs
+      - scripts/test-gsc*.mjs
+      - vercel.json
+      - .github/workflows/gsc-direct-contract.yml
+permissions:
+  contents: read
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run test:gsc-direct && npm run test:gsc-production && npm run test:ga4-direct && npm run test:control-capture && npm run test:vercel-release-policy && npm run test:phase-e && npm run test:phase-9
+      - run: npm run vercel-build

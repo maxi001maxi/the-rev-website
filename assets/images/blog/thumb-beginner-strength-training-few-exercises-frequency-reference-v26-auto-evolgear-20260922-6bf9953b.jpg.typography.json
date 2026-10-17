@@ -1,0 +1,233 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "beginner-strength-training-few-exercises-frequency",
+  "asset_version": "reference-v26-auto-evolgear-20260922-6bf9953b",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "続けられる",
+        "頻度を、",
+        "最初に決める。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.6050141005752242,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        62,
+        108.1025641025641,
+        73.16
+      ],
+      "focus_line": 1,
+      "focus_text": "頻度を、",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9932386200420673,
+      "block_area_ratio": 0.1966704434222186,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.21875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8705882352941177,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.751801048880557,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 173,
+          "right": 377.109375,
+          "bottom": 262,
+          "width": 313.109375
+        },
+        {
+          "left": 64,
+          "top": 253.4375,
+          "right": 498.859375,
+          "bottom": 408.4375,
+          "width": 434.859375
+        },
+        {
+          "left": 64,
+          "top": 397.515625,
+          "right": 580.4375,
+          "bottom": 502.515625,
+          "width": 516.4375
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+      "asset_sha256": "640f386b1af55d012513ca6384bd393c7f1a9960e171ec388819c823d5d79261",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-preview-320.jpg",
+          "sha256": "d5bbd70c663b243d14465540ee9f95db99ef74652b257adae6515c171ded14d0"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-preview-400.jpg",
+          "sha256": "feee7af45dd47d3c965d30b884e8fc46b6aede9470d06b64c3657fe35a5bcf56"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "続けられる",
+        "頻度を、",
+        "最初に決める。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.6050141005752242,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        62,
+        108.1025641025641,
+        73.16
+      ],
+      "focus_line": 1,
+      "focus_text": "頻度を、",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9932386200420673,
+      "block_area_ratio": 0.21071833223809136,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.21875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8705882352941177,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.751801048880557,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 151,
+          "right": 377.109375,
+          "bottom": 240,
+          "width": 313.109375
+        },
+        {
+          "left": 64,
+          "top": 231.4375,
+          "right": 498.859375,
+          "bottom": 386.4375,
+          "width": 434.859375
+        },
+        {
+          "left": 64,
+          "top": 375.515625,
+          "right": 580.4375,
+          "bottom": 480.515625,
+          "width": 516.4375
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+      "asset_sha256": "9cd0db86c2601375a77b438232af33e1186a3014e656c5f3afcee06a2face463",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-preview-320.jpg",
+          "sha256": "65738729051867405e9fc07bd16220b5c987937930d6b474e1cfe98b3d15c519"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-preview-400.jpg",
+          "sha256": "878d1f92f62e70673865db083ac20a21e1c0238f7945db40789d8a2e5af5af9c"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "続けられる",
+        "頻度を、最初に",
+        "決める。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.7138810200275336,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 2,
+      "focus_text": "決める。",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9948186673251066,
+      "block_area_ratio": 0.1188531968934801,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 275,
+          "right": 373.109375,
+          "bottom": 364,
+          "width": 313.109375
+        },
+        {
+          "left": 60,
+          "top": 364.4375,
+          "right": 498.34375,
+          "bottom": 453.4375,
+          "width": 438.34375
+        },
+        {
+          "left": 60,
+          "top": 446.875,
+          "right": 470.921875,
+          "bottom": 593.875,
+          "width": 410.921875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+      "asset_sha256": "aab66f405536409669b6c455e4d16c6cc78ca2dade1f150efca661f7f63b1324",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-preview-320.jpg",
+          "sha256": "224cde4b5e2e731cb0347ee835d61c4b8691b0176d208158eb8e05847c031425"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b-preview-400.jpg",
+          "sha256": "5bb9a9ce73feb38aba09e675c0488959006751569ece29b00f9948629ad7d487"
+        }
+      }
+    }
+  }
+}

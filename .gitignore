@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel/
+dist/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
+
+# Supabase CLI ローカルキャッシュ
+supabase/.temp/
+supabase/.branches/
+
+# Reproducible QA output (report pointers live in docs/qa)
+qa-out/
+.vercel-prepare-deploy-complete

@@ -1,0 +1,331 @@
+import { evaluateEditorialLength } from '../../lib/editorialReadiness.mjs';
+// POST /api/integrations/editorial
+//
+// Server-to-server bridge from THE REV. Editorial AI (Google Apps Script)
+// into the Editorial Console Working Draft table.
+//
+// Safety model:
+//   - Shared bearer secret (EDITORIAL_BRIDGE_SECRET)
+//   - Service-role key is used only inside this Vercel Function
+//   - Target owner is fixed to ADMIN_PUBLISHER_USER_ID
+//   - Only READY + Fact PASS + Topic Gate PUBLISH payloads are accepted
+//   - Missing article images are prepared automatically before Preview
+//   - This endpoint NEVER publishes the article to GitHub. Human approval remains required.
+import { createClient } from '@supabase/supabase-js';
+import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
+import { prepareEditorialImageJob, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
+import {
+  hybridImageInfoFromDraft,
+  shouldPreserveHybridImageOnEditorialSync
+} from '../../lib/editorialHybridImageFormat.mjs';
+import { AutomatedHybridImageError, prepareAutomatedHybridImageJob } from '../../lib/editorialAutomatedHybridImage.mjs';
+import {
+  BRIDGE_SOURCE,
+  bridgeConfig,
+  computeEditorialSyncHash,
+  extractBearerSecret,
+  normalizeBridgeMetadata,
+  originFromRequest,
+  resolveEditorialCtaType,
+  resolveEditorialPublishedDate,
+  safeSecretEqual,
+  validateBridgeEnvelope
+} from '../../lib/editorialBridge.mjs';
+
+export const config = { maxDuration: 300 };
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return send(res, 405, 'method_not_allowed', 'POSTのみサポートしています。');
+  }
+
+  const cfg = bridgeConfig();
+  if (!cfg.configured) {
+    return send(res, 503, 'bridge_not_configured', `Editorial Bridgeの環境変数が不足しています: ${cfg.missing.join(', ')}`);
+  }
+
+  const suppliedSecret = extractBearerSecret(req);
+  if (!safeSecretEqual(suppliedSecret, process.env.EDITORIAL_BRIDGE_SECRET)) {
+    return send(res, 401, 'unauthorized', 'Editorial Bridgeの認証に失敗しました。');
+  }
+
+  const body = req.body || {};
+  const envelope = validateBridgeEnvelope(body);
+  if (envelope.errors.length) {
+    return send(res, 422, 'editorial_gate_failed', envelope.errors.join(' '));
+  }
+
+  const lengthGate = evaluateEditorialLength(body.article_type, body.body_markdown);
+  if (!lengthGate.pass) return send(res, 422, 'editorial_length_gate_failed', lengthGate.type + ' length gate failed: ' + lengthGate.count + ' chars / min ' + lengthGate.min);
+
+  // Normalize text/article fields first. Image paths may still be empty and are
+  // filled automatically before the final sync hash is calculated.
+  const normalized = normalizeArticleInput({
+    title: body.title,
+    slug: body.slug,
+    description: body.description,
+    category: envelope.value.category,
+    cta_type: resolveEditorialCtaType(body, envelope.value),
+    body_markdown: body.body_markdown,
+    author: body.author,
+    author_role: body.author_role,
+    thumbnail: body.thumbnail,
+    og_image: body.og_image,
+    published: resolveEditorialPublishedDate({ contentId: envelope.value.contentId, published: body.published }),
+    updated: resolveEditorialPublishedDate({ contentId: envelope.value.contentId, published: body.updated }),
+    featured: body.featured,
+    noindex: body.noindex,
+    keywords: body.keywords
+  });
+  if (normalized.errors) {
+    return send(res, 422, 'validation_error', normalized.errors.join(' '));
+  }
+  if (!String(normalized.value.body_markdown || '').trim()) {
+    return send(res, 422, 'validation_error', 'body_markdown は必須です。');
+  }
+
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+    auth: { persistSession: false, autoRefreshToken: false }
+  });
+
+  const existing = await supabase
+    .from('admin_article_drafts')
+    .select('*')
+    .eq('editorial_source', BRIDGE_SOURCE)
+    .eq('editorial_content_id', envelope.value.contentId)
+    .maybeSingle();
+  if (existing.error) return send(res, 500, 'db_error', '既存Draftの確認に失敗しました。');
+
+  let article = existing.data || null;
+
+  // Published drafts keep their original slug. Reject before preparing image
+  // assets so a bad slug edit cannot leave orphan files in GitHub.
+  if (article?.source_path && article.slug !== normalized.value.slug) {
+    return send(res, 409, 'slug_locked', `公開済みDraftのslugは変更できません（現在: ${article.slug}）。`);
+  }
+
+  // Never take over an unrelated manually-created draft with the same slug.
+  if (!article) {
+    const slugConflict = await supabase
+      .from('admin_article_drafts')
+      .select('id, editorial_source, editorial_content_id')
+      .eq('slug', normalized.value.slug)
+      .maybeSingle();
+    if (slugConflict.error) return send(res, 500, 'db_error', 'slug重複確認に失敗しました。');
+    if (slugConflict.data) {
+      return send(res, 409, 'slug_conflict', `slug "${normalized.value.slug}" は既存Draftで使用されています。`);
+    }
+  }
+
+  // Phase 10 image sync:
+  // - Approved Reference V2.3 Hybrid assets are durable. A routine Editorial
+  //   text re-sync must not silently downgrade them back to V2.2.
+  // - If the article identity or explicit image copy changes, the Bridge falls
+  //   back to the safe V2.2 preparation route until a new Hybrid asset is made.
+  const preserveHybrid = shouldPreserveHybridImageOnEditorialSync(article, {
+    slug: normalized.value.slug,
+    title: normalized.value.title,
+    category: normalized.value.category,
+    imageHeadlineShort: body.image_headline_short
+  });
+
+  let imageInfo = null;
+  try {
+    const explicitFallbackReason = String(body.image_fallback_reason || '').trim();
+    if (preserveHybrid) {
+      imageInfo = hybridImageInfoFromDraft(article);
+    } else if (explicitFallbackReason) {
+      imageInfo = await prepareEditorialImageJob({
+        title: normalized.value.title,
+        slug: normalized.value.slug,
+        description: normalized.value.description,
+        category: normalized.value.category,
+        bodyMarkdown: normalized.value.body_markdown,
+        primaryQuery: body.primary_query,
+        imageHeadlineShort: body.image_headline_short,
+        imageCategoryLabel: body.image_category_label,
+        imageSeriesLabel: body.image_series_label,
+        sourceImage: body.image_source_path,
+        fallbackReason: explicitFallbackReason
+      });
+    } else {
+      imageInfo = await prepareAutomatedHybridImageJob({
+        title: normalized.value.title,
+        slug: normalized.value.slug,
+        description: normalized.value.description,
+        category: normalized.value.category,
+        body_markdown: normalized.value.body_markdown,
+        primary_query: body.primary_query,
+        // Leave absent copy unset. prepareAutomatedHybridImageJob owns recent-copy
+        // dedupe and must see the full candidate list; preselecting candidate[0]
+        // here collapses the pool and can create false image_copy_recently_repeated
+        // failures when candidate[1+] are still valid.
+        image_headline_short: body.image_headline_short,
+        image_category_label: body.image_category_label,
+        image_series_label: body.image_series_label
+      });
+    }
+  } catch (e) {
+    if (article?.id) {
+      await supabase
+        .from('admin_article_drafts')
+        .update({
+          image_status: 'ERROR',
+          image_asset_ready: false,
+          image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
+          image_checked_at: new Date().toISOString(),
+          gbp_image_status: 'ERROR',
+          gbp_image_last_error: e instanceof Error ? String(e.message).slice(0, 1000) : 'unknown image error',
+          gbp_image_checked_at: new Date().toISOString()
+        })
+        .eq('id', article.id);
+    }
+    if (e instanceof EditorialImageError || e instanceof AutomatedHybridImageError) {
+      return send(res, e.status || 502, e.code || 'image_automation_failed', e.message);
+    }
+    const unexpectedName = String(e?.name || 'Error').slice(0, 120);
+    const unexpectedMessage = String(e?.message || 'unknown image preparation error').slice(0, 800);
+    console.error('Editorial image preparation unexpected error', { name: unexpectedName, message: unexpectedMessage });
+    return send(res, 502, 'image_automation_failed', `画像準備で予期しないエラー: ${unexpectedName}: ${unexpectedMessage}`);
+  }
+
+  const thumbnail = imageInfo.thumbnail || article?.thumbnail || null;
+  const ogImage = imageInfo.ogImage || article?.og_image || null;
+  const gbpImage = imageInfo.gbpImage || article?.gbp_image || null;
+
+  const articleValue = {
+    ...normalized.value,
+    thumbnail,
+    og_image: ogImage
+  };
+  const preservedHybridReady = preserveHybrid && imageInfo.preserveReady === true;
+  const imageState = {
+    image_status: preservedHybridReady ? 'READY' : 'PREPARING',
+    image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,
+    image_strategy: imageInfo.strategy || null,
+    image_source_path: imageInfo.sourcePath || null,
+    image_asset_ready: preservedHybridReady,
+    image_checked_at: new Date().toISOString(),
+    image_qa: imageInfo.qa || null,
+    image_attempts: preservedHybridReady ? imageInfo.attempts : null,
+    image_style_template: imageInfo.styleTemplate || null,
+    image_headline_short: imageInfo.imageHeadlineShort || null,
+    image_category_label: imageInfo.categoryLabel || null,
+    image_series_label: imageInfo.seriesLabel || null,
+    image_asset_version: imageInfo.assetVersion || null,
+    image_job_path: imageInfo.jobPath || null,
+    image_qa_report_path: imageInfo.qaReportPath || null,
+    image_generation_model: imageInfo.generationModel || null,
+    image_qa_model: imageInfo.qaModel || null,
+    image_brand_qa_score: preservedHybridReady ? imageInfo.brandQaScore : null,
+    image_last_error: imageInfo.operatorRequired
+      ? 'V2.3 Hybrid画像をAI Operatorが生成・Visual QCするまでReview & Publishは停止します。'
+      : null,
+    gbp_image: gbpImage,
+    gbp_image_status: preservedHybridReady
+      ? (imageInfo.gbpImageStatus || article?.gbp_image_status || (gbpImage ? 'READY' : null))
+      : (gbpImage ? 'PREPARING' : null),
+    gbp_image_checked_at: new Date().toISOString(),
+    gbp_image_qa: preservedHybridReady ? (imageInfo.gbpImageQa || article?.gbp_image_qa || null) : null,
+    gbp_image_asset_version: imageInfo.gbpImageAssetVersion || (gbpImage ? imageInfo.assetVersion : null) || article?.gbp_image_asset_version || null,
+    gbp_image_last_error: null,
+    gbp_image_attempts: preservedHybridReady ? (article?.gbp_image_attempts ?? imageInfo.attempts ?? null) : null
+  };
+  const metadata = normalizeBridgeMetadata(body);
+  // Do not hash timestamps. The render version/strategy is stable and is enough
+  // to force one update when the image design system changes.
+  const syncHash = computeEditorialSyncHash({
+    ...articleValue,
+    image_render_version: imageState.image_render_version,
+    image_strategy: imageState.image_strategy
+  }, metadata);
+  let action = 'unchanged';
+
+  if (!article) {
+    const inserted = await supabase
+      .from('admin_article_drafts')
+      .insert({
+        ...articleValue,
+        ...imageState,
+        user_id: process.env.ADMIN_PUBLISHER_USER_ID,
+        editorial_source: BRIDGE_SOURCE,
+        editorial_content_id: envelope.value.contentId,
+        editorial_week_start: envelope.value.weekStart,
+        editorial_sync_hash: syncHash,
+        editorial_synced_at: new Date().toISOString()
+      })
+      .select()
+      .single();
+    if (inserted.error) {
+      if (inserted.error.code === '23505') return send(res, 409, 'slug_conflict', `slug "${articleValue.slug}" はすでに使用されています。`);
+      return send(res, 500, 'db_error', 'Editorial Console Draftの作成に失敗しました。');
+    }
+    article = inserted.data;
+    action = 'created';
+  } else if (article.editorial_sync_hash !== syncHash) {
+    const updated = await supabase
+      .from('admin_article_drafts')
+      .update({
+        ...articleValue,
+        ...imageState,
+        editorial_week_start: envelope.value.weekStart,
+        editorial_sync_hash: syncHash,
+        editorial_synced_at: new Date().toISOString()
+      })
+      .eq('id', article.id)
+      .select()
+      .single();
+    if (updated.error) {
+      if (updated.error.code === '23505') return send(res, 409, 'slug_conflict', `slug "${articleValue.slug}" はすでに使用されています。`);
+      return send(res, 500, 'db_error', 'Editorial Console Draftの更新に失敗しました。');
+    }
+    article = updated.data;
+    action = 'updated';
+  }
+
+  const origin = originFromRequest(req);
+  return res.status(action === 'created' ? 201 : 200).json({
+    ok: true,
+    action,
+    article: {
+      id: article.id,
+      title: article.title,
+      slug: article.slug,
+      source_path: article.source_path || null,
+      thumbnail: article.thumbnail || null,
+      og_image: article.og_image || null,
+      gbp_image: article.gbp_image || null,
+      gbp_image_status: article.gbp_image_status || null,
+      gbp_image_asset_version: article.gbp_image_asset_version || null,
+      gbp_image_checked_at: article.gbp_image_checked_at || null,
+      gbp_image_qa: article.gbp_image_qa || null,
+      editorial_content_id: article.editorial_content_id,
+      editorial_synced_at: article.editorial_synced_at,
+      image_status: article.image_status || null,
+      image_render_version: article.image_render_version || null,
+      image_asset_ready: article.image_asset_ready === true,
+      image_strategy: article.image_strategy || null,
+      image_style_template: article.image_style_template || null,
+      image_headline_short: article.image_headline_short || null,
+      image_category_label: article.image_category_label || null,
+      image_series_label: article.image_series_label || null,
+      image_asset_version: article.image_asset_version || null,
+      image_job_path: article.image_job_path || null,
+      image_qa_report_path: article.image_qa_report_path || null,
+      image_generation_model: article.image_generation_model || null,
+      image_qa_model: article.image_qa_model || null,
+      image_brand_qa_score: article.image_brand_qa_score ?? null,
+      image_qa: article.image_qa || null,
+      image_attempts: article.image_attempts || null
+    },
+    image: imageInfo,
+    review_url: origin ? `${origin}/admin/articles/review/?id=${encodeURIComponent(article.id)}` : null,
+    editor_url: origin ? `${origin}/admin/articles/editor/?id=${encodeURIComponent(article.id)}` : null,
+    publish_requires_human_approval: true
+  });
+}
+
+function send(res, status, error, message) {
+  return res.status(status).json({ error, message });
+}

@@ -1,0 +1,92 @@
+{
+  "experiment_id": "THE_REV_IMAGE_P2_20261014",
+  "version": "p2-five-article-brief-trial-v1",
+  "mode": "OFFLINE_ONLY",
+  "cases": [
+    {
+      "case_id": "p2-01",
+      "slug": "the-rev-trial-three-menus-first-visit",
+      "baseline_asset_version": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+      "article_context": "パーソナルジムの初回体験メニューの選び方。",
+      "target_fingerprint": {
+        "scene_type": "personal_choice",
+        "human_action": "compare_notes",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "deciding_own_start"
+      },
+      "improved_brief": "ONE Japanese adult male customer, on the EXISTING THE REV reception stool, studying a small personal note and blank phone. CRITICAL CAMERA FRAMING: true MEDIUM SEATED PORTRAIT, NOT a wide full-body shot. Crop from around upper thigh/waist to head with both hands, small phone and note fully readable as an action. Head and shoulders prominently fill the CENTER-RIGHT of the image; subject's face/upper body are visually dominant, target 60–70% of total attention, with enough upper-body scale for 320px thumbnails. Camera moves closer to the real stool, not the stool/person to camera. Natural eye-level angle with modest three-quarter turn. Do not show both feet, large empty floor, the whole reception room, or oversized blank walls. Do not place subject at the far right edge. Authentic THE REV wall logo, plant, reception counter and rear rack remain in their original positions as recognizable softly defocused anchors; never rebuild room geometry, rack/bench placement, plants, wall, or lighting. Use optical shallow depth, not artificial opaque blur; keep realistic contact shadows and lighting. The face communicates calm consideration and a slight sense of choosing, not anxiety or staged grin. Exactly one customer, no trainer/staff, no extra equipment, no fictitious props, no readable commercial screen content. FINAL IMAGE MUST support the existing quiet ivory-on-left Golden Typography in both wide and GBP 4:3 layouts, and must not create a conspicuous bright rectangular wall/fade transition. Do not alter typography or overlay in the image; the deterministic renderer adds copy later.",
+      "hypothesis": "単に施設を眺める場面より、初回体験を自分で選ぶ状況が一目で伝わる",
+      "revision": "p2-01-r2-after-qc-fail-38540625251",
+      "previous_rejected_asset_version": "p2-offline-v1",
+      "r2_expected_visual_checks": [
+        "person_visual_attention_58_to_75",
+        "medium_seated_portrait_not_wide_full_body",
+        "background_secondary_pass",
+        "background_soft_blur_pass",
+        "gbp_art_direction_fade_integrated"
+      ]
+    },
+    {
+      "case_id": "p2-02",
+      "slug": "pre-workout-stretching-duration",
+      "baseline_asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
+      "article_context": "運動前の軽い動的ウォームアップ、準備運動の順番。",
+      "target_fingerprint": {
+        "scene_type": "before_start",
+        "human_action": "prepare",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "checking_readiness"
+      },
+      "improved_brief": "Use the FIRST real THE REV photo as the ABSOLUTE spatial source of truth. This is image editing of that specific gym, NOT a redesigned generic gym. Preserve precisely the relative location, sizes and visibility of the existing black combined cable/rack structure and black training bench at image-right, the pale window and lower wall at image-left, the original floor tiles, ceiling beams, overhead track/lights and natural daylight direction. NEVER widen or clear the room, move the rack or bench, invent extra floor space, change window position, or replace the room with a generic airy studio. Depict EXACTLY one ordinary adult male customer in a gentle DYNAMIC pre-exercise warm-up. Capture a real instantaneous MID-SWING of standing shoulder-and-upper-trunk rotation, rather than a held stretch. Hips and torso turn slightly in opposite phases, the arms are swinging freely and separately in an easy horizontal arc at chest height, one forearm slightly ahead of the body, the other behind; elbows relaxed, hands open and relaxed. A small visible weight shift is fine, with one heel just beginning to lift, but feet and torso remain stable, physiologically plausible, and naturally grounded. NO cross-body shoulder stretch, NO hand pulling or gripping the opposite arm or elbow, NO held arm across the chest, NO workout set, NO elastic bands or new props. Natural engaged expression, NOT discomfort. The single frame should suggest the instant between two phases of a repeatable movement even without a motion blur or caption. Strict MEDIUM SIDE / THREE-QUARTER portrait from the natural camera position of the actual gym photo: crop approximately mid-thigh to head, subject dominant on CENTER-RIGHT with 58–75% human visual attention. A clear real rack/bench and a little recognizable wall/window remain behind the person, subordinate with realistic optical depth of field; no full-room / wide-full-body empty-floor shot. Keep the left area composition usable for the existing ivory Golden Typography and GBP 4:3 overlay, without painting new text, inventing a bright rectangular wall, or adding an artificial panel. Preserve real contact shadows, source-grounded perspective and authentic equipment scale. One customer only; no staff or trainer.",
+      "hypothesis": "安全な中間姿勢を保ちながら、動作の意味が一覧サイズでも読み取れる",
+      "revision": "p2-02-r2-after-qc-fail-38552625358",
+      "previous_rejected_asset_version": "p2-offline-v1",
+      "r2_reason": "R1 independent Source/Scene FAIL spatial_plausibility and article_scene_match_visual; static crossbody-arm pose and generic gym geometry. Human attention 45%, rev_environment_consistency=4."
+    },
+    {
+      "case_id": "p2-03",
+      "slug": "denba-health-device-mat-role",
+      "baseline_asset_version": "reference-v26-grounded-auto-denba-20260924-r5",
+      "article_context": "DENBA Healthの実機とマットの構成・役割の解説。",
+      "target_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "human_action": "observing_real_equipment",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "component_relationship"
+      },
+      "improved_brief": "REAL DENBA RECEPTION PHOTO FIRST: use the specific actual THE REV. reception source as the unchangeable spatial reference. The black DENBA Health control unit sits on its real white cabinet/counter with its original screen, position, size and orientation. Wall logo, switches, cabinetry and room shape must remain true. No new mat, wires, furniture, props, medical actions, trainer or people. Reframe as an intimate, natural MEDIUM SIDE PORTRAIT of EXACTLY ONE adult female customer examining the DENBA unit. Move the CAMERA CLOSER, not the real equipment: upper body from waist or mid-torso to full head, with relaxed hands and a subtle curious downward gaze at the actual device. Natural expression, not exaggerated smile. Person's recognizable face, upper body and intent are visually dominant at 320px. Target HUMAN VISUAL ATTENTION 60–70% (independent QA accepts 58–75). Do not create a tiny head/figure or show full room. Keep the ORIGINAL DENBA unit visible and legible as an article-specific secondary anchor on the RIGHT HALF, sufficiently large to recognize the device and its relative placement to the woman; do not crop, miniaturize, obscure, relocate, redesign or invent any part of it. Both woman's face and DENBA device must be visible and compositionally connected in the right-side photograph, without making the product or cabinet the hero. Use believable, gently softened optical background depth of field on wall and furniture behind subject, with woman's face/action sharp; preserve original natural light, perspective, contact, scale and a recognizably real THE REV location. In the final left-ivory text layout, the customer and device should remain readable, with no over-sharp background, rectangular glow or synthetic cutout edges. Do not render any article copy in the generated photograph; existing Golden Typography renderer will apply the approved headline and GBP 4:3 overlay. Aim for a distinct natural candid interaction, not a copied promotional product portrait.",
+      "hypothesis": "既存の近接画より、顧客と実機の位置関係が自然に伝わる",
+      "revision": "p2-03-r2-after-qc-fail-38658404670",
+      "previous_rejected_asset_version": "p2-offline-v1",
+      "r2_reason": "R1 actually passed source/scene grounding and article relevance, but HUMAN-FIRST failed (52% visual attention; subject prominence 6; background secondary=false and soft blur=false). Existing A is currently more readable than B."
+    },
+    {
+      "case_id": "p2-04",
+      "slug": "nekose-strength-training-posture",
+      "baseline_asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+      "article_context": "猫背と筋トレ、姿勢と身体の動きの関係。",
+      "target_fingerprint": {
+        "scene_type": "before_start",
+        "human_action": "prepare",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "checking_readiness"
+      },
+      "improved_brief": "THE REV.実受付にある既存スツールへ自然に座った女性顧客1人が、運動前に肩の位置を軽く整え、自分の姿勢と動きを確かめる静かな瞬間。過度な猫背の誇張、医学的ビフォーアフター、受付での筋トレを描かない。ロゴ壁、植物、カウンター、後方ラックの位置を厳密に保持。",
+      "hypothesis": "『ただ座る』から『自分の姿勢と動きに気づく』へ情景の意味を高める"
+    },
+    {
+      "case_id": "p2-05",
+      "slug": "shinomiya-gym-beginner-choose",
+      "baseline_asset_version": "reference-v26-grounded-evolgear-20261007-r4",
+      "article_context": "新大宮で初心者がジムの種類を比較し、自分に合う始め方を選ぶ。",
+      "target_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "human_action": "observing_real_equipment",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "safe_first_step"
+      },
+      "improved_brief": "THE REV.実トレーニングエリアで成人男性顧客1人が実際のラックやベンチを安全な距離から眺め、自分に合うスタートを考えている。手には何も持たず器具に触れない。ベンチ、プレート、ラックの位置と大きさを固定し、余分な機材を作らない。背景は分かる程度に柔らかくし、本人の自然な表情を主役にする。",
+      "hypothesis": "靴ひもの準備動作より、施設の見極めという記事目的が直感的に伝わる"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 8,
+  "article_visual_relevance": 9,
+  "source_identity_preservation": 9,
+  "invented_people_or_objects": false,
+  "source_photo_changed_materially": false,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "unexpected_text_is_source_native": true,
+  "too_promotional": false,
+  "comments": "Strong sixth member of the approved series. The restrained cream text field, fine rule, spacious Japanese typography, muted palette, and balanced right-side gym photograph all align well with the established editorial system. The supplied source photo is clearly preserved with crop/resize treatment only; native gym markings and LYFT logo remain part of the photograph. The scene is semantically appropriate for a fatigue/state-check article and does not read as a promotional fitness ad.",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.2",
+  "generation_model": "source-photo-lock-playwright",
+  "render_mode": "source-photo-lock-v1",
+  "content_reference": "assets/images/trainer-top.jpg",
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "priority_order": [
+      "article_relevance",
+      "never_used_in_past_articles",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/photo-lobby.jpg",
+        "checked_at": "2026-09-19T03:59:15.100Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/photo-lobby.jpg"
+    ],
+    "historical_usage_registry": "editorial/content-reference-usage.json",
+    "historical_matching_articles": [],
+    "ever_used_before": false,
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/trainer-coaching.jpg",
+        "intent": "state-check-coaching",
+        "relevanceLevel": "primary",
+        "ever_used_before": true,
+        "recent_4_used": false
+      },
+      {
+        "path": "assets/images/trainer-top.jpg",
+        "intent": "state-check-guidance",
+        "relevanceLevel": "primary",
+        "ever_used_before": false,
+        "recent_4_used": false
+      }
+    ],
+    "selected_content_reference": "assets/images/trainer-top.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_historical_repeat": true,
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  },
+  "qa_model": "gpt-5.6-luna",
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v2-a1961b7efe",
+  "checked_at": "2026-09-19T04:19:36.511Z"
+}
