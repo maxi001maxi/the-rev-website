@@ -179,13 +179,10 @@
       body.style.width = '100%';
       btn.setAttribute('aria-expanded', 'true');
       drawer.setAttribute('aria-hidden', 'false');
-      // 表示アニメーション完了後にフォーカスを移す（非表示中は focus が効かない）
-      requestAnimationFrame(function () {
-        setTimeout(function () {
-          var f = getFocusableElements();
-          if (f.length) f[0].focus();
-        }, 60);
-      });
+      // Opening changes visibility synchronously; delayed focus can steal focus
+      // from keyboard navigation or a subsequently opened page.
+      var f = getFocusableElements();
+      if (f.length) f[0].focus({ preventScroll: true });
     }
     function shut() {
       var y = parseInt(body.dataset.scrollY || '0', 10);
@@ -198,11 +195,7 @@
       window.scrollTo({ top: y, behavior: 'instant' });
       btn.setAttribute('aria-expanded', 'false');
       drawer.setAttribute('aria-hidden', 'true');
-      // ハンバーガーは drawer-open 解除後に再表示されるため、
-      // 表示が戻ってからフォーカスを戻す
-      requestAnimationFrame(function () {
-        setTimeout(function () { btn.focus(); }, 60);
-      });
+      btn.focus({ preventScroll: true });
     }
     btn.addEventListener('click', function () {
       if (body.classList.contains('drawer-open')) shut(); else open();
@@ -223,9 +216,9 @@
       if (!f.length) return;
       var first = f[0], last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault(); last.focus();
+        e.preventDefault(); last.focus({ preventScroll: true });
       } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault(); first.focus();
+        e.preventDefault(); first.focus({ preventScroll: true });
       }
     }
     document.addEventListener('keydown', function (e) {

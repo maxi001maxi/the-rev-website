@@ -42,7 +42,7 @@
     document.body.style.position = 'fixed';
     document.body.style.top = -savedY + 'px';
     document.body.style.width = '100%';
-    focusable()[0]?.focus();
+    focusable()[0]?.focus({preventScroll: true});
   });
   drawer.querySelector('[data-menu-close]')?.addEventListener('click', () => close());
   drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => close(false)));
@@ -51,8 +51,8 @@
     if (e.key === 'Escape') { e.preventDefault(); close(); }
     if (e.key !== 'Tab') return;
     const items = focusable(), first = items[0], last = items.at(-1);
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus({preventScroll: true}); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus({preventScroll: true}); }
   });
   const updateHeader = () => header.classList.toggle('rev-is-scrolled', scrollY > 24);
   window.addEventListener('scroll', updateHeader, {passive:true});
