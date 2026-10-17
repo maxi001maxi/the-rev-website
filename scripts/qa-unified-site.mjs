@@ -108,7 +108,7 @@ async function runSize([width,height]){
    await page.keyboard.press('Tab');assert.ok(await close.evaluate(el=>el===document.activeElement));
    await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
    // Wait for Chromium to apply the restored document scroll after fixed-body layout.
-   await page.waitForFunction(y=>Math.abs(scrollY-y)<3,saved);
+   await page.waitForFunction(y=>Math.abs(scrollY-y)<3,saved).catch(async error=>{throw new Error(JSON.stringify({size,route,saved,after:await page.evaluate(()=>({scrollY,position:document.body.style.position,top:document.body.style.top,active:document.activeElement?.outerHTML?.slice(0,240)}))})+' '+error.message);});
    const restored=await page.evaluate(()=>scrollY);assert.ok(Math.abs(restored-saved)<3,JSON.stringify({size,route,saved,restored}));assert.equal(await opener.getAttribute('aria-expanded'),'false');
    await opener.click();await page.locator('[role="dialog"][aria-hidden="false"] button').first().click();
    record('drawer/focus/escape/scroll-restore',size,route,'PASS');
@@ -143,7 +143,7 @@ await Promise.all(Array.from({length:Math.min(Number(process.env.QA_CONCURRENCY 
 assert.deepEqual(errors,[],'page JavaScript errors');assert.deepEqual(network,[],'first-party network failures');
 } catch(error){record('failure','active','active',error.stack,'FAIL');console.error(error);process.exitCode=1;}
 finally{
- await browser.close();if(server)await new Promise(resolve=>server.close(resolve));
+ await browser.close();if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
  if(snapshotRoot)fs.rmSync(snapshotRoot,{recursive:true,force:true});
  const summary={status:process.exitCode?'FAIL':'PASS',base:origin,browser:'Chromium',testedSizes:sizes,results,errors,network,external,screenshots,exclusions:['Telemetry and non-GET requests blocked; no form submitted. Google Maps iframe blocked in the controlled history suite and checked separately in the live browser.']};
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(summary,null,2));
