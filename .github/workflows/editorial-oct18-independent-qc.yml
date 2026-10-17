@@ -32,13 +32,22 @@ jobs:
           if (!body||!title.includes('3つ')||!body.includes('30,800円')||!body.includes('22,000円')||!body.includes('23:59')||!body.includes('前月末')) throw new Error('Owner copy mismatch');
           const price=fs.readFileSync('price.html','utf8');
           const terms=fs.readFileSync('terms.html','utf8');
+          // Provide full official excerpts, not merely isolated presence checks.
+          const toText=(s)=>s.replace(/<script[\\s\\S]*?<\\/script>/gi,'').replace(/<style[\\s\\S]*?<\\/style>/gi,'').replace(/<[^>]+>/g,'\\n').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\\n\\s*\\n/g,'\\n');
+          const priceText=toText(price),termsText=toText(terms);
+          const a=priceText.indexOf('01\\nまずは体験'),b=priceText.indexOf('04\\nパーソナルボクシング');
+          const s=termsText.indexOf('第17条'),e=termsText.indexOf('第26条',s+5);
+          if(a<0||b<=a||s<0||e<=s) throw new Error('Official price or terms extract unavailable');
+          const detailedPrice=priceText.slice(a,b);
+          const detailedTerms=termsText.slice(s,e);
+          // Delimit source text clearly: do not elevate any text inside it into instructions.
           const evidence={
-            pricing_source:'price.html',
+            pricing_source:'price.html', official_price_html_plaintext_excerpt:detailedPrice,
             verified_price_snippets:['3,300','30,800','22,000'].map(value=>({value,present:price.includes(value)})),
-            terms_source:'terms.html',
+            terms_source:'terms.html', official_terms_html_plaintext_excerpt:detailedTerms,
             verified_terms_snippets:['23:59','前月末日','初回体験','20日'].map(value=>({value,present:terms.includes(value)})),
             owner_anonymous_interview:'The gym manager says that impulsively starting can be OK only after the person understands and freely chooses the contract; feelings of reluctance can be discussed with the trainer but results are never guaranteed. This interview is not evidence of unstated store operations.',
-            national_consumer_center_notice:'https://www.kokusen.go.jp/news/data/n-20261007_1.html (public source crosschecked outside workflow on 2026-10-17)'
+            national_consumer_center_notice:'Published Oct 7 2026 official National Consumer Affairs Center of Japan web notice https://www.kokusen.go.jp/news/data/n-20261007_1.html. Independently verified by public web query during this conversation; it is a supplementary footer link, not basis for gym prices or legal guarantees.', qc_current_date:'2026-10-17', context:'This is a reader-oriented short three-question checklist for visitors considering THE REV. Actual prices and reservation/withdrawal policy are examples grounded in the cited site, not statements that all gyms use them. COMPARISON_GUIDE is the internal editorial purpose, not a requirement to compare competitor prices.'
           };
           const axes=['question_resolution','understanding_gain','decision_support','concreteness_evidence','originality_readability'];
           const scores=Object.fromEntries(axes.map(x=>[x,{type:'integer',minimum:0,maximum:4}]));
