@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeDirectorAssignment } from '../lib/socialDirector.mjs';
+import { normalizeDirectorAssignment, validateOpportunityEvidenceLineage } from '../lib/socialDirector.mjs';
 
 function fixture(overrides = {}) {
   const opportunity = {
