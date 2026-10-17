@@ -60,3 +60,15 @@ Output: `qa-out/` JSON/logs/screenshots (CI artifact retained 14 days). Baseline
 - Pending: final CI, one accepted explicit Preview, Draft PR evidence update, Owner review. No main merge, production deployment or Xserver changes.
 
 References: [Google LocalBusiness structured data](https://developers.google.com/search/docs/appearance/structured-data/local-business), [Schema.org HealthClub](https://schema.org/HealthClub), repository `docs/analytics/GA4_CURRENT_TRUTH.md`, `docs/analytics/GTM_GA4_IMPLEMENTATION.md`, `docs/company-os/GA4_DIRECT_READ_V1.md`, `docs/analytics/REV_EXP_2026_001_CONTROL_CAPTURE.md`, and Company OS `KNOWLEDGE_ARCHITECTURE_V1` / `REV_EXP_2026_001_TREATMENT_DESIGN_V1`.
+
+## Preview analytics isolation
+
+The current published GTM resource version 3 has an all-host init rule. Add an identical runtime hostname allowlist to every built public HTML bootstrap (therev-lab.com and www.therev-lab.com only) without modifying source Price HTML, GTM settings or the production event contract. This protects manual Owner Preview review as well as automated QA. Production/Preview bytes still match except robots. Mandatory VM tests cover production, www, localhost, Preview, and suffix-spoofed hostnames; actual Chromium exercises all six Preview-origin pages with zero GTM requests and working local dataLayer.
+
+## Safe collection test diagnostics
+
+The first CI failed the new strict network probe (navigation/build gates passed). Deliberately aborting collection caused a transport retry of page_view, while a fixed 4-second wait missed GA4 custom-event batches. A read-only replay of current public CDN scripts confirmed one initial page_view and delayed POST batches containing reserve_click. The probe now intercepts collection locally with HTTP204 (zero transmission) and waits up to 15 seconds for actual expected batch events. Exact once-per-event assertions remain unchanged; no production/GTM configuration modified to make tests pass.
+
+## Existing external configuration blocker
+
+Published GTM v3 forwards existing event names, but controlled page_type / placement and other parameters specified by GTM_GA4_IMPLEMENTATION.md have no parameter map in the public resource, and are absent in observed custom-event request batches. This is an existing external configuration gap, not a website regression. Company OS current event-name aggregates / Price page-scoped exposure remain compatible; parameter completeness and GA4 receipt are NOT PASS. See GTM_PARAMETER_MAPPING_OWNER_REVIEW.md for the exact un-applied setting proposal. Production readiness remains HOLD.

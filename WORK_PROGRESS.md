@@ -35,3 +35,5 @@ BUILD_AND_RESUME.mdを読む。配備済みruntime SHAを基準とし、QA記録
 
 ## 2026-10-17 技術退行監査（PR #254、公開保留）
 TOP v7 / Recovery v8のGTM・JSON-LD・予約UTM欠落を確認して復元中。前回QAの「UTM保持」は不正確で訂正。見た目と文章は維持。詳細・再開地点: docs/qa/2026-10-17/TECHNICAL_RECOVERY_WORKLOG.md。mainへのマージ・本番公開・Xserver適用・GTM/GA4設定変更・予約成立は実施しない。
+
+追加: 公開中GTMが全ホスト初期化であることを確認。build-review-siteで全ビルド共通の本番ホスト許可ガードを追加し、Owner手動Preview確認のGA4汚染も防止。本番イベント名・設定は維持。

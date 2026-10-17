@@ -9,17 +9,17 @@ const origin='https://therev-lab.com', root=path.resolve('dist');
 const report={origin:'Production hostname fulfilled from local dist; no production server requests',checks:[],cdn:[],collection:[],errors:[],visual:[],ga4Receipt:'UNVERIFIED',analyticsTransmitted:0};
 const check=(name,detail)=>{report.checks.push({name,status:'PASS',detail});fs.writeFileSync(path.join(out,'progress.json'),JSON.stringify(report,null,2));};
 const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox']});
-async function context({width=1440,height=900,baseline=false,cdn=false}={}){
+async function context({width=1440,height=900,baseline=false,cdn=false,siteOrigin=origin}={}){
  const ctx=await browser.newContext({viewport:{width,height},deviceScaleFactor:1,reducedMotion:'reduce',serviceWorkers:'block'});
  ctx.setDefaultTimeout(15000);
  await ctx.route('**/*',async route=>{
   const req=route.request(),url=new URL(req.url());
   if(/(?:^|\.)google-analytics\.com$|(?:^|\.)analytics\.google\.com$/.test(url.hostname)||/\/g\/collect|\/collect(?:\?|$)/.test(req.url())){
    const params=new URLSearchParams(url.search);for(const line of (req.postData()||'').split('\n')){
-    const body=new URLSearchParams(line);report.collection.push({measurementId:params.get('tid')||body.get('tid'),event:body.get('en')||params.get('en'),page:body.get('ep.page_type')||params.get('ep.page_type'),placement:body.get('ep.placement')||params.get('ep.placement'),blocked:true});
-   }await route.abort();return;
+    const body=new URLSearchParams(line);report.collection.push({measurementId:params.get('tid')||body.get('tid'),event:body.get('en')||params.get('en'),page:body.get('ep.page_type')||params.get('ep.page_type'),placement:body.get('ep.placement')||params.get('ep.placement'),blocked:true,method:req.method(),sequence:body.get('_s')||params.get('_s')});
+   }await route.fulfill({status:204,headers:{'access-control-allow-origin':'*'},body:''});return;
   }
-  if(url.origin===origin && req.method()==='GET'){
+  if(url.origin===siteOrigin && req.method()==='GET'){
    let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));
    if(!file.startsWith(root+path.sep)&&file!==root){await route.abort();return;}
    if(fs.existsSync(file)&&fs.statSync(file).isDirectory())file=path.join(file,'index.html');
@@ -92,29 +92,56 @@ try{
   assert.match(await page.locator(':focus').getAttribute('href'),/^#main/);assert.ok((await page.locator(':focus').boundingBox()).y>=0);await page.keyboard.press('Enter');
   assert.equal(await page.locator(':focus').evaluate(el=>el.tagName),'MAIN');check('keyboard skip',pathname+': Tab → visible skip → Enter → main focus');await ctx.close();
  }
+ // Manual preview sessions must not initialize the production container.
+ {
+  const previewOrigin='https://owner-review.vercel.app';
+  const ctx=await context({siteOrigin:previewOrigin}),page=await ctx.newPage();let tagRequests=0;
+  page.on('request',request=>{if(request.url().includes('googletagmanager.com'))tagRequests++;});
+  for(const pathname of ['/','/solution.html','/trainer.html','/price.html','/blog/','/access.html']){
+   await page.goto(previewOrigin+pathname);await ready(page);await preventNavigation(page);
+   await page.locator('a[data-track="reserve_click"]').first().evaluate(el=>el.click());
+   assert.equal(await page.evaluate(()=>dataLayer.filter(e=>e.event==='gtm.js').length),0);
+   assert.equal(await page.evaluate(()=>dataLayer.filter(e=>e.event==='reserve_click').length),1);
+  }
+  assert.equal(tagRequests,0);check('Preview pollution prevention','six actual pages: no GTM/CDN initialization on Preview; local dataLayer still works');await ctx.close();
+ }
  // Actual container/tag execution, with collection intercepted BEFORE transmission.
  report.tagPages=[];
- for(const pathname of ['/','/solution.html','/trainer.html','/price.html','/blog/','/access.html']){
+ const articlePath=`/blog/${article.name}/`;
+ for(const pathname of ['/','/solution.html','/trainer.html','/price.html','/blog/','/access.html',articlePath]){
   const ctx=await context({cdn:true}),page=await ctx.newPage();const start=report.collection.length,cdnStart=report.cdn.length;
   page.on('response',res=>{if(res.url().startsWith('https://www.googletagmanager.com/'))report.cdn.push({page:pathname,url:res.url().replace(/([?&](?!id=)[^=]+)=[^&]*/g,'$1=[redacted]'),status:res.status()});});
   page.on('requestfailed',req=>{if(req.url().startsWith('https://www.googletagmanager.com/'))report.cdn.push({page:pathname,url:req.url().split('?')[0],error:req.failure()?.errorText});});
   await page.goto(origin+pathname);await ready(page);await preventNavigation(page);
-  await page.locator('a[data-track="reserve_click"]').first().evaluate(el=>el.click());
+  const intent=pathname===articlePath?'a[data-track="article_cta_click"][href^="https://cl.gyms.jp/"]':'a[data-track="reserve_click"]';
+  await page.locator(intent).first().evaluate(el=>el.click());
+  if(pathname==='/price.html')await page.locator('#cat-trial').scrollIntoViewIfNeeded();
   if(pathname==='/')for(const name of ['line_click','price_click'])await page.locator(`a[data-track="${name}"]`).first().evaluate(el=>el.click());
   const executed=await page.waitForFunction(()=>!!window.google_tag_manager?.['GTM-WFD7R8BT'],null,{timeout:5000}).then(()=>true,()=>false);
-  if(executed)await page.waitForTimeout(4000);
-  const state=await page.evaluate(()=>({starts:dataLayer.filter(e=>e.event==='gtm.js').length,events:dataLayer.filter(e=>['reserve_click','line_click','price_click'].includes(e.event)).map(e=>({event:e.event,page_type:e.page_type,placement:e.placement}))}));
+  const expectedNames=['page_view','reserve_click',...(pathname==='/'?['line_click','price_click']:[]),...(pathname==='/price.html'?['section_view']:[]),...(pathname===articlePath?['article_cta_click']:[])];
+  // GA4 batches custom events. Observe the actual batch, never infer failure
+  // from a fixed delay shorter than its flush interval.
+  if(executed){
+   const deadline=Date.now()+15000;
+   while(Date.now()<deadline&&!expectedNames.every(name=>report.collection.slice(start).some(e=>e.measurementId==='G-Q6ZSSJMEZ2'&&e.event===name)))await new Promise(resolve=>setTimeout(resolve,100));
+  }
+  const state=await page.evaluate(()=>({gtmEvent:window.google_tag_manager?.['GTM-WFD7R8BT']?.dataLayer?.get('event'),tagKeys:Object.keys(window.google_tag_manager||{}),starts:dataLayer.filter(e=>e.event==='gtm.js').length,events:dataLayer.filter(e=>['reserve_click','line_click','price_click','article_cta_click'].includes(e.event)).map(e=>({event:e.event,page_type:e.page_type,placement:e.placement}))}));
   assert.equal(state.starts,1);assert.equal(state.events.filter(e=>e.event==='reserve_click').length,1);
   const collected=report.collection.slice(start).filter(e=>e.measurementId==='G-Q6ZSSJMEZ2');
   const tagLoaded=report.cdn.slice(cdnStart).some(x=>x.status===200&&/\/gtag\//.test(x.url));
-  const summary={pathname,...state,containerExecuted:executed,googleTagLoaded:tagLoaded,collectionEvents:collected.map(x=>x.event),status:executed&&tagLoaded?'PASS':'UNVERIFIED: CDN browser connectivity'};
+  const summary={pathname,...state,containerExecuted:executed,googleTagLoaded:tagLoaded,collectionEvents:collected.map(x=>x.event),status:executed&&tagLoaded?'COLLECTION_PENDING_VERIFICATION':'UNVERIFIED: CDN browser connectivity'};
+  report.tagPages.push(summary);
   if(executed&&tagLoaded){
-   for(const event of ['page_view','reserve_click',...(pathname==='/'?['line_click','price_click']:[])])assert.equal(collected.filter(e=>e.event===event).length,1,pathname+' GA4 '+event+' request constructed once');
-   check('GTM and collection construction',pathname+': actual container + Google tag executed, one page_view/intent; all collection requests aborted');
+   for(const event of expectedNames)assert.equal(collected.filter(e=>e.event===event).length,1,pathname+' GA4 '+event+' request constructed once');
+   summary.status='PASS';
+   check('GTM and collection construction',pathname+': actual container + Google tag executed, one page_view/intent; collection intercepted with local 204; never transmitted');
   }
-  report.tagPages.push(summary);await ctx.close();
+  await ctx.close();
  }
- report.measurementStatus=report.tagPages.every(x=>x.status==='PASS')?'COLLECTION_CONSTRUCTED_NOT_TRANSMITTED':'PARTIALLY_UNVERIFIED';
+ report.measurementStatus=report.tagPages.every(x=>x.status==='PASS')?'EVENT_NAMES_CONSTRUCTED_NOT_TRANSMITTED':'PARTIALLY_UNVERIFIED';
+ const intents=report.collection.filter(x=>x.event==='reserve_click');
+ report.parameterMappingStatus=intents.length?(intents.every(x=>x.page&&x.placement)?'OBSERVED':'FAIL_EXISTING_GTM_PARAMETER_MAP'):'UNVERIFIED';
+ report.publicationReadiness='HOLD_OWNER: GA4 receipt unverified; review external GTM parameter gap';
  // Optional baseline images captured before edits; CI still produces current evidence.
  for(const [width,height] of [[1440,900],[390,844]])for(const pathname of ['/','/solution.html']){
   const images={};const stem=`${pathname==='/'?'top':'recovery'}-${width}`;

@@ -10,6 +10,11 @@ function walk(dir) {
     if (entry.isDirectory()) { if(entry.name !== 'assets' && entry.name !== 'admin') walk(file); continue; }
     if (!entry.name.endsWith('.html')) continue;
     let html = fs.readFileSync(file,'utf8');
+    // The published container fires on every host. Keep the same built bytes in
+    // Preview/Production, but initialize analytics only on the actual website.
+    // This also protects manual Owner preview QA, without changing GTM settings.
+    html = html.replace(/\(function\(w,d,s,l,i\)\{/g,
+      "(function(w,d,s,l,i){if(!/^(www\\.)?therev-lab\\.com$/.test(w.location.hostname))return;");
     const robots = /<meta\b(?=[^>]*\bname=["']robots["'])[^>]*>/gi;
     const originalTag = html.match(robots)?.[0] || '';
     const originalPolicy = originalTag.match(/\bcontent=["']([^"']*)["']/i)?.[1] || 'index,follow';

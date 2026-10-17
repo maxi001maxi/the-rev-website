@@ -7,6 +7,17 @@ for(const name of ['index.html','solution.html']){
  const html=fs.readFileSync(`${root}/${name}`,'utf8');
  assert.equal((html.match(/GTM-WFD7R8BT'\)/g)||[]).length,1,`${name}: one GTM bootstrap`);
  assert.equal((html.match(/ns\.html\?id=GTM-WFD7R8BT/g)||[]).length,1);
+ if(root!=='.'){
+  const bootstrap=[...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].find(x=>x[1].includes('GTM-WFD7R8BT'))?.[1];
+  assert.ok(bootstrap);
+  for(const hostname of ['therev-lab.com','www.therev-lab.com','localhost','review.vercel.app','therev-lab.com.evil.example']){
+   let loads=0;
+   const window={location:{hostname}};
+   const document={getElementsByTagName:()=>[{parentNode:{insertBefore:()=>loads++}}],createElement:()=>({})};
+   vm.runInNewContext(bootstrap,{window,document});
+   assert.equal(loads,/^(www\.)?therev-lab\.com$/.test(hostname)?1:0,hostname+' production-only initialization');
+  }
+ }
  assert.doesNotMatch(html,/gtag\/js|gtag\(['"]config/,'GTM owns Google tag');
  const schemas=[...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(x=>JSON.parse(x[1]));
  const clubs=schemas.filter(x=>x['@type']==='HealthClub');assert.equal(clubs.length,1);

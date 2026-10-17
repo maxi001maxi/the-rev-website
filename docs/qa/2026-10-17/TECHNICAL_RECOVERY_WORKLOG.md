@@ -32,3 +32,11 @@ Scope: PR #254 / feature/unified-v7-header-20261015. No merge to main, productio
 - GitHub Control Capture Contract 38993763534 and Phase 9 Check 38993763539 PASS. Unified public site QA 38993763530 running.
 - Strengthen booking QA to require actual three-menu rendering and fail assertions; permit observed public Gym API GET reads only, still abort all writes, OneSignal and analytics. No runtime change.
 - Remaining: CI results, explicit Preview, deployed QA, final evidence/report/PR.
+
+## Preview analytics isolation
+
+The current published GTM resource version 3 has an all-host init rule. Add an identical runtime hostname allowlist to every built public HTML bootstrap (therev-lab.com and www.therev-lab.com only) without modifying source Price HTML, GTM settings or the production event contract. This protects manual Owner Preview review as well as automated QA. Production/Preview bytes still match except robots. Mandatory VM tests cover production, www, localhost, Preview, and suffix-spoofed hostnames; actual Chromium exercises all six Preview-origin pages with zero GTM requests and working local dataLayer.
+
+## Safe collection test diagnostics
+
+The first CI failed the new strict network probe (navigation/build gates passed). Deliberately aborting collection caused a transport retry of page_view, while a fixed 4-second wait missed GA4 custom-event batches. A read-only replay of current public CDN scripts confirmed one initial page_view and delayed POST batches containing reserve_click. The probe now intercepts collection locally with HTTP204 (zero transmission) and waits up to 15 seconds for actual expected batch events. Exact once-per-event assertions remain unchanged; no production/GTM configuration modified to make tests pass.
