@@ -50,3 +50,9 @@ TOPの40:60写真配置・マスクの柔らかいフェード・看板・文字
 Vercelは `git.deploymentEnabled=false` を維持。中間pushでは配備しない。受入候補のexact SHAを1回Preview作成する。Xserver workflowはmain pushを公開トリガーとするため、Owner承認前にmainを変更しない。
 
 公開承認後は最新mainとの差分・記事更新を再確認し、公開対象SHAを固定して既存本番Runbookに従う。PreviewがREADYでも自動で公開可とは判定しない。
+
+## 配備先の7サイズQA
+
+`Unified public site QA` は通常PR更新で固定buildのE2Eを行う。明示Preview READY後、Draft PR本文に `<!-- REV_PREVIEW_QA https://the-rev-website-<deployment>.vercel.app -->` のように実在のPreview URLを記載して本文を更新すると、editedイベントのdeployed-browser jobで同じ7サイズQAを配備先へ実行する。ホスト名はVercel Previewだけを許可。本番URLを指定しない。既存の `VERCEL_AUTOMATION_BYPASS_SECRET` を利用し、資格情報は指定Preview originのリクエストだけに付加する。値をGit・ログ・レポートへ書かない。
+
+画像の遅延読み込みはcomplete/naturalWidthを確認してからdecodeと撮影を行う。メニューのスクロール復元はfixed解除後のlayout反映を待つ。既存drawerの60ms遅延focusはキーボード操作と競合するため廃止し、preventScroll付きで同期する。
