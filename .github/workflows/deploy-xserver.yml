@@ -128,6 +128,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate backup integrity regression rules
+        run: node --test scripts/test-xserver-backup-integrity.mjs
+
       - name: Build production files
         run: npm run vercel-build
 
@@ -392,11 +395,11 @@ jobs:
           bye
           EOF
             then
-              if [ -f "$BACKUP_DIR/index.html" ]; then
+              if node scripts/verify-xserver-backup.mjs "$BACKUP_DIR"; then
                 BACKUP_OK=1
                 break
               fi
-              echo "::warning::Backup接続は完了しましたが index.html を取得できませんでした。"
+              echo "::warning::Backup public HTML integrity is incomplete; this snapshot is not eligible for rollback."
             fi
             echo "::warning::Xserver backup attempt ${ATTEMPT} failed. Retrying..."
             sleep $((ATTEMPT * 10))
@@ -429,6 +432,9 @@ jobs:
             [.artifacts[]
               | select(.expired == false)
               | select(.name | startswith("xserver-backup-"))
+              # Snapshot taken during the 2026-10-17 interruption, before the
+              # single DENBA article was repaired. Preserve evidence, never restore it.
+              | select(.id != 12091359317)
               | {name, created_at}]
             | sort_by(.created_at)
             | reverse

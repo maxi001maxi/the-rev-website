@@ -122,6 +122,10 @@ FTPルート `/` 全体には `--delete` を使いません。そのため、Xse
 
 ## バックアップ
 
+2026-10-17以降、FULLバックアップはprimary 6ページと既存Blog全HTMLの終端、robots/sitemap、assets領域、protected環境の除外を `scripts/verify-xserver-backup.mjs` で確認する。FTP取得の終了やindex.htmlの存在だけを完全性の根拠にしない。
+
+今回の中断状態を捕捉した **Artifact 12091359317（xserver-backup-39006859070）は既知の不完全バックアップ**。DENBA記事1件を復旧する前の16,384バイト状態を含むため、完全復旧・48h fallbackには使わない。証拠として保持し、自動選択からIDで除外する。今回の正常な公開前復旧元は **12090654704（xserver-backup-39005228524）**、ZIP SHA256 `055bbe71a7b97bd208e55da0519f39e858ff2cb2218273f1090a20e0f3e48504`、2026-10-31まで。公開前GETとの4SHA一致・通常HTML40件の終端を確認済み（Google所有確認の2ファイルは意図したplain text）。詳細は公開記録を参照する。
+
 **FULL Deployの前**に現在のFTPルート `/` の本番領域を取得し、GitHub Actions Artifactとして保存します。認証付き別環境 `/unlimited-dev/` は本番バックアップ対象から除外します。
 
 BLOG_FASTではFull Backupを取りません。Blogの正本はGitHubの `content/blog/**` とbuild codeにあり、直前commitから決定論的に再buildできるためです。代わりに、公開前のbuild検証・対象画像のSHA256本番照合・Blog LAST・公開後readbackは維持します。
