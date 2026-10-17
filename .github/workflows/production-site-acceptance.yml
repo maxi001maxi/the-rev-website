@@ -6,9 +6,31 @@ on:
     branches: [main]
 permissions:
   contents: read
+  actions: read
 jobs:
-  public-browser:
+  deployed-release:
     if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      deployed: ${{ steps.gate.outputs.deployed }}
+    steps:
+      - id: gate
+        name: Require a successful deploy job, excluding planner SKIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID/jobs?per_page=100" > /tmp/deploy-jobs.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const {jobs}=JSON.parse(fs.readFileSync('/tmp/deploy-jobs.json','utf8'));
+          const deployed=jobs.some(job=>job.name.startsWith('Build → Deploy → Verify (')&&job.conclusion==='success');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,'deployed='+deployed+'\n');
+          console.log(deployed?'Actual deployment completed; run live acceptance':'Planner SKIP or no successful deployment; browser job remains skipped');
+          NODE
+  public-browser:
+    needs: deployed-release
+    if: needs.deployed-release.outputs.deployed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
