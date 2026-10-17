@@ -5,7 +5,8 @@ import {
   verifyOAuthState,
   discoverBusiness,
   saveConnection,
-  getConnection
+  getConnection,
+  rediscoverConnection
 } from '../../lib/googleBusiness.mjs';
 
 function redirect(res,path){
@@ -61,6 +62,29 @@ async function handleStatus(req,res){
     return sendError(res,503,'google_business_status_unavailable','Google Business Profileの接続状態を確認できませんでした。');
   }
 }
+async function handleRediscover(req,res){
+  const ctx=await requireAdmin(req,res);
+  if(!ctx)return;
+  try{
+    const result=await rediscoverConnection(ctx.user.id);
+    return res.status(200).json({
+      connected:true,
+      locationResolved:Boolean(result.locationResource),
+      locationTitle:result.locationTitle||null,
+      lastError:result.error||null
+    });
+  }catch(error){
+    const code=classify(error);
+    if(code!=='not_connected'){
+      try{await saveConnection(ctx.user.id,{}, {error:code,verified:false});}
+      catch{ /* preserve original reason; never claim discovery succeeded */ }
+    }
+    return sendError(res,code==='not_connected'?409:502,code,
+      code==='required_api_disabled'
+        ? 'Google CloudでBusiness Profile APIを有効化し、利用枠を確認してください。'
+        : '店舗情報の再確認に失敗しました。Google CloudのAPI権限を確認してください。');
+  }
+}
 async function handleCallback(req,res){
   const query=req.query||{};
   if(query.error)return redirect(res,'/admin/google-business/?status=cancelled');
@@ -87,8 +111,9 @@ async function handleCallback(req,res){
 
 export default async function handler(req,res){
   res.setHeader('Cache-Control','private, no-store, max-age=0');
-  if(req.method!=='GET'){res.setHeader('Allow','GET');return sendError(res,405,'method_not_allowed','GETのみ利用できます。');}
   const query=req.query||{};
+  if(req.method==='POST'&&query.action==='rediscover')return handleRediscover(req,res);
+  if(req.method!=='GET'){res.setHeader('Allow','GET, POST');return sendError(res,405,'method_not_allowed','GETまたは店舗再確認POSTのみ利用できます。');}
   // OAuth callback arrives through /api/admin/google-business/callback and is
   // rewritten to this consolidated function. Preserve the callback even when
   // Vercel does not carry an injected action query through the rewrite.
