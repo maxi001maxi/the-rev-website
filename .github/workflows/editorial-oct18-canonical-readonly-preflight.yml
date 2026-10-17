@@ -1,0 +1,43 @@
+name: Oct18 Canonical Readonly Publish Preflight (No Publish)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/editorial-oct18-canonical-readonly-preflight.yml'
+      - 'scripts/oct18-canonical-preflight-automated.mjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  canonical-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+      PRODUCTION_URL: https://therev-lab.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run real backend preflight in no-publish automation actor mode
+        run: |
+          node scripts/oct18-canonical-preflight-automated.mjs || true
+      - name: Preserve read-only evidence
+        run: |
+          set -euo pipefail
+          test -f editorial/prepublication/2026-10-18-contract-checklist/CANONICAL_PREFLIGHT_AUTOMATION.json
+          git add editorial/prepublication/2026-10-18-contract-checklist/CANONICAL_PREFLIGHT_AUTOMATION.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='THE REV Editorial Preflight' -c user.email='actions@users.noreply.github.com' commit -m 'Record Oct18 live GitHub and Xserver preflight verdict'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Fail workflow when production validators reject candidate
+        run: |
+          node --input-type=module -e "import fs from 'fs'; const j=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-18-contract-checklist/CANONICAL_PREFLIGHT_AUTOMATION.json','utf8'));if(!j.canonical_preflight_ok){console.error('Canonical preflight is BLOCKED',j.blocker);process.exit(1)}"
