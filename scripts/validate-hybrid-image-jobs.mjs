@@ -132,9 +132,14 @@ function validateJob(jobPath) {
     assertEqual(job.policy?.facility_only_thumbnail_forbidden, true, `${name}: facility-only thumbnail policy drift`);
     assertEqual(job.policy?.fixed_overlay_required, true, `${name}: fixed overlay policy drift`);
   }
+  const v3R7=job.slug==='personal-gym-trial-three-checks' &&
+    job.asset_version==='reference-v3-lobby-route-b-20261018-contract-r6';
+  const expectedStyleReferences=v3R7 ? [...HYBRID_IMAGE_FORMAT.designReferenceAssets,
+    'assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg']
+    : HYBRID_IMAGE_FORMAT.designReferenceAssets;
   assertEqual(
     JSON.stringify(job.style_references || []),
-    JSON.stringify(HYBRID_IMAGE_FORMAT.designReferenceAssets),
+    JSON.stringify(expectedStyleReferences),
     `${name}: approved style references missing or reordered`
   );
 
@@ -227,6 +232,7 @@ function validateJob(jobPath) {
     }
   }
   const draftShape = {
+    slug:job.slug,
     image_render_version: job.render_version,
     image_strategy: job.image_strategy,
     image_asset_version: job.asset_version,

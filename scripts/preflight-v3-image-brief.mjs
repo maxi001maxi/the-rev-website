@@ -42,12 +42,24 @@ export function v3BriefPreflight(job,registry,root=process.cwd()){
     !Array.isArray(sh.text_lines)||sh.text_lines.join('|')!=='体験前に、|3つだけ。'||
     !String(sh.crop_safe||'').includes('4:3')||!String(sh.background||'').includes('real THE REV'))
      errors.push('V3_SHOT_AND_CROP_PLAN_MISSING');
-  if(!/sleeve/i.test(act)||!/sleeve/i.test(dir)||!/rack/i.test(dir)||
+  const routeB=b.selected_concept_id==='B'&&job.v3?.selected_concept_id==='B'&&
+    b.revision==='2026-10-17-owner-route-b-r6';
+  if(!routeB&&(!/sleeve/i.test(act)||!/sleeve/i.test(dir)||!/rack/i.test(dir)||
     /female customer|reception stool|mild concern|her upper sleeve|holding (?:a )?phone|checking (?:a |his |her )?(?:phone|smartphone)/i.test(dir+' '+job.visible_action+' '+job.emotional_state+' '+job.visual_claim+' '+job.composition_hint))
+    )
     errors.push('V3_OLD_OR_GENERIC_SCENE_LEAK');
-  if(job.scene_plan?.human_action!=='observing_real_equipment'||
+  if(!routeB&&(job.scene_plan?.human_action!=='observing_real_equipment'||
      job.scene_plan?.location_type!=='training_area'||job.scene_plan?.visual_role!=='deciding_own_start')
+    )
     errors.push('V3_SELECTED_SCENE_MISMATCH');
+  if(routeB && (job.asset_version!=='reference-v3-lobby-route-b-20261018-contract-r6'||
+    job.scene_plan?.human_action!=='observe_facility'||job.scene_plan?.location_type!=='reception'||
+    job.scene_plan?.visual_role!=='deciding_own_start'||
+    source?.source_id!=='the-rev-lobby-20260924'||
+    !b.source_reuse_authorization?.owner_request||
+    !/rear training area/.test(act)||job.v3.background_lock!=='source_guided_scene_edit_route_b_v1'||
+    job.v3.generation_quality!=='medium'||b.spend_policy.quality!=='medium'))
+    errors.push('V3_ROUTE_B_SPATIAL_OR_SPEND_CONTRACT_MISSING');
   if(job.image_headline_short!==sh.text_lines.join('\n')||
      !['thumbnail','og_image','gbp_image'].every(k=>!!job[k])||
      job.max_generation_attempts!==1)

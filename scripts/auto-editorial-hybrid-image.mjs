@@ -7,6 +7,7 @@ import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_
 import { execFileSync } from 'node:child_process';
 import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
 import {verifyDistinctContextualFacilitySourceReuse} from '../lib/editorialContextualSourceReuse.mjs';
+import {routeBSourceReuse,ROUTE_B_VERSION} from '../lib/editorialOct18RouteB.mjs';
 import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass, canonicalizeRecentFingerprint } from '../lib/editorialSceneGrounding.mjs';
 
 const jobPath = process.argv[2];
@@ -130,6 +131,13 @@ async function openaiResponse(payload) {
     e.code = json?.error?.code || '';
     e.requestId = requestId;
     throw e;
+  }
+  if(job.asset_version===ROUTE_B_VERSION) {
+    const audit='editorial/prepublication/2026-10-18-contract-checklist/R6_API_USAGE.jsonl';
+    fs.appendFileSync(audit,JSON.stringify({at:new Date().toISOString(),request_id:requestId,
+      response_id:json.id,model:json.model,usage:json.usage||null,
+      image_generation_calls:(json.output||[]).filter(x=>x.type==='image_generation_call')
+        .map(x=>({id:x.id,status:x.status,usage:x.usage||null}))})+'\n');
   }
   return json;
 }
@@ -257,6 +265,7 @@ async function generateScene(attempt, previousQa = null) {
     input: [{ role: 'user', content }],
     tools: [{
       type: 'image_generation',
+      ...(job.asset_version===ROUTE_B_VERSION ? {action:'edit'} : {}),
       quality: 'medium',
       size: '1536x1024'
     }]
@@ -571,7 +580,8 @@ async function visualQa(attempt) {
         job,sourceIds:selectedIds,recentIds,grounding:groundingEvidence
       })
     : {allowed:false,policy:null,errors:[],source_repeated:false,scene_repeated:false};
-  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed;
+  const ownerRouteBReuse=routeBSourceReuse(job,groundingEvidence);
+  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed||ownerRouteBReuse;
 
   const qa = {
     ...modelQa,
@@ -623,6 +633,7 @@ async function visualQa(attempt) {
     same_background_as_recent_articles: recentRepeat,
     trainer_photo_reused: false,
     background_reuse_relevance_exception: sourceReuseAccepted,
+    owner_route_b_source_reuse:ownerRouteBReuse,
     contextual_verified_facility_source_reuse:contextualReuse,
     recent_similarity_window: Number(job.policy?.recent_reference_window || 4),
     recent_similarity_check_pass: !recentRepeat || sourceReuseAccepted,
@@ -680,6 +691,9 @@ async function visualQa(attempt) {
   qa.generated_customer_count = Math.max(0, Math.round(Number(modelQa.generated_customer_count || 0)));
 
   qa.pass = qaPass(qa);
+  if(job.asset_version===ROUTE_B_VERSION && !['human_environment_integration',
+    'perspective_scale_consistency','ground_contact_shadow_consistency',
+    'lighting_consistency','anatomy_pose_realism'].every(k=>qa[k]>=9))qa.pass=false;
   if (!groundingEvidence.pass) qa.comments = `Source/Scene FAIL: ${groundingEvidence.errors.join(', ')}. ${qa.comments || ''}`;
   return qa;
 }
@@ -941,6 +955,11 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
   attemptsTotal += 1;
   try {
     console.log(`Automated Hybrid image attempt ${attemptsTotal}/${MAX_TOTAL_ATTEMPTS}: ${job.slug}`);
+    // Persist BEFORE the paid call so a crash/ambiguous timeout cannot silently
+    // spend a second image attempt on this same authorized asset version.
+    if(job.asset_version===ROUTE_B_VERSION)writeState({slug:job.slug,status:'GENERATING',
+      attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,
+      updated_at:new Date().toISOString()});
     await generateScene(attemptsTotal, lastQa);
     renderOverlay();
     lastQa = await visualQa(attemptsTotal);

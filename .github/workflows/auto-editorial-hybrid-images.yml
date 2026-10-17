@@ -258,6 +258,9 @@ jobs:
             printf '%s\n' editorial/image-qa/scene-grounding-r3-negative-control.json >> .checkpoint-paths
           fi
           sort -u .checkpoint-paths -o .checkpoint-paths
+          if [ -f editorial/prepublication/2026-10-18-contract-checklist/R6_API_USAGE.jsonl ]; then
+            printf '%s\n' editorial/prepublication/2026-10-18-contract-checklist/R6_API_USAGE.jsonl >> .checkpoint-paths
+          fi
           if [ -s .checkpoint-paths ]; then
             tar -czf editorial-operator-checkpoint.tar.gz -T .checkpoint-paths
           fi
@@ -331,6 +334,9 @@ jobs:
           fi
           if [ -s .state-paths ]; then
             while IFS= read -r p; do [ -n "$p" ] && git add "$p"; done < .state-paths
+          fi
+          if [ -f editorial/prepublication/2026-10-18-contract-checklist/R6_API_USAGE.jsonl ]; then
+            git add editorial/prepublication/2026-10-18-contract-checklist/R6_API_USAGE.jsonl
           fi
 
           if git diff --cached --quiet; then

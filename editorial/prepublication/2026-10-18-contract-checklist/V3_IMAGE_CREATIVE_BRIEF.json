@@ -17,11 +17,11 @@
   "golden_reference": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
   "golden_rule": "Use R7's premium warm restrained grading, subtle background depth, luminous organic text-to-photo transition and variable Japanese title hierarchy; never copy its seated pose or woman's image",
   "reference_source": {
-    "source_id": "the-rev-evolgear-20260922",
-    "repo_path": "assets/images/photo-evolgear.jpg",
-    "sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
-    "facility": "THE REV. CONDITIONING LAB. actual training_area",
-    "camera_truth": "Rack / cable machine / weight plates / floor / windows / bench must retain real exact positions and identity; no generic imaginary studio"
+    "source_id": "the-rev-lobby-20260924",
+    "repo_path": "assets/images/photo-lobby.jpg",
+    "sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+    "facility": "THE REV. CONDITIONING LAB. real entrance/reception looking into rear training area",
+    "camera_truth": "Keep the exact real reception counter, plant, stool, beams, windows and rear rack. Visitor in foreground reception; rack several metres behind. Natural occlusion only, never interpenetration."
   },
   "scoring_scale": "Each axis 1-5, select >=22/25, reject generic phone/passive posing",
   "scoring_axes": [
@@ -41,30 +41,30 @@
       "copy": "体験前に、／3つだけ。の2行構成。最終行は暖色、上行は墨色。生成シーンへの文字焼き込み禁止。",
       "risks": "ラックに寄りかかる不自然なポーズや設備移動、典型的な筋トレ宣伝写真にしない。袖を整える自然な動作を重視。",
       "scores": {
+        "article_match": 4,
+        "photographic_impact": 3,
+        "real_facility_fidelity": 2,
+        "text_crop_compatibility": 4,
+        "distinctiveness": 4
+      },
+      "rating_note": "R3/R4/R5で実設備の再構築や人物・器具の境界不整合が実証されたため、今回の再制作では不採用。"
+    },
+    {
+      "id": "B",
+      "title": "入口から、自分の一歩を選ぶ",
+      "scene": "入口側のロビー手前に立つ一般客男性1人が、奥のトレーニング空間を眺め、体験前の確認を終えて自分で始めるか判断する瞬間。人物は受付カウンターよりカメラ側、ラックは奥の別の距離に固定。器具に触れない。",
+      "emotion": "初来店の緊張が少しほどけ、通う自分を想像する控えめな期待。作り笑いや指導者風の表情にしない。",
+      "camera": "50mm相当の中距離・腰上から頭の3/4横顔。入口側の実写真の投影を維持し、人物は右寄り、奥の設備は右奥。引きすぎず左に文字余白。",
+      "copy": "承認済み『体験前に、／3つだけ。』を左側に2行構成で配置する。文字量の追加はしない。",
+      "risks": "前景人物と奥のラックの輪郭融合、受付の向こう側に浮く身体、椅子の貫通、顔の隠れ、背景の架空化。いずれも独立QCで不採用にする。",
+      "scores": {
         "article_match": 5,
         "photographic_impact": 5,
         "real_facility_fidelity": 5,
         "text_crop_compatibility": 5,
-        "distinctiveness": 5
+        "distinctiveness": 4
       },
-      "rating_note": "選ぶ前の迷いと最初の一歩を身体の動きで見せる。受動的なスマホ閲覧ともR7の座った相談シーンとも異なる。"
-    },
-    {
-      "id": "B",
-      "title": "床から、静かな第一歩",
-      "scene": "一人の成人男性が実店舗のトレーニングエリアへ一歩踏み込む直前の中距離全身ショット。奥に実在ラックを置く。表情は控えめ。",
-      "emotion": "入口で迷いながらも、初めて挑戦してみたい自然な期待と慎重さが同居した表情。",
-      "camera": "35mm相当・実景床からやや低い視点、人物を画面右。左に見出し余白",
-      "copy": "承認済み『体験前に、／3つだけ。』を左側に2行構成で配置する。文字量の追加はしない。",
-      "risks": "引きすぎて人物の顔が小さくなり、縮小版で意味が薄くなる",
-      "scores": {
-        "article_match": 4,
-        "photographic_impact": 4,
-        "real_facility_fidelity": 5,
-        "text_crop_compatibility": 4,
-        "distinctiveness": 5
-      },
-      "rating_note": "足元が主役になりやすい点を弱点として不採用"
+      "rating_note": "Ownerが今回指定したルートB。旧Aの設備近接と固定楕円マスクの継ぎ目を避け、入口と奥の距離で物理関係を明確にする。以下は生成前の設計評価であり、実画像のQC点数ではない。"
     },
     {
       "id": "C",
@@ -84,25 +84,25 @@
       "rating_note": "見た目は良くなる可能性があるが、10/15 R7からの単調な反復となるため不採用"
     }
   ],
-  "selected_concept_id": "A",
-  "selected_total": 25,
-  "selected_justification": "A visually expresses the moment before beginning with authentic actionable posture rather than a phone, distinguishes past R7 seated thoughtfulness, and uses the original visible rack with feasible safe crops. The story is in the subtle hand / direction-of-gaze relationship.",
+  "selected_concept_id": "B",
+  "selected_total": 24,
+  "selected_justification": "Owner explicitly selected Route B in the current request: the authentic lobby / entrance view into the rear training area. This separates the foreground visitor from the rear rack in depth, removes equipment contact and the failed ellipse compositor, while preserving one customer, real facility, approved copy and all independent QC gates.",
   "shot_contract": {
     "lens_mm_equivalent": 50,
     "camera_height_m": 1.3,
     "camera_distance_m_approx": 2.4,
     "subject_horizontal_range_pct": [
       58,
-      76
+      80
     ],
     "face_x_pct_approx": 69,
     "face_y_pct_approx": 30,
-    "body_crop": "mid-thigh to head; both natural hands visible and rack not moved",
-    "eyeline": "slightly left toward the REAL EVOLGEAR rack from within the existing room",
-    "subject_action": "casually smoothing own rolled T-shirt sleeve while orienting naturally toward genuine original gym rack, a candid moment of choosing to take first step, no phone",
+    "body_crop": "waist to head, natural three-quarter side portrait, complete hands inside safe crop",
+    "eyeline": "look into the actual rear training area, face visible in three-quarter profile, not turned completely away",
+    "subject_action": "One first-time male visitor pauses at the entrance, body turning towards the real rear training area, hands relaxed and empty, considering his own start after checking trial terms. No phone, no paper, no sleeve adjustment, no equipment contact.",
     "mood": "calm, natural, hopeful but understated, documentary editorial not fashion/stock advertisement",
     "lighting": "one believable original-space warm key light, credible floor contact and shadows, gentle background optical blur",
-    "background": "authentic real THE REV training area geometry strictly preserved, not fictional gym",
+    "background": "authentic real THE REV entrance/reception and rear training area, exact original positions and depth",
     "text_negative_space_pct": "left ~38%, blended ivory NOT opaque box",
     "style": "R7-level cinematic editorial photography without copying pose or room; warm muted; realistic skin",
     "required_outputs": [
@@ -110,7 +110,7 @@
       "1200x630 OGP",
       "1200x900 GBP"
     ],
-    "crop_safe": "Face / sleeve-adjusting hands visibly within safe right region in 16:9 and 4:3. Render text later by deterministic layout only.",
+    "crop_safe": "Face and natural hands survive both wide and GBP 4:3 crops. Foreground body may naturally occlude a portion of rear equipment, never merge with it.",
     "text_lines": [
       "体験前に、",
       "3つだけ。"
@@ -136,12 +136,28 @@
     "one_scene_three_offline_derivatives": true,
     "no_paid_fallback": true,
     "extra_generation_requires_separate_owner_review": true,
-    "comment": "Actual yen cost unknown until OpenAI usage/cost attribution; optimizing accepted-image cost, not minimum quality"
+    "comment": "Actual yen cost unknown until OpenAI usage/cost attribution; optimizing accepted-image cost, not minimum quality",
+    "authorization": "Current owner request authorizes one additional route-B image generation only. R3/R4/R5 remain rejected; no fallback or paid regeneration.",
+    "image_model": "existing Responses image_generation edit; medium, 1536x1024"
   },
   "publish_policy": {
     "blog_post": false,
     "gbp_post": false,
     "keep_owner_human_publish_boundary": true
   },
-  "design_completed_before_api": true
+  "design_completed_before_api": true,
+  "prior_approved_brief_selected_concept": "A",
+  "revision": "2026-10-17-owner-route-b-r6",
+  "prior_failures": {
+    "R2": "Owner 30/100 rejected",
+    "R3": "facility reconstructed",
+    "R4": "masked foreground and real equipment physically incoherent",
+    "R5": "offline repair still failed independent QC"
+  },
+  "source_reuse_authorization": {
+    "owner_request": "2026-10-17 BLOG-20261018-082d82 route B entrance/lobby looking into training space",
+    "scope": "this article and r6 asset only; actual lobby source mandatory for chosen angle",
+    "recent_source_repeated": true,
+    "reason": "Explicit owner choice of real lobby, distinct visitor action and visual role; independent actual-image semantic and equipment QC still mandatory. No thresholds waived."
+  }
 }
