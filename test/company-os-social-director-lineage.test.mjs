@@ -70,3 +70,22 @@ test('assignment cannot proceed when the linked evidence record is missing', () 
     /SOCIAL_DIRECTOR_EVIDENCE_OUTSIDE_OPPORTUNITY/
   );
 });
+
+const p='pool-10';
+const e={id:'e-10',pool_id:p,evidence_key:'real:key',source_ref:'verified:row'};
+const o=(x)=>({qc_decision:'READY',evidence_strength:'GROUNDED',evidence:x});
+test('linked primary source passes the current-date pool gate',()=>{
+  assert.equal(validateOpportunityEvidenceLineage(o([{role:'PRIMARY',evidence:e}]),p),true);
+});
+test('foreign pool is not valid even with a matching evidence key',()=>{
+  assert.throws(()=>validateOpportunityEvidenceLineage(o([{role:'PRIMARY',evidence:{...e,pool_id:'old'}}]),p),/POOL_MISMATCH/);
+});
+test('broken link is rejected before Director plan creation',()=>{
+  assert.throws(()=>validateOpportunityEvidenceLineage(o([{role:'PRIMARY',evidence:null}]),p),/LINK_UNRESOLVED/);
+});
+test('unverified source reference is rejected',()=>{
+  assert.throws(()=>validateOpportunityEvidenceLineage(o([{role:'PRIMARY',evidence:{...e,source_ref:null}}]),p),/SOURCE_UNVERIFIED/);
+});
+test('corroboration without primary evidence is insufficient for READY',()=>{
+  assert.throws(()=>validateOpportunityEvidenceLineage(o([{role:'CORROBORATING',evidence:e}]),p),/PRIMARY_EVIDENCE_REQUIRED/);
+});
