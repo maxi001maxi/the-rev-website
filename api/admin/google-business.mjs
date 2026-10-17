@@ -24,7 +24,7 @@ export function classify(error){
   if(provider==='invalid_client'||provider==='unauthorized_client')return 'oauth_client_invalid';
   if(message.includes('has not been used')||message.includes('disabled')||provider==='service_disabled')return 'required_api_disabled';
   if((message.includes('quota')||provider==='resource_exhausted')&&
-     /(?:limit|value|quota)[^0-9]{0,25}0(?:\\D|$)/i.test(message))return 'api_access_quota_zero';
+     /(?:limit|value|quota)[^0-9]{0,25}0(?:[^0-9]|$)/i.test(message))return 'api_access_quota_zero';
   if(message.includes('quota')||error?.status===429)return 'quota_or_access_required';
   if(message.includes('permission')||error?.status===403)return 'permission_denied';
   if(error?.status===401)return 'oauth_access_denied';
