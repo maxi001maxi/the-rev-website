@@ -35,3 +35,12 @@ jobs:
             git pull --rebase origin main
             git push origin HEAD:main
           fi
+      - name: Report final editorial gate outcome
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-18-contract-checklist/FINAL_QC_RESULT.json','utf8'));
+          if (r.error) { console.error('Independent QC unavailable:',String(r.error).slice(0,450)); process.exit(1); }
+          if (!r.pass) { console.error('Independent QC review required:',r.issues); process.exit(1); }
+          console.log('Owner-approved Oct18 article independent QC PASS',r.score_total,r.source_sha256);
+          JS
