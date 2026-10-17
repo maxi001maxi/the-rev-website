@@ -1,0 +1,2372 @@
+{
+  "status": "CONDITIONAL_GO_PUBLISHED",
+  "recordedAt": "2026-10-17T15:18:32+09:00",
+  "publicSource": "a3b98e788238ee84dac77416d332e689856639d2",
+  "verificationCode": "92769820e42888497452e11da297f6f82064542b",
+  "deployRun": 39006859070,
+  "originalDeployConclusion": "failure",
+  "correctedReadOnlyAcceptanceRun": 39008806727,
+  "correctedAcceptance": "PASS",
+  "publicUrl": "https://therev-lab.com/",
+  "normalUrls": {
+    "releaseSha": "a3b98e788238ee84dac77416d332e689856639d2",
+    "releaseRun": "39006859070",
+    "observedAt": "2026-10-17T06:10:07.782Z",
+    "method": "GET only; no JavaScript or analytics execution",
+    "checks": [
+      {
+        "path": "/",
+        "http": 200,
+        "actual": "00e1ec7b2f8d1410cf545b228e2f8a73139384e651a64a66f9c8e0ef4f953afb",
+        "expected": "00e1ec7b2f8d1410cf545b228e2f8a73139384e651a64a66f9c8e0ef4f953afb",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/solution.html",
+        "http": 200,
+        "actual": "263110389a5155dd826394a3d54e6065e156093b651ed4b5c254496802af2422",
+        "expected": "263110389a5155dd826394a3d54e6065e156093b651ed4b5c254496802af2422",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/trainer.html",
+        "http": 200,
+        "actual": "227208cc66abb7728f9fbcdfa8b2d34fc2e6f49ddd8df897812b610469315fe5",
+        "expected": "227208cc66abb7728f9fbcdfa8b2d34fc2e6f49ddd8df897812b610469315fe5",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/price.html",
+        "http": 200,
+        "actual": "4054a54197a77a2d71786716f8844547df72c1f21433c9363db1a81cac04d08c",
+        "expected": "4054a54197a77a2d71786716f8844547df72c1f21433c9363db1a81cac04d08c",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/",
+        "http": 200,
+        "actual": "77d897f114509eb3fc3509c54d76fc98fb029e6bdfcebf435939bfed758dbcae",
+        "expected": "77d897f114509eb3fc3509c54d76fc98fb029e6bdfcebf435939bfed758dbcae",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/access.html",
+        "http": 200,
+        "actual": "8bb585640d486f8058b0572122fbc6beac4bb7a5a5f282862a3d4ceda6d33b37",
+        "expected": "8bb585640d486f8058b0572122fbc6beac4bb7a5a5f282862a3d4ceda6d33b37",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/robots.txt",
+        "http": 200,
+        "actual": "52431c3571df4fb0e884124e608fc3876e23677fbdc0583da82924d05881541c",
+        "expected": "52431c3571df4fb0e884124e608fc3876e23677fbdc0583da82924d05881541c",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/sitemap.xml",
+        "http": 200,
+        "actual": "7248485ecf0e4c7d1bc4b6b1a45535d7b0e5fe3452348b37a8c9642079e46236",
+        "expected": "7248485ecf0e4c7d1bc4b6b1a45535d7b0e5fe3452348b37a8c9642079e46236",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/assets/css/style.css",
+        "http": 200,
+        "actual": "82dda4bf1640b000e6bde1296d8ee1514764bed4550e369d4e6d3e3446648b11",
+        "expected": "82dda4bf1640b000e6bde1296d8ee1514764bed4550e369d4e6d3e3446648b11",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/assets/js/main.js",
+        "http": 200,
+        "actual": "466ce1e349915b541ae5b7a2da9a0b126c23cc364d667dccb698669525c28523",
+        "expected": "466ce1e349915b541ae5b7a2da9a0b126c23cc364d667dccb698669525c28523",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/after-work-tired-strength-training/",
+        "http": 200,
+        "actual": "a879719916e44208fe8448a3c301c2664d583421479d90209afd305ecf0a309b",
+        "expected": "a879719916e44208fe8448a3c301c2664d583421479d90209afd305ecf0a309b",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/beginner-strength-training-few-exercises-frequency/",
+        "http": 200,
+        "actual": "1f1cbeae8775021b300838499a6ea3596108436f09441f7b978ea4f5dd869081",
+        "expected": "1f1cbeae8775021b300838499a6ea3596108436f09441f7b978ea4f5dd869081",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/boxing-beginner-first-step/",
+        "http": 200,
+        "actual": "90bcf16e0fc450105442e58fbc4dad1512b684a9979c88418f2b14159be15302",
+        "expected": "90bcf16e0fc450105442e58fbc4dad1512b684a9979c88418f2b14159be15302",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/boxing-beginner-scared-before-mitt-training/",
+        "http": 200,
+        "actual": "7ab42a51aa424d9c3c798e936c2ec00bcb51b0b05c0d2efc4434a5a56ebc3c0f",
+        "expected": "7ab42a51aa424d9c3c798e936c2ec00bcb51b0b05c0d2efc4434a5a56ebc3c0f",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/category/boxing/",
+        "http": 200,
+        "actual": "99194cf5182dafe9650af027a3178858835e0e41f41c68967c3d9de9db6a71cc",
+        "expected": "99194cf5182dafe9650af027a3178858835e0e41f41c68967c3d9de9db6a71cc",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/category/gym-guide/",
+        "http": 200,
+        "actual": "a3ff8c45cffaf751e4467e8cbb89c3a6f611d0db66310ab02634d55a9fec1774",
+        "expected": "a3ff8c45cffaf751e4467e8cbb89c3a6f611d0db66310ab02634d55a9fec1774",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/category/health/",
+        "http": 200,
+        "actual": "d3483da933cfbfb73cb17b95bb37cdd622dca223a93cf6ca68399286adb72ad0",
+        "expected": "d3483da933cfbfb73cb17b95bb37cdd622dca223a93cf6ca68399286adb72ad0",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/category/recovery/",
+        "http": 200,
+        "actual": "de0e43d38de6d9461a047b9f5e47245bbe8e127d66acadf8429e0f1a57863219",
+        "expected": "de0e43d38de6d9461a047b9f5e47245bbe8e127d66acadf8429e0f1a57863219",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/category/training/",
+        "http": 200,
+        "actual": "70c5cba7d165f1699e13495a6b50770654ad1a89f9582cab1aedb410f71ee9ce",
+        "expected": "70c5cba7d165f1699e13495a6b50770654ad1a89f9582cab1aedb410f71ee9ce",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/denba-electric-potential-space-radio-wave-difference/",
+        "http": 200,
+        "actual": "1e7e58be31c1b049598d82d66cbd99f4aea5f8cda3768e28b1e2692bd5057fc8",
+        "expected": "1e7e58be31c1b049598d82d66cbd99f4aea5f8cda3768e28b1e2692bd5057fc8",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/denba-health-what-is-it-the-rev/",
+        "http": 200,
+        "actual": "c28a72ffce9e59a8ebd7b06ea4fd15a2fa61de76ec1f63e0492d261a720ce04d",
+        "expected": "c28a72ffce9e59a8ebd7b06ea4fd15a2fa61de76ec1f63e0492d261a720ce04d",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/desk-work-stand-every-30-minutes/",
+        "http": 200,
+        "actual": "08febc96c2edabfe53a06af16739ec6d89196b0677c0d791cd1507d41913c399",
+        "expected": "08febc96c2edabfe53a06af16739ec6d89196b0677c0d791cd1507d41913c399",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/exercise-start-fatigue-anxiety-next-day-plan/",
+        "http": 200,
+        "actual": "d7c8ec2393ba1142bf7fcd96e9136d1b65a622053431a2472b482fd8db97a6d3",
+        "expected": "d7c8ec2393ba1142bf7fcd96e9136d1b65a622053431a2472b482fd8db97a6d3",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/health-check-results-before-starting-exercise/",
+        "http": 200,
+        "actual": "d5ad8e2f7fcca4257202046fa2aee3348b3aabc7f9fb995e9e1837e270137c87",
+        "expected": "d5ad8e2f7fcca4257202046fa2aee3348b3aabc7f9fb995e9e1837e270137c87",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/kenshin-ketsuatsu-takame-kinntore-hajimekata/",
+        "http": 200,
+        "actual": "13f215a24372ee4f5c41e0d3b70e9dc6306979c731ab897a9183187802b07268",
+        "expected": "13f215a24372ee4f5c41e0d3b70e9dc6306979c731ab897a9183187802b07268",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/muscle-mass-not-increasing-progress-signs/",
+        "http": 200,
+        "actual": "061101deaf8d2c576f464ba5b84cdb50535d7800d2f6dc0fb7a874112be1564f",
+        "expected": "061101deaf8d2c576f464ba5b84cdb50535d7800d2f6dc0fb7a874112be1564f",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/no-time-for-gym-starting-friction/",
+        "http": 200,
+        "actual": "5a763b082a6bfbe11c9c4e7fdcc047bcd9c52ef9587290b5544e194fca15a205",
+        "expected": "5a763b082a6bfbe11c9c4e7fdcc047bcd9c52ef9587290b5544e194fca15a205",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/oxygen-room-how-to-spend-time/",
+        "http": 200,
+        "actual": "87d2d161af64e88027f0ece648c2731cb994c17a25aae67f05228bdc5677df00",
+        "expected": "87d2d161af64e88027f0ece648c2731cb994c17a25aae67f05228bdc5677df00",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/oxygen-room-what-is-it/",
+        "http": 200,
+        "actual": "c6d0a2e381656502933cc27788a01bfd157577ee7d7812923cc0a1d4d6178810",
+        "expected": "c6d0a2e381656502933cc27788a01bfd157577ee7d7812923cc0a1d4d6178810",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/page/2/",
+        "http": 200,
+        "actual": "c10cfde1b9f9110d870e2203d476c8f34ea68a75ed7ed2c6681aa7dd5789057b",
+        "expected": "c10cfde1b9f9110d870e2203d476c8f34ea68a75ed7ed2c6681aa7dd5789057b",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/personal-gym-first-session-pain-health-history/",
+        "http": 200,
+        "actual": "fff61de5baa02cd08edf1899199fad12ccdffd7880b710d546b4f3bfee566331",
+        "expected": "fff61de5baa02cd08edf1899199fad12ccdffd7880b710d546b4f3bfee566331",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/personal-gym-trial-checkpoints/",
+        "http": 200,
+        "actual": "ce4b5dce5dc139175e132d5d1719af440f3ef19e810ce542180d51aebd6f9eed",
+        "expected": "ce4b5dce5dc139175e132d5d1719af440f3ef19e810ce542180d51aebd6f9eed",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/personal-training-frequency/",
+        "http": 200,
+        "actual": "14e96147619b395607ea3af6762db020ede93aa9017159624b73ec0836a480c7",
+        "expected": "14e96147619b395607ea3af6762db020ede93aa9017159624b73ec0836a480c7",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/pre-workout-stretching-duration/",
+        "http": 200,
+        "actual": "8328568d00b1bf5faba161070bf58836bdc5f71ef3ece62c51d205963f86c680",
+        "expected": "8328568d00b1bf5faba161070bf58836bdc5f71ef3ece62c51d205963f86c680",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/shinomiya-gym-beginner-choose/",
+        "http": 200,
+        "actual": "896fce61a58277a413764c4baddc6c710849d3eb35c7df45dfe3165436e72c25",
+        "expected": "896fce61a58277a413764c4baddc6c710849d3eb35c7df45dfe3165436e72c25",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/shinomiya-gym-erabikata-dosen/",
+        "http": 200,
+        "actual": "ff42b72574edd0232c6cca90c1ee15a34d920d4ae3955e9eed1b7c32ce9c9bf1",
+        "expected": "ff42b72574edd0232c6cca90c1ee15a34d920d4ae3955e9eed1b7c32ce9c9bf1",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/shinomiya-personal-gym-reservation-facility-the-rev/",
+        "http": 200,
+        "actual": "cdad104adb64623e9a379141af75cc24d4e245bba3eec68085cc87ee80387b73",
+        "expected": "cdad104adb64623e9a379141af75cc24d4e245bba3eec68085cc87ee80387b73",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/strength-training-to-failure-when-to-stop/",
+        "http": 200,
+        "actual": "09e1d0f133d97ff613e5138b74bc27bbe93cc2ef8689fa1d066c8ba26cbf74a5",
+        "expected": "09e1d0f133d97ff613e5138b74bc27bbe93cc2ef8689fa1d066c8ba26cbf74a5",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/the-rev-trial-three-menus-first-visit/",
+        "http": 200,
+        "actual": "385541a7ccd3870d83990879d07156baceb79deb12bdde162cc98de5d85c04c6",
+        "expected": "385541a7ccd3870d83990879d07156baceb79deb12bdde162cc98de5d85c04c6",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/blog/training-how-hard-to-push/",
+        "http": 200,
+        "actual": "8b9be68edf42825bf0b31309e08b4b207b6036f8ebb9d5b61c8aef179c9533f1",
+        "expected": "8b9be68edf42825bf0b31309e08b4b207b6036f8ebb9d5b61c8aef179c9533f1",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/assets/js/unified-navigation.js?v=1aae6195e7bd",
+        "http": 200,
+        "actual": "1aae6195e7bd4955b6b97e18fdc88cd8569786c982368247873e9a3c943dbb73",
+        "expected": "1aae6195e7bd4955b6b97e18fdc88cd8569786c982368247873e9a3c943dbb73",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/assets/js/home-v7.js?v=9084fb43dd09",
+        "http": 200,
+        "actual": "9084fb43dd09e1a2baf1fd5885c571a01d7977036f25ba1772c1465cb912832f",
+        "expected": "9084fb43dd09e1a2baf1fd5885c571a01d7977036f25ba1772c1465cb912832f",
+        "match": true,
+        "xRobotsTag": null
+      },
+      {
+        "path": "/assets/js/main.js?v=466ce1e34991",
+        "http": 200,
+        "actual": "466ce1e349915b541ae5b7a2da9a0b126c23cc364d667dccb698669525c28523",
+        "expected": "466ce1e349915b541ae5b7a2da9a0b126c23cc364d667dccb698669525c28523",
+        "match": true,
+        "xRobotsTag": null
+      }
+    ]
+  },
+  "styles": {
+    "observedAt": "2026-10-17T06:08:42.188Z",
+    "checks": [
+      {
+        "url": "https://therev-lab.com/assets/css/top-v7.css",
+        "sha256": "c76c97338193cbe550de66a046cfe4ed204465f9bfa29f587126e044b03e05f2",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/unified-header-v7.css",
+        "sha256": "b14efcbc1cb1c44ae8b5f2c3256f38ad879dbc040ea01d22ad044b5c35ab444c",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/site-fonts.css",
+        "sha256": "31fa84e5a6a8298f44ace9f7c93ef0435c3aa29fcba04921b3a742a0a17ead40",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/recovery-v8.css",
+        "sha256": "cc5768c80b9f671e2488d6dbfbb1341cbacdeec03180a00600d3354e382d0f34",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/style.css?v=82dda4bf1640",
+        "sha256": "82dda4bf1640b000e6bde1296d8ee1514764bed4550e369d4e6d3e3446648b11",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/trainer.css",
+        "sha256": "4e4c7094d5efd526848b24664bb104f72442b5d117778fedfc460eec260daf64",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/style.css",
+        "sha256": "82dda4bf1640b000e6bde1296d8ee1514764bed4550e369d4e6d3e3446648b11",
+        "match": true
+      },
+      {
+        "url": "https://therev-lab.com/assets/css/blog.css?v=2489a6ccbabc",
+        "sha256": "2489a6ccbabc7941691959240da65ebd2fd9c68471e01fa2a1d55d3d0a6c200a",
+        "match": true
+      }
+    ]
+  },
+  "browser": {
+    "status": "PASS",
+    "checks": 532,
+    "screenshots": [
+      "top-1366x768.png",
+      "top-360x800.png",
+      "top-1920x1080.png",
+      "top-768x1024.png",
+      "top-1440x900.png",
+      "top-390x844.png",
+      "top-375x812.png",
+      "solution-html-1920x1080.png",
+      "solution-html-1440x900.png",
+      "solution-html-768x1024.png",
+      "solution-html-1366x768.png",
+      "solution-html-375x812.png",
+      "solution-html-360x800.png",
+      "solution-html-390x844.png",
+      "trainer-html-768x1024.png",
+      "trainer-html-1920x1080.png",
+      "trainer-html-1440x900.png",
+      "trainer-html-375x812.png",
+      "trainer-html-390x844.png",
+      "trainer-html-1366x768.png",
+      "trainer-html-360x800.png",
+      "price-html-1440x900.png",
+      "price-html-768x1024.png",
+      "price-html-375x812.png",
+      "price-html-390x844.png",
+      "price-html-1920x1080.png",
+      "price-html-360x800.png",
+      "price-html-1366x768.png",
+      "blog-768x1024.png",
+      "blog-375x812.png",
+      "blog-360x800.png",
+      "blog-1920x1080.png",
+      "blog-1440x900.png",
+      "blog-390x844.png",
+      "blog-1366x768.png",
+      "access-html-375x812.png",
+      "access-html-768x1024.png",
+      "access-html-360x800.png",
+      "access-html-1440x900.png",
+      "access-html-390x844.png",
+      "access-html-1920x1080.png",
+      "access-html-1366x768.png",
+      "top-trial-375x812.png",
+      "top-trial-768x1024.png",
+      "top-trial-360x800.png",
+      "recovery-denba-375x812.png",
+      "recovery-denba-768x1024.png",
+      "top-trial-1440x900.png",
+      "top-trial-390x844.png",
+      "recovery-denba-360x800.png",
+      "top-trial-1920x1080.png",
+      "article-375x812.png",
+      "recovery-denba-1440x900.png",
+      "recovery-denba-390x844.png",
+      "article-360x800.png",
+      "article-768x1024.png",
+      "recovery-denba-1920x1080.png",
+      "article-1440x900.png",
+      "article-390x844.png",
+      "top-trial-1366x768.png",
+      "article-1920x1080.png",
+      "recovery-denba-1366x768.png",
+      "article-1366x768.png"
+    ],
+    "testedSizes": [
+      [
+        1440,
+        900
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        1366,
+        768
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        375,
+        812
+      ],
+      [
+        360,
+        800
+      ],
+      [
+        768,
+        1024
+      ]
+    ],
+    "errors": [],
+    "network": [],
+    "externalObservations": [
+      {
+        "size": "1366x768",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/solution.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/trainer.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/price.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/blog/",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "768x1024",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "375x812",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "360x800",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1440x900",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "390x844",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1920x1080",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      },
+      {
+        "size": "1366x768",
+        "route": "/access.html",
+        "url": "https://www.google.com/maps/embed",
+        "error": "net::ERR_FAILED"
+      }
+    ],
+    "browser": "Chromium",
+    "exclusions": [
+      "Telemetry and non-GET requests blocked; no form submitted. Google Maps iframe blocked in the controlled history suite and checked separately in the live browser."
+    ],
+    "externalObservationExplanation": "226 observations, all intentionally blocked https://www.google.com/maps/embed requests; not counted as independently verified map display."
+  },
+  "measurement": {
+    "scope": "Actual production HTTP and browser; collection fulfilled locally before transmission",
+    "analyticsTransmitted": 0,
+    "ga4Receipt": "UNVERIFIED",
+    "pages": [
+      {
+        "pathname": "/",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "reserve_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "reserve_click",
+              "page_type": "home",
+              "placement": "home_header",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "pathname": "/solution.html",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "reserve_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "reserve_click",
+              "page_type": "recovery",
+              "placement": "recovery_header",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "pathname": "/trainer.html",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "reserve_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          },
+          {
+            "path": "/a",
+            "status": 200
+          },
+          {
+            "path": "/a",
+            "status": 200
+          },
+          {
+            "path": "/a",
+            "status": 200
+          },
+          {
+            "path": "/a",
+            "status": 200
+          },
+          {
+            "path": "/a",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "reserve_click",
+              "page_type": "trainer",
+              "placement": "trainer_header",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "pathname": "/price.html",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "reserve_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "reserve_click",
+              "page_type": "price",
+              "placement": "pricing_header",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "pathname": "/blog/",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "reserve_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "reserve_click",
+              "page_type": "blog_index",
+              "placement": "blog_header",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "pathname": "/access.html",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "reserve_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "reserve_click",
+              "page_type": "access",
+              "placement": "access_header",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      },
+      {
+        "pathname": "/blog/training-how-hard-to-push/",
+        "collection": [
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "page_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "article_view",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          },
+          {
+            "measurementId": "G-Q6ZSSJMEZ2",
+            "event": "article_cta_click",
+            "pageType": null,
+            "placement": null,
+            "intercepted": true
+          }
+        ],
+        "cdn": [
+          {
+            "path": "/gtm.js",
+            "status": 200
+          },
+          {
+            "path": "/gtag/js",
+            "status": 200
+          }
+        ],
+        "errors": [],
+        "dataLayer": {
+          "starts": 1,
+          "intents": [
+            {
+              "event": "article_cta_click",
+              "page_type": "blog_article",
+              "placement": "article_bottom_primary",
+              "event_version": "e1_v1"
+            }
+          ]
+        },
+        "status": "PASS"
+      }
+    ]
+  },
+  "bookingGet": {
+    "observedAt": "2026-10-17T06:14:33.370420+00:00",
+    "method": "GET only; JavaScript not executed; no customer/booking/payment submission",
+    "ctaCount": 14,
+    "ctas": [
+      {
+        "page": "index.html",
+        "placement": "home_header",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_header"
+      },
+      {
+        "page": "index.html",
+        "placement": "home_hero",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_hero"
+      },
+      {
+        "page": "index.html",
+        "placement": "home_hero",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_hero"
+      },
+      {
+        "page": "index.html",
+        "placement": "home_trial",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_trial"
+      },
+      {
+        "page": "index.html",
+        "placement": "home_final",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_final"
+      },
+      {
+        "page": "index.html",
+        "placement": "home_footer",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_footer"
+      },
+      {
+        "page": "index.html",
+        "placement": "home_drawer",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_drawer"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_header",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_header"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_hero",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_hero"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_price",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_price"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_bottom",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_bottom"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_footer",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_footer"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_fixed_cta",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_fixed_cta"
+      },
+      {
+        "page": "solution.html",
+        "placement": "recovery_drawer",
+        "url": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=recovery_drawer"
+      }
+    ],
+    "redirectStatus": 200,
+    "redirectUrl": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_header",
+    "utmRetained": true,
+    "bodyBytes": 2275,
+    "bookingUiAutomation": "UNVERIFIED; existing Owner normal-use confirmation remains a separate exception",
+    "httpRedirectOccurred": false,
+    "javascriptTrialRedirect": "Not exercised by this GET-only check; prior real-browser evidence is separate"
+  },
+  "partialArticleRepair": {
+    "path": "/blog/denba-health-what-is-it-the-rev/index.html",
+    "release_sha": "a3b98e788238ee84dac77416d332e689856639d2",
+    "before_sha256": "bc7d4d836dafcf2407483011f94c1ede6d919033c9065a733c848c3cfe5d78d6",
+    "expected_sha256": "c28a72ffce9e59a8ebd7b06ea4fd15a2fa61de76ec1f63e0492d261a720ce04d",
+    "original_healthy_full_backup_artifact": 12090654704,
+    "guard": "Only other production lane is in read-only backup; no competing writer",
+    "status": "REPAIRED",
+    "after_sha256": "c28a72ffce9e59a8ebd7b06ea4fd15a2fa61de76ec1f63e0492d261a720ce04d",
+    "bytes": 25164,
+    "ends_html": true
+  },
+  "healthyBackup": {
+    "artifact_id": 12090654704,
+    "files": 434,
+    "archive_sha256": "055bbe71a7b97bd208e55da0519f39e858ff2cb2218273f1090a20e0f3e48504",
+    "roots": [
+      {
+        "path": "index.html",
+        "bytes": 46358,
+        "sha256": "81de5b834f004c8cd5ffc7badbde4321b656e483cc7b070725c53a865dbae731"
+      },
+      {
+        "path": "solution.html",
+        "bytes": 27054,
+        "sha256": "b53fcf6edb5217cf93c1a95d94b9e22e0e20fe63f3a22de8d6619bbdd2b28655"
+      },
+      {
+        "path": "robots.txt",
+        "bytes": 86,
+        "sha256": "52431c3571df4fb0e884124e608fc3876e23677fbdc0583da82924d05881541c"
+      },
+      {
+        "path": "sitemap.xml",
+        "bytes": 4876,
+        "sha256": "7248485ecf0e4c7d1bc4b6b1a45535d7b0e5fe3452348b37a8c9642079e46236"
+      }
+    ],
+    "has_assets": true,
+    "has_blog": true,
+    "protected_environment_excluded": true,
+    "html_file_count": 42,
+    "document_html_count": 40,
+    "valid_plaintext_verification_files": [
+      "googlea096874a1bd6b00a.html",
+      "googleec2e23bcad621b82.html"
+    ],
+    "incomplete_document_html": []
+  },
+  "ineligibleBackup": {
+    "artifact_id": 12091359317,
+    "files": 676,
+    "archive_sha256": "0f02b0d0aee117747d728319cfeb6053ad8416fca5c01ed5d83f7803d8d2b5c8",
+    "document_html_count": 39,
+    "incomplete_document_html": [
+      "blog/denba-health-what-is-it-the-rev/index.html"
+    ],
+    "valid_plaintext_verification_files": [
+      "googlea096874a1bd6b00a.html",
+      "googleec2e23bcad621b82.html"
+    ],
+    "eligible_for_rollback": false,
+    "exclusion_reason": "Captured the known interrupted article before its verified atomic repair",
+    "article_bytes": 16384,
+    "article_sha256": "bc7d4d836dafcf2407483011f94c1ede6d919033c9065a733c848c3cfe5d78d6"
+  },
+  "remaining": [
+    "GA4実受信：Owner/GA4閲覧担当が自然発生のpage_viewと既存意向イベントをRealtimeで受動確認する。新TOP/Recoveryのpage_locationを区別し、自然流入0を欠落と決めつけない。通常同意条件の2環境で新版由来の基本収集欠落が再現した場合は公開担当が停止・復旧する。",
+    "Company OS：計測/Company OS担当が次の正常定期同期、遅くとも2026-10-19 15:01 JSTまでにproperty552679302の公開後observed_at、完了日、標準pagePath/eventName集計、partial/UNKNOWN契約を再判定する。現時点のsourceはACTIVE/errorなしだが最終観測は公開前であり、新TOP反映はUNVERIFIED。読み取り側だけの問題ならサイトを先に巻き戻さない。",
+    "GTM詳細12属性：既存公開コンテナのpage_type/placement等のマップ不足は継続。OwnerがGTM_PARAMETER_MAPPING_OWNER_REVIEW.mdの具体案を別承認し、権限を持つGTM担当がworkspace差分・同意・単一送信を確認して適用する。サイト側イベントとCompany OS基本集計契約は維持。現段階で属性による配置比較を開始しない。",
+    "Price REV-EXP-2026-001：計測担当が公開24〜48時間後にcontrolのsection_view sessionsを確認。treatmentは開始しない。10/17は公開切替と旧自動監査の影響日として注記し、翌完了日との比較を区別する。",
+    "外部予約UIの厳密自動操作FAILはOwner通常利用確認の例外を維持。公式URL・リダイレクト・UTM保持・3メニューのGET確認は合格。実予約、顧客情報、決済は送信していない。"
+  ],
+  "notes": [
+    "初回公開run39005228524 attempt2は旧30分上限でBlog転送中に取消。DENBA記事1件が16384 bytesに欠損した。run39007782884で限定原子的修復し、通常URLで25164 bytes/SHA c28a72ffce9e59a8ebd7b06ea4fd15a2fa61de76ec1f63e0492d261a720ce04dを確認。最終FULLで全Blogを転送し、今回通常URLの全記事バイト一致を確認した。",
+    "最終FULL run39006859070は転送完了後の旧TOP用CSS検査でFAIL。TOP v7はtop-v7.cssを使うため、存在しない旧style.cssリンクを要求していた。92769820で全6ページの実参照CSS一致を追加し、共通style.cssのfingerprint/bytes/VOICE規則はPriceで維持した。古いFAILはそのまま保持し、読取専用run39008806727で元の全本番verifyと追加受入が成功。再転送で結果を隠していない。",
+    "JSは旧本番で7日キャッシュのため内容SHA付きURLへ変更。691ファイル比較で39HTMLのscript URL以外に差分0、Production/Preview parity691合格、TOP/RecoveryのPC/スマホ4組は変更前後ピクセル完全一致。今回readbackでも実HTTPキャッシュ試験合格。",
+    "旧自動GA4監査run39005228556は05:10:00〜05:11:03 UTCに旧サイトの6 page_view+1 article_view要求を観測。実受信は未確認。監査を送信前遮断へ修正済みで、今回7ページ実GTM試験は解析送信0。全作業が最初から汚染0だったとは主張しない。",
+    "PC/スマホは実Chromiumを7画面幅で操作した。物理iPhone/Safari/Firefoxの合格は主張しない。履歴試験ではGoogle Maps iframeを除外し、過去の実ブラウザ確認と区別した。",
+    "別案件mainのEditorial/Operator変更を保持。現行Editorial検証合格、Phase9 164/0。以前の非公開Job不一致や旧Vercel admin smoke失敗を現在の本番サイト障害とは扱わず、全CI緑とも主張しない。"
+  ],
+  "artifact": {
+    "id": 12091893650,
+    "name": "production-release-readback-39008806727",
+    "sha256": "e0045ec0ae70c95c1fb0436a37baee4a633e7696f2bb45f1bf46938fd6062d95",
+    "bytes": 11478485,
+    "expiresAt": "2026-10-31T06:16:55Z"
+  }
+}

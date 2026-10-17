@@ -1,6 +1,6 @@
-# Owner承認後の公開・復旧手順（未実行）
+# 公開・復旧手順（2026-10-17実行記録付き）
 
-対象は新TOP v7/Recovery v8を含むXserver静的サイト。正本は XSERVER_DEPLOY.md と .github/workflows/deploy-xserver.yml。本書は今回の候補に必要なチェックポイントを補足する。今回、merge・本番配備・FTPS接続・復旧は実行していない。
+対象は新TOP v7/Recovery v8を含むXserver静的サイト。正本は XSERVER_DEPLOY.md と .github/workflows/deploy-xserver.yml。本書は今回の候補に必要なチェックポイントを補足する。Ownerが本番公開を承認し、PR #254のmergeとXserver配備を実行した。最新結果・正常な復旧元は [PRODUCTION_RELEASE.md](PRODUCTION_RELEASE.md) を参照。以下の公開前手順は実行時の手順として保持する。
 
 ## 公開前
 
@@ -23,7 +23,7 @@
 
 直後の主要5xx、ナビ/本文不可、公式予約URL誤り、noindex/canonical退行、主要画像/CSS欠損、移行に起因するGTM/GA4基本収集欠落が再現したら、新規公開を停止して公開担当が復旧する。詳細属性だけの既存不足、標準GA4レポートの処理待ち、自然流入なし、Gyms本体の障害だけを理由にサイトを戻さない。
 
-復旧手順は以下。FTPSの書き込みはOwnerが承認した本番操作の範囲で担当者が行う。今回のWorkでは実行しない。
+復旧手順は以下。FTPSの書き込みはOwnerが承認した本番操作の範囲で担当者が行う。今回、途中欠損の記事1件に限定した原子的復旧を実施した。全体ロールバックは未実施。
 
 1. 後続の本番deployを止め、公開担当とOwnerへ障害・対象SHA/runを記録する。実行中のFTP処理を確認し、二つの書き込みを競合させない。
 2. 今回の直前バックアップArtifactを取得。index.html・solution.html・assets・blog・robots.txt・sitemap.xmlと作成時刻/ハッシュを確認する。48時間のfallbackしかない場合は、その後の新規記事を先に保全し、古いBlogで上書きしない。
@@ -33,7 +33,11 @@
 6. Gitはreset/force-pushしない。必要な公開物の差分だけを復旧ブランチで戻し、並行記事/Editorial更新を保持して通常レビューへ進める。site復旧時に古いPR全体をrevertして別案件を巻き戻さない。
 7. GTM詳細属性の別公開が原因の場合は、サイトとは独立してGTMの直前コンテナバージョンへ復旧し、二重送信と既存イベントを確認する。
 
-## 今回は未実施
+## 今回の実行結果と復旧元
 
-- main merge、Xserver deploy、Vercel Production、GTM publish：全て未実施。
-- 今回runのバックアップID・本番release SHAは公開操作後に確定する。架空IDは記載しない。
+- Owner承認後、PR #254をmergeしXserverへ配備。公開ソースは `a3b98e788238ee84dac77416d332e689856639d2`。
+- 正常な公開前バックアップ：Artifact **12090654704** / `xserver-backup-39005228524`。434ファイル、93,304,312 bytes、ZIP SHA256 `055bbe71a7b97bd208e55da0519f39e858ff2cb2218273f1090a20e0f3e48504`。保存期限2026-10-31 05:30:01 UTC。6主要ページ・全Blog通常HTMLの完全性、SEO metadata、assetsを実アーカイブで確認。
+- **Artifact12091359317は復旧禁止**。初回転送の中断状態を取得したためDENBA記事が16384 bytesで欠損。証拠を保持し、48h fallback候補から明示除外。構造検査も拒否する。
+- 初回30分timeoutによるDENBA記事欠損はrun39007782884で限定・原子的復旧し、通常HTTPでも25164 bytes/SHA一致を確認。後続FULL run39006859070でroot/Blogの転送完了。
+- 最終FULLのverify失敗（旧TOP共通CSS前提）は検査修正92769820で解消するため、本番を変更せずrun39008806727で元の全verify・exact bytes・ブラウザ受入を再実行。元のFAILを成功へ書き換えない。結果はPRODUCTION_RELEASE.mdを正本とする。
+- Vercel Production公開、GTM管理設定変更、実予約/顧客情報/決済送信、全体ロールバックは未実施。

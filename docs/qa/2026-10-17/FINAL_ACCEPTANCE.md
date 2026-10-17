@@ -1,3 +1,5 @@
+> **2026-10-17 公開後追記**：Ownerの公開承認を受け、PR #254をmergeしXserverへ新TOP v7/Recovery v8を反映した。最新の本番検証・残条件・復旧元は [PRODUCTION_RELEASE.md](PRODUCTION_RELEASE.md) を参照。本書の「未承認・未公開」は公開前時点の履歴である。後続の旧自動GA4監査に送信要求の観測があったため、全工程が送信0だったとは扱わない。対策と影響時間は公開記録に記載。
+
 # THE REV. 新TOP v7 / Recovery v8 — 最終受入
 
 判定：**CONDITIONAL GO（条件付き公開可能）**。2026-10-17 JST。

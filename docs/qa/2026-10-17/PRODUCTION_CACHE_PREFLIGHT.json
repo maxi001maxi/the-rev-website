@@ -1,0 +1,267 @@
+{
+  "origin": "Production hostname fulfilled from local dist; no production server requests",
+  "checks": [
+    {
+      "name": "booking click and UTM",
+      "status": "PASS",
+      "detail": "/: 7 actual DOM click events, one reserve_click per anchor; navigation prevented"
+    },
+    {
+      "name": "line_click",
+      "status": "PASS",
+      "detail": "/: once"
+    },
+    {
+      "name": "price_click",
+      "status": "PASS",
+      "detail": "/: once"
+    },
+    {
+      "name": "section_view",
+      "status": "PASS",
+      "detail": "trainer/recovery/trial/faq/access use actual nonzero content, once per page"
+    },
+    {
+      "name": "booking click and UTM",
+      "status": "PASS",
+      "detail": "/solution.html: 7 actual DOM click events, one reserve_click per anchor; navigation prevented"
+    },
+    {
+      "name": "line_click",
+      "status": "PASS",
+      "detail": "/solution.html: once"
+    },
+    {
+      "name": "booking click and UTM",
+      "status": "PASS",
+      "detail": "/price.html: 6 actual DOM click events, one reserve_click per anchor; navigation prevented"
+    },
+    {
+      "name": "line_click",
+      "status": "PASS",
+      "detail": "/price.html: once"
+    },
+    {
+      "name": "Price control exposure",
+      "status": "PASS",
+      "detail": "one pricing_trial section_view, unchanged REV-EXP-2026-001/control metadata"
+    },
+    {
+      "name": "article intent",
+      "status": "PASS",
+      "detail": "one article_cta_click plus one intentional reserve_click, blog_article classification"
+    },
+    {
+      "name": "keyboard skip",
+      "status": "PASS",
+      "detail": "/: Tab → visible skip → Enter → main focus"
+    },
+    {
+      "name": "keyboard skip",
+      "status": "PASS",
+      "detail": "/solution.html: Tab → visible skip → Enter → main focus"
+    },
+    {
+      "name": "Preview pollution prevention",
+      "status": "PASS",
+      "detail": "six actual pages: no GTM/CDN initialization on Preview; local dataLayer still works"
+    }
+  ],
+  "cdn": [
+    {
+      "page": "/",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "page": "/solution.html",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "page": "/trainer.html",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "page": "/price.html",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "page": "/blog/",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "page": "/access.html",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    },
+    {
+      "page": "/blog/after-work-tired-strength-training/",
+      "url": "https://www.googletagmanager.com/gtm.js",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ],
+  "collection": [],
+  "errors": [],
+  "visual": [
+    {
+      "stem": "top-1440",
+      "identical": true,
+      "baselineAvailable": true
+    },
+    {
+      "stem": "recovery-1440",
+      "identical": true,
+      "baselineAvailable": true
+    },
+    {
+      "stem": "top-390",
+      "identical": true,
+      "baselineAvailable": true
+    },
+    {
+      "stem": "recovery-390",
+      "identical": true,
+      "baselineAvailable": true
+    }
+  ],
+  "ga4Receipt": "UNVERIFIED",
+  "analyticsTransmitted": 0,
+  "tagPages": [
+    {
+      "pathname": "/",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "reserve_click",
+          "page_type": "home",
+          "placement": "home_header"
+        },
+        {
+          "event": "line_click",
+          "page_type": "home",
+          "placement": "home_hero_line"
+        },
+        {
+          "event": "price_click",
+          "page_type": "home",
+          "placement": "home_service_training"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    },
+    {
+      "pathname": "/solution.html",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "reserve_click",
+          "page_type": "recovery",
+          "placement": "recovery_header"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    },
+    {
+      "pathname": "/trainer.html",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "reserve_click",
+          "page_type": "trainer",
+          "placement": "trainer_header"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    },
+    {
+      "pathname": "/price.html",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "reserve_click",
+          "page_type": "price",
+          "placement": "pricing_header"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    },
+    {
+      "pathname": "/blog/",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "reserve_click",
+          "page_type": "blog_index",
+          "placement": "blog_header"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    },
+    {
+      "pathname": "/access.html",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "reserve_click",
+          "page_type": "access",
+          "placement": "access_header"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    },
+    {
+      "pathname": "/blog/after-work-tired-strength-training/",
+      "tagKeys": [],
+      "starts": 1,
+      "events": [
+        {
+          "event": "article_cta_click",
+          "page_type": "blog_article",
+          "placement": "article_bottom_secondary"
+        },
+        {
+          "event": "reserve_click",
+          "page_type": "blog_article",
+          "placement": "article_bottom_secondary"
+        }
+      ],
+      "containerExecuted": false,
+      "googleTagLoaded": false,
+      "collectionEvents": [],
+      "status": "UNVERIFIED: CDN browser connectivity"
+    }
+  ],
+  "stage": "browser shutdown",
+  "measurementStatus": "PARTIALLY_UNVERIFIED",
+  "parameterMappingStatus": "UNVERIFIED",
+  "publicationReadiness": "FINAL_ACCEPTANCE_REQUIRED: receipt and external parameters are separate from website regression; see docs/qa/2026-10-17/FINAL_ACCEPTANCE.md",
+  "status": "PASS"
+}
