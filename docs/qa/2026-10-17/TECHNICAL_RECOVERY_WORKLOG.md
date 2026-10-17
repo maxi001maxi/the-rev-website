@@ -40,3 +40,10 @@ The current published GTM resource version 3 has an all-host init rule. Add an i
 ## Safe collection test diagnostics
 
 The first CI failed the new strict network probe (navigation/build gates passed). Deliberately aborting collection caused a transport retry of page_view, while a fixed 4-second wait missed GA4 custom-event batches. A read-only replay of current public CDN scripts confirmed one initial page_view and delayed POST batches containing reserve_click. The probe now intercepts collection locally with HTTP204 (zero transmission) and waits up to 15 seconds for actual expected batch events. Exact once-per-event assertions remain unchanged; no production/GTM configuration modified to make tests pass.
+
+## Booking probe correction and accepted Preview
+
+- Accepted runtime d6ffcfeb1e2e7ef0d12d2e9dc3236b3a639c7dba: all candidate CI passed, including 532 navigation checks and 20 tag/event checks. One explicit Preview created: dpl_BgedYMG9n63F549j9Vkde9GkrZ65, https://the-rev-website-qao22ebbr-htrmaxi0101-9305s-projects.vercel.app/ . Deployed all-seven-size QA run 38995212728 also succeeded.
+- Evidence image inspection found that the booking probe matched the shop intro rather than actual menu controls. Correct the false PASS: redirect/UTM remains PASS, menu UI is not yet PASS. Strengthen the probe to wait for public reserve_master GET data and actual full menu options/controls. No customer data or reservation submission.
+- A diagnostic empty POST status lookup to the booking API was rejected by automatic approval review because it could affect external session state. It was not completed; do not retry it or work around the rejection. All ongoing reservation verification remains GET-only, with all POSTs blocked.
+- Deployed site runtime is unchanged by this test-only correction; no additional Vercel deployment is required. Existing GTM parameter map and GA4 receipt remain external release holds.
