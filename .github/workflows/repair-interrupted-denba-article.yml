@@ -1,0 +1,82 @@
+name: Repair interrupted DENBA article
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/repair-interrupted-denba-article.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  repair-known-partial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: a3b98e788238ee84dac77416d332e689856639d2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run vercel-build
+      - name: Atomically repair exactly the observed truncated article
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import os,json,urllib.request,hashlib,pathlib,ssl,ftplib,io
+          relative='blog/denba-health-what-is-it-the-rev/index.html'
+          url='https://therev-lab.com/'+relative
+          desired=pathlib.Path('dist',relative).read_bytes()
+          digest=lambda b:hashlib.sha256(b).hexdigest()
+          expected=digest(desired)
+          current=urllib.request.urlopen(url,timeout=20).read()
+          report={'path':'/'+relative,'release_sha':'a3b98e788238ee84dac77416d332e689856639d2','before_sha256':digest(current),'expected_sha256':expected,'original_healthy_full_backup_artifact':12090654704}
+          if digest(current)==expected:
+              report['status']='ALREADY_COMPLETE_NO_WRITE'
+          else:
+              if len(current)!=16384 or digest(current)!='bc7d4d836dafcf2407483011f94c1ede6d919033c9065a733c848c3cfe5d78d6':
+                  raise RuntimeError('Public preimage changed; refusing to overwrite concurrent work')
+              req=urllib.request.Request('https://api.github.com/repos/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/39006859070/jobs?per_page=100',headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              jobs=json.load(urllib.request.urlopen(req,timeout=20))['jobs']
+              deploy=next(j for j in jobs if j['name'].startswith('Build → Deploy → Verify ('))
+              active=[s['name'] for s in deploy['steps'] if s['status']=='in_progress']
+              if active!=['Backup current Xserver production']:
+                  raise RuntimeError('Full release is not in read-only backup stage; refusing concurrent write')
+              report['guard']='Only other production lane is in read-only backup; no competing writer'
+              temporary='/'+relative+'.rev-repair-'+os.environ['GITHUB_RUN_ID']+'.tmp'
+              ftp=ftplib.FTP_TLS(context=ssl.create_default_context(),timeout=20)
+              promoted=False
+              try:
+                  ftp.connect('sv14602.xserver.jp',21)
+                  ftp.login(os.environ['FTP_USER'],os.environ['FTP_PASSWORD'])
+                  ftp.prot_p()
+                  ftp.storbinary('STOR '+temporary,io.BytesIO(desired))
+                  readback=bytearray()
+                  ftp.retrbinary('RETR '+temporary,readback.extend)
+                  if digest(readback)!=expected:raise RuntimeError('Temporary file bytes differ; will not promote')
+                  ftp.rename(temporary,'/'+relative)
+                  promoted=True
+                  readback=bytearray()
+                  ftp.retrbinary('RETR /'+relative,readback.extend)
+                  if digest(readback)!=expected:raise RuntimeError('Promoted FTP bytes differ')
+              finally:
+                  if not promoted:
+                      try:ftp.delete(temporary)
+                      except Exception:pass
+                  ftp.close()
+              public=urllib.request.urlopen(url,timeout=20).read()
+              if digest(public)!=expected:raise RuntimeError('Plain public URL readback differs')
+              report.update(status='REPAIRED',after_sha256=digest(public),bytes=len(public),ends_html=public.rstrip().lower().endswith(b'</html>'))
+          pathlib.Path('denba-article-repair.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: denba-article-repair-${{ github.run_id }}
+          path: denba-article-repair.json
+          retention-days: 14
