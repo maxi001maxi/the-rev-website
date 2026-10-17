@@ -1,6 +1,6 @@
 {
   "slug": "personal-gym-trial-three-checks",
-  "status": "ERROR",
+  "status": "BLOCKED_MAX_ATTEMPTS",
   "attempts_total": 1,
   "max_attempts": 1,
   "last_error": "人物・合成品質・書体設計は良好だが、男性の視線と身体は左側のロゴ壁へ向いており、指定された後方トレーニングエリアを観察する行動に見えない。料金・予約・退会を確認して自分の開始を決める記事固有の理由も写真単体では弱く、一般的な立ち姿に留まるため厳格ゲートでは不合格。",
@@ -1270,6 +1270,6 @@
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json",
-  "updated_at": "2026-10-17T05:10:55.427Z",
+  "updated_at": "2026-10-17T22:54:19.827Z",
   "asset_version": "reference-v3-lobby-route-b-20261018-contract-r6"
 }
