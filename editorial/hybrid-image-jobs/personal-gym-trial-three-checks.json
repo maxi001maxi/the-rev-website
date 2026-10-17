@@ -93,8 +93,116 @@
       "window": 12,
       "compared": 12,
       "unknown_count": 0,
-      "penalty": 0,
-      "matches": []
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.5,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "score": 0.3333333333333333,
+          "equal": [
+            "composition_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        }
+      ]
     }
   },
   "source_scene_inventory": {
