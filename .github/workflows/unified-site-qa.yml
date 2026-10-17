@@ -2,6 +2,7 @@ name: Unified public site QA
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, edited]
     paths:
       - '*.html'
       - 'assets/css/**'
@@ -18,6 +19,7 @@ permissions:
   contents: read
 jobs:
   static-and-browser:
+    if: github.event.action != 'edited'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -36,4 +38,37 @@ jobs:
         with:
           name: unified-public-site-qa
           path: qa-out/
+          retention-days: 14
+
+  deployed-browser:
+    if: github.event.action == 'edited' && contains(github.event.pull_request.body, 'REV_PREVIEW_QA')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Bind explicit Preview URL
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
+          const match=event.pull_request.body.match(/<!-- REV_PREVIEW_QA (https:\/\/[a-z0-9-]+\.vercel\.app) -->/);
+          if(!match) throw new Error('Explicit Preview marker missing or invalid');
+          fs.appendFileSync(process.env.GITHUB_ENV,'BASE_URL='+match[1]+'\n');
+          JS
+      - name: Test deployed Preview at all seven viewports
+        env:
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          QA_OUT: qa-out/deployed-browser
+        run: node scripts/qa-unified-site.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deployed-public-site-qa
+          path: qa-out/deployed-browser/
           retention-days: 14
