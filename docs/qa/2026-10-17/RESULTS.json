@@ -1,0 +1,224 @@
+{
+  "browser_status": "PASS",
+  "checks": 532,
+  "sizes": [
+    [
+      1440,
+      900
+    ],
+    [
+      1920,
+      1080
+    ],
+    [
+      1366,
+      768
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      375,
+      812
+    ],
+    [
+      360,
+      800
+    ],
+    [
+      768,
+      1024
+    ]
+  ],
+  "js_errors": [],
+  "first_party_failures": [],
+  "build_parity": {
+    "status": "PASS",
+    "files": 680
+  },
+  "internal_links": {
+    "status": "PASS",
+    "checked": 2295,
+    "failures": []
+  },
+  "deployment": {
+    "id": "dpl_77TbYrkYCx726dvKa3jJHdDeKCRK",
+    "url": "https://the-rev-website-9eia5e5bd-htrmaxi0101-9305s-projects.vercel.app/",
+    "sha": "ec529f3d629b053b3db3d16c3eafdfa95a49a30a",
+    "status": "READY",
+    "target": "preview",
+    "rolling24hCountBefore": 2,
+    "deploymentsCreatedForTask": 1,
+    "ci": [
+      {
+        "name": "Control Capture Contract",
+        "id": 38990515686,
+        "conclusion": "success"
+      },
+      {
+        "name": "Phase 9 Check",
+        "id": 38990515668,
+        "conclusion": "success"
+      },
+      {
+        "name": "Unified public site QA",
+        "id": 38990515624,
+        "conclusion": "success"
+      },
+      {
+        "name": "Deployed Preview browser QA",
+        "id": 38991029681,
+        "conclusion": "success"
+      }
+    ],
+    "branchHeadAfterTestTeardownFix": "f2fc1ab2fa1473fc862c55764a0826d765dd34b5",
+    "runtimeChangesAfterPreview": false,
+    "mainLastObserved": "ebd99ee2b918a6ae50a4feeb231959e399d13ed5",
+    "mainSubsequentChange": "Editorial handoff document only; no site runtime change"
+  },
+  "remote_browser": {
+    "status": "PASS",
+    "url": "https://the-rev-website-9eia5e5bd-htrmaxi0101-9305s-projects.vercel.app/",
+    "browser": "Cloud Chrome",
+    "viewport": {
+      "height": 936,
+      "width": 1363
+    },
+    "manualMenuRoundTrips": [
+      {
+        "source": "/",
+        "target": "/#service",
+        "status": "PASS",
+        "heading": "自分の身体に、ちゃんと向き合う時間。"
+      },
+      {
+        "source": "/",
+        "target": "/solution.html",
+        "status": "PASS",
+        "heading": "疲れた日に、酸素ルームへ。"
+      },
+      {
+        "source": "/",
+        "target": "/trainer.html",
+        "status": "PASS",
+        "heading": "追い込むだけが、正解ではない。"
+      },
+      {
+        "source": "/",
+        "target": "/price.html",
+        "status": "PASS",
+        "heading": "メニュー・料金のご案内"
+      },
+      {
+        "source": "/",
+        "target": "/blog/",
+        "status": "PASS",
+        "heading": "身体づくりを、もう少し深く。"
+      },
+      {
+        "source": "/",
+        "target": "/#trial",
+        "status": "PASS",
+        "heading": "自分の身体に、ちゃんと向き合う時間。"
+      },
+      {
+        "source": "/",
+        "target": "/access.html",
+        "status": "PASS",
+        "heading": "はじめてお越しの方へ。"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/#service",
+        "status": "PASS",
+        "heading": "自分の身体に、ちゃんと向き合う時間。"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/solution.html",
+        "status": "PASS",
+        "heading": "疲れた日に、酸素ルームへ。"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/trainer.html",
+        "status": "PASS",
+        "heading": "追い込むだけが、正解ではない。"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/price.html",
+        "status": "PASS",
+        "heading": "メニュー・料金のご案内"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/blog/",
+        "status": "PASS",
+        "heading": "身体づくりを、もう少し深く。"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/#trial",
+        "status": "PASS",
+        "heading": "自分の身体に、ちゃんと向き合う時間。"
+      },
+      {
+        "source": "/solution.html",
+        "target": "/access.html",
+        "status": "PASS",
+        "heading": "はじめてお越しの方へ。"
+      },
+      {
+        "source": "/trainer.html",
+        "target": "/#service",
+        "status": "PASS",
+        "heading": "自分の身体に、ちゃんと向き合う時間。"
+      },
+      {
+        "source": "/trainer.html",
+        "target": "/solution.html",
+        "status": "PASS",
+        "heading": "疲れた日に、酸素ルームへ。"
+      }
+    ],
+    "manualFlows": [
+      {
+        "test": "Trainer -> Price -> Column -> article -> Column -> Access -> logo -> TOP",
+        "status": "PASS"
+      },
+      {
+        "test": "Access #map",
+        "status": "PASS",
+        "detail": "Google Maps rendered with THE REV marker; remote-map.jpg"
+      },
+      {
+        "test": "TOP booking button",
+        "status": "PASS",
+        "destination": "https://cl.gyms.jp/trial/CC2237480443/",
+        "detail": "3 trial menus at JPY3300; no submission"
+      },
+      {
+        "test": "Article common nav current Column",
+        "status": "PASS"
+      }
+    ],
+    "siteConsoleErrors": [],
+    "excludedBrowserExtensionErrors": 496,
+    "automatedDeployedAcceptance": {
+      "workflowRun": 38991029681,
+      "checks": 532,
+      "viewports": 7,
+      "pages": 6,
+      "status": "PASS",
+      "jsErrors": 0,
+      "firstPartyFailures": 0
+    },
+    "notes": [
+      "Cloud browser selector deadlines on repeated same-page clicks are separate from site errors; full deployed Playwright flow passed all seven viewports.",
+      "Google Maps and booking checked in live browser; controlled E2E blocks external iframe/telemetry and non-GET requests."
+    ]
+  },
+  "physical_devices": "Not tested: Windows OS-specific behavior, iPhone Safari"
+}

@@ -169,22 +169,20 @@
     var closeBtn = drawer.querySelector('.rev-drawer-close');
 
     function open() {
-      body.dataset.scrollY = String(window.scrollY);
+      var savedY = window.scrollY;
+      body.dataset.scrollY = String(savedY);
       body.classList.add('drawer-open');
       body.style.position = 'fixed';
-      body.style.top = (-window.scrollY) + 'px';
+      body.style.top = (-savedY) + 'px';
       body.style.left = '0';
       body.style.right = '0';
       body.style.width = '100%';
       btn.setAttribute('aria-expanded', 'true');
       drawer.setAttribute('aria-hidden', 'false');
-      // 表示アニメーション完了後にフォーカスを移す（非表示中は focus が効かない）
-      requestAnimationFrame(function () {
-        setTimeout(function () {
-          var f = getFocusableElements();
-          if (f.length) f[0].focus();
-        }, 60);
-      });
+      // Opening changes visibility synchronously; delayed focus can steal focus
+      // from keyboard navigation or a subsequently opened page.
+      var f = getFocusableElements();
+      if (f.length) f[0].focus({ preventScroll: true });
     }
     function shut() {
       var y = parseInt(body.dataset.scrollY || '0', 10);
@@ -194,14 +192,10 @@
       body.style.left = '';
       body.style.right = '';
       body.style.width = '';
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: 'instant' });
       btn.setAttribute('aria-expanded', 'false');
       drawer.setAttribute('aria-hidden', 'true');
-      // ハンバーガーは drawer-open 解除後に再表示されるため、
-      // 表示が戻ってからフォーカスを戻す
-      requestAnimationFrame(function () {
-        setTimeout(function () { btn.focus(); }, 60);
-      });
+      btn.focus({ preventScroll: true });
     }
     btn.addEventListener('click', function () {
       if (body.classList.contains('drawer-open')) shut(); else open();
@@ -222,9 +216,9 @@
       if (!f.length) return;
       var first = f[0], last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault(); last.focus();
+        e.preventDefault(); last.focus({ preventScroll: true });
       } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault(); first.focus();
+        e.preventDefault(); first.focus({ preventScroll: true });
       }
     }
     document.addEventListener('keydown', function (e) {
@@ -357,13 +351,13 @@
   var TRACK_DEFAULT_SITE_VERSION = 'pre_m1';
 
   function trackingPageType() {
-    var p = window.location.pathname || '/';
-    if (p === '/' || /\/index\.html$/.test(p)) return 'home';
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/, '/');
+    if (p === '/') return 'home';
     if (/\/price\.html$/.test(p)) return 'price';
     if (/\/trainer\.html$/.test(p)) return 'trainer';
     if (/\/solution\.html$/.test(p)) return 'recovery';
     if (/\/access\.html$/.test(p)) return 'access';
-    if (p === '/blog/' || /\/blog\/index\.html$/.test(p)) return 'blog_index';
+    if (/^\/blog\/(?:page\/\d+\/?)?$/.test(p)) return 'blog_index';
     if (/^\/blog\/category\/[^/]+(\/page\/\d+)?\/?$/.test(p)) return 'blog_category';
     if (/^\/blog\/[^/]+\/?$/.test(p)) return 'blog_article';
     if (/\/legal\.html$/.test(p)) return 'legal';
@@ -442,7 +436,9 @@
     }
 
     var targets = defs.map(function (def) {
-      return { el: document.querySelector(def.selector), id: def.id };
+      // Prefer the visible v7 content surface over its zero-height legacy anchor.
+      var el = pageType === 'home' && document.querySelector('[data-track-section="' + def.id + '"]');
+      return { el: el || document.querySelector(def.selector), id: def.id };
     }).filter(function (x) { return !!x.el; });
 
     if (!targets.length) return;
@@ -492,6 +488,9 @@
   }
 
   function initTrackingDataLayer() {
+    // A repeated script load must not install a second listener/observer.
+    if (window.__revTrackingInitialized) return;
+    window.__revTrackingInitialized = true;
     window.dataLayer = window.dataLayer || [];
 
     document.addEventListener('click', function (event) {

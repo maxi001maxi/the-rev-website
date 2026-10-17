@@ -18,3 +18,7 @@ Thumbs.db
 # Supabase CLI ローカルキャッシュ
 supabase/.temp/
 supabase/.branches/
+
+# Reproducible QA output (report pointers live in docs/qa)
+qa-out/
+.vercel-prepare-deploy-complete

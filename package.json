@@ -7,7 +7,7 @@
   "scripts": {
     "test:topic-approval": "node --test scripts/test-editorial-topic-approval.mjs",
     "build:blog": "node scripts/build-blog.mjs",
-    "vercel-build": "node scripts/build-blog.mjs && node scripts/prepare-deploy.mjs",
+    "vercel-build": "node scripts/build-blog.mjs && node scripts/prepare-deploy.mjs && node scripts/build-review-site.mjs && node scripts/test-stage-site.mjs && SITE_ROOT=dist node scripts/test-technical-site.mjs",
     "test:phase-d": "node scripts/test-phase-d.mjs",
     "test:phase-e": "node scripts/test-phase-e.mjs",
     "test:phase-9": "node scripts/test-phase-9.mjs",
@@ -39,11 +39,18 @@
     "test:image-variation-v1": "node --test scripts/test-editorial-image-variation-v1.mjs",
     "image:inspect-variation-v1": "node scripts/inspect-image-variation-v1.mjs",
     "test:image-phase2": "node --test scripts/test-editorial-image-phase2.mjs",
-    "image:prepare-phase2": "node scripts/prepare-editorial-image-p2.mjs"
+    "image:prepare-phase2": "node scripts/prepare-editorial-image-p2.mjs",
+    "test:build-parity": "node scripts/test-build-parity.mjs",
+    "test:public-site-browser": "node scripts/qa-unified-site.mjs",
+    "test:technical-site": "node scripts/test-technical-site.mjs",
+    "test:technical-browser": "node scripts/qa-technical-site.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
     "gray-matter": "^4.0.3",
     "marked": "^12.0.2"
+  },
+  "devDependencies": {
+    "playwright": "1.55.0"
   }
 }
