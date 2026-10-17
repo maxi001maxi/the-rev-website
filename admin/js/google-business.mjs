@@ -36,7 +36,18 @@ async function renderStatus(){
     }
     $('connect-btn').textContent='店舗情報を再確認';
     $('connect-btn').dataset.action='rediscover';
-    if(data.lastError==='required_api_disabled'){
+    if(data.lastError==='oauth_refresh_invalid_grant'){
+      $('status').textContent='認証記録はありますが、Googleの再利用用トークンが期限切れまたは無効です。OAuth同意画面が「テスト中」の場合、原則7日で期限切れになります。Google認証を更新した後、店舗APIの許可状況を確認してください。';
+      $('connect-btn').textContent='Google認証を更新する';
+      $('connect-btn').dataset.action='connect';
+    }else if(['api_access_quota_zero','quota_or_access_required'].includes(data.lastError)){
+      $('status').textContent='認証情報は保存されていますが、Google Business Profile APIの利用枠が足りないか、APIアクセス承認が必要です。Google CloudのAPIとサービス→割り当てで、Account Management APIとBusiness Information APIの利用枠を確認してください。0の場合、再ログインでは直りません。';
+      const link=document.createElement('a');
+      link.href='https://developers.google.com/my-business/reference/accountmanagement/rest';
+      link.target='_blank';link.rel='noopener noreferrer';
+      link.textContent='Google公式のAPI利用枠案内';
+      $('status').append(document.createTextNode(' '),link);
+    }else if(data.lastError==='required_api_disabled'){
       $('status').textContent='Google認証は接続済みですが、店舗情報APIが無効または未承認のため、店舗を特定できません。Google Cloudで「My Business Account Management API」と「My Business Business Information API」を有効化し、API利用枠が0でないことを確認してください。再度Googleログインする必要はありません。';
       const link=document.createElement('a');
       link.href='https://console.cloud.google.com/apis/library';
@@ -44,7 +55,7 @@ async function renderStatus(){
       link.textContent='Google Cloud APIライブラリを開く';
       $('status').append(document.createTextNode(' '),link);
     }else{
-      $('status').textContent='OAuth接続済み。店舗特定待ちです。状態: '+(data.lastError||'確認中');
+      $('status').textContent='Google認証の記録あり（有効性は未確認）。店舗特定待ちです。状態: '+(data.lastError||'確認中');
     }
   }catch(e){
     showError(e.message||'接続状態を取得できませんでした。');
