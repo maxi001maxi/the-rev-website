@@ -60,9 +60,42 @@ jobs:
           with open('xserver-ftps-diagnostic.json','w') as f:json.dump(report,f,indent=2)
           print(json.dumps(report,indent=2))
           PY
+      - name: Compare encrypted lftp read-only handshakes
+        env:
+          FTP_HOST: sv14602.xserver.jp
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          python3 - <<'PY'
+          import os,subprocess,json,pathlib,hashlib
+          rows=[]
+          common=['set ftp:ssl-force true','set ftp:ssl-protect-data true','set ftp:ssl-protect-list true','set ftp:passive-mode true','set ssl:verify-certificate yes','set cmd:fail-exit yes','set net:max-retries 1','set net:timeout 10']
+          for name,extra in [('baseline',[]),('direct_auth_tls',['set ftp:use-feat no','set ftp:ssl-auth TLS'])]:
+              target='ftps-'+name+'-index.html'
+              commands='\n'.join(common+extra+['get index.html -o '+target,'bye'])+'\n'
+              proc=subprocess.Popen(['lftp','-d','-u',os.environ['FTP_USER']+','+os.environ['FTP_PASSWORD'],os.environ['FTP_HOST']],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
+              try:output,_=proc.communicate(commands,timeout=40)
+              except subprocess.TimeoutExpired:
+                  proc.kill();output,_=proc.communicate()
+              for key in ('FTP_USER','FTP_PASSWORD'):
+                  value=os.environ.get(key,'')
+                  if value:output=output.replace(value,'[REDACTED]')
+              for line in output.splitlines():
+                  if 'PASS ' in line:output=output.replace(line,'[AUTHENTICATION COMMAND REDACTED]')
+              row={'variant':name,'returncode':proc.returncode,'safe_protocol_trace':output[-10000:],'remote_writes':0}
+              p=pathlib.Path(target)
+              if p.exists():row['index']={'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+              rows.append(row)
+          with open('xserver-lftp-diagnostic.json','w') as f:json.dump(rows,f,indent=2)
+          print(json.dumps(rows,indent=2))
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: xserver-ftps-diagnostic-${{ github.run_id }}
-          path: xserver-ftps-diagnostic.json
+          path: |
+            xserver-ftps-diagnostic.json
+            xserver-lftp-diagnostic.json
           retention-days: 14
