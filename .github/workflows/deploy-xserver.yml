@@ -821,9 +821,12 @@ jobs:
             FAIL=1
           fi
 
-          ROOT_CSS_URL="$(grep -oE 'assets/css/style\.css\?v=[a-f0-9]{12}' "$TMP_DIR/top.html" | head -n1 || true)"
+          # v7 TOP uses dedicated styles; the legacy shared stylesheet remains on Price.
+          fetch_page "Price" "${PRODUCTION_URL}/price.html?${CACHE_BUST}" "$TMP_DIR/price.html"
+          if ! node scripts/verify-production-styles.mjs; then FAIL=1; fi
+          ROOT_CSS_URL="$(grep -oE 'assets/css/style\.css\?v=[a-f0-9]{12}' "$TMP_DIR/price.html" | head -n1 || true)"
           if [ -z "$ROOT_CSS_URL" ]; then
-            echo "::error::本番TOP HTMLにfingerprint付きstyle.cssがありません。"
+            echo "::error::本番Price HTMLにfingerprint付き共通style.cssがありません。"
             echo "| Root CSS fingerprint | ❌ missing |" >> "$SUMMARY"
             FAIL=1
           else
