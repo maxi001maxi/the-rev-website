@@ -1,3 +1,17 @@
+## 2026-10-17 Owner release-prep execution — authoritative current status
+
+- **Owner approved v2 conversational 3-item text**. Approved source: [ARTICLE_DRAFT.md](ARTICLE_DRAFT.md), GitHub content SHA `3276b76cef053aefd9add71972a1527a950300ea` (read back at time of Sheet update).
+- Supabase proposal `TP-20261018`: `QUEUE_CREATED`; `BLOG-20261018-082d82` Interview answered/approved (GPT). No additional interview needed.
+- Google Sheets `THE_REV_Editorial_AI_v0.1_Master` ID `1_Cia3fsELLCJtBcIFq38Jg5CbEVG2md2G6w6Do4BaeI`, **`21_WEB_BLOG_OUTPUT` row 21**: prior automated 5-item body was `REVIEW_REQUIRED`. Replaced `D21:E21`, `H21:K21`, `Q21` with **the exact owner-approved 3-item title, slug, summary, lead, body (1,524 chars), CTA and revision provenance**. Re-read and verified correct content; original reviewer score 91 is *historical*, NOT QC for revised copy.
+- **Do not convert historical QC to PASS by hand.** `21_WEB_BLOG_OUTPUT!P21=REVIEW_REQUIRED`, `T21=REVIEW_REQUIRED`, `X21=REVIEW` deliberately unchanged. Sheet `26_DAILY_EDITORIAL_QUEUE!I24/M24=REVIEW_REQUIRED`, `N24=NOT_STARTED` unchanged.
+- Prior v0.8 Quality mode `ENFORCE` makes `REVIEW_REQUIRED` fail-closed unless independent model QC passes. Execute the existing v0.8 Writer/Preservation Editor + **Independent QC** for **exact revised text**, verify source claims and dates/terms, and persist actual QC evidence before marking `READY/PASS`. Do not manually manufacture `quality_v080.independent.pass`.
+- National Consumer Affairs Center 2026-10-07 warning is real: https://www.kokusen.go.jp/news/data/n-20261007_1.html (independently verified through public search). Current price.html and terms.html in this repo support ¥3,300 trial; ¥30,800 monthly x4; ¥22,000 admission for monthly training; ordinary cancellation previous day 23:59 / initial trial fee free; withdrawal by end of prior month; next-month billing on day 20.
+- `25_WEB_PUBLISH_BRIDGE` has no Oct18 row and Supabase `admin_article_drafts` has no `BLOG-20261018-082d82` as of this check. No Image Job/QA/asset READY. **No Blog or GBP publication.**
+- After independent QC PASS: use **canonical GAS Supervisor/Bridge** to transition state and create official Supabase draft, GBP draft, image Hybrid job and stage Xserver assets; check SEO/Visual QC and live SHA match. Stop at Owner Review & Publish.
+- Additional external blocker: Admin domain `admin.therev-lab.com` currently Vercel `misconfigured:true` and public A record `162.43.104.3` (Xserver). Domain remains without correct CNAME / TLS as of this check. Do NOT bypass SSL browser warning. Separate server DNS fix needed before logged-in production Admin Preflight.
+- Owner content approval is **NOT** permission for website Blog publishing or GBP posting.
+- This section supersedes older temporal status bullets below.
+
 ## 2026-10-17 EDITORIAL V2 — Lighter reader-first version is the current draft
 
 - **Current draft of record is `ARTICLE_DRAFT.md` v2**, title: 「パーソナルジム体験前に確認したい3つのこと｜料金・予約・退会」. Owner feedback: earlier version too formal, lengthy and heavy to read.
