@@ -103,3 +103,13 @@ test('Site Insights adapter is direct-first and keeps missing sources nonzero',(
   assert.match(assemble,/directSources\?Promise\.resolve\(null\)/);
   assert.match(search,/clicks:null,impressions:null/);
 });
+
+test('Google Search Console can omit rows on a genuinely empty response',async()=>{
+  const result=await directGscRaw('2026-10-13','2026-10-14','date',400,{
+    anchor:'2026-10-14',
+    read:async()=>({})
+  });
+  const days=searchDaily(result,'2026-10-13','2026-10-14');
+  assert.equal(days[0].clicks,null);
+  assert.equal(searchTotal(days),null);
+});
