@@ -22,7 +22,7 @@ Ownerが本番公開を承認した後、既存Xserver Runbookで公開できる
 | 本番の読み取り | TOP/Recovery/robots/sitemapをGETし全てHTTP200。旧TOP・旧Recoveryは現在も本番にあり、公開前であることを確認。JSは実行しない |
 | GTM公開設定 | 最新gtm.jsをGET。公開v3、macros/tags/predicates/rulesは先行監査と一致。新しい設定欠落はない |
 | ローカル重点回帰 | 技術20 PASS、4組の通常表示PNG一致。Control Capture・Direct Read・Phase E・Measurement Gate・691ファイルparity PASS。実行環境のGoogle CDNブラウザ直結制限は、検証済みTLSのGETで取得した公開CDN応答を再生して区別 |
-| 変更範囲 | 最新mainの安全な取り込み、技術ブラウザテストの240秒上限と診断保存、最終受入・公開/復旧手順。公開HTML/CSS/JS・GA4イベント契約の追加変更はない |
+| 変更範囲 | 最新mainの安全な取り込み、技術ブラウザテストの240秒上限・画像decode待機2秒上限・画像欠損判定・撮影15秒上限と診断保存、最終受入・公開/復旧手順。公開HTML/CSS/JS・GA4イベント契約の追加変更はない |
 
 実装・UI・同等性の基準：実装修正 `bd3f219a7653bd77f1a6f27c5b1efa7bafb88729`。f749との差分は文書・証拠のみ。全バイト一致の対象にはassets・フォント・Blog・admin静的ファイルも含む。Vercel APIランタイムの新しい受入や配備まで承認したものではない。Xserverの公開物にはadminを含めない。
 
@@ -33,7 +33,9 @@ Ownerが本番公開を承認した後、既存Xserver Runbookで公開できる
 | 基本アクセス・既存イベント | サイトの単一GTM、dataLayer、現行Googleタグ実行、page_view / reserve_click / line_click / price_click / article_cta_click / section_viewの要求生成を確認。本番収集へはローカル204で応答し、実送信0 | 今回の移行による重大欠落は認めず、ブロックしない |
 | 詳細パラメータ転送 | **既存GTM設定FAIL**。page_type/placement等の12フィールドがタグに未マップ。今回も公開v3で同じ。サイトdataLayerには正しく存在 | 既存の集計指標を止めないため、今回のサイト公開の必須条件から分離。別途GTM承認変更として修正 |
 | GA4での実受信 | **新TOP公開後の受信はUNVERIFIED**。本番へテスト送信していない。旧本番の2026-10-07受信確認は履歴であり、今日の受信と主張しない | 公開後受入へ移す。実環境で新たな収集欠落を確認した場合は停止/復旧 |
-| Company OSへの反映 | 読み取り・未知値・完了日・一意ユーザー・Price control契約は再試験PASS。今日のライブDB同期・新TOP公開後の反映は**UNVERIFIED**。接続済みGSCツールから今回利用可能な実データは取得できず | 公開後の正常同期で確認。既存設定不足だけでサイト公開を無期限に止めない |
+| Company OSへの反映 | 読み取り・未知値・完了日・一意ユーザー・Price control契約は再試験PASS。SupabaseへのREAD ONLY照会で、既存本番の同期は10/17 07:32 JST・ACTIVE・last_errorなし、morning source/window VALUE、今日partial/DELAYED、予約開始/完了UNKNOWNを確認。新TOP公開後の反映だけが**UNVERIFIED** | 公開後の正常同期で確認。既存設定不足だけでサイト公開を無期限に止めない |
+
+Company OSの実DBはproperty 552679302で、完了日10/16までの行と直近ページビュー、10/14の既存P0意向イベント観測も確認できた。これは本日現在の既存本番の正常同期の根拠であり、新TOP公開後の受信証拠ではない。顧客情報を読み取らず、DB書き込みや強制同期は行っていない。今回確認したのは保存済み同期記録であり、GA4 Data API本体へ今回直接問い合わせたという意味ではない。
 
 Company OSの基本レポートはeventNameと標準pagePath/hostName等を使う。既存の詳細カスタム属性がなくても基本アクセス・イベント集計は成立する。GTMタグでpage_typeが未マップであることと、GA4標準pagePathがないことは別問題。Price実験は既存section_view＋/price.html＋本番hostでsessionsを取得し、25%可視・一度だけ・control・treatment未開始を維持する。今回の全サイト変更日時は分析の変更点として注記する。
 
@@ -56,11 +58,19 @@ Ownerまたは既存GTM管理担当は、[GTM変更案](GTM_PARAMETER_MAPPING_OW
 
 ## 5. 最新CIの扱い（全CI PASSと偽らない）
 
-[最終記録e65のUnified QA](https://github.com/maxi001maxi/the-rev-website/actions/runs/38998784792)では、サイト532が再度PASSした後、外部Googleタグ検証が長時間終了しない状態を観測。今回、テストに240秒のfail-closed上限と途中結果の保存を追加した。既存のイベント件数、二重送信、表示、JSON-LD等の合格基準は一切変更していない。新TOP自体のコード問題とはまだ判定しない。ローカルの同じ実ブラウザ条件では20技術チェックPASS、外部通信経路の差を明示する。
+[最終記録e65のUnified QA](https://github.com/maxi001maxi/the-rev-website/actions/runs/38998784792)では、サイト532が再度PASSした後、技術20チェックがすべてPASSした後、スマホの画像証拠作成で長時間終了しない状態を観測。Artifact 12088248757のprogress.jsonで現行Googleタグ実行と7ルートの要求生成も確認できた。今回、テストに240秒のfail-closed上限と途中結果の保存を追加した。次のCIでスマホ画像工程の停止を再現できたため、元々エラーを無視していた描画待ちdecode()だけを2秒で打ち切るよう修正し、可視画像の欠損エラーと撮影15秒上限も追加。画像比較・イベント件数等のassertionは維持し、最新ローカル実ブラウザ20項目と4組の前後ピクセル一致が再度PASS。既存のイベント件数、二重送信、表示、JSON-LD等の合格基準は一切変更していない。新TOP自体のコード問題とはまだ判定しない。ローカルの同じ実ブラウザ条件では20技術チェックPASS、外部通信経路の差を明示する。失敗runをPASSへ書き換えない。新たな実装CIの状況はPRと証拠JSONに記録する。
 
 [Phase 9 38998784812](https://github.com/maxi001maxi/the-rev-website/actions/runs/38998784812)は `test:editorial-images` でFAIL。未公開 `personal-gym-trial-three-checks` のV3 JobがR7参照を指定する一方、汎用検証器は従来の2参照を要求する。最新mainを取り込んでも同じ不一致をローカルで再現。対象slugは公開content/blogにも成果物にも存在せず、全公開691ファイル一致を確認した。
 
 この別案件の制作ルール/Jobを勝手に変更したり、テストを無効化したりしない。画像制作担当が別途正本を整合させる課題として残す。今回のXserver静的公開への影響は確認されないため、**サイトの公開判定では非ブロッキング**とする。この例外もOwner最終承認時に明示し、CI全体がPASSとの表示にはしない。VercelのAPI/Editorialを含む包括リリースのGO判定へ流用しない。
+
+### 最終実装修正のCI確定結果
+
+最新実装修正（テスト同期処理のみ）`d3f2474fe62452ac55509a397ecd2169f0667538` の[CI 39001184604](https://github.com/maxi001maxi/the-rev-website/actions/runs/39001184604)で、**サイト532 PASS／技術20 PASS／4サイズ組の技術画像保存成功／JS例外0／自サイト通信失敗0**。画像保存停止は解消した。実GTM・Googleタグと既存イベント要求生成も再確認、外部収集送信0。
+
+workflow全体は外部予約UIの20秒待機だけFAIL。URL・リダイレクト・全4UTM保持と3体験メニューの公開GET取得は再度PASS。Owner正常利用確認に基づく例外として扱う。最新[Control Capture 39001184619](https://github.com/maxi001maxi/the-rev-website/actions/runs/39001184619)はPASS、[Phase 9 39001184609](https://github.com/maxi001maxi/the-rev-website/actions/runs/39001184609)は上記の非公開V3 Job不一致でFAIL。
+
+[最終CI画像・JSON artifact 12089615462](https://github.com/maxi001maxi/the-rev-website/actions/runs/39001184604/artifacts/12089615462)は2026-10-31まで。先行の取消/FAILをPASSへ書き換えず、最新の修正・成功証拠を追加した。この後の最終記録commitは文書/証拠のみであり、公開ファイルとテストコードはこの受入済みSHAから変わらない。
 
 ## 6. 公開後の受入：担当・期限・異常時対応
 

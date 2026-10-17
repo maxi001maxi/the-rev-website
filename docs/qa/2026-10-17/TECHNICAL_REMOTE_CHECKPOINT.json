@@ -14,7 +14,7 @@
   "deployedQaUrl": "https://github.com/maxi001maxi/the-rev-website/actions/runs/38998326481",
   "bookingRedirect": "PASS: official URL and all four UTM fields retained",
   "bookingMenuUi": "FAIL_PROBE / actual provider behavior UNVERIFIED under controlled GET-only environment",
-  "headSha": "f749d9c21370287efbb4fb3cb47ed3046ba3c98c",
+  "headSha": "d3f2474fe62452ac55509a397ecd2169f0667538",
   "sourceSha": "bd3f219a7653bd77f1a6f27c5b1efa7bafb88729",
   "sourceTree": "574c326850e3a595335f3c5755609b2361eabcd6",
   "latestSourceCi": "https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381862",
@@ -25,5 +25,16 @@
   "correctivePreviewOwnerAuthorization": "Explicit continuation to exception request, 2026-10-17 JST. Review-only Preview with external CI failure disclosed; production remains HOLD.",
   "deployedWorkflowStatus": "FAIL: own deployed website QA PASS; external booking UI control wait FAIL",
   "deployedNavigationArtifact": 12088172738,
-  "deployedBookingArtifact": 12087789616
+  "deployedBookingArtifact": 12087789616,
+  "finalAcceptance": "FINAL_ACCEPTANCE.md",
+  "finalAcceptanceEvidence": "FINAL_ACCEPTANCE_EVIDENCE.json",
+  "finalVerdict": "CONDITIONAL GO",
+  "integratedMain": "f1667a73e5da097c1432f7ecd2c423265e5ab3a1",
+  "finalSourceCandidate": "d3f2474fe62452ac55509a397ecd2169f0667538",
+  "finalSourceCi": "https://github.com/maxi001maxi/the-rev-website/actions/runs/39001184604",
+  "existingCompanyOsCurrentState": "PASS: ACTIVE/no last_error, 2026-10-17 07:32 JST; new-TOP postrelease reflection UNVERIFIED",
+  "headScope": "Verified test-source candidate; later docs/evidence-only commits exist, fetch current branch ref",
+  "finalSourceCiStatus": "Site532 PASS / technical20 PASS / images saved; workflow FAIL external booking UI only",
+  "finalSourceCiArtifact": 12089615462,
+  "visualStallResolved": true
 }

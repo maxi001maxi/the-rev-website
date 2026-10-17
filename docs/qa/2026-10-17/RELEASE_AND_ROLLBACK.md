@@ -12,7 +12,7 @@
 
 ## 公開
 
-1. 承認後にPR #254をmainへmerge。このpushはDeploy to Xserverを自動起動する。重ねてRun workflowを押さない。
+1. 承認後にPR #254のDraftを解除し、最終差分を確認してmainへmerge。このpushはDeploy to Xserverを自動起動する。重ねてRun workflowを押さない。
 2. workflowが検証するexact SHA、run ID、mode FULLを記録。npm ci→production build→公開Blog検証が通るまでFTP変更は始まらない。
 3. FULLのバックアップ証拠 `xserver-backup-<run id>` と14日期限を確認。正本workflowは当回失敗時に48時間以内の非expiredバックアップを安全網として許容する。その場合は使用Artifactと作成日時を記録し、直前の公開記事/ルートの状態と復旧可能性を確認する。復旧元を特定できないまま受入完了にしない。
 4. assets→style.css/公開画像SHA照合→root→Blog LAST→本番readbackの順序を維持。ルート全体に--deleteを使わない。adminはXserver payloadから除外。

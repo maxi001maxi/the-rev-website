@@ -46,3 +46,7 @@ Ownerの「続行」により、外部予約UI FAILを明示した確認用Previ
 
 ## 2026-10-17 最終受入（最新判定）
 FINAL_ACCEPTANCE.md / RELEASE_AND_ROLLBACK.mdを参照。Owner通常予約確認を受入根拠に追加。main f1667a7を安全に取り込み、公開691ファイルは受入済み実装CIの全バイトと一致。技術20・既存計測契約・Production SEOを再確認。詳細GTM属性FAIL、実受信/Company OSライブUNVERIFIEDを公開後条件へ分離。別案件の未公開V3 Job参照不一致によるPhase9 FAILは維持し、サイト公開物への非影響を確認。CIの技術ブラウザ長時間未終了に240秒FAIL/証拠保存を追加。判定CONDITIONAL GO、main/本番/GTM設定は未変更。
+
+最終受入追記：既存Company OSのライブ参照をREAD ONLYで実施。10/17 07:32 JST同期ACTIVE/エラーなし、7日集計VALUE、今日partial、予約完了UNKNOWN。未確認なのは新TOP公開後の反映。最新判定・期限付き条件はFINAL_ACCEPTANCE.mdに集約。
+
+最終確定：実装修正d3f2474のCI39001184604でサイト532/技術20/全技術画像保存PASS、JS例外0/自サイト通信失敗0。補助画像工程停止は解消。外部予約UI FAILと別案件V3 Job CI FAILは例外として明示し、全CI緑とはしない。判定CONDITIONAL GO。最終レポート・公開後条件・復旧手順・GTM操作票まで保存。Ownerのmainマージ＋Xserver公開の承認待ち。

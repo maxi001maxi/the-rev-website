@@ -153,7 +153,10 @@
     "ga4Receipt": "UNVERIFIED",
     "visualPairsIdentical": 4,
     "errors": [],
-    "watchdogSeconds": 240
+    "watchdogSeconds": 240,
+    "decodeWaitTimeoutMs": 2000,
+    "screenshotTimeoutMs": 15000,
+    "visibleBrokenImageAssertion": true
   },
   "booking": {
     "ownerOrdinaryUse": "CONFIRMED by Owner in final-acceptance request",
@@ -192,10 +195,27 @@
     "deployedChecks": 532,
     "deployedScreenshots": 63,
     "recordHeadSiteRun": 38998784792,
-    "recordHeadSiteNavigation": "PASS532; later external technical probe stalled",
+    "recordHeadSiteNavigation": "PASS532; technical20 PASS; cancelled while creating mobile visual evidence",
     "phase9Run": 38998784812,
     "phase9": "FAIL: prepublication V3 job approved-style-reference mismatch, absent from published source and all 691 public output files",
-    "allCiPass": false
+    "allCiPass": false,
+    "recordHeadArtifact": 12088248757,
+    "recordHeadTechnicalChecks": 20,
+    "recordHeadTechnicalMeasurement": "INFERRED_FROM_SEVEN_PASS_TAG_PAGES: requests generated, not transmitted; raw progress has no final measurementStatus field",
+    "candidateSha": "f2a6283568a21fe144e8485380c59194310b952e",
+    "candidateRun": 39000569126,
+    "candidateControlRun": 39000569029,
+    "candidatePhase9Run": 39000569043,
+    "boundedRun": 39000569126,
+    "boundedArtifact": 12089301530,
+    "boundedTechnicalChecks": 20,
+    "boundedFailure": "240s at visual comparison / top /390; all seven actual tag pages PASS, collection construction confirmed",
+    "finalCodeCandidate": "d3f2474fe62452ac55509a397ecd2169f0667538",
+    "finalCodeRun": 39001184604,
+    "finalCodeControlRun": 39001184619,
+    "finalCodePhase9Run": 39001184609,
+    "finalCodeStatus": "Website532 PASS; technical20 PASS; visual evidence complete; overall FAIL external booking UI only",
+    "visualStallResolved": true
   },
   "mutations": {
     "mainMerge": false,
@@ -204,5 +224,86 @@
     "gtmSettings": false,
     "customerInformationSubmitted": false,
     "bookingMade": false
+  },
+  "companyOsCurrentReadOnly": {
+    "source": {
+      "status": "ACTIVE",
+      "source_id": "ga4-direct-read",
+      "property_id": "552679302",
+      "has_last_error": false,
+      "last_observed_at": "2026-10-16T22:32:23.216+00:00"
+    },
+    "morning": {
+      "freshness": {
+        "last_observed_at": "2026-10-16T22:32:23.216+00:00",
+        "latest_metric_date": "2026-10-17"
+      },
+      "source_status": "VALUE",
+      "today_partial": true,
+      "window_status": "VALUE",
+      "reservation_start": {
+        "value": null,
+        "status": "UNKNOWN"
+      },
+      "today_data_status": "DELAYED",
+      "reservation_complete": {
+        "value": null,
+        "status": "UNKNOWN"
+      },
+      "active_users_semantics": "period_unique_active_users"
+    },
+    "existing_receipt_evidence": {
+      "latest_positive_p0_date": "2026-10-14",
+      "recent_page_views_exist": true,
+      "latest_completed_metric_date": "2026-10-16"
+    }
+  },
+  "finalCi": {
+    "sourceSha": "d3f2474fe62452ac55509a397ecd2169f0667538",
+    "run": 39001184604,
+    "artifact": 12089615462,
+    "overall": "FAIL: external booking UI only",
+    "navigation": {
+      "status": "PASS",
+      "checks": 532,
+      "screenshots": 63,
+      "jsErrors": [],
+      "firstPartyFailures": []
+    },
+    "technical": {
+      "status": "PASS",
+      "checks": 20,
+      "measurementStatus": "EVENT_NAMES_CONSTRUCTED_NOT_TRANSMITTED",
+      "parameterMappingStatus": "FAIL_EXISTING_GTM_PARAMETER_MAP",
+      "ga4Receipt": "UNVERIFIED",
+      "analyticsTransmitted": 0,
+      "visualScreenshots": [
+        "top-1440",
+        "recovery-1440",
+        "top-390",
+        "recovery-390"
+      ]
+    },
+    "booking": {
+      "status": "FAIL",
+      "redirectStatus": "PASS",
+      "finalUrl": "https://cl.gyms.jp/trial/CC2237480443/?utm_campaign=trial&utm_content=home_hero&utm_medium=referral&utm_source=website",
+      "publicMenuNames": [
+        "【初回体験】リカバリー 45分",
+        "【初回体験】パーソナルジムトレーニング　60分",
+        "【初回体験】パーソナルボクシング　50分"
+      ],
+      "error": "locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('input,select').first() to be visible\n"
+    },
+    "control": {
+      "run": 39001184619,
+      "status": "PASS"
+    },
+    "phase9": {
+      "run": 39001184609,
+      "status": "FAIL: unpublished V3 image job references mismatch; no public payload impact"
+    },
+    "siteCodeChanged": false,
+    "mainSnapshot": "f1667a73e5da097c1432f7ecd2c423265e5ab3a1"
   }
 }
