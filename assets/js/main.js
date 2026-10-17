@@ -169,10 +169,11 @@
     var closeBtn = drawer.querySelector('.rev-drawer-close');
 
     function open() {
-      body.dataset.scrollY = String(window.scrollY);
+      var savedY = window.scrollY;
+      body.dataset.scrollY = String(savedY);
       body.classList.add('drawer-open');
       body.style.position = 'fixed';
-      body.style.top = (-window.scrollY) + 'px';
+      body.style.top = (-savedY) + 'px';
       body.style.left = '0';
       body.style.right = '0';
       body.style.width = '100%';
@@ -194,7 +195,7 @@
       body.style.left = '';
       body.style.right = '';
       body.style.width = '';
-      window.scrollTo(0, y);
+      window.scrollTo({ top: y, behavior: 'instant' });
       btn.setAttribute('aria-expanded', 'false');
       drawer.setAttribute('aria-hidden', 'true');
       // ハンバーガーは drawer-open 解除後に再表示されるため、

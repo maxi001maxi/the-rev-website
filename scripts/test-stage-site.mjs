@@ -3,9 +3,7 @@
 // Visual/interaction QA is maintained separately.
 import fs from 'node:fs';
 import path from 'node:path';
-const active = process.env.REV_STAGE_FULL_SITE === '1' ||
-  (process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_GIT_COMMIT_REF === 'feature/unified-v7-header-20261015');
-if (!active) { console.log('[stage-qa] skipped outside the designated preview'); process.exit(0); }
+const preview = process.env.VERCEL_ENV === 'preview' || process.env.REV_STAGE_FULL_SITE === '1';
 const dist=path.resolve('dist');
 const routes={ '/':'index.html','/solution.html':'solution.html','/trainer.html':'trainer.html',
   '/price.html':'price.html','/blog/':'blog/index.html','/access.html':'access.html'};
@@ -15,9 +13,14 @@ const pages=Object.fromEntries(Object.entries(routes).map(([route,file])=>[route
 const top=pages['/'],rec=pages['/solution.html'];
 if(!top.includes('id="service"') || !top.includes('id="trial"') || !top.includes('ちゃんと向き合う時間')) throw new Error('Approved TOP markers or anchors missing');
 if(!rec.includes('rv-denba') || !rec.includes('DENBA') || !rec.includes('id="top"')) throw new Error('Recovery markers/anchor missing');
-for(const route of ['/','/solution.html']){
-  if(!/name="robots"\s+content="noindex,nofollow"/i.test(pages[route]))throw new Error('Preview index policy absent: '+route);
+for(const [route,html] of Object.entries(pages)){
+  const policy = preview ? 'noindex,nofollow' : 'index,follow';
+  const robotsTag=html.match(/<meta\b(?=[^>]*\bname=["']robots["'])[^>]*>/i)?.[0] || '';
+  const actualPolicy=robotsTag.match(/\bcontent=["']([^"']*)["']/i)?.[1].replace(/\s/g,'');
+  if(actualPolicy!==policy)throw new Error('Index policy mismatch: '+route);
+  if(/<x-dc\b|text\/x-dc|rev-integrated-navigate|parent\.postMessage/.test(html))throw new Error('Prototype runtime leaked: '+route);
 }
+if(!rec.includes('id="recovery-precautions"'))throw new Error('Existing article safety anchor missing');
 const labels=['サービス','リカバリー','トレーナー','料金','コラム','初回体験','アクセス'];
 for(const [route,s] of Object.entries(pages)){
   const h=s.match(/<header\b[^>]*>[\s\S]*?<\/header>/i)?.[0];
@@ -36,4 +39,4 @@ for(const [route,s] of Object.entries(pages)){
 }
 const css=path.join(dist,'assets/css/unified-header-v7.css');
 if(!fs.existsSync(css))throw new Error('Shared CSS is missing from distribution');
-console.log('[stage-qa] PASS: 6 real pages, linked headers, anchors, booking, preview robots and CSS');
+console.log('[stage-qa] PASS: 6 real pages, linked headers, anchors, booking, environment-specific robots and CSS');

@@ -1,0 +1,39 @@
+name: Unified public site QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '*.html'
+      - 'assets/css/**'
+      - 'assets/js/**'
+      - 'assets/approved-v7-v8/**'
+      - 'templates/**'
+      - 'scripts/*site*.mjs'
+      - 'scripts/test-build-parity.mjs'
+      - 'scripts/qa-unified-site.mjs'
+      - 'package*.json'
+      - '.github/workflows/unified-site-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-and-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/test-build-parity.mjs
+      - run: npm run test:vercel-release-policy
+      - run: node scripts/qa-unified-site.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unified-public-site-qa
+          path: qa-out/
+          retention-days: 14
