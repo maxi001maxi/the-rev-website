@@ -1,0 +1,11 @@
+{
+  "slug": "personal-gym-trial-three-checks",
+  "status": "ERROR",
+  "attempts_total": 1,
+  "max_attempts": 1,
+  "last_error": "Semantic history image missing: personal-gym-first-session-pain-health-history",
+  "last_qa": null,
+  "job_path": "editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json",
+  "updated_at": "2026-10-17T01:30:59.673Z",
+  "asset_version": "reference-v26-grounded-evolgear-20261018-contract-r1"
+}
