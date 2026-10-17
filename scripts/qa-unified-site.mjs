@@ -104,6 +104,8 @@ async function runSize([width,height]){
    await close.focus();await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.activeElement?.tagName),'A');
    await page.keyboard.press('Tab');assert.ok(await close.evaluate(el=>el===document.activeElement));
    await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
+   // Wait for Chromium to apply the restored document scroll after fixed-body layout.
+   await page.waitForFunction(y=>Math.abs(scrollY-y)<3,saved);
    const restored=await page.evaluate(()=>scrollY);assert.ok(Math.abs(restored-saved)<3,JSON.stringify({size,route,saved,restored}));assert.equal(await opener.getAttribute('aria-expanded'),'false');
    await opener.click();await page.locator('[role="dialog"][aria-hidden="false"] button').first().click();
    record('drawer/focus/escape/scroll-restore',size,route,'PASS');
