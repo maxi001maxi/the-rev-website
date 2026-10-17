@@ -1,3 +1,15 @@
+## 2026-10-17 EDITORIAL V2 — Lighter reader-first version is the current draft
+
+- **Current draft of record is `ARTICLE_DRAFT.md` v2**, title: 「パーソナルジム体験前に確認したい3つのこと｜料金・予約・退会」. Owner feedback: earlier version too formal, lengthy and heavy to read.
+- Primary reader: an **interested prospective first-time client** who wants to try a gym but is uncertain whether it will fit budget/schedule/commitment. Not primarily a legal-research reader.
+- Lead with the reader's curiosity and mild anxiety, not cancellation scandals or regulatory warnings. Retain regulatory citation in short tail note. Avoid scare framing or hard-sell.
+- Collapse six explanatory sections to 3: 1) first-payment vs monthly price 2) booking suitability and cancellation 3) withdrawal deadlines and unused sessions. Explain only actionable terms and link the complete `terms.html` and `price.html`.
+- Preserve latest official details: ¥3,300 trial, ¥30,800/month for 4 training sessions, ¥22,000 admission for monthly training, 23:59 preceding-day ordinary cancellation (trial cancellation has no fee), payment 20th for next month, monthly withdrawal request due last day of preceding month, unused sessions generally don't roll over with exceptions under terms.
+- Anonymized first-party viewpoint: one may overthink starting, or start on motivation, but must understand contract conditions and retain autonomy; staff will support clients on attending, not guarantee outcomes.
+- Prevent unauthorized rollback: Canonical creator may now have queued `BLOG-20261018-082d82`. Before Review, compare generated Supabase draft against **v2** text and revise if it is materially more formal. Do not blindly copy editorial metadata header into public body. Never alter approved Topic/interview/authorship evidence or human Publish boundaries to force progress.
+- **Anonymity:** Do not attribute the interview to an identified employee. Avoid private name in publicly visible author or byline.
+- This revision is pre-publication editorial copy only, no image-generation or GBP publication authorized.
+
 # 2026-10-18 料金・予約・解約記事｜Fact QC / 一次情報Interview / Handoff
 
 ## Authority and current state
