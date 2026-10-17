@@ -74,7 +74,7 @@ jobs:
           common=['set ftp:ssl-force true','set ftp:ssl-protect-data true','set ftp:ssl-protect-list true','set ftp:passive-mode true','set ssl:verify-certificate yes','set cmd:fail-exit yes','set net:max-retries 1','set net:timeout 10']
           for name,extra in [('baseline',[]),('direct_auth_tls',['set ftp:use-feat no','set ftp:ssl-auth TLS'])]:
               target='ftps-'+name+'-index.html'
-              commands='\n'.join(common+extra+['get index.html -o '+target,'bye'])+'\n'
+              commands='\n'.join(common+extra+['get index.html -o '+target,'cls -1 / > '+name+'-root-list.txt','cls -1 /blog > '+name+'-blog-list.txt','bye'])+'\n'
               proc=subprocess.Popen(['lftp','-d','-u',os.environ['FTP_USER']+','+os.environ['FTP_PASSWORD'],os.environ['FTP_HOST']],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
               try:output,_=proc.communicate(commands,timeout=40)
               except subprocess.TimeoutExpired:
@@ -84,7 +84,11 @@ jobs:
                   if value:output=output.replace(value,'[REDACTED]')
               for line in output.splitlines():
                   if 'PASS ' in line:output=output.replace(line,'[AUTHENTICATION COMMAND REDACTED]')
+              output='\n'.join(line for line in output.splitlines() if not line.startswith('<--- ') or __import__('re').match(r'^<--- [245][0-9][0-9] ',line))
               row={'variant':name,'returncode':proc.returncode,'safe_protocol_trace':output[-10000:],'remote_writes':0}
+              for directory in ('root','blog'):
+                  listing=pathlib.Path(name+'-'+directory+'-list.txt')
+                  if listing.exists():row[directory+'_listing_count']=len(listing.read_text().splitlines())
               p=pathlib.Path(target)
               if p.exists():row['index']={'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
               rows.append(row)
