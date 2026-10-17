@@ -1,0 +1,97 @@
+{
+  "schema": "the-rev-owner-oct18-readonly-canonical-preflight-v1",
+  "checked_at": "2026-10-17T02:21:17.414Z",
+  "article_id": "2519f5a1-2ed9-4397-8a85-153354b4421a",
+  "content_id": "BLOG-20261018-082d82",
+  "verified_input_sha256": "e772344b92253cd013075e3d6c55c947db9cc7c0785dfb8e4284a1cf59ad0854",
+  "verified_image_asset_version": "reference-v26-grounded-evolgear-20261018-contract-r2",
+  "publish_executed": false,
+  "gbp_posted": false,
+  "evidence_current": true,
+  "canonical_preflight_ok": true,
+  "checks": [
+    {
+      "id": "auth",
+      "label": "認証",
+      "status": "skip",
+      "message": "Editorial Bridgeのサーバー間認証で実行しています。"
+    },
+    {
+      "id": "publisher",
+      "label": "Publisher権限",
+      "status": "skip",
+      "message": "自動化は公開しません。Human Publish時に権限を再確認します。"
+    },
+    {
+      "id": "draft",
+      "label": "Draft存在",
+      "status": "ok",
+      "message": "下書きを読み込みました。"
+    },
+    {
+      "id": "required",
+      "label": "必須項目",
+      "status": "ok",
+      "message": "必要な項目はすべて入力されています。"
+    },
+    {
+      "id": "slug_format",
+      "label": "Slug形式",
+      "status": "ok",
+      "message": "/blog/personal-gym-trial-three-checks/ として公開されます。"
+    },
+    {
+      "id": "image_review_gate",
+      "label": "画像Review Gate",
+      "status": "ok",
+      "message": "HYBRID_GENERATED / trainer absent / generated customer / recent-4 reuse check PASS。"
+    },
+    {
+      "id": "image_release",
+      "label": "記事画像",
+      "status": "ok",
+      "message": "旧5記事参照 rev-column-reference-v2 / GPT Image hybrid / editorial-thumbnail-v2.4 / rev-column-v24-fixed-overlay-v1 / generated customer + real THE REV. environment / Brand QA PASS。"
+    },
+    {
+      "id": "github_connection",
+      "label": "GitHub接続",
+      "status": "ok",
+      "message": "maxi001maxi/the-rev-website @ main へ接続できました。"
+    },
+    {
+      "id": "image_assets",
+      "label": "画像ファイル実在",
+      "status": "ok",
+      "message": "Thumbnail / OGP のGitHub実体を確認しました。"
+    },
+    {
+      "id": "image_live",
+      "label": "本番画像反映",
+      "status": "ok",
+      "message": "Xserver上のThumbnail / OGPがGitHubと同じサイズで反映済みです。"
+    },
+    {
+      "id": "github_target",
+      "label": "GitHub上のslug衝突",
+      "status": "ok",
+      "message": "content/blog/personal-gym-trial-three-checks.md は未使用です（新規作成）。"
+    },
+    {
+      "id": "source_sync",
+      "label": "source_path / source_sha",
+      "status": "ok",
+      "message": "新規公開のため未設定です（公開成功後に保存されます）。"
+    }
+  ],
+  "blocker": null,
+  "public_url": "/blog/personal-gym-trial-three-checks/",
+  "target_path": "content/blog/personal-gym-trial-three-checks.md",
+  "github_context": "maxi001maxi/the-rev-website",
+  "limitations": {
+    "authenticated_human_preflight_not_run": true,
+    "actual_publisher_ui_session_not_checked": true,
+    "database_draft_reconstructed_from_verified_owner_source": true,
+    "actual_production_article_user_id_not_read": true,
+    "admin_domain_ssl_unchanged": true
+  }
+}
