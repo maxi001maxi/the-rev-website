@@ -68,6 +68,7 @@ export const AdminApi = {
   getSiteInsights: (range = '28d', date = '') => authedFetch(`/api/admin/site-insights?range=${encodeURIComponent(range)}${date ? `&date=${encodeURIComponent(date)}` : ''}`),
   getGoogleBusinessStatus: () => authedFetch('/api/admin/google-business?action=status'),
   getGoogleBusinessConnect: () => authedFetch('/api/admin/google-business?action=connect'),
+  rediscoverGoogleBusiness: () => authedFetch('/api/admin/google-business?action=rediscover', {method:'POST'}),
   getThreadsStatus: () => authedFetch('/api/integrations/editorial-status?mode=threads_oauth_status'),
   saveThreadsDirectToken: (accessToken) => authedFetch('/api/integrations/editorial-status?mode=threads_direct_token_connect', {
     method:'POST',
