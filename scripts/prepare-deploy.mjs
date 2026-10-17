@@ -59,6 +59,30 @@ function fingerprintRootStylesheet() {
   console.log(`[prepare-deploy] style.css fingerprint: ${fingerprint} / HTML更新: ${updated}件`);
 }
 
+function fingerprintPublicJavascript() {
+  const names = ['main', 'unified-navigation', 'home-v7'];
+  const hashes = Object.fromEntries(names.map(name => [name,
+    crypto.createHash('sha256').update(fs.readFileSync(path.join(DIST, 'assets', 'js', name + '.js'))).digest('hex').slice(0, 12)
+  ]));
+  const files = fs.readdirSync(DIST).filter(name => name.endsWith('.html')).map(name => path.join(DIST, name));
+  function collect(dir) {
+    for (const entry of fs.readdirSync(dir, {withFileTypes: true})) {
+      const file = path.join(dir, entry.name);
+      if (entry.isDirectory()) collect(file);
+      else if (entry.name.endsWith('.html')) files.push(file);
+    }
+  }
+  if (fs.existsSync(path.join(DIST, 'blog'))) collect(path.join(DIST, 'blog'));
+  let updated = 0;
+  for (const file of files) {
+    const before = fs.readFileSync(file, 'utf8');
+    const after = before.replace(/src=(["'])((?:\.\.\/)*\/?assets\/js\/(main|unified-navigation|home-v7)\.js)(?:\?[^"']*)?\1/g,
+      (_, quote, url, name) => `src=${quote}${url}?v=${hashes[name]}${quote}`);
+    if (after !== before) {fs.writeFileSync(file, after); updated++;}
+  }
+  console.log(`[prepare-deploy] public JS fingerprints: ${JSON.stringify(hashes)} / HTML更新: ${updated}件`);
+}
+
 function main() {
   // Vercelでは同一Deployment内で vercel-build が二重実行される場合がある。
   // 2回目にdistを削除すると、Vercelが1回目のdistをpackaging中にENOENT raceを起こすため、
@@ -92,6 +116,9 @@ function main() {
   // Xserver deploy側でもstyle.cssを明示上書きし、本番bytes一致を確認してからHTMLを切り替える。
   // Xserver/CDN/ブラウザに古いCSSが残り、REAL VOICE等のレイアウトだけ崩れる事故を防ぐ。
   fingerprintRootStylesheet();
+  // Xserver serves JavaScript with a seven-day cache lifetime. A new URL is
+  // required for returning visitors to receive navigation/tracking fixes.
+  fingerprintPublicJavascript();
 
   if (process.env.VERCEL === '1') {
     fs.writeFileSync(VERCEL_PREPARED_SENTINEL, new Date().toISOString(), 'utf8');

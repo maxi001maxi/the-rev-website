@@ -33,3 +33,15 @@ Owner承認：2026-10-17「このまま本番サイトの実装、公開をお�
 3. 本番HTMLのSEO/GTM/予約先・UTM、JS例外、承認デザインを実物で確認。
 4. 新TOPのGA4実受信とCompany OS公開後同期は受動確認し、未確認を維持。詳細属性12項目は別承認。
 5. 本書・証拠JSON・PR #254を最終結果と復旧元で更新。公開失敗なら既存Runbookを守り、バックアップやTLS安全性を弱めない。
+
+## 2026-10-17 14:36 JST 更新：キャッシュ対策を含めた最終公開を継続
+
+- 初回公開run39005228524 attempt2で当回FULLバックアップ成功。Artifact12090654704、93,304,312bytes、2026-10-31 05:30:01 UTCまで。ZIP SHA256 `055bbe71a7b97bd208e55da0519f39e858ff2cb2218273f1090a20e0f3e48504`を取得して照合。434ファイル、assets/Blogあり、unlimited-dev除外、TOP/Recovery/robots/sitemapの4SHAは上の公開直前GETと完全一致。現在assets転送中。
+- 追加の実本番HEADでmain.jsに`Cache-Control: max-age=604800`を確認。旧main.js SHAは40e549d3...、新本体は466ce1e34991...で異なる一方、URLは同じだった。再訪問者に旧コードが7日残るため、公開受入前に対策する。
+- 最終公開候補 `a3b98e788238ee84dac77416d332e689856639d2` をmainへpush。Production buildでmain/unified-navigation/home-v7のscript URLに内容SHA12桁を付与。39 HTML内のURLのみが変わり、691ファイル比較で他のbyte変更0。本文・画像・CSS・JS本体は不変。
+- 実ブラウザのHTTPキャッシュを有効にした負の試験：旧未version URLの7日キャッシュ再利用を確認した後、新TOP/Recovery/Priceが新hashのURLを取得し、正しい分類で予約意向イベント1件を生成。PASS。ルーティングによるcache無効化を使わず、テストserverのCSPで外部通信を遮断。
+- Production/Preview parity691 PASS、既存技術13チェックPASS（Google CDN直結は別UNVERIFIED）、TOP/Recovery×PC1440/スマホ390の4組PNGは前後ピクセル完全一致。Control CaptureとVercel policyもPASS。
+- 公開物増加への運用調整：FULL backupとassets転送は同時2ファイル、job上限45分に変更。FTPS/証明書/全体backup/14日保存/48h fallback/assets先行/Blog LASTの条件は維持。最終公開も通常FULL laneで行い、先行runと並行書込しない。
+- 並行main更新を含む現行ソースで`test:editorial-images` PASS、Phase9/10 164/0。前の非公開V3不一致は履歴として区別し、現在もFAILと決めつけない。
+
+先行の未version版公開が成功しても、今回の最終完了とはしない。a3b98eのFULL公開と、そのexact buildを対象にした本番byte/ブラウザ/安全なGTM要求生成の受入まで継続する。GA4実受信・Company OS公開後同期・別承認GTM詳細属性は従来どおり別判定。

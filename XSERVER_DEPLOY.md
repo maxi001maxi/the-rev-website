@@ -41,6 +41,8 @@ Workflow: `.github/workflows/deploy-xserver.yml`
 
 ### FULL
 
+2026-10-17: 公開物増加に合わせ、FULLのbackup/assets転送だけ同時2ファイルにし、job上限を45分とする。FTPS・証明書検証・全体バックアップ・14日保存・48時間以内のfallback条件・assets先行/Blog LASTは維持する。7日キャッシュされる共通JSはProduction buildで内容SHA付きURLにし、再訪問者の旧コード残存を防ぐ。
+
 1. Xserver FTPルート `/` の本番をFTPSでバックアップ
 2. バックアップをGitHub Actions Artifactへ14日保存
 3. assetsを先に同期

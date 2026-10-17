@@ -2,7 +2,23 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import path from 'node:path';
+import crypto from 'node:crypto';
 const root=process.env.SITE_ROOT || '.';
+if(root!=='.'){
+ const files=fs.readdirSync(root).filter(name=>name.endsWith('.html')).map(name=>path.join(root,name));
+ function collect(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())collect(file);else if(entry.name.endsWith('.html'))files.push(file);}}
+ if(fs.existsSync(path.join(root,'blog')))collect(path.join(root,'blog'));
+ const seen=new Set();
+ for(const file of files){
+  const html=fs.readFileSync(file,'utf8');
+  for(const match of html.matchAll(/src=(["'])((?:\.\.\/)*\/?assets\/js\/(main|unified-navigation|home-v7)\.js)(\?[^"']*)?\1/g)){
+   const expected=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'assets','js',match[3]+'.js'))).digest('hex').slice(0,12);
+   assert.equal(match[4],'?v='+expected,file+': current script bytes must replace a seven-day cached URL');seen.add(match[3]);
+  }
+ }
+ assert.deepEqual([...seen].sort(),['home-v7','main','unified-navigation']);
+}
 for(const name of ['index.html','solution.html']){
  const html=fs.readFileSync(`${root}/${name}`,'utf8');
  assert.equal((html.match(/GTM-WFD7R8BT'\)/g)||[]).length,1,`${name}: one GTM bootstrap`);
