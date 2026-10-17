@@ -1,0 +1,37 @@
+name: Oct18 Final Owner Copy QC
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/editorial-oct18-final-qc.yml'
+      - 'scripts/oct18-final-qc.mjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: editorial-oct18-final-qc
+  cancel-in-progress: false
+jobs:
+  independent-qc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout canonical article and official evidence
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Run real independent QC; always save verdict or failure
+        run: node scripts/oct18-final-qc.mjs
+      - name: Persist QC model report without changing publication
+        run: |
+          set -euo pipefail
+          test -f editorial/prepublication/2026-10-18-contract-checklist/FINAL_QC_RESULT.json
+          git add editorial/prepublication/2026-10-18-contract-checklist/FINAL_QC_RESULT.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='THE REV Editorial QA' -c user.email='actions@users.noreply.github.com' commit -m 'Record final independently scored Oct18 owner article verdict'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
