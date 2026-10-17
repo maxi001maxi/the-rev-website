@@ -3,7 +3,7 @@
   "status": "ERROR",
   "attempts_total": 1,
   "max_attempts": 1,
-  "last_error": "タイポグラフィは全形式で合格。ただし生成背景は権威ある実景のEVOLGEARラック構成、プレート配置、ミラー、支柱・ケーブル構造を保持しておらず、別仕様の一般的なラックと架空のプレート表記に置換されている。背景も十分に従属・軟焦点化されず差異が目立つ。人物は自然で一人のみだが、手は袖ではなく胸元をつまんで見え、指定された袖を整える瞬間を正確に満たさない。実在THE REV空間の確認ができないため最終不合格。",
+  "last_error": "不合格。コピーとレイアウトは全3形式で読みやすいですが、生成人物の下半身付近に原写真にはない黒い曲線と溶けた輪郭があり、身体・床・機材の前後関係も不自然です。人物がラック内部の部材と交差して見え、貼り込み感と接地不足があります。背景も人間よりシャープで主張が強く、オリジナル写真ロックとHUMAN FIRST基準を満たしません。",
   "last_qa": {
     "pass": false,
     "thumbnail_typography_visual": {
@@ -42,10 +42,10 @@
       }
     },
     "visual_art_direction": {
-      "pass": true,
+      "pass": false,
       "variants": {
         "thumbnail": {
-          "pass": true,
+          "pass": false,
           "not_size_only": true,
           "photo_text_hierarchy_natural": true,
           "whitespace_meaningful": true,
@@ -53,15 +53,15 @@
           "keyword_hierarchy_present": true,
           "format_layout_independent": true,
           "not_generic_template": true,
-          "premium_rev_preserved": true,
-          "inviting_at_list_size": true,
+          "premium_rev_preserved": false,
+          "inviting_at_list_size": false,
           "thumbnail_functional": true,
           "golden_grammar_matches": true,
           "composition_balanced": true,
           "fade_integrated": true
         },
         "og": {
-          "pass": true,
+          "pass": false,
           "not_size_only": true,
           "photo_text_hierarchy_natural": true,
           "whitespace_meaningful": true,
@@ -69,15 +69,15 @@
           "keyword_hierarchy_present": true,
           "format_layout_independent": true,
           "not_generic_template": true,
-          "premium_rev_preserved": true,
-          "inviting_at_list_size": true,
+          "premium_rev_preserved": false,
+          "inviting_at_list_size": false,
           "thumbnail_functional": true,
           "golden_grammar_matches": true,
           "composition_balanced": true,
           "fade_integrated": true
         },
         "gbp": {
-          "pass": true,
+          "pass": false,
           "not_size_only": true,
           "photo_text_hierarchy_natural": true,
           "whitespace_meaningful": true,
@@ -85,21 +85,21 @@
           "keyword_hierarchy_present": true,
           "format_layout_independent": true,
           "not_generic_template": true,
-          "premium_rev_preserved": true,
-          "inviting_at_list_size": true,
+          "premium_rev_preserved": false,
+          "inviting_at_list_size": false,
           "thumbnail_functional": true,
           "golden_grammar_matches": true,
           "composition_balanced": true,
           "fade_integrated": true
         }
       },
-      "comments": "3形式とも実寸プレビューで見出しが即読でき、「3つだけ。」を暖色で強調する二段構成、墨色の補助行、柔らかな写真遷移がゴールデンの文法に沿っている。余白は見出しのために機能し、白い掲示板状には見えない。GBPも独立した縦中央寄りの構成で人物を侵食していない。"
+      "comments": "文字設計はゴールデン参照に沿い、黒の導入句と大きな暖色キーワードの二段階が明確です。各実寸プレビューでも自然に読め、フェードも矩形パネルには見えません。一方、人物下部を横切る不自然な黒い曲線、輪郭周辺のにじみや半透明化、機材との重なりが全形式で確認でき、静かなプレミアム品質と写真の完成度を損なっています。"
     },
     "series_consistency": 9,
-    "editorial_quality": 8,
+    "editorial_quality": 7,
     "typography_harmony": 9,
     "negative_space": 8,
-    "photo_treatment": 7,
+    "photo_treatment": 4,
     "article_visual_relevance": 7,
     "main_claim_visualization": 6,
     "human_subject_prominence": 7,
@@ -107,23 +107,23 @@
     "face_expression_readable": true,
     "background_secondary_pass": false,
     "background_soft_blur_pass": false,
-    "the_rev_anchor_visible": false,
-    "customer_presentation_matches_plan": false,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
     "article_theme_inferable_without_title": false,
     "scene_action_has_article_specific_meaning": true,
     "generic_passive_pose_without_article_reason": false,
-    "rev_environment_consistency": 3,
-    "brand_space_authenticity": 3,
-    "human_environment_integration": 8,
-    "perspective_scale_consistency": 8,
-    "ground_contact_shadow_consistency": 7,
-    "lighting_consistency": 8,
-    "anatomy_pose_realism": 9,
-    "no_cutout_or_sticker_look": true,
+    "rev_environment_consistency": 6,
+    "brand_space_authenticity": 6,
+    "human_environment_integration": 4,
+    "perspective_scale_consistency": 6,
+    "ground_contact_shadow_consistency": 3,
+    "lighting_consistency": 6,
+    "anatomy_pose_realism": 7,
+    "no_cutout_or_sticker_look": false,
     "location_semantics_pass": true,
-    "location_behavior_plausible": true,
+    "location_behavior_plausible": false,
     "service_misrepresentation_absent": true,
-    "unsupported_equipment_absent": false,
+    "unsupported_equipment_absent": true,
     "scene_plausible_at_the_rev": false,
     "exercise_pose_plausible": true,
     "manual_visual_rejection": true,
@@ -143,7 +143,7 @@
     "gbp_aspect_ratio_pass": true,
     "gbp_safe_area_pass": true,
     "gbp_copy_legible": true,
-    "comments": "タイポグラフィは全形式で合格。ただし生成背景は権威ある実景のEVOLGEARラック構成、プレート配置、ミラー、支柱・ケーブル構造を保持しておらず、別仕様の一般的なラックと架空のプレート表記に置換されている。背景も十分に従属・軟焦点化されず差異が目立つ。人物は自然で一人のみだが、手は袖ではなく胸元をつまんで見え、指定された袖を整える瞬間を正確に満たさない。実在THE REV空間の確認ができないため最終不合格。",
+    "comments": "不合格。コピーとレイアウトは全3形式で読みやすいですが、生成人物の下半身付近に原写真にはない黒い曲線と溶けた輪郭があり、身体・床・機材の前後関係も不自然です。人物がラック内部の部材と交差して見え、貼り込み感と接地不足があります。背景も人間よりシャープで主張が強く、オリジナル写真ロックとHUMAN FIRST基準を満たしません。",
     "scene_grounding_version": "the-rev-source-scene-v1",
     "scene_grounding": {
       "version": "the-rev-source-scene-v1",
@@ -217,7 +217,7 @@
           "training_rack"
         ],
         "subject_zone": "training_area",
-        "article_specific_directive": "PHOTOGRAPHIC STORY: The half-second before a first-time adult Japanese MALE CUSTOMER decides to start. The visitor is upright and naturally turning toward the existing REAL EVOLGEAR rack, looking intently and reassuringly at its actual configuration while casually smoothing his OWN shirt sleeve with one hand. This is a small purposeful human moment, NOT a generic posed stock portrait. His other arm hangs or rests naturally, hands realistic. He is not lifting equipment, instructing anyone, sitting on a bench, using a phone, checking paperwork or posing as trainer. Frame a distinctive 50mm equivalent medium three-quarter portrait at about 1.3m camera height and 2.4m distance, torso and both hands clear, face near 69% frame width, x range ~58–76%, camera slightly in front of his eyeline. Keep a large naturally useful left zone for deterministic typographic overlay, ALL fingers and face safe in 16:9 and GBP 4:3 crops. Exactly one natural civilian male customer, no staff, no other person. Keep the source's ACTUAL training area rack, cable machine, plates, floor, windows, wall and their spatial positions INTACT. Never generate a fake gym or relocate equipment. One authentic warm source-consistent key light, believable contact shadows/scale and cinematic optical background blur; relaxed slight hopeful expression, understated editorial candid story, not fitness ad and not a glamour-model gaze. ABSOLUTELY NO smartphone, clipboard, paperwork, fictional furniture, extra rack, invented logos, image text or trainer.",
+        "article_specific_directive": "V3 R4 ORIGINAL PHOTO LOCK: use OpenAI GPT image edit with a transparent region ONLY. Authentic real THE REV image outside the intended human silhouette must be restored pixel-identically. The male first-time customer stands on right foreground with a calm thoughtful micro-expression and adjusts his own short T-shirt sleeve while looking toward the actual existing gym rack. He has natural hands, believable shirt fabric and shadows. No phone or clipboard. Don't change rack/weights/mirror/windows/equipment or geometry. One person only, no trainer, no text. Portrait scene crop anchored so eye and hands survive 16:9 and 4:3 deterministic layouts.",
         "similarity": {
           "pass": true,
           "window": 12,
@@ -234,15 +234,7 @@
             "zone": "training_area"
           },
           {
-            "object": "barbell",
-            "zone": "training_area"
-          },
-          {
             "object": "weight_plates",
-            "zone": "training_area"
-          },
-          {
-            "object": "training_bench",
             "zone": "training_area"
           },
           {
@@ -259,15 +251,7 @@
             "zone": "training_area"
           },
           {
-            "object": "barbell",
-            "zone": "training_area"
-          },
-          {
             "object": "weight_plates",
-            "zone": "training_area"
-          },
-          {
-            "object": "training_bench",
             "zone": "training_area"
           },
           {
@@ -305,8 +289,10 @@
           },
           {
             "slug": "the-rev-trial-three-menus-first-visit",
-            "score": 0.16666666666666666,
+            "score": 0.5,
             "equal": [
+              "scene_type",
+              "visual_role",
               "article_intent"
             ],
             "hard_exclusion": false
@@ -339,8 +325,9 @@
           },
           {
             "slug": "shinomiya-gym-beginner-choose",
-            "score": 0.3333333333333333,
+            "score": 0.5,
             "equal": [
+              "scene_type",
               "location_type",
               "visual_role"
             ],
@@ -408,7 +395,7 @@
             "location_type": "reception",
             "human_action": "rest",
             "composition_type": "medium_seated_portrait",
-            "visual_role": "considering_health_report",
+            "visual_role": "safe_first_step",
             "article_intent": "health_before_start"
           },
           "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
@@ -433,11 +420,11 @@
           },
           "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
           "scene_fingerprint": {
-            "scene_type": "arrival",
+            "scene_type": "personal_choice",
             "location_type": "reception",
             "human_action": "observe_facility",
             "composition_type": "wide_full_body",
-            "visual_role": "first_visit_reassurance",
+            "visual_role": "deciding_own_start",
             "article_intent": "training_start"
           },
           "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
@@ -462,7 +449,7 @@
           },
           "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
           "scene_fingerprint": {
-            "scene_type": "recovery_transition",
+            "scene_type": "before_start",
             "location_type": "reception",
             "human_action": "rest",
             "composition_type": "medium_seated_portrait",
@@ -495,7 +482,7 @@
             "location_type": "training_area",
             "human_action": "prepare",
             "composition_type": "wide_full_body",
-            "visual_role": "safe_first_step",
+            "visual_role": "checking_readiness",
             "article_intent": "training_start"
           },
           "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
@@ -549,10 +536,10 @@
           },
           "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
           "scene_fingerprint": {
-            "scene_type": "before_start",
+            "scene_type": "personal_choice",
             "location_type": "training_area",
             "human_action": "prepare",
-            "composition_type": "wide_full_body",
+            "composition_type": "medium_seated_portrait",
             "visual_role": "deciding_own_start",
             "article_intent": "facility_selection"
           },
@@ -596,8 +583,8 @@
             "scene_type": "exercise",
             "location_type": "boxing_area",
             "human_action": "boxing_stance",
-            "composition_type": "wide_full_body",
-            "visual_role": "training_execution",
+            "composition_type": "close_action_portrait",
+            "visual_role": "safe_first_step",
             "article_intent": "boxing_start"
           },
           "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
@@ -691,13 +678,13 @@
           "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
         }
       ],
-      "asset_version": "reference-v3-grounded-evolgear-20261018-contract-r3",
+      "asset_version": "reference-v3-masked-evolgear-20261018-contract-r4",
       "asset_hashes": {
         "source": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
-        "scene": "4baae3004a7c71bd2e89789d4408c7823bcf06a72757f80fed3b0c61508146c0",
-        "thumbnail": "8a659ea6a457eda39c8c62868db07fd97a141bdb4e1a348e7bfafffb722eff91",
-        "og": "e767e7466265ebfe0eec8541d7075bc1f028fb112962aaaa6c9bc858882cbc1d",
-        "gbp": "e3065bca78cca010630420ccf4889593c6e794c92d3ee98ed97adb8789b283e0"
+        "scene": "5059bf0c60d39638cf64d75b2dcd82c6304dde9a02cc8d1bc950d65f85c6a957",
+        "thumbnail": "db502c0aaf3366fd2ae7bf1457276932f66b3c55208d15e651d574c2ef90001e",
+        "og": "f7d13d3797976f472aa8e18073e080ce442e996255b9fbad420bb5c1ffd8846f",
+        "gbp": "6239757f77eedf91a72f8b1ef371a707804af55ee7790abb2039e0071896725e"
       },
       "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
     },
@@ -729,8 +716,10 @@
         },
         {
           "slug": "the-rev-trial-three-menus-first-visit",
-          "score": 0.16666666666666666,
+          "score": 0.5,
           "equal": [
+            "scene_type",
+            "visual_role",
             "article_intent"
           ],
           "hard_exclusion": false
@@ -763,8 +752,9 @@
         },
         {
           "slug": "shinomiya-gym-beginner-choose",
-          "score": 0.3333333333333333,
+          "score": 0.5,
           "equal": [
+            "scene_type",
             "location_type",
             "visual_role"
           ],
@@ -822,11 +812,11 @@
     },
     "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
     "thumbnail_typography_acceptance": {
-      "pass": true,
+      "pass": false,
       "deterministic": {
         "revision": "thumbnail-golden-typography-v1",
         "slug": "personal-gym-trial-three-checks",
-        "asset_version": "reference-v3-grounded-evolgear-20261018-contract-r3",
+        "asset_version": "reference-v3-masked-evolgear-20261018-contract-r4",
         "pass": true,
         "variants": {
           "thumbnail": {
@@ -882,16 +872,16 @@
                 "width": 472.71875
               }
             ],
-            "asset_path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3.jpg",
-            "asset_sha256": "8a659ea6a457eda39c8c62868db07fd97a141bdb4e1a348e7bfafffb722eff91",
+            "asset_path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4.jpg",
+            "asset_sha256": "db502c0aaf3366fd2ae7bf1457276932f66b3c55208d15e651d574c2ef90001e",
             "previews": {
               "320": {
-                "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3-preview-320.jpg",
-                "sha256": "e43ae61005cff9bd170941ba6921072dcee590948ffe19ed9834c3dd4226b05c"
+                "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4-preview-320.jpg",
+                "sha256": "8290507208e0b722a25cb21144b763872f96e4514e9d43f59dcffc89d3763060"
               },
               "400": {
-                "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3-preview-400.jpg",
-                "sha256": "c70f25918f1a56c8714425fe3d123ec494ca67fd25f7bb29040b3c426a854d82"
+                "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4-preview-400.jpg",
+                "sha256": "beab4ddb3d0d7f89c9766429dbe8e065c5c3f2771a364e91117edc3bba638474"
               }
             }
           },
@@ -948,16 +938,16 @@
                 "width": 472.71875
               }
             ],
-            "asset_path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3.jpg",
-            "asset_sha256": "e767e7466265ebfe0eec8541d7075bc1f028fb112962aaaa6c9bc858882cbc1d",
+            "asset_path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4.jpg",
+            "asset_sha256": "f7d13d3797976f472aa8e18073e080ce442e996255b9fbad420bb5c1ffd8846f",
             "previews": {
               "320": {
-                "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3-preview-320.jpg",
-                "sha256": "0bbcb8e236098887b872215917cf00d2dfbc703b97a2d4ce8818ec141afca9c3"
+                "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4-preview-320.jpg",
+                "sha256": "c30c965c081c375e8d600af3d2908c9c46c852540cbe6a5ef9536c978b19f187"
               },
               "400": {
-                "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3-preview-400.jpg",
-                "sha256": "ea142b06eed7d92608670df700fe0390dd9b8de94e44711297d789fccc2052a8"
+                "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4-preview-400.jpg",
+                "sha256": "ed3cf3fd7f471a9fab0103816b31146ffeb1df98470bb17bff73c66c9a8e69db"
               }
             }
           },
@@ -1014,16 +1004,16 @@
                 "width": 399.96875
               }
             ],
-            "asset_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3.jpg",
-            "asset_sha256": "e3065bca78cca010630420ccf4889593c6e794c92d3ee98ed97adb8789b283e0",
+            "asset_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4.jpg",
+            "asset_sha256": "6239757f77eedf91a72f8b1ef371a707804af55ee7790abb2039e0071896725e",
             "previews": {
               "320": {
-                "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3-preview-320.jpg",
-                "sha256": "cf6f03ae5eacf8521ca8134c480bfbc880f26d628376c2ac4a9623677bd452e6"
+                "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4-preview-320.jpg",
+                "sha256": "0f9d4379565ace2413aaf10d0ec2cf5ed48c6917a850074e03d76afbb3d1ac78"
               },
               "400": {
-                "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3-preview-400.jpg",
-                "sha256": "e3389761074b6f9aadac60e40fc50a352c859d93457b88295d8edb44d89ff9cc"
+                "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4-preview-400.jpg",
+                "sha256": "e565c43e21024eb714bfafa601441bdce014a22d1ada994ca0bd4e11f2d687d1"
               }
             }
           }
@@ -1065,10 +1055,10 @@
         }
       },
       "art_direction": {
-        "pass": true,
+        "pass": false,
         "variants": {
           "thumbnail": {
-            "pass": true,
+            "pass": false,
             "not_size_only": true,
             "photo_text_hierarchy_natural": true,
             "whitespace_meaningful": true,
@@ -1076,15 +1066,15 @@
             "keyword_hierarchy_present": true,
             "format_layout_independent": true,
             "not_generic_template": true,
-            "premium_rev_preserved": true,
-            "inviting_at_list_size": true,
+            "premium_rev_preserved": false,
+            "inviting_at_list_size": false,
             "thumbnail_functional": true,
             "golden_grammar_matches": true,
             "composition_balanced": true,
             "fade_integrated": true
           },
           "og": {
-            "pass": true,
+            "pass": false,
             "not_size_only": true,
             "photo_text_hierarchy_natural": true,
             "whitespace_meaningful": true,
@@ -1092,15 +1082,15 @@
             "keyword_hierarchy_present": true,
             "format_layout_independent": true,
             "not_generic_template": true,
-            "premium_rev_preserved": true,
-            "inviting_at_list_size": true,
+            "premium_rev_preserved": false,
+            "inviting_at_list_size": false,
             "thumbnail_functional": true,
             "golden_grammar_matches": true,
             "composition_balanced": true,
             "fade_integrated": true
           },
           "gbp": {
-            "pass": true,
+            "pass": false,
             "not_size_only": true,
             "photo_text_hierarchy_natural": true,
             "whitespace_meaningful": true,
@@ -1108,15 +1098,15 @@
             "keyword_hierarchy_present": true,
             "format_layout_independent": true,
             "not_generic_template": true,
-            "premium_rev_preserved": true,
-            "inviting_at_list_size": true,
+            "premium_rev_preserved": false,
+            "inviting_at_list_size": false,
             "thumbnail_functional": true,
             "golden_grammar_matches": true,
             "composition_balanced": true,
             "fade_integrated": true
           }
         },
-        "comments": "3形式とも実寸プレビューで見出しが即読でき、「3つだけ。」を暖色で強調する二段構成、墨色の補助行、柔らかな写真遷移がゴールデンの文法に沿っている。余白は見出しのために機能し、白い掲示板状には見えない。GBPも独立した縦中央寄りの構成で人物を侵食していない。"
+        "comments": "文字設計はゴールデン参照に沿い、黒の導入句と大きな暖色キーワードの二段階が明確です。各実寸プレビューでも自然に読め、フェードも矩形パネルには見えません。一方、人物下部を横切る不自然な黒い曲線、輪郭周辺のにじみや半透明化、機材との重なりが全形式で確認でき、静かなプレミアム品質と写真の完成度を損なっています。"
       },
       "golden_reference": {
         "revision": "approved-typography-20261001-v1",
@@ -1155,7 +1145,7 @@
     "background_origin_video_file_id": "",
     "background_origin_video_file_name": "AI_SOURCE_photo-evolgear_20260922.jpg",
     "background_frame_position_ratio": null,
-    "background_treatment": "Use actual existing THE REV. training area only. One person, coherent 50mm eye-level medium three-quarter candid with believable sleeve action and small hopeful expression. Rack geometry/source floor and windows unchanged. Strong sharp human subject, warm natural light, subtly blurred secondary real gym background; premium natural R7-grade photography. Text left, no generated typography, no phone, no trainer, no added gym equipment.",
+    "background_treatment": "Verified real room hard-locked by deterministic composite, with GPT-1.5 masked human edit ONLY, without other AI models. Never regenerate background across the whole scene.",
     "background_source_recorded": true,
     "background_selection_reason_recorded": true,
     "image_generation_used": true,
@@ -1279,18 +1269,18 @@
     "qa_model": "gpt-5.6",
     "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
     "slug": "personal-gym-trial-three-checks",
-    "asset_version": "reference-v3-grounded-evolgear-20261018-contract-r3",
-    "checked_at": "2026-10-17T03:09:50.720Z",
+    "asset_version": "reference-v3-masked-evolgear-20261018-contract-r4",
+    "checked_at": "2026-10-17T03:32:36.049Z",
     "review_mode": "HYBRID_GENERATED",
     "realism_qc_version": "v1",
     "scene_plausibility_version": "the-rev-scene-plausibility-v1",
     "gbp_image_required": true,
-    "gbp_image_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-grounded-evolgear-20261018-contract-r3.jpg",
+    "gbp_image_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-masked-evolgear-20261018-contract-r4.jpg",
     "gbp_image_width": 1200,
     "gbp_image_height": 900,
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json",
-  "updated_at": "2026-10-17T03:09:51.044Z",
-  "asset_version": "reference-v3-grounded-evolgear-20261018-contract-r3"
+  "updated_at": "2026-10-17T03:32:36.060Z",
+  "asset_version": "reference-v3-masked-evolgear-20261018-contract-r4"
 }
