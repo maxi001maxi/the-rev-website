@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeDirectorAssignment, validateOpportunityEvidenceLineage } from '../lib/socialDirector.mjs';
+import { normalizeDirectorAssignment, validateOpportunityEvidenceLineage, requiresSocialPortfolio } from '../lib/socialDirector.mjs';
 
 function fixture(overrides = {}) {
   const opportunity = {
@@ -88,4 +88,11 @@ test('unverified source reference is rejected',()=>{
 });
 test('corroboration without primary evidence is insufficient for READY',()=>{
   assert.throws(()=>validateOpportunityEvidenceLineage(o([{role:'CORROBORATING',evidence:e}]),p),/PRIMARY_EVIDENCE_REQUIRED/);
+});
+
+test('v1.0.1 production cannot silently bypass portfolio verification',()=>{
+  assert.equal(requiresSocialPortfolio('PRODUCTION',{contract_version:'v1.0.1',portfolio_required:false}),true);
+  assert.equal(requiresSocialPortfolio('PRODUCTION',{contract_version:'v0.9'}),false);
+  assert.equal(requiresSocialPortfolio('SHADOW',{contract_version:'v1.0.1'}),false);
+  assert.equal(requiresSocialPortfolio('SHADOW',{portfolio_required:true}),true);
 });
