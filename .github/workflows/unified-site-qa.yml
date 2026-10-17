@@ -11,6 +11,8 @@ on:
       - 'templates/**'
       - 'scripts/*site*.mjs'
       - 'scripts/test-build-parity.mjs'
+      - 'scripts/prepare-deploy.mjs'
+      - 'scripts/test-javascript-warm-cache.mjs'
       - 'scripts/qa-unified-site.mjs'
       - 'package*.json'
       - '.github/workflows/unified-site-qa.yml'
@@ -31,6 +33,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: node scripts/test-build-parity.mjs
+      - run: node --test scripts/test-javascript-warm-cache.mjs
       - run: npm run test:vercel-release-policy
       - run: node scripts/qa-unified-site.mjs
       - run: node scripts/qa-technical-site.mjs

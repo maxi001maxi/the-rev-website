@@ -70,6 +70,9 @@ jobs:
           console.log('Production byte acceptance PASS: '+checks.length+' normal visitor URLs');
           NODE
       - run: npx playwright install --with-deps chromium
+      - name: Verify returning-visitor JavaScript cache replacement
+        if: hashFiles('scripts/test-javascript-warm-cache.mjs') != ''
+        run: node --test scripts/test-javascript-warm-cache.mjs
       - name: Operate all six public pages at seven viewport sizes
         env:
           BASE_URL: https://therev-lab.com

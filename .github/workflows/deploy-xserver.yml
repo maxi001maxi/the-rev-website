@@ -105,7 +105,7 @@ jobs:
     needs: plan
     if: needs.plan.outputs.mode != 'SKIP'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     concurrency:
       group: xserver-production-v3
       cancel-in-progress: false
@@ -388,7 +388,7 @@ jobs:
           set net:max-retries 2
           set net:timeout 20
           set net:reconnect-interval-base 5
-          mirror --continue --verbose --exclude-glob 'unlimited-dev/' --exclude-glob 'unlimited-dev/**' "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
+          mirror --continue --parallel=2 --verbose --exclude-glob 'unlimited-dev/' --exclude-glob 'unlimited-dev/**' "$XSERVER_REMOTE_DIR" "$BACKUP_DIR/"
           bye
           EOF
             then
@@ -485,7 +485,7 @@ jobs:
           set net:timeout 30
           set net:reconnect-interval-base 5
           mkdir -p "${XSERVER_REMOTE_DIR}assets"
-          mirror --reverse --verbose "deploy/assets/" "${XSERVER_REMOTE_DIR}assets/"
+          mirror --reverse --parallel=2 --verbose "deploy/assets/" "${XSERVER_REMOTE_DIR}assets/"
           # TOP共通style.cssはmtime判定に任せず、必ず明示上書きする。
           mkdir -p "${XSERVER_REMOTE_DIR}assets/css"
           put -O "${XSERVER_REMOTE_DIR}assets/css/" "deploy/assets/css/style.css"
