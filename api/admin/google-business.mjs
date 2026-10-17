@@ -14,11 +14,23 @@ function redirect(res,path){
   res.setHeader('Location',path);
   res.end();
 }
-function classify(error){
-  const message=String(error?.data?.error?.message||error?.message||'').toLowerCase();
-  if(message.includes('has not been used')||message.includes('disabled'))return 'required_api_disabled';
+export function classify(error){
+  const provider=typeof error?.data?.error==='string'?error.data.error:
+    String(error?.data?.error?.status||'').toLowerCase();
+  const message=String(error?.data?.error?.message||error?.data?.error_description||error?.message||'').toLowerCase();
+  const stage=['oauth_refresh','accounts_list','locations_list'].includes(error?.stage)?error.stage:'unknown';
+  if(error?.code==='not_connected')return 'not_connected';
+  if(provider==='invalid_grant')return stage==='oauth_refresh'?'oauth_refresh_invalid_grant':'oauth_grant_invalid';
+  if(provider==='invalid_client'||provider==='unauthorized_client')return 'oauth_client_invalid';
+  if(message.includes('has not been used')||message.includes('disabled')||provider==='service_disabled')return 'required_api_disabled';
+  if((message.includes('quota')||provider==='resource_exhausted')&&
+     /(?:limit|value|quota)[^0-9]{0,25}0(?:\\D|$)/i.test(message))return 'api_access_quota_zero';
   if(message.includes('quota')||error?.status===429)return 'quota_or_access_required';
   if(message.includes('permission')||error?.status===403)return 'permission_denied';
+  if(error?.status===401)return 'oauth_access_denied';
+  if(error?.status===400)return stage==='accounts_list'?'accounts_api_invalid_request':
+    stage==='locations_list'?'locations_api_invalid_request':'google_api_invalid_request';
+  if(error?.status===404)return 'google_api_resource_not_found';
   return error?.code||'discovery_failed';
 }
 async function requireAdmin(req,res){
@@ -75,14 +87,23 @@ async function handleRediscover(req,res){
     });
   }catch(error){
     const code=classify(error);
+    // Safe diagnostic: never log OAuth access/refresh tokens, IDs or Google raw messages.
+    console.warn('[google-business/rediscover]',JSON.stringify({
+      stage:['oauth_refresh','accounts_list','locations_list'].includes(error?.stage)?error.stage:'unknown',
+      code,status:Number.isInteger(error?.status)?error.status:null
+    }));
     if(code!=='not_connected'){
       try{await saveConnection(ctx.user.id,{}, {error:code,verified:false});}
       catch{ /* preserve original reason; never claim discovery succeeded */ }
     }
-    return sendError(res,code==='not_connected'?409:502,code,
-      code==='required_api_disabled'
-        ? 'Google CloudでBusiness Profile APIを有効化し、利用枠を確認してください。'
-        : '店舗情報の再確認に失敗しました。Google CloudのAPI権限を確認してください。');
+    const reason=code==='oauth_refresh_invalid_grant'
+      ? '保存済みのGoogle認証の期限切れまたは失効が考えられます。Google認証を更新してください。'
+      : code==='api_access_quota_zero'||code==='quota_or_access_required'
+      ? 'Google Business Profile APIの利用枠・利用承認を確認してください。'
+      : code==='required_api_disabled'
+      ? 'Google Cloudで店舗情報APIを有効化してください。'
+      : '店舗情報の再確認に失敗しました。エラーコードを確認してください。';
+    return sendError(res,code==='not_connected'?409:502,code,reason);
   }
 }
 async function handleCallback(req,res){
