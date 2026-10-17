@@ -37,3 +37,6 @@ BUILD_AND_RESUME.mdを読む。配備済みruntime SHAを基準とし、QA記録
 TOP v7 / Recovery v8のGTM・JSON-LD・予約UTM欠落を確認して復元中。前回QAの「UTM保持」は不正確で訂正。見た目と文章は維持。詳細・再開地点: docs/qa/2026-10-17/TECHNICAL_RECOVERY_WORKLOG.md。mainへのマージ・本番公開・Xserver適用・GTM/GA4設定変更・予約成立は実施しない。
 
 追加: 公開中GTMが全ホスト初期化であることを確認。build-review-siteで全ビルド共通の本番ホスト許可ガードを追加し、Owner手動Preview確認のGA4汚染も防止。本番イベント名・設定は維持。
+
+## 2026-10-17 最終技術QA：公開保留
+実装修正bd3f219、ソース全ツリー照合済み。サイト532・技術20・691ファイル同等性はPASS。現在のPreview dpl_BgedYMG9n63F549j9Vkde9GkrZ65（d6ffcfeb）も配備先532 PASS。最新フォーカス重なり修正はPreview未反映。外部予約UIプローブFAIL／既存GTM属性転送FAIL／GA4受信UNVERIFIEDのため公開HOLD。GTM差分案はOwner承認対象・未適用。追加PreviewはAGENTSの全CIゲート規則により保留。詳細と再開先：docs/qa/2026-10-17/TECHNICAL_REPORT.md。mainマージ・本番・Xserver適用なし。

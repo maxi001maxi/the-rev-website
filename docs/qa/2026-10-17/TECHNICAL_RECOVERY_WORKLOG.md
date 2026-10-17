@@ -57,3 +57,9 @@ Test-only commits 9d48ce5 and 043afe9 temporarily had incomplete trees because a
 ## Focus occlusion correction
 
 An additional actual-browser hit test proved the Recovery skip link was behind the fixed header (elementFromPoint returned the logo rather than the focused link). Raise only focused TOP/Recovery skip links above the header, and assert the hit-test result in browser QA. Resting layout is unchanged. This is a code-caused QA defect, so after all gates pass one corrective Preview acceptance is justified under the release policy; no production action. Evidence: qa-out/technical/recovery-skip-before.png.
+
+## Final authorized-work boundary
+
+Latest runtime bd3f219a7653bd77f1a6f27c5b1efa7bafb88729: own navigation 532 PASS, technical 20 PASS (including the focus occlusion assertion), build parity 691 PASS, Control Capture and Phase 9 PASS. Unified workflow 38996381862 overall FAIL only at the strict external booking UI control wait. Redirect and four UTM fields PASS; public GET master returns three approved trial menus, but actual inputs/selects do not appear within 20 seconds. Do not weaken the probe or call the menu UI PASS.
+
+Accepted Preview remains dpl_BgedYMG9n63F549j9Vkde9GkrZ65 / d6ffcfeb; its deployed 532 checks and 63 screenshots PASS. Latest focused-link z-index fix remains source-only because all-CI-gates policy blocks a further Preview. Owner may approve a review-only Preview exception; main/production/Xserver and GTM settings remain unapproved. Deliver the concrete code, report, evidence and PR before asking that exception.

@@ -1,74 +1,92 @@
-# TOP v7 / Recovery v8 technical regression recovery
+# THE REV. 技術退行回復・公開前QA — 2026-10-17
 
-2026-10-17 — PR #254. Status: local contracts and 532 browser navigation checks passed; CI and final Preview pending. Production release is not authorized.
+**技術修正はCommit/Push済み。公開判定はHOLD。** mainマージ、本番デプロイ、Xserver適用、GTM/GA4設定変更、実予約・顧客情報送信は実施していない。
 
-## Findings and classification
+## 1. 発見した退行と原因
 
-| Function | Latest live/old main | Native v7/v8 baseline | Recovery |
+承認済みTOP v7 / Recovery v8を通常HTMLへ移した際、GTM初期化、HealthClub JSON-LD、予約UTMが欠落した。Recoveryの本文・固定CTA4個には計測属性もなかった。追加監査で、TOPの高さゼロの旧アンカー参照／初回体験未観測、blog index.htmlのhome誤分類、本文スキップの表示不備を確認した。
+
+前回の「UTM保持」記録は両ページについて不正確だったため訂正。今回の予約先プローブも当初、紹介文をメニュー表示と誤判定したため訂正し、完全なメニュー名・実コントロールを必須とするテストへ強化した。未確認をPASSにしない。
+
+## 2. 修正内容・変更ファイル
+
+- `index.html` / `solution.html`: 既存GTM＋noscript、店舗JSON-LD／Recoveryパンくず、OG/Twitter補完、全14予約アンカーのUTM・属性、実セクションの観測先、mainフォーカス。
+- `assets/js/main.js`: 正しいblog分類、実コンテンツを優先したsection_view、計測初期化の重複防止。イベント名／e1_v1／実際のpage_pathは維持。
+- `assets/css/unified-header-v7.css`: フォーカス時だけ本文スキップを可視化し、固定ヘッダーより前へ配置。通常表示は変更なし。
+- `scripts/build-review-site.mjs`: 全ビルド共通で、GTMを本番ホスト2種だけで初期化。手動Preview確認もGA4を汚染しない。GTM管理設定は未変更。
+- `scripts/test-technical-site.mjs` / `qa-technical-site.mjs` / `qa-booking-site.mjs`: ビルド成果物・イベント・実バッチ・表示・キーボード／遮蔽・予約遷移の回帰検証。
+- `package.json` / `.github/workflows/unified-site-qa.yml`: 必須ビルド検査、実ブラウザと予約先検証・証拠保存。
+
+承認済みHero・写真・本文・余白・レイアウト、料金・営業時間・予約システムは変更していない。
+
+## 3. 旧サイトとの比較
+
+| 項目 | 旧本番／main | 移行直後 | 修正後 |
 |---|---|---|---|
-| GTM-WFD7R8BT | One bootstrap + noscript, published Google tag G-Q6ZSSJMEZ2 | Missing on both pages | Restore exact existing snippets; no direct gtag or GTM/GA4 configuration change |
-| Consent | Existing GTM-managed setup; no site-side new consent policy | Bootstrap omitted | Preserve existing policy; no invented consent setting |
-| HealthClub JSON-LD | Name/address/split hours/social/company/reservation; ambiguous priceRange | Missing on both | Verified facts restored; omit priceRange, no ratings/unverified medical claims |
-| Booking attribution | TOP per-placement; old Recovery used generic recovery_page | Four UTM fields missing from 14 anchors; four Recovery anchors also lacked event attributes | source=website, medium=referral, campaign=trial, content=data-placement |
-| section_view | Legacy actual sections | Trial unobserved, some alias targets have zero height | Prefer explicit actual content surfaces; same IDs/events, once |
-| page_type | Generic index.html rule also misclassifies blog | Same latent bug | Normalize index suffix only for classification; actual page_path unchanged |
-| Keyboard skip | Legacy keyboard entry | TOP link never became visible | Focus-only visibility and focusable main; resting design unchanged |
-| Native build | Previously preview injection | Already moved to normal HTML before this audit | Retain native rendering; both build environments tested |
+| GTM | 1回初期化＋noscript | 両ページ欠落 | GTM-WFD7R8BTを復元。直接gtag追加なし |
+| Google tag | GTM経由 G-Q6ZSSJMEZ2 | dataLayerだけ残り、初期化なし | 現行公開CDNの実行・要求生成を実ブラウザで確認 |
+| HealthClub | 店舗情報あり、曖昧なpriceRangeあり | 欠落 | 公開Access/Legal/現行コピーと照合して復元。古いpriceRange・評価・未確認情報は追加しない |
+| UTM | TOPは配置別、旧Recoveryはrecovery_page共通 | 14アンカーで欠落 | website / referral / trial / data-placement。公式URLは維持 |
+| section_view | 旧セクションを観測 | trial未観測・一部高さゼロ | 実コンテンツを観測、同じイベント名／一度だけ |
+| SEO／共有 | title/canonical/OGP等あり | 主要SEOは存在、一部SNS情報欠落 | 承認済みtitle/descriptionを維持、locale/画像寸法/Twitter等補完 |
+| ビルド | 以前はPreview差し込み | 当作業開始時に通常HTML化済み | 本番／Preview 691ファイル同等、robots方針だけ差 |
+| キーボード | 旧導線 | TOP非表示／Recoveryがヘッダー背後 | フォーカス表示とelementFromPointによる非遮蔽を確認 |
 
-Approved removal/rearrangement of legacy trust/empathy/fixed TOP surfaces is a design decision. Do not fabricate exposures for absent surfaces. Existing internal header links were not tracked in the old header either; no new event taxonomy introduced. Instagram/reviews/LINE destinations remain available in approved page/footer layouts.
+[全14アンカーのCTA Map](TECHNICAL_CTA_MAP.csv)。削除・再配置が承認済みの旧セクション／TOP固定CTA／重複SNSリンクを再追加していない。旧ヘッダーの内部リンクにも計測属性はなく、新イベントは作成しない。
 
-## Files and contracts
+Price HTML、`lib/ga4CompanyOsSync.mjs`、`lib/ga4ExperimentCapture.mjs`は開始時とバイト一致。REV-EXP-2026-001はcontrol・25%可視で一度、treatment開始なし。非体験Price CTAは既存pricing_page、pricing_trialは従来の配置対応を維持。全サイト公開は実験分析上の変更点として注記が必要。reserve_clickは予約意向であり、予約完了はUNKNOWNのまま。
 
-- `index.html`, `solution.html`: invisible bootstrap, JSON-LD, social metadata, booking attribution, tracking surfaces, main focus target.
-- `assets/js/main.js`: correct blog classification, actual section targets, analytics initialization idempotence.
-- `assets/css/unified-header-v7.css`: keyboard-focus-only skip link.
-- `scripts/test-technical-site.mjs`: mandatory source/built HTML regression contracts.
-- `scripts/qa-technical-site.mjs`: actual Chromium events, exposure, keyboard, safe tag execution and pixel equivalence evidence.
-- `scripts/qa-booking-site.mjs`: official booking GET/redirect observation; all writes/analytics blocked.
-- `package.json`, `.github/workflows/unified-site-qa.yml`: build-time and CI gates.
-- [All 14 booking anchors](TECHNICAL_CTA_MAP.csv).
+## 4. 実行結果と証拠
 
-`price.html`, `lib/ga4CompanyOsSync.mjs`, and `lib/ga4ExperimentCapture.mjs` are byte-identical to feature start. Price non-trial buttons intentionally retain the existing `pricing_page` attribution; `pricing_trial` remains exact. REV-EXP-2026-001 remains control / not a treatment launch. An eventual redesign release must be annotated in experiment analysis; before/after attribution cannot isolate the Price treatment from a whole-site release. No experiment/metric definition changed. Booking completion remains UNKNOWN, never inferred from reserve_click.
+| 検証 | 結果 |
+|---|---|
+| 本番／Previewビルド | 691ファイル、robotsメタとrobots.txtのみ意図した差：PASS |
+| リンク／アセット | 2,260参照、欠損0：PASS |
+| 実装候補の実Chromium | 6ページ×7サイズ、532チェック：PASS、JS例外0／自サイト通信失敗0 |
+| 計測・SEO・キーボード | 20技術チェック：PASS。実GTM／Googleタグ／既存5イベントの要求生成まで確認 |
+| 最新フォーカス修正 | beforeのヒット先はロゴ、afterは本文スキップ。遮蔽解消：PASS |
+| 通常デザイン | TOP/Recovery × PC1440/スマホ390、全ページPNG4組が前後ピクセル一致：PASS |
+| コンソール | 6ページでconsole error／pageerrorとも0（制御したPreview origin、スクロール含む） |
+| 既存契約 | Phase E、Direct Read、Control Capture、Measurement Gate、Site Insights、GSC、Vercel Policy：PASS。Phase 9 164件、Phase D 75件PASS |
+| 配備済みPreview | 全6ページ・7サイズ・532チェック：PASS。63画像保存 |
+| 予約リダイレクト | 公式/t/→/trial/で全4 UTM保持：PASS |
+| 予約メニューUI | 公開GET APIの3体験メニュー取得成功。実入力・選択フォームは20秒待っても確認できず：**プローブFAIL／通常環境の実際の挙動は未確定** |
+| GTM属性転送 | 既存コンテナv3にpage_type／placement等の仕様上のマップなし：**FAIL（既存の外部設定課題）** |
+| GA4本番への送信・受信 | 収集要求をローカル204で遮断、実送信なし。実受信／Company OS反映：**UNVERIFIED** |
 
-## Local evidence
+最初の収集プローブはabortによる再送と固定4秒待機によるバッチ取りこぼしで失敗した。現在は送信前にローカル204を返し、実バッチを最大15秒待つ。exact-once条件は維持している。記事CTAはarticle_cta_clickと意図したreserve_clickを各1回確認した。
 
-- Production/Preview: 691 published files, identical after only robots meta normalization; robots.txt intentionally differs. Production indexable, Preview noindex/nofollow.
-- Technical source and built contracts PASS. GTM appears once; HealthClub parses once per page; 14 booking URLs match placement; title/description/canonical/OG metadata retained/restored.
-- Actual Chromium: 12 technical checks PASS. All TOP/Recovery/Price booking event attributes, line_click, price_click, article_cta_click + intentional reserve_click, home section_view, Price control exposure, keyboard skip.
-- TOP + Recovery × PC1440/mobile390 full-page screenshots: all four before/after PNG buffers identical. Visible copy/assets/spacing/layout preserved.
-- Existing Phase E, GA4 Direct Read, Control Capture, Site Insights (14), GSC production, Vercel policy contracts PASS. Phase 9 (164) and Phase D (75) PASS; existing full CI Phase 9 Check and Control Capture Contract also PASS.
-- GA4 transmission intentionally blocked before network; no test sessions intentionally delivered to production GA4. Local browser CDN connection returned ERR_EMPTY_RESPONSE. Curl retrieved published GTM JavaScript read-only and verified the existing measurement ID. These are distinct checks; actual browser tag execution/collection construction need CI evidence.
-- 2,260 internal HTML/asset references checked in the current build: missing 0. Image/font assets unchanged; no performance field benchmark claimed.
-- Official booking entry returned HTTP200 with JavaScript redirect retaining all four UTM values. Local external browser network failed; real redirect browser verification pending CI. No customer data submitted or booking made.
+予約先の検証は新規・未ログインcontext、GETのみ、Service Worker・解析・通知・POSTを遮断。遮断されたPOSTはBugsnagセッション通信で、予約送信ではない。外部予約側の障害か制御環境の制約かは断定しない。顧客情報入力や予約確定は行っていない。空本文POSTの状態照会案は自動承認審査で外部セッション状態変更の可能性を理由に拒否され、未実施。その方法は再試行しない。
 
-## Reproduce and resume
+### SHA・CI・ステージングの対応
 
-1. `npm ci`
-2. `npm run test:build-parity`
-3. `VERCEL_ENV=production npm run vercel-build`
-4. `npm run test:technical-site && npm run test:control-capture && npm run test:ga4-direct && npm run test:phase-e`
-5. `npm run test:public-site-browser && npm run test:technical-browser`
-6. `node scripts/qa-booking-site.mjs`
+- 最新実装修正：`bd3f219a7653bd77f1a6f27c5b1efa7bafb88729`、完全ツリー`574c326850e3a595335f3c5755609b2361eabcd6`。
+- [最新実装CI](https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381862)：サイト532／技術20はPASS、外部予約UIプローブのみFAILのためworkflow全体はFAIL。
+- [最新Control Capture](https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381854)／[Phase 9](https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381755)：PASS。
+- 確認用Preview：<https://the-rev-website-qao22ebbr-htrmaxi0101-9305s-projects.vercel.app/>。
+- Deployment：`dpl_BgedYMG9n63F549j9Vkde9GkrZ65` / READY / 配備SHA`d6ffcfeb1e2e7ef0d12d2e9dc3236b3a639c7dba`。
+- [配備先532チェック](https://github.com/maxi001maxi/the-rev-website/actions/runs/38995212728)：PASS。**最新のフォーカス重なり修正はこのPreviewには未反映。** 通常表示・GTM/JSON-LD/UTMは反映済み。
+- artifactは2026-10-31まで。ユーザー向けHTMLレポートには63画像・JSON・比較画像を埋め込み保存する。
 
-Output: `qa-out/` JSON/logs/screenshots (CI artifact retained 14 days). Baseline screenshot comparison additionally requires the pre-edit HTML under `qa-out/technical/baseline/`. All analytics collection is blocked in the technical QA; local files are fulfilled under the production origin, never fetched from production.
+## 5. 残課題・公開可否・再開
 
-## Release boundary / remaining work
+**公開はHOLD。Draft PR #254を維持。**
 
-- GA4 real receipt: **UNVERIFIED**, because no test data is transmitted. Company OS compatibility is contract/code verification, not proof of new live receipt.
-- Google Rich Results Test / Schema Markup Validator hosted UI: not yet submitted. JSON syntax, HealthClub type/properties, required name/address and split hours validated against official documentation; no rich-result guarantee.
-- Actual Safari/iPhone/Windows-specific environments not covered by Chromium viewports.
-- Pending: final CI, one accepted explicit Preview, Draft PR evidence update, Owner review. No main merge, production deployment or Xserver changes.
+1. [GTM属性マップの具体的な設定差分案](GTM_PARAMETER_MAPPING_OWNER_REVIEW.md)はOwner承認対象・未適用。イベント名転送と属性転送と実受信を混同しない。GTM/GA4管理設定は変更していない。
+2. 公式予約先の実フォーム・メニュー表示を通常環境で確認する必要がある。公開APIに3体験メニューがあることは、UI動作確認の代わりにならない。
+3. `AGENTS.md`の「Previewは全ローカル/CI gate通過後のAcceptance Candidateに対してのみ明示作成」に従い、予約UIの不合格が残る間は追加Previewを保留。フォーカス修正だけの確認用Preview更新を例外として進めるならOwner判断が必要。本番・main・Xserverは引き続き承認待ち。
+4. GA4実受信、予約完了、公開後のCompany OS反映、実機Safari/iPhone/Windows、公開サイトの速度実測、Google Rich Results Test／Schema Markup Validatorの画面投入は未確認。JSON構文・HealthClubの型／プロパティ・name/address／営業時間は公式仕様と照合済み。検索順位や表示は保証しない。
 
-References: [Google LocalBusiness structured data](https://developers.google.com/search/docs/appearance/structured-data/local-business), [Schema.org HealthClub](https://schema.org/HealthClub), repository `docs/analytics/GA4_CURRENT_TRUTH.md`, `docs/analytics/GTM_GA4_IMPLEMENTATION.md`, `docs/company-os/GA4_DIRECT_READ_V1.md`, `docs/analytics/REV_EXP_2026_001_CONTROL_CAPTURE.md`, and Company OS `KNOWLEDGE_ARCHITECTURE_V1` / `REV_EXP_2026_001_TREATMENT_DESIGN_V1`.
+再開：このレポートとTECHNICAL_RECOVERY_WORKLOG.mdを読み、作業ブランチ最新refを取得。GTM設定／本番変更やPOSTを無断で試さない。
 
-## Preview analytics isolation
+```
+npm ci
+npm run test:build-parity
+VERCEL_ENV=production npm run vercel-build
+npm run test:technical-site
+npm run test:control-capture && npm run test:ga4-direct && npm run test:phase-e
+npm run test:public-site-browser && npm run test:technical-browser
+node scripts/qa-booking-site.mjs
+```
 
-The current published GTM resource version 3 has an all-host init rule. Add an identical runtime hostname allowlist to every built public HTML bootstrap (therev-lab.com and www.therev-lab.com only) without modifying source Price HTML, GTM settings or the production event contract. This protects manual Owner Preview review as well as automated QA. Production/Preview bytes still match except robots. Mandatory VM tests cover production, www, localhost, Preview, and suffix-spoofed hostnames; actual Chromium exercises all six Preview-origin pages with zero GTM requests and working local dataLayer.
-
-## Safe collection test diagnostics
-
-The first CI failed the new strict network probe (navigation/build gates passed). Deliberately aborting collection caused a transport retry of page_view, while a fixed 4-second wait missed GA4 custom-event batches. A read-only replay of current public CDN scripts confirmed one initial page_view and delayed POST batches containing reserve_click. The probe now intercepts collection locally with HTTP204 (zero transmission) and waits up to 15 seconds for actual expected batch events. Exact once-per-event assertions remain unchanged; no production/GTM configuration modified to make tests pass.
-
-## Existing external configuration blocker
-
-Published GTM v3 forwards existing event names, but controlled page_type / placement and other parameters specified by GTM_GA4_IMPLEMENTATION.md have no parameter map in the public resource, and are absent in observed custom-event request batches. This is an existing external configuration gap, not a website regression. Company OS current event-name aggregates / Price page-scoped exposure remain compatible; parameter completeness and GA4 receipt are NOT PASS. See GTM_PARAMETER_MAPPING_OWNER_REVIEW.md for the exact un-applied setting proposal. Production readiness remains HOLD.
+根拠：[Google LocalBusiness仕様](https://developers.google.com/search/docs/appearance/structured-data/local-business)、[Schema.org HealthClub](https://schema.org/HealthClub)、`GA4_CURRENT_TRUTH.md`、`GTM_GA4_IMPLEMENTATION.md`、`GA4_DIRECT_READ_V1.md`、`REV_EXP_2026_001_CONTROL_CAPTURE.md`、Company OS `KNOWLEDGE_ARCHITECTURE_V1`／`REV_EXP_2026_001_TREATMENT_DESIGN_V1`。
