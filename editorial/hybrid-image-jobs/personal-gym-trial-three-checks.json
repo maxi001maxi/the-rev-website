@@ -12,22 +12,22 @@
   "scene_intent": "One real THE REV reception source with one female customer silently considering a small unmarked personal note before sharing minor health/condition concerns; no trainer, no medical actions, no fake room.",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r1-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-evolgear-20261018-contract-r1",
-  "thumbnail": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r1.jpg",
-  "og_image": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r1.jpg",
-  "gbp_image": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r1.jpg",
+  "asset_version": "reference-v26-grounded-evolgear-20261018-contract-r2",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r1.json",
+  "qa_report_path": "editorial/image-qa/personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -279,7 +279,8 @@
           "composition_type": "medium_side_portrait",
           "visual_role": "considering_health_report",
           "article_intent": "health_before_start"
-        }
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
       },
       {
         "slug": "the-rev-trial-three-menus-first-visit",
@@ -356,7 +357,8 @@
           "composition_type": "medium_side_portrait",
           "visual_role": "considering_health_report",
           "article_intent": "health_before_start"
-        }
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
       },
       {
         "slug": "the-rev-trial-three-menus-first-visit",
@@ -671,7 +673,8 @@
     "selected_content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
     "selected_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
     "avoided_repeat": false,
-    "require_complete_semantic_preflight": true
+    "require_complete_semantic_preflight": true,
+    "recovery_reason": "first_generation_attempt_preflight_nonbillable_missing_recent_history_path_fixed"
   },
   "visible_action": "One real-world female customer sits on the existing THE REV reception stool and calmly prepares to mention a mild concern. She gently rests one hand against her own upper sleeve and the other in her lap; no paper or trainer, no medical drama.",
   "emotional_state": "Calm, thoughtful, minor pre-first-visit hesitation, human and candid.",
