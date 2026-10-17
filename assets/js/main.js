@@ -416,18 +416,18 @@
     var defs = [];
 
     if (pageType === 'home') {
+      // TOP v2.1 C: owner removed fixed CTA. New section names are not comparable
+      // one-to-one with old trust/empathy/recovery/faq view or FAQ click series.
       defs = [
-        { selector: '.trust-strip', id: 'trust' },
         { selector: '#service', id: 'service' },
-        { selector: '.empathy', id: 'empathy' },
+        { selector: '#method', id: 'method' },
         { selector: '#voice', id: 'voice' },
-        { selector: '#trainer', id: 'trainer' },
-        { selector: '#recovery', id: 'recovery' },
-        { selector: '.trial-guide', id: 'trial' },
+        { selector: '#trial', id: 'trial' },
         { selector: '#pricing', id: 'pricing' },
-        { selector: '#faq', id: 'faq' },
-        { selector: '#access', id: 'access' },
-        { selector: '#contact', id: 'final_cta' }
+        { selector: '#person', id: 'trainer' },
+        { selector: '#place', id: 'access' },
+        { selector: '#questions', id: 'questions' },
+        { selector: '#final', id: 'final_cta' }
       ];
     } else if (pageType === 'price') {
       // REV-EXP-2026-001 Control Capture reuses the existing section_view
