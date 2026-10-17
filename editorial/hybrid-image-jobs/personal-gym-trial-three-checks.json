@@ -585,7 +585,8 @@
     "max_billable_image_generations": 1,
     "no_paid_retry_without_owner": true,
     "publish_blog": false,
-    "publish_gbp": false
+    "publish_gbp": false,
+    "preflight_revision": "v3-brief-gate-fix-phone-prohibition-distinction-20261017-r3"
   },
   "thumbnail_claim": "Simple three things to check before gym trial. Never crowd the title: Japanese copy '体験前に、' over '3つだけ。'."
 }
