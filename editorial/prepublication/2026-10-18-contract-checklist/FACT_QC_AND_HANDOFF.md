@@ -4,7 +4,7 @@
 - Owner on 2026-10-17 selected notification candidate **1**, "パーソナルジムの体験前に確認したいこと｜料金・予約・解約で後悔しないために".
 - Canonical topic proposal: `TP-20261018`; candidate ID: `BT-20261017-DAILY-3`; target_date **2026-10-18** (notification sent 2026-10-17 JST; do not overwrite target date with notification date).
 - Explicit GPT owner selection queued in `editorial_gpt_operator_requests` as `gpt-TP-20261018-choose-1-20261017-owner`. Must be consumed by existing `lib/editorialGptOperatorInbox.mjs` → `lib/editorialTopicStore.mjs` and yield `INTERVIEW_WAITING`. Do not bypass by fabricating Interview answers or marking status `APPROVED` by hand.
-- Automated topic Knowledge Gate explicitly requires **two first-party Interview answers**. Neither is received yet. No canonical queue article should be created before Interview success.
+- Automated Topic Knowledge Gate requires **two first-party Interview answers**. Owner supplied one comprehensive narrative on 2026-10-17; both Q/A records were derived transparently **only** from that response, with the absence of a verified individual customer example explicitly stated, and sent to the canonical GPT operator inbox as request `gpt-TP-20261018-answer-anonymous-20261017-owner`. Treat `PENDING` as still awaiting official engine processing; never claim `APPROVED` until official state changes. No canonical queue article should be created before official Interview success.
 - Article copy has been drafted editorially in `ARTICLE_DRAFT.md` outside `content/blog/`. This is NOT a published article nor a bypass of the official approval / creator workflow.
 - Owner only requested preparation up to immediately before publishing; **no article Publish or GBP posting**.
 
@@ -60,3 +60,11 @@ The original canonical two questions are in proposal `TP-20261018` option 1. Ans
 4. Canonical image operator generates verified one-customer R7-quality derivative; verify GitHub/Xserver SHA and image/GBP READY statuses.
 5. Authenticated **Review & Publish preflight OK**, owner review. **STOP** before pressing final Publish. GBP post also forbidden without separate approval.
 6. No guarantee of exact readiness date until Topic interview and production execution really succeed; report current blocked state accurately.
+
+## 2026-10-17 anonymized first-party owner interview: editorial rules
+- Interview source must **never be named**. Do not use owner first name, surname, exact personal biography, or suggest any specific customer's experience. No customer was identified.
+- Captured source meaning: Overthinking can impede taking action. Sometimes deciding to start while motivated is reasonable if the person has understood and voluntarily accepted contract conditions. A person might feel reluctant after signing; that is a hypothetical, not an observed customer case. In-person trainers can help the person explore how to respond to uncertainty and anxiety after they attend. Personal training support does not guarantee attendance, outcomes, refunds or freedom from anxiety.
+- The owner **did not** specify the actual sequence in which staff explains pricing, booking, cancellation or refund exceptions; do not invent one as a first-party operational policy.
+- The user requested anonymous treatment. The public article must use no personal attribution or byline identifying the respondent. If the official Draft creator populates a named `author`, change that to a non-identifying organization credit before final review, with user-requested author anonymity preserved.
+- Integrated public-facing discussion in `ARTICLE_DRAFT.md` section 6. The public wording must preserve **voluntary informed decision vs rushed pressured contract**; avoid a promotional recommendation to commit impulsively.
+- National Consumer Affairs Center reference `https://www.kokusen.go.jp/news/data/n-20261007_1.html` verified 2026-10-17: strong warnings on pressure, hidden related goods, cancellation fees and booking availability.
