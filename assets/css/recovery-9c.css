@@ -1,0 +1,40 @@
+/* THE REV. Recovery Phase 9-C — scoped to /solution.html only.
+   Draft for Owner review. No changes to global TOP styling or tracking handlers. */
+.recovery-9c .recovery9c-hero{padding-top:clamp(116px,14vw,165px);padding-bottom:clamp(55px,6vw,85px);background:linear-gradient(130deg,#25231f,#353026 72%,#231f1a)}
+.recovery-9c .recovery9c-hero .wrap{width:min(1180px,92vw)}
+.recovery-9c .recovery9c-hero-grid{display:grid;grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr);gap:clamp(32px,5vw,76px);align-items:center;margin-top:clamp(24px,4vw,48px)}
+.recovery-9c .recovery9c-hero-copy{min-width:0}
+.recovery-9c .recovery9c-hero .eyebrow{color:#d5bf9b;letter-spacing:.13em;font-family:var(--sans);font-size:clamp(12px,1.2vw,14px);line-height:1.8;margin-bottom:20px}
+.recovery-9c .recovery9c-hero-title{font-family:var(--serif);font-size:clamp(31px,3.6vw,57px);font-weight:500;line-height:1.65;color:#f8f4e9;letter-spacing:.06em}
+.recovery-9c .recovery9c-service-name{font-family:var(--serif);font-size:clamp(16px,1.7vw,22px);font-weight:500;line-height:1.7;letter-spacing:.035em;color:#e5d7bd;margin:10px 0 0}
+.recovery-9c .recovery9c-hero-lead{font-family:var(--sans);color:rgba(251,248,241,.88);font-size:clamp(13px,1.25vw,16px);line-height:2;max-width:44ch;margin:22px 0}
+.recovery-9c .recovery9c-offer{border-top:1px solid rgba(212,186,143,.4);border-bottom:1px solid rgba(212,186,143,.4);padding:clamp(18px,2vw,26px) 0;color:#f5eee4;margin-top:24px}
+.recovery-9c .recovery9c-offer-label{font-size:12px;letter-spacing:.13em;color:#d9bc91}
+.recovery-9c .recovery9c-offer-price{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:18px;row-gap:4px}
+.recovery-9c .recovery9c-offer-price strong{font-family:var(--serif);font-weight:500;font-size:clamp(24px,3vw,38px);line-height:1.5}
+.recovery-9c .recovery9c-offer-price small{font-size:12px;color:#eee0c9;line-height:1.7}
+.recovery-9c .recovery9c-offer-regular{margin:12px 0 0;color:#eee8de;font-size:clamp(11.5px,1.1vw,13px);line-height:1.8}
+.recovery-9c .recovery9c-actions{display:flex;align-items:stretch;flex-wrap:wrap;gap:12px;margin:22px 0 0}
+.recovery-9c .recovery9c-button{display:inline-flex;justify-content:center;align-items:center;gap:10px;min-height:52px;padding:12px 22px;text-decoration:none;font-size:clamp(13px,1.2vw,15px);line-height:1.6;letter-spacing:.025em;transition:background .2s,border-color .2s,color .2s}
+.recovery-9c .recovery9c-button--primary{background:#dfc8a4;color:#211e19;border:1px solid #dfc8a4}
+.recovery-9c .recovery9c-button--primary:hover{background:#f0dbb7;border-color:#f0dbb7}
+.recovery-9c .recovery9c-button--secondary{color:#f9f3e8;border:1px solid #93836c;background:transparent}
+.recovery-9c .recovery9c-button--secondary:hover{background:rgba(255,255,255,.12);border-color:#d0b58d}
+.recovery-9c .recovery9c-button:focus-visible{outline:3px solid #dfc8a4;outline-offset:4px}
+.recovery-9c .recovery9c-hero-footnote{font-size:12px;line-height:1.9;color:#d1c7b7;margin-top:16px}
+.recovery-9c .recovery9c-hero-figure{margin:0;position:relative;min-width:0}
+.recovery-9c .recovery9c-hero-figure picture{display:block;overflow:hidden;background:#c9c2b6;aspect-ratio:5/6}
+.recovery-9c .recovery9c-hero-figure img{width:100%;height:100%;object-fit:cover;object-position:center}
+.recovery-9c .recovery9c-hero-figure figcaption{font-size:11px;color:#d9cfbf;letter-spacing:.06em;margin-top:12px}
+.recovery-9c .recovery9c-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:clamp(30px,4vw,50px) 0}
+.recovery-9c .recovery9c-gallery figure{margin:0;min-width:0}
+.recovery-9c .recovery9c-gallery picture{display:block;width:100%;aspect-ratio:4/3;overflow:hidden;background:#e4e0d8}
+.recovery-9c .recovery9c-gallery img{width:100%;height:100%;object-fit:cover}
+.recovery-9c .recovery9c-gallery figcaption{font-size:12px;color:var(--ink-soft);margin-top:9px}
+.recovery-9c .dur-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.recovery-9c .recovery9c-first-card{background:#f3eadc;border-color:#9c8160}
+.recovery-9c .recovery9c-first-card .dur-min{font-weight:500}
+@media(max-width:900px){.recovery-9c .recovery9c-hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:30px}.recovery-9c .recovery9c-hero-title{font-size:clamp(30px,4vw,42px)}}
+@media(max-width:720px){.recovery-9c .recovery9c-hero-grid{grid-template-columns:1fr;gap:28px}.recovery-9c .recovery9c-hero-figure{max-width:500px;margin-inline:auto}.recovery-9c .recovery9c-hero-figure picture{aspect-ratio:5/4}.recovery-9c .dur-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.recovery-9c .recovery9c-gallery{gap:10px}}
+@media(max-width:450px){.recovery-9c .recovery9c-hero-title{font-size:clamp(30px,8vw,38px)}.recovery-9c .recovery9c-actions{flex-direction:column}.recovery-9c .recovery9c-button{width:100%}.recovery-9c .recovery9c-hero-figure picture{aspect-ratio:6/5}.recovery-9c .recovery9c-offer-regular{font-size:12px}.recovery-9c .recovery9c-gallery{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.recovery-9c .recovery9c-button{transition:none}}
