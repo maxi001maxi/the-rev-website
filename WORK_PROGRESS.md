@@ -40,3 +40,6 @@ TOP v7 / Recovery v8のGTM・JSON-LD・予約UTM欠落を確認して復元中�
 
 ## 2026-10-17 最終技術QA：公開保留
 実装修正bd3f219、ソース全ツリー照合済み。サイト532・技術20・691ファイル同等性はPASS。現在のPreview dpl_BgedYMG9n63F549j9Vkde9GkrZ65（d6ffcfeb）も配備先532 PASS。最新フォーカス重なり修正はPreview未反映。外部予約UIプローブFAIL／既存GTM属性転送FAIL／GA4受信UNVERIFIEDのため公開HOLD。GTM差分案はOwner承認対象・未適用。追加PreviewはAGENTSの全CIゲート規則により保留。詳細と再開先：docs/qa/2026-10-17/TECHNICAL_REPORT.md。mainマージ・本番・Xserver適用なし。
+
+## 2026-10-17 Owner例外承認後の確認用Preview更新完了
+Ownerの「続行」により、外部予約UI FAILを明示した確認用Previewの更新を例外承認。dpl_6LqoHfZQnzvpdTx6CvW4K5Sgd7un / 配備SHA f749d9c21370287efbb4fb3cb47ed3046ba3c98c / READY。最新フォーカス修正も反映。実Cloud Chromeで6ページ往来、TOP/RecoveryのTab非遮蔽・Enter本文移動を確認。配備先CI38998326481はサイト532 PASS・63画像・JS例外0・自サイト通信失敗0、外部予約UIのみFAIL。GTM属性転送FAIL・GA4受信UNVERIFIEDは継続し、公開HOLD。追加デプロイ不要。main・本番・Xserver・GTM管理設定は未変更。

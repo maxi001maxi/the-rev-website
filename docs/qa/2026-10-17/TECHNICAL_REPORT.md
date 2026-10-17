@@ -63,10 +63,10 @@ Price HTML、`lib/ga4CompanyOsSync.mjs`、`lib/ga4ExperimentCapture.mjs`は開�
 - 最新実装修正：`bd3f219a7653bd77f1a6f27c5b1efa7bafb88729`、完全ツリー`574c326850e3a595335f3c5755609b2361eabcd6`。
 - [最新実装CI](https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381862)：サイト532／技術20はPASS、外部予約UIプローブのみFAILのためworkflow全体はFAIL。
 - [最新Control Capture](https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381854)／[Phase 9](https://github.com/maxi001maxi/the-rev-website/actions/runs/38996381755)：PASS。
-- 確認用Preview：<https://the-rev-website-qao22ebbr-htrmaxi0101-9305s-projects.vercel.app/>。
-- Deployment：`dpl_BgedYMG9n63F549j9Vkde9GkrZ65` / READY / 配備SHA`d6ffcfeb1e2e7ef0d12d2e9dc3236b3a639c7dba`。
-- [配備先532チェック](https://github.com/maxi001maxi/the-rev-website/actions/runs/38995212728)：PASS。**最新のフォーカス重なり修正はこのPreviewには未反映。** 通常表示・GTM/JSON-LD/UTMは反映済み。
-- artifactは2026-10-31まで。ユーザー向けHTMLレポートには63画像・JSON・比較画像を埋め込み保存する。
+- 確認用Preview：<https://the-rev-website-27fwyd6ay-htrmaxi0101-9305s-projects.vercel.app/>。
+- Deployment：`dpl_6LqoHfZQnzvpdTx6CvW4K5Sgd7un` / READY / 配備SHA`f749d9c21370287efbb4fb3cb47ed3046ba3c98c`。
+- [最新配備先QA](https://github.com/maxi001maxi/the-rev-website/actions/runs/38998326481)：サイト532チェックPASS、63画像保存、JS例外0／自サイト通信失敗0。外部予約UIの待機だけFAILのためworkflow全体はFAIL。最新フォーカス修正も反映済み。別途、配備先の実Cloud ChromeでTOP/RecoveryをTab→非遮蔽（elementFromPoint一致）→Enterでmainへ移動できることを確認。
+- 最新配備先artifact：サイト`12088172738`、予約先`12087789616`。artifactは2026-10-31まで。ユーザー向けHTMLレポートには63画像・JSON・比較画像を埋め込み保存する。
 
 ## 5. 残課題・公開可否・再開
 
@@ -74,7 +74,7 @@ Price HTML、`lib/ga4CompanyOsSync.mjs`、`lib/ga4ExperimentCapture.mjs`は開�
 
 1. [GTM属性マップの具体的な設定差分案](GTM_PARAMETER_MAPPING_OWNER_REVIEW.md)はOwner承認対象・未適用。イベント名転送と属性転送と実受信を混同しない。GTM/GA4管理設定は変更していない。
 2. 公式予約先の実フォーム・メニュー表示を通常環境で確認する必要がある。公開APIに3体験メニューがあることは、UI動作確認の代わりにならない。
-3. `AGENTS.md`の「Previewは全ローカル/CI gate通過後のAcceptance Candidateに対してのみ明示作成」に従い、予約UIの不合格が残る間は追加Previewを保留。フォーカス修正だけの確認用Preview更新を例外として進めるならOwner判断が必要。本番・main・Xserverは引き続き承認待ち。
+3. Ownerが例外承認の質問へ「続行」と回答し、外部予約UI不合格を明示した確認用Preview更新を承認。2026-10-17、最新コミットf749を一度だけPreview配備した。実装bd3とf749の差分は文書・証拠のみ。本番・main・Xserver・GTM設定は引き続き承認対象・未実施。
 4. GA4実受信、予約完了、公開後のCompany OS反映、実機Safari/iPhone/Windows、公開サイトの速度実測、Google Rich Results Test／Schema Markup Validatorの画面投入は未確認。JSON構文・HealthClubの型／プロパティ・name/address／営業時間は公式仕様と照合済み。検索順位や表示は保証しない。
 
 再開：このレポートとTECHNICAL_RECOVERY_WORKLOG.mdを読み、作業ブランチ最新refを取得。GTM設定／本番変更やPOSTを無断で試さない。
