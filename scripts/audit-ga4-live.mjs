@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { chromium } from 'playwright';
+import { blockQaAnalytics } from './qa-block-analytics.mjs';
 
 const base = process.env.PRODUCTION_URL || 'https://therev-lab.com';
 const gtmId = process.env.GTM_ID || 'GTM-WFD7R8BT';
@@ -52,8 +53,9 @@ function requestInfo(url) {
   }
 }
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true, ...(process.env.CHROMIUM_EXECUTABLE_PATH ? {executablePath: process.env.CHROMIUM_EXECUTABLE_PATH} : {}) });
 const pageResults = [];
+const isolation = [];
 
 for (const target of pages) {
   // Fresh context per URL so caching/session state cannot hide page_view behavior.
@@ -61,6 +63,7 @@ for (const target of pages) {
     locale: 'ja-JP',
     userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36 THE-REV-GA4-AUDIT'
   });
+  isolation.push(await blockQaAnalytics(context));
   const page = await context.newPage();
   const googleRequests = [];
 
@@ -156,6 +159,8 @@ const summary = {
 };
 
 const result = {
+  measurementScope: 'Request construction only; collection intercepted with local 204; GA4 receipt UNVERIFIED',
+  isolation,
   auditedAt: new Date().toISOString(),
   base,
   gtmId,
