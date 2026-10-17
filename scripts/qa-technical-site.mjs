@@ -89,7 +89,7 @@ try{
  // Keyboard skip link is visible on focus and moves the actual focus to main.
  for(const pathname of ['/','/solution.html']){
   const ctx=await context({width:390,height:844});const page=await ctx.newPage();await page.goto(origin+pathname);await ready(page);await page.keyboard.press('Tab');
-  assert.match(await page.locator(':focus').getAttribute('href'),/^#main/);assert.ok((await page.locator(':focus').boundingBox()).y>=0);await page.keyboard.press('Enter');
+  assert.match(await page.locator(':focus').getAttribute('href'),/^#main/);assert.ok((await page.locator(':focus').boundingBox()).y>=0);assert.ok(await page.locator(':focus').evaluate(el=>{const b=el.getBoundingClientRect(),top=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2);return top===el||el.contains(top);}),pathname+' skip link must not be covered by header');await page.keyboard.press('Enter');
   assert.equal(await page.locator(':focus').evaluate(el=>el.tagName),'MAIN');check('keyboard skip',pathname+': Tab → visible skip → Enter → main focus');await ctx.close();
  }
  // Manual preview sessions must not initialize the production container.

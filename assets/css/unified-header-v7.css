@@ -195,4 +195,4 @@ body.recovery-page .rv-pagebar{margin-top:81px}
 @media(max-width:640px){body.recovery-page .rv-pagebar{margin-top:69px}}
 
 /* Keyboard-only skip link; approved resting layout is unchanged. */
-.rev-skip:focus{top:12px!important}
+.rev-skip:focus,.rv-skip:focus{top:12px!important;z-index:1002}

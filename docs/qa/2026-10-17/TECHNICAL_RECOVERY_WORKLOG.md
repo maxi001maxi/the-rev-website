@@ -49,3 +49,11 @@ The first CI failed the new strict network probe (navigation/build gates passed)
 - Deployed site runtime is unchanged by this test-only correction; no additional Vercel deployment is required. Existing GTM parameter map and GA4 receipt remain external release holds.
 
 - No synchronize workflow was observed for test-only head 9d48ce5010a38cd3ae2018aaa786fd587944179c. Add the strict booking probe to the explicit deployed Preview QA job as well, with a separate evidence artifact, then bind the already accepted Preview URL via PR edit. No deployment/runtime change.
+
+## Complete-tree restoration checkpoint
+
+Test-only commits 9d48ce5 and 043afe9 temporarily had incomplete trees because a transient base-tree value was missing. No main, production or accepted Preview change occurred. Commit bfd775965a49c2714bfbaea9d60284f0b3543ec6 restored from the literal accepted full tree 71e6cff932ad58448b08c7495540ee606ef004bc and applied the three intended QA/document changes. New full tree fbe0d48ac686695e1df41c74448259e6d65c27b6 exactly matches the complete local tree. PR restored to 276 changed files / mergeable true. Do not create a Git tree without an explicit verified base SHA and exact local/remote tree-hash assertion. Latest CI: 38996083580 / 38996083571 / 38996083586.
+
+## Focus occlusion correction
+
+An additional actual-browser hit test proved the Recovery skip link was behind the fixed header (elementFromPoint returned the logo rather than the focused link). Raise only focused TOP/Recovery skip links above the header, and assert the hit-test result in browser QA. Resting layout is unchanged. This is a code-caused QA defect, so after all gates pass one corrective Preview acceptance is justified under the release policy; no production action. Evidence: qa-out/technical/recovery-skip-before.png.
