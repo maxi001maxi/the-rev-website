@@ -33,9 +33,9 @@ jobs:
           const price=fs.readFileSync('price.html','utf8');
           const terms=fs.readFileSync('terms.html','utf8');
           // Provide full official excerpts, not merely isolated presence checks.
-          const toText=(s)=>s.replace(/<script[\\s\\S]*?<\\/script>/gi,'').replace(/<style[\\s\\S]*?<\\/style>/gi,'').replace(/<[^>]+>/g,'\\n').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\\n\\s*\\n/g,'\\n');
+          const toText=(s)=>s.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/<style[\s\S]*?<\/style>/gi,'').replace(/<[^>]+>/g,'\n').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\n\s*\n/g,'\n');
           const priceText=toText(price),termsText=toText(terms);
-          const a=priceText.indexOf('01\\nまずは体験'),b=priceText.indexOf('04\\nパーソナルボクシング');
+          const a=priceText.indexOf('01\nまずは体験'),b=priceText.indexOf('04\nパーソナルボクシング');
           const s=termsText.indexOf('第17条'),e=termsText.indexOf('第26条',s+5);
           if(a<0||b<=a||s<0||e<=s) throw new Error('Official price or terms extract unavailable');
           const detailedPrice=priceText.slice(a,b);
