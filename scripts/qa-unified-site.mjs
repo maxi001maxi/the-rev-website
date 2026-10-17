@@ -33,7 +33,7 @@ const selectAnchor=(scope,target)=>scope.locator('a[href]').filter({hasText:/.*/
 try{
 async function runSize([width,height]){
  const size=`${width}x${height}`;
- const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1, reducedMotion:'reduce'});
+ const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1, reducedMotion:'reduce',extraHTTPHeaders:process.env.VERCEL_BYPASS_SECRET?{'x-vercel-protection-bypass':process.env.VERCEL_BYPASS_SECRET}:{}});
  // Suppress telemetry and non-GET requests during QA. These exclusions are logged.
  await context.route('**/*',async route=>{
   const req=route.request(),url=req.url();
@@ -125,7 +125,7 @@ async function runSize([width,height]){
  await page.locator('#tab-boxing').press('End');assert.equal(await page.locator('#tab-recovery').getAttribute('aria-selected'),'true');
  await page.locator('#trial').scrollIntoViewIfNeeded();const trialShot=`top-trial-${size}.png`;await page.screenshot({path:path.join(out,trialShot)});screenshots.push(trialShot);
  const next=page.getByRole('button',{name:'次の声へ'});await next.click();await page.waitForFunction(()=>document.getElementById('voice-rail').scrollLeft>0);record('top/tabs/keyboard/voices',size,'/','All three tab panels, arrow/End key, voice rail');
- await page.goto(base+'/solution.html');await ready();const denba=page.locator('.rv-denba-render');if(await denba.count()){await denba.first().scrollIntoViewIfNeeded();await denba.first().evaluate(im=>im.decode());const file=`recovery-denba-${size}.png`;await page.screenshot({path:path.join(out,file)});screenshots.push(file);}
+ await page.goto(base+'/solution.html');await ready();const denba=page.locator('.rv-denba-render');if(await denba.count()){await denba.first().scrollIntoViewIfNeeded();await page.waitForFunction(()=>{const im=document.querySelector('.rv-denba-render');return im.complete&&im.naturalWidth>0;});await denba.first().evaluate(im=>im.decode());const file=`recovery-denba-${size}.png`;await page.screenshot({path:path.join(out,file)});screenshots.push(file);}
  const summary=page.locator('summary').first();await summary.click();assert.ok(await summary.evaluate(el=>el.parentElement.open));await summary.click();record('recovery/details',size,'/solution.html','Native expandable research note');
  await page.goto(base+'/solution.html#recovery-precautions');await ready();assert.ok(await page.locator('#recovery-precautions').count());record('recovery/legacy-anchor',size,'/solution.html','Existing article safety link retained');
  await page.goto(base+'/blog/');await ready();
