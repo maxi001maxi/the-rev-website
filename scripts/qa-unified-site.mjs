@@ -66,6 +66,7 @@ async function runSize([width,height]){
   // Traverse the whole document so lazy assets and scrolled header states are exercised.
   await page.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=innerHeight*.8){scrollTo(0,y);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}});
   await page.evaluate(()=>scrollTo({top:600,behavior:"instant"}));
+  await page.waitForFunction(()=>/scrolled/.test(document.querySelector('header').className));
   const headerState=await page.locator('header').getAttribute('class');
   assert.ok(/scrolled/.test(headerState),'header switches background on scroll');
   record('scroll/header',size,route,headerState);
