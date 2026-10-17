@@ -33,19 +33,22 @@ const selectAnchor=(scope,target)=>scope.locator('a[href]').filter({hasText:/.*/
 try{
 async function runSize([width,height]){
  const size=`${width}x${height}`;
- const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1, reducedMotion:'reduce',extraHTTPHeaders:process.env.VERCEL_BYPASS_SECRET?{'x-vercel-protection-bypass':process.env.VERCEL_BYPASS_SECRET}:{}});
+ const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1, reducedMotion:'reduce'});
  // Suppress telemetry and non-GET requests during QA. These exclusions are logged.
  await context.route('**/*',async route=>{
   const req=route.request(),url=req.url();
-  if(!['GET','HEAD'].includes(req.method()) || /google-analytics|googletagmanager|clarity\.ms|doubleclick/.test(url)) {await route.abort();return;}
-  await route.continue();
+  if(!['GET','HEAD'].includes(req.method()) || /google-analytics|googletagmanager|clarity\.ms|doubleclick|google\.com\/maps\/embed/.test(url)) {await route.abort();return;}
+  // Restrict the existing Preview credential to the explicitly bound site.
+  const headers={...req.headers()};
+  if(process.env.VERCEL_BYPASS_SECRET && new URL(url).origin===origin) headers['x-vercel-protection-bypass']=process.env.VERCEL_BYPASS_SECRET;
+  await route.continue({headers});
  });
  if(process.env.SHARE_URL){const auth=await context.newPage();await auth.goto(process.env.SHARE_URL,{waitUntil:'domcontentloaded'});await auth.close();}
  const page=await context.newPage();let currentRoute='';
  page.on('pageerror',e=>errors.push({size,route:currentRoute,message:e.message}));
  page.on('response',res=>{if(res.status()>=400){const row={size,route:currentRoute,url:res.url(),status:res.status()};(res.url().startsWith(origin)?network:external).push(row);}});
  page.on('requestfailed',req=>{if(!req.url().startsWith(origin)&&!/google-analytics|googletagmanager|clarity\.ms|doubleclick/.test(req.url()))external.push({size,route:currentRoute,url:req.url().split('?')[0],error:req.failure()?.errorText});});
- async function ready(){await page.waitForLoadState('domcontentloaded');await page.locator('main h1').filter({visible:true}).first().waitFor({state:'visible'});await page.evaluate(()=>document.fonts.ready);}
+ async function ready(){await page.waitForLoadState('load');await page.locator('main h1').filter({visible:true}).first().waitFor({state:'visible'});await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});}
  async function clickMenu(target){
   const desktop=page.locator('header a[href="'+target+'"]');
   if(await desktop.first().isVisible()) {await desktop.first().click();}
@@ -97,7 +100,7 @@ async function runSize([width,height]){
   // Drawer close, Escape, focus trap, scroll lock and restore at non-zero scroll.
   const opener=page.locator('#menu-toggle,.nav-toggle');
   if(await opener.isVisible()){
-   await page.evaluate(()=>scrollTo({top:450,behavior:"instant"}));const saved=await page.evaluate(()=>scrollY);
+   await page.evaluate(()=>scrollTo({top:450,behavior:"instant"}));await page.waitForFunction(()=>Math.abs(scrollY-450)<3);const saved=await page.evaluate(()=>scrollY);
    await opener.click();const dialog=page.locator('[role="dialog"][aria-hidden="false"]');await dialog.waitFor({state:'visible'});
    assert.ok(await page.evaluate(()=>getComputedStyle(document.body).position==='fixed'||getComputedStyle(document.body).overflow==='hidden'));
    const links=dialog.locator('a[href]');const close=dialog.locator('button').first();
@@ -142,7 +145,7 @@ assert.deepEqual(errors,[],'page JavaScript errors');assert.deepEqual(network,[]
 finally{
  await browser.close();if(server)await new Promise(resolve=>server.close(resolve));
  if(snapshotRoot)fs.rmSync(snapshotRoot,{recursive:true,force:true});
- const summary={status:process.exitCode?'FAIL':'PASS',base:origin,browser:'Chromium',testedSizes:sizes,results,errors,network,external,screenshots,exclusions:['Telemetry blocked to avoid analytics pollution; non-GET requests blocked; no form submitted.']};
+ const summary={status:process.exitCode?'FAIL':'PASS',base:origin,browser:'Chromium',testedSizes:sizes,results,errors,network,external,screenshots,exclusions:['Telemetry and non-GET requests blocked; no form submitted. Google Maps iframe blocked in the controlled history suite and checked separately in the live browser.']};
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(summary,null,2));
  const csv=['Test,Size,Route,Status,Detail',...results.map(row=>[row.test,row.size,row.route,row.status,row.detail].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(','))];fs.writeFileSync(path.join(out,'QA_MATRIX.csv'),csv.join('\n'));
  console.log('[browser]',summary.status,results.length,'checks;',errors.length,'JS errors;',network.length,'first-party failures; external observations:',external.length);
