@@ -1,3 +1,5 @@
+> 2026-10-17 technical audit correction: the earlier UTM-preservation claim below was inaccurate for native TOP/Recovery. See [TECHNICAL_RECOVERY_WORKLOG.md](TECHNICAL_RECOVERY_WORKLOG.md) and [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md). Earlier navigation QA did not prove GTM/GA4 or UTM behavior.
+
 # 公開前QA結果 — 2026-10-17
 
 判定: **ステージングでOwner最終確認可能**。mainマージ・本番公開・Xserver適用は未実施。

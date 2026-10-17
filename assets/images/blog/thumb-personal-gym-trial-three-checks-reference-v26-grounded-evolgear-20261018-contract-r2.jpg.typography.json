@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "personal-gym-trial-three-checks",
+  "asset_version": "reference-v26-grounded-evolgear-20261018-contract-r2",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.6849175453278499,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        102.97029702970298,
+        78
+      ],
+      "focus_line": 0,
+      "focus_text": "体験前に、",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.14138317807581907,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.3359375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 210,
+          "right": 582.75,
+          "bottom": 358,
+          "width": 518.75
+        },
+        {
+          "left": 64,
+          "top": 347.3125,
+          "right": 420.234375,
+          "bottom": 459.3125,
+          "width": 356.234375
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.jpg",
+      "asset_sha256": "aab1b65953b21638cd0e552911d4d480e22f31d8205607e8c59b61b84c44a6ed",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-preview-320.jpg",
+          "sha256": "c9be39b6f78fcb68c6cd34d67b23329c129078a5988899c2f995456ed922a5b1"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-preview-400.jpg",
+          "sha256": "6360f74c4f868b1335004213fd24e9fcb56ccbd41f7d79e76195a5de73bca226"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.6849175453278499,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        102.97029702970298,
+        78
+      ],
+      "focus_line": 0,
+      "focus_text": "体験前に、",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.15148197650980616,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.3359375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 188,
+          "right": 582.75,
+          "bottom": 336,
+          "width": 518.75
+        },
+        {
+          "left": 64,
+          "top": 325.3125,
+          "right": 420.234375,
+          "bottom": 437.3125,
+          "width": 356.234375
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.jpg",
+      "asset_sha256": "d7c2be9614583792689a4ee816410d0035e4ed023fd717c85ad5333064233dbe",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-preview-320.jpg",
+          "sha256": "23ace5080cf2a87cc540de6f8f31dbc832400b9d44228b8dd40fb5c15af87bde"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-preview-400.jpg",
+          "sha256": "c38526134fc2834edd8b44160a957f61d8071012d2692673bfab0f2b0fd605a0"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 67,
+      "font_size_at_320": 17.866666666666667,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.6954361938263351,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        87.12871287128714,
+        67
+      ],
+      "focus_line": 0,
+      "focus_text": "体験前に、",
+      "focus_scale": 1.3004285503177184,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9977995679359195,
+      "block_area_ratio": 0.07829781713738825,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.3046875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 322,
+          "right": 498.90625,
+          "bottom": 447,
+          "width": 438.90625
+        },
+        {
+          "left": 60,
+          "top": 442.578125,
+          "right": 366,
+          "bottom": 538.578125,
+          "width": 306
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2.jpg",
+      "asset_sha256": "78054aefa2a4bd977e8c560a1affdb36fdcc92da56f5518230efa0a317534508",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-preview-320.jpg",
+          "sha256": "44f0948e93e0c24168d7acd3d81879e04d0260b90af68a2d7b427f77080da5ee"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v26-grounded-evolgear-20261018-contract-r2-preview-400.jpg",
+          "sha256": "9bad4df741b24eec91175636d03190df28f69fbc5fe29873d21c5c1ac266b482"
+        }
+      }
+    }
+  }
+}

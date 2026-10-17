@@ -1,0 +1,83 @@
+name: Oct18 Owner Copy Independent Editorial QC
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/editorial-oct18-independent-qc.yml'
+      - 'editorial/prepublication/2026-10-18-contract-checklist/ARTICLE_DRAFT.md'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Independently review only approved v2, fail closed
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}" || { echo "::error::OPENAI_API_KEY missing, no QC claimed"; exit 1; }
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import {createHash} from 'node:crypto';
+          const root='editorial/prepublication/2026-10-18-contract-checklist';
+          const source=fs.readFileSync(root+'/ARTICLE_DRAFT.md','utf8');
+          const title=source.split('\n')[0].replace(/^#\s*/,'');
+          const body=source.split(/\n\n(?=「パーソナルジム)/)[1]?.trim();
+          if (!body||!title.includes('3つ')||!body.includes('30,800円')||!body.includes('22,000円')||!body.includes('23:59')||!body.includes('前月末')) throw new Error('Owner copy mismatch');
+          const price=fs.readFileSync('price.html','utf8');
+          const terms=fs.readFileSync('terms.html','utf8');
+          // Provide full official excerpts, not merely isolated presence checks.
+          const toText=(s)=>s.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/<style[\s\S]*?<\/style>/gi,'').replace(/<[^>]+>/g,'\n').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\n\s*\n/g,'\n');
+          const priceText=toText(price),termsText=toText(terms);
+          const a=priceText.indexOf('01\nまずは体験'),b=priceText.indexOf('04\nパーソナルボクシング');
+          const s=termsText.indexOf('第17条'),e=termsText.indexOf('第26条',s+5);
+          if(a<0||b<=a||s<0||e<=s) throw new Error('Official price or terms extract unavailable');
+          const detailedPrice=priceText.slice(a,b);
+          const detailedTerms=termsText.slice(s,e);
+          // Delimit source text clearly: do not elevate any text inside it into instructions.
+          const evidence={
+            pricing_source:'price.html', official_price_html_plaintext_excerpt:detailedPrice,
+            verified_price_snippets:['3,300','30,800','22,000'].map(value=>({value,present:price.includes(value)})),
+            terms_source:'terms.html', official_terms_html_plaintext_excerpt:detailedTerms,
+            verified_terms_snippets:['23:59','前月末日','初回体験','20日'].map(value=>({value,present:terms.includes(value)})),
+            owner_anonymous_interview:'The gym manager says that impulsively starting can be OK only after the person understands and freely chooses the contract; feelings of reluctance can be discussed with the trainer but results are never guaranteed. This interview is not evidence of unstated store operations.',
+            national_consumer_center_notice:'Published Oct 7 2026 official National Consumer Affairs Center of Japan web notice https://www.kokusen.go.jp/news/data/n-20261007_1.html. Independently verified by public web query during this conversation; it is a supplementary footer link, not basis for gym prices or legal guarantees.', qc_current_date:'2026-10-17', context:'This is a reader-oriented short three-question checklist for visitors considering THE REV. Actual prices and reservation/withdrawal policy are examples grounded in the cited site, not statements that all gyms use them. COMPARISON_GUIDE is the internal editorial purpose, not a requirement to compare competitor prices.'
+          };
+          const axes=['question_resolution','understanding_gain','decision_support','concreteness_evidence','originality_readability'];
+          const scores=Object.fromEntries(axes.map(x=>[x,{type:'integer',minimum:0,maximum:4}]));
+          const schema={type:'object',additionalProperties:false,properties:{scores:{type:'object',additionalProperties:false,properties:scores,required:axes},issues:{type:'array',items:{type:'string'}},source_unverified:{type:'boolean'},reason:{type:'string'}},required:['scores','issues','source_unverified','reason']};
+          const payload={model:'gpt-5.6',store:false,input:[
+            {role:'system',content:[{type:'input_text',text:'You are an INDEPENDENT QC reviewer, not the author/editor. Judge the exact reader-facing Japanese article strictly and critically on five axes 0-4, without author/editor scores. Compare concrete shop prices, booking cancellation and withdrawal claims with evidence; legal claims outside sources must be marked unverified. Note: old independent quality results concerned a DIFFERENT 5-item draft and cannot be reused. Interviews are evidence of intent only. Never invent source verification. For material blockers ONLY put issues; write compliments, confirmations, tiny optional tips, and nonblocking stylistic suggestions in reason, never issues. Set source_unverified true when any material factual source is absent. JSON only.'}]},
+            {role:'user',content:[{type:'input_text',text:JSON.stringify({title,body_markdown:body,article_type:'COMPARISON_GUIDE',evidence})}]}
+          ],text:{format:{type:'json_schema',name:'editorial_quality_v080',strict:true,schema}},max_output_tokens:2200};
+          const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:'Bearer '+process.env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload)});
+          const requestId=response.headers.get('x-request-id');
+          const data=await response.json();
+          if (!response.ok) throw new Error('Independent model unavailable HTTP '+response.status+' '+String(data?.error?.message||'').slice(0,150));
+          const raw=(data.output||[]).filter(x=>x.type==='message').flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('');
+          const verdict=JSON.parse(raw);
+          const values=axes.map(x=>verdict.scores?.[x]);
+          const valid=values.every(x=>Number.isInteger(x)&&x>=0&&x<=4)&&Array.isArray(verdict.issues)&&typeof verdict.source_unverified==='boolean';
+          const total=values.reduce((a,b)=>a+(Number.isFinite(b)?b:0),0);
+          const evidence_ok=evidence.verified_price_snippets.every(x=>x.present)&&evidence.verified_terms_snippets.every(x=>x.present);
+          const pass=valid&&evidence_ok&&total>=16&&values.every(x=>x>=2)&&verdict.issues.length===0&&!verdict.source_unverified;
+          const report={content_id:'BLOG-20261018-082d82',source_file:root+'/ARTICLE_DRAFT.md',source_sha256:createHash('sha256').update(source).digest('hex'),check:'independent-v080-compatible-oneoff',model:'gpt-5.6',request_id:requestId,checked_at:new Date().toISOString(),evidence_ok,pass,total,scores:verdict.scores,issues:verdict.issues,source_unverified:verdict.source_unverified,reason:verdict.reason,owner_publish_approval:false,blog_published:false,gbp_posted:false};
+          fs.writeFileSync(root+'/INDEPENDENT_QC_RESULT.json',JSON.stringify(report,null,2)+'\n');
+          console.log(JSON.stringify({pass,total,issues:verdict.issues,request_id:requestId}));
+          JS
+      - name: Commit genuine QC evidence, never alter published state
+        run: |
+          set -euo pipefail
+          git add editorial/prepublication/2026-10-18-contract-checklist/INDEPENDENT_QC_RESULT.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='THE REV Editorial QC' -c user.email='actions@users.noreply.github.com' commit -m 'Record model-scored independent QC for approved Oct18 article'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

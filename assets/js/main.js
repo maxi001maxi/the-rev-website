@@ -351,13 +351,13 @@
   var TRACK_DEFAULT_SITE_VERSION = 'pre_m1';
 
   function trackingPageType() {
-    var p = window.location.pathname || '/';
-    if (p === '/' || /\/index\.html$/.test(p)) return 'home';
+    var p = (window.location.pathname || '/').replace(/\/index\.html$/, '/');
+    if (p === '/') return 'home';
     if (/\/price\.html$/.test(p)) return 'price';
     if (/\/trainer\.html$/.test(p)) return 'trainer';
     if (/\/solution\.html$/.test(p)) return 'recovery';
     if (/\/access\.html$/.test(p)) return 'access';
-    if (p === '/blog/' || /\/blog\/index\.html$/.test(p)) return 'blog_index';
+    if (/^\/blog\/(?:page\/\d+\/?)?$/.test(p)) return 'blog_index';
     if (/^\/blog\/category\/[^/]+(\/page\/\d+)?\/?$/.test(p)) return 'blog_category';
     if (/^\/blog\/[^/]+\/?$/.test(p)) return 'blog_article';
     if (/\/legal\.html$/.test(p)) return 'legal';
@@ -436,7 +436,9 @@
     }
 
     var targets = defs.map(function (def) {
-      return { el: document.querySelector(def.selector), id: def.id };
+      // Prefer the visible v7 content surface over its zero-height legacy anchor.
+      var el = pageType === 'home' && document.querySelector('[data-track-section="' + def.id + '"]');
+      return { el: el || document.querySelector(def.selector), id: def.id };
     }).filter(function (x) { return !!x.el; });
 
     if (!targets.length) return;
@@ -486,6 +488,9 @@
   }
 
   function initTrackingDataLayer() {
+    // A repeated script load must not install a second listener/observer.
+    if (window.__revTrackingInitialized) return;
+    window.__revTrackingInitialized = true;
     window.dataLayer = window.dataLayer || [];
 
     document.addEventListener('click', function (event) {

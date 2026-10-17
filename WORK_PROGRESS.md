@@ -31,3 +31,7 @@
 BUILD_AND_RESUME.mdを読む。配備済みruntime SHAを基準とし、QA記録のみの後続commitでは再配備しない。mainの並行記事更新を公開承認時に再確認する。
 
 元承認ソース履歴: `019d37bbd207f741542cad23d7613a3e3d5ab4c9`。統合済みmain: `89de47cdb37aa3a5fe29e1c26f8b09577164a8f5`（main自体は本作業で変更なし）。その後の main `ebd99ee` は記事引継ぎ文書のみで、受入済みruntimeへの影響なし。
+
+
+## 2026-10-17 技術退行監査（PR #254、公開保留）
+TOP v7 / Recovery v8のGTM・JSON-LD・予約UTM欠落を確認して復元中。前回QAの「UTM保持」は不正確で訂正。見た目と文章は維持。詳細・再開地点: docs/qa/2026-10-17/TECHNICAL_RECOVERY_WORKLOG.md。mainへのマージ・本番公開・Xserver適用・GTM/GA4設定変更・予約成立は実施しない。

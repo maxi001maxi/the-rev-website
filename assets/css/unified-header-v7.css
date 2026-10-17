@@ -193,3 +193,6 @@ body.recovery-page #site-header #menu-toggle{color:#1E1C1A!important}
 body.recovery-page #site-header #menu-toggle [aria-hidden] span{background:#1E1C1A!important}
 body.recovery-page .rv-pagebar{margin-top:81px}
 @media(max-width:640px){body.recovery-page .rv-pagebar{margin-top:69px}}
+
+/* Keyboard-only skip link; approved resting layout is unchanged. */
+.rev-skip:focus{top:12px!important}
