@@ -24,3 +24,11 @@ Scope: PR #254 / feature/unified-v7-header-20261015. No merge to main, productio
 - Price HTML and Company OS read-side code must remain byte-identical to feature baseline. REV-EXP-2026-001 control exposure remains 25%, once, /price.html, no treatment launch.
 - Browser QA must abort analytics collection before transmission. Code, dataLayer, GTM/Google tag download, constructed collection request, transmitted request and GA4 receipt are separate evidence fields. GA4 receipt is UNVERIFIED unless independently confirmed safely.
 - Remaining: regression tests, production/preview parity, desktop/mobile browser & visual equivalence, safe booking redirects, commit/push, CI, one explicit Preview after gates, Draft PR update and final report.
+
+## Checkpoint: feature saved, CI running
+
+- Runtime candidate committed/pushed: 3c246b8ff2cb18e31b9828ad30add5a5b1ca1ced (tree 42fec2030ae3f2e4649c63e1802f5cc75655ad8f), with both original feature and latest main parents.
+- Local: 691-file parity PASS; all 532 navigation checks PASS / JS errors 0 / first-party failures 0; 12 technical browser checks PASS; four full-page pixel comparisons identical; 2,260 references / missing 0.
+- GitHub Control Capture Contract 38993763534 and Phase 9 Check 38993763539 PASS. Unified public site QA 38993763530 running.
+- Strengthen booking QA to require actual three-menu rendering and fail assertions; permit observed public Gym API GET reads only, still abort all writes, OneSignal and analytics. No runtime change.
+- Remaining: CI results, explicit Preview, deployed QA, final evidence/report/PR.

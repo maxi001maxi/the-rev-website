@@ -1,6 +1,6 @@
 # TOP v7 / Recovery v8 technical regression recovery
 
-2026-10-17 — PR #254. Status: local contracts and browser checks passed; CI and final Preview pending. Production release is not authorized.
+2026-10-17 — PR #254. Status: local contracts and 532 browser navigation checks passed; CI and final Preview pending. Production release is not authorized.
 
 ## Findings and classification
 
@@ -36,8 +36,9 @@ Approved removal/rearrangement of legacy trust/empathy/fixed TOP surfaces is a d
 - Technical source and built contracts PASS. GTM appears once; HealthClub parses once per page; 14 booking URLs match placement; title/description/canonical/OG metadata retained/restored.
 - Actual Chromium: 12 technical checks PASS. All TOP/Recovery/Price booking event attributes, line_click, price_click, article_cta_click + intentional reserve_click, home section_view, Price control exposure, keyboard skip.
 - TOP + Recovery × PC1440/mobile390 full-page screenshots: all four before/after PNG buffers identical. Visible copy/assets/spacing/layout preserved.
-- Existing Phase E, GA4 Direct Read, Control Capture, Site Insights (14), GSC production, Vercel policy contracts PASS. Phase 9 and Phase D tracked in CI/local results.
+- Existing Phase E, GA4 Direct Read, Control Capture, Site Insights (14), GSC production, Vercel policy contracts PASS. Phase 9 (164) and Phase D (75) PASS; existing full CI Phase 9 Check and Control Capture Contract also PASS.
 - GA4 transmission intentionally blocked before network; no test sessions intentionally delivered to production GA4. Local browser CDN connection returned ERR_EMPTY_RESPONSE. Curl retrieved published GTM JavaScript read-only and verified the existing measurement ID. These are distinct checks; actual browser tag execution/collection construction need CI evidence.
+- 2,260 internal HTML/asset references checked in the current build: missing 0. Image/font assets unchanged; no performance field benchmark claimed.
 - Official booking entry returned HTTP200 with JavaScript redirect retaining all four UTM values. Local external browser network failed; real redirect browser verification pending CI. No customer data submitted or booking made.
 
 ## Reproduce and resume
