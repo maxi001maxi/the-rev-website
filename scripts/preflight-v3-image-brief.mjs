@@ -43,7 +43,7 @@ export function v3BriefPreflight(job,registry,root=process.cwd()){
     !String(sh.crop_safe||'').includes('4:3')||!String(sh.background||'').includes('real THE REV'))
      errors.push('V3_SHOT_AND_CROP_PLAN_MISSING');
   if(!/sleeve/i.test(act)||!/sleeve/i.test(dir)||!/rack/i.test(dir)||
-    /female customer|reception stool|mild concern|her upper sleeve|phone|smartphone/i.test(dir+' '+job.visible_action+' '+job.emotional_state+' '+job.visual_claim+' '+job.composition_hint))
+    /female customer|reception stool|mild concern|her upper sleeve|holding (?:a )?phone|checking (?:a |his |her )?(?:phone|smartphone)/i.test(dir+' '+job.visible_action+' '+job.emotional_state+' '+job.visual_claim+' '+job.composition_hint))
     errors.push('V3_OLD_OR_GENERIC_SCENE_LEAK');
   if(job.scene_plan?.human_action!=='observing_real_equipment'||
      job.scene_plan?.location_type!=='training_area'||job.scene_plan?.visual_role!=='deciding_own_start')
