@@ -7,6 +7,13 @@ import assert from 'node:assert/strict';
 const out=path.resolve(process.env.TECH_QA_OUT||'qa-out/technical/browser');fs.mkdirSync(out,{recursive:true});
 const origin='https://therev-lab.com', root=path.resolve('dist');
 const report={origin:'Production hostname fulfilled from local dist; no production server requests',checks:[],cdn:[],collection:[],errors:[],visual:[],ga4Receipt:'UNVERIFIED',analyticsTransmitted:0};
+// A CDN/context shutdown stall must fail with evidence before the CI job timeout.
+// This never substitutes a timeout for any existing assertion or marks it PASS.
+const watchdog=setTimeout(()=>{
+ report.status='FAIL';report.failure='Technical browser deadline exceeded (240s); last stage: '+(report.stage||'startup');
+ fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));
+ console.error(report.failure);process.exit(1);
+},240000);watchdog.unref();
 const check=(name,detail)=>{report.checks.push({name,status:'PASS',detail});fs.writeFileSync(path.join(out,'progress.json'),JSON.stringify(report,null,2));};
 const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox']});
 async function context({width=1440,height=900,baseline=false,cdn=false,siteOrigin=origin}={}){
@@ -109,6 +116,7 @@ try{
  report.tagPages=[];
  const articlePath=`/blog/${article.name}/`;
  for(const pathname of ['/','/solution.html','/trainer.html','/price.html','/blog/','/access.html',articlePath]){
+  report.stage='external Google CDN / '+pathname;
   const ctx=await context({cdn:true}),page=await ctx.newPage();const start=report.collection.length,cdnStart=report.cdn.length;
   page.on('response',res=>{if(res.url().startsWith('https://www.googletagmanager.com/'))report.cdn.push({page:pathname,url:res.url().replace(/([?&](?!id=)[^=]+)=[^&]*/g,'$1=[redacted]'),status:res.status()});});
   page.on('requestfailed',req=>{if(req.url().startsWith('https://www.googletagmanager.com/'))report.cdn.push({page:pathname,url:req.url().split('?')[0],error:req.failure()?.errorText});});
@@ -141,9 +149,10 @@ try{
  report.measurementStatus=report.tagPages.every(x=>x.status==='PASS')?'EVENT_NAMES_CONSTRUCTED_NOT_TRANSMITTED':'PARTIALLY_UNVERIFIED';
  const intents=report.collection.filter(x=>x.event==='reserve_click');
  report.parameterMappingStatus=intents.length?(intents.every(x=>x.page&&x.placement)?'OBSERVED':'FAIL_EXISTING_GTM_PARAMETER_MAP'):'UNVERIFIED';
- report.publicationReadiness='HOLD_OWNER: GA4 receipt unverified; review external GTM parameter gap';
+ report.publicationReadiness='FINAL_ACCEPTANCE_REQUIRED: receipt and external parameters are separate from website regression; see docs/qa/2026-10-17/FINAL_ACCEPTANCE.md';
  // Optional baseline images captured before edits; CI still produces current evidence.
  for(const [width,height] of [[1440,900],[390,844]])for(const pathname of ['/','/solution.html']){
+  report.stage='visual comparison / '+pathname+' / '+width;
   const images={};const stem=`${pathname==='/'?'top':'recovery'}-${width}`;
   for(const baseline of fs.existsSync('qa-out/technical/baseline/index.html')?[true,false]:[false]){
    const ctx=await context({width,height,baseline}),page=await ctx.newPage();await page.goto(origin+pathname);await ready(page);await traverse(page);
@@ -154,4 +163,4 @@ try{
  }
  assert.deepEqual(report.errors,[]);report.status='PASS';
 }catch(e){report.status='FAIL';report.failure=e.stack;process.exitCode=1;}
-finally{await browser.close();fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));}
+finally{report.stage='browser shutdown';await browser.close();clearTimeout(watchdog);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));}

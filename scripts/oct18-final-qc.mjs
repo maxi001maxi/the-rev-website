@@ -1,3 +1,4 @@
+// Oct17 owner resumed after replenishing the API credits; retry identical independent QC against the unchanged approved article source.
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 const root = 'editorial/prepublication/2026-10-18-contract-checklist';

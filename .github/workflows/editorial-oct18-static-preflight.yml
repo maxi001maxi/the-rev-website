@@ -1,0 +1,41 @@
+name: Oct18 Static Publish Preconditions (No API, Never Publish)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/editorial-oct18-static-preflight.yml'
+      - 'scripts/oct18-static-publish-preflight.mjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  static-eligibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run actual production validators offline
+        run: |
+          set +e
+          node scripts/oct18-static-publish-preflight.mjs
+          result=$?
+          echo "Eligibility exit: $result (will preserve report)"
+          exit 0
+      - name: Commit static check evidence, not publishing artifact
+        run: |
+          set -euo pipefail
+          git add editorial/prepublication/2026-10-18-contract-checklist/OFFLINE_STATIC_PREFLIGHT.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='THE REV Publish QA' -c user.email='actions@users.noreply.github.com' commit -m 'Record Oct18 offline static publish prerequisite results'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Assert no unpublished preflight failures
+        run: |
+          node --input-type=module -e "import fs from 'fs'; let r=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-18-contract-checklist/OFFLINE_STATIC_PREFLIGHT.json','utf8')); if(r.status!=='OFFLINE_STATIC_READY'){console.error('OFFLINE_STATIC_BLOCKED',r.checks.filter(x=>!x.pass));process.exit(1)}"

@@ -239,6 +239,10 @@ function generationPrompt(attempt, previousQa = null) {
 }
 
 async function generateScene(attempt, previousQa = null) {
+  if(job?.v3?.background_lock==='masked_openai_edit_hard_restore_v1'){
+    const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');
+    return editV3PhotoWithLockedBackground({job,sourcePath,generateResponse:openaiResponse,prompt:generationPrompt(attempt,previousQa)});
+  }
   const content = [
     { type: 'input_text', text: generationPrompt(attempt, previousQa) },
     { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' }

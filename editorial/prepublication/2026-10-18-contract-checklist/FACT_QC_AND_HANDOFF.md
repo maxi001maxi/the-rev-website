@@ -1,3 +1,40 @@
+# 2026-10-17 Continuation after Owner replenished API credits — CURRENT FINAL HANDOFF
+
+## Article is technically READY FOR HUMAN REVIEW (not published)
+- **Verified independent Owner-approved article QC = PASS 20/20, zero issues**, checked at 2026-10-17 02:15:39 UTC, exact owner article SHA256 `e772344b92253cd013075e3d6c55c947db9cc7c0785dfb8e4284a1cf59ad0854`. Official model evidence: [FINAL_QC_RESULT.json](FINAL_QC_RESULT.json). Previous HTTP429 billing blocker is **resolved**, never cite prior failed result as current.
+- Production-backed static checks `OFFLINE_STATIC_PREFLIGHT.json` **12/12 PASS**. Real `lib/publishFlow.mjs` `runPreflight` was run in **read-only automation actor mode** with GitHub access and public Xserver fetch, resulting in **10/10 real non-auth checks PASS**, 2 actor-specific checks (human auth, Publisher session) intentionally **SKIP**. Evidence: [CANONICAL_PREFLIGHT_AUTOMATION.json](CANONICAL_PREFLIGHT_AUTOMATION.json); date 2026-10-17 02:21:17 UTC. This tests a reconstructed draft from exact owner source, with the DB draft content separately compared byte-for-byte; it is NOT proof of a completed authenticated production UI session.
+- Official Supabase Draft UUID `2519f5a1-2ed9-4397-8a85-153354b4421a`, `BLOG-20261018-082d82`, slug `personal-gym-trial-three-checks`. Exact source Title and Markdown match Supabase; organization-only anonymous author. `publish_status=NOT_PUBLISHED`, `source_path=NULL`. Blog not published.
+- Official R2 image files verified: thumbnail 1200x675, OGP 1200x630, GBP 1200x900. Independent Visual QC true, Xserver file byte verified. Supabase `image_status=READY` and `gbp_image_status=READY`. GBP not posted.
+- Google Editorial Sheet `THE_REV_Editorial_AI_v0.1_Master`: `21_WEB_BLOG_OUTPUT` row 21 `READY` and 2 editorial flags `PASS` with exact QC provenance in Q21. `22_GBP_POST` row 19 is prepared (no post), `status=READY`, `image_status=READY`, `post_ready=BLOCKED_URL` (expected until the article's public URL exists). `25_WEB_PUBLISH_BRIDGE` row 28 `PREVIEW_READY`; `26_DAILY_EDITORIAL_QUEUE` row 24 `REVIEW_READY`, `next_stage=HUMAN_REVIEW`, `human_action_required=REVIEW_AND_PUBLISH`, review link exact.
+- Vercel deployment for `the-rev-website.vercel.app`: `READY` and alias assigned. Suggested secure review URL:
+  `https://the-rev-website.vercel.app/admin/articles/review/?id=2519f5a1-2ed9-4397-8a85-153354b4421a`
+- **Admin vanity domain still misconfigured**: `admin.therev-lab.com` DNS `A 162.43.104.3` points Xserver, whereas Vercel recommends `CNAME cname.vercel-dns.com.`; never click through HTTPS cert warning. Exact authenticated human-browser `/api/admin/publish-preview` response still UNVERIFIED; the user must sign in via the standard Vercel alias and check that its live Preflight shows no errors, then **the user alone** clicks `Review & Publish`.
+- No auto-publication or GBP posting performed. Blog publication must be followed by separate GBP posting approval/workflow; `post_ready=BLOCKED_URL` is intentional before public Blog URL exists.
+- All previous portions of this file describe **historical** blockers and may no longer be current. This top section is the state authority.
+
+## 2026-10-17T01:50Z CONTINUATION — actual blockers, DO NOT PUBLISH
+
+**Owner definition:** "本番直前" means approved article + all thumbnail/OGP/GBP image assets generated and QA'd + article draft in the production Admin with all preflight checks confirmed, leaving ONLY their final Publish button. Work is **not yet complete** by this definition.
+
+**What really is complete**
+- Official `admin_article_drafts` row for `BLOG-20261018-082d82`: `2519f5a1-2ed9-4397-8a85-153354b4421a`, slug `personal-gym-trial-three-checks`; exact owner-approved short 3-item body (with Dec withdrawal example and shop-rule caveat), organization-only author, `NOT_PUBLISHED`.
+- Image job `editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json`, asset version `reference-v26-grounded-evolgear-20261018-contract-r2`, generated 1200x675 Thumbnail, 1200x630 OGP, 1200x900 GBP. Independent visual QA `pass=true`; `editorial/image-operator-state/personal-gym-trial-three-checks.json` has `xserver_verified=true`. Supabase `image_status=READY`, `image_asset_ready=true`, `gbp_image_status=READY`, `image_qa.pass=true` with QA scores. NOT GBP-posted.
+- Current `21_WEB_BLOG_OUTPUT` D/E/H/I/J/K contain the approved short 3-item copy, title/slug; preserved status `REVIEW_REQUIRED` until a genuine independent QC result. Do not overwrite approved short copy with old machine-generated 5-item copy.
+
+**What failed and why**
+- A separate model-based `scripts/oct18-final-qc.mjs` executed in GitHub Actions. The **actual final model request returned OpenAI HTTP 429**: `You have no credits remaining. Add credits to continue using the API`. The result is recorded in `editorial/prepublication/2026-10-18-contract-checklist/FINAL_QC_RESULT.json`, commit `03b4273c7112f0230dbe81064942947bbdd77aaa`. Its `pass=false` is **runtime billing failure, not a prose verdict**. No more paid retry loop before API project credit / key association is checked.
+- Previous independent result `INDEPENDENT_QC_RESULT.json` scored **19/20, pass=false** for an OLD SOURCE SHA `bb05ca781636a213ac5e305714e2b9d22bc8de9938aa05f681b9dce03e6eef12`, reporting 3 bullets (one was actually a strength) and requested date example and 'different gyms have different terms'. Both editorial improvements were made in latest source SHA `e772344b92253cd013075e3d6c55c947db9cc7c0785dfb8e4284a1cf59ad0854`. Old 19-point review must NOT be stamped PASS for the new bytes. **Independent editorial QC remains unverified.**
+- Vercel `get_domain_config(admin.therev-lab.com)` still `misconfigured:true`, DNS `A=162.43.104.3` (Xserver) instead of recommended Vercel CNAME `cname.vercel-dns.com.`. The user previously saw `ERR_CERT_COMMON_NAME_INVALID`. This DNS is delegated to Xserver and cannot be fixed by editing Vercel GitHub project alone. Do **not** bypass TLS warnings.
+- Direct user-authenticated `GET /api/admin/publish-preview?id=2519f5a1-2ed9-4397-8a85-153354b4421a` has NOT been confirmed from a real logged-in browser, so **do not say Preflight OK or one-click READY** yet. `https://the-rev-website.vercel.app/admin/articles/review/?id=2519f5a1-2ed9-4397-8a85-153354b4421a` is a potential secure alternate hostname but actual auth/browser preflight is still unverified.
+- Source `lib/publishFlow.mjs` checks required fields, slug, Editorial Closing, 2 image QA gates, live Xserver asset sizes, GitHub target and Publisher permission. It does not directly check `INDEPENDENT_QC_RESULT`, but the canonical Editorial production pipeline has a separate fact/QC fail-closed gate. **Never conflate these two gates or mask a blocked Editorial QC.**
+
+**Next action order**
+1. Owner or administrator must replenish or check the **specific OpenAI API project used by the GitHub Actions OPENAI_API_KEY**, and verify billing/credit (not the ChatGPT subscription).
+2. Rerun `scripts/oct18-final-qc.mjs` once, collect new verdict proving exact latest approved SHA; only then reconcile official Editorial Sheet QC/queue statuses legitimately.
+3. If PASS, confirm article draft still matches exact final source and image version R2, use Review & Publish preflight; report actual JSON checks.
+4. Separately set the Xserver DNS for **admin subdomain only** to the recommended Vercel CNAME; never alter apex/www/MX. Verify HTTPS hostname + login, or use a confirmed secure alternate admin domain.
+5. **STOP before Publish**, no Blog or GBP write. No additional creative interviews needed.
+
 ## 2026-10-17 Owner release-prep execution — authoritative current status
 
 - **Owner approved v2 conversational 3-item text**. Approved source: [ARTICLE_DRAFT.md](ARTICLE_DRAFT.md), GitHub content SHA `3276b76cef053aefd9add71972a1527a950300ea` (read back at time of Sheet update).

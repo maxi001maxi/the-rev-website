@@ -43,3 +43,6 @@ TOP v7 / Recovery v8のGTM・JSON-LD・予約UTM欠落を確認して復元中�
 
 ## 2026-10-17 Owner例外承認後の確認用Preview更新完了
 Ownerの「続行」により、外部予約UI FAILを明示した確認用Previewの更新を例外承認。dpl_6LqoHfZQnzvpdTx6CvW4K5Sgd7un / 配備SHA f749d9c21370287efbb4fb3cb47ed3046ba3c98c / READY。最新フォーカス修正も反映。実Cloud Chromeで6ページ往来、TOP/RecoveryのTab非遮蔽・Enter本文移動を確認。配備先CI38998326481はサイト532 PASS・63画像・JS例外0・自サイト通信失敗0、外部予約UIのみFAIL。GTM属性転送FAIL・GA4受信UNVERIFIEDは継続し、公開HOLD。追加デプロイ不要。main・本番・Xserver・GTM管理設定は未変更。
+
+## 2026-10-17 最終受入（最新判定）
+FINAL_ACCEPTANCE.md / RELEASE_AND_ROLLBACK.mdを参照。Owner通常予約確認を受入根拠に追加。main f1667a7を安全に取り込み、公開691ファイルは受入済み実装CIの全バイトと一致。技術20・既存計測契約・Production SEOを再確認。詳細GTM属性FAIL、実受信/Company OSライブUNVERIFIEDを公開後条件へ分離。別案件の未公開V3 Job参照不一致によるPhase9 FAILは維持し、サイト公開物への非影響を確認。CIの技術ブラウザ長時間未終了に240秒FAIL/証拠保存を追加。判定CONDITIONAL GO、main/本番/GTM設定は未変更。

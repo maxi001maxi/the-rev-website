@@ -1,0 +1,147 @@
+{
+  "schema": "the-rev-image-v3-creative-brief-v1",
+  "content_id": "BLOG-20261018-082d82",
+  "target_date": "2026-10-18",
+  "status": "DESIGN_APPROVED_FOR_SINGLE_PRODUCTION_ATTEMPT",
+  "production_type": "Existing GitHub Actions / scripts/auto-editorial-hybrid-image.mjs / OpenAI Responses API image_generation ONLY",
+  "v3_phase": "Text-only 3 concepts -> verified camera/geometry/3-crop layout -> one paid GPT image generation -> deterministic 3-size renders -> independent visual QC -> Xserver verified -> staging only",
+  "reader": "初めてのパーソナルジム体験を検討し、料金・予約・退会の3項目で迷っている人",
+  "reader_promise": "難しく考えすぎなくても、3つ確認して自分で始めるか選べる。",
+  "article_claim": "契約の押し売りではなく、入会を自分で判断するための『3つの確認』",
+  "owner_rejection": {
+    "asset_version": "reference-v26-grounded-evolgear-20261018-contract-r2",
+    "rating_100": 30,
+    "reason": "Generic mobile-phone glance lacked photographic meaning and appeal despite auto QC PASS",
+    "do_not_reuse_rejected_scene": true
+  },
+  "golden_reference": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+  "golden_rule": "Use R7's premium warm restrained grading, subtle background depth, luminous organic text-to-photo transition and variable Japanese title hierarchy; never copy its seated pose or woman's image",
+  "reference_source": {
+    "source_id": "the-rev-evolgear-20260922",
+    "repo_path": "assets/images/photo-evolgear.jpg",
+    "sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "facility": "THE REV. CONDITIONING LAB. actual training_area",
+    "camera_truth": "Rack / cable machine / weight plates / floor / windows / bench must retain real exact positions and identity; no generic imaginary studio"
+  },
+  "scoring_scale": "Each axis 1-5, select >=22/25, reject generic phone/passive posing",
+  "scoring_axes": [
+    "article_match",
+    "photographic_impact",
+    "real_facility_fidelity",
+    "text_crop_compatibility",
+    "distinctiveness"
+  ],
+  "concepts": [
+    {
+      "id": "A",
+      "title": "決断の直前、ラックを見つめる",
+      "scene": "実店舗のトレーニングエリアに初めて立った一般客男性が、予約や契約を考える前に自分がここで通う姿を想像する瞬間。片手で自分のウェア袖を自然に整え、もう片方の腕は力まず下げ、実在するラックに視線を向ける。カメラは視線の少し前方に回り込む。スマホも紙もない。",
+      "emotion": "不安から決意へ向かう手前の静かな安心感。作り笑いや成功者風ポーズは避ける。",
+      "camera": "実際のラックの位置を動かさず、視線は左のラック方向、50mm相当・高さ1.3m・胸から膝上までの自然な動きの途中。人物は右60～73%の領域。35%前後の左側を文字用に保持。",
+      "copy": "体験前に、／3つだけ。の2行構成。最終行は暖色、上行は墨色。生成シーンへの文字焼き込み禁止。",
+      "risks": "ラックに寄りかかる不自然なポーズや設備移動、典型的な筋トレ宣伝写真にしない。袖を整える自然な動作を重視。",
+      "scores": {
+        "article_match": 5,
+        "photographic_impact": 5,
+        "real_facility_fidelity": 5,
+        "text_crop_compatibility": 5,
+        "distinctiveness": 5
+      },
+      "rating_note": "選ぶ前の迷いと最初の一歩を身体の動きで見せる。受動的なスマホ閲覧ともR7の座った相談シーンとも異なる。"
+    },
+    {
+      "id": "B",
+      "title": "床から、静かな第一歩",
+      "scene": "一人の成人男性が実店舗のトレーニングエリアへ一歩踏み込む直前の中距離全身ショット。奥に実在ラックを置く。表情は控えめ。",
+      "emotion": "入口で迷いながらも、初めて挑戦してみたい自然な期待と慎重さが同居した表情。",
+      "camera": "35mm相当・実景床からやや低い視点、人物を画面右。左に見出し余白",
+      "copy": "承認済み『体験前に、／3つだけ。』を左側に2行構成で配置する。文字量の追加はしない。",
+      "risks": "引きすぎて人物の顔が小さくなり、縮小版で意味が薄くなる",
+      "scores": {
+        "article_match": 4,
+        "photographic_impact": 4,
+        "real_facility_fidelity": 5,
+        "text_crop_compatibility": 4,
+        "distinctiveness": 5
+      },
+      "rating_note": "足元が主役になりやすい点を弱点として不採用"
+    },
+    {
+      "id": "C",
+      "title": "体験後の落ち着いた表情",
+      "scene": "一人の成人男性が既存ベンチに腰掛け、緊張のほぐれた表情で実在ラック側に視線を向ける。スマホなし。",
+      "emotion": "体験後、契約条件を確認して自分で決められる落ち着いた安心感と納得感。",
+      "camera": "50mm相当・やや寄りの座像、人物右。左文字スペースを確保",
+      "copy": "承認済み『体験前に、／3つだけ。』を左側に2行構成で配置する。文字量の追加はしない。",
+      "risks": "R7の座り人物と構図が近く、今回こそ必要な新鮮さを失う",
+      "scores": {
+        "article_match": 4,
+        "photographic_impact": 4,
+        "real_facility_fidelity": 5,
+        "text_crop_compatibility": 5,
+        "distinctiveness": 2
+      },
+      "rating_note": "見た目は良くなる可能性があるが、10/15 R7からの単調な反復となるため不採用"
+    }
+  ],
+  "selected_concept_id": "A",
+  "selected_total": 25,
+  "selected_justification": "A visually expresses the moment before beginning with authentic actionable posture rather than a phone, distinguishes past R7 seated thoughtfulness, and uses the original visible rack with feasible safe crops. The story is in the subtle hand / direction-of-gaze relationship.",
+  "shot_contract": {
+    "lens_mm_equivalent": 50,
+    "camera_height_m": 1.3,
+    "camera_distance_m_approx": 2.4,
+    "subject_horizontal_range_pct": [
+      58,
+      76
+    ],
+    "face_x_pct_approx": 69,
+    "face_y_pct_approx": 30,
+    "body_crop": "mid-thigh to head; both natural hands visible and rack not moved",
+    "eyeline": "slightly left toward the REAL EVOLGEAR rack from within the existing room",
+    "subject_action": "casually smoothing own rolled T-shirt sleeve while orienting naturally toward genuine original gym rack, a candid moment of choosing to take first step, no phone",
+    "mood": "calm, natural, hopeful but understated, documentary editorial not fashion/stock advertisement",
+    "lighting": "one believable original-space warm key light, credible floor contact and shadows, gentle background optical blur",
+    "background": "authentic real THE REV training area geometry strictly preserved, not fictional gym",
+    "text_negative_space_pct": "left ~38%, blended ivory NOT opaque box",
+    "style": "R7-level cinematic editorial photography without copying pose or room; warm muted; realistic skin",
+    "required_outputs": [
+      "1200x675 blog thumbnail",
+      "1200x630 OGP",
+      "1200x900 GBP"
+    ],
+    "crop_safe": "Face / sleeve-adjusting hands visibly within safe right region in 16:9 and 4:3. Render text later by deterministic layout only.",
+    "text_lines": [
+      "体験前に、",
+      "3つだけ。"
+    ],
+    "readable_thumbnail_width_px": 320
+  },
+  "quality_gate": {
+    "semantic_min": 8,
+    "photographic_owner_level_reference": "R7",
+    "do_not_auto_accept_generic_stock": true,
+    "no_other_person": true,
+    "no_trainer": true,
+    "no_camera_misrepresentation": true,
+    "no_instagram_dm": true,
+    "human_rejection_overrides_model_pass": true
+  },
+  "spend_policy": {
+    "provider": "OpenAI",
+    "backend_route": "https://api.openai.com/v1/responses using gpt-5.6 orchestration / image_generation",
+    "quality": "medium",
+    "size": "1536x1024",
+    "max_paid_generation_attempts": 1,
+    "one_scene_three_offline_derivatives": true,
+    "no_paid_fallback": true,
+    "extra_generation_requires_separate_owner_review": true,
+    "comment": "Actual yen cost unknown until OpenAI usage/cost attribution; optimizing accepted-image cost, not minimum quality"
+  },
+  "publish_policy": {
+    "blog_post": false,
+    "gbp_post": false,
+    "keep_owner_human_publish_boundary": true
+  },
+  "design_completed_before_api": true
+}

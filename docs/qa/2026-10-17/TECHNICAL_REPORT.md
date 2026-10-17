@@ -1,5 +1,7 @@
 # THE REV. 技術退行回復・公開前QA — 2026-10-17
 
+> 後続の最終受入により公開判定を更新：[FINAL_ACCEPTANCE.md](FINAL_ACCEPTANCE.md)のCONDITIONAL GOが最新。本書の包括的HOLDは当時の状態。FAIL/UNVERIFIEDの証拠そのものをPASSへ書き換えたものではない。
+
 **技術修正はCommit/Push済み。公開判定はHOLD。** mainマージ、本番デプロイ、Xserver適用、GTM/GA4設定変更、実予約・顧客情報送信は実施していない。
 
 ## 1. 発見した退行と原因
