@@ -1,5 +1,7 @@
 import { chromium } from 'playwright';
 import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { blockQaAnalytics } from '../../scripts/qa-block-analytics.mjs';
 
 const BASE = (process.env.BASE_URL || '').replace(/\/$/, '');
 const EXPECTED_GA4_ID = process.env.GA4_MEASUREMENT_ID || 'G-Q6ZSSJMEZ2';
@@ -14,8 +16,9 @@ const googleTagRequests = [];
 const consoleErrors = [];
 let gtmContainerBody = '';
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM_EXECUTABLE_PATH ? {executablePath: process.env.CHROMIUM_EXECUTABLE_PATH} : {});
 const context = await browser.newContext({ viewport: { width: 430, height: 932 } });
+const isolation = await blockQaAnalytics(context);
 const page = await context.newPage();
 
 page.on('console', msg => {
@@ -58,7 +61,8 @@ await page.waitForTimeout(800);
 
 // faq_open
 const faq = page.locator('.faq-q').first();
-if (await faq.count()) {
+const hasFaqOpener = (await faq.count()) > 0;
+if (hasFaqOpener) {
   await faq.click();
   await page.waitForTimeout(400);
 }
@@ -95,8 +99,36 @@ const layer = await page.evaluate(() =>
 );
 
 const names = layer.map(x => x.event);
+// TOP v7's approved FAQ is always visible. Verify that contract explicitly;
+// exercise the retained accordion event handler in an isolated browser fixture.
+let faqFixture = null;
+if (!hasFaqOpener) {
+  const faqItems = page.locator('#questions [data-faq-id][data-faq-topic]');
+  assert.equal(await faqItems.count(), 6, 'approved TOP v7 FAQ has six visible answers');
+  for (const item of await faqItems.all()) {
+    assert.ok(await item.locator('h3').isVisible());
+    assert.ok((await item.locator('p').innerText()).trim().length > 0);
+    assert.ok(await item.locator('p').isVisible());
+  }
+  assert.ok(!names.includes('faq_open'), 'always-visible FAQ must not invent open events');
+  await context.route(BASE + '/__qa_faq_fixture', route => route.fulfill({contentType: 'text/html', body: '<!doctype html><html lang="ja"><body><main><div class="faq-item"><button class="faq-q" data-faq-id="qa-contract" data-faq-topic="qa-contract">Question</button><div class="faq-a">Answer</div></div></main><script src="/assets/js/main.js"></script></body></html>'}));
+  const fixture = await context.newPage();
+  await fixture.goto(BASE + '/__qa_faq_fixture', {waitUntil: 'load'});
+  const button = fixture.locator('.faq-q');
+  await button.click();
+  assert.equal(await button.getAttribute('aria-expanded'), 'true');
+  const events = await fixture.evaluate(() => (window.dataLayer || []).filter(x => x.event === 'faq_open'));
+  assert.equal(events.length, 1, 'one actual open generates one event');
+  assert.equal(events[0].faq_id, 'qa-contract');
+  assert.equal(events[0].faq_topic, 'qa-contract');
+  for (const key of ['event_version', 'site_version', 'page_path', 'page_type']) assert.ok(events[0][key], key);
+  await button.click();
+  assert.equal(await fixture.evaluate(() => (window.dataLayer || []).filter(x => x.event === 'faq_open').length), 1, 'closing must not generate an open');
+  faqFixture = {status: 'PASS', source: 'isolated fixture using the real shared main.js; not a production TOP event', event: events[0]};
+  await fixture.close();
+}
 const required = ['section_view', 'faq_open', 'reserve_click'];
-const missing = required.filter(x => !names.includes(x));
+const missing = required.filter(x => x === 'faq_open' && faqFixture?.status === 'PASS' ? false : !names.includes(x));
 const malformed = layer.filter(x =>
   ['section_view','faq_open','reserve_click'].includes(x.event) &&
   (!x.event_version || !x.site_version || !x.page_path || !x.page_type)
@@ -104,6 +136,9 @@ const malformed = layer.filter(x =>
 
 const ids = [...new Set(gtmContainerBody.match(/G-[A-Z0-9]{6,}/g) || [])];
 const result = {
+  isolation,
+  faqFixture,
+  faqRendering: hasFaqOpener ? 'accordion' : 'approved TOP v7 static answers; no synthetic open event',
   target: BASE,
   http_status: response?.status() || null,
   expected_ga4_id: EXPECTED_GA4_ID,

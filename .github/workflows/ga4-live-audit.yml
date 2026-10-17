@@ -33,6 +33,9 @@ jobs:
           npm i --no-save playwright@1.55.0
           npx playwright install --with-deps chromium
 
+      - name: Verify analytics isolation in a real browser
+        run: node --test scripts/test-qa-analytics-isolation.mjs
+
       - name: Serve branch locally
         run: |
           python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/the-rev-http.log 2>&1 &
