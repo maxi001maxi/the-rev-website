@@ -1,0 +1,68 @@
+name: Xserver FTPS read-only diagnosis
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/xserver-ftps-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check control, TLS and read-only index transfer
+        env:
+          FTP_HOST: sv14602.xserver.jp
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import socket, ssl, ftplib, os, json, hashlib, time
+          host=os.environ['FTP_HOST']
+          report={'read_only':True,'remote_writes':0,'host':host,'stages':[]}
+          def safe(e):
+              s=type(e).__name__+': '+str(e)
+              for key in ('FTP_USER','FTP_PASSWORD'):
+                  value=os.environ.get(key,'')
+                  if value:s=s.replace(value,'[REDACTED]')
+              return s[:500]
+          def run(name, fn):
+              start=time.monotonic()
+              try:
+                  value=fn()
+                  report['stages'].append({'stage':name,'status':'PASS','seconds':round(time.monotonic()-start,2),'detail':value})
+                  return True
+              except Exception as e:
+                  report['stages'].append({'stage':name,'status':'FAIL','seconds':round(time.monotonic()-start,2),'detail':safe(e)})
+                  return False
+          addresses=[]
+          run('dns',lambda: addresses.extend(socket.getaddrinfo(host,21,type=socket.SOCK_STREAM)) or sorted(set(a[4][0] for a in addresses)))
+          def tcp():
+              with socket.create_connection((host,21),timeout=15) as s:
+                  s.settimeout(15)
+                  return s.recv(256).decode(errors='replace').strip()
+          if run('tcp_banner',tcp):
+              ftp=ftplib.FTP_TLS(context=ssl.create_default_context(),timeout=15)
+              try:
+                  if run('ftp_connect',lambda: ftp.connect(host,21,timeout=15)):
+                      if run('verified_tls',lambda: ftp.auth()):
+                          if run('login',lambda: ftp.login(os.environ['FTP_USER'],os.environ['FTP_PASSWORD'])):
+                              if run('private_data',lambda: ftp.prot_p()):
+                                  data=bytearray()
+                                  def receive(chunk):
+                                      data.extend(chunk)
+                                      if len(data)>5000000:raise ValueError('index exceeds safe read limit')
+                                  if run('read_index',lambda: ftp.retrbinary('RETR index.html',receive)):
+                                      report['index']={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+                  ftp.close()
+              finally:ftp.close()
+          with open('xserver-ftps-diagnostic.json','w') as f:json.dump(report,f,indent=2)
+          print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xserver-ftps-diagnostic-${{ github.run_id }}
+          path: xserver-ftps-diagnostic.json
+          retention-days: 14
