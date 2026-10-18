@@ -1,0 +1,125 @@
+{
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+  "design_preflight": "PASS",
+  "no_paid_calls": true,
+  "production_data_mutations": 0,
+  "existing_body_retained": true,
+  "structural": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-lobby-20260924",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "the-rev-trial-three-menus-first-visit",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "geometry": [
+    {
+      "variant": "thumbnail",
+      "width": 1200,
+      "height": 675,
+      "safe": true,
+      "face": {
+        "x": 864,
+        "y": 89.5,
+        "width": 168,
+        "height": 168
+      },
+      "hands": {
+        "x": 780.0000000000001,
+        "y": 369.5,
+        "width": 239.99999999999977,
+        "height": 152
+      },
+      "paper": {
+        "x": 792,
+        "y": 377.50000000000006,
+        "width": 216,
+        "height": 159.99999999999994
+      },
+      "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-thumbnail.svg",
+      "sha256": "df67c00f058231f46a34aefcabac5c40170afba7c10e82affe20a995941f4349"
+    },
+    {
+      "variant": "og",
+      "width": 1200,
+      "height": 630,
+      "safe": true,
+      "face": {
+        "x": 864,
+        "y": 67,
+        "width": 168,
+        "height": 168
+      },
+      "hands": {
+        "x": 780.0000000000001,
+        "y": 347,
+        "width": 239.99999999999977,
+        "height": 152
+      },
+      "paper": {
+        "x": 792,
+        "y": 355.00000000000006,
+        "width": 216,
+        "height": 159.99999999999994
+      },
+      "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-og.svg",
+      "sha256": "1c4fda0d55e7a5aaaf145475b3f5feae4ca9033dec266ecc4f635413149a2ffd"
+    },
+    {
+      "variant": "gbp",
+      "width": 1200,
+      "height": 900,
+      "safe": true,
+      "face": {
+        "x": 897.0000000000001,
+        "y": 171,
+        "width": 188.9999999999999,
+        "height": 189
+      },
+      "hands": {
+        "x": 802.5000000000001,
+        "y": 486.00000000000006,
+        "width": 269.9999999999999,
+        "height": 170.99999999999994
+      },
+      "paper": {
+        "x": 816,
+        "y": 495.00000000000006,
+        "width": 243,
+        "height": 179.99999999999994
+      },
+      "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-gbp.svg",
+      "sha256": "24fdb90f321839b602470ab56f28d51dec1aa68b825453f8ddbdd0fa72710661"
+    }
+  ],
+  "errors": [],
+  "source_photo_seen": true,
+  "r7_reference_seen": true,
+  "semantic_design_review": "Downward gaze terminates at the actual information sheet held by the visitor; active term-checking rather than passive looking at the gym. Actual pixels/anatomy/room fidelity remain independent post-generation QC requirements.",
+  "paid_execution": "OWNER_APPROVAL_REQUIRED",
+  "main_merge": "OWNER_APPROVAL_REQUIRED",
+  "production_staging": "OWNER_APPROVAL_REQUIRED",
+  "v31_preflight": {
+    "pass": true,
+    "applies": true,
+    "errors": []
+  },
+  "job_contract_sha256": "db38d1abd5d9589893b317c7384d58471e34eb2504cce4efd7646dbdc9c24573",
+  "brief_contract_sha256": "f52ff484e0da7aff6ced4652510d10032c4c08f826adb83b13a6bb919a753dae",
+  "runtime_note": "Source reuse is prepared but not authorized; approval-bound source reuse still requires independent grounding, distinct scene and all visual gates.",
+  "source_snapshot_sha256": "6d0f18ebea5c291636886b97a8bc114530189208ebd3fe4b0b3f2b8ddaebca36",
+  "planning_preview": {
+    "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/LAYOUT_REVIEW.jpg",
+    "sha256": "e8347a6ef43d59bab4538e743a88df3e41f0fdaf4a30c264c11c0ae238d3ed1b",
+    "width": 720,
+    "height": 1387,
+    "not_generated_image": true,
+    "not_visual_qc_pass": true
+  }
+}

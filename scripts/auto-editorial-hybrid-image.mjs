@@ -1,3 +1,5 @@
+import { editorialShootingContract } from '../lib/editorialShootingContract.mjs';
+import {oct18V31BriefPreflight,oct18V31SourceReuse} from '../lib/editorialOct18V31Recovery.mjs';
 import { preflightEditorialImage } from '../lib/editorialProductionImagePreflight.mjs';
 import { v3BriefPreflight } from './preflight-v3-image-brief.mjs';
 import { imageAcceptanceIssues } from '../lib/editorialImageAcceptance.mjs';
@@ -20,6 +22,11 @@ if (!jobPath) {
 }
 
 const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
+if (job.v31?.recovery_proposal===true && job.v31?.owner_spend_approval!=='APPROVED') throw new Error('OWNER_SPEND_APPROVAL_REQUIRED');
+if(job.v31?.recovery_proposal===true) {
+  const result=oct18V31BriefPreflight(job,JSON.parse(fs.readFileSync(job.v31.creative_brief_path,'utf8')),{requireApproval:true});
+  if(!result.pass)throw new Error('IMAGE_FREE_PREFLIGHT_FAILED: '+result.errors.join(','));
+}
 const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
 const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 'gpt-5.6').trim();
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
@@ -194,7 +201,8 @@ function generationPrompt(attempt, previousQa = null) {
   const compositionHint = String(job.composition_hint || '').trim();
   const thumbnailClaim = String(job.thumbnail_claim || '').trim();
   const visibleAction = String(job.visible_action || '').trim();
-  const creativeBrief = job.v3?.creative_brief_path ? readJson(job.v3.creative_brief_path) : null;
+  const briefPath=job.v31?.creative_brief_path || job.v3?.creative_brief_path;
+  const creativeBrief=briefPath ? readJson(briefPath) : null;
   const emotionalState = String(job.emotional_state || '').trim();
   const humanFirstLayout = String(job.layout_variant || '') === 'human-first-v1';
   const impactLayout = String(job.layout_variant || '') === 'impact-v1';
@@ -265,7 +273,7 @@ function generationPrompt(attempt, previousQa = null) {
     `Editorial copy that will be added later: ${job.image_headline_short}`,
     `Source selection reason: ${sourceNote}`,
     `Allowed treatment: ${treatment}`,
-    creativeBrief ? `APPROVED SHOOTING BRIEF (not a quality PASS): ${JSON.stringify(creativeBrief.shooting_brief || {})}` : '',
+    creativeBrief ? `APPROVED SHOOTING BRIEF (not a quality PASS): ${JSON.stringify(editorialShootingContract(creativeBrief))}` : '',
     '- Preserve the body direction, actual gaze target, hand action and subject-to-equipment distance from the approved brief. A static pose that merely occupies the right area is not a semantic match.',
     attempt > 1 ? `This is the final allowed retry (${attempt}/2). Correct the prior rejection without changing the article claim.` : '',
     attempt > 1 && previousQa?.comments ? `Previous Visual QC rejection: ${String(previousQa.comments).slice(0, 600)}` : ''
@@ -291,7 +299,7 @@ async function generateScene(attempt, previousQa = null) {
     input: [{ role: 'user', content }],
     tools: [{
       type: 'image_generation',
-      ...(job.asset_version===ROUTE_B_VERSION ? {action:'edit'} : {}),
+      ...((job.asset_version===ROUTE_B_VERSION || job.v31?.source_guided_edit===true) ? {action:'edit'} : {}),
       quality: 'medium',
       size: '1536x1024'
     }]
@@ -610,7 +618,8 @@ async function visualQa(attempt) {
       })
     : {allowed:false,policy:null,errors:[],source_repeated:false,scene_repeated:false};
   const ownerRouteBReuse=routeBSourceReuse(job,groundingEvidence);
-  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed||ownerRouteBReuse;
+  const ownerR8Reuse=oct18V31SourceReuse(job,groundingEvidence);
+  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed||ownerRouteBReuse||ownerR8Reuse;
 
   const qa = {
     ...modelQa,
@@ -663,6 +672,7 @@ async function visualQa(attempt) {
     trainer_photo_reused: false,
     background_reuse_relevance_exception: sourceReuseAccepted,
     owner_route_b_source_reuse:ownerRouteBReuse,
+    oct18_v31_source_reuse_approval:ownerR8Reuse ? job.v31.owner_approval : null,
     contextual_verified_facility_source_reuse:contextualReuse,
     recent_similarity_window: Number(job.policy?.recent_reference_window || 4),
     recent_similarity_check_pass: !recentRepeat || sourceReuseAccepted,

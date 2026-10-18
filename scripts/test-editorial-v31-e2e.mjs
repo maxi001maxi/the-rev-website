@@ -15,6 +15,9 @@ import {evaluateEditorialImageReview} from '../lib/editorialImageReviewGate.mjs'
 import {editorialExecution} from '../lib/editorialExecution.mjs';
 import {operatorResumePlan,reserveImageApiCall} from '../lib/editorialImageOperatorRecovery.mjs';
 import {coverSourceRect,lockedEditPlan} from '../lib/editorialLockedBackgroundEdit.mjs';
+import {editorialShootingContract} from '../lib/editorialShootingContract.mjs';
+import {oct18V31BriefPreflight,oct18V31SourceReuse,oct18V31QaReuse,briefDigest,recoveryJobDigest} from '../lib/editorialOct18V31Recovery.mjs';
+import {evaluateSceneGrounding} from '../lib/editorialSceneGrounding.mjs';
 import bridge from '../api/integrations/editorial.mjs';
 import status from '../api/integrations/editorial-status.mjs';
 import review from '../api/admin/publish-preview.mjs';
@@ -174,4 +177,68 @@ test('saved R2 cannot resurrect through stale PASS; R7 remains accepted; protect
 
 test.after(()=>{
   if(process.env.EDITORIAL_E2E_REPORT)fs.writeFileSync(process.env.EDITORIAL_E2E_REPORT,JSON.stringify({scope:'connected canonical application path; external services fixed; not full deployed GAS acceptance',external_api_cost:0,traces},null,2)+'\n');
+});
+
+test('Oct18 recovery contract reaches the real operator; pending or altered approval spends zero calls',()=>{
+  const dir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8';
+  const job=read(dir+'/PROPOSED_JOB.json'),brief=read(dir+'/CREATIVE_BRIEF.json');
+  assert.equal(editorialShootingContract(brief),brief.shot_contract);
+  assert.throws(()=>editorialShootingContract({}),/SHOOTING_CONTRACT_MISSING/);
+  assert.equal(oct18V31BriefPreflight(job,brief).pass,true);
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'oct18-r8-'));
+  try {
+    fs.mkdirSync(path.join(root,dir),{recursive:true});
+    fs.writeFileSync(path.join(root,dir,'CREATIVE_BRIEF.json'),JSON.stringify(brief));
+    const copy=p=>{fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.copyFileSync(p,path.join(root,p));};
+    [job.automation.source_repo_path,...job.style_references,'editorial/automated-image-sources.json'].forEach(copy);
+    fs.writeFileSync(path.join(root,'mock.mjs'),`import fs from 'node:fs';globalThis.fetch=async(u,o)=>{fs.writeFileSync('api-payload.json',o.body);return new Response(JSON.stringify({error:{message:'synthetic stop after prompt capture'}}),{status:503});};`);
+    const run=()=>{
+      fs.writeFileSync(path.join(root,'job.json'),JSON.stringify(job));
+      return spawnSync(process.execPath,['--import',path.join(root,'mock.mjs'),path.resolve('scripts/auto-editorial-hybrid-image.mjs'),'job.json'],{cwd:root,env:{...process.env,OPENAI_API_KEY:'synthetic-only'},encoding:'utf8',timeout:10000});
+    };
+    let result=run();assert.notEqual(result.status,0);assert.match(result.stderr,/OWNER_SPEND_APPROVAL_REQUIRED/);
+    assert.equal(fs.existsSync(path.join(root,'api-payload.json')),false);
+    // A flag without an approval tied to the exact job/brief is insufficient.
+    job.v31.owner_spend_approval='APPROVED';result=run();assert.notEqual(result.status,0);
+    assert.equal(fs.existsSync(path.join(root,'api-payload.json')),false);
+    job.v31.owner_approval={status:'APPROVED',approved_by:'OWNER',approved_at:'2026-10-18T00:00:00Z',content_id:brief.content_id,asset_version:job.asset_version,source_sha256:brief.source.sha256,scope:'SINGLE_GENERATION_AND_PRIVATE_QC',source_reuse:true,max_generation_calls:1,max_qc_calls:2,automatic_retry:false,job_sha256:recoveryJobDigest(job),brief_sha256:briefDigest(brief)};
+    assert.equal(oct18V31BriefPreflight(job,brief,{requireApproval:true}).pass,true);
+    const changed=structuredClone(brief);changed.shot_contract.eyeline='look at logo';
+    assert.equal(oct18V31BriefPreflight(job,changed,{requireApproval:true}).pass,false);
+    result=run();assert.equal(result.status,0,result.stderr);
+    const payload=read(path.join(root,'api-payload.json'));
+    const prompt=payload.input[0].content[0].text;
+    assert(prompt.includes(brief.shot_contract.subject_action));assert(prompt.includes(brief.shot_contract.eyeline));
+    assert.equal(payload.tools[0].action,'edit');
+    const state=read(path.join(root,`editorial/image-operator-state/${job.slug}.json`));
+    assert.equal(state.api_calls.length,1);assert.equal(state.api_calls[0].status,'FAILED');
+    assert.equal(oct18V31BriefPreflight(read(path.join(root,'job.json')),brief,{requireApproval:true}).pass,true,'derived runtime fields must not invalidate the approved resume contract');
+    assert.equal(read(dir+'/PROPOSED_JOB.json').v31.owner_spend_approval,'PENDING','synthetic approval never modifies real proposal');
+    traces.push({case:'R8_pre_spend_contract',pending_calls:0,altered_approval_calls:0,synthetic_prompt_captured:true});
+  }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('R8 scoped real-source reuse requires approval and distinct independently grounded action',()=>{
+  const dir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8';
+  const job=read(dir+'/PROPOSED_JOB.json'),brief=read(dir+'/CREATIVE_BRIEF.json');
+  const inventory=read('editorial/automated-image-sources.json').sources.find(s=>s.repo_path===brief.source.path).scene_inventory;
+  const g=structuredClone(accepted.scene_grounding);
+  Object.assign(g,{inventory,asset_version:job.asset_version,plan:job.scene_plan,recent:job.automation.recent_semantic_articles});
+  g.asset_hashes.source=brief.source.sha256;
+  g.sourceRecognition.equipment=inventory.visible_equipment;
+  Object.assign(g.observation,{equipment:inventory.visible_equipment,location_type:job.scene_plan.location_type,subject_zone:job.scene_plan.subject_zone,human_action:job.scene_plan.human_action,scene_fingerprint:job.scene_plan});
+  const evaluated=evaluateSceneGrounding(g);assert.equal(evaluated.pass,true,JSON.stringify(evaluated.errors));
+  Object.assign(g,{pass:true,errors:[],similarity:evaluated.similarity});
+  assert.equal(oct18V31SourceReuse(job,g),false,'pending approval cannot permit reuse');
+  job.v31.owner_approval={status:'APPROVED',approved_by:'OWNER',approved_at:'2026-10-18T00:00:00Z',content_id:brief.content_id,asset_version:job.asset_version,source_sha256:brief.source.sha256,scope:'SINGLE_GENERATION_AND_PRIVATE_QC',source_reuse:true,max_generation_calls:1,max_qc_calls:2,automatic_retry:false,job_sha256:recoveryJobDigest(job),brief_sha256:briefDigest(brief)};
+  assert.equal(oct18V31SourceReuse(job,g),true);
+  const qa={...structuredClone(accepted),slug:job.slug,asset_version:job.asset_version,editorial_image_revision:'3.1',scene_grounding:g,oct18_v31_source_reuse_approval:job.v31.owner_approval};
+  const draft={slug:job.slug,image_asset_version:job.asset_version};
+  assert.equal(oct18V31QaReuse(draft,qa),true);
+  assert.equal(evaluateEditorialImageReview({draft,qa}).checks.same_background_absent,true,'canonical Review consumes scoped reuse evidence');
+  for(const mutate of [q=>{q.pass=false;},q=>{q.anatomy_pose_realism=8;},q=>{q.manual_visual_rejection=true;},q=>{q.asset_version='r6';},q=>{q.scene_grounding.observation.human_action='observe_facility';},q=>{q.oct18_v31_source_reuse_approval.source_reuse=false;}]) {
+    const copy=structuredClone(qa);mutate(copy);assert.equal(oct18V31QaReuse(draft,copy),false);
+  }
+  const repeated=structuredClone(qa);repeated.scene_grounding.recent[0].scene_fingerprint=job.scene_plan;
+  assert.equal(oct18V31QaReuse(draft,repeated),false,'same scene remains prohibited');
 });
