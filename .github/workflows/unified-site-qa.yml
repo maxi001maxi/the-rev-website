@@ -36,7 +36,11 @@ jobs:
       - run: node --test scripts/test-javascript-warm-cache.mjs
       - run: npm run test:vercel-release-policy
       - run: node scripts/qa-unified-site.mjs
-      - run: node scripts/qa-technical-site.mjs
+      # Split the exact same assertions into two independent Chromium
+      # processes so the instrumentation CDN budget cannot consume the
+      # visual proof watchdog. Both MUST pass before booking QA proceeds.
+      - run: TECH_QA_PHASE=instrumentation TECH_QA_OUT=qa-out/technical/instrumentation node scripts/qa-technical-site.mjs
+      - run: TECH_QA_PHASE=visual TECH_QA_OUT=qa-out/technical/visual node scripts/qa-technical-site.mjs
       - run: node scripts/qa-booking-site.mjs
       - uses: actions/upload-artifact@v4
         if: always()

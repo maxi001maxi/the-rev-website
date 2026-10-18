@@ -53,6 +53,12 @@ async function traverse(page){await page.evaluate(async()=>{for(let y=0;y<docume
  scrollTo({top:0,behavior:'instant'});});await ready(page);}
 async function preventNavigation(page){await page.evaluate(()=>document.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault();},true));}
 try{
+ // In CI these exhaustive groups run in separate processes, each retaining
+ // all original assertions and its own 240s watchdog and browser context.
+ const phase=process.env.TECH_QA_PHASE||'all';
+ assert.ok(['all','instrumentation','visual'].includes(phase),'valid technical QA phase');
+ report.phase=phase;
+ if(phase!=='visual'){
  // Deterministic browser behavior checks never execute external analytics.
  for(const pathname of ['/','/solution.html','/price.html']){
   const ctx=await context();const page=await ctx.newPage();page.on('pageerror',e=>report.errors.push({pathname,message:e.message}));
@@ -156,6 +162,8 @@ try{
  const intents=report.collection.filter(x=>x.event==='reserve_click');
  report.parameterMappingStatus=intents.length?(intents.every(x=>x.page&&x.placement)?'OBSERVED':'FAIL_EXISTING_GTM_PARAMETER_MAP'):'UNVERIFIED';
  report.publicationReadiness='FINAL_ACCEPTANCE_REQUIRED: receipt and external parameters are separate from website regression; see docs/qa/2026-10-17/FINAL_ACCEPTANCE.md';
+ }
+ if(phase!=='instrumentation'){
  // Optional baseline images captured before edits; CI still produces current evidence.
  for(const [width,height] of [[1440,900],[390,844]])for(const pathname of ['/','/solution.html']){
   report.stage='visual comparison / '+pathname+' / '+width;
@@ -169,6 +177,7 @@ try{
   }
   const identical=images.before?images.before.equals(images.after):null;report.visual.push({stem,identical,baselineAvailable:!!images.before});
   if(images.before)assert.ok(identical,`${stem}: approved rendering pixel-identical`);
+ }
  }
  assert.deepEqual(report.errors,[]);report.status='PASS';
 }catch(e){report.status='FAIL';report.failure=e.stack;process.exitCode=1;}
