@@ -4,8 +4,10 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import yaml from 'js-yaml';
 import {BRANCH,CLAIM,DIR,guardPrivateEnvironment,claimPrivateRun,verifyR8Approval,imageDimensions} from './oct18-r8-private-run.mjs';
+import {hybridQaReady} from '../lib/editorialHybridImageFormat.mjs';
 
 const good={GITHUB_REPOSITORY:'maxi001maxi/the-rev-website',GITHUB_REF:'refs/heads/'+BRANCH,GITHUB_EVENT_NAME:'push',GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'123',GITHUB_SHA:'a'.repeat(40)};
 test('workflow parses and only an approval push to the isolated branch can trigger it',()=>{
@@ -45,4 +47,20 @@ test('budget is committed before execution and cannot reopen on a fresh runner o
 test('file dimensions are read from real bytes and corrupted input fails closed',()=>{
   for(const [name,height] of [['thumbnail',675],['og',630],['gbp',900]])assert.deepEqual(imageDimensions(fs.readFileSync(`${DIR}/planning-${name}.jpg`)),{width:1200,height});
   assert.throws(()=>imageDimensions(Buffer.from('not an image')),/INVALID_IMAGE/);
+});
+
+test('actual paid R8 evidence stays rejected and the exhausted approval cannot reopen',()=>{
+  const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+  const resultPath=DIR+'/PRIVATE_RESULT/RESULT.json';
+  if(!fs.existsSync(resultPath))return; // bootstrap before the single paid run
+  const r=read(resultPath),qa=read(DIR+'/PRIVATE_RESULT/independent-visual-qc.json');
+  const claim=read(CLAIM),grounding=read(DIR+'/PRIVATE_RESULT/independent-grounding.json');
+  assert.equal(r.status,'REJECTED_AND_QUARANTINED');assert.equal(r.private_qc_pass,false);
+  assert.deepEqual([r.api_usage.generation_requests,r.api_usage.qc_requests,r.api_usage.image_generation_tool_calls],[1,2,1]);
+  assert.equal(r.checks.dimensions,true);assert.equal(r.checks.qa_bound_sha256,true);
+  for(const file of r.files)assert.equal(createHash('sha256').update(fs.readFileSync(file.path)).digest('hex'),file.sha256,'retained actual output bytes must match the inspected SHA256');
+  assert.equal(claim.status,'CLOSED_NO_AUTOMATIC_RETRY');assert.equal(qa.pass,false);
+  assert(grounding.errors.includes('observed_plan_mismatch:article_intent'));
+  assert.equal(hybridQaReady({slug:'personal-gym-trial-three-checks',image_asset_version:qa.asset_version,image_render_version:'rev-column-reference-v2.3-hybrid',image_strategy:'reference-v2-gpt-image-hybrid-drive-source'},qa),false);
+  assert.throws(()=>claimPrivateRun({env:{...good,GITHUB_RUN_ID:'999'}}),/SPEND_ALREADY_CLAIMED/);
 });
