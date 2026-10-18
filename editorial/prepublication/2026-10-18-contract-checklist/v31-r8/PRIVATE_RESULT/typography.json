@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "personal-gym-trial-three-checks",
+  "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8312351808597471,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 1,
+      "focus_text": "3つだけ。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9094907454107884,
+      "block_area_ratio": 0.12884382049897788,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.3359375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8862745098039215,
+      "fade_start": 559,
+      "fade_end": 696,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.933147579685566,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 214,
+          "right": 457.90625,
+          "bottom": 326,
+          "width": 393.90625
+        },
+        {
+          "left": 64,
+          "top": 315.359375,
+          "right": 536.71875,
+          "bottom": 463.359375,
+          "width": 472.71875
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8.jpg",
+      "asset_sha256": "836acb2a42678db613aaba1f40aee78ebd4184feb1ecb802d521af06fd159e4d",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8-preview-320.jpg",
+          "sha256": "411c6c3192b462670c22dca9aa88e138fdbe87a7096635eb06282188c9b440cb"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8-preview-400.jpg",
+          "sha256": "51d9a14f7ef3dd81fe8857df5ed2763d627a3378e09d9c33e28cac0560a9ec67"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8312351808597471,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 1,
+      "focus_text": "3つだけ。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9094907454107884,
+      "block_area_ratio": 0.13804695053461916,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.3359375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8862745098039215,
+      "fade_start": 559,
+      "fade_end": 696,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.933147579685566,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 192,
+          "right": 457.90625,
+          "bottom": 304,
+          "width": 393.90625
+        },
+        {
+          "left": 64,
+          "top": 293.359375,
+          "right": 536.71875,
+          "bottom": 441.359375,
+          "width": 472.71875
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8.jpg",
+      "asset_sha256": "d738d4e682b3e5492c526a3e1f17339b98f24e25f898623794a3d27faed3ce1a",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8-preview-320.jpg",
+          "sha256": "e52479e7b0c75b04faa347153c9bef0e04ddbad281b29b06f66eeaec686fc3b3"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8-preview-400.jpg",
+          "sha256": "178198e92567daf2f47f40f5702c4dbe8069e5a4bc08f0a0c28fd110f2028251"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 67,
+      "font_size_at_320": 17.866666666666667,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8440015999316107,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        67,
+        87.12871287128714
+      ],
+      "focus_line": 1,
+      "focus_text": "3つだけ。",
+      "focus_scale": 1.3004285503177184,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9093033770845346,
+      "block_area_ratio": 0.0713534780222984,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.3046875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 482,
+      "fade_end": 601,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 325,
+          "right": 398.359375,
+          "bottom": 421,
+          "width": 338.359375
+        },
+        {
+          "left": 60,
+          "top": 417.03125,
+          "right": 459.96875,
+          "bottom": 542.03125,
+          "width": 399.96875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8.jpg",
+      "asset_sha256": "5b414a5bf71f80486ef53c92d0bf939acfd5bac66ea0bcbbff5fee52f799dbfd",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8-preview-320.jpg",
+          "sha256": "69448a4497bc48f041fd4b4c8da0533cd4073f8a8da2d3b1d198199a51afae6a"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v31-lobby-contract-review-20261018-r8-preview-400.jpg",
+          "sha256": "d9d43b49dd9549ff3f46a361be7ef03af2a7b1f3b6f68de16d362169c8cef715"
+        }
+      }
+    }
+  }
+}
