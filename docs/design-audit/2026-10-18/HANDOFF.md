@@ -65,11 +65,11 @@
 
 | 方法 | 状態 | 次のセッションからの見え方 |
 |---|---|---|
-| ① このPCのフォルダ | **保存済み**: `C:\Projects\the-rev-website\docs\design-audit\2026-10-18\`（475ファイル・約32MB、Git未追跡） | このPCで `C:\Projects\the-rev-website` を開いたセッションならそのまま読める。**新しいgit worktreeやクラウドのセッションには未追跡ファイルは含まれない**ため、その場合は上の絶対パスを伝えて読ませるか、②を行う |
-| ② GitHubのドキュメント専用ブランチ（推奨） | **未実施（Owner承認が必要）** | 最新 `origin/main` から `docs/design-audit-2026-10-18` ブランチを作り、このフォルダだけをコミットしてpush。どの環境のセッションからも `git fetch` で参照でき、修正ブランチにも取り込める。`main` ではないため Xserver デプロイは起動しない（デプロイは `main` へのpushかつ `*.html`・`assets/**` 等の変更時のみ。`docs/**` は対象外）。Vercelのgit自動デプロイも無効 |
+| ① このPCのフォルダ | **保存済み**: `C:\Projects\the-rev-website\docs\design-audit\2026-10-18\`（約32MB。このチェックアウトでは未追跡） | このPCで `C:\Projects\the-rev-website` を開いたセッションならそのまま読める |
+| ② GitHubのドキュメント専用ブランチ | **push済み**: `docs/design-audit-2026-10-18`（`origin/main` `8ef41d5` の上に、このフォルダだけを追加）。https://github.com/maxi001maxi/the-rev-website/tree/docs/design-audit-2026-10-18/docs/design-audit/2026-10-18 。PRは作成していない | どの環境のセッションからも `git fetch` で参照でき、修正ブランチにも取り込める。`main` ではないため Xserver デプロイは起動しない（デプロイは `main` へのpushかつ `*.html`・`assets/**` 等の変更時のみ。`docs/**` は対象外）。Vercelのgit自動デプロイも無効 |
 | ③ ZIP | 未作成（必要なら作成） | ChatGPTなど別ツールへ添付する場合 |
 
-修正担当への渡し方（②の後）: 「`docs/design-audit-2026-10-18` ブランチの `docs/design-audit/2026-10-18/HANDOFF.md` から読み、`DESIGN_FIX_PROMPT.md` の第1段階を実装してください」と伝える。①のみの場合は「`C:\Projects\the-rev-website\docs\design-audit\2026-10-18\HANDOFF.md` から読む」と伝える。
+修正担当への渡し方: 「`docs/design-audit-2026-10-18` ブランチの `docs/design-audit/2026-10-18/HANDOFF.md` から読み、`DESIGN_FIX_PROMPT.md` の第1段階を実装してください」と伝える。修正ブランチは最新 `origin/main` から作り、資料はこのブランチから参照する（例: `git show origin/docs/design-audit-2026-10-18:docs/design-audit/2026-10-18/HANDOFF.md`）。資料をmainへ入れるかはOwner判断。
 
 ## 6. 計測・撮影ツールの再利用
 
