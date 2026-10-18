@@ -1,5 +1,6 @@
 import { editorialShootingContract } from '../lib/editorialShootingContract.mjs';
 import {oct18V31BriefPreflight,oct18V31SourceReuse} from '../lib/editorialOct18V31Recovery.mjs';
+import {R9_VERSION,R9_DIR,r9BriefPreflight,editR9LockedScene} from '../lib/editorialOct18R9.mjs';
 import { preflightEditorialImage } from '../lib/editorialProductionImagePreflight.mjs';
 import { v3BriefPreflight } from './preflight-v3-image-brief.mjs';
 import { imageAcceptanceIssues } from '../lib/editorialImageAcceptance.mjs';
@@ -24,10 +25,12 @@ if (!jobPath) {
 const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
 if (job.v31?.recovery_proposal===true && job.v31?.owner_spend_approval!=='APPROVED') throw new Error('OWNER_SPEND_APPROVAL_REQUIRED');
 if(job.v31?.recovery_proposal===true) {
-  const result=oct18V31BriefPreflight(job,JSON.parse(fs.readFileSync(job.v31.creative_brief_path,'utf8')),{requireApproval:true});
+  const check=job.asset_version===R9_VERSION?r9BriefPreflight:oct18V31BriefPreflight;
+  const result=check(job,JSON.parse(fs.readFileSync(job.v31.creative_brief_path,'utf8')),{requireApproval:true});
   if(!result.pass)throw new Error('IMAGE_FREE_PREFLIGHT_FAILED: '+result.errors.join(','));
 }
 const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
+const imageAuditDir=job.asset_version===R9_VERSION?R9_DIR+'/runtime':'editorial/prepublication/2026-10-18-contract-checklist/v31-r8/runtime';
 const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 'gpt-5.6').trim();
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
 const MAX_TOTAL_ATTEMPTS = Math.max(
@@ -78,6 +81,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
   const root=path.resolve(ROOT,'.operator-rejected-evidence',safeSlug,safeVersion);
   const candidates=[
     job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
+    ...(job.asset_version===R9_VERSION?[job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json']:[]),
     job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
     ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
       [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
@@ -100,6 +104,9 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
         original_media_retained_only_in_quarantine:true,files
       },null,2)+'\n');
       console.log(JSON.stringify({status:'REJECTED_MEDIA_QUARANTINED',slug:job.slug,media_files:files.length}));
+      if(job.asset_version===R9_VERSION)for(const p of [job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json']) {
+        if(files.some(f=>f.path===p))fs.rmSync(path.resolve(p),{force:true});
+      }
     }
   }catch(err) {
     console.warn('::warning::Could not preserve some rejected media: '+String(err?.message||err));
@@ -154,7 +161,7 @@ async function openaiResponse(payload) {
     image_generation_calls:(json?.output||[]).filter(x=>x.type==='image_generation_call').map(x=>({id:x.id,status:x.status,usage:x.usage||null})) });
   persistOperatorState(saved);
   if(job.v31?.recovery_proposal===true) {
-    const auditDir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8/runtime';
+    const auditDir=imageAuditDir;
     fs.mkdirSync(auditDir,{recursive:true});
     fs.appendFileSync(auditDir+'/api-usage.jsonl',JSON.stringify({at:new Date().toISOString(),...lastCall,
       error:json?.error||null,qc_output:generation?undefined:outputText(json)})+'\n');
@@ -288,6 +295,7 @@ function generationPrompt(attempt, previousQa = null) {
 }
 
 async function generateScene(attempt, previousQa = null) {
+  if(job.asset_version===R9_VERSION)return editR9LockedScene({job,sourcePath,generateResponse:openaiResponse,prompt:generationPrompt(attempt,previousQa)});
   if(job?.v3?.background_lock==='masked_openai_edit_hard_restore_v1'){
     const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');
     return editV3PhotoWithLockedBackground({job,sourcePath,generateResponse:openaiResponse,prompt:generationPrompt(attempt,previousQa)});
@@ -442,7 +450,7 @@ function qaPass(qa) {
 async function visualQa(attempt) {
   const groundingEvidence = await inspectSceneGrounding();
   if(job.v31?.recovery_proposal===true) {
-    const auditDir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8/runtime';
+    const auditDir=imageAuditDir;
     fs.mkdirSync(auditDir,{recursive:true});
     fs.writeFileSync(auditDir+'/independent-grounding.json',JSON.stringify(groundingEvidence,null,2)+'\n');
   }
@@ -636,6 +644,7 @@ async function visualQa(attempt) {
 
   const qa = {
     ...modelQa,
+    ...(job.asset_version===R9_VERSION?{source_pixel_lock:readJson(job.generated_scene_path+'.locked-background.json',null)}:{}),
     scene_grounding_version: SCENE_GROUNDING_VERSION,
     scene_grounding: groundingEvidence,
     scene_fingerprint: groundingEvidence.observation?.scene_fingerprint,

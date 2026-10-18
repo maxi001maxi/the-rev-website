@@ -218,6 +218,7 @@ function html({ width, height, og = false, gbp = false }) {
   const variant = gbp ? 'gbp' : (og ? 'og' : 'thumbnail');
   const scenePosition = esc(job?.scene_object_position?.[variant] || (typeof job?.scene_object_position === 'string' ? job.scene_object_position : '') || 'center');
   const portraitSafeGbp = gbp && job.gbp_fade_variant === 'portrait-safe-mask-v1';
+  const r9Gbp=gbp && job.asset_version==='reference-v31-evolgear-terms-foreground-20261018-r9' && job.v31?.gbp_photo_width_fraction===.8;
   const paperBackground = portraitSafeGbp
     ? 'transparent'
     : humanFirstLayout
@@ -234,7 +235,9 @@ function html({ width, height, og = false, gbp = false }) {
   // For verified reception portraits, fade the PHOTO itself into the true
   // ivory canvas rather than placing a translucent white rectangle over a face.
   // Non-GBP and all non-opted-in articles retain their existing renderer.
-  const portraitMask = 'linear-gradient(90deg,transparent 0%,transparent 22%,rgba(0,0,0,.05) 29%,rgba(0,0,0,.31) 36%,rgba(0,0,0,.72) 45%,#000 54%,#000 100%)';
+  const portraitMask = r9Gbp
+    ? 'linear-gradient(90deg,transparent 0%,transparent 2.5%,rgba(0,0,0,.05) 11.25%,rgba(0,0,0,.31) 20%,rgba(0,0,0,.72) 31.25%,#000 42.5%,#000 100%)'
+    : 'linear-gradient(90deg,transparent 0%,transparent 22%,rgba(0,0,0,.05) 29%,rgba(0,0,0,.31) 36%,rgba(0,0,0,.72) 45%,#000 54%,#000 100%)';
   // Only an explicitly quarantined QC-only job may adjust framing. This is a
   // non-generative camera crop; production articles keep exactly their old CSS.
   const reviewZoomValue=Number(job?.offline_review_photo_zoom?.[variant] || 1);
@@ -248,7 +251,7 @@ function html({ width, height, og = false, gbp = false }) {
     ? `transform:scale(${reviewZoomValue});transform-origin:${gbp?'78% 39%':'83% 42%'};`
     : '';
   const sceneCss = portraitSafeGbp
-    ? `position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};-webkit-mask-image:${portraitMask};mask-image:${portraitMask};`
+    ? `position:absolute;${r9Gbp?'left:20%;top:0;width:80%;height:100%;':'inset:0;width:100%;height:100%;'}object-fit:cover;object-position:${scenePosition};-webkit-mask-image:${portraitMask};mask-image:${portraitMask};`
     : gbp
       ? `position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${scenePosition};`
     : humanFirstLayout

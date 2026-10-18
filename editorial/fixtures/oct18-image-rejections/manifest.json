@@ -1,0 +1,77 @@
+{
+  "purpose": "rejected actual media, regression only; R4 preference approves direction only",
+  "fixtures": [
+    {
+      "name": "R3",
+      "run_id": 38997553389,
+      "asset_version": "reference-v3-grounded-evolgear-20261018-contract-r3",
+      "qa_path": "editorial/fixtures/oct18-image-rejections/R3/qa.json",
+      "thumbnail_path": "editorial/fixtures/oct18-image-rejections/R3/thumbnail.jpg",
+      "qa_sha256": "3d884b8cdc9d261e306eaa0490e60f041a6fb4480ae66d24006b51dbf5f7e727",
+      "thumbnail_sha256": "8a659ea6a457eda39c8c62868db07fd97a141bdb4e1a348e7bfafffb722eff91",
+      "image_hashes": {
+        "source": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "scene": "4baae3004a7c71bd2e89789d4408c7823bcf06a72757f80fed3b0c61508146c0",
+        "thumbnail": "8a659ea6a457eda39c8c62868db07fd97a141bdb4e1a348e7bfafffb722eff91",
+        "og": "e767e7466265ebfe0eec8541d7075bc1f028fb112962aaaa6c9bc858882cbc1d",
+        "gbp": "e3065bca78cca010630420ccf4889593c6e794c92d3ee98ed97adb8789b283e0"
+      },
+      "reason": "タイポグラフィは全形式で合格。ただし生成背景は権威ある実景のEVOLGEARラック構成、プレート配置、ミラー、支柱・ケーブル構造を保持しておらず、別仕様の一般的なラックと架空のプレート表記に置換されている。背景も十分に従属・軟焦点化されず差異が目立つ。人物は自然で一人のみだが、手は袖ではなく胸元をつまんで見え、指定された袖を整える瞬間を正確に満たさない。実在THE REV空間の確認ができないため最終不合格。",
+      "reuse_allowed": false
+    },
+    {
+      "name": "R4",
+      "run_id": 38998995589,
+      "asset_version": "reference-v3-masked-evolgear-20261018-contract-r4",
+      "qa_path": "editorial/fixtures/oct18-image-rejections/R4/qa.json",
+      "thumbnail_path": "editorial/fixtures/oct18-image-rejections/R4/thumbnail.jpg",
+      "qa_sha256": "20056a018f99784708956dff5d34168fa55a869b1b45a1fadb13c61182802afc",
+      "thumbnail_sha256": "db502c0aaf3366fd2ae7bf1457276932f66b3c55208d15e651d574c2ef90001e",
+      "image_hashes": {
+        "source": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "scene": "5059bf0c60d39638cf64d75b2dcd82c6304dde9a02cc8d1bc950d65f85c6a957",
+        "thumbnail": "db502c0aaf3366fd2ae7bf1457276932f66b3c55208d15e651d574c2ef90001e",
+        "og": "f7d13d3797976f472aa8e18073e080ce442e996255b9fbad420bb5c1ffd8846f",
+        "gbp": "6239757f77eedf91a72f8b1ef371a707804af55ee7790abb2039e0071896725e"
+      },
+      "reason": "不合格。コピーとレイアウトは全3形式で読みやすいですが、生成人物の下半身付近に原写真にはない黒い曲線と溶けた輪郭があり、身体・床・機材の前後関係も不自然です。人物がラック内部の部材と交差して見え、貼り込み感と接地不足があります。背景も人間よりシャープで主張が強く、オリジナル写真ロックとHUMAN FIRST基準を満たしません。",
+      "reuse_allowed": false
+    },
+    {
+      "name": "R6",
+      "run_id": 39005183154,
+      "asset_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+      "qa_path": "editorial/fixtures/oct18-image-rejections/R6/qa.json",
+      "thumbnail_path": "editorial/fixtures/oct18-image-rejections/R6/thumbnail.jpg",
+      "qa_sha256": "74cb9afea800fedcfd37dd7f180f880299398943c67a7c35304571e24b46875d",
+      "thumbnail_sha256": "7ba707c27550121fa8bf1404951e0e2a3fdebb433e2ea56f2321247968fbe5b0",
+      "image_hashes": {
+        "source": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+        "scene": "7801ffe560c30fdd1b294069fb48333c3c533eec48e9e7dd1620cf5af015a7c7",
+        "thumbnail": "7ba707c27550121fa8bf1404951e0e2a3fdebb433e2ea56f2321247968fbe5b0",
+        "og": "5e29e636c2c36a7e0461b9aa6ad1fb0675875f550d9f9376bcae9021c1822bf8",
+        "gbp": "f14330b09baea5bba2f131dc9149b55f80792db48ed06da2e916c7ed66cc68e5"
+      },
+      "reason": "人物・合成品質・書体設計は良好だが、男性の視線と身体は左側のロゴ壁へ向いており、指定された後方トレーニングエリアを観察する行動に見えない。料金・予約・退会を確認して自分の開始を決める記事固有の理由も写真単体では弱く、一般的な立ち姿に留まるため厳格ゲートでは不合格。",
+      "reuse_allowed": false
+    },
+    {
+      "name": "R8",
+      "run_id": 39092195829,
+      "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+      "qa_path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/independent-visual-qc.json",
+      "thumbnail_path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/images/thumbnail.jpg",
+      "qa_sha256": "d8834c7106b1c0016c5596941395470c3f78f72a567de0b4bfd756edccb79cf1",
+      "thumbnail_sha256": "836acb2a42678db613aaba1f40aee78ebd4184feb1ecb802d521af06fd159e4d",
+      "image_hashes": {
+        "source": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+        "scene": "764790c11be43cf541d3cdda94830e7653694cc7c6203c018f4b7a1c89142f12",
+        "thumbnail": "836acb2a42678db613aaba1f40aee78ebd4184feb1ecb802d521af06fd159e4d",
+        "og": "d738d4e682b3e5492c526a3e1f17339b98f24e25f898623794a3d27faed3ce1a",
+        "gbp": "5b414a5bf71f80486ef53c92d0bf939acfd5bac66ea0bcbbff5fee52f799dbfd"
+      },
+      "reason": "Article-intent mismatch and direct source-fidelity rejection; source camera/counter/stool altered.",
+      "reuse_allowed": false
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "scope": "free R9 design and source-lock integration only; no new real person quality claim",
+  "model_api_calls": 0,
+  "production_mutations": 0,
+  "results": [
+    {
+      "command": "npm run test:editorial-v31",
+      "pass": true,
+      "tests": 16
+    },
+    {
+      "command": "node --test scripts/test-oct18-r8-private-run.mjs",
+      "pass": true,
+      "tests": 6
+    },
+    {
+      "command": "npm run test:editorial-images",
+      "pass": true
+    },
+    {
+      "command": "npm run test:phase-9",
+      "pass": true,
+      "checks": 164
+    },
+    {
+      "command": "node --test scripts/test-editorial-production-image-preflight.mjs scripts/test-editorial-scene-grounding.mjs scripts/test-editorial-rejected-media-preservation.mjs scripts/test-editorial-image-operator-recovery.mjs",
+      "pass": true,
+      "tests": 27
+    },
+    {
+      "command": "node scripts/prepare-oct18-r9.mjs",
+      "pass": true,
+      "source_lock_protected_pixels": 1260902,
+      "changed_protected_pixels": 0,
+      "synthetic_wrapper_calls": 1,
+      "actual_model_calls": 0,
+      "canonical_render_variants": 3
+    },
+    {
+      "command": "npm run test:daily-editorial-contract",
+      "pass": true
+    },
+    {
+      "command": "npm run test:daily-editorial-state-machine",
+      "pass": true,
+      "checks": 73
+    },
+    {
+      "command": "npm run test:daily-creator",
+      "pass": true,
+      "checks": 120
+    },
+    {
+      "command": "npm run build:blog",
+      "pass": true,
+      "generated_outputs_included_in_commit": false
+    }
+  ]
+}
