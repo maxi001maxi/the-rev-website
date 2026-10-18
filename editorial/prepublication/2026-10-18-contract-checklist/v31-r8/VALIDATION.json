@@ -2,12 +2,46 @@
   "content_id": "BLOG-20261018-082d82",
   "scope": "R8 free preparation only; synthetic approvals and responses in isolated operator tests",
   "results": [
-    {"command": "npm run test:editorial-v31", "pass": true, "tests": 7},
-    {"command": "node --test scripts/test-editorial-contextual-reuse.mjs scripts/test-editorial-r7-owner-reuse.mjs scripts/test-editorial-production-image-preflight.mjs scripts/test-editorial-image-operator-recovery.mjs", "pass": true, "tests": 17},
-    {"command": "npm run test:editorial-images", "pass": true, "jobs": 22},
-    {"command": "npm run test:phase-9", "pass": true, "checks": 164},
-    {"command": "npm run build:blog", "pass": true, "published_input_articles": 25, "draft_input_articles": 1},
-    {"command": "node scripts/prepare-oct18-v31-layout.mjs <read-only-snapshot.json>", "pass": true, "free_structural_and_shooting_contract": true, "safe_crop_variants": 3}
+    {
+      "command": "npm run test:editorial-v31",
+      "pass": true,
+      "tests": 8
+    },
+    {
+      "command": "node --test scripts/test-editorial-contextual-reuse.mjs scripts/test-editorial-r7-owner-reuse.mjs scripts/test-editorial-production-image-preflight.mjs scripts/test-editorial-image-operator-recovery.mjs",
+      "pass": true,
+      "tests": 17
+    },
+    {
+      "command": "npm run test:editorial-images",
+      "pass": true,
+      "jobs": 22
+    },
+    {
+      "command": "npm run test:phase-9",
+      "pass": true,
+      "checks": 164
+    },
+    {
+      "command": "npm run build:blog",
+      "pass": true,
+      "published_input_articles": 25,
+      "draft_input_articles": 1
+    },
+    {
+      "command": "node scripts/prepare-oct18-v31-layout.mjs <read-only-snapshot.json>",
+      "pass": true,
+      "free_structural_and_shooting_contract": true,
+      "safe_crop_variants": 3
+    },
+    {
+      "command": "python3 scripts/render-oct18-v31-layout-plan.py",
+      "pass": true,
+      "canonical_renderer_executed": true,
+      "variants": 3,
+      "planning_only": true,
+      "production_paths_written": false
+    }
   ],
   "live_read_only": {
     "project": "ixeckiyvdzfccjwnzfsp",

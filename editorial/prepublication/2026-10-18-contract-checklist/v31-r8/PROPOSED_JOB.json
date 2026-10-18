@@ -7,7 +7,7 @@
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
-  "design_revision": "editorial-thumbnail-v3-plan-first-owner-calibrated",
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
   "scene_intent": "Exactly one ordinary adult male first-time visitor STANDS in the foreground reception, on the camera side of the existing stool/counter. He holds a plain A5 information sheet at lower chest height with both hands, briefly reviewing the trial conditions before deciding. Torso in a relaxed three-quarter angle towards image-left; FACE remains visible. Both pupils and head tilt point DOWN to the sheet in his own hands, not towards the logo or rear rack. No staff, no phone, no equipment contact, no training, no signing a contract. The sheet has only three faint unlettered grey rules; NO readable price, Japanese text, QR, logo or personal data. This is an illustrative editorial scene, not a claim that THE REV uses this document/procedure.",
   "generated_customer_count": 1,
@@ -46,7 +46,7 @@
     "gbp_image_ratio": "4:3",
     "layout_template_id": "rev-column-v24-fixed-overlay-v1",
     "policy_revision": "editorial-thumbnail-v2.4",
-    "design_revision": "editorial-thumbnail-v3-plan-first-owner-calibrated",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
     "layout_variant": "human-first-v1",
     "trainer_present_forbidden": true,
     "unknown_trainer_forbidden": true,
@@ -71,8 +71,8 @@
     "origin_video_file_id": "",
     "origin_video_file_name": "",
     "frame_position_ratio": null,
-    "selection_reason": "Explicit owner choice of real lobby, distinct visitor action and visual role; independent actual-image semantic and equipment QC still mandatory. No thresholds waived.",
-    "treatment": "Source-guided OpenAI scene-aware edit, foreground entrance visitor and authentic rear training area; no ellipse hard composite."
+    "selection_reason": "R8 proposed authentic reception source for a visitor reviewing trial information; source reuse awaits explicit Owner approval, all independent visual gates remain mandatory.",
+    "treatment": "Source-guided OpenAI edit; customer reviews a plain sheet in the real reception foreground; preserve all authentic room anchors and furniture, no composite cutout."
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "scene_grounding_version": "the-rev-source-scene-v1",
@@ -648,15 +648,6 @@
       "female",
       "male"
     ],
-    "repair": {
-      "version": "2026-10-15-r5-source-locked-brief-with-gbp-mask",
-      "previous_asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r4",
-      "reason": "Real R4 independent QC showed correct woman/customer/article/lighting and PASS for wide/OG typography, source grounding, human visual attention 64, but rejected because GBP rectangular ivory overlay and source-room details were reconstructed (environment/authenticity 7). First fix deterministic GBP masking rather than weaken QC; one final generation attempt with stronger exact source-photo fidelity and fail-media quarantine.",
-      "source_preserved": true,
-      "qc_thresholds_preserved": true,
-      "publish_requires_human_approval": true,
-      "reattempt_max_scene_generation": 1
-    },
     "selected_content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
     "selected_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
     "avoided_repeat": false,
@@ -672,9 +663,9 @@
   "typography_emphasis_text": "3つだけ。",
   "thumbnail_claim": "Simple three things to check before gym trial. Never crowd the title: Japanese copy '体験前に、' over '3つだけ。'.",
   "scene_object_position": {
-    "thumbnail": "center 47%",
-    "og": "center 47%",
-    "gbp": "center 47%"
+    "thumbnail": "center",
+    "og": "center",
+    "gbp": "center"
   },
   "v31": {
     "version": "THE_REV_IMAGE_V31",

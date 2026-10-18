@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import matter from 'gray-matter';
 import {createClient} from '@supabase/supabase-js';
 import {prepareTopicProposal,approvedQueue} from '../lib/editorialTopicApproval.mjs';
@@ -241,4 +242,20 @@ test('R8 scoped real-source reuse requires approval and distinct independently g
   }
   const repeated=structuredClone(qa);repeated.scene_grounding.recent[0].scene_fingerprint=job.scene_plan;
   assert.equal(oct18V31QaReuse(draft,repeated),false,'same scene remains prohibited');
+});
+
+test('saved R8 planning evidence uses the real offline renderer, current three-file hashes and no quality PASS',()=>{
+  const dir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8';
+  const report=read(dir+'/FREE_PREFLIGHT.json');
+  assert.equal(report.design_preflight,'PASS');assert.equal(report.canonical_renderer.pass,true);
+  assert.equal(report.canonical_renderer.real_model_calls,0);assert.equal(report.canonical_renderer.production_paths_written,false);
+  assert.equal(report.canonical_renderer.variants.length,3);
+  for(const v of report.canonical_renderer.variants){
+    assert(v.path.startsWith(dir+'/planning-'));
+    assert.equal(createHash('sha256').update(fs.readFileSync(v.path)).digest('hex'),v.sha256);
+    assert.equal(v.not_visual_qc_pass,true);assert.equal(v.typography_measurements_pass,true);
+    assert.equal(report.geometry.find(g=>g.variant===v.variant).safe,true);
+  }
+  assert.equal(report.geometry[0].photo_width,1200*.66,'wide format uses actual 66% photograph panel');
+  assert.equal(read(dir+'/PROPOSED_JOB.json').design_revision,'editorial-thumbnail-v2.6-human-first','do not bypass human-first quality gates via a new label');
 });

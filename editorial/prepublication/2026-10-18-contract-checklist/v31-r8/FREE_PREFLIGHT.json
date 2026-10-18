@@ -23,79 +23,100 @@
       "variant": "thumbnail",
       "width": 1200,
       "height": 675,
+      "photo_left": 408.00000000000006,
+      "photo_width": 792,
+      "scene_scale": 0.6591796875,
+      "scene_offset": {
+        "x": 297.75000000000006,
+        "y": 0
+      },
       "safe": true,
       "face": {
-        "x": 864,
-        "y": 89.5,
-        "width": 168,
-        "height": 168
+        "x": 905.25,
+        "y": 114.75000000000001,
+        "width": 162.00000000000023,
+        "height": 141.75
       },
       "hands": {
-        "x": 780.0000000000001,
-        "y": 369.5,
-        "width": 239.99999999999977,
-        "height": 152
+        "x": 885,
+        "y": 364.5,
+        "width": 212.625,
+        "height": 128.25
       },
       "paper": {
-        "x": 792,
-        "y": 377.50000000000006,
-        "width": 216,
-        "height": 159.99999999999994
+        "x": 895.125,
+        "y": 371.25000000000006,
+        "width": 192.375,
+        "height": 134.99999999999994
       },
       "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-thumbnail.svg",
-      "sha256": "df67c00f058231f46a34aefcabac5c40170afba7c10e82affe20a995941f4349"
+      "sha256": "4853f01f2b6c115b91641b43b7310cc5a26e9d618623638cf5d27e614f84641f"
     },
     {
       "variant": "og",
       "width": 1200,
       "height": 630,
+      "photo_left": 408.00000000000006,
+      "photo_width": 792,
+      "scene_scale": 0.615234375,
+      "scene_offset": {
+        "x": 331.50000000000006,
+        "y": 0
+      },
       "safe": true,
       "face": {
-        "x": 864,
-        "y": 67,
-        "width": 168,
-        "height": 168
+        "x": 898.5,
+        "y": 107.10000000000001,
+        "width": 151.20000000000005,
+        "height": 132.3
       },
       "hands": {
-        "x": 780.0000000000001,
-        "y": 347,
-        "width": 239.99999999999977,
-        "height": 152
+        "x": 879.5999999999999,
+        "y": 340.20000000000005,
+        "width": 198.45000000000027,
+        "height": 119.69999999999993
       },
       "paper": {
-        "x": 792,
-        "y": 355.00000000000006,
-        "width": 216,
-        "height": 159.99999999999994
+        "x": 889.05,
+        "y": 346.5,
+        "width": 179.54999999999995,
+        "height": 126
       },
       "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-og.svg",
-      "sha256": "1c4fda0d55e7a5aaaf145475b3f5feae4ca9033dec266ecc4f635413149a2ffd"
+      "sha256": "e4a8c7c9e4b728496831f3645c1987d1222caaba4042f054efed74ea6802be06"
     },
     {
       "variant": "gbp",
       "width": 1200,
       "height": 900,
+      "photo_left": 0,
+      "photo_width": 1200,
+      "scene_scale": 0.87890625,
+      "scene_offset": {
+        "x": -75,
+        "y": 0
+      },
       "safe": true,
       "face": {
-        "x": 897.0000000000001,
-        "y": 171,
-        "width": 188.9999999999999,
+        "x": 734.9999999999999,
+        "y": 153,
+        "width": 216.0000000000001,
         "height": 189
       },
       "hands": {
-        "x": 802.5000000000001,
+        "x": 707.9999999999999,
         "y": 486.00000000000006,
-        "width": 269.9999999999999,
+        "width": 283.5000000000001,
         "height": 170.99999999999994
       },
       "paper": {
-        "x": 816,
+        "x": 721.5,
         "y": 495.00000000000006,
-        "width": 243,
+        "width": 256.5,
         "height": 179.99999999999994
       },
       "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-gbp.svg",
-      "sha256": "24fdb90f321839b602470ab56f28d51dec1aa68b825453f8ddbdd0fa72710661"
+      "sha256": "fe1d709dd0b030e348b75bbcd8c989ef569f47c83a3a98fc079efc3ae1003d53"
     }
   ],
   "errors": [],
@@ -110,15 +131,51 @@
     "applies": true,
     "errors": []
   },
-  "job_contract_sha256": "db38d1abd5d9589893b317c7384d58471e34eb2504cce4efd7646dbdc9c24573",
-  "brief_contract_sha256": "f52ff484e0da7aff6ced4652510d10032c4c08f826adb83b13a6bb919a753dae",
+  "job_contract_sha256": "ca555e7b048fa1ab773784c1efc3d73266c72b481911cbe60560a6368a068156",
+  "brief_contract_sha256": "ad8b464e4664e947ef51b4cd7ccc427b5e2aabe5e1c71bdd6ee8b771c2db5cf6",
   "runtime_note": "Source reuse is prepared but not authorized; approval-bound source reuse still requires independent grounding, distinct scene and all visual gates.",
   "source_snapshot_sha256": "6d0f18ebea5c291636886b97a8bc114530189208ebd3fe4b0b3f2b8ddaebca36",
+  "canonical_renderer": {
+    "command": "node scripts/render-hybrid-editorial-overlay.mjs <isolated-planning-job.json>",
+    "pass": true,
+    "real_model_calls": 0,
+    "production_paths_written": false,
+    "synthetic_human_footprint": true,
+    "variants": [
+      {
+        "variant": "thumbnail",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/planning-thumbnail.jpg",
+        "width": 1200,
+        "height": 675,
+        "sha256": "7014597c4b3ea170c59e032a883d565f7ec41bf171d0d7488ef97ec867e9f3bf",
+        "typography_measurements_pass": true,
+        "not_visual_qc_pass": true
+      },
+      {
+        "variant": "og",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/planning-og.jpg",
+        "width": 1200,
+        "height": 630,
+        "sha256": "873f5bb9e72e1c5760833ad0eda8d5f67b3099fccdc4629043e83be28886125b",
+        "typography_measurements_pass": true,
+        "not_visual_qc_pass": true
+      },
+      {
+        "variant": "gbp",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/planning-gbp.jpg",
+        "width": 1200,
+        "height": 900,
+        "sha256": "465155633cff641d0b2acc42d28fd34e4c5c4a680795caf637753b17ddf9581a",
+        "typography_measurements_pass": true,
+        "not_visual_qc_pass": true
+      }
+    ]
+  },
   "planning_preview": {
     "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/LAYOUT_REVIEW.jpg",
-    "sha256": "e8347a6ef43d59bab4538e743a88df3e41f0fdaf4a30c264c11c0ae238d3ed1b",
+    "sha256": "77bff8f5b336cd698fa7e4fb9d70db507f66e90b7f4b1edaebb67ca6f90f70d3",
     "width": 720,
-    "height": 1387,
+    "height": 1467,
     "not_generated_image": true,
     "not_visual_qc_pass": true
   }

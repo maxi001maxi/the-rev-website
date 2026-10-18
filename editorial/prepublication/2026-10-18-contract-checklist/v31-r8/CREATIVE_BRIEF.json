@@ -14,40 +14,40 @@
     "source_projection": "uniform cover, never stretch or reconstruct room",
     "camera_height_m": null,
     "subject_action": "Exactly one ordinary adult male first-time visitor STANDS in the foreground reception, on the camera side of the existing stool/counter. He holds a plain A5 information sheet at lower chest height with both hands, briefly reviewing the trial conditions before deciding. Torso in a relaxed three-quarter angle towards image-left; FACE remains visible. Both pupils and head tilt point DOWN to the sheet in his own hands, not towards the logo or rear rack. No staff, no phone, no equipment contact, no training, no signing a contract. The sheet has only three faint unlettered grey rules; NO readable price, Japanese text, QR, logo or personal data. This is an illustrative editorial scene, not a claim that THE REV uses this document/procedure.",
-    "eyeline": "down from face [0.79,0.30] to actual sheet centre [0.75,0.65]",
+    "eyeline": "down from face [0.68,0.30] to actual sheet centre [0.685,0.65]",
     "mood": "attentive, calm, self-directed; candid, not advertising or a trainer",
     "background": "authentic real THE REV entrance/reception with exact rear rack, counter, plant, stool and beams",
     "face_box": [
-      0.72,
-      0.19,
-      0.86,
-      0.4
+      0.6,
+      0.17,
+      0.76,
+      0.38
     ],
     "hands_box": [
-      0.65,
+      0.58,
       0.54,
-      0.85,
+      0.79,
       0.73
     ],
     "paper_box": [
-      0.66,
+      0.59,
       0.55,
-      0.84,
+      0.78,
       0.75
     ],
     "torso_box": [
-      0.64,
-      0.38,
-      0.92,
+      0.54,
+      0.36,
+      0.84,
       0.98
     ],
     "gaze_from": [
-      0.79,
-      0.32
+      0.68,
+      0.3
     ],
     "gaze_to": [
-      0.75,
-      0.64
+      0.685,
+      0.65
     ],
     "crop_safe": "Face, pupils, both hands and paper stay visible in 16:9, OGP and GBP 4:3; left overlay never crosses the face or sheet",
     "text_lines": [
