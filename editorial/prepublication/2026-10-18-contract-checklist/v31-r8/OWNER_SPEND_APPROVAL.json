@@ -24,5 +24,7 @@
     "article_publish": true,
     "gbp_post": true
   },
-  "confirmed_cost": null
+  "confirmed_cost": null,
+  "execution_route_revision": 2,
+  "pre_api_repair": "Initial run 39092105599 had zero jobs and zero API calls due to YAML syntax; fixed before the first authorized paid attempt. Approved job/brief/preflight unchanged."
 }

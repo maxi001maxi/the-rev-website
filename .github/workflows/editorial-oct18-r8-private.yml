@@ -70,4 +70,5 @@ jobs:
           fi
       - name: Fail closed when independent acceptance is not complete
         if: always() && steps.claim.outcome == 'success'
-        run: node --input-type=module -e "import fs from 'node:fs';const r=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/RESULT.json'));if(!r.private_qc_pass)throw new Error(r.status+': '+r.stop_reason);"
+        run: |
+          node --input-type=module -e "import fs from 'node:fs';const r=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/RESULT.json'));if(!r.private_qc_pass)throw new Error(r.status+': '+r.stop_reason);"

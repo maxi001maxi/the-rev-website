@@ -4,9 +4,15 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
+import yaml from 'js-yaml';
 import {BRANCH,CLAIM,DIR,guardPrivateEnvironment,claimPrivateRun,verifyR8Approval,imageDimensions} from './oct18-r8-private-run.mjs';
 
 const good={GITHUB_REPOSITORY:'maxi001maxi/the-rev-website',GITHUB_REF:'refs/heads/'+BRANCH,GITHUB_EVENT_NAME:'push',GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:'123',GITHUB_SHA:'a'.repeat(40)};
+test('workflow parses and only an approval push to the isolated branch can trigger it',()=>{
+  const w=yaml.load(fs.readFileSync('.github/workflows/editorial-oct18-r8-private.yml','utf8'));
+  assert.deepEqual(w.on.push.branches,[BRANCH]);assert.deepEqual(w.on.push.paths,[DIR+'/OWNER_SPEND_APPROVAL.json']);
+  assert.equal(w.on.workflow_dispatch,undefined);assert.equal(w.jobs['private-r8'].steps.some(s=>String(s.run||'').includes('git push origin HEAD:refs/heads/main')),false);
+});
 test('wrong repository, main, manual events and Actions reruns cannot claim a paid run',()=>{
   guardPrivateEnvironment(good);
   for(const changes of [{GITHUB_REPOSITORY:'other/repo'},{GITHUB_REF:'refs/heads/main'},{GITHUB_EVENT_NAME:'workflow_dispatch'},{GITHUB_RUN_ATTEMPT:'2'}])assert.throws(()=>guardPrivateEnvironment({...good,...changes}),/R8_/);
