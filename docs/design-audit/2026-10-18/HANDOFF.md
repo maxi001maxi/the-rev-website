@@ -21,6 +21,8 @@
 3. 必要に応じて [AUDIT_REPORT.md](AUDIT_REPORT.md) — 根拠と評価（成果物A〜D）
 4. 数値が必要なときは [MEASUREMENTS.md](MEASUREMENTS.md)、字形は [font-fallback.json](font-fallback.json)
 
+デザインを先にClaude Designで作る場合は [claude-design/CLAUDE_DESIGN_PROMPT.md](claude-design/CLAUDE_DESIGN_PROMPT.md) を使う（貼り付け範囲と添付画像の優先度はファイル内に記載）。デザイン完成後の実装は DESIGN_FIX_PROMPT.md に従う（項目の対応表は CLAUDE_DESIGN_PROMPT.md 末尾）。
+
 ## 3. 3段階の要約
 
 | 段階 | 主な内容 | ユーザー体験の変化 |

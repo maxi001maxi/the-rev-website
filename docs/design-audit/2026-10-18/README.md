@@ -6,6 +6,7 @@
 |---|---|
 | [HANDOFF.md](HANDOFF.md) | 引き継ぎの入口 |
 | [DESIGN_FIX_PROMPT.md](DESIGN_FIX_PROMPT.md) | 成果物E: 修正担当へ渡す実装プロンプト（3段階） |
+| [claude-design/CLAUDE_DESIGN_PROMPT.md](claude-design/CLAUDE_DESIGN_PROMPT.md) | Claude Design に貼り付けるデザイン修正プロンプト（3ステージ）＋ `claude-design/attachments/` の添付画像31枚 |
 | [AUDIT_REPORT.md](AUDIT_REPORT.md) | 成果物A〜D: 現状把握・監査レポート・優先順位表・改善設計 |
 | [MEASUREMENTS.md](MEASUREMENTS.md) | 実ブラウザ計測値（`tools/report-measurements.mjs` で再生成） |
 | [font-fallback.json](font-fallback.json) | 代替フォントで描画された要素 |
