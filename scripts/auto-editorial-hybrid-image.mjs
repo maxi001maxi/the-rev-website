@@ -100,7 +100,16 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
 }
 
 function readJson(filePath, fallback = null) {
-  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return fallback; }
+  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); }
+  catch {
+    if (filePath === statePath && fs.existsSync(filePath)) throw new Error('OPERATOR_CHECKPOINT_CORRUPT: restore verified state; never reset budget');
+    return fallback;
+  }
+}
+function persistOperatorState(value) {
+  const temporary=statePath+'.tmp';
+  fs.writeFileSync(temporary,JSON.stringify(value,null,2)+'\n');
+  fs.renameSync(temporary,statePath);
 }
 
 function mimeFor(filePath) {
@@ -117,7 +126,7 @@ function dataUrl(filePath) {
 async function openaiResponse(payload) {
   const generation = (payload.tools || []).some(x => x.type === 'image_generation');
   const reserved = reserveImageApiCall(readJson(statePath, {}), { generation, maxGeneration: MAX_TOTAL_ATTEMPTS, maxQc: 2 });
-  fs.writeFileSync(statePath, JSON.stringify(reserved, null, 2) + '\n');
+  persistOperatorState(reserved);
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -135,7 +144,7 @@ async function openaiResponse(payload) {
   const saved = readJson(statePath, {});
   const lastCall = saved.api_calls?.at(-1);
   if (lastCall) Object.assign(lastCall, { status: res.ok ? 'COMPLETED' : 'FAILED', request_id: requestId, http_status: res.status, response_id: json?.id || null, model: json?.model || payload.model, usage: json?.usage || null });
-  fs.writeFileSync(statePath, JSON.stringify(saved, null, 2) + '\n');
+  persistOperatorState(saved);
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -764,7 +773,7 @@ function writeState(state) {
     stopped_reason:state.last_error || null, next_action:state.status === 'READY_CANDIDATE' ? 'STAGE_AND_SYNC' : state.status === 'SCENE_GENERATED' ? 'OVERLAY_AND_QC' : 'REVIEW_FAILURE_BEFORE_RETRY',
     human_approval_required:!['GENERATING','SCENE_GENERATED','READY_CANDIDATE'].includes(state.status), confirmed_cost:null };
   retained.transitions=[...(retained.transitions || []),{at:new Date().toISOString(),status:state.status,...checkpoint}].slice(-50);
-  fs.writeFileSync(statePath, JSON.stringify({ ...retained, ...state, ...checkpoint, asset_version: job.asset_version }, null, 2) + '\n');
+  persistOperatorState({ ...retained, ...state, ...checkpoint, asset_version: job.asset_version });
 }
 
 // Actual-image negative control, not just a synthetic metadata unit test.

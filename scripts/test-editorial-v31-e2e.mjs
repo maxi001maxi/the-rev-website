@@ -154,6 +154,8 @@ test('B: actual image operator subprocess persists an API failure and refuses a 
     assert.equal(run().status,0);assert.equal(fs.readFileSync(path.join(root,'calls.log'),'utf8'),'attempt\n');
     saved.status='BLOCKED_MAX_ATTEMPTS';fs.writeFileSync(statePath,JSON.stringify(saved));assert.equal(run().status,0);
     assert.equal(fs.readFileSync(path.join(root,'calls.log'),'utf8'),'attempt\n');
+    fs.writeFileSync(statePath,'{broken');assert.notEqual(run().status,0);
+    assert.equal(fs.readFileSync(path.join(root,'calls.log'),'utf8'),'attempt\n','corrupt checkpoint must not reset spending');
     traces.push({case:'actual_operator_API_and_limit',safe_stop:true,calls:1,retry_calls:0});
   }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
