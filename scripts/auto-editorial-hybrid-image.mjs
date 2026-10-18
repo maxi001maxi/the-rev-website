@@ -150,8 +150,15 @@ async function openaiResponse(payload) {
 
   const saved = readJson(statePath, {});
   const lastCall = saved.api_calls?.at(-1);
-  if (lastCall) Object.assign(lastCall, { status: res.ok ? 'COMPLETED' : 'FAILED', request_id: requestId, http_status: res.status, response_id: json?.id || null, model: json?.model || payload.model, usage: json?.usage || null });
+  if (lastCall) Object.assign(lastCall, { status: res.ok ? 'COMPLETED' : 'FAILED', request_id: requestId, http_status: res.status, response_id: json?.id || null, response_status:json?.status || null, model: json?.model || payload.model, usage: json?.usage || null,
+    image_generation_calls:(json?.output||[]).filter(x=>x.type==='image_generation_call').map(x=>({id:x.id,status:x.status,usage:x.usage||null})) });
   persistOperatorState(saved);
+  if(job.v31?.recovery_proposal===true) {
+    const auditDir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8/runtime';
+    fs.mkdirSync(auditDir,{recursive:true});
+    fs.appendFileSync(auditDir+'/api-usage.jsonl',JSON.stringify({at:new Date().toISOString(),...lastCall,
+      error:json?.error||null,qc_output:generation?undefined:outputText(json)})+'\n');
+  }
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -296,6 +303,7 @@ async function generateScene(attempt, previousQa = null) {
 
   const response = await openaiResponse({
     model: GENERATION_MODEL,
+    ...(job.v31?.recovery_proposal===true ? {max_tool_calls:1} : {}),
     input: [{ role: 'user', content }],
     tools: [{
       type: 'image_generation',
@@ -433,6 +441,11 @@ function qaPass(qa) {
 
 async function visualQa(attempt) {
   const groundingEvidence = await inspectSceneGrounding();
+  if(job.v31?.recovery_proposal===true) {
+    const auditDir='editorial/prepublication/2026-10-18-contract-checklist/v31-r8/runtime';
+    fs.mkdirSync(auditDir,{recursive:true});
+    fs.writeFileSync(auditDir+'/independent-grounding.json',JSON.stringify(groundingEvidence,null,2)+'\n');
+  }
   const thumbPath = path.resolve(job.thumbnail);
   const gbpPath = job.gbp_image ? path.resolve(job.gbp_image) : '';
   const typography = readJson(`${thumbPath}.typography.json`);

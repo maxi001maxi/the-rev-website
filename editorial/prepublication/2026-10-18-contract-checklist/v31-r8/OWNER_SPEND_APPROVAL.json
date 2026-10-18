@@ -1,0 +1,28 @@
+{
+  "status": "APPROVED",
+  "approved_by": "OWNER",
+  "approved_at": "2026-10-18T11:55:32+09:00",
+  "owner_message_reference": "ChatGPT Owner instruction: Editorial AI v3.1｜10月18日記事 R8の限定生成を承認します。",
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+  "source_sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+  "scope": "SINGLE_GENERATION_AND_PRIVATE_QC",
+  "source_reuse": true,
+  "max_generation_calls": 1,
+  "max_qc_calls": 2,
+  "automatic_retry": false,
+  "job_sha256": "ca555e7b048fa1ab773784c1efc3d73266c72b481911cbe60560a6368a068156",
+  "brief_sha256": "ad8b464e4664e947ef51b4cd7ccc427b5e2aabe5e1c71bdd6ee8b771c2db5cf6",
+  "free_preflight_file_sha256": "71ac4fb6ae572345c27eccfa7d7d74101731d1aafa7eb5d1066ec2ccbbe8b72f",
+  "design_snapshot_commit": "315495cd8270394103bdad7e4719ab310f4f0892",
+  "existing_key": "GitHub Actions OPENAI_API_KEY",
+  "prohibited_operations": {
+    "main_merge": true,
+    "production_code": true,
+    "supabase": true,
+    "xserver": true,
+    "article_publish": true,
+    "gbp_post": true
+  },
+  "confirmed_cost": null
+}

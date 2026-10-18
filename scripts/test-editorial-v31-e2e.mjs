@@ -211,6 +211,7 @@ test('Oct18 recovery contract reaches the real operator; pending or altered appr
     const prompt=payload.input[0].content[0].text;
     assert(prompt.includes(brief.shot_contract.subject_action));assert(prompt.includes(brief.shot_contract.eyeline));
     assert.equal(payload.tools[0].action,'edit');
+    assert.equal(payload.max_tool_calls,1,'R8 request cannot produce multiple built-in image calls');
     const state=read(path.join(root,`editorial/image-operator-state/${job.slug}.json`));
     assert.equal(state.api_calls.length,1);assert.equal(state.api_calls[0].status,'FAILED');
     assert.equal(oct18V31BriefPreflight(read(path.join(root,'job.json')),brief,{requireApproval:true}).pass,true,'derived runtime fields must not invalidate the approved resume contract');
