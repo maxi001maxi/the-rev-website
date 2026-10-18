@@ -37,6 +37,12 @@ on:
       - 'lib/editorialArticleOverlap.mjs'
       - 'lib/editorialArticleHistory.mjs'
       - 'lib/editorialReadiness.mjs'
+      - 'lib/editorialExecution.mjs'
+      - 'lib/editorialImageAcceptance.mjs'
+      - 'lib/editorialAssetBytes.mjs'
+      - 'lib/editorialLockedBackgroundEdit.mjs'
+      - 'editorial/image-review/rejected-assets.mjs'
+      - 'scripts/test-editorial-v31-e2e.mjs'
       - 'lib/editorialImageSheetView.mjs'
       - 'lib/editorialScenePlausibility.mjs'
       - 'scripts/test-editorial-consistency.mjs'
@@ -181,6 +187,7 @@ jobs:
       - run: npm run test:topic-approval
       - run: node --test scripts/test-daily-editorial-connector-plan.mjs
       - run: node --test scripts/test-editorial-consistency.mjs
+      - run: npm run test:editorial-v31
       - run: npm run test:phase-9
       - run: node scripts/test-editorial-brand-qc.mjs
       - run: npm run test:blog-taxonomy

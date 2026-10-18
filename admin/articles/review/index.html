@@ -453,6 +453,12 @@ async function loadPreflight() {
     $('loading-box').classList.add('admin-hidden');
 
     renderChecks(data.checks);
+    if (data.execution) {
+      const e=data.execution;
+      let box=document.getElementById('editorial-execution');
+      if (!box) { box=document.createElement('p'); box.id='editorial-execution'; box.setAttribute('role','status'); $('markdown-pre').before(box); }
+      box.textContent=`工程 ${e.current_stage}/14 ／ ${e.stopped_reason || '検証結果を確認してください。'} ${e.next_action}`;
+    }
     renderMeta(data.article, data);
     renderPreview(data.article, data.publicUrl);
     $('markdown-pre').textContent = data.markdown || '（必須項目が不足しているため、Markdownを生成できません）';

@@ -1,5 +1,7 @@
 # THE REV. Editorial Image System｜完全引き継ぎ・実行Runbook
 
+**2026-10-18 v3.1受入追記（PR実装・本番適用前）:** [全工程受入表](../docs/qa/editorial-v31-20261018/ACCEPTANCE.md)を参照。下記の旧「自動化済み」記述は全14工程の本番受入を意味しない。新規生成はOpenAIのみ。既知不採用R2/R6の版・画像hashは古いPASSより優先して拒否。API障害・不合格を再生成で自動回避せず、保存済み成果物・停止理由を保持する。実10/18は画像GateでBLOCKED、新規有料生成はOwner承認待ち。
+
 **2026-10-14 画像品質向上の試験開発:** `IMAGE_QUALITY_IMPROVEMENT_V1.md` が段階開発計画・評価手順。新機能はOFF既定、任意SHADOWは記録のみ。現行画像生成・実背景・人間Publish境界は変更しない。
 
 **2026-10-07 additive Current Truth:** new generation uses [Source / Scene Grounding v1](SCENE_GROUNDING_V1.md), the existing scoped registry's byte-locked zone inventories, independent equipment observation and recent-12 semantic fingerprints. Old design prose below is historical; Human First V2.6 / Golden Typography from `AGENTS.md` and code remain authoritative. Equipment in a rear training zone must never be copied/moved to reception. Existing QA thresholds and Human Publish remain mandatory.

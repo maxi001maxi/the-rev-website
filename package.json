@@ -43,7 +43,8 @@
     "test:build-parity": "node scripts/test-build-parity.mjs",
     "test:public-site-browser": "node scripts/qa-unified-site.mjs",
     "test:technical-site": "node scripts/test-technical-site.mjs",
-    "test:technical-browser": "node scripts/qa-technical-site.mjs"
+    "test:technical-browser": "node scripts/qa-technical-site.mjs",
+    "test:editorial-v31": "node --test scripts/test-editorial-v31-e2e.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

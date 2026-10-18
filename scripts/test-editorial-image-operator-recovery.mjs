@@ -21,9 +21,10 @@ test('scene rejection consumes the remaining bounded generation retry even with 
     background_secondary_pass: false, background_soft_blur_pass: false, main_claim_visualization: 4 }, job), false);
 });
 test('typography rejection preserves an otherwise accepted scene and never changes QA', () => {
-  const qa = structuredClone(scene);
+  const qa = { ...structuredClone(scene), manual_visual_rejection:false };
   assert.equal(retainSceneForOverlay(qa, job), true);
-  assert.deepEqual(qa, scene);
+  assert.deepEqual(qa, {...scene,manual_visual_rejection:false});
+  assert.equal(retainSceneForOverlay(scene,job), false, 'human rejection cannot be retained as an accepted scene');
   assert.equal(retainSceneForOverlay({ ...scene, anatomy_pose_realism: undefined }, job), false);
 });
 test('legacy failed QA retains its asset budget; a new asset version does not', () => {

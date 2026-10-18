@@ -1,3 +1,5 @@
+import { editorialExecution } from '../../lib/editorialExecution.mjs';
+import { imageStopReason } from '../../lib/editorialImageAcceptance.mjs';
 // GET /api/admin/publish-preview?id={uuid}
 //
 // Publish Review画面（/admin/articles/review/）を開いた時点で実行されるPreflight。
@@ -20,14 +22,23 @@ import { evaluateEditorialImageReview } from '../../lib/editorialImageReviewGate
 
 const IMAGE_RETRY_COOLDOWN_MS = 15 * 1000;
 
-async function refreshStaleEditorialImages(supabase, id) {
+async function persistImageStatus(supabase, id, patch) {
+  const saved=await supabase.from('admin_article_drafts').update(patch).eq('id',id).select('id').maybeSingle();
+  if (saved.error || !saved.data) throw new Error('IMAGE_ADMIN_STATE_SYNC_FAILED');
+}
+
+export async function refreshStaleEditorialImages(supabase, id) {
   const { data: draft, error } = await supabase
     .from('admin_article_drafts')
     .select('*')
     .eq('id', id)
     .maybeSingle();
 
-  if (error || !draft || draft.editorial_source !== 'the-rev-editorial-ai') return;
+  if (error) throw new Error('IMAGE_DRAFT_READ_FAILED');
+  if (!draft || draft.editorial_source !== 'the-rev-editorial-ai') return;
+
+  // Opening Review must never clear a rejection or exhausted budget.
+  if (imageStopReason(draft)) return;
 
   const sourceLockCurrent =
     draft.image_render_version === IMAGE_RENDER_VERSION &&
@@ -59,9 +70,7 @@ async function refreshStaleEditorialImages(supabase, id) {
       columnLabel: draft.image_series_label || '',
       imageHeadlineShort: draft.image_headline_short || ''
     });
-    await supabase
-      .from('admin_article_drafts')
-      .update({
+    await persistImageStatus(supabase, id, {
         image_status: 'PREPARING',
         image_render_version: pending.renderVersion,
         image_strategy: pending.strategy,
@@ -73,8 +82,7 @@ async function refreshStaleEditorialImages(supabase, id) {
         image_qa_model: pending.qaModel,
         image_brand_qa_score: null,
         image_last_error: 'V2.3 Hybrid画像をAI Operatorが生成・Visual QCするまでReview & Publishは停止します。'
-      })
-      .eq('id', id);
+      });
     return;
   }
 
@@ -92,21 +100,16 @@ async function refreshStaleEditorialImages(supabase, id) {
 
   const readiness = await checkEditorialImageReady(draft);
   if (!readiness.ready) {
-    await supabase
-      .from('admin_article_drafts')
-      .update({
+    await persistImageStatus(supabase, id, {
         image_status: 'PREPARING',
         image_asset_ready: false,
         image_checked_at: new Date().toISOString(),
-        image_last_error: null
-      })
-      .eq('id', id);
+        image_last_error: readiness.reason || draft.image_last_error || 'IMAGE_NOT_READY'
+      });
     return;
   }
 
-  await supabase
-    .from('admin_article_drafts')
-    .update({
+  await persistImageStatus(supabase, id, {
       image_status: 'READY',
       image_asset_ready: true,
       image_checked_at: new Date().toISOString(),
@@ -116,8 +119,7 @@ async function refreshStaleEditorialImages(supabase, id) {
         Number(readiness.qa?.article_visual_relevance ?? readiness.qa?.series_consistency ?? 0)
       ) || null,
       image_last_error: null
-    })
-    .eq('id', id);
+    });
 }
 
 export const config = { maxDuration: 300 };
@@ -145,6 +147,7 @@ export default async function handler(req, res) {
     await refreshStaleEditorialImages(ctx.supabase, id);
   } catch (e) {
     console.error('Phase 10 image preparation check failed', e);
+    return sendError(res, 502, 'image_refresh_failed', '画像状態の反映に失敗しました。保存済み成果物を保持し、同期から再開してください。');
   }
 
   let result;
@@ -160,6 +163,7 @@ export default async function handler(req, res) {
 
   res.setHeader('Cache-Control', 'no-store');
   return res.status(200).json({
+    execution: editorialExecution({article:result.draft, preflight:result}),
     ok: result.ok,
     mode: result.mode,
     checks: result.checks,

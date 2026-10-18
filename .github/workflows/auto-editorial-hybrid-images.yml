@@ -36,7 +36,7 @@ env:
   XSERVER_REMOTE_DIR: '/'
   EDITORIAL_IMAGE_GENERATION_MODEL: 'gpt-5.6'
   EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6'
-  EDITORIAL_IMAGE_MAX_ATTEMPTS: '3'
+  EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'
 
 jobs:
   generate:
@@ -113,6 +113,11 @@ jobs:
                   continue
 
               slug = str(data.get('slug') or '')
+              # Published articles are immutable without a separately approved
+              # replacement. A stale R5 job must never regenerate published R7.
+              if Path(f'content/blog/{slug}.md').is_file():
+                  print(f'Published article retained; replacement needs Owner approval: {job}')
+                  continue
               qa = str(data.get('qa_report_path') or '')
               thumb = str(data.get('thumbnail') or '')
               og = str(data.get('og_image') or '')
@@ -120,6 +125,9 @@ jobs:
               state = Path(f'editorial/image-operator-state/{slug}.json')
 
               state_data = read_json(state) if state.is_file() else {}
+              if state_data.get('asset_version') == data.get('asset_version') and state_data.get('status') in ['ERROR','BLOCKED_MAX_ATTEMPTS','BLOCKED_PROVIDER_CREDITS','OVERLAY_QC_REJECTED','GENERATING']:
+                  print(f'Recovery review required; no automatic API retry: {job}')
+                  continue
               qa_data = read_json(qa) if qa and Path(qa).is_file() else {}
               gbp_ready = (not gbp) or Path(gbp).is_file()
               already_ready = (

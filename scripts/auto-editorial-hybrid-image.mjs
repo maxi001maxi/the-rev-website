@@ -1,3 +1,7 @@
+import { preflightEditorialImage } from '../lib/editorialProductionImagePreflight.mjs';
+import { v3BriefPreflight } from './preflight-v3-image-brief.mjs';
+import { imageAcceptanceIssues } from '../lib/editorialImageAcceptance.mjs';
+import { editV3PhotoWithLockedBackground } from '../lib/editorialLockedBackgroundEdit.mjs';
 import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -5,7 +9,7 @@ import { createHash } from 'node:crypto';
 import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_CHECKS,
   GOLDEN_REFERENCE_REVISION, GOLDEN_REFERENCE_ASSETS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
-import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
+import { retainSceneForOverlay, operatorStateMatchesAsset, operatorResumePlan, reserveImageApiCall } from '../lib/editorialImageOperatorRecovery.mjs';
 import {verifyDistinctContextualFacilitySourceReuse} from '../lib/editorialContextualSourceReuse.mjs';
 import {routeBSourceReuse,ROUTE_B_VERSION} from '../lib/editorialOct18RouteB.mjs';
 import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass, canonicalizeRecentFingerprint } from '../lib/editorialSceneGrounding.mjs';
@@ -40,6 +44,9 @@ const registry = JSON.parse(fs.readFileSync('editorial/automated-image-sources.j
 const canonicalSource = registry.sources.find(s => s.source_id===job.automation?.selected_source_id && s.repo_path===sourcePath && s.drive_file_id===(job.background_source?.drive_file_id || job.background_source?.cached_frame_drive_file_id));
 const hashFile = p => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 if (!canonicalSource?.scene_inventory || hashFile(sourcePath)!==canonicalSource.scene_inventory.source_sha256) throw new Error('Canonical source inventory/bytes mismatch');
+const freePreflight = preflightEditorialImage(job, registry);
+const briefPreflight = v3BriefPreflight(job, registry);
+if (!freePreflight.pass || !briefPreflight.pass) throw new Error('IMAGE_FREE_PREFLIGHT_FAILED: '+[...freePreflight.errors,...briefPreflight.errors].join(','));
 job.source_scene_inventory = canonicalSource.scene_inventory;
 job.scene_grounding_version = SCENE_GROUNDING_VERSION;
 job.scene_plan ||= planGroundedScene({title:job.article_title},canonicalSource,job.automation?.recent_semantic_articles || []);
@@ -108,6 +115,9 @@ function dataUrl(filePath) {
 }
 
 async function openaiResponse(payload) {
+  const generation = (payload.tools || []).some(x => x.type === 'image_generation');
+  const reserved = reserveImageApiCall(readJson(statePath, {}), { generation, maxGeneration: MAX_TOTAL_ATTEMPTS, maxQc: 2 });
+  fs.writeFileSync(statePath, JSON.stringify(reserved, null, 2) + '\n');
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -122,6 +132,10 @@ async function openaiResponse(payload) {
   let json = null;
   try { json = JSON.parse(body); } catch {}
 
+  const saved = readJson(statePath, {});
+  const lastCall = saved.api_calls?.at(-1);
+  if (lastCall) Object.assign(lastCall, { status: res.ok ? 'COMPLETED' : 'FAILED', request_id: requestId, http_status: res.status, response_id: json?.id || null, model: json?.model || payload.model, usage: json?.usage || null });
+  fs.writeFileSync(statePath, JSON.stringify(saved, null, 2) + '\n');
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -171,6 +185,7 @@ function generationPrompt(attempt, previousQa = null) {
   const compositionHint = String(job.composition_hint || '').trim();
   const thumbnailClaim = String(job.thumbnail_claim || '').trim();
   const visibleAction = String(job.visible_action || '').trim();
+  const creativeBrief = job.v3?.creative_brief_path ? readJson(job.v3.creative_brief_path) : null;
   const emotionalState = String(job.emotional_state || '').trim();
   const humanFirstLayout = String(job.layout_variant || '') === 'human-first-v1';
   const impactLayout = String(job.layout_variant || '') === 'impact-v1';
@@ -241,6 +256,8 @@ function generationPrompt(attempt, previousQa = null) {
     `Editorial copy that will be added later: ${job.image_headline_short}`,
     `Source selection reason: ${sourceNote}`,
     `Allowed treatment: ${treatment}`,
+    creativeBrief ? `APPROVED SHOOTING BRIEF (not a quality PASS): ${JSON.stringify(creativeBrief.shooting_brief || {})}` : '',
+    '- Preserve the body direction, actual gaze target, hand action and subject-to-equipment distance from the approved brief. A static pose that merely occupies the right area is not a semantic match.',
     attempt > 1 ? `This is the final allowed retry (${attempt}/2). Correct the prior rejection without changing the article claim.` : '',
     attempt > 1 && previousQa?.comments ? `Previous Visual QC rejection: ${String(previousQa.comments).slice(0, 600)}` : ''
   ].filter(Boolean).join('\n');
@@ -320,6 +337,7 @@ function deterministicRecentIds() {
 }
 
 function qaPass(qa) {
+  if (imageAcceptanceIssues(job, qa).length) return false;
   if (!sceneGroundingPass(qa)) return false;
   const humanFirstRequired = String(job.layout_variant || '') === 'human-first-v1';
   const humanFirstPass = !humanFirstRequired || (
@@ -541,6 +559,8 @@ async function visualQa(attempt) {
     input: [{
       role: 'user',
       content: [
+        {type:'input_text',text:'R7 PHOTOGRAPHIC QUALITY REFERENCE ONLY: compare subject clarity, credible integration, quiet optical depth and readable action. Do not copy pose or location. Every realism axis must score at least 9; geometry/meaning disagreement means FAIL.'},
+        {type:'input_image',image_url:dataUrl('assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg'),detail:'high'},
         { type: 'input_text', text: prompt },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
@@ -659,6 +679,7 @@ async function visualQa(attempt) {
     checked_at: new Date().toISOString(),
     review_mode: 'HYBRID_GENERATED',
     realism_qc_version: 'v1',
+    editorial_image_revision: '3.1',
     scene_plausibility_version: job.scene_plausibility_version || job.policy?.scene_plausibility_version || null,
     gbp_image_required: Boolean(job.gbp_image),
     gbp_image_path: job.gbp_image || '',
@@ -709,7 +730,8 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
     'Equipment vocabulary: training_rack, cable_machine, barbell, weight_plates, training_bench, oxygen_room, denba_device, boxing_gloves, boxing_mitt, medical_device, unknown_equipment. A combined rack/cable unit can be listed as training_rack only. List every major equipment object. Do not list reception furniture, phone or paper as training equipment.',
     'Zones: reception, rear_training_area, training_area, boxing_area, recovery_area. In a lobby, the rack beyond the reception counter is rear_training_area; ANY new rack in the customer/foreground zone is reception.',
     'Location is the customer activity area, not a distant room. Record equipment_relocated=true if copied, enlarged or moved across floor/room zones compared to the source.',
-    `Generated planned meaning (judge actual image against this, do not infer observation from plan): ${JSON.stringify(inspectionJob.scene_plan)}`,
+    'Observe body direction, gaze and action from pixels first. Do not infer an intended action from the article or generation plan.',
+    `Article subject for semantic comparison only: ${inspectionJob.article_title}`,
     'Return {source:{complete:boolean,equipment:[{object,zone}]},generated:{complete:boolean,equipment:[{object,zone}],location_type,subject_zone,human_action,equipment_relocated:boolean,room_geometry_preserved:boolean,article_scene_match:boolean,scene_fingerprint:{scene_type,location_type,human_action,composition_type,visual_role,article_intent}},recent:[{slug,scene_fingerprint:{same six fields}}]}.',
     'Use plan vocabulary for actually matching actions only. rack_adjustment/cable_operation/strength_exercise cannot be renamed observing_real_equipment. Infer recent visual fields from actual images, but article_intent will be normalized by canonical editorial title logic in code. Do not promote old DENBA concept/recovery articles into equipment_explanation merely because the product is visible. Do not vary labels merely because person gender, clothes or file differ.',
     'Missing or obscured evidence: complete=false. Do not guess a safe answer.'
@@ -734,7 +756,15 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
 }
 
 function writeState(state) {
-  fs.writeFileSync(statePath, JSON.stringify({ ...state, asset_version: job.asset_version }, null, 2) + '\n');
+  const old = readJson(statePath, {});
+  const retained = old.asset_version === job.asset_version ? { api_calls: old.api_calls || [], scene_sha256: old.scene_sha256, transitions:old.transitions || [] } : {};
+  const currentStage = state.status === 'GENERATING' ? 8 : state.status === 'SCENE_GENERATED' ? 8 : state.status === 'READY_CANDIDATE' ? 11 : 9;
+  const hasScene = Boolean(state.scene_sha256 || retained.scene_sha256);
+  const checkpoint = { current_stage:currentStage, last_successful_stage:state.status === 'READY_CANDIDATE' ? 10 : hasScene ? 8 : 7,
+    stopped_reason:state.last_error || null, next_action:state.status === 'READY_CANDIDATE' ? 'STAGE_AND_SYNC' : state.status === 'SCENE_GENERATED' ? 'OVERLAY_AND_QC' : 'REVIEW_FAILURE_BEFORE_RETRY',
+    human_approval_required:!['GENERATING','SCENE_GENERATED','READY_CANDIDATE'].includes(state.status), confirmed_cost:null };
+  retained.transitions=[...(retained.transitions || []),{at:new Date().toISOString(),status:state.status,...checkpoint}].slice(-50);
+  fs.writeFileSync(statePath, JSON.stringify({ ...retained, ...state, ...checkpoint, asset_version: job.asset_version }, null, 2) + '\n');
 }
 
 // Actual-image negative control, not just a synthetic metadata unit test.
@@ -778,7 +808,12 @@ if (!sameAssetVersion && Object.keys(rawPreviousState || {}).length) {
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
-const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED';
+const resume = operatorResumePlan(previousState, job, {hashFile, exists: fs.existsSync});
+if (resume.route === 'STOP') {
+  console.log(JSON.stringify({status:'RECOVERY_REVIEW_REQUIRED', reason:resume.reason, slug:job.slug}));
+  process.exit(0);
+}
+const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED' || resume.route === 'OVERLAY_AND_QC';
 // A repaired scene may be re-graded, but must never silently incur a new
 // image generation call if state routing does not match the requested asset.
 if(process.env.EDITORIAL_IMAGE_DISABLE_GENERATION === '1' && !forceOverlayRerender)
@@ -957,10 +992,11 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     console.log(`Automated Hybrid image attempt ${attemptsTotal}/${MAX_TOTAL_ATTEMPTS}: ${job.slug}`);
     // Persist BEFORE the paid call so a crash/ambiguous timeout cannot silently
     // spend a second image attempt on this same authorized asset version.
-    if(job.asset_version===ROUTE_B_VERSION)writeState({slug:job.slug,status:'GENERATING',
+    writeState({slug:job.slug,status:'GENERATING',
       attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,
       updated_at:new Date().toISOString()});
     await generateScene(attemptsTotal, lastQa);
+    writeState({slug:job.slug,status:'SCENE_GENERATED',attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,scene_sha256:hashFile(job.generated_scene_path),updated_at:new Date().toISOString()});
     renderOverlay();
     lastQa = await visualQa(attemptsTotal);
 
@@ -1012,6 +1048,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
+    break;
   } catch (e) {
     lastError = String(e?.message || e);
 
@@ -1039,10 +1076,12 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
 
     preserveRejectedCandidate('GENERATION_OR_OVERLAY_EXCEPTION');
     console.error(`Automated image attempt failed: ${lastError}`);
-    if (e.code === 'THUMBNAIL_TYPOGRAPHY_FAILED') break;
+    // Quarantine holds the verified scene for a reviewed restore. Publicly
+    // named outputs never survive a failed operator job.
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
+    break;
   }
 }
 
