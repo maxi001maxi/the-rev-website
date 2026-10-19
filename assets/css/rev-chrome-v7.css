@@ -88,3 +88,8 @@ body[class*="header-tone-"] a.cta .arrow{background:#FAF9F7}
 body[class*="header-tone-"] a.cta .arrow::after{border-color:#FAF9F7}
 body[class*="header-tone-"] a.btn-outline-gold:not(.parking-map-link){box-sizing:border-box;min-height:60px!important;border:1px solid #1F1D1B!important;border-radius:0!important;background:transparent!important;color:#1E1C1A!important;font-size:16px!important;font-weight:500;letter-spacing:.06em!important;box-shadow:none!important}
 body[class*="header-tone-"] a.btn-outline-gold:not(.parking-map-link):hover{background:#1F1D1B!important;color:#FAF9F7!important;border-color:#1F1D1B!important;gap:14px!important}
+
+/* Menu: Instagram text link (Owner decision #1, approved) */
+.rev-menu-actions a.rev-menu-instagram{align-self:center;display:inline-flex;gap:8px;min-height:44px;font-size:14px;font-weight:400;letter-spacing:0;color:#4F4A44}
+.rev-menu-instagram span:first-child{text-decoration:underline;text-underline-offset:6px;text-decoration-color:#CFC9C0}
+.rev-menu-instagram:hover span:first-child{text-decoration-color:#7A5C36;color:#7A5C36}
