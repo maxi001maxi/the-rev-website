@@ -1,0 +1,13 @@
+{
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "status": "RESERVED_BEFORE_API",
+  "run_id": "39209050198",
+  "run_attempt": 1,
+  "source_commit": "8de6f05b3c5070dbd98ccd548a7364429c2a3739",
+  "approval_sha256": "ee1702d3c3299dbc8a738b39486afa3120c98b2b46026a1515b53f1c489749e6",
+  "max_generation_calls": 1,
+  "max_qc_calls": 2,
+  "automatic_retry": false,
+  "production_operations_permitted": false,
+  "created_at": "2026-10-19T06:18:04.641Z"
+}
