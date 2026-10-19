@@ -283,12 +283,8 @@
 
 /* Keep trainer chrome legible over both paper and charcoal sections. */
 .trainer-page .site-header.scrolled{background:var(--ink)!important}
-.trainer-page .site-header.scrolled .nav a{color:var(--trainer-light)!important}
-.trainer-page .site-header.scrolled .nav a[aria-current=page]{color:var(--wood)!important}
-.trainer-page .site-header.scrolled .nav .cta-mini{color:var(--ink)!important}
 .trainer-page .site-header.scrolled .brand-logo--light{opacity:1!important}
 .trainer-page .site-header.scrolled .brand-logo--dark{opacity:0!important}
-.trainer-page .site-header.scrolled .nav-toggle span{background:var(--trainer-light)!important}
 /* Keep the final two-line invitation intact and align both actions. */
 .trainer-page .bottom-cta .h-sec{max-width:none;margin:0 auto 30px}
 .trainer-page .bottom-cta .fin-price{font-family:var(--sans);font-size:17px;letter-spacing:.04em;margin:22px auto 32px}
@@ -455,21 +451,11 @@ body.trainer-page{ background:var(--paper); color:var(--ink); }
   box-shadow:none!important;
   backdrop-filter:blur(8px);
 }
-.trainer-page .nav a,
-.trainer-page .site-header.scrolled .nav a{ color:var(--ink-soft)!important; }
-.trainer-page .nav a:hover,
-.trainer-page .site-header.scrolled .nav a:hover{ color:var(--ink)!important; }
-.trainer-page .nav a[aria-current=page],
-.trainer-page .site-header.scrolled .nav a[aria-current=page]{ color:var(--wood-deep)!important; }
 .trainer-page .nav .nav-en{ color:var(--wood-deep)!important; }
-.trainer-page .nav .cta-mini,
-.trainer-page .site-header.scrolled .nav .cta-mini{ color:var(--ink)!important; }
 .trainer-page .site-header .brand-logo--light,
 .trainer-page .site-header.scrolled .brand-logo--light{ opacity:0!important; }
 .trainer-page .site-header .brand-logo--dark,
 .trainer-page .site-header.scrolled .brand-logo--dark{ opacity:1!important; }
-.trainer-page .site-header .nav-toggle span,
-.trainer-page .site-header.scrolled .nav-toggle span{ background:var(--ink)!important; }
 
 /* ---- ヒーロー：紙面 × ポートレート ---- */
 .trainer-page .tdetail-hero{ background:var(--paper); }
