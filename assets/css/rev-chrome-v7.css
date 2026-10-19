@@ -1,0 +1,90 @@
+/* THE REV. shared page chrome (Stage 2, Claude Design Board 1).
+   Native v7 header tones, menu, footer and mobile booking bar for every page.
+   Header geometry itself lives in unified-header-v7.css; this file adds what the legacy
+   pages used to get from top-v7.css, plus the menu / sticky-bar components. */
+
+/* ---- Header: logo / toggle / booking button states (same rules as top-v7.css) ---- */
+body[class*="header-tone-"] .rev-home-brand{position:relative}
+body[class*="header-tone-"] .rev-home-logo{transition:opacity .26s ease}
+body[class*="header-tone-"] .rev-home-logo-dark{opacity:0}
+body[class*="header-tone-"] .rev-home-logo-light{position:absolute;left:0;top:50%;transform:translateY(-50%);opacity:1}
+body[class*="header-tone-"] .rev-is-scrolled .rev-home-logo-dark{opacity:1}
+body[class*="header-tone-"] .rev-is-scrolled .rev-home-logo-light{opacity:0}
+body[class*="header-tone-"] .rev-home-header #menu-toggle{color:#FAF9F7!important}
+body[class*="header-tone-"] .rev-home-header #menu-toggle [aria-hidden] span{background:#FAF9F7!important;transition:background .28s ease}
+body[class*="header-tone-"] .rev-home-header.rev-is-scrolled #menu-toggle{color:#1E1C1A!important}
+body[class*="header-tone-"] .rev-home-header.rev-is-scrolled #menu-toggle [aria-hidden] span{background:#1E1C1A!important}
+body[class*="header-tone-"] .rev-home-header [data-track="reserve_click"]{background:#1f1d1b55!important;color:#FAF9F7!important;border:1px solid #faf9f78c;transition:background .22s ease,border-color .22s ease}
+body[class*="header-tone-"] .rev-home-header.rev-is-scrolled [data-track="reserve_click"]{background:#1F1D1B!important;border-color:#1F1D1B}
+body[class*="header-tone-"] .rev-home-header [data-track="reserve_click"]:hover{background:#1F1D1B!important;border-color:#FAF9F7}
+body[class*="header-tone-"] .rev-home-header nav li>a{position:relative;transition:color .28s ease}
+body[class*="header-tone-"] #site-header,body[class*="header-tone-"] #site-header a,body[class*="header-tone-"] #site-header span{font-family:'Zen Kaku Gothic New',sans-serif}
+body[class*="header-tone-"] #site-header ul,body[class*="header-tone-"] #site-header li{margin:0;padding:0;list-style:none}
+body[class*="header-tone-"] #site-header img{max-width:none}
+
+/* Tone: dark masthead underneath (price / access / legal): transparent, light logo, solid after scrolling. */
+body.header-tone-dark #site-header:not(.rev-is-scrolled) .rev-home-logo-dark{opacity:0!important}
+body.header-tone-dark #site-header:not(.rev-is-scrolled) .rev-home-logo-light{opacity:1!important}
+
+/* Tone: light masthead underneath (trainer / column / 404): solid paper bar from the first paint. */
+body.header-tone-light #site-header{background:rgba(242,241,238,.97)!important;border-bottom:1px solid rgba(50,46,43,.12)!important}
+body.header-tone-light #site-header .rev-home-logo-dark{opacity:1!important}
+body.header-tone-light #site-header .rev-home-logo-light{opacity:0!important}
+body.header-tone-light #site-header nav ul a{color:#24211E!important;text-shadow:none!important}
+body.header-tone-light #site-header nav>a{background:#1F1D1B!important;border-color:#1F1D1B!important;color:#FAF9F7!important}
+body.header-tone-light #site-header #menu-toggle{color:#1E1C1A!important}
+body.header-tone-light #site-header #menu-toggle [aria-hidden] span{background:#1E1C1A!important}
+
+/* ---- Menu (all pages) ---- */
+.rev-native-drawer{position:fixed;inset:0;z-index:1001;display:flex;flex-direction:column;overflow-y:auto;background:#F2F1EE;color:#1E1C1A;font-family:'Zen Kaku Gothic New',sans-serif;-webkit-text-size-adjust:100%}
+.rev-native-drawer *{box-sizing:border-box}
+.rev-native-drawer a{text-decoration:none;color:inherit}
+.rev-menu-bar{flex:0 0 auto;border-bottom:1px solid #DEDAD3}
+.rev-menu-bar-inner,.rev-menu-body{width:100%;max-width:1710px;margin-inline:auto;padding-inline:clamp(48px,4vw,72px)}
+.rev-menu-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:80px}
+.rev-menu-logo{display:block;width:clamp(148px,14vw,184px);height:auto}
+.rev-menu-close{display:flex;align-items:center;gap:10px;min-height:44px;min-width:44px;padding:0 4px 0 12px;background:none;border:0;font:inherit;font-size:14px;color:#1E1C1A;cursor:pointer}
+.rev-menu-close [aria-hidden]{font-size:22px;line-height:1}
+.rev-menu-body{display:flex;justify-content:flex-start}
+.rev-menu-col{width:100%}
+.rev-menu-col nav{display:flex;flex-direction:column;padding-top:8px}
+.rev-menu-col nav a{display:flex;justify-content:space-between;align-items:center;min-height:60px;border-bottom:1px solid #DEDAD3;font-size:18px;font-weight:500;color:#1E1C1A}
+.rev-menu-col nav a>span:last-child{color:#6B655E}
+.rev-native-drawer .rev-menu-col nav a[aria-current=page]{font-weight:700!important;text-decoration:none!important}
+.rev-menu-col nav a[aria-current=page]>span:first-child{text-decoration:underline;text-underline-offset:6px}
+.rev-menu-actions{display:flex;flex-direction:column;gap:12px;padding:28px 0 40px}
+.rev-menu-actions a{display:flex;align-items:center;justify-content:center;min-height:56px;font-size:16px;font-weight:500;letter-spacing:.06em}
+.rev-menu-primary{background:#1F1D1B;color:#FAF9F7!important}
+.rev-menu-secondary{border:1px solid #1F1D1B}
+.rev-menu-note{margin:4px 0 0;font-size:13px;color:#57524C;text-align:center}
+@media(min-width:861px){.rev-menu-body{justify-content:flex-end}.rev-menu-col{max-width:560px}}
+@media(max-width:1399px){.rev-menu-bar-inner,.rev-menu-body{padding-inline:clamp(20px,4vw,48px)}}
+@media(max-width:640px){.rev-menu-bar-inner{min-height:68px}.rev-menu-bar-inner,.rev-menu-body{padding-inline:20px}}
+
+/* ---- Footer (shared markup; inline styles come from the markup) ---- */
+.rev-site-footer{font-family:'Zen Kaku Gothic New',sans-serif}
+.rev-site-footer a:hover{color:#FAF9F7!important}
+.rev-site-footer a:focus-visible{outline:2px solid #D3B683;outline-offset:4px}
+.rev-site-footer ul{list-style:none;margin:0;padding:0}
+
+/* ---- Mobile booking bar (replaces the old two-button fixed bar) ---- */
+.rev-sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;align-items:center;justify-content:space-between;gap:12px;box-sizing:border-box;padding:13px 20px calc(13px + env(safe-area-inset-bottom));background:#F2F1EE;border-top:1px solid #DEDAD3;box-shadow:0 -3px 20px rgba(37,41,35,.04);color:#1E1C1A;font-family:'Zen Kaku Gothic New',sans-serif}
+.rev-sticky[hidden]{display:none!important}
+@media(max-width:860px){.rev-sticky:not([hidden]){display:flex}}
+.rev-sticky-copy{display:flex;flex-direction:column;line-height:1.5;white-space:nowrap}
+.rev-sticky-copy span{font-size:11px}
+.rev-sticky-copy b{font-family:'Jost',sans-serif;font-size:17px;font-weight:600}
+.rev-sticky-copy small{font-size:11px;color:#6B655E}
+.rev-sticky-book{display:inline-flex;align-items:center;justify-content:space-between;gap:26px;box-sizing:border-box;min-height:54px;padding:12px 24px;background:#1F1D1B;color:#FAF9F7;text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
+.rev-sticky-copy[hidden]+.rev-sticky-book{flex:1 1 auto}
+.rev-sticky-book:focus-visible{outline:2px solid #A9875B;outline-offset:3px}
+@media(max-width:860px){body:has(#rev-sticky) .rev-site-footer{padding-bottom:calc(32px + 76px + env(safe-area-inset-bottom))!important}}
+@media print{.rev-sticky{display:none!important}}
+
+/* ---- Buttons: two systems only (Board 1 C4). Gold, rounded, shadowed and wide-tracked buttons are retired. ---- */
+body[class*="header-tone-"] a.cta{display:inline-flex!important;align-items:center;justify-content:center;gap:14px;box-sizing:border-box;min-height:60px!important;padding:0 44px!important;border-radius:0!important;background:#1F1D1B!important;color:#FAF9F7!important;font-size:16px!important;font-weight:500;letter-spacing:.06em!important;box-shadow:none!important;transform:none!important}
+body[class*="header-tone-"] a.cta:hover{background:#34302C!important;transform:none!important;box-shadow:none!important}
+body[class*="header-tone-"] a.cta .arrow{background:#FAF9F7}
+body[class*="header-tone-"] a.cta .arrow::after{border-color:#FAF9F7}
+body[class*="header-tone-"] a.btn-outline-gold:not(.parking-map-link){box-sizing:border-box;min-height:60px!important;border:1px solid #1F1D1B!important;border-radius:0!important;background:transparent!important;color:#1E1C1A!important;font-size:16px!important;font-weight:500;letter-spacing:.06em!important;box-shadow:none!important}
+body[class*="header-tone-"] a.btn-outline-gold:not(.parking-map-link):hover{background:#1F1D1B!important;color:#FAF9F7!important;border-color:#1F1D1B!important;gap:14px!important}
