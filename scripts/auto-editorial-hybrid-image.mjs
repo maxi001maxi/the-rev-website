@@ -269,13 +269,17 @@ function generationPrompt(attempt, previousQa = null) {
     '- No pasted/cutout/sticker look.',
     '',
     'COMPOSITION:',
-    '- Landscape editorial photography suitable for a 16:9 card.',
+    job.asset_version===R9_VERSION
+      ? '- R9 SOURCE-LOCK OVERRIDE: keep the supplied 1024x1536 portrait source plate and camera projection. Edit only the approved right-foreground polygon. The final landscape cards are cropped later by the fixed renderer.'
+      : '- Landscape editorial photography suitable for a 16:9 card.',
     ...layoutNotes,
     "- Compose ONE scene that survives both the 16:9 Thumbnail/OGP treatment and the GBP 4:3 full-scene layout.",
     "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–68% of the generated image width and keep the face/action inside roughly the 44%–84% horizontal band.",
     '- When an article-specific composition override is supplied, follow it instead of the default band while keeping the full meaningful action readable in both the right-panel crop and the GBP 4:3 full-scene layout.',
-    '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
-    '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
+    job.asset_version===R9_VERSION
+      ? '- R9 placement overrides the generic horizontal band/margins: face, both hands, sheet and actual gaze must stay inside their approved shot-contract boxes. The torso continues beyond the bottom crop. Do not enlarge the polygon or alter room pixels to fit the customer.'
+      : '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
+    job.asset_version===R9_VERSION ? '' : '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
     '- Premium, restrained, warm, calm, realistic. Not a commercial fitness advertisement.',
     '- Do not render Japanese or English typography into the scene. Text will be added later by a deterministic overlay.',
     '',
