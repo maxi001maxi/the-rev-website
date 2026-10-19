@@ -81,7 +81,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
   const root=path.resolve(ROOT,'.operator-rejected-evidence',safeSlug,safeVersion);
   const candidates=[
     job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
-    ...(job.asset_version===R9_VERSION?[job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json']:[]),
+    ...(job.asset_version===R9_VERSION?[job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json',job.generated_scene_path+'.raw-mask-check.json']:[]),
     job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
     ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
       [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
@@ -104,7 +104,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
         original_media_retained_only_in_quarantine:true,files
       },null,2)+'\n');
       console.log(JSON.stringify({status:'REJECTED_MEDIA_QUARANTINED',slug:job.slug,media_files:files.length}));
-      if(job.asset_version===R9_VERSION)for(const p of [job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json']) {
+      if(job.asset_version===R9_VERSION)for(const p of [job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json',job.generated_scene_path+'.raw-mask-check.json']) {
         if(files.some(f=>f.path===p))fs.rmSync(path.resolve(p),{force:true});
       }
     }

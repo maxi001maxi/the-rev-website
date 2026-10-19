@@ -49,5 +49,16 @@ export const rejectedEditorialAssets = Object.freeze([
     "5b414a5bf71f80486ef53c92d0bf939acfd5bac66ea0bcbbff5fee52f799dbfd"
   ],
   "reason": "R8 independent rejection; regression fixture editorial/fixtures/oct18-image-rejections/manifest.json"
+},
+{
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "sha256": [
+    "93b9812b0aee39dbf00c254acb30d12a84d85065d8ad79042ab161a01111ab7a",
+    "4660315f6255dff9e883c2503933e72024dde27e90595016b95604341aaca081",
+    "089465f567e24f4e930bf5f9ab7e915814f1369a3f65c165901283f7d2e6f227",
+    "1b0f8eccb7f1609fcee3ce7ec8e56cdc9640f1819b02a4e115e042153acd2fbb",
+    "9dea8de14e696a6e2e4f8488aa3428dff7934822995b638cedc2faa220455a6d"
+  ],
+  "reason": "R9 actual independent rejection; raw subject escaped approved edit mask and hard restore clipped face/paper; run 39209050198"
 }
 ]);

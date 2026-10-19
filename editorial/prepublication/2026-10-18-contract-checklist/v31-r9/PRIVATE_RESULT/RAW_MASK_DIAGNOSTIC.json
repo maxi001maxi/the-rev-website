@@ -1,0 +1,18 @@
+{
+  "actual_model_calls": 0,
+  "synthetic_wrapper_calls": 1,
+  "raw_checkpoint_retained": true,
+  "wrapper_stopped_before_composite_and_qc": true,
+  "raw_sha256": "4660315f6255dff9e883c2503933e72024dde27e90595016b95604341aaca081",
+  "source_plate_sha256": "8094ce2ac622baafe09d853a9adc8292dfe46ecf2976e240cade9c22474dfefe",
+  "pass": false,
+  "protected_pixels": 1260902,
+  "significantly_changed_raw_pixels": 596423,
+  "changed_fraction": 0.473012970080149,
+  "max_changed_fraction": 0.02,
+  "channel_delta_tolerance": 32,
+  "purpose": "reject mask-escaping raw edits before hard restore; not person realism acceptance",
+  "hard_restore_performed": false,
+  "original_qa_unchanged": true,
+  "next_action": "MASK_CONFORMANCE_AND_SUBJECT_GEOMETRY_REQUIRED_BEFORE_ANY_NEW_SPEND"
+}

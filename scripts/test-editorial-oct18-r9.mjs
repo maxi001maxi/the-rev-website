@@ -84,3 +84,17 @@ test('saved actual renderer output keeps all three protected equipment anchors a
   for(const g of report.geometry){assert(g.person_action_safe);assert(g.protected_equipment.every(a=>a.visible));}
   for(const v of report.canonical_renderer.variants){assert.equal(hash(v.path),v.sha256);assert.equal(v.typography_measurements_pass,true);}
 });
+
+test('a raw edit escaping the polygon stops before destructive hard restore or paid QC',async()=>{
+  const {auditR9RawMaskConformance}=await import('../lib/editorialOct18R9.mjs');
+  const W=64,H=96,plan={...job.v31.locked_edit_plan,size:'64x96',feather_px:1};
+  const source=new Uint8ClampedArray(W*H*4).fill(255),escaped=new Uint8ClampedArray(source),inside=new Uint8ClampedArray(source);
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++) {
+    const i=(y*W+x)*4;escaped[i]=0;
+    if(r9PixelAlpha(x+.5,y+.5,plan)>0)inside[i]=0;
+  }
+  assert.equal(auditR9RawMaskConformance(source,inside,W,H,plan).pass,true);
+  assert.equal(auditR9RawMaskConformance(source,escaped,W,H,plan).pass,false);
+  const file=R9_DIR+'/PRIVATE_RESULT/RAW_MASK_DIAGNOSTIC.json';
+  if(fs.existsSync(file)){const d=read(file);assert.equal(d.raw_sha256,hash(R9_DIR+'/PRIVATE_RESULT/images/raw.png'));assert.equal(d.pass,false);assert.equal(d.hard_restore_performed,false);assert.equal(d.actual_model_calls,0);}
+});

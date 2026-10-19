@@ -1,3 +1,11 @@
+# 2026-10-19 実行後の現在状態
+
+**REJECTED_AND_QUARANTINED / BLOCKED_IMAGE_QC / NOT_READY_FOR_OWNER_PUBLISH。** R9を実生成1回・独立QC2回で実行し、予算は閉鎖済み。原生成の人物が予定マスク外に出たため、背景復元処理が顔・用紙を切り落とした。元画像と失敗結果・QA・使用量は `PRIVATE_RESULT/` に保存。無料の原生成マスク逸脱検査を追加し、この実物が合成前に拒否されることを再現した。追加の有料呼び出しなし。
+
+現在の実行根拠: `PRIVATE_RESULT/RESULT.json`、`RECOVERY_STATUS.json`、`RAW_MASK_DIAGNOSTIC.json`、`SPEND_CLAIM.json`。元の20/20本文はDB SHA読み戻しでも不変。本番同期・公開なし。以下は実行前の無料設計履歴であり、現在の未実行状態を意味しない。
+
+---
+
 # R9：R4の設備が見える方向を引き継ぐ無料復旧設計
 
 対象は既存記事 BLOG-20261018-082d82。**FREE_DESIGN_PREFLIGHT_PASS / 有料生成は未承認・未実行 / 公開準備完了ではない。** 本文20/20原稿、正規画像ジョブ、R8の不合格QA・消費済み予算は変更していない。

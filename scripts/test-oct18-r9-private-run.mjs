@@ -48,3 +48,17 @@ test('file dimensions are read from real bytes and corrupted input fails closed'
   for(const [name,height] of [['thumbnail',675],['og',630],['gbp',900]])assert.deepEqual(imageDimensions(fs.readFileSync(`${DIR}/planning-${name}.jpg`)),{width:1200,height});
   assert.throws(()=>imageDimensions(Buffer.from('not an image')),/INVALID_IMAGE/);
 });
+
+test('actual R9 pixels stay rejected and the closed budget cannot authorize another attempt',()=>{
+  const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+  if(!fs.existsSync(DIR+'/PRIVATE_RESULT/RESULT.json'))return;
+  const r=read(DIR+'/PRIVATE_RESULT/RESULT.json'),q=read(DIR+'/PRIVATE_RESULT/independent-visual-qc.json');
+  assert.equal(r.status,'REJECTED_AND_QUARANTINED');assert.equal(q.pass,false);
+  assert.deepEqual([r.api_usage.generation_requests,r.api_usage.qc_requests,r.api_usage.image_generation_tool_calls],[1,2,1]);
+  assert.equal(read(CLAIM).status,'CLOSED_NO_AUTOMATIC_RETRY');
+  for(const f of r.files)assert.equal(createHash('sha256').update(fs.readFileSync(f.path)).digest('hex'),f.sha256);
+  assert.equal(read(DIR+'/PRIVATE_RESULT/source-pixel-lock.json').changed_protected_pixels,0);
+  assert.equal(q.manual_visual_rejection,true);
+  assert.equal(hybridQaReady({slug:q.slug,image_asset_version:q.asset_version,image_render_version:q.render_version,image_strategy:'reference-v2-gpt-image-hybrid-drive-source'},q),false,'background pixel equality cannot override a cut-off face');
+  assert.throws(()=>claimPrivateRun({env:{...good,GITHUB_RUN_ID:'999'}}),/SPEND_ALREADY_CLAIMED/);
+});

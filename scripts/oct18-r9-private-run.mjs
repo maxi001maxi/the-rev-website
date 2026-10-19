@@ -106,6 +106,7 @@ export function collectPrivateResult(root=process.cwd(),env=process.env) {
   };
   const scene=copy(job.generated_scene_path,'images/scene.png');
   copy(job.generated_scene_path+'.raw.png','images/raw.png');
+  copy(job.generated_scene_path+'.raw-mask-check.json','raw-mask-check.json');
   copy(job.generated_scene_path+'.locked-background.json','source-pixel-lock.json');
   const variants=[['thumbnail',job.thumbnail,1200,675],['og',job.og_image,1200,630],['gbp',job.gbp_image,1200,900]];
   const media=variants.map(([k,p])=>copy(p,`images/${k}.jpg`));
