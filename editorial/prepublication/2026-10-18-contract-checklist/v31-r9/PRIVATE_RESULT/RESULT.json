@@ -1,0 +1,218 @@
+{
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "run_id": "39209050198",
+  "private_qc_pass": false,
+  "status": "REJECTED_AND_QUARANTINED",
+  "operator_status": "ERROR",
+  "stop_reason": "Source/Scene FAIL: scene_observation_missing, article_scene_match, article_scene_match_visual, observed_plan_mismatch:human_action, observed_plan_mismatch:visual_role. FAIL。人物の顔が灰色の矩形状欠損で消え、表情を判読できません。両手で持つA5用紙も確認できず、料金・予約・退会を検討する指定動作が成立していません。腕や胴体の境界にも切り抜き感があり、照明・接合・解剖の写実性が不足します。背景は実在ソースを保っていますが鮮明で視覚的に強く、人物より設備が主役です。文字組み自体は全形式で読みやすく自然ですが、写真側の重大な破綻により総合不合格です。",
+  "checks": {
+    "operator_candidate": false,
+    "independent_qa": false,
+    "canonical_hybrid": false,
+    "canonical_review": false,
+    "dimensions": true,
+    "qa_bound_sha256": true,
+    "budget": true,
+    "complete_independent_calls": true
+  },
+  "files": [
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/images/scene.png",
+      "sha256": "93b9812b0aee39dbf00c254acb30d12a84d85065d8ad79042ab161a01111ab7a",
+      "bytes": 2636350,
+      "quarantined": true,
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/images/raw.png",
+      "sha256": "4660315f6255dff9e883c2503933e72024dde27e90595016b95604341aaca081",
+      "bytes": 2682104,
+      "quarantined": true,
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/source-pixel-lock.json",
+      "sha256": "87b222265d2d518c160384ce7beabe62dc150b4566286a33af8987b7786ebe1c",
+      "bytes": 671,
+      "quarantined": true
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/images/thumbnail.jpg",
+      "sha256": "089465f567e24f4e930bf5f9ab7e915814f1369a3f65c165901283f7d2e6f227",
+      "bytes": 152770,
+      "quarantined": true,
+      "width": 1200,
+      "height": 675
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/images/og.jpg",
+      "sha256": "1b0f8eccb7f1609fcee3ce7ec8e56cdc9640f1819b02a4e115e042153acd2fbb",
+      "bytes": 142760,
+      "quarantined": true,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/images/gbp.jpg",
+      "sha256": "9dea8de14e696a6e2e4f8488aa3428dff7934822995b638cedc2faa220455a6d",
+      "bytes": 190090,
+      "quarantined": true,
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/independent-visual-qc.json",
+      "sha256": "f53baa1410ef16e9fe91a6f403904e4df937b4c78fe2e46ba2369fbcb444371c",
+      "bytes": 55886,
+      "quarantined": false
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/typography.json",
+      "sha256": "beaebf43f06a2d81fc3fcb827cde54617a06b8487ebb0545525497292451566d",
+      "bytes": 6978,
+      "quarantined": false
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/previews/thumbnail-320.jpg",
+      "sha256": "d1cf022eea07ef5d58d9f02230240bf90c4de90822e76c3d3d567c512a8fe651",
+      "bytes": 21678,
+      "quarantined": false,
+      "width": 320,
+      "height": 180
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/previews/thumbnail-400.jpg",
+      "sha256": "9acc38855c72e20bdffd6c0ecabb2cf3c1db17ba8f17d8101d83b495e34ab814",
+      "bytes": 28755,
+      "quarantined": false,
+      "width": 400,
+      "height": 225
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/previews/og-320.jpg",
+      "sha256": "885dd877f629acccd060efd75cd25a6513cb58daa7a6d444b6ca0ef44eace886",
+      "bytes": 19618,
+      "quarantined": false,
+      "width": 320,
+      "height": 168
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/previews/og-400.jpg",
+      "sha256": "84ed5bd94687444026660c0ad2b2520f2fa7c89bdc9694584f29049edc083c14",
+      "bytes": 26816,
+      "quarantined": false,
+      "width": 400,
+      "height": 210
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/previews/gbp-320.jpg",
+      "sha256": "cf8e85bc8ed38afbe70bcc6078f2c7aa76243cc8acd722f261d16eb67b32d8ce",
+      "bytes": 26282,
+      "quarantined": false,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/PRIVATE_RESULT/previews/gbp-400.jpg",
+      "sha256": "cb18fa97e6c697555480ea4187a832570bc8e290e89906497bd1b1a9bf39a93c",
+      "bytes": 35660,
+      "quarantined": false,
+      "width": 400,
+      "height": 300
+    }
+  ],
+  "api_usage": {
+    "generation_requests": 1,
+    "qc_requests": 2,
+    "image_generation_tool_calls": 1,
+    "calls": [
+      {
+        "kind": "generation",
+        "status": "COMPLETED",
+        "at": "2026-10-19T06:18:07.344Z",
+        "confirmed_cost": null,
+        "request_id": "req_c0f301fa3f9e4712b1a1754d8eb82b09",
+        "http_status": 200,
+        "response_id": "resp_044fd422e5e6d528006ad5b620768887d1bf813844e13d7c0d",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 8982,
+          "input_tokens_details": {
+            "cache_write_tokens": 6448,
+            "cached_tokens": 0
+          },
+          "output_tokens": 680,
+          "output_tokens_details": {
+            "reasoning_tokens": 36
+          },
+          "total_tokens": 9662
+        },
+        "image_generation_calls": [
+          {
+            "id": "ig_044fd422e5e6d528006ad5b6232d8887d1abea8882331d0280",
+            "status": "completed",
+            "usage": null
+          }
+        ]
+      },
+      {
+        "kind": "qc",
+        "status": "COMPLETED",
+        "at": "2026-10-19T06:18:45.569Z",
+        "confirmed_cost": null,
+        "request_id": "req_320c98c3bc5a465586f04bffd98bd15f",
+        "http_status": 200,
+        "response_id": "resp_02a07b3a4e480447006ad5b6460a0087d19e092dc524bf6339",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 18221,
+          "input_tokens_details": {
+            "cache_write_tokens": 18218,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2304,
+          "output_tokens_details": {
+            "reasoning_tokens": 1383
+          },
+          "total_tokens": 20525
+        },
+        "image_generation_calls": []
+      },
+      {
+        "kind": "qc",
+        "status": "COMPLETED",
+        "at": "2026-10-19T06:19:14.707Z",
+        "confirmed_cost": null,
+        "request_id": "req_9efc12bd71704d289baf3f287b99a4a8",
+        "http_status": 200,
+        "response_id": "resp_0388c0c14c260b36006ad5b66325cc87d18ffdcdfe333d3676",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 19812,
+          "input_tokens_details": {
+            "cache_write_tokens": 19809,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2166,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 21978
+        },
+        "image_generation_calls": []
+      }
+    ],
+    "confirmed_cost": null,
+    "cost_note": "Response usage is recorded verbatim; no billing total or currency amount was returned/verified."
+  },
+  "owner_publish_ready": false,
+  "production_mutations": 0,
+  "automatic_retry": false,
+  "next_action": "REVIEW_EVIDENCE_NO_MORE_PAID_CALLS"
+}
