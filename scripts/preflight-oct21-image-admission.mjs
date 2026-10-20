@@ -39,3 +39,5 @@ const report={content_id:'BLOG-20261021-4ac8fd',measured_at:new Date().toISOStri
  existing_failed_asset_version:existing.asset_version,existing_attempts_preserved:true,production_job_changed:false,canonical_job_registered:false,paid_execution_authorized:false,model_calls:0,visual_qc_pass:false};
 fs.writeFileSync(root+'/IMAGE_ADMISSION_READBACK.json',JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({status:report.status,admission:report.admission,copy_matches_brief:copyMatchesBrief,selected_copy:selectedCopy,model_calls:0,canonical_job_registered:false}));
+
+export {candidate,source,history,admission};

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {guardedPhotoEditPlan,inspectRawProtectedPixels} from '../lib/editorialGuardedPhotoEdit.mjs';
+import {guardedPhotoEditPlan,inspectRawProtectedPixels,guardedPhotoEditSettings} from '../lib/editorialGuardedPhotoEdit.mjs';
 const plan={width:1024,height:1536,edit:{x:560,y:410,width:440,height:1100},meaning:[{x:680,y:500,width:190,height:190},{x:640,y:800,width:270,height:200}],formats:[{name:'thumbnail',width:1200,height:675,photo_width_fraction:.66},{name:'og',width:1200,height:630,photo_width_fraction:.66},{name:'gbp',width:1200,height:900,photo_width_fraction:1}]};
 test('same source scene retains face and clock gesture through actual renderer panel crops',()=>{const r=guardedPhotoEditPlan(plan);assert(r.pass);assert.equal(r.visual_qc_pass,false);const bad=structuredClone(plan);bad.meaning[1].y=1450;assert(!guardedPhotoEditPlan(bad).pass);});
 test('R9-style escaped subject and clipping cannot become a restored-room PASS',()=>{const before=new Uint8Array(40*40*4),after=before.slice(),edit={x:10,y:5,width:20,height:30};after[(15*40+20)*4]=255;assert(inspectRawProtectedPixels({before,after,width:40,height:40,edit}).pass);after[(15*40+30)*4]=255;const raw=inspectRawProtectedPixels({before,after,width:40,height:40,edit});assert(!raw.pass);assert.equal(raw.reason,'RAW_BACKGROUND_DRIFT');assert.equal(raw.compositor_used,false);after[(15*40+30)*4]=0;after[(5*40+20)*4]=255;assert.equal(inspectRawProtectedPixels({before,after,width:40,height:40,edit}).reason,'SUBJECT_OR_SHADOW_TOUCHES_EDIT_EDGE');assert.throws(()=>inspectRawProtectedPixels({before,after:after.slice(4),width:40,height:40,edit}),/DIMENSIONS/);});
@@ -26,4 +26,13 @@ test('real guarded edit path uses one fixed provider response, preserves raw fai
   const bad=JSON.parse(fs.readFileSync(job.generated_scene_path+'.raw-guard.json'));assert(!bad.pass);assert(bad.changedPixels>0);assert.equal(bad.compositor_used,false);assert.equal(calls,2,'one synthetic provider call per explicitly separate test case, no retries');
   await assert.rejects(()=>editGuardedPhoto({job:{...job,max_generation_attempts:2},sourcePath,generateResponse:()=>{throw Error('must not call');}}),/FREE_PREFLIGHT/);
  }finally{await b.close();fs.rmSync(dir,{recursive:true,force:true});}
+});
+
+test('precision model is explicit, article-scoped and preserves legacy settings',()=>{
+ assert.deepEqual(guardedPhotoEditSettings({}),{model:'gpt-image-1.5',quality:'high'});
+ const j={execution:{review_only:true,content_id:'BLOG-20261021-4ac8fd',owner_approval:{status:'APPROVED'}},v3:{openai_edit:{model:'gpt-image-2.5-sunburst-2026-09-08',quality:'max'}}};
+ assert.deepEqual(guardedPhotoEditSettings(j),j.v3.openai_edit);
+ for(const mutate of [x=>x.execution.owner_approval.status='PENDING',x=>x.execution.review_only=false,x=>x.execution.content_id='another',x=>x.v3.openai_edit.model='another-provider',x=>x.v3.openai_edit.quality='auto']){
+  const bad=structuredClone(j);mutate(bad);assert.throws(()=>guardedPhotoEditSettings(bad),/NOT_AUTHORIZED/);
+ }
 });

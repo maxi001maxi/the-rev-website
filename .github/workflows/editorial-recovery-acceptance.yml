@@ -37,6 +37,12 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_BRANCH: ${{ github.sha }}
         run: node scripts/preflight-oct21-image-admission.mjs
+      - name: Exact approved Oct21 image job free preflight (no provider or production writes)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: ${{ github.sha }}
+        run: node scripts/prepare-oct21-image-execution.mjs
       - run: node --test scripts/test-editorial-oct21-qc-approval.mjs
       - run: npm run test:production-recovery
       - run: npm run test:editorial-quality-v080

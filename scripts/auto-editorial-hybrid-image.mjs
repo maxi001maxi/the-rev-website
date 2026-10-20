@@ -50,7 +50,9 @@ if (job.scene_plan.source_sha256!==hashFile(sourcePath)) throw new Error('Scene 
 job.scene_intent = groundedSceneBrief(job.scene_plan,job.source_scene_inventory);
 fs.writeFileSync(jobPath,JSON.stringify(job,null,2)+'\n');
 
-const stateDir = path.join(ROOT, 'editorial', 'image-operator-state');
+const reviewOnly=job?.execution?.review_only===true;
+if(reviewOnly && (job.execution.content_id!=='BLOG-20261021-4ac8fd'||job.execution.owner_approval?.status!=='APPROVED'||!jobPath.startsWith('editorial/prepublication/2026-10-21-evening-strength-sleep/')))throw Error('REVIEW_ONLY_SCOPE_INVALID');
+const stateDir = reviewOnly ? path.join(ROOT,'editorial/prepublication/2026-10-21-evening-strength-sleep/image-execution-state') : path.join(ROOT, 'editorial', 'image-operator-state');
 fs.mkdirSync(stateDir, { recursive: true });
 const statePath = path.join(stateDir, `${job.slug}.json`);
 
@@ -115,6 +117,7 @@ function dataUrl(filePath) {
 
 const apiLedger = createImageApiLedger({job});
 async function openaiResponse(payload) {
+  if(reviewOnly && !(payload.tools||[]).some(x=>x.type==='image_generation'))payload={...payload,max_output_tokens:12000,reasoning:{effort:'medium'}};
   const reservation=await apiLedger.reserve((payload.tools||[]).some(x=>x.type==='image_generation')?'generation':'qc');
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
@@ -133,6 +136,7 @@ async function openaiResponse(payload) {
   await apiLedger.complete(reservation,{http_status:res.status,request_id:requestId,
     response_id:json?.id||null,response_status:json?.status||null,model:json?.model||payload.model,usage:json?.usage||null,
     image_generation_calls:(json?.output||[]).filter(x=>x.type==='image_generation_call').map(x=>({id:x.id,status:x.status,usage:x.usage||null}))});
+  if (res.ok && json?.status==='incomplete')throw Error('OPENAI_RESPONSE_INCOMPLETE: '+JSON.stringify(json.incomplete_details||{}));
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -421,6 +425,14 @@ async function visualQa(attempt) {
       typography.slug !== job.slug || typography.asset_version !== job.asset_version) {
     throw new Error('Thumbnail Typography FAIL: missing/current-set measurement evidence.');
   }
+  const r7Images=[];
+  if(reviewOnly){
+    for(const ref of job.quality_references||[]){
+      if(!fs.existsSync(ref.path)||hashFile(ref.path)!==ref.sha256)throw Error('R7_REFERENCE_BYTES_CHANGED');
+      r7Images.push({type:'input_text',text:'OWNER-ACCEPTED OCT15 R7 photographic quality comparison: '+ref.role},{type:'input_image',image_url:dataUrl(ref.path),detail:'high'});
+    }
+    if(r7Images.length!==4)throw Error('R7_SCENE_AND_THUMBNAIL_REQUIRED');
+  }
   const typographyImages = [];
   const goldenImages = [];
   const lock = readJson('editorial/typography-golden-reference/lock.json');
@@ -557,11 +569,12 @@ async function visualQa(attempt) {
     input: [{
       role: 'user',
       content: [
-        { type: 'input_text', text: prompt },
+        { type: 'input_text', text: prompt + (reviewOnly ? '\nAlso return r7_comparison:{pass:boolean,comments:string,variants:{thumbnail:boolean,og:boolean,gbp:boolean}}. Compare actual photographic integration, anatomy, hands/gaze, spatial authenticity and natural lighting against the labeled Oct15 R7 references. Do not award PASS just for typography or a shared gym. State concrete visible defects. The actual source and R7, not prior numeric scores, are evidence.' : '') },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
         ...typographyImages,
-        ...goldenImages
+        ...goldenImages,
+        ...r7Images
       ]
     }]
   });
@@ -711,6 +724,15 @@ async function visualQa(attempt) {
   qa.api_usage={generation_calls:usageLedger.calls.filter(x=>x.kind==='generation').length,
     qc_calls:usageLedger.calls.filter(x=>x.kind==='qc').length,confirmed_cost:null,calls:usageLedger.calls};
   qa.pass = qaPass(qa);
+  if(reviewOnly){
+    qa.r7_comparison=modelQa.r7_comparison||null;
+    qa.raw_background_guard=readJson(job.generated_scene_path+'.raw-guard.json',{pass:false,reason:'MISSING_RAW_GUARD'});
+    qa.production_ready=false;
+    if(qa.raw_background_guard.pass!==true || qa.r7_comparison?.pass!==true ||
+       !['thumbnail','og','gbp'].every(k=>qa.r7_comparison?.variants?.[k]===true) ||
+       !['human_environment_integration','perspective_scale_consistency','ground_contact_shadow_consistency','lighting_consistency','anatomy_pose_realism'].every(k=>qa[k]>=9))qa.pass=false;
+    if(qa.raw_background_guard.pass!==true)qa.comments='RAW_BACKGROUND_GUARD_REJECTED: '+qa.raw_background_guard.reason+'. '+(qa.comments||'');
+  }
   if(job.asset_version===ROUTE_B_VERSION && !['human_environment_integration',
     'perspective_scale_consistency','ground_contact_shadow_consistency',
     'lighting_consistency','anatomy_pose_realism'].every(k=>qa[k]>=9))qa.pass=false;
