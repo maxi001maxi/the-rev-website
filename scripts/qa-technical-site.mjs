@@ -160,7 +160,8 @@ try{
   for(const baseline of fs.existsSync('qa-out/technical/baseline/index.html')?[true,false]:[false]){
    report.stage='visual navigation / '+stem;
    const ctx=await context({width,height,baseline});report.stage='visual new page / '+stem;const page=await ctx.newPage();
-   report.stage='visual goto / '+stem;await page.goto(origin+pathname);
+   page.on('console',message=>{if(message.text().startsWith('REV_QA_PAINT ')){report.stage=stem+' / '+message.text();console.log(report.stage);}});
+   report.stage='visual goto / '+stem;const response=await page.goto(origin+pathname);assert.equal(response.status(),200,stem+' rendered page must exist');
    report.stage='visual ready / '+stem;await ready(page);
    report.stage='visual traverse / '+stem;const traversal=await traverse(page);
    report.visualTraversal ||= [];report.visualTraversal.push({stem,baseline,...traversal});
@@ -175,3 +176,4 @@ try{
  assert.deepEqual(report.errors,[]);report.status='PASS';
 }catch(e){report.status='FAIL';report.failure=e.stack;process.exitCode=1;}
 finally{report.stage='browser shutdown';await browser.close();clearTimeout(watchdog);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));}
+
