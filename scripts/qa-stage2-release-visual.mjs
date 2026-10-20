@@ -12,7 +12,7 @@ try{
  if(process.env.SHARE_URL){const auth=await ctx.newPage();await auth.goto(process.env.SHARE_URL,{waitUntil:'domcontentloaded',timeout:60000});await auth.close();}
  for(const [name,route] of pages){const page=await ctx.newPage();page.setDefaultTimeout(20000);page.on('pageerror',e=>report.errors.push({width,route,message:e.message}));page.on('response',r=>{if(r.url().startsWith(origin)&&r.status()>=400&&!(route==='/404.html'&&r.url().endsWith('/404.html')&&r.status()===404))report.network.push({width,route,url:r.url(),status:r.status()});});
  try{
- await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:60000});await page.locator('main h1').first().waitFor({state:'visible'});await page.evaluate(()=>document.fonts.ready);
+ await page.goto(base+route,{waitUntil:'domcontentloaded',timeout:60000});await page.locator('main h1').filter({visible:true}).first().waitFor({state:'visible'});await page.evaluate(()=>document.fonts.ready);
  // Trigger lazy images through every section, bounded to animation frames.
  await page.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=innerHeight*.8){scrollTo({top:y,behavior:'instant'});await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}scrollTo({top:0,behavior:'instant'});});
  await page.waitForFunction(()=>[...document.images].filter(i=>i.getClientRects().length&&getComputedStyle(i).visibility!=='hidden').every(i=>i.complete),{timeout:20000});
