@@ -13,3 +13,11 @@ test('an unresolved font fails with a bounded wait rather than accepting unstabl
  const p=await b.newPage();let release;await p.route('https://fonts.test/blocked.woff2',async r=>{await new Promise(resolve=>{release=resolve;});await r.abort();});
  try{const request=p.waitForRequest('https://fonts.test/blocked.woff2');await p.setContent('<style>@font-face{font-family:blocked;src:url(https://fonts.test/blocked.woff2)}p{font-family:blocked}</style><p>pending font</p>',{waitUntil:'domcontentloaded'});await request;await assert.rejects(()=>ready(p,{timeout:300}),/Timeout/);}finally{if(release)release();}
 }));
+
+test('scroll-driven geometry growth cannot make visual traversal unbounded',()=>browserTest(async b=>{
+ const p=await b.newPage({viewport:{width:390,height:844}});
+ await p.setContent('<div id="extent" style="height:3000px">fixed logical content</div><script>addEventListener("scroll",()=>document.querySelector("#extent").style.height=(3000+scrollY)+"px")</script>');
+ const result=await traverse(p);assert(result.height_during_scroll>result.initial_height);
+ assert.equal(await p.evaluate(()=>scrollY),0);assert.equal(await p.locator('#extent').innerText(),'fixed logical content');
+ assert(result.height_after_reset<result.height_during_scroll);
+}));

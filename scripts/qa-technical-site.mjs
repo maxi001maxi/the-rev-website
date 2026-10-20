@@ -158,7 +158,8 @@ try{
    const ctx=await context({width,height,baseline});report.stage='visual new page / '+stem;const page=await ctx.newPage();
    report.stage='visual goto / '+stem;await page.goto(origin+pathname);
    report.stage='visual ready / '+stem;await ready(page);
-   report.stage='visual traverse / '+stem;await traverse(page);
+   report.stage='visual traverse / '+stem;const traversal=await traverse(page);
+   report.visualTraversal ||= [];report.visualTraversal.push({stem,baseline,...traversal});
    report.stage='visual screenshot / '+stem;
    images[baseline?'before':'after']=await page.screenshot({path:path.join(out,`${stem}-${baseline?'before':'after'}.png`),fullPage:true,animations:'disabled',timeout:15000});
    report.stage='visual context shutdown / '+stem;await ctx.close();
