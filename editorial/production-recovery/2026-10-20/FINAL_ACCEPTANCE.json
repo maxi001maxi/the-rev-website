@@ -1,7 +1,7 @@
 {
   "decision": "PARTIAL",
-  "condition_A": "BLOCKED",
-  "condition_B": "PARTIAL_IMPLEMENTED_NOT_DEPLOYED",
+  "condition_A": "BLOCKED_NOT_READY_FOR_OWNER_PUBLISH",
+  "condition_B": "IMPLEMENTED_SYNTHETICALLY_TESTED_NOT_PRODUCTION_DEPLOYED",
   "DRY_RUN_PASS": {
     "result": true,
     "scope": "Connected application path with fixed external services; not installed GAS or live authenticated UI"
@@ -14,11 +14,10 @@
     "Authenticated Console PC/mobile/reservation/SEO Preflight"
   ],
   "BLOCKED": [
-    "Independent text QC rejected both exact candidate bodies; latest18/20, source_unverified=true",
-    "Image version exhausted two attempts and is rejected",
-    "New source/person/compositor design not validated",
-    "GitHub assets absent and production image GET 404 for all three formats",
-    "CMS remains Working Draft without Bridge hash"
+    "Latest corrected body requires a newly approved independent QC; old two failed reports remain immutable.",
+    "Both existing Oct21 images rejected; no accepted three-format assets.",
+    "New guarded edit actual OpenAI fidelity and independent Visual QC unverified; no paid image admission.",
+    "Existing Working Draft remains unsynced by canonical Bridge."
   ],
   "article_id": "BLOG-20261021-4ac8fd",
   "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
@@ -82,6 +81,21 @@
         "total": 18,
         "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3"
       }
-    ]
-  }
+    ],
+    "estimated_prior_cost_usd_at_verified_current_rates": 0.065084,
+    "estimate_not_invoice": true,
+    "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "continuation": {
+      "additional_text_qc_calls": 0,
+      "image_generation_calls": 0,
+      "visual_qc_calls": 0,
+      "confirmed_charge": null
+    }
+  },
+  "as_of": "2026-10-20T05:56:45.347848+00:00",
+  "latest_body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "latest_body_qc_status": "CORRECTED_NOT_INDEPENDENTLY_RECHECKED",
+  "additional_paid_calls": 0,
+  "current_continuation_report": "CONTINUATION_REPORT.md",
+  "booking_qa_root_cause": "External booking UI is now menu cards, not input/select; redirect+master succeeded. Current local direct transport is UNVERIFIED; live browser card→calendar verified."
 }

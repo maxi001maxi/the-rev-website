@@ -1,0 +1,38 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "independent_qc_pass": false,
+  "status": "CORRECTED_NOT_INDEPENDENTLY_RECHECKED",
+  "assessment_type": "Maintainer claim-scope assessment; does not override either independent QC rejection",
+  "prior_qc_preserved": [
+    "INDEPENDENT_QC_V082_INITIAL.json",
+    "INDEPENDENT_QC_V082.json"
+  ],
+  "findings": [
+    {
+      "qc_issue": 1,
+      "classification": "clarity_recommendation_with_material_misinterpretation_risk",
+      "rationale": "The previous draft already said adjustment example; the QC wording further clarify is advisory. Exact causal timing claims would be material blockers. The provider did not assign source_unverified per claim.",
+      "correction": "Separate heading and preceding bold statement: article-specific examples, no direct sleep-effect trial; remove any implied guarantee."
+    },
+    {
+      "qc_issue": 2,
+      "classification": "decision_support_quality_gap_not_evidence_of_false_medical_fact",
+      "rationale": "Practical intensity is central to this title. Adding RPE/RIR numerals is optional, not a prerequisite or sleep-validated threshold.",
+      "correction": "Verified MHLW intensity description plus plain-language remaining repetitions/form/sets; label coaching suggestions as not proven sleep thresholds."
+    },
+    {
+      "qc_issue": 3,
+      "classification": "material_evidence_scope_blocker_if_coaching_is_presented_as_proven_sleep_effect",
+      "rationale": "Owner opinion does not prove efficacy; general exercise observations cannot establish specific strength-training prescriptions.",
+      "correction": "Explicitly separate general coaching from verified clinical effects and Owner position from research evidence."
+    }
+  ],
+  "thresholds_unchanged": {
+    "minimum_total": 16,
+    "minimum_axis": 2,
+    "material_issues": 0,
+    "source_unverified": false
+  },
+  "paid_calls_this_continuation": 0
+}

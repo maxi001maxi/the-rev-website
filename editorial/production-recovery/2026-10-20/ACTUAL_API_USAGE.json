@@ -47,5 +47,14 @@
       "total": 18,
       "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3"
     }
-  ]
+  ],
+  "estimated_prior_cost_usd_at_verified_current_rates": 0.065084,
+  "estimate_not_invoice": true,
+  "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+  "continuation": {
+    "additional_text_qc_calls": 0,
+    "image_generation_calls": 0,
+    "visual_qc_calls": 0,
+    "confirmed_charge": null
+  }
 }

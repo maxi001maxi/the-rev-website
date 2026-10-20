@@ -17,3 +17,5 @@
 - [修正後実データPreflight](REAL_DATA_PREFLIGHT.json)
 
 実行費用記録：本文独立QC2回、合計8,320 tokens。今回の画像生成0。請求額取得不能。mainマージ・本番導入・DB変更・FTP・Publish・GBP投稿は未実行。
+
+最新の継続開発： [CONTINUATION_REPORT.md](CONTINUATION_REPORT.md)。旧受入はPRIOR_PARTIAL_ACCEPTANCE.jsonに保持。最新修正本文は独立再QC未実行、追加課金0、本番未導入。

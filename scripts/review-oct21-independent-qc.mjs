@@ -25,7 +25,9 @@ const article={title,slug_suggestion:'night-workout-sleep-timing-intensity',arti
 const ctx={first_party_interview:owner};
 try{context.v080IndependentQc_(article,ctx);}catch(e){if(e.message!=='CAPTURE_ONLY')throw e;}
 if(process.env.EDITORIAL_QC_CAPTURE_ONLY==='1'){
- fs.writeFileSync(root+'/QC_FREE_PREFLIGHT.json',JSON.stringify({content_id:owner.content_id,body_sha256:sha(body),evidence_sha256:sha(JSON.stringify(research.sources)),source_count:research.sources.length,owner_source:owner.source_id,no_api_calls:true,status:'READY_FOR_ONE_INDEPENDENT_TEXT_QC',body_chars:body.replace(/\s/g,'').length},null,2)+'\n');
+ const count=body.replace(/\s/g,'').length;if(count<1600||count>2400)throw new Error('STANDARD_BODY_RANGE:'+count);
+ const requestBytes=Buffer.byteLength(JSON.stringify(payload),'utf8');
+ fs.writeFileSync(root+'/QC_FREE_PREFLIGHT.json',JSON.stringify({content_id:owner.content_id,body_sha256:sha(body),request_sha256:sha(JSON.stringify(payload)),request_utf8_bytes:requestBytes,max_output_tokens:payload.max_output_tokens,evidence_sha256:sha(JSON.stringify(research.sources)),source_count:research.sources.length,owner_source:owner.source_id,no_api_calls:true,status:'CORRECTED_AWAITING_ADDITIONAL_QC_APPROVAL',independent_qc_pass:false,prior_paid_calls:2,authorized_remaining_calls:0,paid_execution_permitted:false,body_chars:body.replace(/\s/g,'').length},null,2)+'\n');
  process.exit(0);
 }
 if(!process.env.OPENAI_API_KEY)throw new Error('OPENAI_API_KEY_MISSING');

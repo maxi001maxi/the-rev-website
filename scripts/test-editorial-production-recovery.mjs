@@ -130,3 +130,9 @@ test('actual workflow selector holds an exhausted article while admitting the ne
   assert.equal(JSON.parse(fs.readFileSync(path.join(root,'editorial/image-operator-state/held.json'))).attempts_total,2);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test('changing a guarded edit mask cannot reuse an already reserved API budget',async()=>{
+ const store=ledgerStore(),job={slug:'test',asset_version:'guarded',v3:{background_lock:'masked_openai_raw_guard_v2',guarded_edit:{edit:{x:560}}}};
+ const first=createImageApiLedger({job,...store}),n=await first.reserve('generation');await first.complete(n,{http_status:200});
+ await assert.rejects(()=>createImageApiLedger({job:{...job,v3:{...job.v3,guarded_edit:{edit:{x:500}}}},...store}).reserve('qc'),/CONTRACT_CHANGED/);
+});
