@@ -4,19 +4,22 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {finishAdmission,FINISH_VERSION} from '../lib/editorialOwnerFinishEdit.mjs';
 import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
-const parent='editorial/prepublication/2026-10-21-evening-strength-sleep',root=parent+'/image-finish-r4';
+const parent='editorial/prepublication/2026-10-21-evening-strength-sleep',revision=process.argv[2]||'r4';
+if(!['r4','r5'].includes(revision))throw Error('FINISH_REVISION_NOT_AUTHORIZED');
+const root=parent+'/image-finish-'+revision;
 const read=p=>JSON.parse(fs.readFileSync(p));
 const c=read(root+'/IMAGE_EXECUTION_CONTRACT.json');
 const job=read(parent+'/IMAGE_RECOVERY_JOB_PROPOSAL.json');
 const previous=read(parent+'/IMAGE_JOB.json');
-if(c.asset_version!=='reference-v082-evolgear-japanese-night-finish-20261020-r4'||c.body_sha256!==job.execution.body_sha256||c.input_sha256!=='a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4')throw Error('FINISH_CONTRACT_DRIFT');
+const expected=revision==='r4'?'reference-v082-evolgear-japanese-night-finish-20261020-r4':'reference-v082-evolgear-japanese-night-depth-20261020-r5';
+if(c.asset_version!==expected||c.body_sha256!==job.execution.body_sha256)throw Error('FINISH_CONTRACT_DRIFT');
 const previousVersion=job.asset_version;
 for(const key of ['generated_scene_path','thumbnail','og_image','gbp_image'])job[key]=job[key].replace(previousVersion,c.asset_version);
 job.asset_version=c.asset_version;job.execution=c;job.qa_report_path=root+'/IMAGE_INDEPENDENT_QC.json';
 job.v3={background_lock:FINISH_VERSION,openai_edit:{model:c.model,quality:c.quality},owner_finish:{
- input_path:'.operator-finish-input/r3-scene.png',input_sha256:c.input_sha256,source_sha256:c.source_sha256,
- owner_direction_approval_only:true,previous_rejected_version:previous.asset_version,
- edit_scope:['Japanese adult male customer','subtle coherent night atmosphere'],preserve:['composition','watch gesture','clothing','source room structure','equipment positions'],
+ input_path:'.operator-finish-input/'+(revision==='r4'?'r3':'r4')+'-scene.png',input_sha256:c.input_sha256,source_sha256:c.source_sha256,
+ owner_direction_approval_only:true,previous_rejected_version:revision==='r4'?previous.asset_version:'reference-v082-evolgear-japanese-night-finish-20261020-r4',
+ edit_scope:revision==='r4'?['Japanese adult male customer','subtle coherent night atmosphere']:['natural optical background depth only'],preserve:['composition','watch gesture','clothing','source room structure','equipment positions','achieved Japanese/night appearance'],
  pixel_equality_not_claimed:true,independent_structural_qc_required:true}};
 const input=finishAdmission(job);
 const free=preflightEditorialImage(job,read('editorial/automated-image-sources.json'),{requireStrict:true});

@@ -14,6 +14,8 @@ on:
       - 'scripts/prepare-oct21-image-finish.mjs'
       - 'scripts/test-editorial-owner-finish.mjs'
       - '.github/workflows/editorial-oct21-image-finish.yml'
+      - '.github/workflows/editorial-oct21-image-depth.yml'
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r5/IMAGE_EXECUTION_CONTRACT.json'
       - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r4/IMAGE_EXECUTION_CONTRACT.json'
       - 'scripts/preflight-oct21-image-admission.mjs'
       - 'scripts/finalize-oct21-image-execution.mjs'

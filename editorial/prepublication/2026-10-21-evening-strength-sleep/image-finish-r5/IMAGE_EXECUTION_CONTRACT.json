@@ -1,0 +1,48 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "asset_version": "reference-v082-evolgear-japanese-night-depth-20261020-r5",
+  "review_only": true,
+  "owner_approval": {
+    "status": "APPROVED",
+    "date": "2026-10-20",
+    "evidence": "Standing explicit Owner instruction: 費用上限の検証も一旦なしで、いいものを作ってください。で実行. Current Owner direction approves composition with Japanese/night final refinement. This is one diagnosed corrective edit preserving achieved work, not a new Owner approval or reset of R3/R4.",
+    "direction_is_not_final_qc": true,
+    "approval_reused_for_bounded_corrective_recovery": true
+  },
+  "generation_max_calls": 1,
+  "independent_qc_max_calls": 2,
+  "automatic_regeneration": false,
+  "model": "gpt-image-2.5-sunburst-2026-09-08",
+  "quality": "max",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "input_sha256": "49f9a1d119bcf9907df8f5ee7364abfbf330bbfe05dd94222d36a638a74fb8c0",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "previous_r3_adoption": "REJECTED_PRESERVED_INPUT_ONLY",
+  "cost_ceiling_verification": "WAIVED_BY_OWNER",
+  "production_authorization": {
+    "main_merge": false,
+    "code_deploy": false,
+    "gas_install": false,
+    "supabase_write": false,
+    "sheets_write": false,
+    "xserver_delivery": false,
+    "publish": false,
+    "gbp_post": false
+  },
+  "previous_r4_adoption": "REJECTED_PRESERVED_INPUT_ONLY",
+  "recovery_reason": "R4 identity, night, structure and composition passed; independent QC rejected insufficient optical background depth, plus integration/lighting/anatomy/contact scores of 8 below unchanged article minimum 9.",
+  "recovery_max_additional_generations": 1,
+  "prior_calls_preserved": [
+    {
+      "version": "r3",
+      "generation": 1,
+      "qc": 2
+    },
+    {
+      "version": "r4",
+      "generation": 1,
+      "qc": 2
+    }
+  ],
+  "further_automatic_versions_authorized": false
+}

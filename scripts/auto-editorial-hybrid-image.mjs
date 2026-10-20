@@ -578,7 +578,7 @@ async function visualQa(attempt) {
         ...typographyImages,
         ...goldenImages,
         ...r7Images,
-        ...(ownerFinish?[{type:'input_text',text:'PREVIOUS R3 EDIT INPUT: direction only, rejected and not accepted for publishing. Compare framing/pose, never infer PASS from it.'},{type:'input_image',image_url:dataUrl(job.v3.owner_finish.input_path),detail:'high'}]:[])
+        ...(ownerFinish?[{type:'input_text',text:'PREVIOUS REJECTED EDIT INPUT: direction only, not accepted for publishing. Compare framing/pose, never infer PASS from it.'},{type:'input_image',image_url:dataUrl(job.v3.owner_finish.input_path),detail:'high'}]:[])
       ]
     }]
   });

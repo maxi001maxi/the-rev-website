@@ -17,6 +17,13 @@ test('every missing or false independent finishing criterion blocks adoption',()
  const q=Object.fromEntries(fields.map(k=>[k,true]));assert(finishVisualPass(q));assert(!finishVisualPass(null));
  for(const f of fields){assert(!finishVisualPass({...q,[f]:false}));const x={...q};delete x[f];assert(!finishVisualPass(x));}
 });
+test('diagnosed depth correction is limited to exact R4 input; R4 ledger is not reset and arbitrary next versions fail',()=>{
+ const d=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r5/IMAGE_EXECUTION_CONTRACT.json'));
+ const j=structuredClone(job);j.asset_version=d.asset_version;j.execution=d;j.v3.owner_finish.input_path='.operator-finish-input/r4-scene.png';j.v3.owner_finish.input_sha256=d.input_sha256;
+ const h=p=>p.endsWith('r4-scene.png')?d.input_sha256:d.source_sha256;
+ assert(finishAdmission(j,{hash:h}).pass);assert.equal(d.prior_calls_preserved.find(x=>x.version==='r4').qc,2);
+ const bad=structuredClone(j);bad.asset_version=bad.asset_version.replace('-r5','-r6');assert.throws(()=>finishAdmission(bad,{hash:h}),/SCOPE/);
+});
 test('legacy exact pixel gate and numeric quality thresholds remain; actual R3 rejection and calls preserved',()=>{
  const r=fs.readFileSync('scripts/auto-editorial-hybrid-image.mjs','utf8');
  for(const s of ['qa.human_visual_attention_share || 0) >= 58','qa.background_soft_blur_pass === true','qa[k]>=9',"{mode:'exact-raw-pixels',pass:qa.raw_background_guard.pass===true}"])assert(r.includes(s),s);
