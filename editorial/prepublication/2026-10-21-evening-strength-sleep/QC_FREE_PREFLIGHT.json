@@ -1,10 +1,10 @@
 {
   "content_id": "BLOG-20261021-4ac8fd",
-  "body_sha256": "0071e929f34aef5121f9f62a0ee5f212f97c9f91b1a1df0875758104ffef50be",
+  "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3",
   "evidence_sha256": "32e5642645cca24cd771773ca8edb3450430883665d395ddf682e671ba3f5455",
   "source_count": 4,
   "owner_source": "TP-20261021",
   "no_api_calls": true,
   "status": "READY_FOR_ONE_INDEPENDENT_TEXT_QC",
-  "body_chars": 2284
+  "body_chars": 2205
 }

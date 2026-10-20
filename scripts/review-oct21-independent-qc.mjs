@@ -1,4 +1,4 @@
-// Exact production v0.8 gate + reviewed evidence, one remote-reserved request.
+// Exact production v0.8 gate + reviewed evidence, at most two evidence-changing, remote-reserved requests.
 // No image generation, DB changes, Bridge POST, deployment or publication.
 import fs from 'node:fs';
 import vm from 'node:vm';
@@ -29,14 +29,18 @@ if(process.env.EDITORIAL_QC_CAPTURE_ONLY==='1'){
  process.exit(0);
 }
 if(!process.env.OPENAI_API_KEY)throw new Error('OPENAI_API_KEY_MISSING');
-const prior=await getFile(claimPath);if(prior.exists)throw new Error('QC_ALREADY_RESERVED_NO_AUTOMATIC_RETRY');
-const claim={content_id:owner.content_id,body_sha256:sha(body),request_sha256:sha(JSON.stringify(payload)),status:'STARTED',started_at:new Date().toISOString(),max_requests:1,confirmed_cost:null};
-await putFile({path:claimPath,content:JSON.stringify(claim,null,2)+'\n',message:'Reserve one Oct21 independent text QC (no image or publish)'});
+const plan=JSON.parse(fs.readFileSync(root+'/QC_EXECUTION.json'));
+const prior=await getFile(claimPath),old=prior.exists?JSON.parse(prior.content):null;
+const previousCalls=old?(old.calls||[{status:old.status,body_sha256:old.body_sha256,request_id:old.request_id,usage:old.usage,pass:old.pass}]):[];
+if(old && (plan.mode!=='REPAIR_TEXT_QC'||plan.max_requests!==2||old.status!=='COMPLETED'||old.pass!==false||old.body_sha256===sha(body)||previousCalls.length>=2))throw new Error('QC_ALREADY_RESERVED_NO_AUTOMATIC_RETRY');
+const claim={content_id:owner.content_id,body_sha256:sha(body),request_sha256:sha(JSON.stringify(payload)),status:'STARTED',started_at:new Date().toISOString(),max_requests:Math.min(2,Number(plan.max_requests)||1),total_requests:previousCalls.length+1,calls:[...previousCalls,{status:'STARTED',body_sha256:sha(body),at:new Date().toISOString()}],confirmed_cost:null};
+await putFile({path:claimPath,sha:prior.exists?prior.sha:null,content:JSON.stringify(claim,null,2)+'\n',message:'Reserve one Oct21 independent text QC (no image or publish)'});
 const res=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(180000)});
 response=await res.json();
 const report={...claim,status:res.ok?'COMPLETED':'FAILED',checked_at:new Date().toISOString(),request_id:res.headers.get('x-request-id'),response_id:response.id||null,model:response.model||payload.model,http_status:res.status,usage:response.usage||null,pass:false,confirmed_cost:null,production_db_changed:false,image_calls:0,published:false,gbp_posted:false};
 if(res.ok)Object.assign(report,context.v080IndependentQc_(article,ctx));
 else report.error=String(response.error?.message||'Provider error').slice(0,500);
+Object.assign(report.calls[report.calls.length-1],{status:report.status,request_id:report.request_id,usage:report.usage,pass:report.pass,confirmed_cost:null});
 fs.writeFileSync(reportPath,JSON.stringify(report,null,2)+'\n');
 const existing=await getFile(reportPath);await putFile({path:reportPath,sha:existing.exists?existing.sha:null,content:JSON.stringify(report,null,2)+'\n',message:'Record genuine Oct21 independent text QC and token usage'});
 const reserved=await getFile(claimPath);await putFile({path:claimPath,sha:reserved.sha,content:JSON.stringify(report,null,2)+'\n',message:'Close Oct21 independent QC reservation without publishing'});

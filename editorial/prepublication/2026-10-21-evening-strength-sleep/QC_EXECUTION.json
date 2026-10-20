@@ -1,9 +1,11 @@
 {
   "content_id": "BLOG-20261021-4ac8fd",
   "scope": "ONE_INDEPENDENT_TEXT_QC",
-  "max_requests": 1,
+  "max_requests": 2,
   "image_generation": false,
   "production_db_changes": false,
   "publish": false,
-  "approval_source": "Owner development and Oct21 independent-QC execution request 2026-10-20"
+  "approval_source": "Owner development and Oct21 independent-QC execution request 2026-10-20",
+  "mode": "REPAIR_TEXT_QC",
+  "reason": "First independent QC 19/20 rejected unverified author identity, physiology claim and promotional transition; corrected only these issues. One final re-QC, no image API."
 }

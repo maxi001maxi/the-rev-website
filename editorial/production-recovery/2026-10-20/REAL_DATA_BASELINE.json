@@ -1,9 +1,10 @@
 {
-  "measured_at": "2026-10-20T02:50:33.748Z",
+  "measured_at": "2026-10-20T03:07:30.155Z",
   "read_only": true,
   "draft": {
     "id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
     "editorial_content_id": "BLOG-20261021-4ac8fd",
+    "editorial_source": "the-rev-editorial-ai",
     "slug": "night-workout-sleep-timing-intensity",
     "title": "夜に筋トレしても眠れる？寝る前の時間と強さを決める目安",
     "status": "draft",
@@ -14,11 +15,13 @@
     "category": "training",
     "author": "服部 真騎士",
     "author_role": "THE REV. CONDITIONING LAB. 店長・パーソナルトレーナー",
+    "published": "2026-10-21",
+    "updated": "2026-10-21",
     "source_path": null,
     "source_sha": null,
     "editorial_sync_hash": null,
     "editorial_synced_at": null,
-    "image_status": "PREPARING",
+    "image_status": "ERROR",
     "image_asset_ready": false,
     "image_asset_version": "reference-v26-grounded-auto-4387-75-4c7bef75",
     "image_job_path": "editorial/hybrid-image-jobs/night-workout-sleep-timing-intensity.json",
@@ -29,7 +32,7 @@
       "bridge_synced": false,
       "independent_qc_pass": false
     },
-    "image_last_error": null,
+    "image_last_error": "IMAGE_OPERATOR_ERROR / code=IMAGE_OPERATOR_ERROR / Source/Scene FAIL: article_scene_match, observed_plan_mismatch:human_action. 文字設計と各プレビューの可読性は合格。一方、生成背景は元画像より大幅に暖色化され、機器構成・フレーミングも再構築感が強く、実在する同一THE REV空間とは十分確認できない。背景も鋭く主張し、人物への視覚集中が要求の60〜70％に届かない。運動自体は成立するが、夜間トレーニング、就寝前、疲労時の強度選択という記事固有の判断は写真単体から読み取れず、一般的なケーブル運動に留まるため総合不合格。",
     "image_attempts": 2,
     "thumbnail": "/assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
     "og_image": "/assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
@@ -38,7 +41,7 @@
     "gbp_image_asset_version": "reference-v26-grounded-auto-4387-75-4c7bef75",
     "published_url": null,
     "publish_verified_at": null,
-    "updated_at": "2026-10-20 02:49:02.680592+00"
+    "updated_at": "2026-10-20 03:05:29.467191+00"
   },
   "proposal": {
     "id": "TP-20261021",

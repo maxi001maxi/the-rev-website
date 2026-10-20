@@ -135,6 +135,12 @@
       "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
     },
     {
+      "case": "missing-source",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
       "case": "tampered-qc-bytes",
       "safe_stop": true,
       "retains_body": true,

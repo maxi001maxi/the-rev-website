@@ -103,11 +103,12 @@ test('A: connected topic → approval → interview → quality adapter → real
 });
 
 test('B: QC rejection, failed sync, missing GBP, preflight failure, API outage and safe recovery run through actual handlers',async()=>{
-  for(const fault of ['qc','db-sync','missing-file','preflight','api','admin-reflection','partial-actions','tampered-qc-bytes','same-size-live-bytes']) {
+  for(const fault of ['qc','db-sync','missing-file','preflight','api','admin-reflection','partial-actions','missing-source','tampered-qc-bytes','same-size-live-bytes']) {
     const h=await start();try {
       deliverFixedImages(h,{pass:fault!=='qc',missing:fault==='missing-file'});
       if(fault==='db-sync'||fault==='admin-reflection')h.svc.setFault((u,m)=>u.pathname.endsWith('/admin_article_drafts') && m==='PATCH');
       if(fault==='api')h.svc.setFault(u=>u.hostname==='api.github.com');
+      if(fault==='missing-source')h.draft.editorial_source=null;
       if(fault==='preflight')h.draft.body_markdown='';
       if(['tampered-qc-bytes','same-size-live-bytes'].includes(fault)){const bytes=Buffer.from(h.svc.live.get(h.draft.thumbnail));bytes[bytes.length-1]^=1;h.svc.live.set(h.draft.thumbnail,bytes);if(fault==='tampered-qc-bytes')h.svc.files.set(h.draft.thumbnail.slice(1),bytes);}
       if(fault==='partial-actions') h.svc.live.clear(); // GitHub commit succeeded, Xserver staging failed
@@ -122,7 +123,7 @@ test('B: QC rejection, failed sync, missing GBP, preflight failure, API outage a
       h.svc.setFault(null);
       if(fault==='qc') {assert(stopped.data.article.image_last_error);assert.equal(stopped.data.article.image_status,'ERROR');}
       else {
-        h.draft.body_markdown=h.payload.body_markdown;
+        h.draft.body_markdown=h.payload.body_markdown;h.draft.editorial_source='the-rev-editorial-ai';
         deliverFixedImages(h);
         // Recovery is explicitly routed to synchronization, not generation.
         h.draft.image_status='PREPARING';h.draft.image_last_error=null;

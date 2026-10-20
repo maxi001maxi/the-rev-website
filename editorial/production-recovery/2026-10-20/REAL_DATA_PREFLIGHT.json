@@ -104,5 +104,7 @@
   "production_db_changed": false,
   "xserver_written": false,
   "ready_for_owner_publish": false,
-  "published": false
+  "published": false,
+  "invalidated": true,
+  "invalidated_reason": "Probe snapshot omitted editorial_source and was incorrectly treated as a manual article. Do not use this initial result as acceptance. Fixed snapshot and regression guard require a BLOCKED result."
 }

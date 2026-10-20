@@ -236,7 +236,10 @@ test('confirmed LINE non-delivery creates a new topic notification generation wi
 });
 
 test('prepare is immutable, no-approval poll does not read GitHub, and notification failure cannot approve',async()=>{
-  const db=memoryDb(),body={...args,action:'prepare'};
+  const current=new Date().toISOString();
+  const db=memoryDb(),body={...args,action:'prepare',shortlist:shortlist.map(c=>({...c,generated_at:current,week_start:current}))};
+  // Keep candidate freshness relative to the server clock; a pinned October 4
+  // candidate legitimately expires and refreshes the notification snapshot.
   // Test date must be explicit because the HTTP API uses the actual server clock.
   body.target_date='2026-10-05';
   const r=await topicResponse(body,db,deps);assert.equal(r.preparation.proposal.options.length,3);assert.equal(r.ready.length,0);
