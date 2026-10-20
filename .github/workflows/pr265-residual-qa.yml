@@ -1,0 +1,68 @@
+name: PR265 residual QA (isolated)
+on:
+  push:
+    branches:
+      - qa/pr265-residual-20261020
+
+permissions:
+  contents: read
+
+jobs:
+  build-parity:
+    name: Build parity (production vs preview)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Check build parity
+        run: npm run test:build-parity
+        env:
+          CI: 'true'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr265-build-parity
+          path: qa-out/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  playwright-site:
+    name: Playwright real-site local E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build isolated static site
+        run: npm run vercel-build
+        env:
+          CI: 'true'
+          VERCEL: '0'
+          VERCEL_ENV: preview
+      - name: Playwright end-to-end QA
+        run: npm run test:public-site-browser
+        env:
+          CI: 'true'
+          QA_CONCURRENCY: '2'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pr265-playwright
+          path: qa-out/
+          if-no-files-found: ignore
+          retention-days: 7
