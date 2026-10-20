@@ -37,6 +37,7 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_BRANCH: ${{ github.sha }}
         run: node scripts/preflight-oct21-image-admission.mjs
+      - run: node --test scripts/test-editorial-oct21-qc-approval.mjs
       - run: npm run test:production-recovery
       - run: npm run test:editorial-quality-v080
       - run: npm run test:daily-editorial-contract
@@ -84,6 +85,7 @@ jobs:
         with:
           name: oct21-independent-text-qc-${{ github.run_id }}
           path: |
-            editorial/prepublication/2026-10-21-evening-strength-sleep/INDEPENDENT_QC_V082.json
+            editorial/prepublication/2026-10-21-evening-strength-sleep/INDEPENDENT_QC_V082*.json
+            editorial/production-recovery/2026-10-20/oct21-independent-qc-claim.json
             editorial/production-recovery/2026-10-20/REAL_DATA_PREFLIGHT.json
           if-no-files-found: warn

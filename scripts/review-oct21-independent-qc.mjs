@@ -1,9 +1,11 @@
-// Exact production v0.8 gate + reviewed evidence, at most two evidence-changing, remote-reserved requests.
+// Exact production v0.8 gate + reviewed evidence. Preserve the original two calls;
+// an explicitly bound Owner extension can authorize exactly one additional call.
 // No image generation, DB changes, Bridge POST, deployment or publication.
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {createHash} from 'node:crypto';
 import {getFile,putFile} from '../lib/githubContent.mjs';
+import {authorizeOct21AdditionalQc,estimatedQcCost} from '../lib/editorialOct21QcApproval.mjs';
 const root='editorial/prepublication/2026-10-21-evening-strength-sleep';
 const sha=x=>createHash('sha256').update(x).digest('hex');
 const source=fs.readFileSync(root+'/ARTICLE_DRAFT.md','utf8');
@@ -11,7 +13,7 @@ const title=source.split('\n')[0].replace(/^#\s*/,''),body=source.slice(source.i
 const research=JSON.parse(fs.readFileSync(root+'/VERIFIED_RESEARCH.json'));
 const owner=JSON.parse(fs.readFileSync(root+'/APPROVED_INTERVIEW.json'));
 const claimPath='editorial/production-recovery/2026-10-20/oct21-independent-qc-claim.json';
-const reportPath=root+'/INDEPENDENT_QC_V082.json';
+let reportPath=root+'/INDEPENDENT_QC_V082.json';
 if(owner.content_id!=='BLOG-20261021-4ac8fd'||owner.status!=='QUEUE_CREATED'||!owner.approved_at||!owner.raw_answer)throw new Error('APPROVED_OWNER_EVIDENCE_MISSING');
 let payload,response;
 const context={console,PropertiesService:{getScriptProperties:()=>({getProperty:()=> 'OFF'})},
@@ -34,17 +36,32 @@ if(!process.env.OPENAI_API_KEY)throw new Error('OPENAI_API_KEY_MISSING');
 const plan=JSON.parse(fs.readFileSync(root+'/QC_EXECUTION.json'));
 const prior=await getFile(claimPath),old=prior.exists?JSON.parse(prior.content):null;
 const previousCalls=old?(old.calls||[{status:old.status,body_sha256:old.body_sha256,request_id:old.request_id,usage:old.usage,pass:old.pass}]):[];
-if(old && (plan.mode!=='REPAIR_TEXT_QC'||plan.max_requests!==2||old.status!=='COMPLETED'||old.pass!==false||old.body_sha256===sha(body)||previousCalls.length>=2))throw new Error('QC_ALREADY_RESERVED_NO_AUTOMATIC_RETRY');
-const claim={content_id:owner.content_id,body_sha256:sha(body),request_sha256:sha(JSON.stringify(payload)),status:'STARTED',started_at:new Date().toISOString(),max_requests:Math.min(2,Number(plan.max_requests)||1),total_requests:previousCalls.length+1,calls:[...previousCalls,{status:'STARTED',body_sha256:sha(body),at:new Date().toISOString()}],confirmed_cost:null};
+let additional=null;
+if(plan.additional_approval){
+ additional=authorizeOct21AdditionalQc({plan,prior:old,body,payload});
+ reportPath=root+'/INDEPENDENT_QC_V082_ADDITIONAL.json';
+}else if(old && (plan.mode!=='REPAIR_TEXT_QC'||plan.max_requests!==2||old.status!=='COMPLETED'||old.pass!==false||old.body_sha256===sha(body)||previousCalls.length>=2))throw new Error('QC_ALREADY_RESERVED_NO_AUTOMATIC_RETRY');
+const claim={content_id:owner.content_id,body_sha256:sha(body),request_sha256:sha(JSON.stringify(payload)),status:'STARTED',started_at:new Date().toISOString(),max_requests:Math.min(2,Number(plan.max_requests)||1),additional_approval:additional,total_requests:previousCalls.length+1,calls:[...previousCalls,{status:'STARTED',body_sha256:sha(body),at:new Date().toISOString()}],confirmed_cost:null};
 await putFile({path:claimPath,sha:prior.exists?prior.sha:null,content:JSON.stringify(claim,null,2)+'\n',message:'Reserve one Oct21 independent text QC (no image or publish)'});
-const res=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(180000)});
-response=await res.json();
-const report={...claim,status:res.ok?'COMPLETED':'FAILED',checked_at:new Date().toISOString(),request_id:res.headers.get('x-request-id'),response_id:response.id||null,model:response.model||payload.model,http_status:res.status,usage:response.usage||null,pass:false,confirmed_cost:null,production_db_changed:false,image_calls:0,published:false,gbp_posted:false};
-if(res.ok)Object.assign(report,context.v080IndependentQc_(article,ctx));
-else report.error=String(response.error?.message||'Provider error').slice(0,500);
-Object.assign(report.calls[report.calls.length-1],{status:report.status,request_id:report.request_id,usage:report.usage,pass:report.pass,confirmed_cost:null});
+let res,transportError;
+try{
+ res=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(180000)});
+ response=await res.json();
+}catch(e){transportError=String(e.message||e).slice(0,500);}
+const report={...claim,status:transportError?'UNCERTAIN':res.ok?'COMPLETED':'FAILED',checked_at:new Date().toISOString(),request_id:res?.headers.get('x-request-id')||null,response_id:response?.id||null,model:response?.model||payload.model,http_status:res?.status||null,usage:response?.usage||null,pass:false,confirmed_cost:null,production_db_changed:false,image_calls:0,published:false,gbp_posted:false};
+report.estimated_cost_usd=estimatedQcCost(report.usage,report.model);
+report.cost_basis='estimate from recorded usage and verified model prices; invoice charge unavailable';
+if(transportError)report.error=transportError;
+else if(res.ok){
+ try{
+  if(response.status&&response.status!=='completed')throw Error('QC_PROVIDER_RESPONSE_'+response.status);
+  report.qc_output=context.parseStructuredResponse_(response);
+  Object.assign(report,context.v080IndependentQc_(article,ctx));
+ }catch(e){report.status='FAILED';report.error=String(e.message).slice(0,500);}
+}else report.error=String(response?.error?.message||'Provider error').slice(0,500);
+Object.assign(report.calls[report.calls.length-1],{status:report.status,request_id:report.request_id,usage:report.usage,pass:report.pass,confirmed_cost:null,approval_id:additional?.approval_id||null,estimated_cost_usd:report.estimated_cost_usd});
 fs.writeFileSync(reportPath,JSON.stringify(report,null,2)+'\n');
 const existing=await getFile(reportPath);await putFile({path:reportPath,sha:existing.exists?existing.sha:null,content:JSON.stringify(report,null,2)+'\n',message:'Record genuine Oct21 independent text QC and token usage'});
 const reserved=await getFile(claimPath);await putFile({path:claimPath,sha:reserved.sha,content:JSON.stringify(report,null,2)+'\n',message:'Close Oct21 independent QC reservation without publishing'});
-console.log(JSON.stringify({pass:report.pass,total:report.total,issues:report.issues,request_id:report.request_id,usage:report.usage,confirmed_cost:null}));
+console.log(JSON.stringify({pass:report.pass,total:report.total,issues:report.issues,recommendations:report.recommendations,request_id:report.request_id,usage:report.usage,estimated_cost_usd:report.estimated_cost_usd,confirmed_cost:null,report_path:reportPath}));
 if(!report.pass)process.exitCode=1;
