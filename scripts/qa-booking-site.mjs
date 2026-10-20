@@ -8,7 +8,7 @@ const out=process.env.BOOKING_QA_OUT || 'qa-out/technical';fs.mkdirSync(out,{rec
 const entry='https://cl.gyms.jp/t/CC2237480443/';
 const params={utm_source:'website',utm_medium:'referral',utm_campaign:'trial',utm_content:'home_hero'};
 const allowed=['cl.gyms.jp','gyms-api.saucer-saas.com','s3.ap-northeast-1.wasabisys.com','cdnjs.cloudflare.com','cdn.jsdelivr.net','fonts.googleapis.com','fonts.gstatic.com'];
-const report={status:'UNVERIFIED',cases:[],blockedWrites:[],blockedReads:[],errors:[],customerInput:false,submitted:false};
+const report={status:'UNVERIFIED',cases:[],blockedWrites:[],blockedReads:[],blockedTelemetry:[],errors:[],customerInput:false,submitted:false};
 const normalize=s=>s.replace(/\s+/gu,' ').trim();
 const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox']});
 try{
@@ -16,8 +16,8 @@ try{
   const ctx=await browser.newContext({viewport:{width,height},serviceWorkers:'block'});
   await ctx.route('**/*',async route=>{
    const req=route.request(),url=new URL(req.url());
+   if(/bugsnag|onesignal|analytics|googletagmanager|doubleclick|facebook|clarity/.test(url.hostname)){report.blockedTelemetry.push({method:req.method(),url:url.origin+url.pathname});await route.abort();return;}
    if(!['GET','HEAD','OPTIONS'].includes(req.method())){report.blockedWrites.push({method:req.method(),url:url.origin+url.pathname});await route.abort();return;}
-   if(/analytics|googletagmanager|doubleclick|facebook|clarity/.test(url.hostname)){await route.abort();return;}
    if(!allowed.includes(url.hostname)){report.blockedReads.push(url.origin+url.pathname);await route.abort();return;}
    await route.continue();
   });
