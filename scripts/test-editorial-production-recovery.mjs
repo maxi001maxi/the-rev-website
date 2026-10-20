@@ -136,3 +136,12 @@ test('changing a guarded edit mask cannot reuse an already reserved API budget',
  const first=createImageApiLedger({job,...store}),n=await first.reserve('generation');await first.complete(n,{http_status:200});
  await assert.rejects(()=>createImageApiLedger({job:{...job,v3:{...job.v3,guarded_edit:{edit:{x:500}}}},...store}).reserve('qc'),/CONTRACT_CHANGED/);
 });
+
+test('fresh GAS install imports the two actual external QCs instead of resetting the Oct21 budget',()=>{
+ const h=recoverySandbox(),draft={...h.article,slug_suggestion:'night-workout-sleep-timing-intensity'},ctx={first_party_interview:{source_id:'TP-20261021',raw_answer:'Approved Owner answer'}};
+ const r=h.sandbox.v082Journal_(draft,ctx);assert.equal(r.calls.length,2);assert(r.calls.every(c=>c.kind==='qc'&&c.imported&&c.pass===false));
+ assert.equal(r.calls[0].request_id,'req_5132beae5d104cfb807c551661e7ae18');assert.equal(r.calls[1].usage.total_tokens,4211);
+ assert.throws(()=>h.sandbox.v082Reserve_(draft,ctx,'qc'),/QC_LIMIT/);
+ assert.throws(()=>h.sandbox.v082Reserve_(draft,{},'qc'),/QC_LIMIT/,'slug fallback also retains consumed history');
+ assert.equal(h.sandbox.v082Journal_(draft,ctx).calls.length,2);assert.equal(h.counts().qcCalls,0);
+});

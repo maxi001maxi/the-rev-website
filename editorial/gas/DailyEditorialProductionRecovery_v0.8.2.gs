@@ -5,6 +5,71 @@
  * Script Properties reserve calls before API; ambiguous calls never auto-retry.
  */
 var V082_ACTIVE_REPAIR = null;
+// Durable external requests already consumed before GAS installation. This
+// import prevents a fresh Script Properties journal from minting a new budget.
+var V082_IMPORTED_QC_HISTORY = [
+  {
+    "identities": [
+      "TP-20261021",
+      "night-workout-sleep-timing-intensity"
+    ],
+    "calls": [
+      {
+        "request_id": "req_5132beae5d104cfb807c551661e7ae18",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 3398,
+          "input_tokens_details": {
+            "cache_write_tokens": 3395,
+            "cached_tokens": 0
+          },
+          "output_tokens": 711,
+          "output_tokens_details": {
+            "reasoning_tokens": 356
+          },
+          "total_tokens": 4109
+        },
+        "pass": false,
+        "total": 19,
+        "body_sha256": "0071e929f34aef5121f9f62a0ee5f212f97c9f91b1a1df0875758104ffef50be",
+        "kind": "qc",
+        "status": "COMPLETED",
+        "imported": true,
+        "confirmed_cost": null,
+        "source_path": "editorial/production-recovery/2026-10-20/oct21-independent-qc-claim.json"
+      },
+      {
+        "request_id": "req_885cd030abb642d784f4c82adebcbb26",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 3356,
+          "input_tokens_details": {
+            "cache_write_tokens": 3353,
+            "cached_tokens": 0
+          },
+          "output_tokens": 855,
+          "output_tokens_details": {
+            "reasoning_tokens": 394
+          },
+          "total_tokens": 4211
+        },
+        "pass": false,
+        "total": 18,
+        "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3",
+        "kind": "qc",
+        "status": "COMPLETED",
+        "imported": true,
+        "confirmed_cost": null,
+        "source_path": "editorial/production-recovery/2026-10-20/oct21-independent-qc-claim.json"
+      }
+    ]
+  }
+];
+function v082ImportedQcCalls_(identity) {
+  var entry=V082_IMPORTED_QC_HISTORY.find(function(x){return x.identities.indexOf(identity)>=0;});
+  return entry?entry.calls.map(function(c){return Object.assign({},c);}):[];
+}
+
 function v082Enabled_() {
   return String(PropertiesService.getScriptProperties().getProperty('THE_REV_EDITORIAL_RECOVERY_V082_MODE')||'OFF')==='ENFORCE';
 }
@@ -22,6 +87,9 @@ function v082Journal_(draft,ctx,mutate) {
   try{
     var raw=props.getProperty(key),record=raw?JSON.parse(raw):{identity:id,calls:[],confirmed_cost:null};
     if(record.identity!==id || !Array.isArray(record.calls))throw new Error('V082_CHECKPOINT_CORRUPT');
+    v082ImportedQcCalls_(id).forEach(function(c){
+      if(!record.calls.some(function(existing){return existing.request_id===c.request_id;}))record.calls.push(c);
+    });
     if(mutate){mutate(record);props.setProperty(key,JSON.stringify(record));}
     return record;
   }finally{if(!alreadyHeld)lock.releaseLock();}

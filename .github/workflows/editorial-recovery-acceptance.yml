@@ -30,6 +30,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: node scripts/build-gas-bundle.mjs --check
       - run: npm run test:production-recovery
       - run: npm run test:editorial-quality-v080
       - run: npm run test:daily-editorial-contract
