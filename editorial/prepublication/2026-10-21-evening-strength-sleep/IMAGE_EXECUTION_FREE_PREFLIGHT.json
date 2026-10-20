@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-20T08:49:56.190Z",
+  "pass": true,
+  "free": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-evolgear-20260922",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "pre-workout-stretching-duration",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "raw_edit_coverage": {
+    "pass": true,
+    "errors": [],
+    "crops": [
+      {
+        "name": "thumbnail",
+        "width": 1200,
+        "height": 675,
+        "photo_width_fraction": 0.66,
+        "crop": {
+          "x": 0,
+          "y": 331.6363636363636,
+          "width": 1024,
+          "height": 872.7272727272727
+        },
+        "scale": 0.7734375
+      },
+      {
+        "name": "og",
+        "width": 1200,
+        "height": 630,
+        "photo_width_fraction": 0.66,
+        "crop": {
+          "x": 0,
+          "y": 360.72727272727275,
+          "width": 1024,
+          "height": 814.5454545454545
+        },
+        "scale": 0.7734375
+      },
+      {
+        "name": "gbp",
+        "width": 1200,
+        "height": 900,
+        "photo_width_fraction": 1,
+        "crop": {
+          "x": 0,
+          "y": 384,
+          "width": 1024,
+          "height": 768
+        },
+        "scale": 1.171875
+      }
+    ],
+    "no_api_calls": true,
+    "visual_qc_pass": false
+  },
+  "r7_references_sha_verified": true,
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "existing_failed_job_unchanged": true,
+  "paid_calls": 0,
+  "production_writes": false
+}
