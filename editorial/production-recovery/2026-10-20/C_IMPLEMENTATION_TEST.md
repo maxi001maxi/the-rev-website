@@ -22,3 +22,12 @@ CIは `Editorial Recovery Acceptance` と既存 `Phase 9 Check`。独立実本�
 **未マージ・未本番導入**。CI成功と本番E2E成功を混同しない。GAS実トリガー、認証済みConsoleのPC/スマホ、予約リンク実クリック、Xserverへの新画像配信は別受入が必要。
 
 CIで既存Topic Approvalテストの固定10月4日候補が経時失効し、正しい候補refreshを誤って失敗扱いすることも確認。候補fixtureの鮮度をserver clockに合わせ、候補の鮮度基準自体は維持。29件PASSを確認した。
+
+
+## CI実行証拠
+
+- [Phase9 SUCCESS](https://github.com/maxi001maxi/the-rev-website/actions/runs/39362856567)
+- [Editorial Recovery Acceptance / PR SUCCESS](https://github.com/maxi001maxi/the-rev-website/actions/runs/39362856565)
+- [実本文QC・読取Probe](https://github.com/maxi001maxi/the-rev-website/actions/runs/39362851581)：合成acceptance成功、OpenAI呼出成功、実本文の品質判定FAIL、読取Probe成功。全CI成功とは表現しない。
+
+初回Phase9は既存候補fixtureの鮮度依存で失敗し、fixture修正後29件PASS。最終コードでは品質ゲートを緩和していない。初回read-only probeのsource属性取得漏れも検出・修正し、最終結果はBLOCKED。API実行履歴を削除・リセットしていない。

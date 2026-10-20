@@ -45,7 +45,7 @@ Issue [#264](https://github.com/maxi001maxi/the-rev-website/issues/264)。対象
 | 03 独自情報 | Owner回答→Writer/Editor ctx | 引継ぎPASS | 2回答を保持 |
 | 04 調査 | source_refs→確認済み証拠 | 限定4一次資料を実装 | 一次資料を照合、証拠pack保存 |
 | 05 記事制作 | Writer / Preservation Editor | Writer保持・修復1回PASS | PR263本文を修正、別記事は作らない |
-| 06 本文QC | 独立QC v0.8 gate | 低評価/証拠なし/API障害停止PASS | 実API結果は記事報告Dへ記録 |
+| 06 本文QC | 独立QC v0.8 gate | 低評価/証拠なし/API障害停止PASS | 第1回19/20、第2回18/20、どちらも不合格 |
 | 07 画像設計 | source/scene/brief preflight | strict必須、旧失敗回帰PASS | 旧計画FAIL。新人物領域・編集方式は未検証 |
 | 08 画像生成 | OpenAI Actions | 事前CAS予約・1回制限・実行器中断回帰PASS | 既存2回失敗。追加生成0 |
 | 09 画像QC | 独立grounding+visual | 台帳拒否/R7維持PASS | 実物不合格。採用なし |
@@ -58,3 +58,5 @@ Issue [#264](https://github.com/maxi001maxi/the-rev-website/issues/264)。対象
 ## 判定
 
 **PARTIAL**。接続経路のDRY_RUN_PASSは、本番GAS/認証済みConsole/本番配信の成功を意味しない。既存資産は照合・保存できたが、10/21をREAL_DATA_PASSまたはREADY_FOR_OWNER_PUBLISHとは報告しない。
+
+実行後確定：本文QCは2回とも不合格で安全停止。画像3形式はGitHub実体なし・配信先404。誤って制作元を省いた初回snapshot Preflightは無効化し、再読取・制作元欠損回帰で是正。最終状態と実費用記録は `FINAL_ACCEPTANCE.json` / `ACTUAL_API_USAGE.json`。

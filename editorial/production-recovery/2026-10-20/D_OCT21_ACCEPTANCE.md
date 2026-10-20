@@ -15,3 +15,15 @@ Content `BLOG-20261021-4ac8fd` / Proposal `TP-20261021` / CMS Draft `ac869d7c-c6
 **受入A：BLOCKED。READY_FOR_OWNER_PUBLISHではない。** 本文QC実結果の確認、画像編集方式の検証、限定追加生成枠、独立Visual QC合格、3形式SHAと配信、正式CMS統合、認証済み最終Preflightが残る。
 
 初回読取Preflightはsnapshotのeditorial_source取得漏れで手動記事と誤判定したため無効。再読取で制作元を確認し、Editorial IDがあるのに制作元が不足するケースを回帰に追加した。初回は実案件合格の証拠に使わない。GitHub画像実体なし・配信先3形式404は独立した実測結果。
+
+
+## 実行確定結果
+
+- Draft PR [#266](https://github.com/maxi001maxi/the-rev-website/pull/266)。実装 SHA `11060ee5e95610fa80f578aceb5df9cbc6264dfd`。
+- 独立本文QC 第1回19/20、第2回18/20、いずれもpass=false。第2回は具体的な時刻例と実験結果の区別、軽さの判断基準、筋トレ固有の睡眠効果と実践提案の区別が残った。本文と判定はhashで固定し、3回目は実行していない。
+- API: 本文QC2回、入力6,754・出力1,566・合計8,320 tokens。今回の画像生成0・Visual QC0。請求金額はAPIから取得できずnull。
+- 修正後の実データPreflightは `ok=false / independent_text_qc_required`。画像のReview GateとReleaseも不合格。3形式はGitHubに存在せず、配信先はすべて404。初回の誤判定を上書き受入せず、無効化を記録した。
+- codeの接続受入CIとPhase9は成功。実本文QCを含むpush workflowは妥当な品質不合格でfailure。インフラ障害やコードCI失敗とは区別する。
+- Sheets readbackも保存。Queueは引き続きREVIEW_REQUIRED、正規本文/Working Draft/Bridgeは未統合。既存本文とDraftは保持されている。
+
+**最終：条件A BLOCKED、条件B PARTIAL。** OwnerのPublish操作だけが残る状態には達していない。詳細は `FINAL_ACCEPTANCE.json`。
