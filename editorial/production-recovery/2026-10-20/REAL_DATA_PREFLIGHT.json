@@ -1,0 +1,108 @@
+{
+  "scope": "CANDIDATE_CODE_REAL_DATA_CHECK",
+  "measured_at": "2026-10-20T03:05:10.360Z",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+  "supabase_snapshot_sha256": "dc25ad02c31211b2efe861e0a9aa46e7f3e97655e04f65490d87fb369093b404",
+  "snapshot_read_only": true,
+  "preflight": {
+    "ok": true,
+    "checks": [
+      {
+        "id": "auth",
+        "label": "認証",
+        "status": "skip",
+        "message": "Editorial Bridgeのサーバー間認証で実行しています。"
+      },
+      {
+        "id": "publisher",
+        "label": "Publisher権限",
+        "status": "skip",
+        "message": "自動化は公開しません。Human Publish時に権限を再確認します。"
+      },
+      {
+        "id": "draft",
+        "label": "Draft存在",
+        "status": "ok",
+        "message": "下書きを読み込みました。"
+      },
+      {
+        "id": "required",
+        "label": "必須項目",
+        "status": "ok",
+        "message": "必要な項目はすべて入力されています。"
+      },
+      {
+        "id": "slug_format",
+        "label": "Slug形式",
+        "status": "ok",
+        "message": "/blog/night-workout-sleep-timing-intensity/ として公開されます。"
+      },
+      {
+        "id": "image_release",
+        "label": "記事画像",
+        "status": "ok",
+        "message": "手動記事の画像パスを確認しました。"
+      },
+      {
+        "id": "github_connection",
+        "label": "GitHub接続",
+        "status": "ok",
+        "message": "maxi001maxi/the-rev-website @ main へ接続できました。"
+      },
+      {
+        "id": "github_target",
+        "label": "GitHub上のslug衝突",
+        "status": "ok",
+        "message": "content/blog/night-workout-sleep-timing-intensity.md は未使用です（新規作成）。"
+      },
+      {
+        "id": "source_sync",
+        "label": "source_path / source_sha",
+        "status": "ok",
+        "message": "新規公開のため未設定です（公開成功後に保存されます）。"
+      }
+    ],
+    "blocker": null
+  },
+  "assets": [
+    {
+      "kind": "thumbnail",
+      "path": "/assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+      "github_exists": false,
+      "live_status": 404,
+      "live_content_type": "text/html",
+      "live_sha256": "47737d49f136ca1daf9db6c48d4591576dd05b1f467946ed6633d9347a3f5014",
+      "github_sha256": null,
+      "live_bytes": 2814,
+      "matches": false
+    },
+    {
+      "kind": "og",
+      "path": "/assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+      "github_exists": false,
+      "live_status": 404,
+      "live_content_type": "text/html",
+      "live_sha256": "47737d49f136ca1daf9db6c48d4591576dd05b1f467946ed6633d9347a3f5014",
+      "github_sha256": null,
+      "live_bytes": 2814,
+      "matches": false
+    },
+    {
+      "kind": "gbp",
+      "path": "/assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+      "github_exists": false,
+      "live_status": 404,
+      "live_content_type": "text/html",
+      "live_sha256": "47737d49f136ca1daf9db6c48d4591576dd05b1f467946ed6633d9347a3f5014",
+      "github_sha256": null,
+      "live_bytes": 2814,
+      "matches": false
+    }
+  ],
+  "authenticated_console_verified": false,
+  "production_db_changed": false,
+  "xserver_written": false,
+  "ready_for_owner_publish": false,
+  "published": false
+}
