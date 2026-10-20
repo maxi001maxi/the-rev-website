@@ -1,0 +1,18 @@
+{
+  "slug": "night-workout-sleep-timing-intensity",
+  "asset_version": "reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020",
+  "job_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/image-layout-r5b/IMAGE_JOB.json",
+  "status": "OVERLAY_QC_REJECTED",
+  "attempts_total": 0,
+  "scene_sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+  "generation_disabled": true,
+  "max_attempts": 1,
+  "last_error": "SOURCE_PRESERVATION_REJECTED: {\"japanese_customer_brief_matches\":true,\"night_atmosphere_visible\":false,\"approved_composition_preserved\":true,\"room_geometry_preserved\":false,\"equipment_layout_preserved\":false,\"hands_watch_gaze_natural\":true,\"no_cutout_or_hard_restore\":true,\"all_three_formats_readable\":true,\"comments\":\"男性客と時計確認の構図は方向案どおりで、3形式の文字も読める。しかしソースの窓・横型ブラインドおよび右側設備の空間関係が保持されず、暗い外景も見えない。前回却下入力と実質同じフレーミングに見え、新しい夜仕上げの証拠が不足している。\"}. 時計を見る動作、視線、手指、立ち姿は自然で、人物も床に接地している。一方、実ソースの右奥にある横型ブラインドと窓の構造が暗い面へ置換されたように見え、ベンチ周辺やラック右側の構成も十分に保存されていない。暖色照明だけで、同じブラインド越しの暗い屋外を確認できず、夜の新規編集という必須条件を満たさないため不合格。",
+  "generated_scene_path": "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020-scene.png",
+  "thumbnail": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+  "og_image": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+  "gbp_image": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+  "qa_report_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/image-layout-r5b/IMAGE_INDEPENDENT_QC.json",
+  "xserver_verified": false,
+  "updated_at": "2026-10-20T10:04:07.533Z"
+}
