@@ -31,6 +31,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node scripts/build-gas-bundle.mjs --check
+      - name: Free Oct21 recovery source and semantic admission (no provider or writes)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_BRANCH: ${{ github.sha }}
+        run: node scripts/preflight-oct21-image-admission.mjs
       - run: npm run test:production-recovery
       - run: npm run test:editorial-quality-v080
       - run: npm run test:daily-editorial-contract
