@@ -1,0 +1,153 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "night-workout-sleep-timing-intensity",
+  "asset_version": "reference-v082-evolgear-japanese-night-r5-layout-qc-20261020",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-evolgear-20260922",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "scene_type": "recovery_transition",
+    "location_type": "training_area",
+    "human_action": "rest",
+    "composition_type": "medium_seated_portrait",
+    "visual_role": "recovery_time",
+    "article_intent": "recovery",
+    "required_equipment": [],
+    "subject_zone": "training_area",
+    "article_specific_directive": "One ordinary adult customer pauses at the end of training and checks their wristwatch to decide when to finish; no equipment operation.",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.3333333333333333,
+      "matches": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.3333333333333333,
+          "equal": [
+            "human_action",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    }
+  },
+  "headline": "夜の筋トレ、\n何時まで？",
+  "thumbnail": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-layout-qc-20261020.jpg",
+  "og": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-layout-qc-20261020.jpg",
+  "gbp": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-layout-qc-20261020.jpg",
+  "generation_edit_contract": {
+    "background_lock": "owner-japanese-night-finish-v1",
+    "owner_finish": {
+      "input_path": ".operator-finish-input/r5-scene.png",
+      "input_sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+      "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+      "owner_direction_approval_only": true,
+      "edit_scope": []
+    },
+    "openai_edit": {
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "quality": "max"
+    }
+  },
+  "qc_only_call_limits": {
+    "generation": 0,
+    "qc": 1
+  },
+  "contract_sha256": "4a434b9e863bcfcc9186c3ee6a04e87b2c8eddcf2718806efb4d2e539f615d4e",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "qc",
+      "status": "STARTED",
+      "at": "2026-10-20T09:57:28.688Z",
+      "confirmed_cost": null
+    }
+  ],
+  "confirmed_cost": null
+}
