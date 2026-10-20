@@ -24,7 +24,7 @@ const seen=new Set(),history=allHistory.filter(r=>!seen.has(r.slug)&&seen.add(r.
 const plan=planGroundedScene({title,slug:existing.slug},source,history);
 const candidate={...existing,article_title:title,asset_version:'PROPOSAL_ONLY_v082_oct21',
  max_generation_attempts:1,image_headline_short:selectedCopy,scene_plan:plan,generated_customer_count:1,
- automation:{...existing.automation,require_complete_semantic_preflight:true,selected_source_id:source.source_id,source_repo_path:source.repo_path,recent_semantic_articles:history}};
+ automation:{...existing.automation,require_complete_semantic_preflight:true,selected_source_id:source.source_id,source_repo_path:source.repo_path,recent_semantic_articles:history,recent_articles:history.slice(0,4),require_consistent_recent_history:true}};
 const admission=preflightEditorialImage(candidate,registry,{requireStrict:true});
 if(!copyMatchesBrief){admission.pass=false;admission.errors.push('CREATIVE_BRIEF_COPY_CHANGED');admission.status='BLOCKED_BEFORE_MODEL';}
 const keys=[source.drive_file_id,source.origin_video_file_id,source.repo_path].filter(Boolean);

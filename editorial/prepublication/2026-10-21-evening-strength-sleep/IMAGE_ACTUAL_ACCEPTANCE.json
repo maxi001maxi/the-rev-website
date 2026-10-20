@@ -1,0 +1,152 @@
+{
+  "schema": "editorial-oct21-actual-image-acceptance-v1",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "status": "BLOCKED_ACTUAL_IMAGE_QC",
+  "source_run": 39396119339,
+  "requested_image_model": "gpt-image-2.5-sunburst-2026-09-08",
+  "requested_quality": "max",
+  "generation_calls": 1,
+  "independent_qc_calls": 2,
+  "retries": 0,
+  "adopted": false,
+  "body_qc": {
+    "pass": true,
+    "score": 20,
+    "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+    "preserved": true
+  },
+  "independent_qc": {
+    "pass": false,
+    "r7_comparison": {
+      "pass": false,
+      "comments": "時計を見る視線と指先の接触、立位姿勢、足元の接地影は自然で、人物の切り抜き感も強くない。ただしOct15 R7のような人物優先の被写界深度がなく、ラック、プレート、ケーブル、天井まで一様に鋭く高コントラストで写っているため、設備が人物と主役を争う。元ソースに近い場所ではあるが、細部まで明瞭な再構成により機器配置や形状差も目立ち、HUMAN FIRST V1の背景二次化と60〜70％の人物注目率を満たさない。",
+      "variants": {
+        "thumbnail": false,
+        "og": false,
+        "gbp": false
+      }
+    },
+    "photo_treatment": 6,
+    "human_subject_prominence": 7,
+    "human_visual_attention_share": 55,
+    "human_environment_integration": 8,
+    "perspective_scale_consistency": 9,
+    "ground_contact_shadow_consistency": 8,
+    "lighting_consistency": 8,
+    "anatomy_pose_realism": 9,
+    "typography_pass": true,
+    "source_scene_grounding_pass": true,
+    "raw_background_guard": {
+      "pass": false,
+      "protectedPixels": 1088864,
+      "changedPixels": 1081166,
+      "edgeChangedPixels": 3072,
+      "reason": "RAW_BACKGROUND_DRIFT",
+      "compositor_used": false,
+      "visual_qc_pass": false,
+      "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+      "raw_sha256": "a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4",
+      "response_id": "resp_068d9a7451b19bee006ad72b3b4e9087d0907eb0d6b2794da7",
+      "usage": {
+        "input_tokens": 4862,
+        "input_tokens_details": {
+          "cache_write_tokens": 2615,
+          "cached_tokens": 0
+        },
+        "output_tokens": 393,
+        "output_tokens_details": {
+          "reasoning_tokens": 26
+        },
+        "total_tokens": 5255
+      }
+    }
+  },
+  "verified_candidate_files": [
+    {
+      "format": "scene",
+      "size": [
+        1024,
+        1536
+      ],
+      "sha256": "a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4"
+    },
+    {
+      "format": "thumbnail",
+      "size": [
+        1200,
+        675
+      ],
+      "sha256": "558f4684bc4e506ad83a8c0221120e6fbd10a752b4cd402bc8bb43964205d649"
+    },
+    {
+      "format": "ogp",
+      "size": [
+        1200,
+        630
+      ],
+      "sha256": "43595c8ff363ad76d46b8974fe3cfc0e0ba07bdf4c13d092880cedd54173eefd"
+    },
+    {
+      "format": "gbp",
+      "size": [
+        1200,
+        900
+      ],
+      "sha256": "c980714f60600835e0bf069b9c3a89055e4b7d33cdc0776eb3f50b7494458170"
+    }
+  ],
+  "usage": {
+    "input": 44863,
+    "output": 6048,
+    "cache_write": 42610,
+    "reasoning": 3511,
+    "total": 50911,
+    "mainline_usage_estimate_usd": 0.343022,
+    "requested_image_output_estimate_usd": 0.16464,
+    "image_tool_token_usage_returned": false,
+    "total_estimate_complete": false,
+    "confirmed_cost_usd": null,
+    "explanation": "All three Responses usage records retained. Image tool usage was null; the image-output estimate excludes tool text/reference-image input. Do not present partial estimates as a confirmed bill."
+  },
+  "discovered_and_fixed": {
+    "bug": "Free semantic admission excluded manually rejected Oct18 R2; inherited automation.recent_articles still contained that R2 and made downstream recent-source QC inconsistent.",
+    "fix": "Bind recent4 and recent12 to the same verified history snapshot; opt-in mismatch gate fails before provider; preserve immutable executed job and save any later free proposal separately.",
+    "regression_tests": 2,
+    "additional_model_calls": 0,
+    "original_failed_qc_preserved": true
+  },
+  "current_cms": [
+    {
+      "id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+      "editorial_content_id": "BLOG-20261021-4ac8fd",
+      "slug": "night-workout-sleep-timing-intensity",
+      "status": "draft",
+      "publish_status": "NOT_PUBLISHED",
+      "noindex": true,
+      "image_status": "ERROR",
+      "image_asset_ready": false,
+      "image_attempts": 2,
+      "editorial_sync_hash": null,
+      "editorial_synced_at": null,
+      "body_md5": "d7ab027c9adc6bbeedd9eaf5b8ccbfd2",
+      "updated_at": "2026-10-20 08:50:27.79168+00"
+    }
+  ],
+  "matching_drafts": 1,
+  "production_changes_by_this_run": false,
+  "published": false,
+  "gbp_posted": false,
+  "review_ready": false,
+  "next_quality_change": {
+    "requires_new_design_validation": true,
+    "not_an_instruction_to_generate_again": true,
+    "proposal": "Use the owner-accepted R7 subject-safe offline depth and portrait framing method on a traceable scene, with an explicitly validated subject/hand/watch protection mask. Resolve exact protected-pixel lock versus intended depth treatment before another paid request. Preserve room geometry and equipment; do not hard-restore pixels across the person or lower any Visual QC threshold.",
+    "why_not_auto_adopt": "R7 photographic comparison and integration/light/contact thresholds failed independently of the stale-history bug."
+  },
+  "evidence": {
+    "github_artifact": 12251004598,
+    "digest": "8d9dc0cd9729e497b82da7feba17a2b28fc590c44f747844192bc6315070017f",
+    "drive_id": "1kugNdDFkxYOB6vvbp053l_RspO1rhb7x",
+    "drive_url": "https://drive.google.com/file/d/1kugNdDFkxYOB6vvbp053l_RspO1rhb7x/view?usp=drivesdk"
+  }
+}
