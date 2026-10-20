@@ -1,41 +1,35 @@
 {
   "content_id": "BLOG-20261021-4ac8fd",
-  "body_sha256": "0071e929f34aef5121f9f62a0ee5f212f97c9f91b1a1df0875758104ffef50be",
-  "request_sha256": "2e3777494ddc2623bd53486c1f712f63371f913b2ac2488a611adddca9cbf7e4",
-  "status": "COMPLETED",
-  "started_at": "2026-10-20T03:04:54.931Z",
-  "max_requests": 1,
-  "confirmed_cost": null,
-  "checked_at": "2026-10-20T03:05:06.232Z",
-  "request_id": "req_5132beae5d104cfb807c551661e7ae18",
-  "response_id": "resp_0fa8474bdb7999ad016ad6da589e6887d2863de34e85324a7c",
-  "model": "gpt-5.6-sol",
-  "http_status": 200,
-  "usage": {
-    "input_tokens": 3398,
-    "input_tokens_details": {
-      "cache_write_tokens": 3395,
-      "cached_tokens": 0
+  "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3",
+  "request_sha256": "43ea66f0fa9fb596b5908fe54c3df1ef4a38515e509dc0603f0cf4e5b51d451e",
+  "status": "STARTED",
+  "started_at": "2026-10-20T03:10:34.444Z",
+  "max_requests": 2,
+  "total_requests": 2,
+  "calls": [
+    {
+      "status": "COMPLETED",
+      "body_sha256": "0071e929f34aef5121f9f62a0ee5f212f97c9f91b1a1df0875758104ffef50be",
+      "request_id": "req_5132beae5d104cfb807c551661e7ae18",
+      "usage": {
+        "input_tokens": 3398,
+        "input_tokens_details": {
+          "cache_write_tokens": 3395,
+          "cached_tokens": 0
+        },
+        "output_tokens": 711,
+        "output_tokens_details": {
+          "reasoning_tokens": 356
+        },
+        "total_tokens": 4109
+      },
+      "pass": false
     },
-    "output_tokens": 711,
-    "output_tokens_details": {
-      "reasoning_tokens": 356
-    },
-    "total_tokens": 4109
-  },
-  "pass": false,
-  "production_db_changed": false,
-  "image_calls": 0,
-  "published": false,
-  "gbp_posted": false,
-  "evidence_sha256": "20ab84a3dc9e339cd429ef04b5095bc9b5f06f53ddb609dce9910f3b01aeba6b",
-  "total": 19,
-  "issues": [
-    "「店長・服部真騎士」という氏名・役職は、提供されたインタビュー記録では確認できないため、帰属表示として未検証。",
-    "「運動直後には心拍数や体温、身体の覚醒度が高い状態がしばらく続く」という生理学的説明は、今回の検証済み抜粋では直接裏づけられていない。",
-    "ブランド紹介部分は適切に意見だと限定されているものの、記事本編から販促導線への切り替わりがやや定型的で、独自性と流れを弱めている。"
+    {
+      "status": "STARTED",
+      "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3",
+      "at": "2026-10-20T03:10:34.444Z"
+    }
   ],
-  "source_unverified": true,
-  "reason": "研究の対象、人数、時刻、結果、観察研究としての限界が検証資料とよく一致し、「何時間前か」と「強度をどう変えるか」という読者の疑問に具体的に答えている。23時就寝の例や負荷調整案も実行判断に役立ち、絶対的な安全境界や効果保証にしていない点も良い。主要結論は十分に根拠づけられているが、人物の氏名・役職と一部の生理学的説明は提供資料から検証できないため、source_unverifiedはtrueとした。",
-  "is_human_reader_test": false
+  "confirmed_cost": null
 }
