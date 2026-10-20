@@ -1,12 +1,12 @@
 {
   "scope": "CANDIDATE_CODE_REAL_DATA_CHECK",
-  "measured_at": "2026-10-20T03:05:10.360Z",
+  "measured_at": "2026-10-20T03:10:51.071Z",
   "content_id": "BLOG-20261021-4ac8fd",
   "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
-  "supabase_snapshot_sha256": "dc25ad02c31211b2efe861e0a9aa46e7f3e97655e04f65490d87fb369093b404",
+  "supabase_snapshot_sha256": "e589c211a73f25ebb0d64ec570cb00010d4aca080593f06c164697ea80b1011f",
   "snapshot_read_only": true,
   "preflight": {
-    "ok": true,
+    "ok": false,
     "checks": [
       {
         "id": "auth",
@@ -39,10 +39,22 @@
         "message": "/blog/night-workout-sleep-timing-intensity/ として公開されます。"
       },
       {
+        "id": "independent_text_qc",
+        "label": "本文の独立QC",
+        "status": "error",
+        "message": "本文QCの未合格・証拠不足・原稿ハッシュ不一致: proof_present, evidence_recorded, content_id_matches, independent_pass, body_matches"
+      },
+      {
+        "id": "image_review_gate",
+        "label": "画像Review Gate",
+        "status": "error",
+        "message": "OWNER_REJECTED_ASSET: 不採用画像は旧QAや改名によって採用できません。 画像QAがPASSしていません。 実素材・設備位置・行動・意味類似の照合が未合格です。 トレーナーが画像に含まれています、またはtrainer_present判定が未記録です。 未知のトレーナー/スタッフ/コーチが含まれています、または判定が未記録です。 顧客以外の人物が含まれています、または判定が未記録です。 人物は顧客役のみにしてください。 Editorial Thumbnailには顧客役が必要です。 顧客役は原則1人、最大2人です。generated_customer_countを1〜2で記録してください。 施設だけのサムネイルは使用できません。 V2.4固定文字レイアウトの適用が確認できません。 layout_template_id は rev-column-v24-fixed-overlay-v1 である必要があります。 policy_revision は editorial-thumbnail-v2.4 である必要があります。 THE REV.実背景の確認ができていません。 指定Driveルート外の素材、または素材スコープ未確認です。 背景素材のprovenanceが未記録です。 背景素材を選んだ理由が未記録です。 直近記事との画像類似チェックが未完了です。 直近4記事と同一画像です、または判定が未記録です。 直近4記事と同一背景です。必要実機の検証済み素材を使う明示的な例外証拠もありません。 トレーナー写真が再利用されています、または判定が未記録です。 直近4記事の比較履歴が不足しています。 series_consistency が8未満、または未記録です。 editorial_quality が8未満、または未記録です。 typography_harmony が8未満、または未記録です。 negative_space が8未満、または未記録です。 photo_treatment が8未満、または未記録です。 article_visual_relevance が8未満、または未記録です。 rev_environment_consistency が8未満、または未記録です。 brand_space_authenticity が8未満、または未記録です。 画像用Editorial Copyが確認できません。 画像コピーの可読性が不足しています。 画像が広告的すぎます。 画像Review modeを判定できません。"
+      },
+      {
         "id": "image_release",
         "label": "記事画像",
-        "status": "ok",
-        "message": "手動記事の画像パスを確認しました。"
+        "status": "error",
+        "message": "記事画像の公開QCが未完了です。Hybrid生成、トレーナー不在、顧客のみ/人物なし、THE REV.実背景、直近4記事との画像・背景重複なし、versioned Thumbnail / OGP、ブランドQCをすべて満たすまで公開できません。"
       },
       {
         "id": "github_connection",
@@ -63,7 +75,11 @@
         "message": "新規公開のため未設定です（公開成功後に保存されます）。"
       }
     ],
-    "blocker": null
+    "blocker": {
+      "code": "independent_text_qc_required",
+      "status": 409,
+      "message": "本文の独立QCを再確認してください。"
+    }
   },
   "assets": [
     {
@@ -104,7 +120,5 @@
   "production_db_changed": false,
   "xserver_written": false,
   "ready_for_owner_publish": false,
-  "published": false,
-  "invalidated": true,
-  "invalidated_reason": "Probe snapshot omitted editorial_source and was incorrectly treated as a manual article. Do not use this initial result as acceptance. Fixed snapshot and regression guard require a BLOCKED result."
+  "published": false
 }
