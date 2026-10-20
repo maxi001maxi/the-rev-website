@@ -1,0 +1,61 @@
+{
+  "schema": "editorial-reviewed-evidence-v1",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "retrieval_is_not_qc_pass": true,
+  "sources": [
+    {
+      "source_type": "PRIMARY_RESEARCH_REVIEWED_SUMMARY",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30374942/",
+      "verification_url": "https://link.springer.com/article/10.1007/s40279-018-1015-0",
+      "document": "Stutz et al. Sports Medicine 2019;49:269–287",
+      "verified_at": "2026-10-20",
+      "section": "Publisher abstract: Methods, Results, Conclusion",
+      "verified_points": [
+        "健康な成人で夕方・夜の単回運動と非運動を比較した23研究の系統的レビュー・メタ分析。全体として夜の運動が睡眠を悪化させるという仮説を支持しなかった。",
+        "就寝1時間以内に終了する激しい運動では入眠潜時・睡眠時間・睡眠効率が損なわれる可能性がある。"
+      ],
+      "scope": "健康な成人の研究。1時間を全員共通の安全境界としない。全種目・不眠症・患者への一般化不可。リンク先公開抄録までを検証し、購読本文を読了したとは主張しない。",
+      "summary_sha256": "5e4d12743f0358d04c748bd29c45804652173e6615cc065f9d8859981b485459"
+    },
+    {
+      "source_type": "PRIMARY_RESEARCH_REVIEWED_SUMMARY",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/34416428/",
+      "document": "Frimpong et al. Sleep Medicine Reviews 2021;60:101535",
+      "verified_at": "2026-10-20",
+      "section": "PubMed abstract",
+      "verified_points": [
+        "18–50歳の健康で普段よく眠れる成人を対象にした夜間高強度運動15研究・194人のメタ分析。",
+        "就寝0.5–4時間前の単回高強度運動ではREM睡眠割合が減少した一方、その他の有意な睡眠変化はなかった。著者は2–4時間前の高強度運動で全体として睡眠を乱さないと結論した。"
+      ],
+      "scope": "対象・種目・実験条件に限る。すべての夜間筋トレの安全性や睡眠改善保証ではない。REM変化を無視して悪影響ゼロとしない。",
+      "summary_sha256": "981642cffe0cc5c64df695b43166703400d94101623711a7bbf8728f9438b7ca"
+    },
+    {
+      "source_type": "PRIMARY_RESEARCH_REVIEWED_SUMMARY",
+      "url": "https://www.nature.com/articles/s41467-025-58271-x",
+      "document": "Leota et al. Nature Communications 2025, Dose-response relationship between evening exercise and sleep",
+      "verified_at": "2026-10-20",
+      "section": "Discussion, limitations; Methods study population",
+      "verified_points": [
+        "活動的な成人14,689人・4,084,354人夜のウェアラブル記録による後ろ向き観察研究。",
+        "終了時刻が遅く運動負荷が高いほど、入眠時刻の遅れ・睡眠時間短縮などと関連した。著者は可能なら入眠4時間以上前の終了、それ以内では軽い負荷を提案した。",
+        "心拍に基づく負荷指標は短時間の高努力筋トレを過小評価する可能性があり、光曝露など交絡を完全には制御していない。"
+      ],
+      "scope": "関連であり因果の証明ではない。入眠時刻と床に就く時刻は異なり、入眠潜時を測定していない。4時間は全員共通の安全境界ではない。",
+      "summary_sha256": "99b0f9fa05892e1fc4a243036a80e90b0b2b304a945615da3b8abbce4087b538"
+    },
+    {
+      "source_type": "OFFICIAL_SOURCE_REVIEWED_SUMMARY",
+      "url": "https://www.mhlw.go.jp/content/001305530.pdf",
+      "document": "健康づくりのための睡眠ガイド2023",
+      "verified_at": "2026-10-20",
+      "section": "PDF page 28 (zero-based27), printed26: 運動のタイミングと頻度",
+      "verified_points": [
+        "夕方や夜の運動でも、就寝の約2～4時間前までという目安で、睡眠改善に有効と報告している。",
+        "年齢・体調に応じて無理のない軽い運動から始め、寝る直前まで興奮状態が続くことを避ける。"
+      ],
+      "scope": "一般的な目安。ジムだけの規則やTHE REV.の店舗固有の決まりではない。睡眠効果や安全性を保証しない。",
+      "summary_sha256": "e554c854c8398ad3a316870be2ceb72c66f00cbac5841d39e08b72421f1effa6"
+    }
+  ]
+}

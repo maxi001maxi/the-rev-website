@@ -112,7 +112,8 @@ function v080QcEvidence_(edited, ctx) {
     ],
     scope:'General official pre-exercise screening advice only. No diagnosis, medication adjustment, guaranteed safety or verified THE REV. medical protocol.'
   });
-  return {first_party_owner_interview:owner,verified_official_excerpts:official};
+  return {first_party_owner_interview:owner,verified_official_excerpts:official,
+    verified_research_excerpts:typeof v082ResearchEvidence_==='function'?v082ResearchEvidence_(refs):[]};
 }
 
 function v080IndependentQc_(edited, ctx) {
@@ -125,11 +126,17 @@ function v080IndependentQc_(edited, ctx) {
     {role:'system',content:[{type:'input_text',text:'You are an INDEPENDENT QC reviewer, NOT the writer or editor. Judge reader value without viewing writer/editor self-scores. Return five scores (0-4): question answered, new understanding, decision support, concrete grounded detail, readability/originality. Check factual claims against supplied verified facts, narrow official excerpts and the explicitly sourced owner interview. Treat the owner interview as evidence of the position stated by the owner ONLY, not independent proof of store protocols or clinical effectiveness. Unverified claims must still set source_unverified=true. Never fabricate verification. issues must list every material blocker. Be critical. Score is NOT a human-reader measurement.'}]},
     {role:'user',content:[{type:'input_text',text:JSON.stringify({title:edited.title,article_type:edited.article_type,body_markdown:edited.body_markdown,verified_public_facts:ctx&&ctx.verified_public_facts||[],blocked_facts:ctx&&ctx.blocked_facts||[],source_refs:edited.source_refs||[],qc_evidence:v080QcEvidence_(edited,ctx)})}]}
   ],text:{format:{type:'json_schema',name:'editorial_quality_v080',strict:true,schema:schema}},max_output_tokens:4000};
-  var output=parseStructuredResponse_(openAIRequest_('responses',payload),'Editorial Independent QC v0.8');
+  var sequence=typeof v082Enabled_==='function'&&v082Enabled_()?v082Reserve_(edited,ctx,'qc'):null;
+  var response;
+  try{response=openAIRequest_('responses',payload);if(sequence)v082Finish_(edited,ctx,sequence,response,null);}
+  catch(e){if(sequence)v082Finish_(edited,ctx,sequence,null,e);throw e;}
+  var output=parseStructuredResponse_(response,'Editorial Independent QC v0.8');
   var sum=0,valid=true;
   axes.forEach(function(k){var n=output.scores&&output.scores[k];if(typeof n!=='number'||!isFinite(n)||Math.floor(n)!==n||n<0||n>4)valid=false;else sum+=n;});
   if(!Array.isArray(output.issues)||typeof output.source_unverified!=='boolean')valid=false;
-  return {pass:valid&&sum>=16&&axes.every(function(k){return output.scores[k]>=2;})&&output.issues.length===0&&output.source_unverified===false,total:valid?sum:null,issues:output.issues||[],source_unverified:output.source_unverified,reason:output.reason||'',is_human_reader_test:false};
+  return {body_sha256:typeof v082Sha_==='function'?v082Sha_(String(edited.body_markdown||'').trim()):null,
+    evidence_sha256:typeof v082Sha_==='function'?v082Sha_(JSON.stringify(v080QcEvidence_(edited,ctx))):null,
+    pass:valid&&sum>=16&&axes.every(function(k){return output.scores[k]>=2;})&&output.issues.length===0&&output.source_unverified===false,total:valid?sum:null,issues:output.issues||[],source_unverified:output.source_unverified,reason:output.reason||'',is_human_reader_test:false};
 }
 
 var V080_QUALITY_ADAPTER = (function () {
@@ -148,6 +155,12 @@ var V080_QUALITY_ADAPTER = (function () {
           payload.input[0].content.push({type:'input_text',text:guidance});
         }
       }
+      if(typeof V082_ACTIVE_REPAIR!=='undefined'&&V082_ACTIVE_REPAIR && name==='web_blog_final_editor_v1'){
+        payload.input[0].content.push({type:'input_text',text:'Repair only the listed QC blockers using this verified evidence. Preserve owner attribution, safety exceptions, useful distinctions, topic and article identity. Do not invent facts or rewrite unrelated material. Return fresh scores and fact decision. '+JSON.stringify(V082_ACTIVE_REPAIR.feedback)});
+        var active=V082_ACTIVE_REPAIR,seq=v082Reserve_(active.draft,active.ctx,'repair');
+        try{var response=previousRequest.apply(this,arguments);v082Finish_(active.draft,active.ctx,seq,response,null);return response;}
+        catch(e){v082Finish_(active.draft,active.ctx,seq,null,e);throw e;}
+      }
       return previousRequest.apply(this,arguments);
     };
   }
@@ -158,9 +171,15 @@ var V080_QUALITY_ADAPTER = (function () {
     if(V080_QUALITY_MODE==='ENFORCE'){
       try{independent=v080IndependentQc_(result,ctx);}catch(e){independent={pass:false,error:String(e).slice(0,240)};}
     }
+    var recovery=null;
+    if(V080_QUALITY_MODE==='ENFORCE'&&typeof v082Repair_==='function'&&v082Enabled_()){
+      var recovered=v082Repair_(draft,result,ctx,base,independent,previousFinalize);
+      result=recovered.result;base=recovered.base;independent=recovered.independent;recovery=recovered.audit;
+    }
     var allowed=base.pass&&(V080_QUALITY_MODE==='SHADOW'||Boolean(independent&&independent.pass));
     var note={};try{note=JSON.parse(String(result._editor_notes||'{}'));}catch(_){note={legacy_editor_notes: String(result._editor_notes||'').slice(0,500)};}
     note.quality_v080={mode:V080_QUALITY_MODE,deterministic:base,independent:independent,enforced:V080_QUALITY_MODE==='ENFORCE',passed:allowed,publish_requires_human:true};
+    if(recovery)note.production_recovery_v082=recovery;
     result._editor_notes=JSON.stringify(note);
     if(V080_QUALITY_MODE==='ENFORCE'&&!allowed){result._editor_decision='REVIEW_REQUIRED';result._fact_check_status='REVIEW';}
     return result;

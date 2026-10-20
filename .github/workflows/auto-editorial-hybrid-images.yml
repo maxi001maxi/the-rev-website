@@ -36,7 +36,7 @@ env:
   XSERVER_REMOTE_DIR: '/'
   EDITORIAL_IMAGE_GENERATION_MODEL: 'gpt-5.6'
   EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6'
-  EDITORIAL_IMAGE_MAX_ATTEMPTS: '3'
+  EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'
 
 jobs:
   generate:
@@ -44,6 +44,9 @@ jobs:
     timeout-minutes: 30
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
       XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
       XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
 

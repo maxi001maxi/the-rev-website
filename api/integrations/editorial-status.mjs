@@ -1,3 +1,4 @@
+import {editorialProductionProgress} from '../../lib/editorialProductionRecovery.mjs';
 import { collectGithubMaterialChanges } from '../../lib/companyTimelineGithubCollector.mjs';
 import { collectArticleHistory } from '../../lib/editorialArticleHistory.mjs';
 import { syncDirectGa4ToCompanyOs } from '../../lib/ga4CompanyOsSync.mjs';
@@ -740,6 +741,7 @@ export default async function handler(req, res) {
       publish_verified_at: article.publish_verified_at || null
     },
     publication,
+    production_recovery: editorialProductionProgress(article,canonicalPreflight),
     operator,
     readiness: {
       ready: readiness?.ready === true,

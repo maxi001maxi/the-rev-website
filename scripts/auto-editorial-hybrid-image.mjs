@@ -1,5 +1,7 @@
 import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
+import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
+import {createImageApiLedger} from '../lib/editorialImageApiLedger.mjs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_CHECKS,
@@ -21,7 +23,7 @@ const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
 const MAX_TOTAL_ATTEMPTS = Math.max(
   1,
-  Math.min(2, Number(job?.max_generation_attempts || process.env.EDITORIAL_IMAGE_MAX_ATTEMPTS || 2))
+  Math.min(1, Number(job?.max_generation_attempts || 1))
 );
 
 if (!OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
@@ -93,7 +95,10 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
 }
 
 function readJson(filePath, fallback = null) {
-  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return fallback; }
+  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch {
+    if(filePath===statePath&&fs.existsSync(filePath))throw new Error('OPERATOR_CHECKPOINT_CORRUPT');
+    return fallback;
+  }
 }
 
 function mimeFor(filePath) {
@@ -107,7 +112,9 @@ function dataUrl(filePath) {
   return `data:${mimeFor(filePath)};base64,${fs.readFileSync(filePath).toString('base64')}`;
 }
 
+const apiLedger = createImageApiLedger({job});
 async function openaiResponse(payload) {
+  const reservation=await apiLedger.reserve((payload.tools||[]).some(x=>x.type==='image_generation')?'generation':'qc');
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -122,6 +129,9 @@ async function openaiResponse(payload) {
   let json = null;
   try { json = JSON.parse(body); } catch {}
 
+  await apiLedger.complete(reservation,{http_status:res.status,request_id:requestId,
+    response_id:json?.id||null,response_status:json?.status||null,model:json?.model||payload.model,usage:json?.usage||null,
+    image_generation_calls:(json?.output||[]).filter(x=>x.type==='image_generation_call').map(x=>({id:x.id,status:x.status,usage:x.usage||null}))});
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -262,6 +272,7 @@ async function generateScene(attempt, previousQa = null) {
 
   const response = await openaiResponse({
     model: GENERATION_MODEL,
+    max_tool_calls: 1,
     input: [{ role: 'user', content }],
     tools: [{
       type: 'image_generation',
@@ -690,6 +701,10 @@ async function visualQa(attempt) {
   qa.generated_customer_present = modelQa.generated_customer_present === true;
   qa.generated_customer_count = Math.max(0, Math.round(Number(modelQa.generated_customer_count || 0)));
 
+  qa.editorial_text_qc = job.automation?.editorial_text_qc || null;
+  const usageLedger=await apiLedger.snapshot();
+  qa.api_usage={generation_calls:usageLedger.calls.filter(x=>x.kind==='generation').length,
+    qc_calls:usageLedger.calls.filter(x=>x.kind==='qc').length,confirmed_cost:null,calls:usageLedger.calls};
   qa.pass = qaPass(qa);
   if(job.asset_version===ROUTE_B_VERSION && !['human_environment_integration',
     'perspective_scale_consistency','ground_contact_shadow_consistency',
@@ -778,7 +793,8 @@ if (!sameAssetVersion && Object.keys(rawPreviousState || {}).length) {
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
-const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED';
+const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED' ||
+  (previousState?.status==='SCENE_GENERATED' && fs.existsSync(job.generated_scene_path) && hashFile(job.generated_scene_path)===previousState.scene_sha256);
 // A repaired scene may be re-graded, but must never silently incur a new
 // image generation call if state routing does not match the requested asset.
 if(process.env.EDITORIAL_IMAGE_DISABLE_GENERATION === '1' && !forceOverlayRerender)
@@ -951,16 +967,27 @@ if (attemptsTotal >= MAX_TOTAL_ATTEMPTS) {
   process.exit(0);
 }
 
+const free=preflightEditorialImage(job,registry,{requireStrict:true});
+if(!free.pass){
+  writeState({...previousState,slug:job.slug,status:'ERROR',attempts_total:attemptsTotal,
+    max_attempts:MAX_TOTAL_ATTEMPTS,last_error:'FREE_PREFLIGHT: '+free.errors.join(','),job_path:jobPath,
+    free_preflight:free,updated_at:new Date().toISOString()});
+  console.log(JSON.stringify({status:'BLOCKED_FREE_PREFLIGHT',...free}));
+  process.exit(0);
+}
 while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
   attemptsTotal += 1;
   try {
     console.log(`Automated Hybrid image attempt ${attemptsTotal}/${MAX_TOTAL_ATTEMPTS}: ${job.slug}`);
     // Persist BEFORE the paid call so a crash/ambiguous timeout cannot silently
     // spend a second image attempt on this same authorized asset version.
-    if(job.asset_version===ROUTE_B_VERSION)writeState({slug:job.slug,status:'GENERATING',
+    writeState({slug:job.slug,status:'GENERATING',
       attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,
       updated_at:new Date().toISOString()});
     await generateScene(attemptsTotal, lastQa);
+    writeState({slug:job.slug,status:'SCENE_GENERATED',asset_version:job.asset_version,
+      scene_sha256:hashFile(job.generated_scene_path),generated_scene_path:job.generated_scene_path,
+      attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,updated_at:new Date().toISOString()});
     renderOverlay();
     lastQa = await visualQa(attemptsTotal);
 
@@ -1016,7 +1043,8 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     lastError = String(e?.message || e);
 
     if (isProviderCreditBlock(e)) {
-      attemptsTotal = Math.max(0, attemptsTotal - 1);
+      // A rejected provider request still consumed a request reservation. Never
+      // reset the durable API budget or automatically repeat a billing failure.
       writeState({
         slug: job.slug,
         status: 'BLOCKED_PROVIDER_CREDITS',

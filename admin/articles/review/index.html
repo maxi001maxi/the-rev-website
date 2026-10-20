@@ -60,6 +60,10 @@
 
 <!-- ===== Review本体 ===== -->
 <div id="review-body" class="admin-hidden">
+<section class="admin-review-section" aria-live="polite">
+<h2>制作の進捗</h2>
+<p id="production-recovery-summary">公開前チェックを確認しています。</p>
+</section>
 
 <section class="admin-review-section">
 <h2 class="admin-section-title">PREFLIGHT</h2>
@@ -453,6 +457,11 @@ async function loadPreflight() {
     $('loading-box').classList.add('admin-hidden');
 
     renderChecks(data.checks);
+    const recovery=data.production_recovery;
+    const stages={DRAFT:'本文の独立QC待ち',QC_PASSED:'本文QC合格・画像の確認待ち',IMAGE_READY:'画像合格・CMS同期待ち',BRIDGE_SYNCED:'CMS同期済み・公開前チェック待ち',REVIEW_READY:'最終確認とOwnerの公開操作待ち',PUBLISHED:'公開確認済み'};
+    $('production-recovery-summary').textContent = recovery
+      ? (stages[recovery.stage] || recovery.stage)+(recovery.stopped_reason?'。停止理由：'+recovery.stopped_reason:'。')
+      : '詳細な制作進捗は未取得です。以下の公開前チェックを確認してください。';
     renderMeta(data.article, data);
     renderPreview(data.article, data.publicUrl);
     $('markdown-pre').textContent = data.markdown || '（必須項目が不足しているため、Markdownを生成できません）';

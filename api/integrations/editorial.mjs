@@ -1,3 +1,4 @@
+import {validateEditorialTextQc} from '../../lib/editorialProductionRecovery.mjs';
 import { evaluateEditorialLength } from '../../lib/editorialReadiness.mjs';
 // POST /api/integrations/editorial
 //
@@ -99,6 +100,11 @@ export default async function handler(req, res) {
 
   let article = existing.data || null;
 
+  const textProof=body.editorial_text_qc;
+  if ((body.production_recovery_version==='v0.8.2' || textProof || article?.image_qa?.independent_qc_pass===false || article?.image_qa?.bridge_synced===false) &&
+      !validateEditorialTextQc(normalized.value.body_markdown,textProof,{contentId:envelope.value.contentId}).pass)
+    return send(res,422,'independent_text_qc_required','現在の本文と一致する独立QC合格証拠が必要です。既存Working Draftは保持しました。');
+
   // Published drafts keep their original slug. Reject before preparing image
   // assets so a bad slug edit cannot leave orphan files in GitHub.
   if (article?.source_path && article.slug !== normalized.value.slug) {
@@ -131,6 +137,7 @@ export default async function handler(req, res) {
   });
 
   let imageInfo = null;
+  let blockedImageReason = null;
   try {
     const explicitFallbackReason = String(body.image_fallback_reason || '').trim();
     if (preserveHybrid) {
@@ -157,6 +164,7 @@ export default async function handler(req, res) {
         category: normalized.value.category,
         body_markdown: normalized.value.body_markdown,
         primary_query: body.primary_query,
+        editorial_text_qc: textProof,
         // Leave absent copy unset. prepareAutomatedHybridImageJob owns recent-copy
         // dedupe and must see the full candidate list; preselecting candidate[0]
         // here collapses the pool and can create false image_copy_recently_repeated
@@ -167,6 +175,13 @@ export default async function handler(req, res) {
       });
     }
   } catch (e) {
+    if(article?.id && validateEditorialTextQc(normalized.value.body_markdown,textProof,{contentId:envelope.value.contentId}).pass &&
+       e instanceof AutomatedHybridImageError && ['image_free_preflight_failed','image_recovery_required'].includes(e.code)){
+      // Save the independently accepted text into the SAME Draft even if images
+      // are held. A successful Draft sync is not IMAGE_READY or REVIEW_READY.
+      blockedImageReason=e.message;
+      imageInfo={...hybridImageInfoFromDraft(article),preserveReady:false};
+    } else {
     if (article?.id) {
       await supabase
         .from('admin_article_drafts')
@@ -188,6 +203,7 @@ export default async function handler(req, res) {
     const unexpectedMessage = String(e?.message || 'unknown image preparation error').slice(0, 800);
     console.error('Editorial image preparation unexpected error', { name: unexpectedName, message: unexpectedMessage });
     return send(res, 502, 'image_automation_failed', `画像準備で予期しないエラー: ${unexpectedName}: ${unexpectedMessage}`);
+    }
   }
 
   const thumbnail = imageInfo.thumbnail || article?.thumbnail || null;
@@ -201,13 +217,13 @@ export default async function handler(req, res) {
   };
   const preservedHybridReady = preserveHybrid && imageInfo.preserveReady === true;
   const imageState = {
-    image_status: preservedHybridReady ? 'READY' : 'PREPARING',
+    image_status: blockedImageReason ? 'ERROR' : preservedHybridReady ? 'READY' : 'PREPARING',
     image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,
     image_strategy: imageInfo.strategy || null,
     image_source_path: imageInfo.sourcePath || null,
     image_asset_ready: preservedHybridReady,
     image_checked_at: new Date().toISOString(),
-    image_qa: imageInfo.qa || null,
+    image_qa: textProof ? {...(imageInfo.qa||{}),editorial_text_qc:textProof} : imageInfo.qa || null,
     image_attempts: preservedHybridReady ? imageInfo.attempts : null,
     image_style_template: imageInfo.styleTemplate || null,
     image_headline_short: imageInfo.imageHeadlineShort || null,
@@ -219,17 +235,17 @@ export default async function handler(req, res) {
     image_generation_model: imageInfo.generationModel || null,
     image_qa_model: imageInfo.qaModel || null,
     image_brand_qa_score: preservedHybridReady ? imageInfo.brandQaScore : null,
-    image_last_error: imageInfo.operatorRequired
+    image_last_error: blockedImageReason || (imageInfo.operatorRequired
       ? 'V2.3 Hybrid画像をAI Operatorが生成・Visual QCするまでReview & Publishは停止します。'
-      : null,
+      : null),
     gbp_image: gbpImage,
-    gbp_image_status: preservedHybridReady
+    gbp_image_status: blockedImageReason ? 'ERROR' : preservedHybridReady
       ? (imageInfo.gbpImageStatus || article?.gbp_image_status || (gbpImage ? 'READY' : null))
       : (gbpImage ? 'PREPARING' : null),
     gbp_image_checked_at: new Date().toISOString(),
     gbp_image_qa: preservedHybridReady ? (imageInfo.gbpImageQa || article?.gbp_image_qa || null) : null,
     gbp_image_asset_version: imageInfo.gbpImageAssetVersion || (gbpImage ? imageInfo.assetVersion : null) || article?.gbp_image_asset_version || null,
-    gbp_image_last_error: null,
+    gbp_image_last_error: blockedImageReason,
     gbp_image_attempts: preservedHybridReady ? (article?.gbp_image_attempts ?? imageInfo.attempts ?? null) : null
   };
   const metadata = normalizeBridgeMetadata(body);

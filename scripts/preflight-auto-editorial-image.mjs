@@ -9,7 +9,7 @@ const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.jso
 let failures=0;
 for(const path of paths){
   const job=JSON.parse(fs.readFileSync(path,'utf8'));
-  const existing=preflightEditorialImage(job,registry);
+  const existing=preflightEditorialImage(job,registry,{requireStrict:true});
   // Zero-cost v3 contract runs BEFORE any request to OpenAI, only on explicit v3 opt-in.
   const v3=v3BriefPreflight(job,registry);
   const pass=existing.pass&&v3.pass;

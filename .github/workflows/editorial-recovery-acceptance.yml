@@ -1,0 +1,79 @@
+name: Editorial Recovery Acceptance
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/editorial*.mjs'
+      - 'api/integrations/editorial*.mjs'
+      - 'lib/publishFlow.mjs'
+      - 'lib/githubContent.mjs'
+      - 'editorial/gas/**'
+      - 'scripts/test-editorial-*recovery*.mjs'
+      - 'scripts/helpers/editorial-*services.mjs'
+      - '.github/workflows/editorial-recovery-acceptance.yml'
+  push:
+    branches: [fix/editorial-autonomous-recovery-20261020]
+    paths:
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/QC_EXECUTION.json'
+permissions:
+  contents: read
+concurrency:
+  group: editorial-recovery-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:production-recovery
+      - run: npm run test:editorial-quality-v080
+      - run: npm run test:daily-editorial-contract
+      - run: npm run test:daily-editorial-state-machine
+      - run: npm run test:daily-creator
+      - run: npm run test:phase-9
+      - run: npm run test:phase-d
+      - run: npm run test:editorial-images
+      - run: npm run build:blog
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: connected-recovery-acceptance-${{ github.run_id }}
+          path: editorial/production-recovery/2026-10-20/DRY_RUN_RESULT.json
+  independent-text-qc:
+    needs: acceptance
+    if: github.event_name == 'push' && github.ref == 'refs/heads/fix/editorial-autonomous-recovery-20261020'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: fix/editorial-autonomous-recovery-20261020
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Exactly one independent text QC; no image, CMS or publish
+        run: node scripts/review-oct21-independent-qc.mjs
+      - name: Read-only real data and production image Preflight
+        if: always()
+        run: node scripts/probe-oct21-real-data.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oct21-independent-text-qc-${{ github.run_id }}
+          path: |
+            editorial/prepublication/2026-10-21-evening-strength-sleep/INDEPENDENT_QC_V082.json
+            editorial/production-recovery/2026-10-20/REAL_DATA_PREFLIGHT.json
+          if-no-files-found: warn

@@ -1,0 +1,9 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "scope": "ONE_INDEPENDENT_TEXT_QC",
+  "max_requests": 1,
+  "image_generation": false,
+  "production_db_changes": false,
+  "publish": false,
+  "approval_source": "Owner development and Oct21 independent-QC execution request 2026-10-20"
+}
