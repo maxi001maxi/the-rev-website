@@ -3147,9 +3147,94 @@
     "production_ready": false
   },
   "files": [],
-  "api_calls": [],
-  "generation_calls": 0,
-  "qc_calls": 0,
+  "api_calls": [
+    {
+      "sequence": 1,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-10-20T08:50:01.137Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_35ee2feae57c4fedba7aa36c41b2f25c",
+      "response_id": "resp_068d9a7451b19bee006ad72b3b4e9087d0907eb0d6b2794da7",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 4862,
+        "input_tokens_details": {
+          "cache_write_tokens": 2615,
+          "cached_tokens": 0
+        },
+        "output_tokens": 393,
+        "output_tokens_details": {
+          "reasoning_tokens": 26
+        },
+        "total_tokens": 5255
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_068d9a7451b19bee006ad72b3d0b0087d0bbe91628f6597585",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-10-20T08:51:45.878Z"
+    },
+    {
+      "sequence": 2,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-10-20T08:51:49.716Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_b9a667efd7104ee8b99861e9bf128492",
+      "response_id": "resp_0a976b4b0a6b5cdf006ad72ba72f5087d08bc6c9254c5ee514",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 18790,
+        "input_tokens_details": {
+          "cache_write_tokens": 18787,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2986,
+        "output_tokens_details": {
+          "reasoning_tokens": 2068
+        },
+        "total_tokens": 21776
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-10-20T08:52:25.954Z"
+    },
+    {
+      "sequence": 3,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-10-20T08:52:27.517Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_b67cbe489d074e818486e4ec35bd7850",
+      "response_id": "resp_057498a5bb1c3544006ad72bcd445c87d08a9e0f49eb468531",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 21211,
+        "input_tokens_details": {
+          "cache_write_tokens": 21208,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2669,
+        "output_tokens_details": {
+          "reasoning_tokens": 1417
+        },
+        "total_tokens": 23880
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-10-20T08:53:04.058Z"
+    }
+  ],
+  "generation_calls": 1,
+  "qc_calls": 2,
   "confirmed_cost": null,
   "cost_ceiling_verification": "WAIVED_BY_OWNER",
   "production_writes": false,
@@ -3159,5 +3244,111 @@
     "Do not adopt rejected image",
     "Retain raw/QC/usage in private quarantine; no automatic regeneration",
     "Resolve actual rejection causes before another paid attempt"
-  ]
+  ],
+  "original_counter_summary": {
+    "generation_calls": 0,
+    "qc_calls": 0,
+    "reason": "Original finalizer read only a runner-local ledger, while reservations and receipts were written to GitHub. The sealed raw artifact and commit retain this original bug."
+  },
+  "api_usage_receipt": {
+    "calls": [
+      {
+        "sequence": 1,
+        "kind": "generation",
+        "status": "COMPLETED",
+        "at": "2026-10-20T08:50:01.137Z",
+        "confirmed_cost": null,
+        "http_status": 200,
+        "request_id": "req_35ee2feae57c4fedba7aa36c41b2f25c",
+        "response_id": "resp_068d9a7451b19bee006ad72b3b4e9087d0907eb0d6b2794da7",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 4862,
+          "input_tokens_details": {
+            "cache_write_tokens": 2615,
+            "cached_tokens": 0
+          },
+          "output_tokens": 393,
+          "output_tokens_details": {
+            "reasoning_tokens": 26
+          },
+          "total_tokens": 5255
+        },
+        "image_generation_calls": [
+          {
+            "id": "ig_068d9a7451b19bee006ad72b3d0b0087d0bbe91628f6597585",
+            "status": "completed",
+            "usage": null
+          }
+        ],
+        "completed_at": "2026-10-20T08:51:45.878Z"
+      },
+      {
+        "sequence": 2,
+        "kind": "qc",
+        "status": "COMPLETED",
+        "at": "2026-10-20T08:51:49.716Z",
+        "confirmed_cost": null,
+        "http_status": 200,
+        "request_id": "req_b9a667efd7104ee8b99861e9bf128492",
+        "response_id": "resp_0a976b4b0a6b5cdf006ad72ba72f5087d08bc6c9254c5ee514",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 18790,
+          "input_tokens_details": {
+            "cache_write_tokens": 18787,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2986,
+          "output_tokens_details": {
+            "reasoning_tokens": 2068
+          },
+          "total_tokens": 21776
+        },
+        "image_generation_calls": [],
+        "completed_at": "2026-10-20T08:52:25.954Z"
+      },
+      {
+        "sequence": 3,
+        "kind": "qc",
+        "status": "COMPLETED",
+        "at": "2026-10-20T08:52:27.517Z",
+        "confirmed_cost": null,
+        "http_status": 200,
+        "request_id": "req_b67cbe489d074e818486e4ec35bd7850",
+        "response_id": "resp_057498a5bb1c3544006ad72bcd445c87d08a9e0f49eb468531",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 21211,
+          "input_tokens_details": {
+            "cache_write_tokens": 21208,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2669,
+          "output_tokens_details": {
+            "reasoning_tokens": 1417
+          },
+          "total_tokens": 23880
+        },
+        "image_generation_calls": [],
+        "completed_at": "2026-10-20T08:53:04.058Z"
+      }
+    ],
+    "generation_calls": 1,
+    "qc_calls": 2,
+    "verified": true,
+    "source": "DURABLE_GITHUB_LEDGER_AND_MATCHING_INDEPENDENT_QC_RECEIPT",
+    "mismatch": false,
+    "confirmed_cost": null
+  },
+  "usage_reconciliation": {
+    "performed_at": "2026-10-20T09:06:00.781Z",
+    "additional_api_calls": 0,
+    "ledger_path": "editorial/image-api-ledger/night-workout-sleep-timing-intensity-reference-v082-evolgear-night-watch-20261020-r3.json",
+    "all_three_request_ids_match": true,
+    "original_qc_and_rejection_unchanged": true
+  }
 }

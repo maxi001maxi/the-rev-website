@@ -21,3 +21,21 @@ test('same verified history snapshot passes without changing source bytes, scene
  const stale=structuredClone(j);stale.automation.recent_articles[0].assetVersion='wrong-version';
  assert(preflightEditorialImage(stale,registry,opts).errors.includes('RECENT_HISTORY_SNAPSHOT_MISMATCH'));
 });
+
+import {imageUsageReceipt} from '../lib/editorialImageUsageReceipt.mjs';
+const actualResult=JSON.parse(fs.readFileSync(root+'IMAGE_EXECUTION_RESULT.json'));
+
+test('real three-call QC receipt reconciles missing runner-local ledger to one generation and two QC calls',()=>{
+ const r=imageUsageReceipt({qa:actualResult.qa_report});
+ assert(r.verified);assert.equal(r.generation_calls,1);assert.equal(r.qc_calls,2);assert.equal(r.calls.length,3);
+ assert.equal(r.source,'INDEPENDENT_QC_DURABLE_RECEIPT');assert.equal(r.confirmed_cost,null);
+});
+test('unavailable usage remains unknown rather than a fabricated zero',()=>{
+ const r=imageUsageReceipt();assert.equal(r.verified,false);assert.equal(r.generation_calls,null);assert.equal(r.qc_calls,null);
+});
+test('conflicting durable request receipts block acceptance without discarding paid history',()=>{
+ const durable={calls:structuredClone(actualResult.qa_report.api_usage.calls)};
+ durable.calls[0].request_id='different';
+ const r=imageUsageReceipt({durable,qa:actualResult.qa_report});
+ assert.equal(r.verified,false);assert(r.mismatch);assert.equal(r.calls.length,3);
+});

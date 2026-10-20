@@ -111,10 +111,11 @@
   "discovered_and_fixed": {
     "bug": "Free semantic admission excluded manually rejected Oct18 R2; inherited automation.recent_articles still contained that R2 and made downstream recent-source QC inconsistent.",
     "fix": "Bind recent4 and recent12 to the same verified history snapshot; opt-in mismatch gate fails before provider; preserve immutable executed job and save any later free proposal separately.",
-    "regression_tests": 2,
+    "regression_tests": 5,
     "additional_model_calls": 0,
     "original_failed_qc_preserved": true,
-    "additional_adapter_fix": "Preserve canonical SCENE_PLAUSIBILITY_VERSION in the prepared recovery job, so abstract timing decisions use the existing concrete-claim plausibility contract. Original QC remains rejected; photo integration and R7 thresholds are unchanged."
+    "additional_adapter_fix": "Preserve canonical SCENE_PLAUSIBILITY_VERSION in the prepared recovery job, so abstract timing decisions use the existing concrete-claim plausibility contract. Original QC remains rejected; photo integration and R7 thresholds are unchanged.",
+    "usage_receipt_fix": "Read the durable GitHub ledger, fall back to retained independent-QC receipts, reject conflicting receipts, and report unknown usage as null rather than zero. Corrected current result to generation 1 / QC 2; sealed original archive and prior Git history remain unchanged."
   },
   "current_cms": [
     {
