@@ -1,0 +1,52 @@
+name: Stage 2 production acceptance
+on:
+  push:
+    branches: [qa/stage2-production-acceptance-20261020]
+    paths: ['.github/workflows/stage2-production-acceptance.yml', 'scripts/qa-stage2-production-bytes.mjs', 'scripts/qa-stage2-production-visual.mjs']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  accept:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run vercel-build
+      - run: npx playwright install --with-deps chromium
+      - name: Wait for the single existing Xserver deploy (never dispatch another)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in $(seq 1 60); do
+            result=$(gh api repos/maxi001maxi/the-rev-website/actions/runs/39392124975 --jq '.status + ":" + (.conclusion // "")')
+            case "$result" in
+              completed:success) exit 0 ;;
+              completed:*) echo "Xserver deploy did not succeed: $result"; exit 1 ;;
+            esac
+            sleep 15
+          done
+          echo "Xserver deploy wait deadline exceeded"; exit 1
+      - name: Verify official production bytes and published article boundary
+        env:
+          CANDIDATE_SHA: fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722
+        run: node scripts/qa-stage2-production-bytes.mjs
+      - name: Capture official production at PC and mobile widths
+        if: always()
+        env:
+          BASE_URL: https://therev-lab.com
+          CANDIDATE_SHA: fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722
+          WIDTHS: 1440,390
+          VISUAL_OUT: qa-out/stage2-production
+        run: node scripts/qa-stage2-production-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-production-acceptance
+          path: qa-out/stage2-production/
+          retention-days: 14
