@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   visual:
+    if: "!contains(github.event.head_commit.message, 'booking-only')"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -29,4 +30,27 @@ jobs:
         with:
           name: stage2-preview-8a327f1
           path: qa-out/stage2-preview/
+          retention-days: 14
+
+  booking:
+    if: contains(github.event.head_commit.message, 'booking-only')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Operate three real menus on PC and mobile without entering data
+        env:
+          BOOKING_QA_OUT: qa-out/stage2-booking
+        run: node scripts/qa-booking-site.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-real-booking-8a327f1
+          path: qa-out/stage2-booking/
           retention-days: 14
