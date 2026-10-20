@@ -21,3 +21,9 @@ test('scroll-driven geometry growth cannot make visual traversal unbounded',()=>
  assert.equal(await p.evaluate(()=>scrollY),0);assert.equal(await p.locator('#extent').innerText(),'fixed logical content');
  assert(result.height_after_reset<result.height_during_scroll);
 }));
+
+test('a loaded SVG is rendered without invoking the unreliable optional SVG decoder',()=>browserTest(async b=>{
+ const p=await b.newPage({viewport:{width:390,height:844}}),svg='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><rect width="24" height="24" fill="red"/></svg>');
+ await p.setContent('<img src="'+svg+'">');await p.evaluate(()=>{window.svgDecodeCalls=0;const previous=HTMLImageElement.prototype.decode;HTMLImageElement.prototype.decode=function(){if(this.currentSrc.startsWith('data:image/svg+xml')){window.svgDecodeCalls++;return new Promise(()=>{});}return previous.call(this);};});
+ const result=await traverse(p);assert.equal(await p.evaluate(()=>svgDecodeCalls),0);assert.equal(result.svg_decode_skipped,1);assert.equal(await p.locator('img').evaluate(i=>i.complete&&i.naturalWidth),24);assert((await p.screenshot()).length>100);
+}));
