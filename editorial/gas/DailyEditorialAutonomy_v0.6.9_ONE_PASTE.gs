@@ -2295,6 +2295,7 @@ function requeueOct15EditorialIndependentQcReview() {
  * Opt-in property THE_REV_EDITORIAL_RECOVERY_V082_MODE=ENFORCE.
  * Existing Writer/Editor/Topic/Fact gates and human Publish stay authoritative.
  * One preservation repair + two independent QCs per topic/slug lifetime.
+ * Explicit Owner-approved external extras are imported as spent calls, never new budget.
  * Script Properties reserve calls before API; ambiguous calls never auto-retry.
  */
 var V082_ACTIVE_REPAIR = null;
@@ -2354,6 +2355,32 @@ var V082_IMPORTED_QC_HISTORY = [
         "imported": true,
         "confirmed_cost": null,
         "source_path": "editorial/production-recovery/2026-10-20/oct21-independent-qc-claim.json"
+      },
+      {
+        "request_id": "req_4f37704fd44a4f808505aae038f4d60f",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 3703,
+          "input_tokens_details": {
+            "cache_write_tokens": 3700,
+            "cached_tokens": 0
+          },
+          "output_tokens": 773,
+          "output_tokens_details": {
+            "reasoning_tokens": 382
+          },
+          "total_tokens": 4476
+        },
+        "pass": true,
+        "total": 20,
+        "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+        "kind": "qc",
+        "status": "COMPLETED",
+        "imported": true,
+        "confirmed_cost": null,
+        "estimated_cost_usd": 0.033972,
+        "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
+        "source_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/INDEPENDENT_QC_V082_ADDITIONAL.json"
       }
     ]
   }

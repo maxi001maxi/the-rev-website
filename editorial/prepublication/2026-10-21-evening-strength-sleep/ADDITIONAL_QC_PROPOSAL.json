@@ -1,5 +1,5 @@
 {
-  "status": "APPROVED_PENDING_EXECUTION",
+  "status": "COMPLETED_PASS",
   "content_id": "BLOG-20261021-4ac8fd",
   "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
   "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
@@ -30,5 +30,22 @@
   "production_changes_requested": false,
   "approved_at": "2026-10-20T17:08:43+09:00",
   "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
-  "owner_permits_retry": true
+  "owner_permits_retry": true,
+  "request_id": "req_4f37704fd44a4f808505aae038f4d60f",
+  "result_path": "INDEPENDENT_QC_V082_ADDITIONAL.json",
+  "total": 20,
+  "actual_additional_calls": 1,
+  "actual_usage": {
+    "input_tokens": 3703,
+    "input_tokens_details": {
+      "cache_write_tokens": 3700,
+      "cached_tokens": 0
+    },
+    "output_tokens": 773,
+    "output_tokens_details": {
+      "reasoning_tokens": 382
+    },
+    "total_tokens": 4476
+  },
+  "estimated_cost_usd": 0.033972
 }

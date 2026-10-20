@@ -1,0 +1,61 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
+  "checked_at": "2026-10-20T08:15:15.433Z",
+  "status": "INDEPENDENT_TEXT_QC_PASS",
+  "pass": true,
+  "total": 20,
+  "scores": {
+    "question_resolution": 4,
+    "understanding_gain": 4,
+    "decision_support": 4,
+    "concreteness_evidence": 4,
+    "originality_readability": 4
+  },
+  "issues": [],
+  "source_unverified": false,
+  "recommendations": [
+    "結論をさらに素早く把握できるよう、冒頭に「目安は就寝2〜4時間前。遅くなるほど負荷を軽くし、直前の激しい追い込みは避ける」という要約を1文で置く余地があります。",
+    "2025年研究の「入眠4時間前」と、公的ガイドの「就寝2〜4時間前」は基準点が異なるため、図表化する場合は両者を混同しない注記があるとより明確です。"
+  ],
+  "body_changed_after_qc": false,
+  "prior_qc_results_preserved": [
+    "INDEPENDENT_QC_V082_INITIAL.json",
+    "INDEPENDENT_QC_V082.json"
+  ],
+  "additional_paid_calls": 1,
+  "all_recorded_text_qc_calls": 3,
+  "usage": {
+    "input_tokens": 3703,
+    "input_tokens_details": {
+      "cache_write_tokens": 3700,
+      "cached_tokens": 0
+    },
+    "output_tokens": 773,
+    "output_tokens_details": {
+      "reasoning_tokens": 382
+    },
+    "total_tokens": 4476
+  },
+  "estimated_cost_usd": 0.033972,
+  "confirmed_charge_usd": null,
+  "owner_ceiling_usd": 0.25,
+  "automatic_retries_used": 0,
+  "workflow_run": 39391955621,
+  "request_id": "req_4f37704fd44a4f808505aae038f4d60f",
+  "report_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/INDEPENDENT_QC_V082_ADDITIONAL.json",
+  "cms_updated": false,
+  "image_generated": false,
+  "production_deployed": false,
+  "published": false,
+  "gbp_posted": false,
+  "next_stage": "IMAGE_PAID_APPROVAL_REQUIRED",
+  "remaining": [
+    "New image generation/Visual QC require separate bounded Owner approval",
+    "Three accepted assets, SHA and Xserver verification",
+    "Formal Bridge reuses existing Draft; production writes require approval",
+    "Authenticated Console/final Preflight and REVIEW_READY",
+    "Latest main fedb2f4... integration conflict must be resolved before merge; no merge authorized"
+  ]
+}
