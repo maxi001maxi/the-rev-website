@@ -20,6 +20,7 @@ jobs:
       - run: npm run vercel-build
       - run: npx playwright install --with-deps chromium
       - name: Wait for the single existing Xserver deploy (never dispatch another)
+        id: deploy_wait
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -37,7 +38,7 @@ jobs:
           CANDIDATE_SHA: fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722
         run: node scripts/qa-stage2-production-bytes.mjs
       - name: Capture official production at PC and mobile widths
-        if: always()
+        if: always() && steps.deploy_wait.outcome == 'success'
         env:
           BASE_URL: https://therev-lab.com
           CANDIDATE_SHA: fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722
@@ -47,6 +48,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: stage2-production-acceptance
+          name: stage2-production-verified-fedb2f4
           path: qa-out/stage2-production/
           retention-days: 14
