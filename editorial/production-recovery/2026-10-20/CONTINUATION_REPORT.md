@@ -53,3 +53,8 @@ QAはカード操作→選択メニュー名＋日時tableの表示を全3メニ
 ## 承認・アクセス境界
 
 直近の必要承認は追加本文QC1回（上限$0.25、自動再試行なし）。画像は無料admission未完了なので有料枠をまだ消費しない。mainマージ、GAS bundle導入/property有効化、Vercel本番deploy、Xserver配信と本番Bridge同期は、検証候補と影響を提示したうえで個別の承認が必要。GAS/Consoleの認証付き検証には利用可能なセッションが必要。最終Publish/GBP投稿は対象外。
+
+
+### CI実画面で追加確認したQA前提
+
+Run39378792698では「リカバリー」の日時表・09:00〜18:00・予約枠が実際に表示され、pageerror/許可host通信失敗なし。追加したQAの `.main_table_wrapper table` という包含関係の仮定が誤りだった。表の意味（table＋時間＋複数時刻行）と選択メニュー名を検証するよう修正し、旧wrapper外に表がある実DOM構造のfixtureを追加。サービス障害と誤認しない。作業環境はこの間に切断したが、変更はGitHub APIで同じDraft PRへ保存し、実検証はCIで継続。

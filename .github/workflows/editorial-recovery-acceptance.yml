@@ -43,7 +43,10 @@ jobs:
         if: always()
         with:
           name: connected-recovery-acceptance-${{ github.run_id }}
-          path: editorial/production-recovery/2026-10-20/DRY_RUN_RESULT.json
+          path: |
+            editorial/production-recovery/2026-10-20/
+            editorial/prepublication/2026-10-21-evening-strength-sleep/
+            assets/images/photo-evolgear.jpg
   independent-text-qc:
     needs: acceptance
     if: github.event_name == 'push' && github.ref == 'refs/heads/fix/editorial-autonomous-recovery-20261020'
