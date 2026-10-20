@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "base": "89ed1b41c58afbf71303e53df00445666a4f2519",
+  "candidate": "50672220bbf53fd66a9ac5855f767923ecb127ed",
+  "protected_code_and_content_changed_paths": [],
+  "baseline_run": 39384111611,
+  "baseline_checkout": "main code plus one test-only workflow; protected/source trees identical",
+  "test": "test:topic-approval",
+  "tests": 29,
+  "pass": 28,
+  "fail": 1,
+  "expected": "SENT",
+  "actual": "PENDING",
+  "independence": "Static Xserver public payload is built from unchanged content/blog with changed UI templates only. Browser code does not import Editorial topic approval APIs. No Editorial release, state promotion, or API/GAS/GTM modification.",
+  "baseline_commit": "e4022757c24e16df0e5b0a91f415b0b5c12cba61",
+  "baseline_delta": [
+    ".github/workflows/qa-editorial-baseline-20261020.yml"
+  ],
+  "deploy_independence": {
+    "public_imports_editorial": false,
+    "vercel_git_autodeploy": false,
+    "xserver_admin_excluded": true,
+    "static_payload_no_api_or_gas": true,
+    "changed_paths_do_not_match_auto_editorial_push_trigger": true,
+    "article_status_changes": 0
+  },
+  "final_candidate": "6b9bd65e6e85ae4a594b10427f8f28c9d99035f7",
+  "merge": "fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722",
+  "post_506_changes": [
+    "scripts/qa-booking-site.mjs"
+  ],
+  "test_only_followups": true
+}

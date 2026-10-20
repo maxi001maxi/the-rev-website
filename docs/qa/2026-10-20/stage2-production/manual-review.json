@@ -1,0 +1,47 @@
+{
+  "status": "PASS_WITH_MINOR_EXISTING_WRAP",
+  "production_sha": "fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722",
+  "method": "Human visual review of actual official-site Chromium screenshots; cloud browser navigation separately recorded",
+  "viewports": [
+    1440,
+    390
+  ],
+  "pages": [
+    "top",
+    "recovery",
+    "trainer",
+    "price",
+    "access",
+    "column",
+    "article",
+    "legal",
+    "privacy",
+    "terms",
+    "404"
+  ],
+  "reviewed_sheets": [
+    "contact-1440-top.jpg",
+    "contact-390-top.jpg",
+    "contact-1440-body.jpg",
+    "contact-390-body.jpg",
+    "contact-1440-footer.jpg",
+    "contact-390-footer.jpg",
+    "contact-390-menu.jpg"
+  ],
+  "detail_views": [
+    "TOP PC/mobile composite",
+    "RECOVERY PC/mobile composite",
+    "article-footer-comparison.jpg"
+  ],
+  "findings": {
+    "major_layout_defects": 0,
+    "price_extra_empty_black_band": false,
+    "top_v7_photo_fade_preserved": true,
+    "recovery_v8_photos_diagram_preserved": true,
+    "preview_pixel_identical": 73,
+    "preview_images_compared": 77,
+    "nonidentical": "3 menu images have 1-3 changed pixels; article header antialiasing has 443 changed pixels (0.0342%); no visible layout difference",
+    "minor_existing": "375px Preview price body boxing heading wraps final character; retained, no unapproved design change"
+  },
+  "physical_device_tested": false
+}

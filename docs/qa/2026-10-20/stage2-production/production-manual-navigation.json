@@ -1,0 +1,9 @@
+{
+  "source":"https://therev-lab.com/",
+  "release_sha":"fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722",
+  "after_successful_xserver_deploy":true,
+  "instagram":{"opened_from":"official menu","url":"https://www.instagram.com/the.rev.nara/","title":"THE REV.｜パーソナルジム｜奈良 (@the.rev.nara) • Instagram photos and videos","status":"PASS"},
+  "booking":{"opened_from":"official TOP hero CTA","redirect":"https://cl.gyms.jp/trial/CC2237480443/?utm_campaign=trial&utm_content=home_hero&utm_medium=referral&utm_source=website","utm_preserved":4,"menus_visible":3,"selected_menu":"personal training trial","available_calendar_visible":true,"blank_customer_form_visible":true,"required_fields":["name","telephone","email","email confirmation"],"terms_checked":false,"next_button_disabled":true,"customer_information_entered":false,"submitted":false,"payment":false,"modal_closed_after_check":true,"status":"PASS"},
+  "physical_device":false,
+  "method":"Actual cloud browser interaction, separately from automated PC/mobile booking six-case evidence"
+}

@@ -1,0 +1,469 @@
+{
+  "same_runtime": true,
+  "preview_sha": "6b9bd65e6e85ae4a594b10427f8f28c9d99035f7",
+  "production_sha": "fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722",
+  "comparisons": [
+    {
+      "file": "404-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "404-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "404-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "404-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "404-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "404-390-menu.png",
+      "changed_pixels": 3,
+      "total_pixels": 329160,
+      "fraction": 9.11410864017499e-06
+    },
+    {
+      "file": "404-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "access-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "article-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "article-1440-footer.png",
+      "changed_pixels": 443,
+      "total_pixels": 1296000,
+      "fraction": 0.00034182098765432096
+    },
+    {
+      "file": "article-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "article-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "article-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "article-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "article-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "column-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "column-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "column-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "column-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "column-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "column-390-menu.png",
+      "changed_pixels": 1,
+      "total_pixels": 329160,
+      "fraction": 3.0380362133916637e-06
+    },
+    {
+      "file": "column-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "legal-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "price-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "privacy-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "recovery-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "recovery-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "recovery-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "recovery-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "recovery-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "recovery-390-menu.png",
+      "changed_pixels": 3,
+      "total_pixels": 329160,
+      "fraction": 9.11410864017499e-06
+    },
+    {
+      "file": "recovery-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "terms-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "top-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-1440-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-1440-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-1440-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 1296000,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-390-body.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-390-footer.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-390-menu.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    },
+    {
+      "file": "trainer-390-top.png",
+      "changed_pixels": 0,
+      "total_pixels": 329160,
+      "fraction": 0.0
+    }
+  ]
+}
