@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
 import {createImageApiLedger} from '../lib/editorialImageApiLedger.mjs';
 import {FINISH_VERSION,FINISH_QC_GUIDANCE,finishVisualPass,editOwnerFinish} from '../lib/editorialOwnerFinishEdit.mjs';
+import {reuseGroundingObservation} from '../lib/editorialGroundingObservationReuse.mjs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_CHECKS,
@@ -750,6 +751,12 @@ async function visualQa(attempt) {
 }
 
 async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspectionSource = sourcePath} = {}) {
+  const cached=inspectionJob.automation?.grounding_observation_reuse;
+  if(cached){
+    if(hashFile(cached.path)!==cached.sha256)throw Error('OBSERVATION_REUSE_REPORT_DRIFT');
+    return reuseGroundingObservation({job:inspectionJob,qa:readJson(cached.path),inventory:inspectionJob.source_scene_inventory,
+      hashes:{source:hashFile(inspectionSource),scene:hashFile(inspectionJob.generated_scene_path),thumbnail:hashFile(inspectionJob.thumbnail),og:hashFile(inspectionJob.og_image),gbp:hashFile(inspectionJob.gbp_image)}});
+  }
   // Independent narrow observation call: do not feed prior PASS flags, style references,
   // generation prompt or desired high scores. Canonical comparison happens in code.
   const recent = inspectionJob.automation?.recent_semantic_articles || [];

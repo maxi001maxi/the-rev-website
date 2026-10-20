@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
+import {planGroundedScene} from '../lib/editorialSceneGrounding.mjs';
 const root='editorial/prepublication/2026-10-21-evening-strength-sleep/';
 const actual=JSON.parse(fs.readFileSync(root+'IMAGE_JOB.json'));
 const registry=JSON.parse(fs.readFileSync('editorial/automated-image-sources.json'));
@@ -12,9 +13,10 @@ test('actual Oct21 execution reproduces stale rejected-R2 four-article history b
  assert(!j.automation.recent_semantic_articles.some(x=>x.assetVersion==='reference-v26-grounded-evolgear-20261018-contract-r2'));
  const r=preflightEditorialImage(j,registry,opts);assert.equal(r.pass,false);assert(r.errors.includes('RECENT_HISTORY_SNAPSHOT_MISMATCH'));assert.equal(r.no_api_calls,true);
 });
-test('same verified history snapshot passes without changing source bytes, scene, rejection evidence or QC',()=>{
+test('verified history and current canonical intent pass; historical scene, rejection and QC remain immutable',()=>{
  const j=structuredClone(actual);j.automation.require_consistent_recent_history=true;
  j.automation.recent_articles=structuredClone(j.automation.recent_semantic_articles.slice(0,4));
+ j.scene_plan=planGroundedScene({title:j.article_title},registry.sources.find(s=>s.source_id===j.automation.selected_source_id),j.automation.recent_semantic_articles);
  const r=preflightEditorialImage(j,registry,opts);assert(r.pass,JSON.stringify(r));assert.equal(r.history_unknown,0);
  assert.equal(j.scene_plan.source_sha256,actual.scene_plan.source_sha256);
  assert.equal(JSON.parse(fs.readFileSync(root+'IMAGE_EXECUTION_RESULT.json')).image_qc_pass,false);

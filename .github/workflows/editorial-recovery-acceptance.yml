@@ -15,6 +15,9 @@ on:
       - 'scripts/test-editorial-owner-finish.mjs'
       - '.github/workflows/editorial-oct21-image-finish.yml'
       - '.github/workflows/editorial-oct21-image-depth.yml'
+      - '.github/workflows/editorial-oct21-image-layout-qc.yml'
+      - 'scripts/prepare-oct21-image-layout-qc.mjs'
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-layout-r5/IMAGE_EXECUTION_CONTRACT.json'
       - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r5/IMAGE_EXECUTION_CONTRACT.json'
       - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r4/IMAGE_EXECUTION_CONTRACT.json'
       - 'scripts/preflight-oct21-image-admission.mjs'
@@ -54,7 +57,7 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_BRANCH: ${{ github.sha }}
         run: node scripts/prepare-oct21-image-execution.mjs
-      - run: node --test scripts/test-editorial-oct21-image-history.mjs scripts/test-editorial-owner-finish.mjs
+      - run: node --test scripts/test-editorial-oct21-image-history.mjs scripts/test-editorial-owner-finish.mjs scripts/test-editorial-oct21-layout-recovery.mjs scripts/test-editorial-scene-grounding.mjs
       - run: node --test scripts/test-editorial-oct21-qc-approval.mjs
       - run: npm run test:production-recovery
       - run: npm run test:editorial-quality-v080

@@ -351,6 +351,7 @@ try {
         text: image_headline_short, width: spec.width, height: spec.height,
         gbp: spec.gbp, override: { emphasis_text: job.typography_emphasis_text, ...job?.typography_override?.[spec.variant] },
         rule: { ...GOLDEN_LAYOUT_RULES[spec.gbp ? 'gbp' : 'wide'],
+          paperProfile: spec.gbp&&job.execution?.review_only===true&&job.execution?.content_id==='BLOG-20261021-4ac8fd' ? job.gbp_veil_profile : undefined,
           photoStart: spec.gbp ? 0 : spec.width * (humanFirstLayout ? .34 : impactLayout ? .38 : .492) }
       });
       await page.screenshot({ path: spec.out, type: 'jpeg', quality: 94 });
