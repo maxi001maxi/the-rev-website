@@ -2,7 +2,7 @@
   "content_id": "BLOG-20261021-4ac8fd",
   "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
   "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
-  "status": "STARTED",
+  "status": "COMPLETED",
   "started_at": "2026-10-20T08:15:02.875Z",
   "max_requests": 2,
   "additional_approval": {
@@ -56,10 +56,77 @@
       "confirmed_cost": null
     },
     {
-      "status": "STARTED",
+      "status": "COMPLETED",
       "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
-      "at": "2026-10-20T08:15:02.875Z"
+      "at": "2026-10-20T08:15:02.875Z",
+      "request_id": "req_4f37704fd44a4f808505aae038f4d60f",
+      "usage": {
+        "input_tokens": 3703,
+        "input_tokens_details": {
+          "cache_write_tokens": 3700,
+          "cached_tokens": 0
+        },
+        "output_tokens": 773,
+        "output_tokens_details": {
+          "reasoning_tokens": 382
+        },
+        "total_tokens": 4476
+      },
+      "pass": true,
+      "confirmed_cost": null,
+      "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
+      "estimated_cost_usd": 0.033972
     }
   ],
-  "confirmed_cost": null
+  "confirmed_cost": null,
+  "checked_at": "2026-10-20T08:15:15.433Z",
+  "request_id": "req_4f37704fd44a4f808505aae038f4d60f",
+  "response_id": "resp_0e7d56bf4b31902f016ad72308a90087d1962c50405ed7bdee",
+  "model": "gpt-5.6-sol",
+  "http_status": 200,
+  "usage": {
+    "input_tokens": 3703,
+    "input_tokens_details": {
+      "cache_write_tokens": 3700,
+      "cached_tokens": 0
+    },
+    "output_tokens": 773,
+    "output_tokens_details": {
+      "reasoning_tokens": 382
+    },
+    "total_tokens": 4476
+  },
+  "pass": true,
+  "production_db_changed": false,
+  "image_calls": 0,
+  "published": false,
+  "gbp_posted": false,
+  "estimated_cost_usd": 0.033972,
+  "cost_basis": "estimate from recorded usage and verified model prices; invoice charge unavailable",
+  "qc_output": {
+    "scores": {
+      "question_resolution": 4,
+      "understanding_gain": 4,
+      "decision_support": 4,
+      "concreteness_evidence": 4,
+      "originality_readability": 4
+    },
+    "issues": [],
+    "recommendations": [
+      "結論をさらに素早く把握できるよう、冒頭に「目安は就寝2〜4時間前。遅くなるほど負荷を軽くし、直前の激しい追い込みは避ける」という要約を1文で置く余地があります。",
+      "2025年研究の「入眠4時間前」と、公的ガイドの「就寝2〜4時間前」は基準点が異なるため、図表化する場合は両者を混同しない注記があるとより明確です。"
+    ],
+    "source_unverified": false,
+    "reason": "夜の筋トレが一律に睡眠を妨げるわけではないこと、終了時刻と負荷を組み合わせて調整することを、研究の対象・限界とともに回答しています。2019年、2021年、2025年の研究および厚生労働省資料の記述は、提示された検証済み要点と整合しています。時刻別メニューや強度調整は研究結果ではないと明示され、睡眠効果や普遍的な安全性も断定していません。Ownerの発言も店舗方針の一次情報に限定して扱っており、臨床的有効性の根拠として誤用していません。実践例、例外、受診勧奨まで含み、読者が当日の運動を判断しやすい構成です。"
+  },
+  "evidence_sha256": "9682f9fddeb018530aeeb4e06a6ca6634fa6fe21c2bd88ef68bb6e8aac28ecd9",
+  "total": 20,
+  "issues": [],
+  "source_unverified": false,
+  "reason": "夜の筋トレが一律に睡眠を妨げるわけではないこと、終了時刻と負荷を組み合わせて調整することを、研究の対象・限界とともに回答しています。2019年、2021年、2025年の研究および厚生労働省資料の記述は、提示された検証済み要点と整合しています。時刻別メニューや強度調整は研究結果ではないと明示され、睡眠効果や普遍的な安全性も断定していません。Ownerの発言も店舗方針の一次情報に限定して扱っており、臨床的有効性の根拠として誤用していません。実践例、例外、受診勧奨まで含み、読者が当日の運動を判断しやすい構成です。",
+  "recommendations": [
+    "結論をさらに素早く把握できるよう、冒頭に「目安は就寝2〜4時間前。遅くなるほど負荷を軽くし、直前の激しい追い込みは避ける」という要約を1文で置く余地があります。",
+    "2025年研究の「入眠4時間前」と、公的ガイドの「就寝2〜4時間前」は基準点が異なるため、図表化する場合は両者を混同しない注記があるとより明確です。"
+  ],
+  "is_human_reader_test": false
 }
