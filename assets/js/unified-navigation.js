@@ -15,10 +15,26 @@
   }
   markCurrent();
   window.addEventListener('hashchange', markCurrent);
+  // Mobile booking bar: shown on narrow screens once the first screen is passed, hidden again at the footer.
+  const sticky = document.getElementById('rev-sticky');
+  if (sticky) {
+    const narrow = matchMedia('(max-width:860px)');
+    const footer = document.querySelector('footer');
+    let pending = false;
+    const update = () => {
+      pending = false;
+      const nearEnd = footer && footer.getBoundingClientRect().top <= innerHeight;
+      sticky.hidden = !(narrow.matches && scrollY > 360 && !nearEnd);
+    };
+    const schedule = () => { if (!pending) { pending = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', schedule, {passive:true});
+    window.addEventListener('resize', schedule);
+    update();
+  }
   const header = document.querySelector('#site-header');
   const button = document.querySelector('#menu-toggle');
   const drawer = document.querySelector('.rev-native-drawer');
-  if (!header || !button || !drawer) return; // Existing pages use main.js drawer.
+  if (!header || !button || !drawer) return; // Pages without the shared menu (none expected).
   let savedY = 0;
   const focusable = () => [...drawer.querySelectorAll('a[href],button')].filter(el => el.getClientRects().length);
   function close(restoreFocus = true) {

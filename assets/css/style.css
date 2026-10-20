@@ -2246,8 +2246,8 @@ body:has(.page-head) .site-header.scrolled{
   backdrop-filter:blur(8px);
 }
 /* スクロール後は文字とロゴを暗色へ */
-.tpage .site-header.scrolled .nav a,
-body:has(.page-head) .site-header.scrolled .nav a{ color:var(--ink) !important; }
+.tpage .site-header.scrolled .nav a:not(.cta-mini),
+body:has(.page-head) .site-header.scrolled .nav a:not(.cta-mini){ color:var(--ink) !important; }
 .tpage .site-header.scrolled .brand-logo--light,
 body:has(.page-head) .site-header.scrolled .brand-logo--light{ opacity:0 !important; }
 .tpage .site-header.scrolled .brand-logo--dark,

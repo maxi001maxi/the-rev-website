@@ -55,7 +55,11 @@
     "New image generation/Visual QC require separate bounded Owner approval",
     "Three accepted assets, SHA and Xserver verification",
     "Formal Bridge reuses existing Draft; production writes require approval",
-    "Authenticated Console/final Preflight and REVIEW_READY",
-    "Latest main fedb2f4... integration conflict must be resolved before merge; no merge authorized"
-  ]
+    "Authenticated Console/final Preflight and REVIEW_READY"
+  ],
+  "main_integration": {
+    "main_sha": "fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722",
+    "scope": "working branch only; not main merge or production release",
+    "booking_conflict_resolution": "Preserve main's stronger two-viewport/all-three-menu blank-form QA; no customer input or submission"
+  }
 }
