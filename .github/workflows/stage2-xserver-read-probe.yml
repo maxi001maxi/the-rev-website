@@ -1,0 +1,46 @@
+name: Stage 2 Xserver read-only diagnosis
+on:
+  push:
+    branches: [qa/stage2-xserver-read-probe-20261020]
+    paths: ['.github/workflows/stage2-xserver-read-probe.yml']
+permissions:
+  contents: read
+jobs:
+  read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+      - name: Bounded FTPS read; zero remote writes
+        env:
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          mkdir -p probe
+          timeout 75s lftp -u "$FTP_USER","$FTP_PASSWORD" sv14602.xserver.jp <<'LFTP' > probe/connection.log 2>&1
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 1
+          set net:timeout 10
+          set net:reconnect-interval-base 2
+          get /index.html -o probe/index.html
+          get /assets/js/main.js -o probe/main.js
+          get /assets/js/unified-navigation.js -o probe/unified-navigation.js
+          get /assets/css/style.css -o probe/style.css
+          bye
+          LFTP
+      - name: Summarize transferred read-only bytes
+        if: always()
+        run: |
+          echo "REMOTE_WRITES=0"
+          wc -c probe/*.html probe/*.js probe/*.css 2>/dev/null || true
+          sha256sum probe/*.html probe/*.js probe/*.css 2>/dev/null || true
+          cat probe/connection.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-xserver-read-only-probe
+          path: probe/
+          retention-days: 14
