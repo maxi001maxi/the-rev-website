@@ -54,3 +54,5 @@ jobs:
           name: stage2-real-booking-8a327f1
           path: qa-out/stage2-booking/
           retention-days: 14
+
+# booking-only telemetry is blocked separately from reservation writes.
