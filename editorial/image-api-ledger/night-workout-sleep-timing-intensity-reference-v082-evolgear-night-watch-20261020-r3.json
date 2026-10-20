@@ -1,0 +1,196 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "night-workout-sleep-timing-intensity",
+  "asset_version": "reference-v082-evolgear-night-watch-20261020-r3",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-evolgear-20260922",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "scene_type": "before_start",
+    "location_type": "training_area",
+    "human_action": "prepare",
+    "composition_type": "medium_three_quarter_portrait",
+    "visual_role": "checking_readiness",
+    "article_intent": "readiness",
+    "required_equipment": [],
+    "subject_zone": "training_area",
+    "article_specific_directive": "One ordinary adult customer pauses at the end of training and checks their wristwatch to decide when to finish; no equipment operation.",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.6666666666666666,
+      "matches": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.5,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    }
+  },
+  "headline": "夜の筋トレ、\n何時まで？",
+  "thumbnail": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-night-watch-20261020-r3.jpg",
+  "og": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-night-watch-20261020-r3.jpg",
+  "gbp": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-night-watch-20261020-r3.jpg",
+  "generation_edit_contract": {
+    "background_lock": "masked_openai_raw_guard_v2",
+    "guarded_edit": {
+      "width": 1024,
+      "height": 1536,
+      "edit": {
+        "x": 560,
+        "y": 410,
+        "width": 440,
+        "height": 1100
+      },
+      "meaning": [
+        {
+          "name": "face",
+          "x": 680,
+          "y": 500,
+          "width": 190,
+          "height": 190
+        },
+        {
+          "name": "watch_gesture",
+          "x": 640,
+          "y": 800,
+          "width": 270,
+          "height": 200
+        }
+      ],
+      "formats": [
+        {
+          "name": "thumbnail",
+          "width": 1200,
+          "height": 675,
+          "photo_width_fraction": 0.66
+        },
+        {
+          "name": "og",
+          "width": 1200,
+          "height": 630,
+          "photo_width_fraction": 0.66
+        },
+        {
+          "name": "gbp",
+          "width": 1200,
+          "height": 900,
+          "photo_width_fraction": 1
+        }
+      ],
+      "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea"
+    },
+    "openai_edit": {
+      "model": "gpt-image-2.5-sunburst-2026-09-08",
+      "quality": "max"
+    },
+    "diagnostic_qc_on_raw_reject": true
+  },
+  "contract_sha256": "3593714ccf1d3233a0bc505bc968633b4b9769435dc86ee63ea7803484dc11e4",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "generation",
+      "status": "STARTED",
+      "at": "2026-10-20T08:50:01.137Z",
+      "confirmed_cost": null
+    }
+  ],
+  "confirmed_cost": null
+}
