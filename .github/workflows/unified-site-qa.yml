@@ -15,6 +15,8 @@ on:
       - 'scripts/test-javascript-warm-cache.mjs'
       - 'scripts/qa-unified-site.mjs'
       - 'lib/bookingSiteQa.mjs'
+      - 'lib/browserPaintQa.mjs'
+      - 'scripts/test-browser-paint.mjs'
       - 'lib/editorialGuardedPhotoEdit.mjs'
       - 'scripts/test-editorial-guarded-photo-edit.mjs'
       - 'package*.json'
@@ -41,12 +43,34 @@ jobs:
       - run: node --test --test-concurrency=1 scripts/test-booking-site.mjs scripts/test-editorial-guarded-photo-edit.mjs
       - run: node scripts/qa-booking-site.mjs
       - run: node scripts/qa-unified-site.mjs
-      - run: node scripts/qa-technical-site.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: unified-public-site-qa
           path: qa-out/
+          retention-days: 14
+
+
+  technical-browser:
+    if: github.event.action != 'edited'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/test-build-parity.mjs
+      - run: node --test --test-concurrency=1 scripts/test-browser-paint.mjs
+      - run: node scripts/qa-technical-site.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: technical-browser-qa
+          path: qa-out/technical/
           retention-days: 14
 
   deployed-browser:

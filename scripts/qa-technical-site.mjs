@@ -1,6 +1,7 @@
 // Actual Chromium, production-equivalent origin served ONLY from local build.
 // Google CDN bootstrap is allowed; ALL collection/pixels/third-party writes abort.
 import {chromium} from 'playwright';
+import {ready,traverse} from '../lib/browserPaintQa.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -43,14 +44,6 @@ async function context({width=1440,height=900,baseline=false,cdn=false,siteOrigi
  });
  return ctx;
 }
-async function ready(page){await page.waitForLoadState('load');await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});}
-async function traverse(page){await page.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=innerHeight*.7){scrollTo({top:y,behavior:'instant'});await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
- const images=[...document.images].filter(i=>i.getClientRects().length&&getComputedStyle(i).visibility!=='hidden');
- if(images.some(i=>i.complete&&i.naturalWidth===0))throw new Error('Visible image failed to load before visual proof');
- // decode() is a best-effort paint wait (errors were already ignored). Some
- // Chromium SVG decoders never settle; bound only this wait, not assertions.
- await Promise.all(images.filter(i=>i.complete&&i.naturalWidth).map(async i=>{let timer;try{await Promise.race([i.decode().catch(()=>{}),new Promise(resolve=>{timer=setTimeout(resolve,2000);})]);}finally{clearTimeout(timer);}}));
- scrollTo({top:0,behavior:'instant'});});await ready(page);}
 async function preventNavigation(page){await page.evaluate(()=>document.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault();},true));}
 try{
  // Deterministic browser behavior checks never execute external analytics.
@@ -162,7 +155,10 @@ try{
   const images={};const stem=`${pathname==='/'?'top':'recovery'}-${width}`;
   for(const baseline of fs.existsSync('qa-out/technical/baseline/index.html')?[true,false]:[false]){
    report.stage='visual navigation / '+stem;
-   const ctx=await context({width,height,baseline}),page=await ctx.newPage();await page.goto(origin+pathname);await ready(page);await traverse(page);
+   const ctx=await context({width,height,baseline});report.stage='visual new page / '+stem;const page=await ctx.newPage();
+   report.stage='visual goto / '+stem;await page.goto(origin+pathname);
+   report.stage='visual ready / '+stem;await ready(page);
+   report.stage='visual traverse / '+stem;await traverse(page);
    report.stage='visual screenshot / '+stem;
    images[baseline?'before':'after']=await page.screenshot({path:path.join(out,`${stem}-${baseline?'before':'after'}.png`),fullPage:true,animations:'disabled',timeout:15000});
    report.stage='visual context shutdown / '+stem;await ctx.close();
