@@ -1,0 +1,43 @@
+name: Stage 2 stop stalled pre-root transfer and audit
+on:
+  push:
+    branches: [qa/stage2-stalled-transfer-20261020]
+    paths: ['.github/workflows/stage2-stalled-transfer-audit.yml']
+permissions:
+  contents: read
+  actions: write
+jobs:
+  stop-and-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stop only the pinned stalled pre-root run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/maxi001maxi/the-rev-website/actions/runs/39392124975 > run.json
+          gh api repos/maxi001maxi/the-rev-website/actions/runs/39392124975/jobs > jobs.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';import assert from 'node:assert/strict';
+          const r=JSON.parse(fs.readFileSync('run.json')),j=JSON.parse(fs.readFileSync('jobs.json')).jobs.find(x=>x.id===118525990471);
+          assert.equal(r.head_sha,'fedb2f4fe473a6d67e6d84a8a5b74e6611ba7722');assert.equal(r.status,'in_progress');assert.equal(j.status,'in_progress');
+          assert.equal(j.steps.find(x=>x.name==='Deploy assets FIRST').status,'in_progress');
+          for(const name of ['Deploy root files after image gate','Deploy Blog LAST'])assert.equal(j.steps.find(x=>x.name===name).status,'pending');
+          console.log('Pinned SHA; root and Blog transfers have not started.');
+          NODE
+          gh api --method POST repos/maxi001maxi/the-rev-website/actions/runs/39392124975/cancel
+          for n in $(seq 1 60); do
+            status=$(gh api repos/maxi001maxi/the-rev-website/actions/runs/39392124975 --jq .status)
+            if [ "$status" = "completed" ]; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - name: Read and hash all known public assets and pre-root documents
+        run: node scripts/qa-stage2-pre-root-audit.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-pre-root-integrity-audit
+          path: qa-out/pre-root-audit/
+          retention-days: 14
