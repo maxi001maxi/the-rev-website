@@ -1,5 +1,5 @@
 {
-  "status": "PENDING_OWNER_APPROVAL_NOT_EXECUTABLE",
+  "status": "APPROVED_PENDING_EXECUTION",
   "content_id": "BLOG-20261021-4ac8fd",
   "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
   "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
@@ -25,7 +25,10 @@
     "output": 20
   },
   "confirmed_charge": null,
-  "execution_plan_unchanged": "QC_EXECUTION.json remains max_requests=2; existing durable claim is exhausted. No third request permitted until explicit new approval and bounded extension implementation.",
+  "execution_plan_unchanged": "Original max_requests=2 and prior two calls preserved. QC_EXECUTION.json now carries a separate exact-body/request Owner approval for one additional call, ceiling USD0.25; retry is not required and is not used.",
   "image_generation_calls_requested": 0,
-  "production_changes_requested": false
+  "production_changes_requested": false,
+  "approved_at": "2026-10-20T17:08:43+09:00",
+  "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
+  "owner_permits_retry": true
 }
