@@ -111,3 +111,22 @@ test('actual operator process survives an API failure, rerun and corrupt state w
   fs.writeFileSync(state,'{broken');assert.notEqual(run().status,0);assert.equal(fs.readFileSync(path.join(root,'paid.log'),'utf8'),'request\n');
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+test('actual workflow selector holds an exhausted article while admitting the next article',async()=>{
+ const os=await import('node:os'),path=await import('node:path'),{execFileSync}=await import('node:child_process');
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'rev-select-'));
+ try{
+  const flow=fs.readFileSync('.github/workflows/auto-editorial-hybrid-images.yml','utf8');
+  const raw=flow.split("python3 <<'PY'\n")[1].split('\n          PY')[0];
+  const python=raw.split('\n').map(x=>x.startsWith('          ')?x.slice(10):x).join('\n');
+  fs.mkdirSync(path.join(root,'editorial/image-operator-state'),{recursive:true});
+  fs.writeFileSync(path.join(root,'source.jpg'),'synthetic existence marker');
+  const job=(slug,version)=>({slug,asset_version:version,automation:{mode:'unattended-github-actions-v1',source_repo_path:'source.jpg'},generated_scene_path:slug+'-scene.png',thumbnail:slug+'-thumb.jpg',og_image:slug+'-og.jpg',gbp_image:slug+'-gbp.jpg',qa_report_path:slug+'-qa.json'});
+  fs.writeFileSync(path.join(root,'held.json'),JSON.stringify(job('held','exhausted')));fs.writeFileSync(path.join(root,'next.json'),JSON.stringify(job('next','new')));
+  fs.writeFileSync(path.join(root,'editorial/image-operator-state/held.json'),JSON.stringify({asset_version:'exhausted',status:'ERROR',attempts_total:2,max_attempts:2}));
+  fs.writeFileSync(path.join(root,'.candidate-jobs'),'held.json\nnext.json\n');
+  execFileSync('python3',['-c',python],{cwd:root,encoding:'utf8'});
+  assert.equal(fs.readFileSync(path.join(root,'.operator-jobs'),'utf8'),'next.json\n');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(root,'editorial/image-operator-state/held.json'))).attempts_total,2);
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});

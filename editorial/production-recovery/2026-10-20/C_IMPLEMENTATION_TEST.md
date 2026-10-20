@@ -13,7 +13,7 @@ Issue #264。作業ブランチ `fix/editorial-autonomous-recovery-20261020`、m
 
 [LOCAL_VALIDATION.json](LOCAL_VALIDATION.json) と [DRY_RUN_RESULT.json](DRY_RUN_RESULT.json) が実行結果。npm ci、既存Quality・Daily Contract・State Machine・Creator・QC recovery・Trigger topology・Phase9・PhaseD・Image system・source/scene・production preflight・bundle一致・Blog buildを実行。型検査コマンドは現行packageに存在せず、ES module構文検査・build・契約テストで確認。
 
-新規14 test cases（unit/接続を区別）：本文修復、証拠不足、API曖昧、2QC上限、事前予約保存失敗、旧画像PASS復活拒否、既存原稿再開、hard restore課金前停止、実operator subprocessの503/再実行/破損状態、接続正常系、接続10故障と復旧、Interview不要/遅延/重複回答。接続トレースには各caseと最終Preflightを保存している。
+新規15 test cases（unit/接続を区別）：本文修復、証拠不足、API曖昧、2QC上限、事前予約保存失敗、旧画像PASS復活拒否、既存原稿再開、hard restore課金前停止、実operator subprocessの503/再実行/破損状態、接続正常系、接続10故障と復旧、Interview不要/遅延/重複回答。接続トレースには各caseと最終Preflightを保存している。
 
 合成故障：Visual QC不合格、生成上限、API障害、DB同期失敗、GBPファイル不足、本文Preflight不合格、GitHub成功後の配信失敗、状態反映失敗、QA後の画素改変、同サイズの本番画像差替え。公開は発生しない。正常なOwner公開の本番実行は未承認のためテストしていない。
 
@@ -31,3 +31,5 @@ CIで既存Topic Approvalテストの固定10月4日候補が経時失効し、�
 - [実本文QC・読取Probe](https://github.com/maxi001maxi/the-rev-website/actions/runs/39362851581)：合成acceptance成功、OpenAI呼出成功、実本文の品質判定FAIL、読取Probe成功。全CI成功とは表現しない。
 
 初回Phase9は既存候補fixtureの鮮度依存で失敗し、fixture修正後29件PASS。最終コードでは品質ゲートを緩和していない。初回read-only probeのsource属性取得漏れも検出・修正し、最終結果はBLOCKED。API実行履歴を削除・リセットしていない。
+
+最終回帰：実際の画像workflow selector Pythonを隔離ディレクトリで実行。上限到達/不合格の旧assetを保持し、次の別記事だけがoperator-jobsへ進むことを確認。旧失敗記事がstrict preflightを繰り返して全バッチを止める経路を修正した。

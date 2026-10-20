@@ -22,7 +22,7 @@ Issue [#264](https://github.com/maxi001maxi/the-rev-website/issues/264)。対象
 | 手動Working Draftはsync_hash=null、bridge_synced=false | 運用・連携不整合。Supabase実読取 | 新Draftを作らず、同一IDへ正式Bridgeで統合するコード。本文証拠とhashを要求 |
 | 画像ジョブの厳格Preflightがopt-inで外れていた | システム障害。Oct21はLEGACY_UNMODIFIED / unknown履歴5件 / max2 | 新規ジョブを強制strict、実行器でも課金直前に再検証 |
 | 「強さ/強度」から一般的筋トレ実行シーンへ分類 | 意味設計劣化。既存画像QAはケーブル運動と睡眠の意味不一致 | 夜・睡眠の時間/強度選択をreadinessへ分類。旧不合格は改ラベルして採用しない |
-| 初回画像生成後、失敗時に次の生成へ進む／中断で予算を失う | コスト・復旧設計不足 | 上限1生成・QC HTTP2件、GitHub CAS事前予約、曖昧な呼出は停止、scene checkpoint |
+| 初回画像生成後、失敗時に次の生成へ進む／中断で予算を失う | コスト・復旧設計不足 | 上限1生成・QC HTTP2件、GitHub CAS事前予約、曖昧な呼出は停止、scene checkpoint。不合格/上限済みassetは次バッチで再選択しない |
 | R2は旧QA.pass=trueでもOwner拒否 | 自動QC過大評価 | R2/R3/R4/R6/R8/R9とOct21失敗版を不採用台帳で固定。版・SHA両方で拒否 |
 | R9は背景保全後に顔/紙が欠損 | 実画像の合成不良 | hard-restore経路を課金前に停止。新しい方式の実画像品質検証は未完了 |
 | mainとVercel/GASの修正導入が一致しない | 構成・版の不一致 | CI/実装/マージ/各環境導入/本番E2Eを別判定 |

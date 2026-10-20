@@ -123,6 +123,11 @@ jobs:
               state = Path(f'editorial/image-operator-state/{slug}.json')
 
               state_data = read_json(state) if state.is_file() else {}
+              state_version = str(state_data.get('asset_version') or (state_data.get('last_qa') or {}).get('asset_version') or '')
+              same_asset = state_version == str(data.get('asset_version') or '') if state_version else state_data.get('job_path') == str(job)
+              if same_asset and state_data.get('status') in ['ERROR', 'OVERLAY_QC_REJECTED', 'BLOCKED_MAX_ATTEMPTS', 'BLOCKED_PROVIDER_CREDITS', 'GENERATING']:
+                  print(f"Holding failed/ambiguous asset without blocking other articles: {job}")
+                  continue
               qa_data = read_json(qa) if qa and Path(qa).is_file() else {}
               gbp_ready = (not gbp) or Path(gbp).is_file()
               already_ready = (
