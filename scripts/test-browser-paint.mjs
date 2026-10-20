@@ -33,3 +33,13 @@ test('a loaded SVG is rendered without invoking the unreliable optional SVG deco
  const result=await traverse(p);assert.equal(await p.evaluate(()=>svgDecodeCalls),0);assert.equal(result.svg_decode_skipped,1);assert.equal(await p.locator('img').evaluate(i=>i.complete&&i.naturalWidth),24);assert((await p.screenshot()).length>100);
 }));
 
+test('mobile traversal reaches its positions and returns to top when programmatic scrollTo is unavailable',()=>browserTest(async b=>{
+ const p=await b.newPage({viewport:{width:390,height:844}});
+ await p.setContent('<main style="height:12000px">Actual mobile document</main>');
+ await p.evaluate(()=>{window.scrollTo=()=>{throw Error('Programmatic scroll path must not be used');};});
+ const result=await traverse(p);
+ assert(result.initial_height>=12000);
+ assert.equal(await p.evaluate(()=>scrollY),0);
+ assert((await p.screenshot()).length>100);
+}));
+
