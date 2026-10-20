@@ -196,3 +196,20 @@ body.recovery-page .rv-pagebar{margin-top:81px}
 
 /* Keyboard-only skip link; approved resting layout is unchanged. */
 .rev-skip:focus,.rv-skip:focus{top:12px!important;z-index:1002}
+
+/* P0 (2026-10 design audit H1/H3): pages with a light masthead (trainer, column index/category/article)
+   start in the same solid state as the scrolled header, so nav text, the booking button and the
+   hamburger lines are readable before scrolling. Dark-masthead pages (price/access/legal) are unchanged. */
+:is(body.trainer-page, body.blog-index, body.blog-post) .site-header{
+  background:rgba(242,241,238,.97)!important;
+  border-bottom-color:rgba(50,46,43,.12)!important;
+}
+:is(body.trainer-page, body.blog-index, body.blog-post) .site-header .nav .nav-link{
+  color:#24211E!important;text-shadow:none!important;
+}
+:is(body.trainer-page, body.blog-index, body.blog-post) .site-header .nav .cta-mini{
+  background:#1F1D1B!important;border-color:#1F1D1B!important;color:#FAF9F7!important;
+}
+:is(body.trainer-page, body.blog-index, body.blog-post) .site-header .nav-toggle span{
+  background:#1E1C1A!important;
+}

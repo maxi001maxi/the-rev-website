@@ -1,0 +1,752 @@
+[
+ {
+  "page": "trainer.html",
+  "w": 1500,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 14.21,
+  "fails": [],
+  "items": [
+   {
+    "kind": "nav",
+    "text": "サービスService",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "リカバリーRecovery",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "トレーナーTrainer",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "料金Price",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "コラムColumn",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "初回体験Trial",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "アクセスAccess",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "cta",
+    "text": "初回体験を予約",
+    "fg": "250,249,247",
+    "bg": "31,29,27",
+    "ratio": 15.97,
+    "need": 4.5
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1500,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "nav",
+    "text": "サービスService",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "リカバリーRecovery",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "トレーナーTrainer",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "料金Price",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "コラムColumn",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "初回体験Trial",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "アクセスAccess",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "cta",
+    "text": "初回体験を予約",
+    "fg": "250,249,247",
+    "bg": "31,29,27",
+    "ratio": 15.97,
+    "need": 4.5
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1440,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 14.21,
+  "fails": [],
+  "items": [
+   {
+    "kind": "nav",
+    "text": "サービスService",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "リカバリーRecovery",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "トレーナーTrainer",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "料金Price",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "コラムColumn",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "初回体験Trial",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "アクセスAccess",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "cta",
+    "text": "初回体験を予約",
+    "fg": "250,249,247",
+    "bg": "31,29,27",
+    "ratio": 15.97,
+    "need": 4.5
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1440,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "nav",
+    "text": "サービスService",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "リカバリーRecovery",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "トレーナーTrainer",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "料金Price",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "コラムColumn",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "初回体験Trial",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "アクセスAccess",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "cta",
+    "text": "初回体験を予約",
+    "fg": "250,249,247",
+    "bg": "31,29,27",
+    "ratio": 15.97,
+    "need": 4.5
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1400,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 14.21,
+  "fails": [],
+  "items": [
+   {
+    "kind": "nav",
+    "text": "サービスService",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "リカバリーRecovery",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "トレーナーTrainer",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "料金Price",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "コラムColumn",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "初回体験Trial",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "アクセスAccess",
+    "fg": "36,33,30",
+    "bg": "242,241,238",
+    "ratio": 14.21,
+    "need": 4.5
+   },
+   {
+    "kind": "cta",
+    "text": "初回体験を予約",
+    "fg": "250,249,247",
+    "bg": "31,29,27",
+    "ratio": 15.97,
+    "need": 4.5
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1400,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "nav",
+    "text": "サービスService",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "リカバリーRecovery",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "トレーナーTrainer",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "料金Price",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "コラムColumn",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "初回体験Trial",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "nav",
+    "text": "アクセスAccess",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 4.5
+   },
+   {
+    "kind": "cta",
+    "text": "初回体験を予約",
+    "fg": "250,249,247",
+    "bg": "31,29,27",
+    "ratio": 15.97,
+    "need": 4.5
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1399,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 15.08,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "30,28,26",
+    "bg": "242,241,238",
+    "ratio": 15.08,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1399,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1280,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 15.08,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "30,28,26",
+    "bg": "242,241,238",
+    "ratio": 15.08,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1280,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1024,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 15.08,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "30,28,26",
+    "bg": "242,241,238",
+    "ratio": 15.08,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 1024,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 861,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 15.08,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "30,28,26",
+    "bg": "242,241,238",
+    "ratio": 15.08,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 861,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 768,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 15.08,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "30,28,26",
+    "bg": "242,241,238",
+    "ratio": 15.08,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 768,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 390,
+  "scroll": 0,
+  "header": {
+   "cls": "site-header",
+   "bg": "rgba(242, 241, 238, 0.97)",
+   "pos": "fixed",
+   "scrolled": false
+  },
+  "min": 15.08,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "30,28,26",
+    "bg": "242,241,238",
+    "ratio": 15.08,
+    "need": 3
+   }
+  ]
+ },
+ {
+  "page": "trainer.html",
+  "w": 390,
+  "scroll": 900,
+  "header": {
+   "cls": "site-header scrolled",
+   "bg": "rgba(251, 250, 247, 0.94)",
+   "pos": "fixed",
+   "scrolled": true
+  },
+  "min": 15.23,
+  "fails": [],
+  "items": [
+   {
+    "kind": "burger",
+    "text": "",
+    "fg": "35,34,32",
+    "bg": "251,250,247",
+    "ratio": 15.23,
+    "need": 3
+   }
+  ]
+ }
+]

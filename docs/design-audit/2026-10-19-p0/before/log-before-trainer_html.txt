@@ -1,0 +1,7 @@
+before-trainer_html: 18 states, 6 with failures
+FAIL trainer.html@1500 scroll=0 nav"サービスService" 1.01<4.5; nav"リカバリーRecovery" 1.01<4.5; nav"料金Price" 1.01<4.5; nav"コラムColumn" 1.01<4.5; nav"初回体験Trial" 1.01<4.5; nav"アクセスAccess" 1.01<4.5; cta"初回体験を予約" 1.98<4.5
+FAIL trainer.html@1500 scroll=900 cta"初回体験を予約" 1.06<4.5
+FAIL trainer.html@1440 scroll=0 nav"サービスService" 1.01<4.5; nav"リカバリーRecovery" 1.01<4.5; nav"料金Price" 1.01<4.5; nav"コラムColumn" 1.01<4.5; nav"初回体験Trial" 1.01<4.5; nav"アクセスAccess" 1.01<4.5; cta"初回体験を予約" 1.98<4.5
+FAIL trainer.html@1440 scroll=900 cta"初回体験を予約" 1.06<4.5
+FAIL trainer.html@1400 scroll=0 nav"サービスService" 1.01<4.5; nav"リカバリーRecovery" 1.01<4.5; nav"料金Price" 1.01<4.5; nav"コラムColumn" 1.01<4.5; nav"初回体験Trial" 1.01<4.5; nav"アクセスAccess" 1.01<4.5; cta"初回体験を予約" 1.98<4.5
+FAIL trainer.html@1400 scroll=900 cta"初回体験を予約" 1.06<4.5
