@@ -1,3 +1,4 @@
+import { editorialExecution } from '../../lib/editorialExecution.mjs';
 // GET    /api/admin/article?id={id} … 下書き1件の全フィールド取得（Editor読み込み用）
 // PATCH  /api/admin/article?id={id} … 下書きの更新（statusは常にdraftへ強制）
 // DELETE /api/admin/article?id={id} … 下書きの削除（公開済み＝source_pathありはブロック）
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
 
     if (error) return sendError(res, 500, 'db_error', '記事の取得に失敗しました。');
     if (!data) return sendError(res, 404, 'not_found', '記事が見つかりません。');
-    return res.status(200).json({ article: data });
+    return res.status(200).json({ article: data, execution: editorialExecution({article:data}) });
   }
 
   if (req.method === 'PATCH') {
@@ -77,7 +78,7 @@ export default async function handler(req, res) {
       return sendError(res, 500, 'db_error', '下書きの更新に失敗しました。');
     }
     if (!data) return sendError(res, 404, 'not_found', '記事が見つかりません。');
-    return res.status(200).json({ article: data });
+    return res.status(200).json({ article: data, execution: editorialExecution({article:data}) });
   }
 
   if (req.method === 'DELETE') {

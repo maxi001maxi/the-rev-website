@@ -1,0 +1,204 @@
+{
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+  "run_id": "39092195829",
+  "private_qc_pass": false,
+  "status": "REJECTED_AND_QUARANTINED",
+  "operator_status": "ERROR",
+  "stop_reason": "Source/Scene FAIL: observed_plan_mismatch:article_intent. 実環境の受付カウンター、植物、スツール、後方トレーニング区画を維持し、人物は自然な光と遠近で統合されている。男性客一名が用紙を両手で確認する行動は、体験前に料金・予約・退会条件を確認する記事意図を具体的に伝える。視線と頭部は用紙へ向き、表情も静かで広告的ではない。スタッフ、追加人物、医療機器、未確認設備、サービス誤認はない。",
+  "checks": {
+    "operator_candidate": false,
+    "independent_qa": false,
+    "canonical_hybrid": false,
+    "canonical_review": false,
+    "dimensions": true,
+    "qa_bound_sha256": true,
+    "budget": true,
+    "complete_independent_calls": true
+  },
+  "files": [
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/images/scene.png",
+      "sha256": "764790c11be43cf541d3cdda94830e7653694cc7c6203c018f4b7a1c89142f12",
+      "bytes": 2153194,
+      "quarantined": true,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/images/thumbnail.jpg",
+      "sha256": "836acb2a42678db613aaba1f40aee78ebd4184feb1ecb802d521af06fd159e4d",
+      "bytes": 125226,
+      "quarantined": true,
+      "width": 1200,
+      "height": 675
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/images/og.jpg",
+      "sha256": "d738d4e682b3e5492c526a3e1f17339b98f24e25f898623794a3d27faed3ce1a",
+      "bytes": 120344,
+      "quarantined": true,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/images/gbp.jpg",
+      "sha256": "5b414a5bf71f80486ef53c92d0bf939acfd5bac66ea0bcbbff5fee52f799dbfd",
+      "bytes": 149134,
+      "quarantined": true,
+      "width": 1200,
+      "height": 900
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/independent-visual-qc.json",
+      "sha256": "d8834c7106b1c0016c5596941395470c3f78f72a567de0b4bfd756edccb79cf1",
+      "bytes": 54957,
+      "quarantined": false
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/typography.json",
+      "sha256": "2cec93dcd1d7e75d7323b3b65d4a87c10b3e0e580754a093b3fc70cbe01109d9",
+      "bytes": 6938,
+      "quarantined": false
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/previews/thumbnail-320.jpg",
+      "sha256": "411c6c3192b462670c22dca9aa88e138fdbe87a7096635eb06282188c9b440cb",
+      "bytes": 18199,
+      "quarantined": false,
+      "width": 320,
+      "height": 180
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/previews/thumbnail-400.jpg",
+      "sha256": "51d9a14f7ef3dd81fe8857df5ed2763d627a3378e09d9c33e28cac0560a9ec67",
+      "bytes": 23772,
+      "quarantined": false,
+      "width": 400,
+      "height": 225
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/previews/og-320.jpg",
+      "sha256": "e52479e7b0c75b04faa347153c9bef0e04ddbad281b29b06f66eeaec686fc3b3",
+      "bytes": 17053,
+      "quarantined": false,
+      "width": 320,
+      "height": 168
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/previews/og-400.jpg",
+      "sha256": "178198e92567daf2f47f40f5702c4dbe8069e5a4bc08f0a0c28fd110f2028251",
+      "bytes": 22991,
+      "quarantined": false,
+      "width": 400,
+      "height": 210
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/previews/gbp-320.jpg",
+      "sha256": "69448a4497bc48f041fd4b4c8da0533cd4073f8a8da2d3b1d198199a51afae6a",
+      "bytes": 20504,
+      "quarantined": false,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/previews/gbp-400.jpg",
+      "sha256": "d9d43b49dd9549ff3f46a361be7ef03af2a7b1f3b6f68de16d362169c8cef715",
+      "bytes": 27457,
+      "quarantined": false,
+      "width": 400,
+      "height": 300
+    }
+  ],
+  "api_usage": {
+    "generation_requests": 1,
+    "qc_requests": 2,
+    "image_generation_tool_calls": 1,
+    "calls": [
+      {
+        "kind": "generation",
+        "status": "COMPLETED",
+        "at": "2026-10-18T03:03:04.850Z",
+        "confirmed_cost": null,
+        "request_id": "req_160da3ffa434499e957b0df0336bd084",
+        "http_status": 200,
+        "response_id": "resp_0476e28834526148006ad436e9b4e087d18ac49373dec81740",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 11731,
+          "input_tokens_details": {
+            "cache_write_tokens": 9259,
+            "cached_tokens": 0
+          },
+          "output_tokens": 618,
+          "output_tokens_details": {
+            "reasoning_tokens": 23
+          },
+          "total_tokens": 12349
+        },
+        "image_generation_calls": [
+          {
+            "id": "ig_0476e28834526148006ad436eb9f5887d1b6027b671405ed4b",
+            "status": "completed",
+            "usage": null
+          }
+        ]
+      },
+      {
+        "kind": "qc",
+        "status": "COMPLETED",
+        "at": "2026-10-18T03:03:42.460Z",
+        "confirmed_cost": null,
+        "request_id": "req_98251ec6970240d9aa215c9ff4fc94bc",
+        "http_status": 200,
+        "response_id": "resp_0b1a7714a68b6899006ad4370ebfc887d192cb261bfb9c5dd7",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 17980,
+          "input_tokens_details": {
+            "cache_write_tokens": 17977,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2291,
+          "output_tokens_details": {
+            "reasoning_tokens": 1390
+          },
+          "total_tokens": 20271
+        },
+        "image_generation_calls": []
+      },
+      {
+        "kind": "qc",
+        "status": "COMPLETED",
+        "at": "2026-10-18T03:04:12.721Z",
+        "confirmed_cost": null,
+        "request_id": "req_69522acbd3a84b62935d6634a2aedd86",
+        "http_status": 200,
+        "response_id": "resp_07bedcd3924c2322006ad4372d425887d19d0b4fd6dd88689d",
+        "response_status": "completed",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 19536,
+          "input_tokens_details": {
+            "cache_write_tokens": 19533,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2568,
+          "output_tokens_details": {
+            "reasoning_tokens": 1431
+          },
+          "total_tokens": 22104
+        },
+        "image_generation_calls": []
+      }
+    ],
+    "confirmed_cost": null,
+    "cost_note": "Response usage is recorded verbatim; no billing total or currency amount was returned/verified."
+  },
+  "owner_publish_ready": false,
+  "production_mutations": 0,
+  "automatic_retry": false,
+  "next_action": "REVIEW_EVIDENCE_NO_MORE_PAID_CALLS"
+}

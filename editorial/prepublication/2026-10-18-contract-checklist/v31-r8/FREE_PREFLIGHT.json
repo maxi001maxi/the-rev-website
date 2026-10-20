@@ -1,0 +1,182 @@
+{
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+  "design_preflight": "PASS",
+  "no_paid_calls": true,
+  "production_data_mutations": 0,
+  "existing_body_retained": true,
+  "structural": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-lobby-20260924",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "the-rev-trial-three-menus-first-visit",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "geometry": [
+    {
+      "variant": "thumbnail",
+      "width": 1200,
+      "height": 675,
+      "photo_left": 408.00000000000006,
+      "photo_width": 792,
+      "scene_scale": 0.6591796875,
+      "scene_offset": {
+        "x": 297.75000000000006,
+        "y": 0
+      },
+      "safe": true,
+      "face": {
+        "x": 905.25,
+        "y": 114.75000000000001,
+        "width": 162.00000000000023,
+        "height": 141.75
+      },
+      "hands": {
+        "x": 885,
+        "y": 364.5,
+        "width": 212.625,
+        "height": 128.25
+      },
+      "paper": {
+        "x": 895.125,
+        "y": 371.25000000000006,
+        "width": 192.375,
+        "height": 134.99999999999994
+      },
+      "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-thumbnail.svg",
+      "sha256": "4853f01f2b6c115b91641b43b7310cc5a26e9d618623638cf5d27e614f84641f"
+    },
+    {
+      "variant": "og",
+      "width": 1200,
+      "height": 630,
+      "photo_left": 408.00000000000006,
+      "photo_width": 792,
+      "scene_scale": 0.615234375,
+      "scene_offset": {
+        "x": 331.50000000000006,
+        "y": 0
+      },
+      "safe": true,
+      "face": {
+        "x": 898.5,
+        "y": 107.10000000000001,
+        "width": 151.20000000000005,
+        "height": 132.3
+      },
+      "hands": {
+        "x": 879.5999999999999,
+        "y": 340.20000000000005,
+        "width": 198.45000000000027,
+        "height": 119.69999999999993
+      },
+      "paper": {
+        "x": 889.05,
+        "y": 346.5,
+        "width": 179.54999999999995,
+        "height": 126
+      },
+      "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-og.svg",
+      "sha256": "e4a8c7c9e4b728496831f3645c1987d1222caaba4042f054efed74ea6802be06"
+    },
+    {
+      "variant": "gbp",
+      "width": 1200,
+      "height": 900,
+      "photo_left": 0,
+      "photo_width": 1200,
+      "scene_scale": 0.87890625,
+      "scene_offset": {
+        "x": -75,
+        "y": 0
+      },
+      "safe": true,
+      "face": {
+        "x": 734.9999999999999,
+        "y": 153,
+        "width": 216.0000000000001,
+        "height": 189
+      },
+      "hands": {
+        "x": 707.9999999999999,
+        "y": 486.00000000000006,
+        "width": 283.5000000000001,
+        "height": 170.99999999999994
+      },
+      "paper": {
+        "x": 721.5,
+        "y": 495.00000000000006,
+        "width": 256.5,
+        "height": 179.99999999999994
+      },
+      "svg": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/layout-gbp.svg",
+      "sha256": "fe1d709dd0b030e348b75bbcd8c989ef569f47c83a3a98fc079efc3ae1003d53"
+    }
+  ],
+  "errors": [],
+  "source_photo_seen": true,
+  "r7_reference_seen": true,
+  "semantic_design_review": "Downward gaze terminates at the actual information sheet held by the visitor; active term-checking rather than passive looking at the gym. Actual pixels/anatomy/room fidelity remain independent post-generation QC requirements.",
+  "paid_execution": "OWNER_APPROVAL_REQUIRED",
+  "main_merge": "OWNER_APPROVAL_REQUIRED",
+  "production_staging": "OWNER_APPROVAL_REQUIRED",
+  "v31_preflight": {
+    "pass": true,
+    "applies": true,
+    "errors": []
+  },
+  "job_contract_sha256": "ca555e7b048fa1ab773784c1efc3d73266c72b481911cbe60560a6368a068156",
+  "brief_contract_sha256": "ad8b464e4664e947ef51b4cd7ccc427b5e2aabe5e1c71bdd6ee8b771c2db5cf6",
+  "runtime_note": "Source reuse is prepared but not authorized; approval-bound source reuse still requires independent grounding, distinct scene and all visual gates.",
+  "source_snapshot_sha256": "6d0f18ebea5c291636886b97a8bc114530189208ebd3fe4b0b3f2b8ddaebca36",
+  "canonical_renderer": {
+    "command": "node scripts/render-hybrid-editorial-overlay.mjs <isolated-planning-job.json>",
+    "pass": true,
+    "real_model_calls": 0,
+    "production_paths_written": false,
+    "synthetic_human_footprint": true,
+    "variants": [
+      {
+        "variant": "thumbnail",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/planning-thumbnail.jpg",
+        "width": 1200,
+        "height": 675,
+        "sha256": "7014597c4b3ea170c59e032a883d565f7ec41bf171d0d7488ef97ec867e9f3bf",
+        "typography_measurements_pass": true,
+        "not_visual_qc_pass": true
+      },
+      {
+        "variant": "og",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/planning-og.jpg",
+        "width": 1200,
+        "height": 630,
+        "sha256": "873f5bb9e72e1c5760833ad0eda8d5f67b3099fccdc4629043e83be28886125b",
+        "typography_measurements_pass": true,
+        "not_visual_qc_pass": true
+      },
+      {
+        "variant": "gbp",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/planning-gbp.jpg",
+        "width": 1200,
+        "height": 900,
+        "sha256": "465155633cff641d0b2acc42d28fd34e4c5c4a680795caf637753b17ddf9581a",
+        "typography_measurements_pass": true,
+        "not_visual_qc_pass": true
+      }
+    ]
+  },
+  "planning_preview": {
+    "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/LAYOUT_REVIEW.jpg",
+    "sha256": "77bff8f5b336cd698fa7e4fb9d70db507f66e90b7f4b1edaebb67ca6f90f70d3",
+    "width": 720,
+    "height": 1467,
+    "not_generated_image": true,
+    "not_visual_qc_pass": true
+  }
+}

@@ -142,7 +142,8 @@
           "rack_adjustment",
           "cable_operation",
           "barbell_operation",
-          "strength_exercise"
+          "strength_exercise",
+          "review_paper"
         ],
         "forbidden_generated_objects": [
           "medical_device",
@@ -159,7 +160,8 @@
         "verification": {
           "method": "source image visual inspection + canonical scoped registry",
           "verified_at": "2026-10-07",
-          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.",
+          "r9_action_note": "A stationary visitor may review a blank personal information sheet in the foreground without operating equipment. No claim of an actual store document or explanation procedure. No geometry or equipment allowance changed."
         }
       }
     },

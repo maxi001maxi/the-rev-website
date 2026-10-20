@@ -1,0 +1,74 @@
+name: Oct18 R8 Owner-approved private generation and QC
+on:
+  push:
+    branches: [fix/editorial-v31-e2e-recovery-20261018]
+    paths:
+      - 'editorial/prepublication/2026-10-18-contract-checklist/v31-r8/OWNER_SPEND_APPROVAL.json'
+permissions:
+  contents: write
+concurrency:
+  group: oct18-r8-one-authorized-private-generation
+  cancel-in-progress: false
+jobs:
+  private-r8:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/fix/editorial-v31-e2e-recovery-20261018'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verify the approved contract and free safety regressions
+        run: |
+          node scripts/oct18-r8-private-run.mjs verify
+          npm run test:editorial-v31
+          node --test scripts/test-oct18-r8-private-run.mjs
+      - name: Prepare the existing offline renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npx playwright install --with-deps chromium
+      - name: Check existing key availability without an API call
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: test -n "${OPENAI_API_KEY:-}"
+      - name: Persist the one-time budget claim before billing
+        id: claim
+        run: node scripts/oct18-r8-private-run.mjs claim
+      - name: Run only the approved image operator, no production synchronization
+        id: execute
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EDITORIAL_IMAGE_GENERATION_MODEL: gpt-5.6
+          EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+          EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'
+        run: node scripts/oct18-r8-private-run.mjs execute
+      - name: Retain actual pixels, failures, independent QC and API usage
+        if: always() && steps.claim.outcome == 'success'
+        run: node scripts/oct18-r8-private-run.mjs collect
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.claim.outcome == 'success'
+        with:
+          name: oct18-r8-private-image-evidence
+          path: editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Save evidence to this branch only
+        if: always() && steps.claim.outcome == 'success'
+        run: |
+          set -euo pipefail
+          git add -- editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT editorial/prepublication/2026-10-18-contract-checklist/v31-r8/SPEND_CLAIM.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='THE REV R8 Private Operator' -c user.email='actions@users.noreply.github.com' commit -m 'Retain actual R8 private image QC and usage; no production changes'
+            git push origin HEAD:refs/heads/fix/editorial-v31-e2e-recovery-20261018
+          fi
+      - name: Fail closed when independent acceptance is not complete
+        if: always() && steps.claim.outcome == 'success'
+        run: |
+          node --input-type=module -e "import fs from 'node:fs';const r=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/RESULT.json'));if(!r.private_qc_pass)throw new Error(r.status+': '+r.stop_reason);"

@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "personal-gym-trial-three-checks",
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8312351808597471,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 1,
+      "focus_text": "3つだけ。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9094907454107884,
+      "block_area_ratio": 0.12884382049897788,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.3359375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8862745098039215,
+      "fade_start": 559,
+      "fade_end": 696,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.933147579685566,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 214,
+          "right": 457.90625,
+          "bottom": 326,
+          "width": 393.90625
+        },
+        {
+          "left": 64,
+          "top": 315.359375,
+          "right": 536.71875,
+          "bottom": 463.359375,
+          "width": 472.71875
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9.jpg",
+      "asset_sha256": "089465f567e24f4e930bf5f9ab7e915814f1369a3f65c165901283f7d2e6f227",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9-preview-320.jpg",
+          "sha256": "d1cf022eea07ef5d58d9f02230240bf90c4de90822e76c3d3d567c512a8fe651"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9-preview-400.jpg",
+          "sha256": "9acc38855c72e20bdffd6c0ecabb2cf3c1db17ba8f17d8101d83b495e34ab814"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 78,
+      "font_size_at_320": 20.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8312351808597471,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        78,
+        102.97029702970298
+      ],
+      "focus_line": 1,
+      "focus_text": "3つだけ。",
+      "focus_scale": 1.3201320132013201,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9094907454107884,
+      "block_area_ratio": 0.13804695053461916,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.3359375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.8862745098039215,
+      "fade_start": 559,
+      "fade_end": 696,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.933147579685566,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 192,
+          "right": 457.90625,
+          "bottom": 304,
+          "width": 393.90625
+        },
+        {
+          "left": 64,
+          "top": 293.359375,
+          "right": 536.71875,
+          "bottom": 441.359375,
+          "width": 472.71875
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9.jpg",
+      "asset_sha256": "1b0f8eccb7f1609fcee3ce7ec8e56cdc9640f1819b02a4e115e042153acd2fbb",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9-preview-320.jpg",
+          "sha256": "885dd877f629acccd060efd75cd25a6513cb58daa7a6d444b6ca0ef44eace886"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9-preview-400.jpg",
+          "sha256": "84ed5bd94687444026660c0ad2b2520f2fa7c89bdc9694584f29049edc083c14"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "体験前に、",
+        "3つだけ。"
+      ],
+      "text_preserved": true,
+      "font_size": 67,
+      "font_size_at_320": 17.866666666666667,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8440015999316107,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        67,
+        87.12871287128714
+      ],
+      "focus_line": 1,
+      "focus_text": "3つだけ。",
+      "focus_scale": 1.3004285503177184,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9093033770845346,
+      "block_area_ratio": 0.0713534780222984,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.3046875,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 482,
+      "fade_end": 601,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 325,
+          "right": 398.359375,
+          "bottom": 421,
+          "width": 338.359375
+        },
+        {
+          "left": 60,
+          "top": 417.03125,
+          "right": 459.96875,
+          "bottom": 542.03125,
+          "width": 399.96875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9.jpg",
+      "asset_sha256": "9dea8de14e696a6e2e4f8488aa3428dff7934822995b638cedc2faa220455a6d",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9-preview-320.jpg",
+          "sha256": "cf8e85bc8ed38afbe70bcc6078f2c7aa76243cc8acd722f261d16eb67b32d8ce"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v31-evolgear-terms-foreground-20261018-r9-preview-400.jpg",
+          "sha256": "cb18fa97e6c697555480ea4187a832570bc8e290e89906497bd1b1a9bf39a93c"
+        }
+      }
+    }
+  }
+}

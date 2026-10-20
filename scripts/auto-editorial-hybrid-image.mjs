@@ -1,3 +1,10 @@
+import { editorialShootingContract } from '../lib/editorialShootingContract.mjs';
+import {oct18V31BriefPreflight,oct18V31SourceReuse} from '../lib/editorialOct18V31Recovery.mjs';
+import {R9_VERSION,R9_DIR,r9BriefPreflight,editR9LockedScene} from '../lib/editorialOct18R9.mjs';
+import { preflightEditorialImage } from '../lib/editorialProductionImagePreflight.mjs';
+import { v3BriefPreflight } from './preflight-v3-image-brief.mjs';
+import { imageAcceptanceIssues } from '../lib/editorialImageAcceptance.mjs';
+import { editV3PhotoWithLockedBackground } from '../lib/editorialLockedBackgroundEdit.mjs';
 import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -5,7 +12,7 @@ import { createHash } from 'node:crypto';
 import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_CHECKS,
   GOLDEN_REFERENCE_REVISION, GOLDEN_REFERENCE_ASSETS, typographyAcceptancePass } from '../lib/editorialThumbnailTypography.mjs';
 import { execFileSync } from 'node:child_process';
-import { retainSceneForOverlay, operatorStateMatchesAsset } from '../lib/editorialImageOperatorRecovery.mjs';
+import { retainSceneForOverlay, operatorStateMatchesAsset, operatorResumePlan, reserveImageApiCall } from '../lib/editorialImageOperatorRecovery.mjs';
 import {verifyDistinctContextualFacilitySourceReuse} from '../lib/editorialContextualSourceReuse.mjs';
 import {routeBSourceReuse,ROUTE_B_VERSION} from '../lib/editorialOct18RouteB.mjs';
 import { SCENE_GROUNDING_VERSION, SCENE_ONTOLOGY, planGroundedScene, groundedSceneBrief, evaluateSceneGrounding, sceneGroundingPass, canonicalizeRecentFingerprint } from '../lib/editorialSceneGrounding.mjs';
@@ -16,7 +23,14 @@ if (!jobPath) {
 }
 
 const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
+if (job.v31?.recovery_proposal===true && job.v31?.owner_spend_approval!=='APPROVED') throw new Error('OWNER_SPEND_APPROVAL_REQUIRED');
+if(job.v31?.recovery_proposal===true) {
+  const check=job.asset_version===R9_VERSION?r9BriefPreflight:oct18V31BriefPreflight;
+  const result=check(job,JSON.parse(fs.readFileSync(job.v31.creative_brief_path,'utf8')),{requireApproval:true});
+  if(!result.pass)throw new Error('IMAGE_FREE_PREFLIGHT_FAILED: '+result.errors.join(','));
+}
 const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
+const imageAuditDir=job.asset_version===R9_VERSION?R9_DIR+'/runtime':'editorial/prepublication/2026-10-18-contract-checklist/v31-r8/runtime';
 const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 'gpt-5.6').trim();
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
 const MAX_TOTAL_ATTEMPTS = Math.max(
@@ -40,6 +54,9 @@ const registry = JSON.parse(fs.readFileSync('editorial/automated-image-sources.j
 const canonicalSource = registry.sources.find(s => s.source_id===job.automation?.selected_source_id && s.repo_path===sourcePath && s.drive_file_id===(job.background_source?.drive_file_id || job.background_source?.cached_frame_drive_file_id));
 const hashFile = p => createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 if (!canonicalSource?.scene_inventory || hashFile(sourcePath)!==canonicalSource.scene_inventory.source_sha256) throw new Error('Canonical source inventory/bytes mismatch');
+const freePreflight = preflightEditorialImage(job, registry);
+const briefPreflight = v3BriefPreflight(job, registry);
+if (!freePreflight.pass || !briefPreflight.pass) throw new Error('IMAGE_FREE_PREFLIGHT_FAILED: '+[...freePreflight.errors,...briefPreflight.errors].join(','));
 job.source_scene_inventory = canonicalSource.scene_inventory;
 job.scene_grounding_version = SCENE_GROUNDING_VERSION;
 job.scene_plan ||= planGroundedScene({title:job.article_title},canonicalSource,job.automation?.recent_semantic_articles || []);
@@ -64,6 +81,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
   const root=path.resolve(ROOT,'.operator-rejected-evidence',safeSlug,safeVersion);
   const candidates=[
     job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
+    ...(job.asset_version===R9_VERSION?[job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json',job.generated_scene_path+'.raw-mask-check.json']:[]),
     job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
     ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
       [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
@@ -86,6 +104,9 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
         original_media_retained_only_in_quarantine:true,files
       },null,2)+'\n');
       console.log(JSON.stringify({status:'REJECTED_MEDIA_QUARANTINED',slug:job.slug,media_files:files.length}));
+      if(job.asset_version===R9_VERSION)for(const p of [job.generated_scene_path+'.raw.png',job.generated_scene_path+'.locked-background.json',job.generated_scene_path+'.raw-mask-check.json']) {
+        if(files.some(f=>f.path===p))fs.rmSync(path.resolve(p),{force:true});
+      }
     }
   }catch(err) {
     console.warn('::warning::Could not preserve some rejected media: '+String(err?.message||err));
@@ -93,7 +114,16 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
 }
 
 function readJson(filePath, fallback = null) {
-  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return fallback; }
+  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); }
+  catch {
+    if (filePath === statePath && fs.existsSync(filePath)) throw new Error('OPERATOR_CHECKPOINT_CORRUPT: restore verified state; never reset budget');
+    return fallback;
+  }
+}
+function persistOperatorState(value) {
+  const temporary=statePath+'.tmp';
+  fs.writeFileSync(temporary,JSON.stringify(value,null,2)+'\n');
+  fs.renameSync(temporary,statePath);
 }
 
 function mimeFor(filePath) {
@@ -108,6 +138,9 @@ function dataUrl(filePath) {
 }
 
 async function openaiResponse(payload) {
+  const generation = (payload.tools || []).some(x => x.type === 'image_generation');
+  const reserved = reserveImageApiCall(readJson(statePath, {}), { generation, maxGeneration: MAX_TOTAL_ATTEMPTS, maxQc: 2 });
+  persistOperatorState(reserved);
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -122,6 +155,17 @@ async function openaiResponse(payload) {
   let json = null;
   try { json = JSON.parse(body); } catch {}
 
+  const saved = readJson(statePath, {});
+  const lastCall = saved.api_calls?.at(-1);
+  if (lastCall) Object.assign(lastCall, { status: res.ok ? 'COMPLETED' : 'FAILED', request_id: requestId, http_status: res.status, response_id: json?.id || null, response_status:json?.status || null, model: json?.model || payload.model, usage: json?.usage || null,
+    image_generation_calls:(json?.output||[]).filter(x=>x.type==='image_generation_call').map(x=>({id:x.id,status:x.status,usage:x.usage||null})) });
+  persistOperatorState(saved);
+  if(job.v31?.recovery_proposal===true) {
+    const auditDir=imageAuditDir;
+    fs.mkdirSync(auditDir,{recursive:true});
+    fs.appendFileSync(auditDir+'/api-usage.jsonl',JSON.stringify({at:new Date().toISOString(),...lastCall,
+      error:json?.error||null,qc_output:generation?undefined:outputText(json)})+'\n');
+  }
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -171,6 +215,8 @@ function generationPrompt(attempt, previousQa = null) {
   const compositionHint = String(job.composition_hint || '').trim();
   const thumbnailClaim = String(job.thumbnail_claim || '').trim();
   const visibleAction = String(job.visible_action || '').trim();
+  const briefPath=job.v31?.creative_brief_path || job.v3?.creative_brief_path;
+  const creativeBrief=briefPath ? readJson(briefPath) : null;
   const emotionalState = String(job.emotional_state || '').trim();
   const humanFirstLayout = String(job.layout_variant || '') === 'human-first-v1';
   const impactLayout = String(job.layout_variant || '') === 'impact-v1';
@@ -223,13 +269,17 @@ function generationPrompt(attempt, previousQa = null) {
     '- No pasted/cutout/sticker look.',
     '',
     'COMPOSITION:',
-    '- Landscape editorial photography suitable for a 16:9 card.',
+    job.asset_version===R9_VERSION
+      ? '- R9 SOURCE-LOCK OVERRIDE: keep the supplied 1024x1536 portrait source plate and camera projection. Edit only the approved right-foreground polygon. The final landscape cards are cropped later by the fixed renderer.'
+      : '- Landscape editorial photography suitable for a 16:9 card.',
     ...layoutNotes,
     "- Compose ONE scene that survives both the 16:9 Thumbnail/OGP treatment and the GBP 4:3 full-scene layout.",
     "- Default composition only: when no article-specific composition override is supplied, place the customer's visual center around 58%–68% of the generated image width and keep the face/action inside roughly the 44%–84% horizontal band.",
     '- When an article-specific composition override is supplied, follow it instead of the default band while keeping the full meaningful action readable in both the right-panel crop and the GBP 4:3 full-scene layout.',
-    '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
-    '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
+    job.asset_version===R9_VERSION
+      ? '- R9 placement overrides the generic horizontal band/margins: face, both hands, sheet and actual gaze must stay inside their approved shot-contract boxes. The torso continues beyond the bottom crop. Do not enlarge the polygon or alter room pixels to fit the customer.'
+      : '- Do not place the customer at the extreme right edge. The complete training action must remain readable after both the right-panel crop and the 4:3 full-scene layout.',
+    job.asset_version===R9_VERSION ? '' : '- Keep comfortable margins around the customer. Do not rely on details in the outer left/right 12% of the generated image.',
     '- Premium, restrained, warm, calm, realistic. Not a commercial fitness advertisement.',
     '- Do not render Japanese or English typography into the scene. Text will be added later by a deterministic overlay.',
     '',
@@ -241,12 +291,15 @@ function generationPrompt(attempt, previousQa = null) {
     `Editorial copy that will be added later: ${job.image_headline_short}`,
     `Source selection reason: ${sourceNote}`,
     `Allowed treatment: ${treatment}`,
+    creativeBrief ? `APPROVED SHOOTING BRIEF (not a quality PASS): ${JSON.stringify(editorialShootingContract(creativeBrief))}` : '',
+    '- Preserve the body direction, actual gaze target, hand action and subject-to-equipment distance from the approved brief. A static pose that merely occupies the right area is not a semantic match.',
     attempt > 1 ? `This is the final allowed retry (${attempt}/2). Correct the prior rejection without changing the article claim.` : '',
     attempt > 1 && previousQa?.comments ? `Previous Visual QC rejection: ${String(previousQa.comments).slice(0, 600)}` : ''
   ].filter(Boolean).join('\n');
 }
 
 async function generateScene(attempt, previousQa = null) {
+  if(job.asset_version===R9_VERSION)return editR9LockedScene({job,sourcePath,generateResponse:openaiResponse,prompt:generationPrompt(attempt,previousQa)});
   if(job?.v3?.background_lock==='masked_openai_edit_hard_restore_v1'){
     const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');
     return editV3PhotoWithLockedBackground({job,sourcePath,generateResponse:openaiResponse,prompt:generationPrompt(attempt,previousQa)});
@@ -262,10 +315,11 @@ async function generateScene(attempt, previousQa = null) {
 
   const response = await openaiResponse({
     model: GENERATION_MODEL,
+    ...(job.v31?.recovery_proposal===true ? {max_tool_calls:1} : {}),
     input: [{ role: 'user', content }],
     tools: [{
       type: 'image_generation',
-      ...(job.asset_version===ROUTE_B_VERSION ? {action:'edit'} : {}),
+      ...((job.asset_version===ROUTE_B_VERSION || job.v31?.source_guided_edit===true) ? {action:'edit'} : {}),
       quality: 'medium',
       size: '1536x1024'
     }]
@@ -320,6 +374,7 @@ function deterministicRecentIds() {
 }
 
 function qaPass(qa) {
+  if (imageAcceptanceIssues(job, qa).length) return false;
   if (!sceneGroundingPass(qa)) return false;
   const humanFirstRequired = String(job.layout_variant || '') === 'human-first-v1';
   const humanFirstPass = !humanFirstRequired || (
@@ -398,6 +453,11 @@ function qaPass(qa) {
 
 async function visualQa(attempt) {
   const groundingEvidence = await inspectSceneGrounding();
+  if(job.v31?.recovery_proposal===true) {
+    const auditDir=imageAuditDir;
+    fs.mkdirSync(auditDir,{recursive:true});
+    fs.writeFileSync(auditDir+'/independent-grounding.json',JSON.stringify(groundingEvidence,null,2)+'\n');
+  }
   const thumbPath = path.resolve(job.thumbnail);
   const gbpPath = job.gbp_image ? path.resolve(job.gbp_image) : '';
   const typography = readJson(`${thumbPath}.typography.json`);
@@ -541,6 +601,8 @@ async function visualQa(attempt) {
     input: [{
       role: 'user',
       content: [
+        {type:'input_text',text:'R7 PHOTOGRAPHIC QUALITY REFERENCE ONLY: compare subject clarity, credible integration, quiet optical depth and readable action. Do not copy pose or location. Every realism axis must score at least 9; geometry/meaning disagreement means FAIL.'},
+        {type:'input_image',image_url:dataUrl('assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg'),detail:'high'},
         { type: 'input_text', text: prompt },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
@@ -581,10 +643,12 @@ async function visualQa(attempt) {
       })
     : {allowed:false,policy:null,errors:[],source_repeated:false,scene_repeated:false};
   const ownerRouteBReuse=routeBSourceReuse(job,groundingEvidence);
-  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed||ownerRouteBReuse;
+  const ownerR8Reuse=oct18V31SourceReuse(job,groundingEvidence);
+  const sourceReuseAccepted=repeatedDueToRelevance||contextualReuse.allowed||ownerRouteBReuse||ownerR8Reuse;
 
   const qa = {
     ...modelQa,
+    ...(job.asset_version===R9_VERSION?{source_pixel_lock:readJson(job.generated_scene_path+'.locked-background.json',null)}:{}),
     scene_grounding_version: SCENE_GROUNDING_VERSION,
     scene_grounding: groundingEvidence,
     scene_fingerprint: groundingEvidence.observation?.scene_fingerprint,
@@ -634,6 +698,7 @@ async function visualQa(attempt) {
     trainer_photo_reused: false,
     background_reuse_relevance_exception: sourceReuseAccepted,
     owner_route_b_source_reuse:ownerRouteBReuse,
+    oct18_v31_source_reuse_approval:ownerR8Reuse ? job.v31.owner_approval : null,
     contextual_verified_facility_source_reuse:contextualReuse,
     recent_similarity_window: Number(job.policy?.recent_reference_window || 4),
     recent_similarity_check_pass: !recentRepeat || sourceReuseAccepted,
@@ -659,6 +724,7 @@ async function visualQa(attempt) {
     checked_at: new Date().toISOString(),
     review_mode: 'HYBRID_GENERATED',
     realism_qc_version: 'v1',
+    editorial_image_revision: '3.1',
     scene_plausibility_version: job.scene_plausibility_version || job.policy?.scene_plausibility_version || null,
     gbp_image_required: Boolean(job.gbp_image),
     gbp_image_path: job.gbp_image || '',
@@ -709,7 +775,8 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
     'Equipment vocabulary: training_rack, cable_machine, barbell, weight_plates, training_bench, oxygen_room, denba_device, boxing_gloves, boxing_mitt, medical_device, unknown_equipment. A combined rack/cable unit can be listed as training_rack only. List every major equipment object. Do not list reception furniture, phone or paper as training equipment.',
     'Zones: reception, rear_training_area, training_area, boxing_area, recovery_area. In a lobby, the rack beyond the reception counter is rear_training_area; ANY new rack in the customer/foreground zone is reception.',
     'Location is the customer activity area, not a distant room. Record equipment_relocated=true if copied, enlarged or moved across floor/room zones compared to the source.',
-    `Generated planned meaning (judge actual image against this, do not infer observation from plan): ${JSON.stringify(inspectionJob.scene_plan)}`,
+    'Observe body direction, gaze and action from pixels first. Do not infer an intended action from the article or generation plan.',
+    `Article subject for semantic comparison only: ${inspectionJob.article_title}`,
     'Return {source:{complete:boolean,equipment:[{object,zone}]},generated:{complete:boolean,equipment:[{object,zone}],location_type,subject_zone,human_action,equipment_relocated:boolean,room_geometry_preserved:boolean,article_scene_match:boolean,scene_fingerprint:{scene_type,location_type,human_action,composition_type,visual_role,article_intent}},recent:[{slug,scene_fingerprint:{same six fields}}]}.',
     'Use plan vocabulary for actually matching actions only. rack_adjustment/cable_operation/strength_exercise cannot be renamed observing_real_equipment. Infer recent visual fields from actual images, but article_intent will be normalized by canonical editorial title logic in code. Do not promote old DENBA concept/recovery articles into equipment_explanation merely because the product is visible. Do not vary labels merely because person gender, clothes or file differ.',
     'Missing or obscured evidence: complete=false. Do not guess a safe answer.'
@@ -734,7 +801,15 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
 }
 
 function writeState(state) {
-  fs.writeFileSync(statePath, JSON.stringify({ ...state, asset_version: job.asset_version }, null, 2) + '\n');
+  const old = readJson(statePath, {});
+  const retained = old.asset_version === job.asset_version ? { api_calls: old.api_calls || [], scene_sha256: old.scene_sha256, transitions:old.transitions || [] } : {};
+  const currentStage = state.status === 'GENERATING' ? 8 : state.status === 'SCENE_GENERATED' ? 8 : state.status === 'READY_CANDIDATE' ? 11 : 9;
+  const hasScene = Boolean(state.scene_sha256 || retained.scene_sha256);
+  const checkpoint = { current_stage:currentStage, last_successful_stage:state.status === 'READY_CANDIDATE' ? 10 : hasScene ? 8 : 7,
+    stopped_reason:state.last_error || null, next_action:state.status === 'READY_CANDIDATE' ? 'STAGE_AND_SYNC' : state.status === 'SCENE_GENERATED' ? 'OVERLAY_AND_QC' : 'REVIEW_FAILURE_BEFORE_RETRY',
+    human_approval_required:!['GENERATING','SCENE_GENERATED','READY_CANDIDATE'].includes(state.status), confirmed_cost:null };
+  retained.transitions=[...(retained.transitions || []),{at:new Date().toISOString(),status:state.status,...checkpoint}].slice(-50);
+  persistOperatorState({ ...retained, ...state, ...checkpoint, asset_version: job.asset_version });
 }
 
 // Actual-image negative control, not just a synthetic metadata unit test.
@@ -778,7 +853,12 @@ if (!sameAssetVersion && Object.keys(rawPreviousState || {}).length) {
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
-const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED';
+const resume = operatorResumePlan(previousState, job, {hashFile, exists: fs.existsSync});
+if (resume.route === 'STOP') {
+  console.log(JSON.stringify({status:'RECOVERY_REVIEW_REQUIRED', reason:resume.reason, slug:job.slug}));
+  process.exit(0);
+}
+const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED' || resume.route === 'OVERLAY_AND_QC';
 // A repaired scene may be re-graded, but must never silently incur a new
 // image generation call if state routing does not match the requested asset.
 if(process.env.EDITORIAL_IMAGE_DISABLE_GENERATION === '1' && !forceOverlayRerender)
@@ -957,10 +1037,11 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     console.log(`Automated Hybrid image attempt ${attemptsTotal}/${MAX_TOTAL_ATTEMPTS}: ${job.slug}`);
     // Persist BEFORE the paid call so a crash/ambiguous timeout cannot silently
     // spend a second image attempt on this same authorized asset version.
-    if(job.asset_version===ROUTE_B_VERSION)writeState({slug:job.slug,status:'GENERATING',
+    writeState({slug:job.slug,status:'GENERATING',
       attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,
       updated_at:new Date().toISOString()});
     await generateScene(attemptsTotal, lastQa);
+    writeState({slug:job.slug,status:'SCENE_GENERATED',attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,scene_sha256:hashFile(job.generated_scene_path),updated_at:new Date().toISOString()});
     renderOverlay();
     lastQa = await visualQa(attemptsTotal);
 
@@ -1012,6 +1093,7 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
+    break;
   } catch (e) {
     lastError = String(e?.message || e);
 
@@ -1039,10 +1121,12 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
 
     preserveRejectedCandidate('GENERATION_OR_OVERLAY_EXCEPTION');
     console.error(`Automated image attempt failed: ${lastError}`);
-    if (e.code === 'THUMBNAIL_TYPOGRAPHY_FAILED') break;
+    // Quarantine holds the verified scene for a reviewed restore. Publicly
+    // named outputs never survive a failed operator job.
     for (const p of [job.generated_scene_path, job.thumbnail, job.og_image, job.gbp_image].filter(Boolean)) {
       try { fs.rmSync(path.resolve(p), { force: true }); } catch {}
     }
+    break;
   }
 }
 

@@ -1,0 +1,66 @@
+{
+  "reviewer": "assistant, direct free visual inspection; not an Owner approval or extra model API request",
+  "status": "REJECTED_KEEP_QUARANTINED",
+  "inspection_scope": [
+    "generated full scene",
+    "thumbnail 1200x675",
+    "OGP 1200x630",
+    "GBP 1200x900",
+    "registered original reception photograph",
+    "Oct15 R7 accepted reference"
+  ],
+  "approved_for_publication": false,
+  "observations": {
+    "gaze_points_to_sheet": true,
+    "hands_sheet_interaction_no_obvious_defect": true,
+    "customer_in_front_of_reception_furniture": true,
+    "no_extra_staff_or_readable_generated_terms_observed": true,
+    "R7_like_warm_photographic_treatment": "present, but visual similarity to R7 does not establish source fidelity",
+    "source_camera_projection_preserved": false,
+    "counter_stool_logo_spatial_relationships_preserved": false,
+    "source_fidelity_comment": "Compared with the uniformly cropped registered source, the generated logo, counter/blue front panel, stool and ceiling anchors shift relative to each other. The camera projection is reconstructed rather than the approved source projection retained. This exceeds a background-blur change. Model scores of 9 do not override these visible discrepancies."
+  },
+  "automatic_gate_failure": {
+    "code": "observed_plan_mismatch:article_intent",
+    "planned": "training_start",
+    "observed": "facility_selection",
+    "observed_other_core_fields_match": [
+      "reception",
+      "review_paper",
+      "medium_three_quarter_portrait",
+      "deciding_own_start"
+    ],
+    "source_reuse_gate": "also blocked because independent scene grounding did not pass"
+  },
+  "cost_and_budget": {
+    "generation_requests": 1,
+    "independent_qc_requests": 2,
+    "image_generation_tool_calls": 1,
+    "response_model": "gpt-5.6-sol",
+    "token_totals": {
+      "input_tokens": 49247,
+      "output_tokens": 5477,
+      "total_tokens": 54724
+    },
+    "confirmed_cost": null,
+    "image_tool_usage_returned": false,
+    "no_extra_paid_calls": true
+  },
+  "comparison": {
+    "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r8/PRIVATE_RESULT/SOURCE_FIDELITY_COMPARISON.jpg",
+    "sha256": "8119a16010d6c6c594326031ec9276d312c86334f3b5c0b6da570251fe45ae8c",
+    "left": "registered photo, uniform cover to approved 1536x1024 projection",
+    "right": "actual generated R8 scene; no retouching"
+  },
+  "next_steps_before_any_new_spend": [
+    "Resolve the article-intent taxonomy ambiguity in the design contract and preflight; do not rewrite the saved model QA as PASS.",
+    "Design and freely verify a source-preserving background edit/mask and an aligned room-anchor comparison; keep independent realism/semantic gates unchanged.",
+    "Use these saved R8 pixels and observations as a no-cost rejection regression. Any further paid image generation or QC requires a separate Owner approval."
+  ],
+  "main_merge": false,
+  "production_code_change": false,
+  "supabase_change": false,
+  "xserver_delivery": false,
+  "article_publish": false,
+  "gbp_post": false
+}

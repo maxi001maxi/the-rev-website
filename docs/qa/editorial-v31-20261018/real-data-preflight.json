@@ -1,0 +1,115 @@
+{
+  "content_id": "BLOG-20261018-082d82",
+  "observed_at": "2026-10-18 01:35:26.1089+00",
+  "source": "read-only Supabase SELECT snapshot + checked-out main + public GitHub GET",
+  "body_sha256": "5335b6e3dd556e6ff1b19deecb14602ef435081622da09c7204772bf4323f467",
+  "body_matches_qc_source": true,
+  "body_qc": {
+    "pass": true,
+    "total": 20,
+    "source_sha256": "e772344b92253cd013075e3d6c55c947db9cc7c0785dfb8e4284a1cf59ad0854"
+  },
+  "body_preserved": true,
+  "job_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+  "qa_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+  "references_match_job": false,
+  "acceptance_issues": [
+    "OWNER_REJECTED_ASSET: 不採用履歴のある画像です。別版の制作と独立QCが必要です。"
+  ],
+  "operator_status": "BLOCKED_MAX_ATTEMPTS",
+  "measured_historical_calls": {
+    "source": "R6_API_USAGE.jsonl",
+    "responses": 3,
+    "image_generation": 1,
+    "qc": 2,
+    "confirmed_cost": null
+  },
+  "preflight": {
+    "ok": false,
+    "blocker": {
+      "code": "image_review_gate_failed",
+      "status": 409,
+      "message": "画像Review Gate未通過: OWNER_REJECTED_ASSET: 不採用履歴のある画像です。別版の制作と独立QCが必要です。 画像QAがPASSしていません。 実素材・設備位置・行動・意味類似の照合が未合格です。 人間Visual QCでREJECTされています。自動QAの点数より人間Reviewを優先します。 直近4記事と同一背景です。必要実機の検証済み素材を使う明示的な例外証拠もありません。 article_visual_relevance が8未満、または未記録です。 rev_environment_consistency が8未満、または未記録です。 brand_space_authenticity が8未満、または未記録です。 3画像すべての320px・400px文字可読性Acceptanceが未完了、またはFAILです。 provenance照合で直近記事と同一背景/素材が検出されました。必要実機の検証済み素材を再利用する明示的な例外証拠もありません。"
+    },
+    "checks": [
+      {
+        "id": "auth",
+        "label": "認証",
+        "status": "skip",
+        "message": "Editorial Bridgeのサーバー間認証で実行しています。"
+      },
+      {
+        "id": "publisher",
+        "label": "Publisher権限",
+        "status": "skip",
+        "message": "自動化は公開しません。Human Publish時に権限を再確認します。"
+      },
+      {
+        "id": "draft",
+        "label": "Draft存在",
+        "status": "ok",
+        "message": "下書きを読み込みました。"
+      },
+      {
+        "id": "required",
+        "label": "必須項目",
+        "status": "ok",
+        "message": "必要な項目はすべて入力されています。"
+      },
+      {
+        "id": "slug_format",
+        "label": "Slug形式",
+        "status": "ok",
+        "message": "/blog/personal-gym-trial-three-checks/ として公開されます。"
+      },
+      {
+        "id": "image_review_gate",
+        "label": "画像Review Gate",
+        "status": "error",
+        "message": "OWNER_REJECTED_ASSET: 不採用履歴のある画像です。別版の制作と独立QCが必要です。 画像QAがPASSしていません。 実素材・設備位置・行動・意味類似の照合が未合格です。 人間Visual QCでREJECTされています。自動QAの点数より人間Reviewを優先します。 直近4記事と同一背景です。必要実機の検証済み素材を使う明示的な例外証拠もありません。 article_visual_relevance が8未満、または未記録です。 rev_environment_consistency が8未満、または未記録です。 brand_space_authenticity が8未満、または未記録です。 3画像すべての320px・400px文字可読性Acceptanceが未完了、またはFAILです。 provenance照合で直近記事と同一背景/素材が検出されました。必要実機の検証済み素材を再利用する明示的な例外証拠もありません。"
+      },
+      {
+        "id": "image_release",
+        "label": "記事画像",
+        "status": "error",
+        "message": "記事画像の公開QCが未完了です。Hybrid生成、トレーナー不在、顧客のみ/人物なし、THE REV.実背景、直近4記事との画像・背景重複なし、versioned Thumbnail / OGP、ブランドQCをすべて満たすまで公開できません。"
+      },
+      {
+        "id": "github_connection",
+        "label": "GitHub接続",
+        "status": "ok",
+        "message": "maxi001maxi/the-rev-website @ main へ接続できました。"
+      },
+      {
+        "id": "github_target",
+        "label": "GitHub上のslug衝突",
+        "status": "ok",
+        "message": "content/blog/personal-gym-trial-three-checks.md は未使用です（新規作成）。"
+      },
+      {
+        "id": "source_sync",
+        "label": "source_path / source_sha",
+        "status": "ok",
+        "message": "新規公開のため未設定です（公開成功後に保存されます）。"
+      }
+    ]
+  },
+  "result": "BLOCKED",
+  "external_verification": "EXTERNAL_VERIFICATION_PENDING",
+  "pending": [
+    "authenticated Production Admin and deployed code",
+    "GAS Writer/Research/installed triggers",
+    "Xserver delivery of a new QC-passing candidate",
+    "separate approval for paid generation"
+  ],
+  "resume": [
+    "retain body hash and final QC",
+    "reconcile R2 paths versus R6 job/QC without adopting either rejected asset",
+    "repair article-specific action/gaze and three-crop plan at stage 07",
+    "request approval for one explicitly bounded paid attempt",
+    "only after independent QC PASS: sync three new assets, Xserver SHA and Supabase readback",
+    "authenticated Preflight; stop before human Publish"
+  ],
+  "mutations": 0,
+  "paid_calls": 0
+}

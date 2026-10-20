@@ -1,0 +1,95 @@
+{
+  "schema": "the-rev-image-v31-recovery-brief-v1",
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-lobby-contract-review-20261018-r8",
+  "status": "DESIGN_READY_OWNER_SPEND_APPROVAL_PENDING",
+  "body_sha256": "5335b6e3dd556e6ff1b19deecb14602ef435081622da09c7204772bf4323f467",
+  "source": {
+    "path": "assets/images/photo-lobby.jpg",
+    "sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0"
+  },
+  "shot_contract": {
+    "lens_mm_equivalent": 50,
+    "lens_note": "framing intent only; exact original projection is authoritative; not a measured source EXIF claim",
+    "source_projection": "uniform cover, never stretch or reconstruct room",
+    "camera_height_m": null,
+    "subject_action": "Exactly one ordinary adult male first-time visitor STANDS in the foreground reception, on the camera side of the existing stool/counter. He holds a plain A5 information sheet at lower chest height with both hands, briefly reviewing the trial conditions before deciding. Torso in a relaxed three-quarter angle towards image-left; FACE remains visible. Both pupils and head tilt point DOWN to the sheet in his own hands, not towards the logo or rear rack. No staff, no phone, no equipment contact, no training, no signing a contract. The sheet has only three faint unlettered grey rules; NO readable price, Japanese text, QR, logo or personal data. This is an illustrative editorial scene, not a claim that THE REV uses this document/procedure.",
+    "eyeline": "down from face [0.68,0.30] to actual sheet centre [0.685,0.65]",
+    "mood": "attentive, calm, self-directed; candid, not advertising or a trainer",
+    "background": "authentic real THE REV entrance/reception with exact rear rack, counter, plant, stool and beams",
+    "face_box": [
+      0.6,
+      0.17,
+      0.76,
+      0.38
+    ],
+    "hands_box": [
+      0.58,
+      0.54,
+      0.79,
+      0.73
+    ],
+    "paper_box": [
+      0.59,
+      0.55,
+      0.78,
+      0.75
+    ],
+    "torso_box": [
+      0.54,
+      0.36,
+      0.84,
+      0.98
+    ],
+    "gaze_from": [
+      0.68,
+      0.3
+    ],
+    "gaze_to": [
+      0.685,
+      0.65
+    ],
+    "crop_safe": "Face, pupils, both hands and paper stay visible in 16:9, OGP and GBP 4:3; left overlay never crosses the face or sheet",
+    "text_lines": [
+      "体験前に、",
+      "3つだけ。"
+    ]
+  },
+  "quality_reference": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+  "quality_requirements": {
+    "article_relevance_min": 8,
+    "realism_axes_min": 9,
+    "independent_qc": true,
+    "human_rejection_overrides_pass": true,
+    "compare_actual_r7": true
+  },
+  "spend_policy": {
+    "provider": "OpenAI",
+    "key_source": "existing GitHub Actions secret; no new key",
+    "parent_model": "existing gpt-5.6 route",
+    "quality": "medium",
+    "size": "1536x1024",
+    "max_generation_calls": 1,
+    "max_qc_calls": 2,
+    "automatic_retry": false,
+    "confirmed_cost": null,
+    "owner_approval": "PENDING"
+  },
+  "source_reuse": {
+    "status": "OWNER_APPROVAL_PENDING",
+    "scope": "this article, source SHA, new R8 version, private generation/QC only",
+    "reason": "Verified reception is required for reviewing trial terms. New paper-review action differs from R6 passive stand and R7 pain discussion; all grounding, novelty and visual gates remain mandatory."
+  },
+  "publication": {
+    "main_merge": false,
+    "production_staging": false,
+    "supabase_mutation": false,
+    "article_publish": false,
+    "gbp_post": false
+  },
+  "prior_rejections": [
+    "R2",
+    "R6"
+  ],
+  "not_a_quality_pass": "Planning geometry does not prove realistic anatomy, background fidelity or semantic success of a future generated image."
+}

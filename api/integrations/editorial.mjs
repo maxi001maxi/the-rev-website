@@ -1,3 +1,5 @@
+import { imageStopReason } from '../../lib/editorialImageAcceptance.mjs';
+import { validateSavedEditorialApproval } from '../../lib/editorialExecution.mjs';
 import { evaluateEditorialLength } from '../../lib/editorialReadiness.mjs';
 // POST /api/integrations/editorial
 //
@@ -15,6 +17,7 @@ import { createClient } from '@supabase/supabase-js';
 import { normalizeArticleInput } from '../../lib/supabaseAdmin.mjs';
 import { prepareEditorialImageJob, EditorialImageError, IMAGE_RENDER_VERSION } from '../../lib/editorialImage.mjs';
 import {
+  isHybridImageFormat,
   hybridImageInfoFromDraft,
   shouldPreserveHybridImageOnEditorialSync
 } from '../../lib/editorialHybridImageFormat.mjs';
@@ -89,6 +92,13 @@ export default async function handler(req, res) {
     auth: { persistSession: false, autoRefreshToken: false }
   });
 
+  // Match the durable owner decision to the content ID before any image job
+  // writes or billable work. Caller-supplied READY flags are not approval.
+  const approval = await supabase.from('editorial_topic_proposals').select('*').eq('content_id', envelope.value.contentId).maybeSingle();
+  if (approval.error) return send(res, 502, 'approval_read_failed', '保存済みテーマ承認の確認に失敗しました。');
+  const approvalError = validateSavedEditorialApproval(approval.data);
+  if (approvalError) return send(res, 409, approvalError, 'テーマ選定または一次情報の保存確認が必要です。本文は再生成せず、承認記録から再開してください。');
+
   const existing = await supabase
     .from('admin_article_drafts')
     .select('*')
@@ -130,10 +140,11 @@ export default async function handler(req, res) {
     imageHeadlineShort: body.image_headline_short
   });
 
+  const retainStoppedImage = Boolean(article && isHybridImageFormat(article) && imageStopReason(article));
   let imageInfo = null;
   try {
     const explicitFallbackReason = String(body.image_fallback_reason || '').trim();
-    if (preserveHybrid) {
+    if (preserveHybrid || retainStoppedImage) {
       imageInfo = hybridImageInfoFromDraft(article);
     } else if (explicitFallbackReason) {
       imageInfo = await prepareEditorialImageJob({
@@ -232,6 +243,9 @@ export default async function handler(req, res) {
     gbp_image_last_error: null,
     gbp_image_attempts: preservedHybridReady ? (article?.gbp_image_attempts ?? imageInfo.attempts ?? null) : null
   };
+  if (retainStoppedImage) {
+    for (const key of ['image_status','image_asset_ready','image_attempts','image_qa','image_last_error','gbp_image_status','gbp_image_attempts','gbp_image_qa','gbp_image_last_error']) imageState[key] = article[key] ?? null;
+  }
   const metadata = normalizeBridgeMetadata(body);
   // Do not hash timestamps. The render version/strategy is stable and is enough
   // to force one update when the image design system changes.

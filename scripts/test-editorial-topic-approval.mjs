@@ -235,7 +235,9 @@ test('confirmed LINE non-delivery creates a new topic notification generation wi
   await assert.rejects(()=>topicResponse({action:'redeliver',proposal_id:p.id,source:'LINE'},db,deps),/GPT_REDELIVERY_SOURCE_REQUIRED/);
 });
 
-test('prepare is immutable, no-approval poll does not read GitHub, and notification failure cannot approve',async()=>{
+test('prepare is immutable, no-approval poll does not read GitHub, and notification failure cannot approve',async(t)=>{
+  // Keep this immutability fixture current; stale-proposal refresh has separate tests.
+  t.mock.timers.enable({apis:['Date'],now});
   const db=memoryDb(),body={...args,action:'prepare'};
   // Test date must be explicit because the HTTP API uses the actual server clock.
   body.target_date='2026-10-05';

@@ -577,7 +577,8 @@ export default async function handler(req, res) {
         .select('*')
         .single();
 
-      if (!operatorUpdate.error && operatorUpdate.data) article = operatorUpdate.data;
+      if (operatorUpdate.error || !operatorUpdate.data) throw new Error('IMAGE_OPERATOR_STATE_SYNC_FAILED');
+      article = operatorUpdate.data;
       readiness = { ready: false, reason: 'image_operator_' + String(operator.state || 'blocked').toLowerCase() };
     } else {
       readiness = await checkEditorialImageReady(article);
@@ -625,7 +626,7 @@ export default async function handler(req, res) {
           image_status: 'PREPARING',
           image_asset_ready: false,
           image_checked_at: new Date().toISOString(),
-          image_last_error: null,
+          image_last_error: readiness.reason || article.image_last_error || 'IMAGE_NOT_READY',
           gbp_image_status: article.gbp_image_asset_version ? 'PREPARING' : article.gbp_image_status,
           gbp_image_checked_at: article.gbp_image_asset_version ? new Date().toISOString() : article.gbp_image_checked_at,
           gbp_image_last_error: null
@@ -634,7 +635,8 @@ export default async function handler(req, res) {
         .select('*')
         .single();
 
-      if (!updated.error && updated.data) article = updated.data;
+      if (updated.error || !updated.data) throw new Error('IMAGE_STATE_SYNC_FAILED');
+      article = updated.data;
     }
   } catch (e) {
     const message = e instanceof Error ? e.message : 'unknown image status error';

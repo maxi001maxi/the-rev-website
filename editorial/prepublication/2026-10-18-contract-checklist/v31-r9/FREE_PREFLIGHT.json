@@ -1,0 +1,278 @@
+{
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "status": "FREE_DESIGN_PREFLIGHT_PASS",
+  "errors": [],
+  "structural": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-evolgear-20260922",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "shinomiya-gym-beginner-choose",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "contract": {
+    "pass": true,
+    "errors": [],
+    "requires_real_visual_qc": true
+  },
+  "geometry": [
+    {
+      "variant": "thumbnail",
+      "width": 1200,
+      "height": 675,
+      "person_action_safe": true,
+      "protected_equipment": [
+        {
+          "id": "rack_main_upright",
+          "visible_width": 63.360000000000014,
+          "visible_height": 675,
+          "visible": true
+        },
+        {
+          "id": "cable_and_inner_frame",
+          "visible_width": 47.51999999999998,
+          "visible_height": 546.4799999999999,
+          "visible": true
+        },
+        {
+          "id": "weight_stack",
+          "visible_width": 134.64,
+          "visible_height": 99.90000000000009,
+          "visible": true
+        }
+      ],
+      "boxes": {
+        "face_box": {
+          "x": 1033.68,
+          "y": 88.01999999999998,
+          "width": 102.96000000000001,
+          "height": 166.32000000000002
+        },
+        "hands_box": {
+          "x": 978.24,
+          "y": 420.65999999999997,
+          "width": 182.16,
+          "height": 142.56
+        },
+        "paper_box": {
+          "x": 994.0800000000002,
+          "y": 432.53999999999996,
+          "width": 158.39999999999998,
+          "height": 142.56
+        }
+      }
+    },
+    {
+      "variant": "og",
+      "width": 1200,
+      "height": 630,
+      "person_action_safe": true,
+      "protected_equipment": [
+        {
+          "id": "rack_main_upright",
+          "visible_width": 63.360000000000014,
+          "visible_height": 630,
+          "visible": true
+        },
+        {
+          "id": "cable_and_inner_frame",
+          "visible_width": 47.51999999999998,
+          "visible_height": 546.4799999999999,
+          "visible": true
+        },
+        {
+          "id": "weight_stack",
+          "visible_width": 134.64,
+          "visible_height": 77.40000000000009,
+          "visible": true
+        }
+      ],
+      "boxes": {
+        "face_box": {
+          "x": 1033.68,
+          "y": 65.51999999999998,
+          "width": 102.96000000000001,
+          "height": 166.32000000000002
+        },
+        "hands_box": {
+          "x": 978.24,
+          "y": 398.15999999999997,
+          "width": 182.16,
+          "height": 142.56
+        },
+        "paper_box": {
+          "x": 994.0800000000002,
+          "y": 410.03999999999996,
+          "width": 158.39999999999998,
+          "height": 142.56
+        }
+      }
+    },
+    {
+      "variant": "gbp",
+      "width": 1200,
+      "height": 900,
+      "person_action_safe": true,
+      "protected_equipment": [
+        {
+          "id": "rack_main_upright",
+          "visible_width": 76.80000000000007,
+          "visible_height": 864.0000000000002,
+          "visible": true
+        },
+        {
+          "id": "cable_and_inner_frame",
+          "visible_width": 33.60000000000002,
+          "visible_height": 662.3999999999999,
+          "visible": true
+        },
+        {
+          "id": "weight_stack",
+          "visible_width": 163.20000000000005,
+          "visible_height": 144.0000000000001,
+          "visible": true
+        }
+      ],
+      "boxes": {
+        "face_box": {
+          "x": 998.4000000000001,
+          "y": 147.59999999999997,
+          "width": 124.80000000000001,
+          "height": 201.60000000000002
+        },
+        "hands_box": {
+          "x": 931.1999999999999,
+          "y": 550.8,
+          "width": 220.79999999999998,
+          "height": 172.79999999999998
+        },
+        "paper_box": {
+          "x": 950.4,
+          "y": 565.1999999999999,
+          "width": 191.99999999999994,
+          "height": 172.79999999999998
+        }
+      }
+    }
+  ],
+  "canonical_renderer": {
+    "pass": true,
+    "variants": [
+      {
+        "variant": "thumbnail",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/planning-thumbnail.jpg",
+        "width": 1200,
+        "height": 675,
+        "sha256": "5337c8fdb8b8b8cdd468ea0ac113f19d0c43507fcc5f921ac3fab41993841d89",
+        "typography_measurements_pass": true,
+        "planning_only": true
+      },
+      {
+        "variant": "og",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/planning-og.jpg",
+        "width": 1200,
+        "height": 630,
+        "sha256": "587afd66346d460d21877f2879956507708bd5ec146637ac28975432573e557a",
+        "typography_measurements_pass": true,
+        "planning_only": true
+      },
+      {
+        "variant": "gbp",
+        "path": "editorial/prepublication/2026-10-18-contract-checklist/v31-r9/planning-gbp.jpg",
+        "width": 1200,
+        "height": 900,
+        "sha256": "3f9d6cbf16262702b861880ef42f0dd4e939b0ff4c0de4f0376606df5b9218a2",
+        "typography_measurements_pass": true,
+        "planning_only": true
+      }
+    ]
+  },
+  "source_lock": {
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "source_plate_sha256": "8094ce2ac622baafe09d853a9adc8292dfe46ecf2976e240cade9c22474dfefe",
+    "fit": "uniform_cover_no_stretch",
+    "optical_blur_px": 0.8,
+    "editable_polygon": [
+      [
+        0.8,
+        0.26
+      ],
+      [
+        0.91,
+        0.26
+      ],
+      [
+        0.96,
+        0.32
+      ],
+      [
+        0.96,
+        0.44
+      ],
+      [
+        0.99,
+        0.49
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0.7,
+        1
+      ],
+      [
+        0.7,
+        0.69
+      ],
+      [
+        0.68,
+        0.64
+      ],
+      [
+        0.68,
+        0.56
+      ],
+      [
+        0.72,
+        0.51
+      ],
+      [
+        0.75,
+        0.46
+      ],
+      [
+        0.75,
+        0.32
+      ]
+    ],
+    "feather": "8px inward only; bottom continues beyond crop",
+    "protected_pixels": 1260902,
+    "changed_protected_pixels": 0,
+    "adversarial_all_pixels_repainted": true,
+    "synthetic_generation_wrapper_calls": 1,
+    "actual_model_calls": 0,
+    "raw_checkpoint_exercised": true,
+    "scope": "exact protected pixels against the deterministic source plate; person realism remains unverified"
+  },
+  "body_qc_retained": {
+    "pass": true,
+    "score": 20,
+    "source_sha256": "e772344b92253cd013075e3d6c55c947db9cc7c0785dfb8e4284a1cf59ad0854"
+  },
+  "job_contract_sha256": "35716bf9171e474ae8b471bee9ac13dbb2e23d5b2aa1357949d15bb798806569",
+  "brief_contract_sha256": "299d014ae118209277dc036ab192597f98b99965eabec4488130364f2c407d40",
+  "regression_manifest": "editorial/fixtures/oct18-image-rejections/manifest.json",
+  "model_api_calls": 0,
+  "production_mutations": 0,
+  "paid_execution": "OWNER_APPROVAL_REQUIRED_R9_NEW_BUDGET",
+  "actual_person_visual_qc": "NOT_RUN",
+  "actual_accepted_image": false,
+  "ready_for_owner_publish": false
+}

@@ -1,0 +1,26 @@
+{
+  "status": "APPROVED",
+  "approved_by": "OWNER",
+  "approved_at": "2026-10-19T06:13:04Z",
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "source_reuse": true,
+  "scope": "SINGLE_GENERATION_AND_PRIVATE_QC",
+  "max_generation_calls": 1,
+  "max_qc_calls": 2,
+  "automatic_retry": false,
+  "job_sha256": "35716bf9171e474ae8b471bee9ac13dbb2e23d5b2aa1357949d15bb798806569",
+  "brief_sha256": "299d014ae118209277dc036ab192597f98b99965eabec4488130364f2c407d40",
+  "free_preflight_file_sha256": "b8bf2715a1677cabe291816fb19b2ee2e43023a7ac91b696541e5cb238a3dc30",
+  "owner_instruction": "あと、何をしているんでしょうか？\n本番実行して、本番公開の直前まで進めておいてください。",
+  "authorization_context": "Continuation after R9 free Preflight; execute the previously presented maximum 1 OpenAI generation plus 2 independent QC calls using existing Actions key. This receipt authorizes only that bounded image step. No automatic extra attempt; later production gates remain.",
+  "prohibited_operations": {
+    "main_merge": true,
+    "production_code": true,
+    "supabase": true,
+    "xserver": true,
+    "article_publish": true,
+    "gbp_post": true
+  }
+}

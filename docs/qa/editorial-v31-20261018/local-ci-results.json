@@ -1,0 +1,277 @@
+[
+  {
+    "command": "npm ci",
+    "exit_code": 0,
+    "elapsed_s": 0.62
+  },
+  {
+    "command": "npm run test:vercel-release-policy",
+    "exit_code": 0,
+    "elapsed_s": 0.18
+  },
+  {
+    "command": "node --check api/integrations/editorial.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.06
+  },
+  {
+    "command": "node --check api/integrations/editorial-status.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --check .github/qa/visual-qa.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --check scripts/compile-hybrid-image-job.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --check scripts/render-hybrid-editorial-overlay.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.06
+  },
+  {
+    "command": "node --check scripts/auto-editorial-hybrid-image.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05,
+    "rechecked_after_final_fix": true
+  },
+  {
+    "command": "node --check lib/editorialAutomatedHybridImage.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --check scripts/validate-editorial-image-system.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --check lib/editorialImageReviewGate.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --check scripts/test-daily-editorial-contract.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "npm run test:daily-editorial-contract",
+    "exit_code": 0,
+    "elapsed_s": 0.21
+  },
+  {
+    "command": "npm run test:daily-editorial-state-machine",
+    "exit_code": 0,
+    "elapsed_s": 0.26
+  },
+  {
+    "command": "npm run test:daily-creator",
+    "exit_code": 0,
+    "elapsed_s": 0.62
+  },
+  {
+    "command": "npm run test:supervisor-qc-recovery",
+    "exit_code": 0,
+    "elapsed_s": 0.18
+  },
+  {
+    "command": "npm run test:trigger-topology",
+    "exit_code": 0,
+    "elapsed_s": 0.25
+  },
+  {
+    "command": "node --test scripts/test-xserver-deploy-plan.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.15
+  },
+  {
+    "command": "node --test scripts/test-xserver-incremental.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.16
+  },
+  {
+    "command": "npm run test:topic-approval",
+    "exit_code": 0,
+    "elapsed_s": 0.38
+  },
+  {
+    "command": "node --test scripts/test-daily-editorial-connector-plan.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.2
+  },
+  {
+    "command": "node --test scripts/test-editorial-consistency.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.24
+  },
+  {
+    "command": "npm run test:editorial-v31",
+    "exit_code": 0,
+    "elapsed_s": 2.13,
+    "rechecked_after_final_fix": true
+  },
+  {
+    "command": "npm run test:phase-9",
+    "exit_code": 0,
+    "elapsed_s": 0.22,
+    "rechecked_after_final_fix": true
+  },
+  {
+    "command": "node scripts/test-editorial-brand-qc.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.06
+  },
+  {
+    "command": "npm run test:blog-taxonomy",
+    "exit_code": 0,
+    "elapsed_s": 0.58
+  },
+  {
+    "command": "npm run test:blog-card-dates",
+    "exit_code": 0,
+    "elapsed_s": 0.57
+  },
+  {
+    "command": "npm run test:phase-d",
+    "exit_code": 0,
+    "elapsed_s": 0.49
+  },
+  {
+    "command": "node --test scripts/test-editorial-20261015-recovered-publication.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.14
+  },
+  {
+    "command": "npm run test:phase-e",
+    "exit_code": 0,
+    "elapsed_s": 0.25
+  },
+  {
+    "command": "npm run test:site-insights",
+    "exit_code": 0,
+    "elapsed_s": 0.3
+  },
+  {
+    "command": "npm run test:google-business",
+    "exit_code": 0,
+    "elapsed_s": 0.28
+  },
+  {
+    "command": "npm run test:social-director",
+    "exit_code": 0,
+    "elapsed_s": 0.46
+  },
+  {
+    "command": "npm run test:thumbnail-typography",
+    "exit_code": 0,
+    "elapsed_s": 0.28
+  },
+  {
+    "command": "node --test scripts/test-editorial-image-operator-recovery.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.14
+  },
+  {
+    "command": "npm run test:image-operator-primary-status",
+    "exit_code": 0,
+    "elapsed_s": 0.27
+  },
+  {
+    "command": "node --test scripts/test-editorial-scene-grounding.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.16
+  },
+  {
+    "command": "node --test scripts/test-editorial-image-variation-v1.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.21
+  },
+  {
+    "command": "node --test scripts/test-editorial-image-phase2.mjs",
+    "exit_code": 0,
+    "elapsed_s": 4.46
+  },
+  {
+    "command": "node --test scripts/test-editorial-20261015-pain-production.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.13
+  },
+  {
+    "command": "node --test scripts/test-editorial-production-image-preflight.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.2
+  },
+  {
+    "command": "node --test scripts/test-editorial-rejected-media-preservation.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.13,
+    "rechecked_after_final_fix": true
+  },
+  {
+    "command": "node --test scripts/test-editorial-r5-depth-recovery.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.13
+  },
+  {
+    "command": "node --test scripts/test-editorial-contextual-reuse.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.13
+  },
+  {
+    "command": "node --check scripts/stage-verified-editorial-r7-candidate.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.05
+  },
+  {
+    "command": "node --test scripts/test-editorial-r7-prepublication-staging.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.18
+  },
+  {
+    "command": "node --test scripts/test-editorial-r7-owner-reuse.mjs",
+    "exit_code": 0,
+    "elapsed_s": 0.14
+  },
+  {
+    "command": "python3 -m py_compile scripts/offline-r5-depth-recovery.py",
+    "exit_code": 0,
+    "elapsed_s": 0.03
+  },
+  {
+    "command": "node scripts/preflight-auto-editorial-image.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null",
+    "exit_code": 0,
+    "elapsed_s": 0.06
+  },
+  {
+    "command": "node scripts/preflight-editorial-image-p2.mjs all > /dev/null",
+    "exit_code": 0,
+    "elapsed_s": 0.78
+  },
+  {
+    "command": "node scripts/prepare-editorial-image-p2.mjs > /dev/null",
+    "exit_code": 0,
+    "elapsed_s": 0.06
+  },
+  {
+    "command": "node scripts/inspect-image-variation-v1.mjs editorial/hybrid-image-jobs/personal-gym-first-session-pain-health-history.json > /dev/null",
+    "exit_code": 0,
+    "elapsed_s": 0.07
+  },
+  {
+    "command": "npm run test:editorial-images",
+    "exit_code": 0,
+    "elapsed_s": 0.32,
+    "rechecked_after_final_fix": true
+  },
+  {
+    "command": "npm run build:blog",
+    "exit_code": 0,
+    "elapsed_s": 0.26
+  }
+]

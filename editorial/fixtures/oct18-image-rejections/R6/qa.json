@@ -1,0 +1,1265 @@
+{
+  "pass": false,
+  "thumbnail_typography_visual": {
+    "thumbnail": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "og": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "gbp": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    }
+  },
+  "visual_art_direction": {
+    "pass": true,
+    "variants": {
+      "thumbnail": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "composition_balanced": true,
+        "fade_integrated": true
+      },
+      "og": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "composition_balanced": true,
+        "fade_integrated": true
+      },
+      "gbp": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "composition_balanced": true,
+        "fade_integrated": true
+      }
+    },
+    "comments": "3形式とも実寸プレビューで見出しが即読でき、「体験前に、／3つだけ。」の改行も自然。暖色の強調語、墨色の補助行、曲線的なフェードはゴールデンの階層文法に沿い、GBPも顔を侵食せず独立した縦寄り構成になっている。"
+  },
+  "series_consistency": 9,
+  "editorial_quality": 8,
+  "typography_harmony": 9,
+  "negative_space": 8,
+  "photo_treatment": 8,
+  "article_visual_relevance": 5,
+  "main_claim_visualization": 4,
+  "human_subject_prominence": 8,
+  "human_visual_attention_share": 62,
+  "face_expression_readable": true,
+  "background_secondary_pass": true,
+  "background_soft_blur_pass": true,
+  "the_rev_anchor_visible": true,
+  "customer_presentation_matches_plan": true,
+  "article_theme_inferable_without_title": false,
+  "scene_action_has_article_specific_meaning": false,
+  "generic_passive_pose_without_article_reason": true,
+  "rev_environment_consistency": 7,
+  "brand_space_authenticity": 7,
+  "human_environment_integration": 8,
+  "perspective_scale_consistency": 8,
+  "ground_contact_shadow_consistency": 8,
+  "lighting_consistency": 8,
+  "anatomy_pose_realism": 9,
+  "no_cutout_or_sticker_look": true,
+  "location_semantics_pass": true,
+  "location_behavior_plausible": true,
+  "service_misrepresentation_absent": true,
+  "unsupported_equipment_absent": true,
+  "scene_plausible_at_the_rev": true,
+  "exercise_pose_plausible": true,
+  "manual_visual_rejection": true,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "facility_only_thumbnail": false,
+  "real_the_rev_background_confirmed": true,
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "headline_line_break_quality": true,
+  "headline_balance_score": 9,
+  "too_promotional": false,
+  "gbp_aspect_ratio_pass": true,
+  "gbp_safe_area_pass": true,
+  "gbp_copy_legible": true,
+  "comments": "人物・合成品質・書体設計は良好だが、男性の視線と身体は左側のロゴ壁へ向いており、指定された後方トレーニングエリアを観察する行動に見えない。料金・予約・退会を確認して自分の開始を決める記事固有の理由も写真単体では弱く、一般的な立ち姿に留まるため厳格ゲートでは不合格。",
+  "scene_grounding_version": "the-rev-source-scene-v1",
+  "scene_grounding": {
+    "version": "the-rev-source-scene-v1",
+    "pass": true,
+    "errors": [],
+    "inventory": {
+      "version": "the-rev-source-scene-v1",
+      "source_sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "primary_location": "reception",
+      "subject_zone": "reception",
+      "visible_equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "rear_training_area"
+        }
+      ],
+      "allowed_generated_actions": [
+        "enter",
+        "prepare",
+        "rest",
+        "compare_notes",
+        "review_paper",
+        "observe_facility"
+      ],
+      "forbidden_generated_objects": [
+        "medical_device",
+        "unverified_training_equipment"
+      ],
+      "suitable_article_intents": [
+        "facility_selection",
+        "health_before_start",
+        "readiness",
+        "training_start"
+      ],
+      "verification": {
+        "method": "source image visual inspection + canonical scoped registry",
+        "verified_at": "2026-10-13",
+        "note": "Ground truth visually re-inspected using the actual source photo: rear training_rack, weight_plates and training_bench behind the reception counter. Independent source/scene QC for the 2026-10-13 posture article detected both equipment items in SOURCE and GENERATED views at rear_training_area; source asset bytes and sha256 are unchanged. Items are NOT in reception foreground."
+      }
+    },
+    "plan": {
+      "version": "the-rev-source-scene-v1",
+      "source_id": "the-rev-lobby-20260924",
+      "source_sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "scene_type": "personal_choice",
+      "location_type": "reception",
+      "human_action": "observe_facility",
+      "composition_type": "medium_side_portrait",
+      "visual_role": "deciding_own_start",
+      "article_intent": "training_start",
+      "required_equipment": [],
+      "subject_zone": "reception",
+      "article_specific_directive": "One first-time male visitor pauses at the entrance, body turning towards the real rear training area, hands relaxed and empty, considering his own start after checking trial terms. No phone, no paper, no sleeve adjustment, no equipment contact. Foreground lobby visitor at x=58..80%, several metres in front of the existing rear rack. Preserve real room geometry, stool, plant, counter and equipment positions. No training in reception, no staff, no touching or intersecting equipment. The torso is in front of the counter, not inside it. Face visible in three-quarter profile. Shallow optical background blur, natural original light, no fashion pose. No image typography.",
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "compared": 12,
+        "unknown_count": 0,
+        "reason": "Concept A distinctive personal_choice/observing_real_equipment/medium_three_quarter_portrait/deciding_own_start fingerprint vs existing 12, to be recomputed by canonical production preflight"
+      }
+    },
+    "sourceRecognition": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "rear_training_area"
+        }
+      ]
+    },
+    "observation": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "rear_training_area"
+        }
+      ],
+      "location_type": "reception",
+      "subject_zone": "reception",
+      "human_action": "observe_facility",
+      "equipment_relocated": false,
+      "room_geometry_preserved": true,
+      "article_scene_match": true,
+      "scene_fingerprint": {
+        "scene_type": "personal_choice",
+        "location_type": "reception",
+        "human_action": "observe_facility",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "deciding_own_start",
+        "article_intent": "training_start"
+      }
+    },
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        }
+      ]
+    },
+    "recent": [
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+        "checkedAt": "2026-10-15T03:46:44Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "health_before_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
+      },
+      {
+        "slug": "the-rev-trial-three-menus-first-visit",
+        "checkedAt": "2026-10-14T02:01:11.756Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+        "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+        "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+        "customerPresentation": "male",
+        "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "arrival",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "first_visit_reassurance",
+          "article_intent": "facility_selection"
+        },
+        "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "nekose-strength-training-posture",
+        "checkedAt": "2026-10-13T01:53:31.806Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+        "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+        "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+        "customerPresentation": "female",
+        "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "pre-workout-stretching-duration",
+        "checkedAt": "2026-10-11T00:47:06.303Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+        "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+        "customerPresentation": "male",
+        "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "denba-health-device-mat-role",
+        "checkedAt": "2026-10-10T02:43:04.486Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+        "imageHeadlineShort": "本体とマット、\n役割は別。",
+        "customerPresentation": "female",
+        "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+        "sceneFingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "close_action_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "recovery_area",
+          "human_action": "observing_real_equipment",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "shinomiya-gym-beginner-choose",
+        "checkedAt": "2026-10-07T05:24:50.575Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-evolgear-20261007-r4",
+        "imageHeadlineShort": "続けやすさで、\n選ぶ。",
+        "customerPresentation": "male",
+        "articleTitle": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "facility_selection"
+        },
+        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "deciding_own_start",
+          "article_intent": "facility_selection"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "desk-work-stand-every-30-minutes",
+        "checkedAt": "2026-10-06T01:08:15.230Z",
+        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+        "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+        "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+        "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+        "customerPresentation": "female",
+        "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "workday_break",
+          "location_type": "reception",
+          "human_action": "standing_break",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "workday_movement_break",
+          "article_intent": "training_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "boxing-beginner-scared-before-mitt-training",
+        "checkedAt": "2026-10-05T12:07:58.242Z",
+        "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+        "originVideoFileId": "",
+        "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+        "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+        "imageHeadlineShort": "怖くても、\n最初は基本から。",
+        "customerPresentation": "male",
+        "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "boxing_area",
+          "human_action": "boxing_stance",
+          "composition_type": "close_action_portrait",
+          "visual_role": "safe_first_step",
+          "article_intent": "boxing_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "denba-electric-potential-space-radio-wave-difference",
+        "checkedAt": "2026-10-04T09:45:25.230Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+        "imageHeadlineShort": "DENBAの基本\n電位空間",
+        "customerPresentation": "female",
+        "articleTitle": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "recovery_area",
+          "human_action": "observing_real_equipment",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "recovery"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+        "checkedAt": "2026-10-04T05:12:02.251Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+        "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+        "customerPresentation": "male",
+        "articleTitle": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "beginner-strength-training-few-exercises-frequency",
+        "checkedAt": "2026-10-03T14:29:13.715Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-auto-evolgear-20260922-6bf9953b",
+        "imageHeadlineShort": "続けられる頻度を、\n最初に決める。",
+        "customerPresentation": "female",
+        "articleTitle": "筋トレ初心者は種目が少なくても効果はある？週の回数と始め方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "training_area",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_execution"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      },
+      {
+        "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+        "checkedAt": "2026-10-03T04:14:41.758063Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+        "imageHeadlineShort": "通いやすさまで、\n選ぶ基準に。",
+        "customerPresentation": "male",
+        "articleTitle": "新大宮で完全予約制のパーソナルジムを探す方へ｜THE REV.の設備と過ごし方",
+        "sceneFingerprint": null,
+        "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "training_area",
+          "human_action": "rack_adjustment",
+          "composition_type": "wide_full_body",
+          "visual_role": "facility_inspection",
+          "article_intent": "facility_selection"
+        },
+        "observed_fingerprint_from": "independent-visual-qc-run-38670566195"
+      }
+    ],
+    "asset_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+    "asset_hashes": {
+      "source": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "scene": "7801ffe560c30fdd1b294069fb48333c3c533eec48e9e7dd1620cf5af015a7c7",
+      "thumbnail": "7ba707c27550121fa8bf1404951e0e2a3fdebb433e2ea56f2321247968fbe5b0",
+      "og": "5e29e636c2c36a7e0461b9aa6ad1fb0675875f550d9f9376bcae9021c1822bf8",
+      "gbp": "f14330b09baea5bba2f131dc9149b55f80792db48ed06da2e916c7ed66cc68e5"
+    },
+    "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
+  },
+  "scene_fingerprint": {
+    "scene_type": "personal_choice",
+    "location_type": "reception",
+    "human_action": "observe_facility",
+    "composition_type": "medium_side_portrait",
+    "visual_role": "deciding_own_start",
+    "article_intent": "training_start"
+  },
+  "scene_location_consistency": true,
+  "equipment_source_grounding": true,
+  "spatial_plausibility": true,
+  "action_location_consistency": true,
+  "article_scene_match": true,
+  "recent_semantic_similarity": {
+    "pass": true,
+    "window": 12,
+    "compared": 12,
+    "unknown_count": 0,
+    "penalty": 0.8333333333333334,
+    "matches": [
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "score": 0.16666666666666666,
+        "equal": [
+          "location_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "the-rev-trial-three-menus-first-visit",
+        "score": 0.8333333333333334,
+        "equal": [
+          "scene_type",
+          "location_type",
+          "human_action",
+          "visual_role",
+          "article_intent"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "nekose-strength-training-posture",
+        "score": 0.3333333333333333,
+        "equal": [
+          "location_type",
+          "article_intent"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "pre-workout-stretching-duration",
+        "score": 0.16666666666666666,
+        "equal": [
+          "article_intent"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "denba-health-device-mat-role",
+        "score": 0.16666666666666666,
+        "equal": [
+          "composition_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "shinomiya-gym-beginner-choose",
+        "score": 0.3333333333333333,
+        "equal": [
+          "scene_type",
+          "visual_role"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "desk-work-stand-every-30-minutes",
+        "score": 0.3333333333333333,
+        "equal": [
+          "location_type",
+          "article_intent"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "boxing-beginner-scared-before-mitt-training",
+        "score": 0,
+        "equal": [],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "denba-electric-potential-space-radio-wave-difference",
+        "score": 0.16666666666666666,
+        "equal": [
+          "composition_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+        "score": 0.16666666666666666,
+        "equal": [
+          "location_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "beginner-strength-training-few-exercises-frequency",
+        "score": 0.3333333333333333,
+        "equal": [
+          "scene_type",
+          "visual_role"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+        "score": 0,
+        "equal": [],
+        "hard_exclusion": false
+      }
+    ]
+  },
+  "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+  "thumbnail_typography_acceptance": {
+    "pass": true,
+    "deterministic": {
+      "revision": "thumbnail-golden-typography-v1",
+      "slug": "personal-gym-trial-three-checks",
+      "asset_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "lines": [
+            "体験前に、",
+            "3つだけ。"
+          ],
+          "text_preserved": true,
+          "font_size": 78,
+          "font_size_at_320": 20.8,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.8312351808597471,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            78,
+            102.97029702970298
+          ],
+          "focus_line": 1,
+          "focus_text": "3つだけ。",
+          "focus_scale": 1.3201320132013201,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9094907454107884,
+          "block_area_ratio": 0.12884382049897788,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 337.3359375,
+          "paper_profile": "local-curved-veil",
+          "paper_opacity_floor": 0.8862745098039215,
+          "fade_start": 559,
+          "fade_end": 696,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 4.933147579685566,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 214,
+              "right": 457.90625,
+              "bottom": 326,
+              "width": 393.90625
+            },
+            {
+              "left": 64,
+              "top": 315.359375,
+              "right": 536.71875,
+              "bottom": 463.359375,
+              "width": 472.71875
+            }
+          ],
+          "asset_path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6.jpg",
+          "asset_sha256": "7ba707c27550121fa8bf1404951e0e2a3fdebb433e2ea56f2321247968fbe5b0",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6-preview-320.jpg",
+              "sha256": "737afa1392cd166fe1ef48687d7b8896ffeded2bd61a9de4e94875035533341d"
+            },
+            "400": {
+              "path": "assets/images/blog/thumb-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6-preview-400.jpg",
+              "sha256": "79d95ba5d4b71c28b6edc8faf0ae26ae0e957ac5606e4df4069788391bee9d73"
+            }
+          }
+        },
+        "og": {
+          "pass": true,
+          "lines": [
+            "体験前に、",
+            "3つだけ。"
+          ],
+          "text_preserved": true,
+          "font_size": 78,
+          "font_size_at_320": 20.8,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.8312351808597471,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            78,
+            102.97029702970298
+          ],
+          "focus_line": 1,
+          "focus_text": "3つだけ。",
+          "focus_scale": 1.3201320132013201,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9094907454107884,
+          "block_area_ratio": 0.13804695053461916,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 315.3359375,
+          "paper_profile": "local-curved-veil",
+          "paper_opacity_floor": 0.8862745098039215,
+          "fade_start": 559,
+          "fade_end": 696,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 4.933147579685566,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 192,
+              "right": 457.90625,
+              "bottom": 304,
+              "width": 393.90625
+            },
+            {
+              "left": 64,
+              "top": 293.359375,
+              "right": 536.71875,
+              "bottom": 441.359375,
+              "width": 472.71875
+            }
+          ],
+          "asset_path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6.jpg",
+          "asset_sha256": "5e29e636c2c36a7e0461b9aa6ad1fb0675875f550d9f9376bcae9021c1822bf8",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6-preview-320.jpg",
+              "sha256": "9be78dc213a170a799544a1859d4772cea7242371be5d3275c3b87a48c774f79"
+            },
+            "400": {
+              "path": "assets/images/blog/og/og-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6-preview-400.jpg",
+              "sha256": "b62d6615ef983955ea3f0c842441a86de01e51488569150222265ac8bd9792d3"
+            }
+          }
+        },
+        "gbp": {
+          "pass": true,
+          "lines": [
+            "体験前に、",
+            "3つだけ。"
+          ],
+          "text_preserved": true,
+          "font_size": 67,
+          "font_size_at_320": 17.866666666666667,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.8440015999316107,
+          "layout_rule": "golden-gbp-v1",
+          "line_font_sizes": [
+            67,
+            87.12871287128714
+          ],
+          "focus_line": 1,
+          "focus_text": "3つだけ。",
+          "focus_scale": 1.3004285503177184,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9093033770845346,
+          "block_area_ratio": 0.0713534780222984,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 432.3046875,
+          "paper_profile": "local-curved-veil",
+          "paper_opacity_floor": 0.9176470588235294,
+          "fade_start": 482,
+          "fade_end": 601,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.308677408263676,
+          "line_rects": [
+            {
+              "left": 60,
+              "top": 325,
+              "right": 398.359375,
+              "bottom": 421,
+              "width": 338.359375
+            },
+            {
+              "left": 60,
+              "top": 417.03125,
+              "right": 459.96875,
+              "bottom": 542.03125,
+              "width": 399.96875
+            }
+          ],
+          "asset_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6.jpg",
+          "asset_sha256": "f14330b09baea5bba2f131dc9149b55f80792db48ed06da2e916c7ed66cc68e5",
+          "previews": {
+            "320": {
+              "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6-preview-320.jpg",
+              "sha256": "74b547f08ccf8d36fca5d2c51108f5736c527f49e8daa900bf8e58b80c3104a8"
+            },
+            "400": {
+              "path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6-preview-400.jpg",
+              "sha256": "f7cca547996caac53272d6dd230c285cf2f4d5627829bd15008276205b85fe0b"
+            }
+          }
+        }
+      }
+    },
+    "visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "3形式とも実寸プレビューで見出しが即読でき、「体験前に、／3つだけ。」の改行も自然。暖色の強調語、墨色の補助行、曲線的なフェードはゴールデンの階層文法に沿い、GBPも顔を侵食せず独立した縦寄り構成になっている。"
+    },
+    "golden_reference": {
+      "revision": "approved-typography-20261001-v1",
+      "assets": [
+        {
+          "variant": "wide",
+          "path": "editorial/typography-golden-reference/reference-16x9.png",
+          "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+        },
+        {
+          "variant": "gbp",
+          "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+          "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+        },
+        {
+          "variant": "list",
+          "path": "editorial/typography-golden-reference/reference-list-view.png",
+          "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+        }
+      ]
+    }
+  },
+  "source_material_scope_pass": true,
+  "generated_customer_allowed_under_policy": true,
+  "generated_customer_role": "customer",
+  "customer_presentation": "male",
+  "image_headline_short": "体験前に、\n3つだけ。",
+  "fixed_overlay_layout_confirmed": true,
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "design_revision": "editorial-thumbnail-v3-plan-first-owner-calibrated",
+  "layout_variant": "human-first-v1",
+  "background_source_type": "verified_the_rev_repo_mirror",
+  "content_reference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+  "background_source_drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "",
+  "background_frame_position_ratio": null,
+  "background_treatment": "Source-guided OpenAI scene-aware edit, foreground entrance visitor and authentic rear training area; no ellipse hard composite.",
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "image_generation_used": true,
+  "fallback_used": false,
+  "fallback_reason": "",
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": true,
+  "trainer_photo_reused": false,
+  "background_reuse_relevance_exception": true,
+  "owner_route_b_source_reuse": true,
+  "contextual_verified_facility_source_reuse": {
+    "allowed": false,
+    "policy": "authentic-real-reception-unique-health-action-qc-only-v1",
+    "source_repeated": true,
+    "scene_repeated": false,
+    "published": false,
+    "errors": [
+      "NOT_PRIVATE_QC_MODE",
+      "NO_ORIGINAL_QUARANTINE_SHA",
+      "NOT_EXPLICITLY_SCOPED",
+      "NOT_DOCUMENTED_CONTEXTUAL_REASON",
+      "HEALTH_RECEPTION_SCOPE_MISMATCH"
+    ]
+  },
+  "recent_similarity_window": 4,
+  "recent_similarity_check_pass": true,
+  "recent_background_source_ids": [
+    "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+    "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+    "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+    "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+    "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV"
+  ],
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+    "recent_articles": [
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+        "checkedAt": "2026-10-15T03:46:44Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
+      },
+      {
+        "slug": "the-rev-trial-three-menus-first-visit",
+        "checkedAt": "2026-10-14T02:01:11.756Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+        "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+        "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+        "customerPresentation": "male",
+        "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "arrival",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "first_visit_reassurance",
+          "article_intent": "facility_selection"
+        },
+        "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg"
+      },
+      {
+        "slug": "nekose-strength-training-posture",
+        "checkedAt": "2026-10-13T01:53:31.806Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+        "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+        "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+        "customerPresentation": "female",
+        "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg"
+      },
+      {
+        "slug": "pre-workout-stretching-duration",
+        "checkedAt": "2026-10-11T00:47:06.303Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+        "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+        "customerPresentation": "male",
+        "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg"
+      }
+    ],
+    "selected_content_reference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+    "selected_drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false,
+    "repeat_distance": null,
+    "required_equipment": []
+  },
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6",
+  "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+  "slug": "personal-gym-trial-three-checks",
+  "asset_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+  "checked_at": "2026-10-17T05:10:55.410Z",
+  "review_mode": "HYBRID_GENERATED",
+  "realism_qc_version": "v1",
+  "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+  "gbp_image_required": true,
+  "gbp_image_path": "assets/images/gbp/gbp-personal-gym-trial-three-checks-reference-v3-lobby-route-b-20261018-contract-r6.jpg",
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3"
+}

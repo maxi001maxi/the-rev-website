@@ -1,0 +1,50 @@
+{
+  "status": "BLOCKED_IMAGE_QC",
+  "content_id": "BLOG-20261018-082d82",
+  "asset_version": "reference-v31-evolgear-terms-foreground-20261018-r9",
+  "run_id": "39209050198",
+  "ready_for_owner_publish": false,
+  "body_preserved": true,
+  "db_body_sha256_readback": "5335b6e3dd556e6ff1b19deecb14602ef435081622da09c7204772bf4323f467",
+  "db_publish_status": "NOT_PUBLISHED",
+  "db_image_status_readback": "PREPARING",
+  "db_image_version_readback": "reference-v3-lobby-route-b-20261018-contract-r6",
+  "db_thumbnail_version_readback": "reference-v26-grounded-evolgear-20261018-contract-r2",
+  "db_draft_id": "2519f5a1-2ed9-4397-8a85-153354b4421a",
+  "body_db_read_only": true,
+  "generation_requests": 1,
+  "qc_requests": 2,
+  "confirmed_billed_cost": null,
+  "usage_tokens": {
+    "input_tokens": 47015,
+    "output_tokens": 5150,
+    "total_tokens": 52165
+  },
+  "cause_confirmed": "The raw generated man and sheet are left of the approved edit polygon. Hard source restoration erased his face and paper. Protected-background equality did not prove raw subject conformity. Raw also reconstructs the background and cannot be directly adopted.",
+  "runtime_fix": "Before hard restore, reject substantial raw protected-region changes, retain the original response and raw-mask evidence, and stop before paid QC. Conservative admission only; independent QC and subject-mask geometry remain mandatory.",
+  "remaining_conditions": [
+    "accepted actual image absent",
+    "R9 budget closed; no extra generation or QC authorized",
+    "exact subject support must fit reviewed mask; hard restore must not remove face/hands/paper",
+    "R7 parity and natural integration must pass independently",
+    "separate main merge approval remains required",
+    "canonical GitHub/Supabase/Xserver image synchronization not performed",
+    "authenticated Console final Preflight not performed"
+  ],
+  "production_mutations": 0,
+  "automatic_retry": false,
+  "post_run_free_validation": {
+    "npm_ci": "PASS",
+    "offline_actual_raw_wrapper_replay": "PASS: raw retained; no composed scene or paid QC",
+    "editorial_v31_tests": 17,
+    "operator_grounding_preflight_private_regressions": 39,
+    "topic_approval_tests": 29,
+    "editorial_image_jobs": "PASS",
+    "phase9_checks": 164,
+    "daily_contract": "PASS",
+    "daily_state_checks": 73,
+    "daily_creator_checks": 120,
+    "blog_build": "PASS; generated outputs excluded",
+    "additional_model_api_calls": 0
+  }
+}
