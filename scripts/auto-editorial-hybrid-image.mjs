@@ -65,7 +65,8 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
   const safeVersion=String(job.asset_version||'unknown').replace(/[^a-zA-Z0-9._-]/g,'_');
   const root=path.resolve(ROOT,'.operator-rejected-evidence',safeSlug,safeVersion);
   const candidates=[
-    job.generated_scene_path,job.generated_scene_path && job.generated_scene_path+'.raw-guard.json',job.thumbnail,job.og_image,job.gbp_image,
+    job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
+    job.generated_scene_path && job.generated_scene_path+'.raw-guard.json',
     job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
     ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
       [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
