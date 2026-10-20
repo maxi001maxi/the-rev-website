@@ -52,6 +52,10 @@ jobs:
 
 
   technical-browser:
+    strategy:
+      fail-fast: false
+      matrix:
+        scope: [behavior, visual]
     if: github.event.action != 'edited'
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -66,10 +70,12 @@ jobs:
       - run: node scripts/test-build-parity.mjs
       - run: node --test --test-concurrency=1 scripts/test-browser-paint.mjs
       - run: node scripts/qa-technical-site.mjs
+        env:
+          TECH_QA_SCOPE: ${{ matrix.scope }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: technical-browser-qa
+          name: technical-browser-qa-${{ matrix.scope }}
           path: qa-out/technical/
           retention-days: 14
 
