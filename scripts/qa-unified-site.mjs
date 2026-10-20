@@ -5,6 +5,7 @@ import path from 'node:path';
 import http from 'node:http';
 import os from 'node:os';
 import assert from 'node:assert/strict';
+import {ready as paintReady,traverse,scrollDocument} from '../lib/browserPaintQa.mjs';
 const out=path.resolve(process.env.QA_OUT || 'qa-out/browser');fs.mkdirSync(out,{recursive:true});
 const routes=['/','/solution.html','/trainer.html','/price.html','/blog/','/access.html'];
 const targets=['/#service','/solution.html','/trainer.html','/price.html','/blog/','/#trial','/access.html'];
@@ -48,7 +49,7 @@ async function runSize([width,height]){
  page.on('pageerror',e=>errors.push({size,route:currentRoute,message:e.message}));
  page.on('response',res=>{if(res.status()>=400){const row={size,route:currentRoute,url:res.url(),status:res.status()};(res.url().startsWith(origin)?network:external).push(row);}});
  page.on('requestfailed',req=>{if(!req.url().startsWith(origin)&&!/google-analytics|googletagmanager|clarity\.ms|doubleclick/.test(req.url()))external.push({size,route:currentRoute,url:req.url().split('?')[0],error:req.failure()?.errorText});});
- async function ready(){await page.waitForLoadState('load');await page.locator('main h1').filter({visible:true}).first().waitFor({state:'visible'});await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});}
+ async function ready(){await paintReady(page);await page.locator('main h1').filter({visible:true}).first().waitFor({state:'visible'});}
  async function clickMenu(target){
   const desktop=page.locator('header a[href="'+target+'"]');
   if(await desktop.first().isVisible()) {await desktop.first().click();}
@@ -67,8 +68,8 @@ async function runSize([width,height]){
   assert.ok(!(await page.locator('body').innerText()).includes('このページはプレビューに含まれていません'));
   record('render',size,route,'Real content, visible heading, no demo runtime');
   // Traverse the whole document so lazy assets and scrolled header states are exercised.
-  await page.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=innerHeight*.8){scrollTo(0,y);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}});
-  await page.evaluate(()=>scrollTo({top:600,behavior:"instant"}));
+  await traverse(page);
+  await scrollDocument(page,600);
   await page.waitForFunction(()=>/scrolled/.test(document.querySelector('header').className));
   const headerState=await page.locator('header').getAttribute('class');
   assert.ok(/scrolled/.test(headerState),'header switches background on scroll');
@@ -76,7 +77,7 @@ async function runSize([width,height]){
   const layout=await page.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,badImages:[...document.images].filter(im=>im.getClientRects().length&&getComputedStyle(im).visibility!=='hidden'&&im.complete&&im.naturalWidth===0).map(im=>im.getAttribute('src')),duplicates:[...document.querySelectorAll('[id]')].map(el=>el.id).filter((id,i,all)=>all.indexOf(id)!==i)}));
   assert.ok(layout.scrollWidth<=width+1,'horizontal overflow '+JSON.stringify(layout));assert.deepEqual(layout.badImages,[]);assert.deepEqual(layout.duplicates,[]);
   record('layout/images',size,route,JSON.stringify(layout));
-  await page.evaluate(()=>scrollTo({top:0,behavior:"instant"}));
+  await scrollDocument(page,0);
   const shot=`${slug(route)}-${size}.png`;await page.screenshot({path:path.join(out,shot)});screenshots.push(shot);
   // Every menu from every source page; round trip by actual browser history.
   for(const target of targets){
@@ -100,7 +101,7 @@ async function runSize([width,height]){
   // Drawer close, Escape, focus trap, scroll lock and restore at non-zero scroll.
   const opener=page.locator('#menu-toggle,.nav-toggle');
   if(await opener.isVisible()){
-   await page.evaluate(()=>scrollTo({top:450,behavior:"instant"}));await page.waitForFunction(()=>Math.abs(scrollY-450)<3);const saved=await page.evaluate(()=>scrollY);
+   await scrollDocument(page,450);await page.waitForFunction(()=>Math.abs(scrollY-450)<3);const saved=await page.evaluate(()=>scrollY);
    await opener.click();const dialog=page.locator('[role="dialog"][aria-hidden="false"]');await dialog.waitFor({state:'visible'});
    assert.ok(await page.evaluate(()=>getComputedStyle(document.body).position==='fixed'||getComputedStyle(document.body).overflow==='hidden'));
    const links=dialog.locator('a[href]');const close=dialog.locator('button').first();
@@ -139,7 +140,10 @@ async function runSize([width,height]){
  await context.close();console.log('[browser]',size,'PASS');
 }
 const queue=[...sizes];
-await Promise.all(Array.from({length:Math.min(Number(process.env.QA_CONCURRENCY || 7),sizes.length)},async()=>{while(queue.length)await runSize(queue.shift());}));
+// One foreground document at a time: background renderer animation-frame
+// waits can otherwise suspend parallel remote Preview checks indefinitely.
+// All seven viewports and every assertion still execute.
+await Promise.all(Array.from({length:Math.min(Number(process.env.QA_CONCURRENCY || 1),sizes.length)},async()=>{while(queue.length)await runSize(queue.shift());}));
 assert.deepEqual(errors,[],'page JavaScript errors');assert.deepEqual(network,[],'first-party network failures');
 } catch(error){record('failure','active','active',error.stack,'FAIL');console.error(error);process.exitCode=1;}
 finally{
