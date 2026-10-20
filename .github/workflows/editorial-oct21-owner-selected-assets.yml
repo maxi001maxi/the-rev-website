@@ -1,0 +1,114 @@
+name: Oct21 Owner-selected Image Delivery (no generation or publishing)
+on:
+  push:
+    branches: [fix/editorial-autonomous-recovery-20261020]
+    paths: [editorial/prepublication/2026-10-21-evening-strength-sleep/OWNER_IMAGE_SELECTION.json]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: approved-oct21-image-recovery
+  cancel-in-progress: false
+jobs:
+  deliver-selected-bytes:
+    if: github.ref == 'refs/heads/fix/editorial-autonomous-recovery-20261020'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12256945070'
+          run-id: 39405058065
+          github-token: ${{ github.token }}
+          path: .owner-selected-artifact
+          merge-multiple: true
+      - name: Verify Owner selection, immutable original QC, exact bytes and dimensions
+        run: python3 scripts/stage-oct21-owner-selected-images.py .owner-selected-artifact/oct21-image-finish-evidence.tar.gz
+      - name: Record canonical image gate without inventing PASS
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {evaluateEditorialImageReview} from './lib/editorialImageReviewGate.mjs';
+          const r='editorial/prepublication/2026-10-21-evening-strength-sleep/';
+          const job=JSON.parse(fs.readFileSync(r+'image-layout-r5b/IMAGE_JOB.json'));
+          const qa=JSON.parse(fs.readFileSync(r+'image-layout-r5b/IMAGE_INDEPENDENT_QC.json'));
+          const gate=evaluateEditorialImageReview({draft:{slug:job.slug,image_asset_version:job.asset_version,image_render_version:'rev-column-reference-v2.3-hybrid',image_strategy:'reference-v2-gpt-image-hybrid-drive-source'},qa});
+          if(gate.pass===true||gate.ok===true)throw Error('FAILED_INDEPENDENT_QC_WAS_BYPASSED');
+          const p=r+'OWNER_SELECTED_ASSET_STAGING.json',out=JSON.parse(fs.readFileSync(p));
+          out.canonical_image_gate=gate;out.checkout_sha=process.env.GITHUB_SHA;out.run_id=process.env.GITHUB_RUN_ID;
+          fs.writeFileSync(p,JSON.stringify(out,null,2)+'\n');
+          JS
+      - name: Deliver only the three selected unreferenced JPEGs to Xserver
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          COMMANDS="$(mktemp)"
+          trap 'rm -f "$COMMANDS"' EXIT
+          {
+            echo 'set ftp:ssl-force true'
+            echo 'set ftp:ssl-protect-data true'
+            echo 'set ftp:passive-mode true'
+            echo 'set ssl:verify-certificate yes'
+            echo 'set net:max-retries 1'
+            echo 'set net:timeout 25'
+            echo 'mkdir -p /assets/images/blog/og'
+            echo 'mkdir -p /assets/images/gbp'
+            while IFS= read -r p; do
+              test -f "$p"
+              printf 'put "%s" -o "/%s"\n' "$p" "$p"
+            done < .oct21-owner-image-paths
+            echo bye
+          } > "$COMMANDS"
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp < "$COMMANDS"
+      - name: Verify real delivery HTTP 200 and exact SHA256 for all three formats
+        run: |
+          python3 - <<'PY'
+          import json,pathlib,urllib.request,hashlib,os
+          p=pathlib.Path('editorial/prepublication/2026-10-21-evening-strength-sleep/OWNER_SELECTED_ASSET_STAGING.json')
+          report=json.loads(p.read_text());receipts=[]
+          for a in report['assets']:
+              if not a['path'].endswith('.jpg'):continue
+              url='https://therev-lab.com/'+a['path']
+              with urllib.request.urlopen(url+'?owner-prepublication='+os.environ['GITHUB_RUN_ID'],timeout=30) as r:
+                  data=r.read();status=r.status
+              actual=hashlib.sha256(data).hexdigest()
+              if status!=200 or actual!=a['sha256']:raise RuntimeError('XSERVER_BYTE_VERIFICATION_FAILED')
+              receipts.append(dict(url=url,status=status,sha256=actual,bytes=len(data)))
+          if len(receipts)!=3:raise RuntimeError('THREE_FORMATS_REQUIRED')
+          report.update(xserver_verified=True,delivery_receipts=receipts,status='OWNER_SELECTED_XSERVER_VERIFIED_QC_HOLD')
+          p.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(dict(xserver_verified=True,formats=len(receipts),image_ready=False,review_ready=False)))
+          PY
+      - name: Preserve exact assets and execution evidence on working branch only
+        if: always()
+        run: |
+          if [ ! -f .oct21-owner-staging-paths ]; then exit 0; fi
+          git config user.name 'THE REV Editorial Recovery'
+          git config user.email 'actions@users.noreply.github.com'
+          while IFS= read -r p; do git add -- "$p"; done < .oct21-owner-staging-paths
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Deliver exact Owner-selected Oct21 images; preserve independent QC hold'
+          git pull --rebase --autostash origin fix/editorial-autonomous-recovery-20261020
+          git push origin HEAD:fix/editorial-autonomous-recovery-20261020
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oct21-owner-selected-delivery-${{ github.run_id }}
+          path: |
+            editorial/prepublication/2026-10-21-evening-strength-sleep/OWNER_IMAGE_SELECTION.json
+            editorial/prepublication/2026-10-21-evening-strength-sleep/OWNER_SELECTED_ASSET_STAGING.json
+          if-no-files-found: error
+          retention-days: 30
