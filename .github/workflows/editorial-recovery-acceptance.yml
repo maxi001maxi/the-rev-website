@@ -9,6 +9,11 @@ on:
       - 'lib/githubContent.mjs'
       - 'editorial/gas/**'
       - 'scripts/test-editorial-*recovery*.mjs'
+      - 'scripts/test-editorial-oct21-*.mjs'
+      - 'scripts/prepare-oct21-image-execution.mjs'
+      - 'scripts/preflight-oct21-image-admission.mjs'
+      - 'scripts/finalize-oct21-image-execution.mjs'
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/IMAGE_EXECUTION_CONTRACT.json'
       - 'scripts/helpers/editorial-*services.mjs'
       - '.github/workflows/editorial-recovery-acceptance.yml'
   push:
