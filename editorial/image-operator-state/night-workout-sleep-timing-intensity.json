@@ -1,6 +1,6 @@
 {
   "slug": "night-workout-sleep-timing-intensity",
-  "status": "ERROR",
+  "status": "BLOCKED_MAX_ATTEMPTS",
   "attempts_total": 2,
   "max_attempts": 2,
   "last_error": "Source/Scene FAIL: article_scene_match, observed_plan_mismatch:human_action. 文字設計と各プレビューの可読性は合格。一方、生成背景は元画像より大幅に暖色化され、機器構成・フレーミングも再構築感が強く、実在する同一THE REV空間とは十分確認できない。背景も鋭く主張し、人物への視覚集中が要求の60〜70％に届かない。運動自体は成立するが、夜間トレーニング、就寝前、疲労時の強度選択という記事固有の判断は写真単体から読み取れず、一般的なケーブル運動に留まるため総合不合格。",
@@ -1365,6 +1365,6 @@
     "gbp_image_aspect_ratio": "4:3"
   },
   "job_path": "editorial/hybrid-image-jobs/night-workout-sleep-timing-intensity.json",
-  "updated_at": "2026-10-20T02:25:04.207Z",
+  "updated_at": "2026-10-20T23:38:22.839Z",
   "asset_version": "reference-v26-grounded-auto-4387-75-4c7bef75"
 }
