@@ -79,7 +79,7 @@ test('existing held draft is resumed on Primary without Writer reset, original b
  const sheets={'26_DAILY_EDITORIAL_QUEUE':[queue],'21_WEB_BLOG_OUTPUT':[blog],'22_GBP_POST':[]};
  s.ss_=()=>({getSheetByName:n=>sheets[n]});s.getObjectsWithRow_=rows=>rows;
  const original=blog.body_markdown;const resumed=s.v082ResumeExistingReview_();
- assert.equal(resumed.status,'EXISTING_DRAFT_QC_PASSED');assert.equal(h.counts().writerCalls,0);assert.equal(queue.draft_status,'READY');assert.equal(queue.queue_status,'BRIDGE_SYNCING');
+ assert.equal(resumed.status,'EXISTING_DRAFT_QC_PASSED');assert.equal(h.counts().writerCalls,0);assert.equal(queue.draft_status,'READY');assert.equal(queue.queue_status,'BRIDGE_ERROR','accepted blog must enter the existing Supervisor retry selector');
  assert.equal(JSON.parse(blog.editor_notes).recovery_v082_prior_body,original);
  assert.equal(s.v082ResumeExistingReview_(),null,'second tick does not redo QC');
  s.v065SyncBridgeDirect_(queue,blog);s.v065SyncBridgeDirect_(queue,blog);assert.equal(sheets['22_GBP_POST'].length,1,'GBP is checkpointed and idempotent');
@@ -90,6 +90,62 @@ test('known hard-restore clipping route stops before image API',async()=>{
  const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');let requests=0;
  await assert.rejects(()=>editV3PhotoWithLockedBackground({job:{v3:{background_lock:'masked_openai_edit_hard_restore_v1'}},generateResponse:async()=>{requests++;}}),/HARD_RESTORE_ROUTE_PAUSED/);
  assert.equal(requests,0);
+});
+
+function acceptedCheckpointHarness(state='QC'){
+ const sheets={'26_DAILY_EDITORIAL_QUEUE':[],'21_WEB_BLOG_OUTPUT':[],'22_GBP_POST':[]};
+ const h=recoverySandbox({rejectFirst:false,primary:s=>{
+  const q=sheets['26_DAILY_EDITORIAL_QUEUE'].find(x=>x.queue_status==='BRIDGE_ERROR'&&x.draft_status==='READY');
+  if(!q)return {status:'NO_BRIDGE_RETRY'};
+  s.v065SyncBridgeDirect_(q,sheets['21_WEB_BLOG_OUTPUT'][0]);q.queue_status='IMAGE_PREPARING';
+  return {status:'IMAGE_PREPARING'};
+ }});
+ const final=h.sandbox.finalizeWebBlog_(h.article,{});
+ const blog={...final,__row:1,content_id:'BLOG-CHECKPOINT',status:'READY',editor_decision:final._editor_decision,fact_check_status:'PASS',editor_notes:final._editor_notes};
+ const q={__row:1,content_id:blog.content_id,queue_status:state,draft_status:'QC',failed_stage:'INDEPENDENT_QC',knowledge_context_json:JSON.stringify({decision:'SUFFICIENT',topic_approval:{approved_at:'2026-10-21',proposal_id:'TP-CHECKPOINT'},interview:[]}),topic_gate_json:JSON.stringify({decision:'PUBLISH'})};
+ sheets['21_WEB_BLOG_OUTPUT'].push(blog);sheets['26_DAILY_EDITORIAL_QUEUE'].push(q);
+ sheets['22_GBP_POST'].push({__row:1,parent_blog_id:blog.content_id,status:'READY'});
+ h.sandbox.generateGBPFromBlog_=()=>{throw Error('SUCCESSFUL_GBP_MUST_BE_REUSED');};
+ h.sandbox.ss_=()=>({getSheetByName:n=>sheets[n]});
+ return {...h,blog,q,sheets};
+}
+
+test('saved accepted text resumes through Primary and the legacy Bridge retry selector without spending or manual nudges',()=>{
+ for(const state of ['QC','REVIEW_REQUIRED','BRIDGE_SYNCING']){
+  const h=acceptedCheckpointHarness(state),s=h.sandbox,body=h.blog.body_markdown,before=h.counts();
+  // Even an exhausted or ambiguous paid journal must not prevent a free,
+  // independently verified synchronization checkpoint from being resumed.
+  s.v082Journal_(h.article,{},r=>r.calls.push({kind:'qc',status:'UNCERTAIN',request_id:'previous-uncertain-qc'}));
+  const journal=JSON.stringify(s.v082Journal_(h.article,{}));
+  assert.equal(s.v065GeneratePendingArticle_().status,'ACCEPTED_BLOG_CHECKPOINT_RESUMED');
+  assert.equal(h.q.queue_status,'BRIDGE_ERROR');assert.equal(h.q.human_action_required,'NONE');
+  assert.equal(s.v065GeneratePendingArticle_().status,'IMAGE_PREPARING');
+  assert.equal(h.bridgeRequests.length,1);assert.equal(h.sheets['22_GBP_POST'].length,1);
+  assert.equal(s.v065GeneratePendingArticle_().status,'NO_BRIDGE_RETRY');
+  assert.equal(h.bridgeRequests.length,1);assert.equal(h.blog.body_markdown,body);
+  assert.deepEqual(h.counts(),before);assert.equal(JSON.stringify(s.v082Journal_(h.article,{})),journal);
+ }
+});
+
+test('free accepted-body resume preserves approvals, exact QC, duplicate checks, image holds and publication boundaries',()=>{
+ const cases=[
+  h=>h.blog.body_markdown+=' changed after QC',
+  h=>h.blog.editor_notes=JSON.stringify({quality_v080:{passed:true,independent:{pass:true}}}),
+  h=>{const n=JSON.parse(h.blog.editor_notes);n.quality_v080.independent.issues=['unsupported claim'];h.blog.editor_notes=JSON.stringify(n);},
+  h=>{const n=JSON.parse(h.blog.editor_notes);delete n.quality_v080.independent.total;h.blog.editor_notes=JSON.stringify(n);},
+  h=>h.q.knowledge_context_json=JSON.stringify({decision:'SUFFICIENT',topic_approval:{}}),
+  h=>h.q.knowledge_context_json=JSON.stringify({decision:'INTERVIEW',topic_approval:{approved_at:'2026-10-21'},interview:[{answer:''}]}),
+  h=>h.q.topic_gate_json=JSON.stringify({decision:'HOLD'}),
+  h=>h.sheets['21_WEB_BLOG_OUTPUT'].push({...h.blog,__row:2}),
+  h=>h.q.failed_stage='IMAGE_OPERATOR',
+  h=>h.q.queue_status='REVIEW_READY',
+  h=>h.q.queue_status='PUBLISHED',
+ ];
+ for(const alter of cases){
+  const h=acceptedCheckpointHarness();alter(h);const before=JSON.stringify(h.q),calls=h.counts();
+  assert.equal(h.sandbox.v082ResumeAcceptedBlog_(),null);
+  assert.equal(JSON.stringify(h.q),before);assert.deepEqual(h.counts(),calls);assert.equal(h.bridgeRequests.length,0);
+ }
 });
 
 test('actual operator process survives an API failure, rerun and corrupt state with one request total',async()=>{

@@ -47,14 +47,38 @@ async function start({interview=true,delay=false}={}) {
   await db.from('editorial_topic_proposals').update({content_id:contentId,status:'QUEUE_CREATED'}).eq('id',proposal.id);
   // The unavailable legacy writer/research API is replaced with a frozen
   // article response. Actual v0.8 preservation/independent-QC adapter executes.
-  const hq=recoverySandbox();
+  // The unavailable installed v0.6.5.2 Supervisor remains a fixed boundary.
+  // Its documented Bridge retry selector is exercised through the actual
+  // v0.8.2 Primary adapter, rather than calling Bridge manually after QC.
+  // This proves the versioned adapter handoff, not deployed GAS execution.
+  const qualitySheets={'26_DAILY_EDITORIAL_QUEUE':[],'21_WEB_BLOG_OUTPUT':[],'22_GBP_POST':[]};
+  const hq=recoverySandbox({primary:s=>{
+    const q=qualitySheets['26_DAILY_EDITORIAL_QUEUE'].find(q=>q.queue_status==='BRIDGE_ERROR'&&q.draft_status==='READY');
+    if(!q)return {status:'NO_BRIDGE_RETRY'};
+    const b=qualitySheets['21_WEB_BLOG_OUTPUT'].find(b=>b.content_id===q.content_id);
+    s.v065SyncBridgeDirect_(q,b);
+    q.queue_status='IMAGE_PREPARING';
+    return {status:'IMAGE_PREPARING',content_id:q.content_id};
+  }});
   Object.assign(hq.article,{...sample.data,slug_suggestion:'synthetic-e2e-recovery',body_markdown:sample.content});
   const ctx={},gate=JSON.parse(queued.queue_row.topic_gate_json);gate.knowledge_context=JSON.parse(queued.queue_row.knowledge_context_json);
   const generated=hq.sandbox.generateWebBlogDraft_(ctx,gate);
   const edited=hq.sandbox.finalizeWebBlog_(generated,ctx);
   assert.equal(JSON.parse(edited._editor_notes).quality_v080.passed,true,edited._editor_notes);
   assert.equal(hq.counts().writerCalls,1);assert.equal(hq.counts().qcCalls,2);
-  hq.sandbox.v065SyncBridgeDirect_(queued.queue_row,{...edited,status:'READY',fact_check_status:'PASS',editor_notes:edited._editor_notes});
+  const primaryQueue={...queued.queue_row,__row:1,queue_status:'QC',draft_status:'QC',failed_stage:'BLOG_QC'};
+  const checkpoint={...edited,__row:1,content_id:contentId,status:'READY',fact_check_status:'PASS',editor_decision:edited._editor_decision,editor_notes:edited._editor_notes};
+  qualitySheets['26_DAILY_EDITORIAL_QUEUE'].push(primaryQueue);
+  qualitySheets['21_WEB_BLOG_OUTPUT'].push(checkpoint);
+  hq.sandbox.ss_=()=>({getSheetByName:n=>qualitySheets[n]});
+  assert.equal(hq.sandbox.V082_PRIMARY_ADAPTER,'PRIMARY_ONLY_OPT_IN');
+  const beforeResume=hq.counts();
+  assert.equal(hq.sandbox.v065GeneratePendingArticle_().status,'ACCEPTED_BLOG_CHECKPOINT_RESUMED');
+  assert.equal(primaryQueue.queue_status,'BRIDGE_ERROR');
+  assert.equal(hq.sandbox.v065GeneratePendingArticle_().status,'IMAGE_PREPARING');
+  assert.deepEqual(hq.counts(),beforeResume,'Primary resumes the saved body without new Writer, Editor or QC calls');
+  assert.equal(hq.sandbox.v065GeneratePendingArticle_().status,'NO_BRIDGE_RETRY');
+  assert.equal(hq.bridgeRequests.length,1,'next tick cannot repeat the completed Bridge handoff');
   const proof=hq.bridgeRequests[0].editorial_text_qc;
   const payload={...sample.data,...edited,slug:'synthetic-e2e-recovery',production_recovery_version:'v0.8.2',editorial_text_qc:proof,content_id:contentId,week_start:'2026-10-17',editorial_status:'READY',fact_check_status:'PASS',topic_gate_decision:'PUBLISH',image_headline_short:'小さな違和感も、\n言葉にする。'};
   const sync=await invoke(bridge,{method:'POST',body:payload});assert.equal(sync.statusCode,201,JSON.stringify(sync.data));
@@ -82,11 +106,14 @@ function deliverFixedImages(h,{pass=true,missing=false}={}) {
 function svcPut(h,p,b){h.svc.files.set(p,b);}
 const poll=h=>invoke(status,{query:{content_id:h.contentId}});
 
-test('A: connected topic → approval → interview → quality adapter → real Bridge/job → status → authenticated Admin → canonical Preflight',async()=>{
+test('A: connected topic → approval → interview → quality checkpoint → Primary resume → real Bridge/job → status → authenticated Admin → canonical Preflight',async()=>{
   const h=await start();try {
     deliverFixedImages(h);
     const polled=await poll(h);assert.equal(polled.statusCode,200,JSON.stringify(polled.data));
     assert.equal(h.draft.image_status,'READY',JSON.stringify(polled.data.readiness));
+    assert.equal(polled.data.canonical_preflight.ok,true,'server-side canonical Preflight runs before an Owner opens Console');
+    assert.equal(polled.data.readiness.ready,true);
+    assert.equal(editorialProductionProgress(h.draft,polled.data.canonical_preflight).stage,'REVIEW_READY');
     const admin=await invoke(article,{query:{id:h.draft.id},admin:true});assert.equal(admin.data.article.id,h.draft.id);
     const preflight=await invoke(review,{query:{id:h.draft.id},admin:true});
     assert.equal(preflight.data.ok,true,JSON.stringify(preflight.data));
@@ -98,7 +125,7 @@ test('A: connected topic → approval → interview → quality adapter → real
     const again=await invoke(bridge,{method:'POST',body:h.payload});assert.equal(again.statusCode,200);
     assert.equal(h.svc.calls.filter(c=>c.method==='PUT').length,before,'body resync does not recreate image job');
     assert.equal(h.svc.calls.some(c=>c.host==='api.openai.com'),false);
-    traces.push({case:'A',result:'DRY_RUN_PASS_SUPPORTED_CONNECTED_PATH',content_id:h.contentId,checks:preflight.data.checks,limits:['legacy writer/research boundary fixed','generation/render/visual responses fixed','GAS installed triggers not executed']});
+    traces.push({case:'A',result:'DRY_RUN_PASS_SUPPORTED_CONNECTED_PATH',content_id:h.contentId,primary_resume:'ACCEPTED_BLOG_CHECKPOINT_RESUMED_TO_DOCUMENTED_LEGACY_BRIDGE_SELECTOR',checks:preflight.data.checks,limits:['legacy writer/research and installed Supervisor boundary fixed','generation/render/visual responses fixed','GAS installed triggers not executed']});
   } finally {h.svc.restore();}
 });
 

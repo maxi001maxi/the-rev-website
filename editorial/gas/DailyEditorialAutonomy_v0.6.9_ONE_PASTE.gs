@@ -2594,10 +2594,56 @@ function v082ResumeExistingReview_() {
     setObjectRow_(qsh,q.__row,{queue_status:'REVIEW_REQUIRED',failed_stage:'INDEPENDENT_QC',next_stage:'HUMAN_REVIEW',human_action_required:'REVIEW_QC_FINDINGS',last_error:JSON.stringify(notes.quality_v080.independent),updated_at:new Date()});
     return {status:'EXISTING_DRAFT_QC_HELD',content_id:q.content_id};
   }
-  setObjectRow_(qsh,q.__row,{queue_status:'BRIDGE_SYNCING',draft_status:'READY',last_successful_stage:'BLOG_QC_PASSED',failed_stage:'',next_stage:'WEB_BRIDGE',last_error:'',updated_at:new Date()});
+  v082QueueAcceptedBlog_(qsh,q);
   // The existing Supervisor owns GBP and Bridge continuation, including its
   // READY/PASS resume path. Never run another Writer from this adapter.
   return {status:'EXISTING_DRAFT_QC_PASSED',content_id:q.content_id};
+}
+
+// BRIDGE_SYNCING is an in-flight state, not the legacy Supervisor's retry
+// selector. Use its established BRIDGE_ERROR/READY resume contract (v0.7.1),
+// with no false error or new Writer/QC call. The Supervisor owns the next step.
+function v082QueueAcceptedBlog_(sheet,queue) {
+  setObjectRow_(sheet,queue.__row,{queue_status:'BRIDGE_ERROR',draft_status:'READY',
+    last_successful_stage:'BLOG_QC_PASSED',failed_stage:'',next_stage:'WEB_BRIDGE',
+    human_action_required:'NONE',last_error:'',updated_at:new Date()});
+}
+
+// A process can stop after saving the accepted blog but before saving the
+// Queue handoff. Read the actual accepted body + QC checkpoint before any paid
+// recovery. Never import a stale QC, bypass topic/interview approval, touch an
+// image/publish hold, or reset the API journal to resume this free handoff.
+function v082ResumeAcceptedBlog_() {
+  if(!v082Enabled_()||V080_QUALITY_MODE!=='ENFORCE')return null;
+  var qsh=ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE'),bsh=ss_().getSheetByName('21_WEB_BLOG_OUTPUT');
+  if(!qsh||!bsh)return null;
+  var blogs=getObjectsWithRow_(bsh),queues=getObjectsWithRow_(qsh);
+  for(var i=0;i<queues.length;i++){
+    var q=queues[i];
+    if(['QC','REVIEW_REQUIRED','BRIDGE_SYNCING'].indexOf(String(q.queue_status||''))<0||
+       ['', 'BLOG_DRAFT','BLOG_QC','INDEPENDENT_QC','WEB_BRIDGE'].indexOf(String(q.failed_stage||''))<0)continue;
+    var matches=blogs.filter(function(b){return b.content_id===q.content_id;});
+    if(matches.length!==1)continue;
+    var b=matches[0],notes,knowledge,gate;
+    try{
+      notes=JSON.parse(String(b.editor_notes||'{}'));
+      knowledge=JSON.parse(String(q.knowledge_context_json||'{}'));
+      gate=JSON.parse(String(q.topic_gate_json||'{}'));
+    }catch(_){continue;}
+    var quality=notes.quality_v080,qc=quality&&quality.independent;
+    if(b.status!=='READY'||b.fact_check_status!=='PASS'||b.editor_decision!=='READY'||
+       !quality||quality.passed!==true||!qc||qc.pass!==true||qc.source_unverified!==false||
+       !Array.isArray(qc.issues)||qc.issues.length||!(Number(qc.total)>=16)||
+       !/^[a-f0-9]{64}$/.test(qc.evidence_sha256||'')||
+       qc.body_sha256!==v082Sha_(String(b.body_markdown||'').trim())||
+       knowledge.decision!=='SUFFICIENT'||!knowledge.topic_approval||!knowledge.topic_approval.approved_at||gate.decision!=='PUBLISH'||
+       (Array.isArray(knowledge.interview)&&knowledge.interview.some(function(a){return !String(a.answer||'').trim();}))||
+       !v065LengthGate_(b.article_type||'STANDARD',b.body_markdown).pass)continue;
+    v082QueueAcceptedBlog_(qsh,q);
+    return {status:'ACCEPTED_BLOG_CHECKPOINT_RESUMED',content_id:q.content_id,
+      next_stage:'WEB_BRIDGE',writer_reused:true,additional_api_calls:0,automatic_publish:false};
+  }
+  return null;
 }
 var V082_PRIMARY_ADAPTER=(function(){
   if(typeof v065GeneratePendingArticle_!=='function')return 'PRIMARY_NOT_PRESENT';
@@ -2606,7 +2652,7 @@ var V082_PRIMARY_ADAPTER=(function(){
     if(!v082Enabled_())return previous.apply(this,arguments);
     var lock=LockService.getScriptLock(),held=lock.hasLock();
     if(!held&&!lock.tryLock(1000))return {status:'RECOVERY_PRIMARY_BUSY'};
-    try{var recovered=v082ResumeExistingReview_(),result=recovered||previous.apply(this,arguments);v082ReflectHold_();return result;}
+    try{var recovered=v082ResumeAcceptedBlog_()||v082ResumeExistingReview_(),result=recovered||previous.apply(this,arguments);v082ReflectHold_();return result;}
     finally{if(!held)lock.releaseLock();}
   };
   return 'PRIMARY_ONLY_OPT_IN';
