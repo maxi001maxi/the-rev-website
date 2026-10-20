@@ -20,7 +20,6 @@ jobs:
       - name: Capture the explicit candidate Preview at all five widths
         env:
           BASE_URL: https://the-rev-website-mq9ufd7at-htrmaxi0101-9305s-projects.vercel.app
-          WIDTHS: 768,390,375
           CANDIDATE_SHA: 8a327f13bc6fcca64d4723716199d6fa2961c252
           VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           VISUAL_OUT: qa-out/stage2-preview
