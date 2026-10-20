@@ -1,0 +1,32 @@
+name: Stage 2 visual acceptance
+on:
+  push:
+    branches: [qa/stage2-visual-8a327f1]
+    paths: ['.github/workflows/stage2-visual-acceptance.yml', 'scripts/qa-stage2-release-visual.mjs']
+permissions:
+  contents: read
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Capture the explicit candidate Preview at all five widths
+        env:
+          BASE_URL: https://the-rev-website-mq9ufd7at-htrmaxi0101-9305s-projects.vercel.app
+          CANDIDATE_SHA: 8a327f13bc6fcca64d4723716199d6fa2961c252
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          VISUAL_OUT: qa-out/stage2-preview
+        run: node scripts/qa-stage2-release-visual.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-preview-8a327f1
+          path: qa-out/stage2-preview/
+          retention-days: 14
