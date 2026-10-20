@@ -1,0 +1,175 @@
+{
+  "schema": "editorial-oct21-image-execution-proposal-v1",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "status": "NOT_EXECUTABLE_APPROVAL_AND_REQUEST_BOUNDS_REQUIRED",
+  "checked_at": "2026-10-20",
+  "accepted_body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "preserve_text_qc": true,
+  "source": {
+    "id": "the-rev-evolgear-20260922",
+    "path": "assets/images/photo-evolgear.jpg",
+    "sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "size": [
+      1400,
+      1867
+    ]
+  },
+  "composition": {
+    "width": 1024,
+    "height": 1536,
+    "edit": {
+      "x": 560,
+      "y": 410,
+      "width": 440,
+      "height": 1100
+    },
+    "meaning": [
+      {
+        "name": "face",
+        "x": 680,
+        "y": 500,
+        "width": 190,
+        "height": 190
+      },
+      {
+        "name": "watch_gesture",
+        "x": 640,
+        "y": 800,
+        "width": 270,
+        "height": 200
+      }
+    ],
+    "formats": [
+      {
+        "name": "thumbnail",
+        "width": 1200,
+        "height": 675,
+        "photo_width_fraction": 0.66
+      },
+      {
+        "name": "og",
+        "width": 1200,
+        "height": 630,
+        "photo_width_fraction": 0.66
+      },
+      {
+        "name": "gbp",
+        "width": 1200,
+        "height": 900,
+        "photo_width_fraction": 1
+      }
+    ]
+  },
+  "paid_scope_proposal": {
+    "approval_status": "NOT_APPROVED",
+    "max_total_usd": 0.5,
+    "generation_max_calls": 1,
+    "independent_qc_max_calls": 2,
+    "automatic_regeneration": false,
+    "ambiguous_request_retry": false,
+    "previous_failed_generations_preserved": 2,
+    "old_text_qc_approval_not_reused": true,
+    "quota_reset": false
+  },
+  "precision_model_proposal": {
+    "model": "gpt-image-2.5-sunburst-2026-09-08",
+    "quality": "max",
+    "size": "1024x1536",
+    "output_format": "png",
+    "reason": "Official image guide recommends Sunburst when editing precision matters most. max is the proposed highest explicit quality, not a guarantee of QC success.",
+    "runtime_model_availability_verified": false,
+    "existing_route_model": "gpt-image-1.5",
+    "existing_route_changed": false,
+    "substitution_allowed": false
+  },
+  "cost": {
+    "currency": "USD",
+    "confirmed_invoice": null,
+    "official_output_estimate_tokens": 5488,
+    "official_output_rate_per_million": 30,
+    "estimated_image_output_usd": 0.16464,
+    "calculation": "Official guide calculator: ceil(96*64*(2000000+1024*1536)/4000000)",
+    "excluded": [
+      "reference-image and prompt input",
+      "Responses mainline usage if that route is retained",
+      "independent grounding/QC input and output"
+    ],
+    "total_estimate_usd": null,
+    "admission_rule": "Do not submit any paid request until current model availability, exact payload, input/output token bounds, and durable reservation for all authorized calls fit the approved total ceiling. Unknown or insufficient bounds block execution.",
+    "budget_enforcement_verified": false
+  },
+  "r7_comparison": {
+    "reference_manifest": "editorial/image-review/2026-10-15-health-pain-r7-prepublication.json",
+    "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+    "images": {
+      "thumbnail.jpg": {
+        "path": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+        "sha256": "ed41051a375fb46c780d640698fb5a36392d3e70be65bbc4302b2015cef70670"
+      },
+      "og_image.jpg": {
+        "path": "assets/images/blog/og/og-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+        "sha256": "e5a29df585189a77ef25af812d256ae55cf870b3b9d55b45d85e74183a928c7b"
+      },
+      "gbp_image.jpg": {
+        "path": "assets/images/gbp/gbp-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+        "sha256": "b9663c392be7e849c35e2321479d6cbaae3c8050204983b4d3c3ad5888407505"
+      },
+      "scene-depth.png": {
+        "path": "assets/images/editorial-generated/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline-scene.png",
+        "sha256": "f4626ed4af71a51e6c358482c151225edfc49d419b3c25cfa20f18d0e0f513b1"
+      },
+      "independent-visual-qa.json": {
+        "path": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+        "sha256": "760ea97e085f8f1336fe2b27cd54f8b46ba9c4c235f93c56851d902d9eb8472f"
+      }
+    },
+    "new_image_comparison_performed": false
+  },
+  "quality_gate": {
+    "raw_background_guard_unchanged": true,
+    "hard_restore_forbidden": true,
+    "documentation_warning": "GPT Image masks are prompt guidance and do not guarantee exact mask adherence. The current exact protected-pixel guard may quarantine the output even if it looks similar.",
+    "inspect": [
+      "room geometry/equipment/floor/windows/lights",
+      "one customer; no staff",
+      "perspective, scale, floor contact and shadows",
+      "hands, wristwatch gesture and gaze",
+      "article-specific meaning",
+      "R7 photographic integration",
+      "all actual JPEGs at original, 320px and 400px"
+    ],
+    "fail_action": "Retain raw scene, QC, request IDs and usage; quarantine; no adoption, READY, automatic regeneration or production synchronization.",
+    "threshold_relaxation": false
+  },
+  "next_steps": [
+    "Finish exact model/payload compatibility and cost-bound admission without paid generation.",
+    "Obtain distinct Owner approval for this article's image and QC contract.",
+    "Run only the approved branch route; reserve before provider; one scene only.",
+    "Independently inspect raw scene against real source and R7.",
+    "Render three candidate derivatives offline and independently QC every final; adopt only all-PASS actual files with dimensions and SHA256.",
+    "After separate production authorization, reuse existing CMS Draft through canonical Bridge/assets-first delivery.",
+    "Verify authenticated Console final Preflight; stop before Publish and GBP post."
+  ],
+  "boundaries": {
+    "main_merge": false,
+    "production_deployment": false,
+    "supabase_write": false,
+    "sheets_write": false,
+    "xserver_delivery": false,
+    "publish": false,
+    "gbp_post": false
+  },
+  "results": {
+    "new_paid_generation_calls": 0,
+    "new_paid_qc_calls": 0,
+    "new_final_images": 0,
+    "visual_qc_pass": false,
+    "review_ready": false
+  },
+  "primary_sources": [
+    "https://developers.openai.com/api/docs/guides/image-generation",
+    "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst",
+    "https://developers.openai.com/api/docs/pricing",
+    "https://developers.openai.com/_astro/GptImageTokenCalculator.react.COKX_Fgn.js"
+  ]
+}
