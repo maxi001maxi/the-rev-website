@@ -113,7 +113,8 @@
     "fix": "Bind recent4 and recent12 to the same verified history snapshot; opt-in mismatch gate fails before provider; preserve immutable executed job and save any later free proposal separately.",
     "regression_tests": 2,
     "additional_model_calls": 0,
-    "original_failed_qc_preserved": true
+    "original_failed_qc_preserved": true,
+    "additional_adapter_fix": "Preserve canonical SCENE_PLAUSIBILITY_VERSION in the prepared recovery job, so abstract timing decisions use the existing concrete-claim plausibility contract. Original QC remains rejected; photo integration and R7 thresholds are unchanged."
   },
   "current_cms": [
     {

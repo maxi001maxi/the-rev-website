@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {buildHybridImageJob} from '../lib/editorialHybridImageFormat.mjs';
 import {candidate,source,admission} from './preflight-oct21-image-admission.mjs';
 import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
+import {SCENE_PLAUSIBILITY_VERSION} from '../lib/editorialScenePlausibility.mjs';
 import {guardedPhotoEditPlan,guardedPhotoEditSettings} from '../lib/editorialGuardedPhotoEdit.mjs';
 const root='editorial/prepublication/2026-10-21-evening-strength-sleep';
 const read=p=>JSON.parse(fs.readFileSync(p));
@@ -25,6 +26,7 @@ const job=buildHybridImageJob({slug:candidate.slug,title:candidate.article_title
  backgroundSource:{driveFileId:source.drive_file_id,cachedFrameDriveFileId:source.drive_file_id,selectionReason:'Approved real EVOLGEAR space; article-specific timing/strength decision; preserve original equipment and room.'}});
 job.generated_scene_path=job.generated_scene_path.replace(/\.jpg$/,'.png');
 job.max_generation_attempts=1;
+job.policy.scene_plausibility_version=SCENE_PLAUSIBILITY_VERSION;
 job.scene_plan=candidate.scene_plan;
 job.scene_plan.article_specific_directive=job.scene_intent;
 job.visual_claim='A calm end-of-session decision: look at wristwatch and choose to finish rather than keep pushing; the photo does not prove sleep benefit.';
