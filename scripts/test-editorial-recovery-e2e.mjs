@@ -40,9 +40,11 @@ async function start({interview=true,delay=false}={}) {
   const chosen=proposal.options.find(x=>interview?x.candidate_id==='E2E-0':!x.interview_required);assert(chosen);
   proposal=await changeProposal(db,proposal.id,'choose',{candidateId:chosen.candidate_id,source:'GPT',actor:'synthetic-owner',now});
   if(delay)assert.equal(approvedQueue(proposal,{...args,now:new Date('2026-10-19T05:00:00+09:00')}).queue_row,null);
-  if(proposal.status==='INTERVIEW_WAITING') proposal=await changeProposal(db,proposal.id,'answer',{answers:chosen.questions.map(()=> '合成テストのOwner回答。実在の体験談ではない。'),source:'GPT',actor:'synthetic-owner',now});
-  if(interview){const replay=await changeProposal(db,proposal.id,'answer',{answers:proposal.interview_answers,source:'GPT',actor:'synthetic-owner',now});assert.deepEqual(replay.interview_answers,proposal.interview_answers);}
-  const queued=approvedQueue(proposal,args);assert(queued.queue_row);
+  const answeredAt=delay?new Date('2026-10-19T05:00:00+09:00'):now;
+  if(proposal.status==='INTERVIEW_WAITING') proposal=await changeProposal(db,proposal.id,'answer',{answers:chosen.questions.map(()=> '合成テストのOwner回答。実在の体験談ではない。'),source:'GPT',actor:'synthetic-owner',now:answeredAt});
+  if(interview){const replay=await changeProposal(db,proposal.id,'answer',{answers:proposal.interview_answers,source:'GPT',actor:'synthetic-owner',now:answeredAt});assert.deepEqual(replay.interview_answers,proposal.interview_answers);}
+  const queued=approvedQueue(proposal,{...args,now:answeredAt});assert(queued.queue_row);
+  if(delay){assert.equal(proposal.interview_answered_at,answeredAt.toISOString());assert.equal(queued.queue_row.target_date.replaceAll('/','-'),proposal.target_date);assert.equal(queued.queue_row.run_date.replaceAll('/','-'),'2026-10-19');}
   const contentId=queued.queue_row.content_id;
   await db.from('editorial_topic_proposals').update({content_id:contentId,status:'QUEUE_CREATED'}).eq('id',proposal.id);
   // The unavailable legacy writer/research API is replaced with a frozen
@@ -84,7 +86,7 @@ async function start({interview=true,delay=false}={}) {
   const sync=await invoke(bridge,{method:'POST',body:payload});assert.equal(sync.statusCode,201,JSON.stringify(sync.data));
   const draft=svc.tables.admin_article_drafts[0];
   const job=JSON.parse(svc.files.get(draft.image_job_path));
-  return {svc,db,proposal,contentId,payload,draft,job};
+  return {svc,db,proposal,contentId,payload,draft,job,queue:primaryQueue};
 }
 
 function deliverFixedImages(h,{pass=true,missing=false}={}) {
@@ -169,7 +171,7 @@ test('future articles: no interview and delayed/replayed interview complete with
       deliverFixedImages(h);await poll(h);const preflight=await invoke(review,{query:{id:h.draft.id},admin:true});
       assert.equal(preflight.data.ok,true);assert.equal(h.svc.tables.admin_article_drafts.length,1);
       assert.equal(approvedQueue(h.proposal,{now:new Date('2026-10-20T05:00:00+09:00'),rows:[{content_id:h.contentId,topic_candidate_id:h.proposal.selected_candidate_id,target_date:h.proposal.target_date,queue_status:'REVIEW_READY'}],shortlist:[],articleHistory:[],outputRows:[],settings:{daily_editorial_cadence:'DAILY'}}).status,'ALREADY_CREATED');
-      assert.equal(h.draft.publish_status,'NOT_PUBLISHED');traces.push({case:config.interview?'delayed_duplicate_interview':'no_interview',result:'DRY_RUN_PASS'});
+      assert.equal(h.draft.publish_status,'NOT_PUBLISHED');traces.push({case:config.interview?'delayed_duplicate_interview':'no_interview',result:'DRY_RUN_PASS',interview_answered_at:h.proposal.interview_answered_at||null,run_date:h.queue.run_date,target_date:h.queue.target_date});
     }finally{h.svc.restore();}
   }
 });
