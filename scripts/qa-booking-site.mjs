@@ -63,4 +63,5 @@ try{
  fs.writeFileSync(out+'/booking-browser.json',JSON.stringify(log,null,2));
  await browser.close();
  console.log(log.status,log.error||log.finalUrl);
+ console.log(JSON.stringify({status:log.status,stage:log.stage,blockedReads:log.blockedReads,blockedWriteDetails:log.blockedWriteDetails,pageErrors:log.pageErrors,failedRequests:log.failedRequests,menuObservations:log.menuObservations,renderedText:(log.text||'').slice(0,4000)}));
 }
