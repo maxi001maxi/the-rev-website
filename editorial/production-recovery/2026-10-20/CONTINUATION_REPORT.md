@@ -26,7 +26,7 @@ QC responseにrecommendationsを分離。臨床的断定・不正確な出典・
 
 R9のhard restoreは引き続き停止。新しいopt-in raw guardは、生の生成画像の保護画素を全数比較し、変化や境界への接触で拒否する。背景を上書きして人物を切る処理はしない。実経路へ固定provider応答を与え、受理・背景改変拒否・raw保持を検証。v3編集契約をAPI台帳digestに含め、mask変更で同じ予算を再利用できないよう修正。
 
-**GEOMETRY_PASS_PRODUCTION_EDIT_BLOCKED**。実OpenAIのmask追従性、人物の自然さ、遮蔽、独立Visual QC、R7比較、最新の完全な意味履歴は未検証。図面は完成画像ではなく、無料Preflight全体のPASSとも扱わない。実画像を作っていないので最終3JPEG/SHA/配信200は提供不可。
+**FREE_ADMISSION_PASS_PAID_APPROVAL_REQUIRED**。正規source/history/copy admissionをCIで実行し、直近12件比較・unknown0・コピー重複なし・最新Brief一致を確認。生成/QC呼出0、正規Job未登録、既存不合格2回を保持。実OpenAIのmask追従性、人物の自然さ、遮蔽、独立Visual QC、R7比較は未検証。図面は完成画像ではない。最終3JPEG/SHA/配信200は未達。
 
 ## P0-3 予約QA・版ずれ
 
@@ -34,7 +34,7 @@ Run39363624290の実artifact12238742029を照合。redirect PASS、public master
 
 QAはカード操作→選択メニュー名＋日時tableの表示を全3メニューで検証し、旧selectも維持。個人情報・日時選択・予約送信は行わない。非GET通信を禁止。失敗時DOM/スクリーンショット/pageerror/通信失敗を保存し、transport UNVERIFIEDもCI成功にしない。カード／旧select／メニュー欠落／カレンダー欠落の実Chromium回帰テストを追加。
 
-ローカルから当該サイトへはERR_EMPTY_RESPONSEでUNVERIFIED（クラウドブラウザーとCIとは経路が異なる）。CIで全3メニューの実検証を別途記録する。待ち時間を延ばして旧input前提を温存する修正ではない。
+ローカルから当該サイトへはERR_EMPTY_RESPONSEでUNVERIFIED（クラウドブラウザーとCIとは経路が異なる）。その後のCIでは全3メニューの実検証PASSを記録した。待ち時間を延ばして旧input前提を温存する修正ではない。
 
 本番Vercelは依然deployment dpl_Db48XgBD25aHyWUJJi1f4DWnAjMi、main/a9ce3b6…のOct15版。v0.8.2ブランチは未マージ・GAS未導入。重要な本番変更承認前には反映しない。
 
@@ -52,7 +52,7 @@ QAはカード操作→選択メニュー名＋日時tableの表示を全3メニ
 
 ## 承認・アクセス境界
 
-直近の必要承認は追加本文QC1回（上限$0.25、自動再試行なし）。画像は無料admission未完了なので有料枠をまだ消費しない。mainマージ、GAS bundle導入/property有効化、Vercel本番deploy、Xserver配信と本番Bridge同期は、検証候補と影響を提示したうえで個別の承認が必要。GAS/Consoleの認証付き検証には利用可能なセッションが必要。最終Publish/GBP投稿は対象外。
+直近の必要承認は追加本文QC1回（上限$0.25、自動再試行なし）。画像の無料admissionはPASSだが、新規有料生成の承認・独立Visual QCは未完了。mainマージ、GAS bundle導入/property有効化、Vercel本番deploy、Xserver配信と本番Bridge同期は、検証候補と影響を提示したうえで個別の承認が必要。GAS/Consoleの認証付き検証には利用可能なセッションが必要。最終Publish/GBP投稿は対象外。
 
 
 ### CI実画面で追加確認したQA前提
@@ -63,3 +63,14 @@ Run39378792698では「リカバリー」の日時表・09:00〜18:00・予約�
 ### 本番導入時の費用履歴保全
 
 GitHubで実施済みのOct21本文QC2回を、GAS Script Propertiesの新規journalにも取り込む。proposal ID／slugのどちらでも既存request ID・body hash・usage・不合格を保持し、導入直後の新規2回課金を禁止する。同じ履歴の重複取り込みはしない。GASの自動復旧はこの既存記事を再制作せず、追加承認・結果照合待ちを維持する。新規記事の正規2回枠は変更しない。
+
+
+### 2026-10-20 続行検証（16:40 JST以降）
+
+最新の実Supabase読み戻しは `CONTINUATION_CMS_STATUS_READBACK.json`。同一Draft、未公開、noindex、Bridge hash/time null、image ERROR/asset_ready false/attempts2を保持。
+
+復旧CI39387481591では14単体/統合＋3接続E2E、無料実履歴admission、既存Editorial検証がPASS。有料本文QC jobはSKIPPED。Phase9もPASS。
+
+公開サイトQA39387480726はbehavior PASS。追加ログによりvisualの停止はtop-390のスクロールループ内（高さ13897px、step590.8）、decode前と確認。画像生成・Editorial停止の原因とは分離する。ローカルの実build（693ファイルのprod/preview parity PASS）では同じ画面4ケースが通過した。長時間のrenderer内evaluateループをホスト側の1スクロール単位へ分割し、Playwright側の実フレーム待機期限で安全停止できるよう修正。renderer側のtimerとrAFを同時停止した回帰ケースでもホスト期限でFAILとなることを確認。品質assertionは維持し、画面HTTP404をPASSにする経路も拒否する。最新修正のCI結果はPR #266のValidationを正本とし、修正前FAILを上書きしない。承認済みbaselineがないため、実画面キャプチャを旧承認画面とのpixel一致と誤記しない。
+
+実装済み・合成検証済み・本番導入済み・実案件E2E済みは別判定。A=BLOCKED、B=NOT_DEPLOYED、追加課金0。次のOwner判断は固定済み修正原稿への本文独立QC1回（通常見積US$0.04〜0.07、上限US$0.25、自動retryなし）。

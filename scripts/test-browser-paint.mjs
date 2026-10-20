@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {ready,traverse} from '../lib/browserPaintQa.mjs';
 async function browserTest(fn){const b=await chromium.launch({headless:true,args:['--no-sandbox']});try{await fn(b);}finally{await b.close();}}
+test('suspended renderer animation and timers fail within the host deadline',{timeout:6000},()=>browserTest(async b=>{
+ const p=await b.newPage();await p.setContent('<p>paint must not be assumed</p>');
+ await p.evaluate(()=>{window.requestAnimationFrame=()=>0;window.setTimeout=()=>0;});
+ await assert.rejects(()=>ready(p),/Timeout 2000ms/);
+}));
 test('a previously background page is brought forward for actual mobile paint',()=>browserTest(async b=>{
  const ctx=await b.newContext({viewport:{width:390,height:844}}),p=await ctx.newPage();await p.setContent('<p>mobile proof</p>');const other=await ctx.newPage();await other.setContent('<p>other</p>');await other.bringToFront();await ready(p);assert.equal(await p.evaluate(()=>document.visibilityState),'visible');assert.equal(await p.locator('p').innerText(),'mobile proof');
 }));
@@ -27,3 +32,4 @@ test('a loaded SVG is rendered without invoking the unreliable optional SVG deco
  await p.setContent('<img src="'+svg+'">');await p.evaluate(()=>{window.svgDecodeCalls=0;const previous=HTMLImageElement.prototype.decode;HTMLImageElement.prototype.decode=function(){if(this.currentSrc.startsWith('data:image/svg+xml')){window.svgDecodeCalls++;return new Promise(()=>{});}return previous.call(this);};});
  const result=await traverse(p);assert.equal(await p.evaluate(()=>svgDecodeCalls),0);assert.equal(result.svg_decode_skipped,1);assert.equal(await p.locator('img').evaluate(i=>i.complete&&i.naturalWidth),24);assert((await p.screenshot()).length>100);
 }));
+
