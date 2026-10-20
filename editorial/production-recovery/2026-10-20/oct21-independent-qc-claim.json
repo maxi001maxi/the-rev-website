@@ -1,11 +1,21 @@
 {
   "content_id": "BLOG-20261021-4ac8fd",
-  "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3",
-  "request_sha256": "43ea66f0fa9fb596b5908fe54c3df1ef4a38515e509dc0603f0cf4e5b51d451e",
-  "status": "COMPLETED",
-  "started_at": "2026-10-20T03:10:34.444Z",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
+  "status": "STARTED",
+  "started_at": "2026-10-20T08:15:02.875Z",
   "max_requests": 2,
-  "total_requests": 2,
+  "additional_approval": {
+    "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
+    "ceiling_usd": 0.25,
+    "max_additional_requests": 1,
+    "conservative_max_estimate_usd": 0.159395,
+    "automatic_retry": false,
+    "owner_permits_retry": true,
+    "chosen_policy": "one recommended-setting QC; no blind resend or quality retry",
+    "prior_calls_preserved": 2
+  },
+  "total_requests": 3,
   "calls": [
     {
       "status": "COMPLETED",
@@ -44,39 +54,12 @@
       },
       "pass": false,
       "confirmed_cost": null
+    },
+    {
+      "status": "STARTED",
+      "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+      "at": "2026-10-20T08:15:02.875Z"
     }
   ],
-  "confirmed_cost": null,
-  "checked_at": "2026-10-20T03:10:46.689Z",
-  "request_id": "req_885cd030abb642d784f4c82adebcbb26",
-  "response_id": "resp_0a3cacfd269ad52d016ad6dbac59c087d18350c8cd191d64de",
-  "model": "gpt-5.6-sol",
-  "http_status": 200,
-  "usage": {
-    "input_tokens": 3356,
-    "input_tokens_details": {
-      "cache_write_tokens": 3353,
-      "cached_tokens": 0
-    },
-    "output_tokens": 855,
-    "output_tokens_details": {
-      "reasoning_tokens": 394
-    },
-    "total_tokens": 4211
-  },
-  "pass": false,
-  "production_db_changed": false,
-  "image_calls": 0,
-  "published": false,
-  "gbp_posted": false,
-  "evidence_sha256": "20ab84a3dc9e339cd429ef04b5095bc9b5f06f53ddb609dce9910f3b01aeba6b",
-  "total": 18,
-  "issues": [
-    "「23時就寝なら21時はセット数を減らす、22時以降は歩行か休む」という具体例は、研究で直接検証された境界ではなく、記事独自の調整案である。調整例との明記はあるが、根拠との区別をさらに明確にするとよい。",
-    "筋トレの「軽い・激しい」を読者が判定する基準がない。限界まで追い込まない、重量やセット数を減らすだけでなく、RPEや反復余力などの実用的な目安があると意思決定しやすい。",
-    "最大重量への挑戦や限界セットを避けること、運動後に呼吸が落ち着く時間を取ることは妥当な実践提案だが、 supplied evidenceでは筋トレ固有の睡眠効果として直接検証されていない。Ownerの発言も方針の証拠に限られ、臨床的有効性の独立証明にはならない。"
-  ],
-  "source_unverified": true,
-  "reason": "主要な研究結果、対象範囲、観察研究の限界、厚労省の2〜4時間目安は、提示された検証済み要約と整合している。夜間運動を一律に避けず、就寝時刻と負荷を組み合わせて調整するという結論も明確で、読みやすい。一方、時刻別メニューと筋トレ固有の負荷調整には直接検証されていない実践提案が含まれ、強度の判定基準も十分に具体化されていないため、意思決定と根拠の具体性は満点に届かない。",
-  "is_human_reader_test": false
+  "confirmed_cost": null
 }
