@@ -18,11 +18,9 @@ try{
  await page.waitForFunction(()=>[...document.images].filter(i=>i.getClientRects().length&&getComputedStyle(i).visibility!=='hidden').every(i=>i.complete),{timeout:20000});
  const state=await page.evaluate(()=>({scrollWidth:document.documentElement.scrollWidth,width:innerWidth,images:[...document.images].filter(i=>i.getClientRects().length&&getComputedStyle(i).visibility!=='hidden'&&i.naturalWidth===0).map(i=>i.getAttribute('src')),booking:[...document.querySelectorAll('a[href*="cl.gyms.jp"]')].map(a=>({href:a.href,track:a.dataset.track,placement:a.dataset.placement})),header:document.querySelector('header')?.getBoundingClientRect().toJSON(),topBodyBackground:getComputedStyle(document.body).backgroundColor}));
  assert.ok(state.scrollWidth<=width+1,name+' overflow');assert.deepEqual(state.images,[],name+' missing images');assert.ok(state.booking.length);assert.ok(state.booking.every(a=>a.href.startsWith('https://cl.gyms.jp/t/CC2237480443/')));
- const shots=[];async function shot(label){const file=`${name}-${width}-${label}.png`;await page.screenshot({path:path.join(out,file)});shots.push(file);}
+ const shots=[];async function shot(label){await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));const file=`${name}-${width}-${label}.png`;await page.screenshot({path:path.join(out,file),animations:'disabled'});shots.push(file);}
  await shot('top');
- const sections=page.locator('main section');const count=await sections.count();const indices=count>0?[Math.floor(count/2)]:[];
- for(const index of indices){await sections.nth(index).scrollIntoViewIfNeeded();await shot('body');}
- if(!indices.length){await page.evaluate(()=>scrollTo({top:Math.max(0,(document.documentElement.scrollHeight-innerHeight)/2),behavior:'instant'}));await shot('body');}
+ await page.evaluate(()=>scrollTo({top:Math.max(0,(document.documentElement.scrollHeight-innerHeight)*.45),behavior:'instant'}));await shot('body');
  await page.locator('footer').scrollIntoViewIfNeeded();await shot('footer');
  await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));
  const toggle=page.locator('#menu-toggle');if(await toggle.isVisible()){await toggle.click();const dialog=page.locator('.rev-native-drawer');await dialog.waitFor({state:'visible'});const instagram=dialog.locator('a[href="https://www.instagram.com/the.rev.nara/"],a[href="https://instagram.com/the.rev.nara/"]');assert.equal(await instagram.count(),1,'Instagram in menu');await shot('menu');await page.keyboard.press('Escape');assert.equal(await toggle.getAttribute('aria-expanded'),'false');}
