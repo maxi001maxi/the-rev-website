@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import {getFile} from '../lib/githubContent.mjs';
 import {imageUsageReceipt} from '../lib/editorialImageUsageReceipt.mjs';
 const root=process.argv[2]||'editorial/prepublication/2026-10-21-evening-strength-sleep',read=p=>JSON.parse(fs.readFileSync(p));
-if(!/^editorial\/prepublication\/2026-10-21-evening-strength-sleep(?:\/(?:image-finish-r[45]|image-layout-r5))?$/.test(root))throw Error('FINALIZER_SCOPE_INVALID');
+if(!/^editorial\/prepublication\/2026-10-21-evening-strength-sleep(?:\/(?:image-finish-r[45]|image-layout-r5b?))?$/.test(root))throw Error('FINALIZER_SCOPE_INVALID');
 const job=read(root+'/IMAGE_JOB.json');
 const stateFile=root+'/image-execution-state/'+job.slug+'.json';
 const state=fs.existsSync(stateFile)?read(stateFile):{};

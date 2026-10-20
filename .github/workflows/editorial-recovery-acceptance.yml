@@ -16,6 +16,8 @@ on:
       - '.github/workflows/editorial-oct21-image-finish.yml'
       - '.github/workflows/editorial-oct21-image-depth.yml'
       - '.github/workflows/editorial-oct21-image-layout-qc.yml'
+      - '.github/workflows/editorial-oct21-image-layout-standing-qc.yml'
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-layout-r5b/IMAGE_EXECUTION_CONTRACT.json'
       - 'scripts/prepare-oct21-image-layout-qc.mjs'
       - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-layout-r5/IMAGE_EXECUTION_CONTRACT.json'
       - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r5/IMAGE_EXECUTION_CONTRACT.json'

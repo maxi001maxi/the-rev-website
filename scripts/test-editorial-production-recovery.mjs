@@ -35,9 +35,9 @@ test('evidence requires exact primary URL; source strings cannot masquerade as v
  const h=recoverySandbox();assert.equal(h.sandbox.v082ResearchEvidence_(['https://evil.test/?https://pubmed.ncbi.nlm.nih.gov/34416428/']).length,0);
  assert.equal(h.sandbox.v082ResearchEvidence_(['https://pubmed.ncbi.nlm.nih.gov/34416428/']).length,1);
 });
-test('real Oct21 legacy bypass blocks before any billable request; intent is readiness',()=>{
+test('real Oct21 legacy bypass blocks before any billable request; intent is recovery after evening training',()=>{
  const old=preflightEditorialImage(oct21,registry,{requireStrict:true});assert.equal(old.pass,false);assert(old.errors.includes('SEMANTIC_HISTORY_INCOMPLETE'));assert(old.errors.includes('STRICT_ATTEMPT_LIMIT_NOT_ONE'));assert(old.errors.includes('ARTICLE_INTENT_MISMATCH'));assert.equal(old.no_api_calls,true);
- assert.equal(articleSceneIntent({title:oct21.article_title}),'readiness');
+ assert.equal(articleSceneIntent({title:oct21.article_title}),'recovery');
 });
 test('R2/R3/R4/R6/R8/R9 rejection ledger survives fake PASS, asset rename with same hashes',()=>{
  for(const version of ['reference-v26-grounded-evolgear-20261018-contract-r2','reference-v3-grounded-evolgear-20261018-contract-r3','reference-v3-masked-evolgear-20261018-contract-r4','reference-v3-lobby-route-b-20261018-contract-r6','reference-v31-lobby-contract-review-20261018-r8','reference-v31-evolgear-terms-foreground-20261018-r9']) {
