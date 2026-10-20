@@ -217,9 +217,28 @@
     {
       "sequence": 3,
       "kind": "qc",
-      "status": "STARTED",
+      "status": "COMPLETED",
       "at": "2026-10-20T09:43:48.218Z",
-      "confirmed_cost": null
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_9afbf47aa97d4b4b95695d0edae1e06c",
+      "response_id": "resp_046c1f5d36e4a39e006ad737d6424487d0bbdabdf2606dddc4",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 23327,
+        "input_tokens_details": {
+          "cache_write_tokens": 23324,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3411,
+        "output_tokens_details": {
+          "reasoning_tokens": 1980
+        },
+        "total_tokens": 26738
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-10-20T09:44:33.662Z"
     }
   ],
   "confirmed_cost": null
