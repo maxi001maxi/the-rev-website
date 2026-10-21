@@ -252,7 +252,15 @@ var V082_BRIDGE_ADAPTER=(function(){
     v082EnsureGbp_(queue,blog);
     active={schema:'editorial-text-qc-v1',content_id:queue.content_id,body_sha256:qc.body_sha256,evidence_sha256:qc.evidence_sha256,
       pass:true,total:qc.total,source_unverified:false,issues:qc.issues,version:'v0.8.2'};
-    try{return bridge.apply(this,arguments);}finally{active=null;}
+    try{
+      var result=bridge.apply(this,arguments);
+      // The legacy consistency adapter has already checked canonical Preflight.
+      // Keep progress columns in step with its successful direct Bridge route.
+      if(result.bridge_status==='PREVIEW_READY')setObjectRow_(ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE'),queue.__row,{
+        last_successful_stage:'CANONICAL_PREFLIGHT',failed_stage:'',next_stage:'HUMAN_REVIEW',
+        human_action_required:'REVIEW_AND_PUBLISH',last_error:''});
+      return result;
+    }finally{active=null;}
   };
   return 'INSTALLED_OPT_IN';
 })();
