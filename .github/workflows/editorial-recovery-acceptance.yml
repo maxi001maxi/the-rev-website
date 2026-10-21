@@ -3,6 +3,10 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'admin/articles/index.html'
+      - 'admin/js/article-list-order.mjs'
+      - 'api/admin/articles/index.mjs'
+      - 'scripts/test-editorial-owner-order.mjs'
       - 'lib/editorial*.mjs'
       - 'api/integrations/editorial*.mjs'
       - 'lib/publishFlow.mjs'
@@ -46,6 +50,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: node --test scripts/test-editorial-owner-order.mjs
       - run: node scripts/build-gas-bundle.mjs --check
       - name: Free Oct21 recovery source and semantic admission (no provider or writes)
         env:

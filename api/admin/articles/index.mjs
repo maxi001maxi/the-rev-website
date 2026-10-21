@@ -1,6 +1,7 @@
 // GET  /api/admin/articles  … 自分の下書き一覧（一覧表示に必要な列のみ）
 // POST /api/admin/articles  … 新規下書きの作成（statusは常にdraftへ強制）
 import { getAuthedContext, normalizeArticleInput, sendError } from '../../../lib/supabaseAdmin.mjs';
+import { sortArticleList } from '../../../admin/js/article-list-order.mjs';
 
 // Publication Stateを一覧へ返し、DRAFT / PUBLISHING / PUBLISHEDを正しく表示する。
 const LIST_COLUMNS = 'id, title, slug, category, status, updated_at, created_at, source_path, publish_status, publish_commit_sha, publish_committed_at, published_at, publish_verified_at, published_url';
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
       .order('updated_at', { ascending: false });
 
     if (error) return sendError(res, 500, 'db_error', '記事一覧の取得に失敗しました。');
-    return res.status(200).json({ articles: data });
+    return res.status(200).json({ articles: sortArticleList(data) });
   }
 
   if (req.method === 'POST') {

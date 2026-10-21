@@ -38,6 +38,7 @@
 </div>
 
 <div id="error-box" class="admin-error admin-hidden" role="alert"></div>
+<p class="admin-page-lead" id="article-sort-order">並び順：DRAFT（未公開）→ PUBLISHING（反映中）→ PUBLISHED（公開確認済み）。同じ状態では作成日の新しい順です。</p>
 <div id="list-loading" class="admin-card admin-hidden">読み込み中…</div>
 
 <div id="empty-state" class="admin-empty admin-hidden">
@@ -67,6 +68,7 @@
 import { requireSession, signOut } from '/admin/js/admin-auth.mjs';
 import { AdminApi } from '/admin/js/admin-api.mjs';
 import { BLOG_CATEGORIES } from '/assets/js/blog-taxonomy.mjs';
+import { articleListState, sortArticleList } from '/admin/js/article-list-order.mjs';
 
 const CATEGORY_LABELS = Object.fromEntries(BLOG_CATEGORIES.map((c) => [c.slug, c.labelEn]));
 
@@ -89,10 +91,10 @@ function showError(message) {
 
 function renderRows(articles) {
   const tbody = document.getElementById('articles-tbody');
-  tbody.innerHTML = articles.map((a) => {
-    const publicationState = String(a.publish_status || 'NOT_PUBLISHED').trim();
-    const published = publicationState === 'PUBLISHED' && !!a.publish_verified_at;
-    const publishing = publicationState === 'PUBLISH_COMMITTED';
+  tbody.innerHTML = sortArticleList(articles).map((a) => {
+    const publicationState = articleListState(a);
+    const published = publicationState === 'PUBLISHED';
+    const publishing = publicationState === 'PUBLISHING';
 
     const badge = published
       ? '<span class="admin-badge admin-badge-published">PUBLISHED</span>'

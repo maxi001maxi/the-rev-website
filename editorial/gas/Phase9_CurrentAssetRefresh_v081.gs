@@ -50,7 +50,32 @@ function scheduledEditorialAssetLedgerSyncV068(){
  const assets=v068SyncRecentArticleAssets_();
  const ledger=typeof scheduledEditorialHumanLedgerSyncV063==='function'?scheduledEditorialHumanLedgerSyncV063():null;
  const sort=v068SortArticleImagesNewestFirst_();
- return {status:'SUCCESS',version:'v0.6.8',assets:assets,ledger:ledger,sort:sort,auto_publish:false};
+ const gbpView=v081RepairGbpView_(),coverage=v081GbpCoverage_();
+ return {status:assets.errors||coverage.missing.length?'PARTIAL':'SUCCESS',version:'v0.6.8',assets:assets,ledger:ledger,sort:sort,gbp_view:gbpView,gbp_coverage:coverage,auto_publish:false};
+}
+// Derived view only: never physically reorder source rows used by the Primary.
+// Normalize native dates, older comma dates and UTC ISO timestamps into JST.
+function v081GbpViewFormula_(){
+ const g="'22_GBP_POST'!",a=g+'A2:A';
+ const date=`IF(ISNUMBER(${a}),${a},IFERROR(VALUE(SUBSTITUTE(SUBSTITUTE(LEFT(SUBSTITUTE(TO_TEXT(${a}),",",""),19),"T"," "),"-","/"))+IF(REGEXMATCH(TO_TEXT(${a}),"Z$"),9/24,0),0))`;
+ const values=`{${date},IF(${date}>0,TEXT(${date},"yyyy/mm/dd hh:mm"),TO_TEXT(${a})),${g}E2:E,${g}F2:F,${g}G2:G,${g}H2:H,${g}I2:I,IF(${g}P2:P<>"",${g}P2:P,IF(${g}I2:I="[BLOG_URL]","BLOCKED_URL",${g}J2:J)),IF(${g}L2:L="READY","準備完了",${g}L2:L),${g}M2:M,${g}K2:K,${g}D2:D,ROW(${a})}`;
+ return `=ARRAYFORMULA(IFNA(CHOOSECOLS(SORT(SORTN(SORT(FILTER(${values},${g}E2:E<>"",${g}D2:D<>""),1,FALSE,13,FALSE),9^9,2,12,TRUE),1,FALSE,13,FALSE),2,3,4,5,6,7,8,9,10,11,12),""))`;
+}
+function v081RepairGbpView_(){
+ const sh=ss_().getSheetByName('Googleビジネス投稿');if(!sh)return {status:'SHEET_MISSING'};
+ const cell=sh.getRange('A2'),formula=v081GbpViewFormula_(),changed=cell.getFormula()!==formula;
+ if(changed)cell.setFormula(formula);
+ sh.setFrozenRows(1);
+ sh.getRange('A1').setNote('作成日の新しい原稿が2行目。同じ親記事IDは最新1件を表示。表示専用のため行挿入・直接ソートはせず、22_GBP_POSTを更新します。Googleへの投稿は人間確認が必要です。');
+ return {status:changed?'REPAIRED':'VERIFIED',formula_row:2,order:'generated_at DESC, source_row DESC',posted:false};
+}
+function v081GbpCoverage_(){
+ const b=ss_().getSheetByName('25_WEB_PUBLISH_BRIDGE'),g=ss_().getSheetByName('22_GBP_POST');
+ if(!b||!g)return {missing:[],status:'SHEET_MISSING'};
+ const copies={};getObjectsWithRow_(g).forEach(r=>{if(r.parent_blog_id&&String(r.body_copy_paste||'').trim())copies[r.parent_blog_id]=true;});
+ const seen={},missing=[];
+ getObjectsWithRow_(b).forEach(r=>{const id=String(r.content_id||'');if(id&&r.bridge_status==='PUBLISHED'&&!copies[id]&&!seen[id]){seen[id]=true;missing.push({content_id:id,title:r.title||'',reason:'GBP_COPY_MISSING',next_action:'CREATE_COPY_FROM_PUBLISHED_PARENT'});}});
+ return {status:missing.length?'COPY_MISSING':'COMPLETE',missing:missing,generated:false,posted:false};
 }
 function v081RepairArticleImageView_(){
  const sh=ss_().getSheetByName('記事別画像');if(!sh)return {status:'SHEET_MISSING'};
