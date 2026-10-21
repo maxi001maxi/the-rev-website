@@ -1,0 +1,15 @@
+{
+  "action": "EXECUTE_CORRECTED_CONTEXT_QC_ONCE",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "generation_max_calls": 0,
+  "qc_max_calls": 1,
+  "automatic_retry": false,
+  "accepted_ci_run": 39524595823,
+  "reviewed_code_sha256": {
+    "lib/editorialOwnerFinishEdit.mjs": "8a5a4392632a1bd77354bcd7592498a2739a62164ba14c27b586da3330a62b7f",
+    "scripts/auto-editorial-hybrid-image.mjs": "49afb35dfe3656c8baf6f8db7165ae599141232664f01854034093b8748b02ce",
+    "scripts/prepare-oct21-qc-context.mjs": "f2974cdca726e47f6f5f1f19c6c3e96937608979cdf366e3bfe1341e86b50bfa",
+    ".github/workflows/editorial-oct21-qc-context.yml": "df3e3aa392c3be21b344a9ddc59ad1e4a816efffa9cda5d67f01fcc4ad7fd46d"
+  },
+  "owner_authorization": "2026-10-21: 画像QCの矛盾を解消し、既存Draftへ本文・画像を正式同期。 Prior cost-ceiling waiver retained. No generation, no original quota reset, no publication."
+}
