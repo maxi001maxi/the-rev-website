@@ -114,6 +114,35 @@ test('canonical-ready Bridge clears stale failure metadata; pending Bridge retai
  }
 });
 
+test('ready notice survives a different run_date, verifies Preflight, preserves legacy dedupe and never publishes',()=>{
+ const h=recoverySandbox(),s=h.sandbox,q={__row:1,content_id:'BLOG-NOTICE',run_date:'2026-10-20',target_date:'2026-10-21',queue_status:'REVIEW_READY',web_bridge_status:'PREVIEW_READY',review_url:'https://example.test/review',topic:'test',notification_status:'PENDING'};
+ s.ss_=()=>({getSheetByName:()=>[q]});let calls=0,checks=0;
+ s.v065CheckImageDirect_=()=>{checks++;return {ready:false};};s.v065LinePushText_=()=>{calls++;return {status:'SENT',http_status:200};};
+ assert.equal(s.v082NotifyReady_().status,'NO_READY_NOTIFICATION');assert.equal(calls,0);assert.equal(q.notification_status,'PENDING');
+ s.v065CheckImageDirect_=()=>{checks++;return {ready:true};};const before=h.counts();assert.equal(s.v082NotifyReady_().status,'SENT');
+ assert.equal(q.notification_status,'SENT');assert(q.notification_sent_at);assert.equal(q.queue_status,'REVIEW_READY');
+ const n=checks;s.v082NotifyReady_();assert.equal(calls,1);assert.equal(checks,n);assert.deepEqual(h.counts(),before);
+ q.notification_status='PENDING';delete q.notification_sent_at;s.v082NotifyReady_();assert.equal(calls,1);assert.equal(q.notification_status,'SENT');assert.equal(q.notification_sent_at,undefined,'legacy receipt has no invented timestamp');
+});
+test('ready notification has bounded backoff and stops ambiguous delivery without hiding article readiness',()=>{
+ for(const ambiguous of [false,true]){
+  const h=recoverySandbox(),s=h.sandbox,q={__row:1,content_id:'BLOG-NOTICE-FAIL',queue_status:'REVIEW_READY',web_bridge_status:'PREVIEW_READY',review_url:'https://example.test/review'};
+  s.ss_=()=>({getSheetByName:()=>[q]});s.v065CheckImageDirect_=()=>({ready:true});let calls=0;
+  s.v065LinePushText_=()=>{calls++;if(ambiguous)throw Error('connection lost');return {status:'ERROR',http_status:503};};
+  assert.equal(s.v082NotifyReady_().status,ambiguous?'UNCERTAIN':'ERROR');s.v082NotifyReady_();assert.equal(calls,1);
+  const key='THE_REV_READY_NOTICE_V082_'+q.content_id;
+  for(let i=0;i<4;i++){const state=JSON.parse(h.records.get(key));state.next_at=0;h.records.set(key,JSON.stringify(state));s.v082NotifyReady_();}
+  assert.equal(calls,ambiguous?1:3);assert.equal(q.queue_status,'REVIEW_READY');assert.equal(q.notification_sent_at,undefined);
+ }
+});
+
+test('cross-day approved quality/API failure is notified without clearing its hold or notifying unapproved rows',()=>{
+ const h=recoverySandbox(),s=h.sandbox,q={__row:1,content_id:'BLOG-ERROR-NOTICE',run_date:'2026-10-20',queue_status:'REVIEW_REQUIRED',knowledge_context_json:JSON.stringify({topic_approval:{approved_at:'2026-10-20'}}),failed_stage:'INDEPENDENT_QC',next_stage:'HUMAN_REVIEW',human_action_required:'REVIEW_QC_FINDINGS',last_error:'evidence missing'};
+ s.ss_=()=>({getSheetByName:()=>[q]});let calls=0;s.v065LinePushText_=text=>{calls++;assert(text.includes('evidence missing'));return {status:'SENT',http_status:200};};s.v065CheckImageDirect_=()=>{throw Error('failed QC must not be promoted');};
+ const before=h.counts();assert.equal(s.v082NotifyOwner_('FAILURE').status,'SENT');s.v082NotifyOwner_('FAILURE');assert.equal(calls,1);assert.equal(q.queue_status,'REVIEW_REQUIRED');assert.equal(q.failed_stage,'INDEPENDENT_QC');assert.deepEqual(h.counts(),before);
+ q.content_id='UNAPPROVED';q.knowledge_context_json='{}';s.v082NotifyOwner_('FAILURE');assert.equal(calls,1);
+});
+
 test('known hard-restore clipping route stops before image API',async()=>{
  const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');let requests=0;
  await assert.rejects(()=>editV3PhotoWithLockedBackground({job:{v3:{background_lock:'masked_openai_edit_hard_restore_v1'}},generateResponse:async()=>{requests++;}}),/HARD_RESTORE_ROUTE_PAUSED/);
