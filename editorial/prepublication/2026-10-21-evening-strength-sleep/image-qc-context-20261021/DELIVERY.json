@@ -1,0 +1,27 @@
+{
+  "status": "THREE_ACCEPTED_FORMATS_LIVE_SHA_PASS",
+  "receipts": [
+    {
+      "url": "https://therev-lab.com/assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "status": 200,
+      "sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1",
+      "bytes": 133871
+    },
+    {
+      "url": "https://therev-lab.com/assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "status": 200,
+      "sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b",
+      "bytes": 126279
+    },
+    {
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "status": 200,
+      "sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3",
+      "bytes": 179860
+    }
+  ],
+  "run_id": "39530070637",
+  "checked_at": "2026-10-21T01:55:51.415901+00:00",
+  "db_writes": false,
+  "publish_invoked": false
+}
