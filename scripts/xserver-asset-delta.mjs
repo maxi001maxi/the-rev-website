@@ -28,12 +28,12 @@ export function planAssetDelta({files,distRoot='dist',before,oldBlob,liveBlob,ba
     if(prior!==null){
       if(live===null||sha(prior)!==sha(live))throw Error('DELTA_PREIMAGE_MISMATCH: '+p);
       const dest=path.join(backupDir,p);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,prior);
-      rollback.push('mkdir -p '+quote('/'+path.posix.dirname(p)), 'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(dest));
+      rollback.push('mkdir -pf '+quote('/'+path.posix.dirname(p)), 'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(dest));
     }else{
       if(live!==null)throw Error('DELTA_UNEXPECTED_REMOTE_FILE: '+p);
       rollback.push('rm -f '+quote('/'+p));
     }
-    upload.push('mkdir -p '+quote('/'+path.posix.dirname(p)),'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(fresh));
+    upload.push('mkdir -pf '+quote('/'+path.posix.dirname(p)),'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(fresh));
     out.push({path:p,new_sha256:sha(bytes),old_sha256:prior===null?null:sha(prior),bytes:bytes.length});
   }
   fs.writeFileSync(path.join(backupDir,'manifest.json'),JSON.stringify({before,items:out},null,2)+'\n');

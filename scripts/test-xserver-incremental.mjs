@@ -31,6 +31,8 @@ test('asset delta requires verified preimage, saves rollback bytes and orders FT
  assert.equal(r.length,1);assert(fs.readFileSync('delta-backup/assets/images/blog/photo.jpg','utf8')==='OLD_IMAGE');
  assert(fs.readFileSync('.delta-rollback.lftp','utf8').includes('OLD_IMAGE')===false);
  assert(fs.readFileSync('.delta-upload.lftp','utf8').includes('put -O "/assets/images/blog"'));
+ assert(fs.readFileSync('.delta-upload.lftp','utf8').startsWith('mkdir -pf '));
+ assert(fs.readFileSync('.delta-rollback.lftp','utf8').startsWith('mkdir -pf '));
  assert.throws(()=>planAssetDelta({files:['assets/images/blog/photo.jpg'],before,oldBlob:()=>Buffer.from('OLD_IMAGE'),liveBlob:()=>Buffer.from('MISMATCH')}),/PREIMAGE_MISMATCH/);
  assert.throws(()=>planAssetDelta({files:['assets/css/style.css'],before,oldBlob:()=>null,liveBlob:()=>null}),/DELTA_PATH_UNSAFE/);
  }finally{process.chdir(prev);fs.rmSync(dir,{recursive:true,force:true});}
