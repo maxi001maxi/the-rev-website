@@ -1,0 +1,17 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
+  "request_utf8_bytes": 14879,
+  "max_output_tokens": 4000,
+  "evidence_sha256": "8d2ae2584169961c45f71cbb9a8f734b94fd97321be043834c016e856d8ab8e1",
+  "source_count": 4,
+  "owner_source": "TP-20261021",
+  "no_api_calls": true,
+  "status": "CORRECTED_AWAITING_ADDITIONAL_QC_APPROVAL",
+  "independent_qc_pass": false,
+  "prior_paid_calls": 2,
+  "authorized_remaining_calls": 0,
+  "paid_execution_permitted": false,
+  "body_chars": 2386
+}

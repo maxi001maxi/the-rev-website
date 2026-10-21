@@ -1,0 +1,60 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "asset_version": "reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020",
+  "review_only": true,
+  "owner_approval": {
+    "status": "APPROVED",
+    "date": "2026-10-20",
+    "evidence": "Owner continued at 18:49 JST after explanation that completed Japanese/night photo is retained and semantic classification/GBP layout need correction. Standing instruction waives cost-ceiling checks and requests completion.",
+    "direction_is_not_final_qc": true
+  },
+  "generation_max_calls": 0,
+  "independent_qc_max_calls": 1,
+  "automatic_regeneration": false,
+  "model": "gpt-image-2.5-sunburst-2026-09-08",
+  "quality": "max",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "input_sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "previous_r3_adoption": "REJECTED_PRESERVED_INPUT_ONLY",
+  "cost_ceiling_verification": "WAIVED_BY_OWNER",
+  "production_authorization": {
+    "main_merge": false,
+    "code_deploy": false,
+    "gas_install": false,
+    "supabase_write": false,
+    "sheets_write": false,
+    "xserver_delivery": false,
+    "publish": false,
+    "gbp_post": false
+  },
+  "previous_r4_adoption": "REJECTED_PRESERVED_INPUT_ONLY",
+  "recovery_reason": "QC-only: fix the canonical plan's erroneous seated composition to the already Owner-approved standing full body. New free checks reject mismatched composition or recent-history snapshot before any paid call. Existing image, structure observations and GBP ellipse remain unchanged. Retain the original layout QC rejection; one independent re-verification is required.",
+  "recovery_max_additional_generations": 1,
+  "prior_calls_preserved": [
+    {
+      "version": "r3",
+      "generation": 1,
+      "qc": 2
+    },
+    {
+      "version": "r4",
+      "generation": 1,
+      "qc": 2
+    },
+    {
+      "version": "r5",
+      "generation": 1,
+      "qc": 2
+    },
+    {
+      "version": "r5-layout-first",
+      "generation": 0,
+      "qc": 1,
+      "request_id": "req_d193eff66d9a46abaa96b771491fe5ff"
+    }
+  ],
+  "further_automatic_versions_authorized": false,
+  "mode": "QC_ONLY_UNCHANGED_R5_SCENE",
+  "further_paid_retry_allowed": false
+}

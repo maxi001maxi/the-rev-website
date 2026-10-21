@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 
 const DIR = new URL('../editorial/gas/', import.meta.url);
-const SOURCES = ['DailyEditorialGate_v0.6.9.gs', 'DailyEditorialCreator_v0.6.9.gs', 'DailyEditorialTopicApproval_v0.7.0.gs', 'DailyEditorialSupervisorRecovery_v0.7.1.gs', 'DailyEditorialImageOperatorStatus_v0.7.2.gs', 'DailyEditorialTriggerTopology_v0.7.3.gs', 'DailyEditorialQuality_v0.8.0.gs'];
+const SOURCES = ['DailyEditorialGate_v0.6.9.gs', 'DailyEditorialCreator_v0.6.9.gs', 'DailyEditorialTopicApproval_v0.7.0.gs', 'DailyEditorialSupervisorRecovery_v0.7.1.gs', 'DailyEditorialImageOperatorStatus_v0.7.2.gs', 'DailyEditorialTriggerTopology_v0.7.3.gs', 'DailyEditorialQuality_v0.8.0.gs', 'DailyEditorialProductionRecovery_v0.8.2.gs'];
 export const BUNDLE = 'DailyEditorialAutonomy_v0.6.9_ONE_PASTE.gs';
 
 const HEADER = `/**
@@ -23,6 +23,7 @@ const HEADER = `/**
  * - DailyEditorialImageOperatorStatus_v0.7.2.gs
  * - DailyEditorialTriggerTopology_v0.7.3.gs
  * - DailyEditorialQuality_v0.8.0.gs
+ * - DailyEditorialProductionRecovery_v0.8.2.gs
  *
  * Paste this entire file into ONE file in the bound Apps Script project,
  * then run installDailyEditorialAutonomyV069() once.
@@ -30,6 +31,7 @@ const HEADER = `/**
  * v0.7.1 wraps its generation step with bounded QC crash self-recovery.
  * v0.7.2 returns Image Operator BLOCKED/FAILED states to the Primary Supervisor.
  * v0.7.3 removes redundant Creator/Watchdog triggers while Topic Approval owns orchestration.
+ * v0.8.2 adds opt-in bounded preservation repair and evidence delivery.
  * v0.8.0 adds opt-in Writer/Editor prompts + independent quality gate (OFF by default).
  */
 

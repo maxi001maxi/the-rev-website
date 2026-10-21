@@ -1,19 +1,21 @@
 // Actual Chromium, production-equivalent origin served ONLY from local build.
 // Google CDN bootstrap is allowed; ALL collection/pixels/third-party writes abort.
 import {chromium} from 'playwright';
+import {ready,traverse} from '../lib/browserPaintQa.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 const out=path.resolve(process.env.TECH_QA_OUT||'qa-out/technical/browser');fs.mkdirSync(out,{recursive:true});
 const origin='https://therev-lab.com', root=path.resolve('dist');
-const report={origin:'Production hostname fulfilled from local dist; no production server requests',checks:[],cdn:[],collection:[],errors:[],visual:[],ga4Receipt:'UNVERIFIED',analyticsTransmitted:0};
+const scope=process.env.TECH_QA_SCOPE||'all';if(!['all','behavior','visual'].includes(scope))throw Error('Invalid TECH_QA_SCOPE');
+const report={scope,origin:'Production hostname fulfilled from local dist; no production server requests',checks:[],cdn:[],collection:[],errors:[],visual:[],ga4Receipt:'UNVERIFIED',analyticsTransmitted:0};
 // A CDN/context shutdown stall must fail with evidence before the CI job timeout.
 // This never substitutes a timeout for any existing assertion or marks it PASS.
 const watchdog=setTimeout(()=>{
- report.status='FAIL';report.failure='Technical browser deadline exceeded (240s); last stage: '+(report.stage||'startup');
+ report.status='FAIL';report.failure='Technical browser deadline exceeded ('+(scope==='all'?480:240)+'s, '+scope+'); last stage: '+(report.stage||'startup');
  fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));
  console.error(report.failure);process.exit(1);
-},240000);watchdog.unref();
+},scope==='all'?480000:240000);watchdog.unref();
 const check=(name,detail)=>{report.checks.push({name,status:'PASS',detail});fs.writeFileSync(path.join(out,'progress.json'),JSON.stringify(report,null,2));};
 const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox']});
 async function context({width=1440,height=900,baseline=false,cdn=false,siteOrigin=origin}={}){
@@ -43,16 +45,9 @@ async function context({width=1440,height=900,baseline=false,cdn=false,siteOrigi
  });
  return ctx;
 }
-async function ready(page){await page.waitForLoadState('load');await page.evaluate(async()=>{await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});}
-async function traverse(page){await page.evaluate(async()=>{for(let y=0;y<document.documentElement.scrollHeight;y+=innerHeight*.7){scrollTo({top:y,behavior:'instant'});await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));}
- const images=[...document.images].filter(i=>i.getClientRects().length&&getComputedStyle(i).visibility!=='hidden');
- if(images.some(i=>i.complete&&i.naturalWidth===0))throw new Error('Visible image failed to load before visual proof');
- // decode() is a best-effort paint wait (errors were already ignored). Some
- // Chromium SVG decoders never settle; bound only this wait, not assertions.
- await Promise.all(images.filter(i=>i.complete&&i.naturalWidth).map(async i=>{let timer;try{await Promise.race([i.decode().catch(()=>{}),new Promise(resolve=>{timer=setTimeout(resolve,2000);})]);}finally{clearTimeout(timer);}}));
- scrollTo({top:0,behavior:'instant'});});await ready(page);}
 async function preventNavigation(page){await page.evaluate(()=>document.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault();},true));}
 try{
+ if(scope!=='visual'){
  // Deterministic browser behavior checks never execute external analytics.
  for(const pathname of ['/','/solution.html','/price.html']){
   const ctx=await context();const page=await ctx.newPage();page.on('pageerror',e=>report.errors.push({pathname,message:e.message}));
@@ -157,12 +152,19 @@ try{
  report.parameterMappingStatus=intents.length?(intents.every(x=>x.page&&x.placement)?'OBSERVED':'FAIL_EXISTING_GTM_PARAMETER_MAP'):'UNVERIFIED';
  report.publicationReadiness='FINAL_ACCEPTANCE_REQUIRED: receipt and external parameters are separate from website regression; see docs/qa/2026-10-17/FINAL_ACCEPTANCE.md';
  // Optional baseline images captured before edits; CI still produces current evidence.
+ }
+ if(scope!=='behavior'){
  for(const [width,height] of [[1440,900],[390,844]])for(const pathname of ['/','/solution.html']){
   report.stage='visual comparison / '+pathname+' / '+width;
   const images={};const stem=`${pathname==='/'?'top':'recovery'}-${width}`;
   for(const baseline of fs.existsSync('qa-out/technical/baseline/index.html')?[true,false]:[false]){
    report.stage='visual navigation / '+stem;
-   const ctx=await context({width,height,baseline}),page=await ctx.newPage();await page.goto(origin+pathname);await ready(page);await traverse(page);
+   const ctx=await context({width,height,baseline});report.stage='visual new page / '+stem;const page=await ctx.newPage();
+   page.on('console',message=>{if(message.text().startsWith('REV_QA_PAINT ')){report.stage=stem+' / '+message.text();console.log(report.stage);}});
+   report.stage='visual goto / '+stem;const response=await page.goto(origin+pathname);assert.equal(response.status(),200,stem+' rendered page must exist');
+   report.stage='visual ready / '+stem;await ready(page);
+   report.stage='visual traverse / '+stem;const traversal=await traverse(page);
+   report.visualTraversal ||= [];report.visualTraversal.push({stem,baseline,...traversal});
    report.stage='visual screenshot / '+stem;
    images[baseline?'before':'after']=await page.screenshot({path:path.join(out,`${stem}-${baseline?'before':'after'}.png`),fullPage:true,animations:'disabled',timeout:15000});
    report.stage='visual context shutdown / '+stem;await ctx.close();
@@ -170,6 +172,8 @@ try{
   const identical=images.before?images.before.equals(images.after):null;report.visual.push({stem,identical,baselineAvailable:!!images.before});
   if(images.before)assert.ok(identical,`${stem}: approved rendering pixel-identical`);
  }
+ }
  assert.deepEqual(report.errors,[]);report.status='PASS';
 }catch(e){report.status='FAIL';report.failure=e.stack;process.exitCode=1;}
 finally{report.stage='browser shutdown';await browser.close();clearTimeout(watchdog);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));}
+

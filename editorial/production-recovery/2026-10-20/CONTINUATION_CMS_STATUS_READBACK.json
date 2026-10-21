@@ -1,0 +1,18 @@
+{
+  "read_only": true,
+  "measured_at": "2026-10-20T07:35:26.985226Z",
+  "draft": {
+    "id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+    "editorial_content_id": "BLOG-20261021-4ac8fd",
+    "status": "draft",
+    "publish_status": "NOT_PUBLISHED",
+    "noindex": true,
+    "editorial_source": "the-rev-editorial-ai",
+    "editorial_sync_hash": null,
+    "editorial_synced_at": null,
+    "image_status": "ERROR",
+    "image_asset_ready": false,
+    "image_attempts": 2,
+    "updated_at": "2026-10-20 07:35:26.985226+00"
+  }
+}

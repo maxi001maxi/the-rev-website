@@ -1,0 +1,31 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "asset_version": "reference-v082-evolgear-japanese-night-finish-20261020-r4",
+  "review_only": true,
+  "owner_approval": {
+    "status": "APPROVED",
+    "date": "2026-10-20",
+    "evidence": "Owner asks to keep the positively reviewed composition, use a Japanese customer and add night atmosphere; previous explicit instruction to execute and waive cost ceiling verification remains applicable.",
+    "direction_is_not_final_qc": true
+  },
+  "generation_max_calls": 1,
+  "independent_qc_max_calls": 2,
+  "automatic_regeneration": false,
+  "model": "gpt-image-2.5-sunburst-2026-09-08",
+  "quality": "max",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "input_sha256": "a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "previous_r3_adoption": "REJECTED_PRESERVED_INPUT_ONLY",
+  "cost_ceiling_verification": "WAIVED_BY_OWNER",
+  "production_authorization": {
+    "main_merge": false,
+    "code_deploy": false,
+    "gas_install": false,
+    "supabase_write": false,
+    "sheets_write": false,
+    "xserver_delivery": false,
+    "publish": false,
+    "gbp_post": false
+  }
+}

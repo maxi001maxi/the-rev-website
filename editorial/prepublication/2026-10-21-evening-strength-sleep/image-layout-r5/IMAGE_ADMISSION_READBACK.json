@@ -1,0 +1,216 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "measured_at": "2026-10-20T09:57:23.368Z",
+  "exact_checkout_sha": "ca1bb4a5466fecb07534e71f040cd7081dbb5122",
+  "status": "FREE_ADMISSION_PASS_PAID_APPROVAL_REQUIRED",
+  "admission": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-evolgear-20260922",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "nekose-strength-training-posture",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "recent4_source_matches": [],
+  "history": [
+    {
+      "slug": "personal-gym-first-session-pain-health-history",
+      "qa_at": "2026-10-15T03:46:44.330Z",
+      "content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "reception",
+        "human_action": "prepare",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "considering_health_report",
+        "article_intent": "health_before_start"
+      },
+      "observation_reference": null
+    },
+    {
+      "slug": "the-rev-trial-three-menus-first-visit",
+      "qa_at": "2026-10-14T02:01:11.756Z",
+      "content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+      "asset_version": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+      "scene_fingerprint": {
+        "scene_type": "arrival",
+        "location_type": "reception",
+        "human_action": "observe_facility",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "first_visit_reassurance",
+        "article_intent": "facility_selection"
+      },
+      "observation_reference": null
+    },
+    {
+      "slug": "nekose-strength-training-posture",
+      "qa_at": "2026-10-13T01:53:31.806Z",
+      "content_reference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+      "asset_version": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "reception",
+        "human_action": "rest",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "checking_readiness",
+        "article_intent": "training_start"
+      },
+      "observation_reference": null
+    },
+    {
+      "slug": "pre-workout-stretching-duration",
+      "qa_at": "2026-10-11T00:47:06.303Z",
+      "content_reference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+      "asset_version": "reference-v26-grounded-auto-4387-75-warmup-r3",
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "training_area",
+        "human_action": "prepare",
+        "composition_type": "wide_full_body",
+        "visual_role": "checking_readiness",
+        "article_intent": "training_start"
+      },
+      "observation_reference": null
+    },
+    {
+      "slug": "denba-health-device-mat-role",
+      "qa_at": "2026-10-10T02:43:04.486Z",
+      "content_reference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "asset_version": "reference-v26-grounded-auto-denba-20260924-r5",
+      "scene_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "location_type": "reception",
+        "human_action": "observing_real_equipment",
+        "composition_type": "close_action_portrait",
+        "visual_role": "component_relationship",
+        "article_intent": "equipment_explanation"
+      },
+      "observation_reference": null
+    },
+    {
+      "slug": "shinomiya-gym-beginner-choose",
+      "qa_at": "2026-10-07T05:24:50.575Z",
+      "content_reference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+      "asset_version": "reference-v26-grounded-evolgear-20261007-r4",
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "training_area",
+        "human_action": "prepare",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "deciding_own_start",
+        "article_intent": "facility_selection"
+      },
+      "observation_reference": null
+    },
+    {
+      "slug": "desk-work-stand-every-30-minutes",
+      "qa_at": "2026-10-06T01:08:15.230Z",
+      "content_reference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+      "asset_version": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+      "scene_fingerprint": {
+        "scene_type": "workday_break",
+        "location_type": "reception",
+        "human_action": "standing_break",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "workday_movement_break",
+        "article_intent": "training_start"
+      },
+      "observation_reference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json"
+    },
+    {
+      "slug": "boxing-beginner-scared-before-mitt-training",
+      "qa_at": "2026-10-05T12:07:58.242Z",
+      "content_reference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+      "asset_version": "reference-v26-auto-boxing-20261005-fear-r1",
+      "scene_fingerprint": {
+        "scene_type": "exercise",
+        "location_type": "boxing_area",
+        "human_action": "boxing_stance",
+        "composition_type": "close_action_portrait",
+        "visual_role": "training_execution",
+        "article_intent": "boxing_start"
+      },
+      "observation_reference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json"
+    },
+    {
+      "slug": "denba-electric-potential-space-radio-wave-difference",
+      "qa_at": "2026-10-04T09:45:25.230Z",
+      "content_reference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "asset_version": "reference-v26-auto-denba-20261004-layout-r3",
+      "scene_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "location_type": "reception",
+        "human_action": "observing_real_equipment",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "component_relationship",
+        "article_intent": "recovery"
+      },
+      "observation_reference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json"
+    },
+    {
+      "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+      "qa_at": "2026-10-04T05:12:02.251Z",
+      "content_reference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+      "asset_version": "reference-v26-lobby-paper-20261004-r2",
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "reception",
+        "human_action": "review_paper",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "considering_health_report",
+        "article_intent": "health_before_start"
+      },
+      "observation_reference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json"
+    },
+    {
+      "slug": "beginner-strength-training-few-exercises-frequency",
+      "qa_at": "2026-10-03T14:29:13.715Z",
+      "content_reference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+      "asset_version": "reference-v26-auto-evolgear-20260922-6bf9953b",
+      "scene_fingerprint": {
+        "scene_type": "personal_choice",
+        "location_type": "training_area",
+        "human_action": "compare_notes",
+        "composition_type": "medium_seated_portrait",
+        "visual_role": "deciding_own_start",
+        "article_intent": "training_execution"
+      },
+      "observation_reference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json"
+    },
+    {
+      "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+      "qa_at": "2026-10-03T04:14:41.758063Z",
+      "content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+      "scene_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "location_type": "training_area",
+        "human_action": "rack_adjustment",
+        "composition_type": "wide_full_body",
+        "visual_role": "facility_inspection",
+        "article_intent": "facility_selection"
+      },
+      "observation_reference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json"
+    }
+  ],
+  "copy_matches_brief": true,
+  "planned_copy": "夜の筋トレ、\n何時まで？",
+  "selected_copy": "夜の筋トレ、\n何時まで？",
+  "all_history_count": 33,
+  "reserved_copies_checked": 22,
+  "geometry_pass": true,
+  "raw_edit_actual_openai_fidelity_verified": false,
+  "existing_failed_asset_version": "reference-v26-grounded-auto-4387-75-4c7bef75",
+  "existing_attempts_preserved": true,
+  "production_job_changed": false,
+  "canonical_job_registered": false,
+  "paid_execution_authorized": false,
+  "model_calls": 0,
+  "visual_qc_pass": false
+}

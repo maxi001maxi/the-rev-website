@@ -36,7 +36,7 @@ env:
   XSERVER_REMOTE_DIR: '/'
   EDITORIAL_IMAGE_GENERATION_MODEL: 'gpt-5.6'
   EDITORIAL_IMAGE_QA_MODEL: 'gpt-5.6'
-  EDITORIAL_IMAGE_MAX_ATTEMPTS: '3'
+  EDITORIAL_IMAGE_MAX_ATTEMPTS: '1'
 
 jobs:
   generate:
@@ -44,6 +44,9 @@ jobs:
     timeout-minutes: 30
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
       XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
       XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
 
@@ -120,6 +123,11 @@ jobs:
               state = Path(f'editorial/image-operator-state/{slug}.json')
 
               state_data = read_json(state) if state.is_file() else {}
+              state_version = str(state_data.get('asset_version') or (state_data.get('last_qa') or {}).get('asset_version') or '')
+              same_asset = state_version == str(data.get('asset_version') or '') if state_version else state_data.get('job_path') == str(job)
+              if same_asset and state_data.get('status') in ['ERROR', 'OVERLAY_QC_REJECTED', 'BLOCKED_MAX_ATTEMPTS', 'BLOCKED_PROVIDER_CREDITS', 'GENERATING']:
+                  print(f"Holding failed/ambiguous asset without blocking other articles: {job}")
+                  continue
               qa_data = read_json(qa) if qa and Path(qa).is_file() else {}
               gbp_ready = (not gbp) or Path(gbp).is_file()
               already_ready = (

@@ -1,0 +1,9 @@
+{
+  "action": "EXECUTE_OWNER_APPROVED_IMAGE_ONCE",
+  "contract_sha256": "ea587661b42ecf2f4853cbfaf525c506108f3943a09e02de8db4923d82171ef2",
+  "scope": "Japanese customer and subtle night finishing edit; preserve R3 direction and rejected history",
+  "cost_ceiling_verification": "WAIVED_BY_OWNER",
+  "max_generation_calls": 1,
+  "max_independent_qc_calls": 2,
+  "production_writes": false
+}

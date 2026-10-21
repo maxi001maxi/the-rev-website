@@ -14,11 +14,19 @@ on:
       - 'scripts/prepare-deploy.mjs'
       - 'scripts/test-javascript-warm-cache.mjs'
       - 'scripts/qa-unified-site.mjs'
+      - 'lib/bookingSiteQa.mjs'
+      - 'lib/browserPaintQa.mjs'
+      - 'scripts/test-browser-paint.mjs'
+      - 'lib/editorialGuardedPhotoEdit.mjs'
+      - 'scripts/test-editorial-guarded-photo-edit.mjs'
       - 'package*.json'
       - '.github/workflows/unified-site-qa.yml'
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: unified-site-qa-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   static-and-browser:
     if: github.event.action != 'edited'
@@ -35,14 +43,43 @@ jobs:
       - run: node scripts/test-build-parity.mjs
       - run: node --test scripts/test-javascript-warm-cache.mjs
       - run: npm run test:vercel-release-policy
-      - run: node scripts/qa-unified-site.mjs
-      - run: node scripts/qa-technical-site.mjs
+      - run: node --test --test-concurrency=1 scripts/test-booking-site.mjs scripts/test-editorial-guarded-photo-edit.mjs
       - run: node scripts/qa-booking-site.mjs
+      - run: node scripts/qa-unified-site.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: unified-public-site-qa
           path: qa-out/
+          retention-days: 14
+
+
+  technical-browser:
+    strategy:
+      fail-fast: false
+      matrix:
+        scope: [behavior, visual]
+    if: github.event.action != 'edited'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/test-build-parity.mjs
+      - run: node --test --test-concurrency=1 scripts/test-browser-paint.mjs
+      - run: node scripts/qa-technical-site.mjs
+        env:
+          TECH_QA_SCOPE: ${{ matrix.scope }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: technical-browser-qa-${{ matrix.scope }}
+          path: qa-out/technical/
           retention-days: 14
 
   deployed-browser:

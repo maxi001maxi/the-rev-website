@@ -1,5 +1,9 @@
 import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
+import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
+import {createImageApiLedger} from '../lib/editorialImageApiLedger.mjs';
+import {FINISH_VERSION,FINISH_QC_GUIDANCE,finishVisualPass,editOwnerFinish} from '../lib/editorialOwnerFinishEdit.mjs';
+import {reuseGroundingObservation} from '../lib/editorialGroundingObservationReuse.mjs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { THUMBNAIL_TYPOGRAPHY_REVISION, TYPOGRAPHY_VISUAL_CHECKS, ART_DIRECTION_CHECKS,
@@ -21,7 +25,7 @@ const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
 const MAX_TOTAL_ATTEMPTS = Math.max(
   1,
-  Math.min(2, Number(job?.max_generation_attempts || process.env.EDITORIAL_IMAGE_MAX_ATTEMPTS || 2))
+  Math.min(1, Number(job?.max_generation_attempts || 1))
 );
 
 if (!OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
@@ -48,7 +52,10 @@ if (job.scene_plan.source_sha256!==hashFile(sourcePath)) throw new Error('Scene 
 job.scene_intent = groundedSceneBrief(job.scene_plan,job.source_scene_inventory);
 fs.writeFileSync(jobPath,JSON.stringify(job,null,2)+'\n');
 
-const stateDir = path.join(ROOT, 'editorial', 'image-operator-state');
+const reviewOnly=job?.execution?.review_only===true;
+const ownerFinish=job?.v3?.background_lock===FINISH_VERSION;
+if(reviewOnly && (job.execution.content_id!=='BLOG-20261021-4ac8fd'||job.execution.owner_approval?.status!=='APPROVED'||!jobPath.startsWith('editorial/prepublication/2026-10-21-evening-strength-sleep/')))throw Error('REVIEW_ONLY_SCOPE_INVALID');
+const stateDir = reviewOnly ? path.join(ROOT,path.dirname(jobPath),'image-execution-state') : path.join(ROOT, 'editorial', 'image-operator-state');
 fs.mkdirSync(stateDir, { recursive: true });
 const statePath = path.join(stateDir, `${job.slug}.json`);
 
@@ -64,6 +71,7 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
   const root=path.resolve(ROOT,'.operator-rejected-evidence',safeSlug,safeVersion);
   const candidates=[
     job.generated_scene_path,job.thumbnail,job.og_image,job.gbp_image,
+    job.generated_scene_path && job.generated_scene_path+'.raw-guard.json',
     job.qa_report_path,job.thumbnail && job.thumbnail+'.typography.json',
     ...[job.thumbnail,job.og_image,job.gbp_image].filter(Boolean).flatMap(p=>
       [320,400].map(width=>p.replace(/\.jpg$/,`-preview-${width}.jpg`)))
@@ -93,7 +101,10 @@ function preserveRejectedCandidate(reason='VISUAL_QC_REJECTED') {
 }
 
 function readJson(filePath, fallback = null) {
-  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch { return fallback; }
+  try { return JSON.parse(fs.readFileSync(filePath, 'utf8')); } catch {
+    if(filePath===statePath&&fs.existsSync(filePath))throw new Error('OPERATOR_CHECKPOINT_CORRUPT');
+    return fallback;
+  }
 }
 
 function mimeFor(filePath) {
@@ -107,7 +118,10 @@ function dataUrl(filePath) {
   return `data:${mimeFor(filePath)};base64,${fs.readFileSync(filePath).toString('base64')}`;
 }
 
+const apiLedger = createImageApiLedger({job});
 async function openaiResponse(payload) {
+  if(reviewOnly && !(payload.tools||[]).some(x=>x.type==='image_generation'))payload={...payload,max_output_tokens:12000,reasoning:{effort:'medium'}};
+  const reservation=await apiLedger.reserve((payload.tools||[]).some(x=>x.type==='image_generation')?'generation':'qc');
   const res = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -122,6 +136,10 @@ async function openaiResponse(payload) {
   let json = null;
   try { json = JSON.parse(body); } catch {}
 
+  await apiLedger.complete(reservation,{http_status:res.status,request_id:requestId,
+    response_id:json?.id||null,response_status:json?.status||null,model:json?.model||payload.model,usage:json?.usage||null,
+    image_generation_calls:(json?.output||[]).filter(x=>x.type==='image_generation_call').map(x=>({id:x.id,status:x.status,usage:x.usage||null}))});
+  if (res.ok && json?.status==='incomplete')throw Error('OPENAI_RESPONSE_INCOMPLETE: '+JSON.stringify(json.incomplete_details||{}));
   if (!res.ok) {
     const e = new Error(
       `OpenAI Responses API failed: HTTP ${res.status} / ` +
@@ -247,6 +265,11 @@ function generationPrompt(attempt, previousQa = null) {
 }
 
 async function generateScene(attempt, previousQa = null) {
+  if(ownerFinish)return editOwnerFinish({job,sourcePath,generateResponse:openaiResponse});
+  if(job?.v3?.background_lock==='masked_openai_raw_guard_v2'){
+    const {editGuardedPhoto}=await import('../lib/editorialGuardedPhotoEdit.mjs');
+    return editGuardedPhoto({job,sourcePath,generateResponse:openaiResponse});
+  }
   if(job?.v3?.background_lock==='masked_openai_edit_hard_restore_v1'){
     const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');
     return editV3PhotoWithLockedBackground({job,sourcePath,generateResponse:openaiResponse,prompt:generationPrompt(attempt,previousQa)});
@@ -262,6 +285,7 @@ async function generateScene(attempt, previousQa = null) {
 
   const response = await openaiResponse({
     model: GENERATION_MODEL,
+    max_tool_calls: 1,
     input: [{ role: 'user', content }],
     tools: [{
       type: 'image_generation',
@@ -405,6 +429,14 @@ async function visualQa(attempt) {
       typography.slug !== job.slug || typography.asset_version !== job.asset_version) {
     throw new Error('Thumbnail Typography FAIL: missing/current-set measurement evidence.');
   }
+  const r7Images=[];
+  if(reviewOnly){
+    for(const ref of job.quality_references||[]){
+      if(!fs.existsSync(ref.path)||hashFile(ref.path)!==ref.sha256)throw Error('R7_REFERENCE_BYTES_CHANGED');
+      r7Images.push({type:'input_text',text:'OWNER-ACCEPTED OCT15 R7 photographic quality comparison: '+ref.role},{type:'input_image',image_url:dataUrl(ref.path),detail:'high'});
+    }
+    if(r7Images.length!==4)throw Error('R7_SCENE_AND_THUMBNAIL_REQUIRED');
+  }
   const typographyImages = [];
   const goldenImages = [];
   const lock = readJson('editorial/typography-golden-reference/lock.json');
@@ -541,11 +573,13 @@ async function visualQa(attempt) {
     input: [{
       role: 'user',
       content: [
-        { type: 'input_text', text: prompt },
+        { type: 'input_text', text: prompt + (ownerFinish?'\n'+FINISH_QC_GUIDANCE:'') + (reviewOnly ? '\nAlso return r7_comparison:{pass:boolean,comments:string,variants:{thumbnail:boolean,og:boolean,gbp:boolean}}. Compare actual photographic integration, anatomy, hands/gaze, spatial authenticity and natural lighting against the labeled Oct15 R7 references. Do not award PASS just for typography or a shared gym. State concrete visible defects. The actual source and R7, not prior numeric scores, are evidence.' : '') },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
         ...typographyImages,
-        ...goldenImages
+        ...goldenImages,
+        ...r7Images,
+        ...(ownerFinish?[{type:'input_text',text:'PREVIOUS REJECTED EDIT INPUT: direction only, not accepted for publishing. Compare framing/pose, never infer PASS from it.'},{type:'input_image',image_url:dataUrl(job.v3.owner_finish.input_path),detail:'high'}]:[])
       ]
     }]
   });
@@ -690,7 +724,25 @@ async function visualQa(attempt) {
   qa.generated_customer_present = modelQa.generated_customer_present === true;
   qa.generated_customer_count = Math.max(0, Math.round(Number(modelQa.generated_customer_count || 0)));
 
+  qa.editorial_text_qc = job.automation?.editorial_text_qc || null;
+  const usageLedger=await apiLedger.snapshot();
+  qa.api_usage={generation_calls:usageLedger.calls.filter(x=>x.kind==='generation').length,
+    qc_calls:usageLedger.calls.filter(x=>x.kind==='qc').length,confirmed_cost:null,calls:usageLedger.calls};
   qa.pass = qaPass(qa);
+  if(reviewOnly){
+    qa.r7_comparison=modelQa.r7_comparison||null;
+    qa.raw_background_guard=readJson(job.generated_scene_path+'.raw-guard.json',{pass:false,reason:'MISSING_RAW_GUARD'});
+    qa.owner_finish_qc=ownerFinish?(modelQa.owner_finish_qc||null):null;
+    qa.source_preservation_gate=ownerFinish?{
+      mode:FINISH_VERSION,pass:qa.raw_background_guard.mode===FINISH_VERSION&&qa.raw_background_guard.input_admission?.pass===true&&groundingEvidence.pass===true&&finishVisualPass(qa.owner_finish_qc),
+      exact_pixel_preservation_claimed:false,independent_structural_qc:true
+    }:{mode:'exact-raw-pixels',pass:qa.raw_background_guard.pass===true};
+    qa.production_ready=false;
+    if(qa.source_preservation_gate.pass!==true || qa.r7_comparison?.pass!==true ||
+       !['thumbnail','og','gbp'].every(k=>qa.r7_comparison?.variants?.[k]===true) ||
+       !['human_environment_integration','perspective_scale_consistency','ground_contact_shadow_consistency','lighting_consistency','anatomy_pose_realism'].every(k=>qa[k]>=9))qa.pass=false;
+    if(qa.source_preservation_gate.pass!==true)qa.comments='SOURCE_PRESERVATION_REJECTED: '+(qa.raw_background_guard.reason||JSON.stringify(qa.owner_finish_qc))+'. '+(qa.comments||'');
+  }
   if(job.asset_version===ROUTE_B_VERSION && !['human_environment_integration',
     'perspective_scale_consistency','ground_contact_shadow_consistency',
     'lighting_consistency','anatomy_pose_realism'].every(k=>qa[k]>=9))qa.pass=false;
@@ -699,6 +751,12 @@ async function visualQa(attempt) {
 }
 
 async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspectionSource = sourcePath} = {}) {
+  const cached=inspectionJob.automation?.grounding_observation_reuse;
+  if(cached){
+    if(hashFile(cached.path)!==cached.sha256)throw Error('OBSERVATION_REUSE_REPORT_DRIFT');
+    return reuseGroundingObservation({job:inspectionJob,qa:readJson(cached.path),inventory:inspectionJob.source_scene_inventory,
+      hashes:{source:hashFile(inspectionSource),scene:hashFile(inspectionJob.generated_scene_path),thumbnail:hashFile(inspectionJob.thumbnail),og:hashFile(inspectionJob.og_image),gbp:hashFile(inspectionJob.gbp_image)}});
+  }
   // Independent narrow observation call: do not feed prior PASS flags, style references,
   // generation prompt or desired high scores. Canonical comparison happens in code.
   const recent = inspectionJob.automation?.recent_semantic_articles || [];
@@ -778,7 +836,8 @@ if (!sameAssetVersion && Object.keys(rawPreviousState || {}).length) {
 const gbpRequested = Boolean(String(job.gbp_image || '').trim());
 const gbpAlreadyExists = gbpRequested && fs.existsSync(path.resolve(job.gbp_image));
 const forceGbpBackfill = previousState?.status === 'GBP_BACKFILL_REQUESTED';
-const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED';
+const forceOverlayRerender = previousState?.status === 'OVERLAY_RERENDER_REQUESTED' ||
+  (previousState?.status==='SCENE_GENERATED' && fs.existsSync(job.generated_scene_path) && hashFile(job.generated_scene_path)===previousState.scene_sha256);
 // A repaired scene may be re-graded, but must never silently incur a new
 // image generation call if state routing does not match the requested asset.
 if(process.env.EDITORIAL_IMAGE_DISABLE_GENERATION === '1' && !forceOverlayRerender)
@@ -951,16 +1010,27 @@ if (attemptsTotal >= MAX_TOTAL_ATTEMPTS) {
   process.exit(0);
 }
 
+const free=preflightEditorialImage(job,registry,{requireStrict:true});
+if(!free.pass){
+  writeState({...previousState,slug:job.slug,status:'ERROR',attempts_total:attemptsTotal,
+    max_attempts:MAX_TOTAL_ATTEMPTS,last_error:'FREE_PREFLIGHT: '+free.errors.join(','),job_path:jobPath,
+    free_preflight:free,updated_at:new Date().toISOString()});
+  console.log(JSON.stringify({status:'BLOCKED_FREE_PREFLIGHT',...free}));
+  process.exit(0);
+}
 while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
   attemptsTotal += 1;
   try {
     console.log(`Automated Hybrid image attempt ${attemptsTotal}/${MAX_TOTAL_ATTEMPTS}: ${job.slug}`);
     // Persist BEFORE the paid call so a crash/ambiguous timeout cannot silently
     // spend a second image attempt on this same authorized asset version.
-    if(job.asset_version===ROUTE_B_VERSION)writeState({slug:job.slug,status:'GENERATING',
+    writeState({slug:job.slug,status:'GENERATING',
       attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,
       updated_at:new Date().toISOString()});
     await generateScene(attemptsTotal, lastQa);
+    writeState({slug:job.slug,status:'SCENE_GENERATED',asset_version:job.asset_version,
+      scene_sha256:hashFile(job.generated_scene_path),generated_scene_path:job.generated_scene_path,
+      attempts_total:attemptsTotal,max_attempts:MAX_TOTAL_ATTEMPTS,job_path:jobPath,updated_at:new Date().toISOString()});
     renderOverlay();
     lastQa = await visualQa(attemptsTotal);
 
@@ -1016,7 +1086,8 @@ while (attemptsTotal < MAX_TOTAL_ATTEMPTS) {
     lastError = String(e?.message || e);
 
     if (isProviderCreditBlock(e)) {
-      attemptsTotal = Math.max(0, attemptsTotal - 1);
+      // A rejected provider request still consumed a request reservation. Never
+      // reset the durable API budget or automatically repeat a billing failure.
       writeState({
         slug: job.slug,
         status: 'BLOCKED_PROVIDER_CREDITS',

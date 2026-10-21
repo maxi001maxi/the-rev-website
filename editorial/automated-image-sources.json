@@ -154,12 +154,14 @@
           "readiness",
           "training_start",
           "training_execution",
-          "training_progress"
+          "training_progress",
+          "recovery"
         ],
         "verification": {
           "method": "source image visual inspection + canonical scoped registry",
           "verified_at": "2026-10-07",
-          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.",
+          "night_recovery_evidence": "Oct21 R5 real source/scene observation confirms an ordinary customer resting in the actual training area, geometry preserved and no equipment relocation. No accepted asset or QC verdict is implied."
         }
       }
     },

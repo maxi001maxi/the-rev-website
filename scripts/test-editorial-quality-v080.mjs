@@ -81,3 +81,16 @@ check(harness('SHADOW',{invalidScore:true}).result._editor_decision==='READY','s
 }
 
 console.log('Phase5I tests:',passed,'PASS');
+
+// Recommendations are separate in the provider contract; all material blockers
+// and source uncertainty still fail the unchanged gate.
+{
+ const h=harness('ENFORCE');
+ const schema=h.requests[0].text.format.schema;
+ check(schema.required.includes('recommendations'),'independent optional advice has a separate result field');
+ const prompt=h.requests[0].input[0].content[0].text;
+ check(prompt.includes('RPE/RIR is not mandatory')&&prompt.includes('every material blocker'),'plain-language intensity allowed without removing blockers');
+ h.ctx.parseStructuredResponse_=()=>({scores:{question_resolution:4,understanding_gain:4,decision_support:4,concreteness_evidence:4,originality_readability:4},issues:['Unsupported sleep guarantee'],recommendations:['Shorter title'],source_unverified:true,reason:'Synthetic unsupported claim'});
+ const bad=h.ctx.v080IndependentQc_({body_markdown:'Guaranteed sleep at RIR 3'},{});
+ check(!bad.pass&&bad.issues.length===1&&bad.recommendations.length===1,'20/20 plus recommendation cannot erase an actual unsupported claim');
+}
