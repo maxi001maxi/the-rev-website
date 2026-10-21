@@ -237,7 +237,7 @@ var V082_BRIDGE_ADAPTER=(function(){
   if(typeof v065SyncBridgeDirect_!=='function'||typeof v065FetchJson_!=='function')return 'LEGACY_BRIDGE_NOT_PRESENT';
   var bridge=v065SyncBridgeDirect_,fetchJson=v065FetchJson_,active=null;
   v065FetchJson_=function(url,options){
-    if(active&&url==='https://the-rev-website.vercel.app/api/integrations/editorial'&&options&&options.payload){
+    if(active&&/^https:\/\/the-rev-website\.vercel\.app\/api\/integrations\/editorial\/?$/.test(String(url))&&options&&options.payload){
       var payload=JSON.parse(options.payload);
       payload.production_recovery_version='v0.8.2';payload.editorial_text_qc=active;
       options=Object.assign({},options,{payload:JSON.stringify(payload)});

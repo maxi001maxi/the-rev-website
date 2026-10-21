@@ -86,6 +86,21 @@ test('existing held draft is resumed on Primary without Writer reset, original b
  blog.body_markdown+=' changed';assert.throws(()=>s.v065SyncBridgeDirect_(queue,blog),/TEXT_QC_NOT_PASSED/);
 });
 
+test('legacy Bridge trailing slash delivers exact QC proof only to the canonical endpoint',()=>{
+ const base='https://the-rev-website.vercel.app/api/integrations/editorial';
+ for(const url of [base,base+'/',base+'//',base+'-status/',base+'?redirect=1','https://evil.test/api/integrations/editorial/','http://the-rev-website.vercel.app/api/integrations/editorial/']){
+  const h=recoverySandbox({rejectFirst:false,bridgeUrl:url}),s=h.sandbox;
+  const final=s.finalizeWebBlog_(h.article,{});
+  const blog={...final,status:'READY',fact_check_status:'PASS',editor_notes:final._editor_notes};
+  s.v065SyncBridgeDirect_({content_id:'BLOG-ENDPOINT'},blog);
+  const payload=h.bridgeRequests[0],allowed=url===base||url===base+'/';
+  assert.equal(Boolean(payload.editorial_text_qc),allowed,url);
+  if(allowed){assert.equal(payload.editorial_text_qc.body_sha256,editorialBodySha(blog.body_markdown));assert.equal(payload.editorial_text_qc.content_id,'BLOG-ENDPOINT');assert.equal(payload.production_recovery_version,'v0.8.2');}
+  s.v065FetchJson_(url,{payload:'{}'});
+  assert.equal(h.bridgeRequests[1].editorial_text_qc,undefined,'proof context must be cleared after the Bridge call');
+ }
+});
+
 test('known hard-restore clipping route stops before image API',async()=>{
  const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');let requests=0;
  await assert.rejects(()=>editV3PhotoWithLockedBackground({job:{v3:{background_lock:'masked_openai_edit_hard_restore_v1'}},generateResponse:async()=>{requests++;}}),/HARD_RESTORE_ROUTE_PAUSED/);
