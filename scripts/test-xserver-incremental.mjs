@@ -35,6 +35,20 @@ test('asset delta requires verified preimage, saves rollback bytes and orders FT
  assert.throws(()=>planAssetDelta({files:['assets/css/style.css'],before,oldBlob:()=>null,liveBlob:()=>null}),/DELTA_PATH_UNSAFE/);
  }finally{process.chdir(prev);fs.rmSync(dir,{recursive:true,force:true});}
 });
+test('pre-staged exact new assets survive resume and rollback without overwrite or deletion',()=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xdelta-staged-')),prev=process.cwd();
+ try{
+  process.chdir(dir);fs.mkdirSync('dist/assets/images/blog',{recursive:true});
+  const p='assets/images/blog/already-staged.jpg',bytes=Buffer.from('VERIFIED_PIXELS');fs.writeFileSync('dist/'+p,bytes);
+  const r=planAssetDelta({files:[p],before,oldBlob:()=>null,liveBlob:()=>bytes});
+  assert.equal(r[0].already_staged,true);assert.equal(r[0].old_sha256,r[0].new_sha256);
+  assert.equal(fs.readFileSync('.delta-upload.lftp','utf8').trim(),'');
+  assert.equal(fs.readFileSync('.delta-rollback.lftp','utf8').trim(),'');
+  const bad=Buffer.from(bytes);bad[0]^=1;
+  assert.throws(()=>planAssetDelta({files:[p],before,oldBlob:()=>null,liveBlob:()=>bad}),/UNEXPECTED_REMOTE_FILE/);
+  assert.throws(()=>planAssetDelta({files:[p],before,oldBlob:()=>Buffer.from('OLD'),liveBlob:()=>bytes}),/PREIMAGE_MISMATCH/);
+ }finally{process.chdir(prev);fs.rmSync(dir,{recursive:true,force:true});}
+});
 test('blog exact delta includes only affected pages and removes stale pages after puts',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'blogdelta-')),a=path.join(dir,'old'),b=path.join(dir,'new');
  try{
