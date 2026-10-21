@@ -2,7 +2,7 @@ import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibil
 import fs from 'node:fs';
 import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
 import {createImageApiLedger} from '../lib/editorialImageApiLedger.mjs';
-import {FINISH_VERSION,FINISH_QC_GUIDANCE,finishVisualPass,editOwnerFinish} from '../lib/editorialOwnerFinishEdit.mjs';
+import {FINISH_VERSION,finishQcGuidance,finishInputLabel,finishVisualPass,editOwnerFinish} from '../lib/editorialOwnerFinishEdit.mjs';
 import {reuseGroundingObservation} from '../lib/editorialGroundingObservationReuse.mjs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
@@ -573,13 +573,13 @@ async function visualQa(attempt) {
     input: [{
       role: 'user',
       content: [
-        { type: 'input_text', text: prompt + (ownerFinish?'\n'+FINISH_QC_GUIDANCE:'') + (reviewOnly ? '\nAlso return r7_comparison:{pass:boolean,comments:string,variants:{thumbnail:boolean,og:boolean,gbp:boolean}}. Compare actual photographic integration, anatomy, hands/gaze, spatial authenticity and natural lighting against the labeled Oct15 R7 references. Do not award PASS just for typography or a shared gym. State concrete visible defects. The actual source and R7, not prior numeric scores, are evidence.' : '') },
+        { type: 'input_text', text: prompt + (ownerFinish?'\n'+finishQcGuidance(job):'') + (reviewOnly ? '\nAlso return r7_comparison:{pass:boolean,comments:string,variants:{thumbnail:boolean,og:boolean,gbp:boolean}}. Compare actual photographic integration, anatomy, hands/gaze, spatial authenticity and natural lighting against the labeled Oct15 R7 references. Do not award PASS just for typography or a shared gym. State concrete visible defects. The actual source and R7, not prior numeric scores, are evidence.' : '') },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
         ...typographyImages,
         ...goldenImages,
         ...r7Images,
-        ...(ownerFinish?[{type:'input_text',text:'PREVIOUS REJECTED EDIT INPUT: direction only, not accepted for publishing. Compare framing/pose, never infer PASS from it.'},{type:'input_image',image_url:dataUrl(job.v3.owner_finish.input_path),detail:'high'}]:[])
+        ...(ownerFinish?[{type:'input_text',text:finishInputLabel(job)},{type:'input_image',image_url:dataUrl(job.v3.owner_finish.input_path),detail:'high'}]:[])
       ]
     }]
   });

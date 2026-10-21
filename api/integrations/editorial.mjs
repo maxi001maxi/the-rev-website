@@ -1,4 +1,5 @@
 import {validateEditorialTextQc} from '../../lib/editorialProductionRecovery.mjs';
+import {acceptedEditorialImage} from '../../lib/editorialAcceptedImage.mjs';
 import { evaluateEditorialLength } from '../../lib/editorialReadiness.mjs';
 // POST /api/integrations/editorial
 //
@@ -139,8 +140,11 @@ export default async function handler(req, res) {
   let imageInfo = null;
   let blockedImageReason = null;
   try {
+    const accepted = await acceptedEditorialImage(normalized.value,article,{contentId:envelope.value.contentId,textProof});
     const explicitFallbackReason = String(body.image_fallback_reason || '').trim();
-    if (preserveHybrid) {
+    if (accepted) {
+      imageInfo = accepted;
+    } else if (preserveHybrid) {
       imageInfo = hybridImageInfoFromDraft(article);
     } else if (explicitFallbackReason) {
       imageInfo = await prepareEditorialImageJob({
@@ -215,7 +219,7 @@ export default async function handler(req, res) {
     thumbnail,
     og_image: ogImage
   };
-  const preservedHybridReady = preserveHybrid && imageInfo.preserveReady === true;
+  const preservedHybridReady = (preserveHybrid || imageInfo.acceptedExisting === true) && imageInfo.preserveReady === true;
   const imageState = {
     image_status: blockedImageReason ? 'ERROR' : preservedHybridReady ? 'READY' : 'PREPARING',
     image_render_version: imageInfo.renderVersion || IMAGE_RENDER_VERSION,

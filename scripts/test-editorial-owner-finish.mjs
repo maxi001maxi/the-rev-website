@@ -1,10 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {finishAdmission,finishVisualPass,FINISH_VERSION} from '../lib/editorialOwnerFinishEdit.mjs';
+import {finishAdmission,finishVisualPass,FINISH_VERSION,FINISH_QC_GUIDANCE,finishQcGuidance,finishInputLabel} from '../lib/editorialOwnerFinishEdit.mjs';
 const c=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r4/IMAGE_EXECUTION_CONTRACT.json'));
 const job={asset_version:c.asset_version,execution:c,max_generation_attempts:1,layout_variant:'human-first-v1',automation:{source_repo_path:'assets/images/photo-evolgear.jpg'},v3:{background_lock:FINISH_VERSION,openai_edit:{model:c.model,quality:c.quality},owner_finish:{input_path:'.operator-finish-input/r3-scene.png',input_sha256:c.input_sha256,source_sha256:c.source_sha256,owner_direction_approval_only:true}}};
 const hash=p=>p.endsWith('r3-scene.png')?c.input_sha256:c.source_sha256;
+test('actual QC-only context never asks for a new edit and retains all finishing requirements',()=>{
+ const j=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-21-evening-strength-sleep/image-layout-r5b/IMAGE_JOB.json'));
+ const text=finishQcGuidance(j);
+ assert(!text.includes('This is a NEW'));
+ assert(text.includes('sameness to the labeled current RAW is neither a defect nor a PASS'));
+ assert(text.includes('if preservation cannot be verified, fail that criterion'));
+ assert(text.includes(FINISH_QC_GUIDANCE.slice(FINISH_QC_GUIDANCE.indexOf(' Owner approved'))));
+ assert(finishInputLabel(j).startsWith('CURRENT UNCHANGED RAW MASTER'));
+ assert.equal(finishQcGuidance(job),FINISH_QC_GUIDANCE);
+ assert(finishInputLabel(job).startsWith('PREVIOUS REJECTED EDIT INPUT'));
+ const bad=structuredClone(j);bad.execution.mode='RETRY_UNTIL_PASS';assert.throws(()=>finishQcGuidance(bad),/CONTEXT_INVALID/);
+ const r=fs.readFileSync('scripts/auto-editorial-hybrid-image.mjs','utf8');
+ assert(r.includes('finishQcGuidance(job)'));assert(r.includes('text:finishInputLabel(job)'));
+});
 test('new edit requires exact old master/source and scoped approval; never declares QC PASS',()=>{
  const a=finishAdmission(job,{hash});assert(a.pass);assert.equal(a.final_visual_qc_pass,false);
  assert.throws(()=>finishAdmission(job,{hash:()=> 'drift'}),/INPUT_DRIFT/);
