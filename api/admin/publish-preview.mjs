@@ -164,6 +164,7 @@ export default async function handler(req, res) {
     mode: result.mode,
     checks: result.checks,
     blocker: result.blocker,
+    production_recovery: result.production_recovery,
     article: draftSummary(result.draft),
     markdown: result.markdown,
     targetPath: result.targetPath,

@@ -4,6 +4,9 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {acceptedEditorialImage} from '../lib/editorialAcceptedImage.mjs';
 import bridge from '../api/integrations/editorial.mjs';
+import status from '../api/integrations/editorial-status.mjs';
+import preview from '../api/admin/publish-preview.mjs';
+import {validateEditorialTextQc} from '../lib/editorialProductionRecovery.mjs';
 import {editorialTestServices,invokeEditorialRoute as invoke} from './helpers/editorial-e2e-services.mjs';
 const root='editorial/prepublication/2026-10-21-evening-strength-sleep/';
 const read=p=>JSON.parse(fs.readFileSync(p));
@@ -44,11 +47,29 @@ test('accepted immutable actual image: normal authenticated Bridge updates the s
     const res=await invoke(bridge,{method:'POST',body:payload});assert.equal(res.statusCode,200,JSON.stringify(res.data));
     assert.equal(res.data.action,'updated');assert.equal(res.data.article.id,h.existing.id);
     assert.equal(h.existing.image_status,'READY');assert.equal(h.existing.gbp_image_status,'READY');
-    assert.equal(h.existing.image_qa.editorial_text_qc.body_sha256,h.proof.body_sha256);
+    assert.deepEqual(h.existing.image_qa.editorial_text_qc,h.proof);
     assert.equal(h.svc.tables.admin_article_drafts.length,1);assert(h.existing.editorial_sync_hash);
     const again=await invoke(bridge,{method:'POST',body:payload});assert.equal(again.statusCode,200);assert.equal(again.data.action,'unchanged');
     assert.equal(h.svc.calls.some(c=>c.host==='api.openai.com'||c.method==='PUT'),false);
     assert.equal(blobReads,2,'both idempotent Bridge calls verify the real large scene blob');
+    // The actual Primary status poll used to replace this full proof with the
+    // abbreviated image-report summary, making Console Preflight fail.
+    const poll=await invoke(status,{query:{content_id:h.contentId}});assert.equal(poll.statusCode,200,JSON.stringify(poll.data));
+    assert.deepEqual(h.existing.image_qa.editorial_text_qc,h.proof);
+    const review=await invoke(preview,{query:{id:h.existing.id},admin:true});
+    assert.equal(review.statusCode,200,JSON.stringify(review.data));assert.equal(review.data.ok,true,JSON.stringify(review.data));
+    assert.equal(review.data.production_recovery.stage,'REVIEW_READY');
+    // Repair this pre-upgrade corruption through an authenticated idempotent
+    // Bridge replay, without changing the article or resetting a paid budget.
+    h.existing.image_qa.editorial_text_qc=h.qa.editorial_text_qc;
+    assert.equal(validateEditorialTextQc(h.existing.body_markdown,h.existing.image_qa.editorial_text_qc,{contentId:h.contentId}).pass,false);
+    const held=await invoke(status,{query:{content_id:h.contentId}});assert.equal(held.statusCode,200);
+    assert.equal(held.data.canonical_preflight.ok,false,'image PASS cannot promote an abbreviated text proof');
+    const repaired=await invoke(bridge,{method:'POST',body:payload});assert.equal(repaired.statusCode,200);assert.equal(repaired.data.action,'updated');
+    assert.deepEqual(h.existing.image_qa.editorial_text_qc,h.proof);
+    const finalPoll=await invoke(status,{query:{content_id:h.contentId}});assert.equal(finalPoll.data.canonical_preflight.ok,true);
+    assert.equal(h.svc.tables.admin_article_drafts.length,1);
+    assert.equal(h.svc.calls.some(c=>c.host==='api.openai.com'||c.method==='PUT'),false);
     assert.equal(h.existing.publish_status,'NOT_PUBLISHED');
   }finally{h.svc.restore();}
 });

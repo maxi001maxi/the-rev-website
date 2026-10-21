@@ -283,7 +283,8 @@ export default async function handler(req, res) {
     }
     article = inserted.data;
     action = 'created';
-  } else if (article.editorial_sync_hash !== syncHash) {
+  } else if (article.editorial_sync_hash !== syncHash ||
+    (textProof && !validateEditorialTextQc(article.body_markdown,article.image_qa?.editorial_text_qc,{contentId:envelope.value.contentId}).pass)) {
     const updated = await supabase
       .from('admin_article_drafts')
       .update({
