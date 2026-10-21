@@ -1,0 +1,79 @@
+{
+  "url": "https://the-rev-website.vercel.app/admin/articles/review/?id=ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+  "checks": [
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n認証\nログイン中：htr.maxi0101@gmail.com"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\nPublisher権限\n公開権限があります。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\nDraft存在\n下書きを読み込みました。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n必須項目\n必要な項目はすべて入力されています。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\nSlug形式\n/blog/night-workout-sleep-timing-intensity/ として公開されます。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n本文の独立QC\n現在の本文と独立QC証拠が一致しています。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n画像Review Gate\nHYBRID_GENERATED / trainer absent / generated customer / recent-4 reuse check PASS。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n記事画像\n旧5記事参照 rev-column-reference-v2 / GPT Image hybrid / editorial-thumbnail-v2.4 / rev-column-v24-fixed-overlay-v1 / generated customer + real THE REV. environment / Brand QA PASS。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\nGitHub接続\nmaxi001maxi/the-rev-website @ main へ接続できました。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n画像3形式\nGitHubの3画像を確認しました。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\n本番画像反映\nXserverとGitHubの3画像SHA256一致。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\nGitHub上のslug衝突\ncontent/blog/night-workout-sleep-timing-intensity.md は未使用です（新規作成）。"
+    },
+    {
+      "className": "admin-check admin-check-ok",
+      "text": "✓\n\nsource_path / source_sha\n新規公開のため未設定です（公開成功後に保存されます）。"
+    }
+  ],
+  "images": [
+    {
+      "height": 675,
+      "loaded": true,
+      "src": "https://therev-lab.com/assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg?review_asset=reference-v082-evolgear-r5-qc-context-20261021-READY-ready-2026-10-21T01%3A44%3A02.524Z",
+      "width": 1200
+    },
+    {
+      "height": 630,
+      "loaded": true,
+      "src": "https://therev-lab.com/assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg?review_asset=reference-v082-evolgear-r5-qc-context-20261021-READY-ready-2026-10-21T01%3A44%3A02.524Z",
+      "width": 1200
+    },
+    {
+      "height": 900,
+      "loaded": true,
+      "src": "https://therev-lab.com/assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg?review_asset=reference-v082-evolgear-r5-qc-context-20261021-READY-ready-2026-10-21T01%3A44%3A02.524Z",
+      "width": 1200
+    }
+  ],
+  "publishEnabled": true,
+  "publishClicked": false
+}
