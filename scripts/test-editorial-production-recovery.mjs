@@ -101,6 +101,19 @@ test('legacy Bridge trailing slash delivers exact QC proof only to the canonical
  }
 });
 
+test('canonical-ready Bridge clears stale failure metadata; pending Bridge retains its hold',()=>{
+ for(const ready of [true,false]){
+  const h=recoverySandbox({rejectFirst:false,bridgeReady:ready}),s=h.sandbox;
+  const final=s.finalizeWebBlog_(h.article,{}),blog={...final,status:'READY',fact_check_status:'PASS',editor_notes:final._editor_notes};
+  const q={__row:1,content_id:'BLOG-PROGRESS',queue_status:'BRIDGE_SYNCING',failed_stage:'WEB_BRIDGE',next_stage:'WEB_BRIDGE',human_action_required:'NONE',last_error:'prior failure'};
+  s.ss_=()=>({getSheetByName:n=>n==='26_DAILY_EDITORIAL_QUEUE'?[q]:[{parent_blog_id:q.content_id,status:'READY'}]});
+  const before=JSON.stringify(q),calls=h.counts();s.v065SyncBridgeDirect_(q,blog);
+  if(ready){assert.equal(q.last_successful_stage,'CANONICAL_PREFLIGHT');assert.equal(q.failed_stage,'');assert.equal(q.next_stage,'HUMAN_REVIEW');assert.equal(q.human_action_required,'REVIEW_AND_PUBLISH');assert.equal(q.last_error,'');}
+  else assert.equal(JSON.stringify(q),before);
+  assert.equal(q.queue_status,'BRIDGE_SYNCING','caller remains responsible for Queue transition');assert.deepEqual(h.counts(),calls);
+ }
+});
+
 test('known hard-restore clipping route stops before image API',async()=>{
  const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');let requests=0;
  await assert.rejects(()=>editV3PhotoWithLockedBackground({job:{v3:{background_lock:'masked_openai_edit_hard_restore_v1'}},generateResponse:async()=>{requests++;}}),/HARD_RESTORE_ROUTE_PAUSED/);

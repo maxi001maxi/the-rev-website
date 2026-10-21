@@ -177,6 +177,7 @@ function v072PollImage_() {
         image_status: 'READY',
         review_url: checked.review_url || String(q.review_url || ''),
         web_bridge_status: 'PREVIEW_READY',
+        last_successful_stage: 'CANONICAL_PREFLIGHT',
         failed_stage: '',
         next_stage: 'HUMAN_REVIEW',
         human_action_required: 'REVIEW_AND_PUBLISH',
