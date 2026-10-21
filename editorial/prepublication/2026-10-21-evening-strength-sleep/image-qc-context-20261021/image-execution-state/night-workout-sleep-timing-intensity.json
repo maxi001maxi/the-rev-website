@@ -1,0 +1,17 @@
+{
+  "slug": "night-workout-sleep-timing-intensity",
+  "asset_version": "reference-v082-evolgear-r5-qc-context-20261021",
+  "job_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/IMAGE_JOB.json",
+  "status": "READY_CANDIDATE",
+  "attempts_total": 0,
+  "scene_sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+  "generation_disabled": true,
+  "max_attempts": 1,
+  "generated_scene_path": "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021-scene.png",
+  "thumbnail": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+  "og_image": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+  "gbp_image": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+  "qa_report_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/IMAGE_INDEPENDENT_QC.json",
+  "xserver_verified": false,
+  "updated_at": "2026-10-21T01:44:02.751Z"
+}

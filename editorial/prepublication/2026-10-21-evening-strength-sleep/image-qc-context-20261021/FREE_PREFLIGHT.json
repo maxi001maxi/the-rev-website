@@ -1,0 +1,53 @@
+{
+  "pass": true,
+  "free": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-evolgear-20260922",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "pre-workout-stretching-duration",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "raw_sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "owner_selected_files": [
+    {
+      "path": "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020-scene.png",
+      "sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1746371
+    },
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1",
+      "width": 1200,
+      "height": 675,
+      "bytes": 133871
+    },
+    {
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b",
+      "width": 1200,
+      "height": 630,
+      "bytes": 126279
+    },
+    {
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3",
+      "width": 1200,
+      "height": 900,
+      "bytes": 179860
+    }
+  ],
+  "generation_calls_allowed": 0,
+  "qc_calls_allowed": 1,
+  "thresholds_changed": false,
+  "production_writes": false
+}
