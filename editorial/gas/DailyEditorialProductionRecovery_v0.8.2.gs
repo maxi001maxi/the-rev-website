@@ -231,6 +231,42 @@ var V082_RESEARCH_CATALOG = [
   }
 ];
 
+// Completion notices follow verified readiness, not the day the Queue was made.
+// Reuse the existing LINE sender and dedupe key; never regenerate or publish.
+function v082NotifyReady_(){
+  var sheet=ss_().getSheetByName('26_DAILY_EDITORIAL_QUEUE'),props=PropertiesService.getScriptProperties();
+  if(!sheet)return {status:'SHEET_MISSING'};
+  var rows=getObjectsWithRow_(sheet).filter(function(q){return q.content_id&&q.queue_status==='REVIEW_READY'&&q.web_bridge_status==='PREVIEW_READY'&&q.review_url;});
+  rows.sort(function(a,b){return new Date(b.updated_at||0)-new Date(a.updated_at||0);});
+  for(var i=0;i<rows.length;i++){
+    var q=rows[i],id=String(q.content_id||''),key='THE_REV_DAILY_FINAL_LINE_NOTIFIED_'+id,stateKey='THE_REV_READY_NOTICE_V082_'+id;
+    if(props.getProperty(key)==='TRUE'){
+      if(q.notification_status!=='SENT')setObjectRow_(sheet,q.__row,{notification_status:'SENT',notification_channel:'LINE',notification_summary:'既存のLINE API受理記録を保持。到達・既読は未確認。'});
+      continue;
+    }
+    var state=JSON.parse(props.getProperty(stateKey)||'{}');
+    if(state.status==='UNCERTAIN'||Number(state.attempts||0)>=3||Number(state.next_at||0)>Date.now())continue;
+    if(!v065CheckImageDirect_(q).ready)continue; // Recheck canonical Preflight before any notice.
+    state={attempts:Number(state.attempts||0)+1,status:'RESERVED',next_at:Date.now()+600000};
+    props.setProperty(stateKey,JSON.stringify(state));
+    var sent;
+    try{sent=v065LinePushText_('THE REV. Editorial AI｜最終記事が出来上がりました\n\n'+String(q.topic||'')+'\n\n公開前確認：\n'+String(q.review_url)+'\n\n※まだWebサイトには公開していません。');}
+    catch(e){sent={status:'UNCERTAIN',reason:'TRANSPORT_UNCERTAIN'};}
+    state.status=sent.status==='SENT'?'SENT':sent.status==='UNCERTAIN'?'UNCERTAIN':'ERROR';state.http_status=sent.http_status||null;state.reason=sent.reason||'';props.setProperty(stateKey,JSON.stringify(state));
+    var patch={notification_status:state.status,notification_channel:'LINE',notification_summary:state.status==='SENT'?'LINE API受理。到達・既読は未確認。':'通知未確認: '+state.status+' / HTTP '+state.http_status+' '+state.reason+' / attempts='+state.attempts};
+    if(state.status==='SENT'){props.setProperty(key,'TRUE');patch.notification_sent_at=new Date();}
+    setObjectRow_(sheet,q.__row,patch);
+    return {status:state.status,content_id:id,http_status:sent.http_status||null,attempts:state.attempts};
+  }
+  return {status:'NO_READY_NOTIFICATION'};
+}
+var V082_READY_NOTICE_ADAPTER=(function(){
+  if(typeof v065NotifyReviewReady_!=='function')return 'LEGACY_NOTICE_NOT_PRESENT';
+  var legacy=v065NotifyReviewReady_;
+  v065NotifyReviewReady_=function(){return v082Enabled_()?v082NotifyReady_():legacy.apply(this,arguments);};
+  return 'INSTALLED_OPT_IN';
+})();
+
 // Send the existing Supervisor's exact accepted article proof through its normal
 // Bridge call. Do not create a second scheduler or bypass v065 sheet readback.
 var V082_BRIDGE_ADAPTER=(function(){
