@@ -17,15 +17,23 @@ export function planAssetDelta({files,distRoot='dist',before,oldBlob,liveBlob,ba
     const fresh=path.join(distRoot,p);
     if(!fs.statSync(fresh,{throwIfNoEntry:false})?.isFile())throw Error('DELTA_SOURCE_MISSING: '+p);
     const bytes=fs.readFileSync(fresh),prior=oldBlob(p),live=liveBlob(p);
+    // A separately verified staging step can deliver a new filename before
+    // main is merged. Adopt exact existing bytes without overwriting them or
+    // deleting them on a later rollback. Every non-identical preimage still
+    // fails closed below, including same-size corruption.
+    if(prior===null && live!==null && sha(live)===sha(bytes)){
+      out.push({path:p,new_sha256:sha(bytes),old_sha256:sha(live),bytes:bytes.length,already_staged:true});
+      continue;
+    }
     if(prior!==null){
       if(live===null||sha(prior)!==sha(live))throw Error('DELTA_PREIMAGE_MISMATCH: '+p);
       const dest=path.join(backupDir,p);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,prior);
-      rollback.push('mkdir -p '+quote('/'+path.posix.dirname(p)), 'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(dest));
+      rollback.push('mkdir -pf '+quote('/'+path.posix.dirname(p)), 'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(dest));
     }else{
       if(live!==null)throw Error('DELTA_UNEXPECTED_REMOTE_FILE: '+p);
       rollback.push('rm -f '+quote('/'+p));
     }
-    upload.push('mkdir -p '+quote('/'+path.posix.dirname(p)),'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(fresh));
+    upload.push('mkdir -pf '+quote('/'+path.posix.dirname(p)),'put -O '+quote('/'+path.posix.dirname(p))+' '+quote(fresh));
     out.push({path:p,new_sha256:sha(bytes),old_sha256:prior===null?null:sha(prior),bytes:bytes.length});
   }
   fs.writeFileSync(path.join(backupDir,'manifest.json'),JSON.stringify({before,items:out},null,2)+'\n');
