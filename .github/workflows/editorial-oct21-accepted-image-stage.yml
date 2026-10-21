@@ -1,0 +1,98 @@
+name: Oct21 accepted image stage (no generation, DB or Publish)
+on:
+  push:
+    branches: [ops/editorial-v082-production-receipt-20261021]
+    paths: ['editorial/image-acceptance/night-workout-sleep-timing-intensity.json']
+permissions:
+  contents: write
+concurrency:
+  group: approved-oct21-image-recovery
+  cancel-in-progress: false
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Accepted Bridge and failure regressions (no live writes)
+        run: node --test scripts/test-editorial-accepted-image.mjs
+      - name: Verify immutable bytes and full canonical gate before upload
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          import {acceptedEditorialImage} from './lib/editorialAcceptedImage.mjs';
+          const p='editorial/image-acceptance/night-workout-sleep-timing-intensity.json',m=JSON.parse(fs.readFileSync(p));
+          const root='editorial/prepublication/2026-10-21-evening-strength-sleep/';
+          const body=fs.readFileSync(root+'ARTICLE_DRAFT.md','utf8').replace(/^# .+\r?\n/,'').trim(),q=JSON.parse(fs.readFileSync(root+'INDEPENDENT_QC_V082_ADDITIONAL.json'));
+          const proof={schema:'editorial-text-qc-v1',content_id:m.content_id,body_sha256:q.body_sha256,evidence_sha256:q.evidence_sha256,pass:q.pass,total:q.total,source_unverified:q.source_unverified,issues:q.issues};
+          const getFileFn=async p=>{if(!fs.existsSync(p))return {exists:false};const b=fs.readFileSync(p);return {exists:true,content:b.toString(),size:b.length,sha256:createHash('sha256').update(b).digest('hex')};};
+          const info=await acceptedEditorialImage({title:m.title,slug:'night-workout-sleep-timing-intensity',body_markdown:body},{id:m.draft_id},{contentId:m.content_id,textProof:proof,getFileFn,verifyLive:async()=>true});
+          if(info?.acceptedExisting!==true)throw Error('FREE_ADMISSION_FAILED');
+          for(const a of m.assets){const b=fs.readFileSync(a.path);if(createHash('sha256').update(b).digest('hex')!==a.sha256)throw Error('UPLOAD_SHA_MISMATCH');}
+          fs.writeFileSync('.accepted-image-paths',m.assets.map(a=>a.path).join('\n')+'\n');
+          console.log('Offline admission PASS; delivery still requires real HTTP SHA verification. No production DB writes.');
+          JS
+      - name: Stage only three new accepted filenames to Xserver
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          COMMANDS="$(mktemp)"
+          trap 'rm -f "$COMMANDS"' EXIT
+          {
+            echo 'set ftp:ssl-force true'
+            echo 'set ftp:ssl-protect-data true'
+            echo 'set ftp:passive-mode true'
+            echo 'set ssl:verify-certificate yes'
+            echo 'set net:max-retries 1'
+            echo 'set net:timeout 25'
+            while IFS= read -r p; do
+              case "$p" in assets/images/*qc-context-20261021.jpg) ;; *) exit 1 ;; esac
+              printf 'put "%s" -o "/%s"\n' "$p" "$p"
+            done < .accepted-image-paths
+            echo bye
+          } > "$COMMANDS"
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp < "$COMMANDS"
+      - name: Real HTTP 200 and SHA256 verification
+        run: |
+          python3 - <<'PY'
+          import json,pathlib,urllib.request,hashlib,os,datetime
+          m=json.loads(pathlib.Path('editorial/image-acceptance/night-workout-sleep-timing-intensity.json').read_text());receipts=[]
+          for a in m['assets']:
+            url='https://therev-lab.com/'+a['path']
+            with urllib.request.urlopen(url+'?accepted-image='+os.environ['GITHUB_RUN_ID'],timeout=30) as r:
+              data=r.read();status=r.status
+            sha=hashlib.sha256(data).hexdigest()
+            if status!=200 or sha!=a['sha256']:raise RuntimeError('LIVE_SHA_MISMATCH')
+            receipts.append(dict(url=url,status=status,sha256=sha,bytes=len(data)))
+          if len(receipts)!=3:raise RuntimeError('THREE_FORMATS_REQUIRED')
+          p=pathlib.Path('editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/DELIVERY.json')
+          p.write_text(json.dumps(dict(status='THREE_ACCEPTED_FORMATS_LIVE_SHA_PASS',receipts=receipts,run_id=os.environ['GITHUB_RUN_ID'],checked_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),db_writes=False,publish_invoked=False),ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Preserve delivery evidence only on working branch
+        run: |
+          git config user.name 'THE REV Editorial Recovery'
+          git config user.email 'actions@users.noreply.github.com'
+          git add editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/DELIVERY.json
+          git commit -m 'Verify accepted Oct21 three-format Xserver delivery by SHA256'
+          git pull --rebase --autostash origin ops/editorial-v082-production-receipt-20261021
+          git push origin HEAD:ops/editorial-v082-production-receipt-20261021
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oct21-accepted-image-delivery-${{ github.run_id }}
+          path: editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/DELIVERY.json
+          if-no-files-found: warn

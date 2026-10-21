@@ -1,0 +1,31 @@
+{
+  "schema": "editorial-accepted-image-v1",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+  "title": "夜に筋トレしても眠れる？寝る前の時間と強さを決める目安",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "asset_version": "reference-v082-evolgear-r5-qc-context-20261021",
+  "job_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/IMAGE_JOB.json",
+  "qa_sha256": "0266ede315ea1ad6d23587f1223189a6906cf13f29f4a0261e81240f3592ab49",
+  "owner_adoption_authorized": true,
+  "owner_instruction": "今回の記事を完成：画像QCの矛盾を解消し、既存Draftへ本文・画像を正式同期。これでいきましょう。本番直前まで実行。",
+  "automatic_publish": false,
+  "gbp_post_authorized": false,
+  "independent_qc_run": 39528881887,
+  "original_verdicts_preserved": true,
+  "source_asset_version": "reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020",
+  "assets": [
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1"
+    },
+    {
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b"
+    },
+    {
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3"
+    }
+  ]
+}
