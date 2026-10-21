@@ -1,0 +1,13 @@
+{
+  "canonical_bundle_sha256": "de16cb874efdca4be736c05dc154a05dafa867b1b30f77e1c05ca0361218538f",
+  "before_sha256": "2c857a4d808ed260af3283930e92473cc849a76b1c7f8f0af41de176703c34a4",
+  "preserved_helper_functions": [
+    "repairApprovedDailyExistingDraftV081",
+    "resumeTodayEditorialCandidateNoticeV081",
+    "runTodayEditorialAudienceV08Once",
+    "setAudienceDiscoveryEnforceOnce"
+  ],
+  "installed_payload_sha256": "98208cd829928bc4cb50b3384b00db449c9d1bf9e354be3a6022f9bc0e535070",
+  "triggers_changed": false,
+  "api_history_reset": false
+}
