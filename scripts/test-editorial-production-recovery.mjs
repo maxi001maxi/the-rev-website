@@ -136,6 +136,13 @@ test('ready notification has bounded backoff and stops ambiguous delivery withou
  }
 });
 
+test('cross-day approved quality/API failure is notified without clearing its hold or notifying unapproved rows',()=>{
+ const h=recoverySandbox(),s=h.sandbox,q={__row:1,content_id:'BLOG-ERROR-NOTICE',run_date:'2026-10-20',queue_status:'REVIEW_REQUIRED',knowledge_context_json:JSON.stringify({topic_approval:{approved_at:'2026-10-20'}}),failed_stage:'INDEPENDENT_QC',next_stage:'HUMAN_REVIEW',human_action_required:'REVIEW_QC_FINDINGS',last_error:'evidence missing'};
+ s.ss_=()=>({getSheetByName:()=>[q]});let calls=0;s.v065LinePushText_=text=>{calls++;assert(text.includes('evidence missing'));return {status:'SENT',http_status:200};};s.v065CheckImageDirect_=()=>{throw Error('failed QC must not be promoted');};
+ const before=h.counts();assert.equal(s.v082NotifyOwner_('FAILURE').status,'SENT');s.v082NotifyOwner_('FAILURE');assert.equal(calls,1);assert.equal(q.queue_status,'REVIEW_REQUIRED');assert.equal(q.failed_stage,'INDEPENDENT_QC');assert.deepEqual(h.counts(),before);
+ q.content_id='UNAPPROVED';q.knowledge_context_json='{}';s.v082NotifyOwner_('FAILURE');assert.equal(calls,1);
+});
+
 test('known hard-restore clipping route stops before image API',async()=>{
  const {editV3PhotoWithLockedBackground}=await import('../lib/editorialLockedBackgroundEdit.mjs');let requests=0;
  await assert.rejects(()=>editV3PhotoWithLockedBackground({job:{v3:{background_lock:'masked_openai_edit_hard_restore_v1'}},generateResponse:async()=>{requests++;}}),/HARD_RESTORE_ROUTE_PAUSED/);
