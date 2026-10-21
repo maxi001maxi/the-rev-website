@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 const quality=fs.readFileSync('editorial/gas/DailyEditorialQuality_v0.8.0.gs','utf8');
 const recovery=fs.readFileSync('editorial/gas/DailyEditorialProductionRecovery_v0.8.2.gs','utf8');
 const topic=fs.readFileSync('editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs','utf8');
-export function recoverySandbox({rejectFirst=true,rejectRepair=false,apiError=false,evidence=true,primary=null}={}) {
+export function recoverySandbox({rejectFirst=true,rejectRepair=false,apiError=false,evidence=true,primary=null,bridgeUrl='https://the-rev-website.vercel.app/api/integrations/editorial/'}={}) {
   const records=new Map(),requests=[],bridgeRequests=[];
   const gbpRows=[];
   let qcCalls=0,editorCalls=0,writerCalls=0,held=false;
@@ -36,7 +36,7 @@ export function recoverySandbox({rejectFirst=true,rejectRepair=false,apiError=fa
       return {...draft,_editor_notes:JSON.stringify({score_breakdown:scores}),_editor_score:91,source_refs:Array.isArray(draft.source_refs)?draft.source_refs:JSON.parse(draft.source_refs||'[]'),body_markdown:draft.body_markdown+(editorCalls>1?'\n観察研究は因果関係を保証しません。':''),_editor_decision:'READY',_fact_check_status:'PASS'};
     },
     v065FetchJson_:(url,options)=>{bridgeRequests.push(JSON.parse(options.payload));return {code:200,json:{ok:true}};},
-    v065SyncBridgeDirect_:(q,b)=>sandbox.v065FetchJson_('https://the-rev-website.vercel.app/api/integrations/editorial',{payload:JSON.stringify({content_id:q.content_id,body_markdown:b.body_markdown})})
+    v065SyncBridgeDirect_:(q,b)=>sandbox.v065FetchJson_(bridgeUrl,{payload:JSON.stringify({content_id:q.content_id,body_markdown:b.body_markdown})})
   };
   if(primary)sandbox.v065GeneratePendingArticle_=function(){return primary(sandbox);};
   vm.createContext(sandbox);vm.runInContext(topic,sandbox);vm.runInContext(quality,sandbox);vm.runInContext(recovery,sandbox);
