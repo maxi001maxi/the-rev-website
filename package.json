@@ -18,7 +18,7 @@
     "test:image-operator-primary-status": "node --test scripts/test-image-operator-primary-status.mjs",
     "test:trigger-topology": "node --test scripts/test-editorial-trigger-topology.mjs",
     "build:gas-bundle": "node scripts/build-gas-bundle.mjs",
-    "test:site-insights": "node --test scripts/test-site-insights-v2.mjs",
+    "test:site-insights": "node --test scripts/test-site-insights-v2.mjs scripts/test-site-insights-direct-recovery.mjs",
     "test:hybrid-images": "node scripts/validate-hybrid-image-jobs.mjs",
     "image:compile-job": "node scripts/compile-hybrid-image-job.mjs",
     "image:render-hybrid-overlay": "node scripts/render-hybrid-editorial-overlay.mjs",
