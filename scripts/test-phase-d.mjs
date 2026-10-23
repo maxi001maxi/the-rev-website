@@ -154,6 +154,15 @@ assert(
   !validateDraftForPublish(editorialRevClosing).some((x) => x.includes('Editorial Closing QC')),
   'THE REV.固有の判断へ接続した締めを許可'
 );
+const editorialRevViewClosing = {
+  ...SAMPLE_DRAFT,
+  editorial_source: 'the-rev-editorial-ai',
+  body_markdown: 'DENBAの仕組みを説明します。\n\nこれがTHE REV.のDENBAに対する基本的な見方です。'
+};
+assert(
+  !validateDraftForPublish(editorialRevViewClosing).some((x) => x.includes('Editorial Closing QC')),
+  'QCメッセージが許容する「見方」を実装上も許可'
+);
 
 const noCtaMd = buildBlogMarkdown({ ...SAMPLE_DRAFT, cta_type: null });
 const noCtaParsed = matter(noCtaMd);
