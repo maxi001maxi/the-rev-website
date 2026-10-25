@@ -15,7 +15,7 @@ try {
     await page.setContent(`<style>.headline{position:absolute;font-family:${REV_COLUMN_REFERENCE_V2.overlay.headline.family};letter-spacing:.01em}.headline-line{display:block;white-space:nowrap}</style><div class="paper"></div><div class="label"></div><div class="hairline"></div><h1 class="headline"></h1>`);
     await page.evaluate(() => document.fonts.ready);
     const m = await page.evaluate(fitThumbnailHeadline, {
-      text: '運動前は、\\n動く準備。',
+      text: '運動前は、\n動く準備。',
       width: 1200,
       height,
       gbp: height === 900,
