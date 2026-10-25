@@ -1,0 +1,236 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "cable-machine-how-it-works-the-rev",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "引っ張る方向で、",
+        "動きが",
+        "変わる。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5905787713164109,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        64,
+        111.58974358974359,
+        75.52
+      ],
+      "focus_line": 1,
+      "focus_text": "動きが",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9907675311748798,
+      "block_area_ratio": 0.20176644400683746,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.609375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 602,
+      "fade_end": 739,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 168,
+          "right": 579.84375,
+          "bottom": 260,
+          "width": 515.84375
+        },
+        {
+          "left": 64,
+          "top": 250.671875,
+          "right": 400.65625,
+          "bottom": 410.671875,
+          "width": 336.65625
+        },
+        {
+          "left": 64,
+          "top": 398.65625,
+          "right": 368.5625,
+          "bottom": 507.65625,
+          "width": 304.5625
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+      "asset_sha256": "68f43a82920368acd9d6df944b5c2cf3a038daacb48475dd61094dd3a2e24dcc",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b-preview-320.jpg",
+          "sha256": "430e3d6f20bd7af000ba92882a01f540395a5b1a5145603eb6ed84043ab8a48d"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b-preview-400.jpg",
+          "sha256": "7dd135d0446aca9c33e014539d4769c0ae128ffd3c4954902323b8a703431597"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "引っ張る方向で、",
+        "動きが",
+        "変わる。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5905787713164109,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        64,
+        111.58974358974359,
+        75.52
+      ],
+      "focus_line": 1,
+      "focus_text": "動きが",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9907675311748798,
+      "block_area_ratio": 0.21617833286446872,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 314.609375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 602,
+      "fade_end": 739,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 145,
+          "right": 579.84375,
+          "bottom": 237,
+          "width": 515.84375
+        },
+        {
+          "left": 64,
+          "top": 227.671875,
+          "right": 400.65625,
+          "bottom": 387.671875,
+          "width": 336.65625
+        },
+        {
+          "left": 64,
+          "top": 375.65625,
+          "right": 368.5625,
+          "bottom": 484.65625,
+          "width": 304.5625
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+      "asset_sha256": "4d0954ae58ab87d86214dbcd42c3836062bab480788d29ee345dbfb0dee02d2b",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b-preview-320.jpg",
+          "sha256": "5988278e1d88cf90e9f26d70d432e4f2e97f7fbb9962a074a8dcc7d31991240b"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b-preview-400.jpg",
+          "sha256": "86f6a91b277e92d3cad133017eeeedb5b5c88bb8186320198d05f3704adb1647"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "引っ張る",
+        "方向で、動きが",
+        "変わる。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5724432085377675,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 2,
+      "focus_text": "変わる。",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9920004383433949,
+      "block_area_ratio": 0.11851649681430394,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 520,
+      "fade_end": 639,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 275,
+          "right": 310.484375,
+          "bottom": 364,
+          "width": 250.484375
+        },
+        {
+          "left": 60,
+          "top": 364.4375,
+          "right": 497.109375,
+          "bottom": 453.4375,
+          "width": 437.109375
+        },
+        {
+          "left": 60,
+          "top": 446.875,
+          "right": 470.921875,
+          "bottom": 593.875,
+          "width": 410.921875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+      "asset_sha256": "5702129bc45cc57b161792e5ac63555b30cb4dd9897db9e199be1567ea8d53ff",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b-preview-320.jpg",
+          "sha256": "09d8375d544a8f2c7cb757fce6db67b5ea10ca4cebf4417cf57c2b53ce5c1ce5"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b-preview-400.jpg",
+          "sha256": "ed38fbfb762dadb82b095e4d006a07036808be31bd1ce4df4ac220a0691199a8"
+        }
+      }
+    }
+  }
+}
