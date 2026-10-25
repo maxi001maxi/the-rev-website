@@ -1,0 +1,15 @@
+{
+  "slug": "cable-machine-how-it-works-the-rev",
+  "status": "GENERATING",
+  "job_path": "editorial/hybrid-image-jobs/cable-machine-how-it-works-the-rev.json",
+  "max_attempts": 1,
+  "attempts_total": 0,
+  "started_at": "2026-10-25T02:00:56.247Z",
+  "updated_at": "2026-10-25T02:00:56.247Z",
+  "execution_provider": "ChatGPT Work",
+  "operator": "ChatGPT Work single-run operator",
+  "stage": "ADOPTING_WORK_GENERATED_IMAGE_THROUGH_CANONICAL_BRIDGE",
+  "last_error": null,
+  "paid_external_api_calls": 0,
+  "notes": "Work-generated scene and independent-QC image assets exist. Operator is active on the formal Bridge handoff; no external generator is authorized. Omit asset_version until the Bridge-owned job is read back; then verify exact asset and QA before READY."
+}
