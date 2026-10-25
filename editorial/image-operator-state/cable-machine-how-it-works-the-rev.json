@@ -1,15 +1,57 @@
 {
   "slug": "cable-machine-how-it-works-the-rev",
-  "status": "GENERATING",
+  "status": "READY_CANDIDATE",
   "job_path": "editorial/hybrid-image-jobs/cable-machine-how-it-works-the-rev.json",
   "max_attempts": 1,
-  "attempts_total": 0,
+  "attempts_total": 1,
   "started_at": "2026-10-25T02:00:56.247Z",
-  "updated_at": "2026-10-25T02:00:56.247Z",
+  "updated_at": "2026-10-25T02:12:06.727Z",
   "execution_provider": "ChatGPT Work",
   "operator": "ChatGPT Work single-run operator",
-  "stage": "ADOPTING_WORK_GENERATED_IMAGE_THROUGH_CANONICAL_BRIDGE",
+  "stage": "WORK_GENERATION_AND_INDEPENDENT_QC_COMPLETE",
   "last_error": null,
   "paid_external_api_calls": 0,
-  "notes": "Work-generated scene and independent-QC image assets exist. Operator is active on the formal Bridge handoff; no external generator is authorized. Omit asset_version until the Bridge-owned job is read back; then verify exact asset and QA before READY."
+  "notes": "Exact Work scene and all three fixed-overlay JPEGs passed independent canonical visual QC and are SHA256-identical on live Xserver. Canonical Bridge owns the operational job. Human Publish required.",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+  "qa_report_path": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+  "last_qa": {
+    "pass": true,
+    "asset_version": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+    "checked_at": "2026-10-25T01:45:04.578Z",
+    "independent_from_author": true
+  },
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-25T02:11:35.377970+00:00",
+  "xserver_asset_evidence": [
+    {
+      "variant": "thumbnail",
+      "url": "https://therev-lab.com/assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg?work-byte-final=20261025",
+      "status": 200,
+      "sha256": "68f43a82920368acd9d6df944b5c2cf3a038daacb48475dd61094dd3a2e24dcc",
+      "expected_sha256": "68f43a82920368acd9d6df944b5c2cf3a038daacb48475dd61094dd3a2e24dcc",
+      "pass": true
+    },
+    {
+      "variant": "og_image",
+      "url": "https://therev-lab.com/assets/images/blog/og/og-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg?work-byte-final=20261025",
+      "status": 200,
+      "sha256": "4d0954ae58ab87d86214dbcd42c3836062bab480788d29ee345dbfb0dee02d2b",
+      "expected_sha256": "4d0954ae58ab87d86214dbcd42c3836062bab480788d29ee345dbfb0dee02d2b",
+      "pass": true
+    },
+    {
+      "variant": "gbp_image",
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg?work-byte-final=20261025",
+      "status": 200,
+      "sha256": "5702129bc45cc57b161792e5ac63555b30cb4dd9897db9e199be1567ea8d53ff",
+      "expected_sha256": "5702129bc45cc57b161792e5ac63555b30cb4dd9897db9e199be1567ea8d53ff",
+      "pass": true
+    }
+  ],
+  "api_usage": {
+    "paid_external_generation_calls": 0,
+    "paid_external_qc_calls": 0,
+    "work_image_generation_calls": 1,
+    "independent_work_visual_reviews": 1
+  }
 }
