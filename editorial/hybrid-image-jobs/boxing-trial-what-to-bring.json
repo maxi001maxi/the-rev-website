@@ -610,5 +610,18 @@
       "female"
     ]
   },
-  "max_generation_attempts": 1
+  "max_generation_attempts": 1,
+  "work_execution": {
+    "operator": "ChatGPT Work single-run operator",
+    "actual_generation_provider": "ChatGPT Work built-in imagegen",
+    "actual_qc_provider": "ChatGPT Work independent visual reviewer",
+    "configured_model_fields_retained_for_canonical_contract": true,
+    "paid_external_generation_api_calls": 0,
+    "paid_external_qc_api_calls": 0,
+    "work_image_generation_calls": 1,
+    "independent_work_visual_reviews": 1,
+    "scene_sha256": "ecfcfd940921b28d03d72deddc9c33a1ee9588bcebb861e1b57d0a9efbb4d399",
+    "review_mode": "HYBRID_GENERATED",
+    "notes": "Generation and review responses supplied by Work; existing scene, typography, QA and readiness gates executed unchanged. Article remains unpublished."
+  }
 }
