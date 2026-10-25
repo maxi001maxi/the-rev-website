@@ -1,0 +1,21 @@
+{
+  "slug": "boxing-trial-what-to-bring",
+  "status": "GENERATING",
+  "job_path": "editorial/hybrid-image-jobs/boxing-trial-what-to-bring.json",
+  "max_attempts": 1,
+  "attempts_total": 1,
+  "started_at": "2026-10-25T05:56:34.086Z",
+  "updated_at": "2026-10-25T05:56:34.087Z",
+  "execution_provider": "ChatGPT Work",
+  "operator": "ChatGPT Work single-run operator",
+  "stage": "WORK_SCENE_GENERATED_INDEPENDENT_VISUAL_QC_RUNNING",
+  "last_error": null,
+  "paid_external_api_calls": 0,
+  "notes": "Owner requested same Work-only execution. Built-in Work scene generation completed once; local overlays rendered; independent visual QC and public byte delivery in progress. Existing operator state prevents a parallel paid generation. No READY/public verification claimed.",
+  "api_usage": {
+    "paid_external_generation_calls": 0,
+    "paid_external_qc_calls": 0,
+    "work_image_generation_calls": 1
+  },
+  "xserver_verified": false
+}
