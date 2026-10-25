@@ -1,21 +1,56 @@
 {
   "slug": "boxing-trial-what-to-bring",
-  "status": "GENERATING",
+  "status": "READY_CANDIDATE",
   "job_path": "editorial/hybrid-image-jobs/boxing-trial-what-to-bring.json",
   "max_attempts": 1,
   "attempts_total": 1,
   "started_at": "2026-10-25T05:56:34.086Z",
-  "updated_at": "2026-10-25T05:56:34.087Z",
+  "updated_at": "2026-10-25T08:08:36.497Z",
   "execution_provider": "ChatGPT Work",
   "operator": "ChatGPT Work single-run operator",
-  "stage": "WORK_SCENE_GENERATED_INDEPENDENT_VISUAL_QC_RUNNING",
+  "stage": "WORK_GENERATION_AND_INDEPENDENT_QC_COMPLETE",
   "last_error": null,
   "paid_external_api_calls": 0,
-  "notes": "Owner requested same Work-only execution. Built-in Work scene generation completed once; local overlays rendered; independent visual QC and public byte delivery in progress. Existing operator state prevents a parallel paid generation. No READY/public verification claimed.",
+  "notes": "Exact Work scene and all three fixed-overlay JPEGs passed independent canonical visual QC and SHA256 match live Xserver. Canonical Bridge owns operational job. Human Publish required.",
   "api_usage": {
     "paid_external_generation_calls": 0,
     "paid_external_qc_calls": 0,
     "work_image_generation_calls": 1
   },
-  "xserver_verified": false
+  "xserver_verified": true,
+  "asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+  "qa_report_path": "editorial/image-qa/boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.json",
+  "last_qa": {
+    "pass": true,
+    "asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+    "checked_at": "2026-10-25T05:58:04.252Z",
+    "independent_from_author": true
+  },
+  "xserver_verified_at": "2026-10-25T08:08:36.497Z",
+  "xserver_asset_evidence": [
+    {
+      "variant": "thumbnail",
+      "url": "https://therev-lab.com/assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg?work-accepted=20261027",
+      "status": 200,
+      "sha256": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683",
+      "expected_sha256": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683",
+      "pass": true
+    },
+    {
+      "variant": "og_image",
+      "url": "https://therev-lab.com/assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg?work-accepted=20261027",
+      "status": 200,
+      "sha256": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c",
+      "expected_sha256": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c",
+      "pass": true
+    },
+    {
+      "variant": "gbp_image",
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg?work-accepted=20261027",
+      "status": 200,
+      "sha256": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6",
+      "expected_sha256": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6",
+      "pass": true
+    }
+  ]
 }
