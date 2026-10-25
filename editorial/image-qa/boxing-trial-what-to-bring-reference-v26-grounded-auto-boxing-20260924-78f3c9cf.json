@@ -1,0 +1,1521 @@
+{
+  "pass": true,
+  "checked_at": "2026-10-25T05:58:04.252Z",
+  "slug": "boxing-trial-what-to-bring",
+  "asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+  "reviewer_identity": "ChatGPT Work independent subagent /root/independent_visual_qc",
+  "independent_visual_qc_executed": true,
+  "independent_from_author": true,
+  "qa_model": "ChatGPT Work independent visual reviewer",
+  "qa_method": "Independent direct visual inspection of source, generated scene, all three final JPEGs and all actual 320px/400px JPEG previews, plus byte-locked Golden references; unchanged canonical deterministic gates executed locally.",
+  "score_provenance": "Scores use the existing canonical 0-10 rubric. human_visual_attention_share is a reviewer visual-attention estimate, not measured eye tracking, pixel area or CTR.",
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 8,
+  "photo_treatment": 9,
+  "article_visual_relevance": 9,
+  "main_claim_visualization": 8,
+  "human_subject_prominence": 9,
+  "human_visual_attention_share": 65,
+  "face_expression_readable": true,
+  "background_secondary_pass": true,
+  "background_soft_blur_pass": true,
+  "the_rev_anchor_visible": true,
+  "customer_presentation_matches_plan": true,
+  "article_theme_inferable_without_title": true,
+  "scene_action_has_article_specific_meaning": true,
+  "generic_passive_pose_without_article_reason": false,
+  "rev_environment_consistency": 8,
+  "brand_space_authenticity": 8,
+  "human_environment_integration": 9,
+  "perspective_scale_consistency": 9,
+  "ground_contact_shadow_consistency": 8,
+  "lighting_consistency": 9,
+  "anatomy_pose_realism": 9,
+  "no_cutout_or_sticker_look": true,
+  "location_semantics_pass": true,
+  "exercise_pose_plausible": true,
+  "location_behavior_plausible": true,
+  "service_misrepresentation_absent": true,
+  "unsupported_equipment_absent": true,
+  "scene_plausible_at_the_rev": true,
+  "manual_visual_rejection": false,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "generated_customer_role": "customer",
+  "generated_customer_allowed_under_policy": true,
+  "customer_presentation": "female",
+  "facility_only_thumbnail": false,
+  "real_the_rev_background_confirmed": true,
+  "source_material_scope_pass": true,
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "background_source_drive_file_id": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "AI_SOURCE_photo-boxing_20260924.jpg",
+  "content_reference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+  "background_source_type": "verified_the_rev_repo_mirror",
+  "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "headline_line_break_quality": true,
+  "headline_balance_score": 9,
+  "too_promotional": false,
+  "fixed_overlay_layout_confirmed": true,
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "image_headline_short": "グローブは、\n借りて始められる。",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "generation_model": "gpt-image-hybrid",
+  "image_generation_used": true,
+  "fallback_used": false,
+  "fallback_reason": "",
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_check_pass": true,
+  "recent_similarity_window": 4,
+  "recent_background_source_ids": [
+    "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+    "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+    "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+    "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+    "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/"
+  ],
+  "background_reuse_relevance_exception": false,
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+    "recent_articles": [
+      {
+        "slug": "cable-machine-how-it-works-the-rev",
+        "checkedAt": "2026-10-25T01:45:04.578Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+        "imageHeadlineShort": "引っ張る方向で、\n動きが変わる。",
+        "customerPresentation": "male",
+        "articleTitle": "ケーブルマシンは何をするもの？THE REV.の設備とフォーム・設定の基本",
+        "sceneFingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        },
+        "thumbnail": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg"
+      },
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "checkedAt": "2026-10-15T03:46:44.330Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+        "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+        "customerPresentation": "female",
+        "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
+      },
+      {
+        "slug": "the-rev-trial-three-menus-first-visit",
+        "checkedAt": "2026-10-14T02:01:11.756Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+        "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+        "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+        "customerPresentation": "male",
+        "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "arrival",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "first_visit_reassurance",
+          "article_intent": "facility_selection"
+        },
+        "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg"
+      },
+      {
+        "slug": "nekose-strength-training-posture",
+        "checkedAt": "2026-10-13T01:53:31.806Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+        "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+        "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+        "customerPresentation": "female",
+        "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg"
+      }
+    ],
+    "selected_drive_file_id": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+    "selected_content_reference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+    "avoided_repeat": true,
+    "repeated_due_to_relevance": false,
+    "repeat_distance": null,
+    "required_equipment": []
+  },
+  "realism_qc_version": "v1",
+  "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+  "scene_grounding_version": "the-rev-source-scene-v1",
+  "scene_grounding": {
+    "version": "the-rev-source-scene-v1",
+    "pass": true,
+    "errors": [],
+    "inventory": {
+      "version": "the-rev-source-scene-v1",
+      "source_sha256": "004fb1a4d56c8d5bae7ee09c77dd12674047107e5c006de5550d66f586452090",
+      "primary_location": "boxing_area",
+      "subject_zone": "boxing_area",
+      "visible_equipment": [
+        {
+          "object": "boxing_gloves",
+          "zone": "boxing_area"
+        },
+        {
+          "object": "boxing_mitt",
+          "zone": "boxing_area"
+        }
+      ],
+      "allowed_generated_actions": [
+        "prepare",
+        "boxing_stance",
+        "rest"
+      ],
+      "forbidden_generated_objects": [
+        "medical_device",
+        "unverified_training_equipment"
+      ],
+      "suitable_article_intents": [
+        "boxing_start"
+      ],
+      "verification": {
+        "method": "source image visual inspection + canonical scoped registry",
+        "verified_at": "2026-10-07",
+        "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+      }
+    },
+    "plan": {
+      "version": "the-rev-source-scene-v1",
+      "source_id": "the-rev-boxing-20260924",
+      "source_sha256": "004fb1a4d56c8d5bae7ee09c77dd12674047107e5c006de5550d66f586452090",
+      "scene_type": "before_start",
+      "location_type": "boxing_area",
+      "human_action": "boxing_stance",
+      "composition_type": "medium_three_quarter_portrait",
+      "visual_role": "safe_first_step",
+      "article_intent": "boxing_start",
+      "required_equipment": [],
+      "subject_zone": "boxing_area",
+      "article_specific_directive": "",
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "compared": 12,
+        "unknown_count": 0,
+        "penalty": 0.5,
+        "matches": [
+          {
+            "slug": "cable-machine-how-it-works-the-rev",
+            "score": 0.16666666666666666,
+            "equal": [
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "personal-gym-first-session-pain-health-history",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "the-rev-trial-three-menus-first-visit",
+            "score": 0.16666666666666666,
+            "equal": [
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "nekose-strength-training-posture",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "pre-workout-stretching-duration",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-health-device-mat-role",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "shinomiya-gym-beginner-choose",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "desk-work-stand-every-30-minutes",
+            "score": 0.16666666666666666,
+            "equal": [
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "boxing-beginner-scared-before-mitt-training",
+            "score": 0.5,
+            "equal": [
+              "location_type",
+              "human_action",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-electric-potential-space-radio-wave-difference",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "beginner-strength-training-few-exercises-frequency",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          }
+        ]
+      }
+    },
+    "sourceRecognition": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "boxing_gloves",
+          "zone": "boxing_area"
+        },
+        {
+          "object": "boxing_mitt",
+          "zone": "boxing_area"
+        }
+      ],
+      "location_type": "boxing_area",
+      "comments": "Original source directly viewed: female customer wearing black gloves, one partially visible trainer/mitt holder at right, white walls, blind-covered window at left, exposed ceiling beam/metal fasteners/black track lights, gray activity mat and narrow wood perimeter. Source equipment is gloves and mitt; no rack or bag is visible."
+    },
+    "observation": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "boxing_gloves",
+          "zone": "boxing_area"
+        }
+      ],
+      "location_type": "boxing_area",
+      "subject_zone": "boxing_area",
+      "human_action": "boxing_stance",
+      "equipment_relocated": false,
+      "room_geometry_preserved": true,
+      "article_scene_match": true,
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "boxing_area",
+        "human_action": "boxing_stance",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "safe_first_step",
+        "article_intent": "boxing_start"
+      },
+      "comments": "Exactly one female customer in a plain light T-shirt and dark exercise pants holds two black gloves up in a relaxed, plausible first-session guard. Both forearms, glove cuffs, shoulders and elbows read naturally; no collision/contact or invented equipment. Original trainer/mitt holder is removed. Existing window on left, beam/track lights above, white wall and gray mat/wood boundary remain in corresponding zones. Wider crop adds no unverified apparatus. Face/light/shadows belong to the room and no cutout edge is apparent. Three-quarter crop excludes feet, so actual sole contact is not directly visible; no visible floating or inconsistent body-scale cue."
+    },
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.5,
+      "matches": [
+        {
+          "slug": "cable-machine-how-it-works-the-rev",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "score": 0.5,
+          "equal": [
+            "location_type",
+            "human_action",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        }
+      ]
+    },
+    "recent": [
+      {
+        "slug": "cable-machine-how-it-works-the-rev",
+        "checkedAt": "2026-10-25T01:45:04.578Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+        "imageHeadlineShort": "引っ張る方向で、\n動きが変わる。",
+        "customerPresentation": "male",
+        "articleTitle": "ケーブルマシンは何をするもの？THE REV.の設備とフォーム・設定の基本",
+        "sceneFingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        },
+        "thumbnail": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        }
+      },
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "checkedAt": "2026-10-15T03:46:44.330Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+        "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+        "customerPresentation": "female",
+        "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        }
+      },
+      {
+        "slug": "the-rev-trial-three-menus-first-visit",
+        "checkedAt": "2026-10-14T02:01:11.756Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+        "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+        "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+        "customerPresentation": "male",
+        "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "arrival",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "first_visit_reassurance",
+          "article_intent": "facility_selection"
+        },
+        "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "arrival",
+          "location_type": "reception",
+          "human_action": "observe_facility",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "first_visit_reassurance",
+          "article_intent": "facility_selection"
+        }
+      },
+      {
+        "slug": "nekose-strength-training-posture",
+        "checkedAt": "2026-10-13T01:53:31.806Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+        "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+        "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+        "customerPresentation": "female",
+        "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "pre-workout-stretching-duration",
+        "checkedAt": "2026-10-11T00:47:06.303Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+        "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+        "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+        "customerPresentation": "male",
+        "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "denba-health-device-mat-role",
+        "checkedAt": "2026-10-10T02:43:04.486Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+        "imageHeadlineShort": "本体とマット、\n役割は別。",
+        "customerPresentation": "female",
+        "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+        "sceneFingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "close_action_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "close_action_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "equipment_explanation"
+        }
+      },
+      {
+        "slug": "shinomiya-gym-beginner-choose",
+        "checkedAt": "2026-10-07T05:24:50.575Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-evolgear-20261007-r4",
+        "imageHeadlineShort": "続けやすさで、\n選ぶ。",
+        "customerPresentation": "male",
+        "articleTitle": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "facility_selection"
+        },
+        "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "facility_selection"
+        }
+      },
+      {
+        "slug": "desk-work-stand-every-30-minutes",
+        "checkedAt": "2026-10-06T01:08:15.230Z",
+        "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+        "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+        "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+        "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+        "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+        "customerPresentation": "female",
+        "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+        "sceneFingerprint": {
+          "scene_type": "workday_break",
+          "location_type": "reception",
+          "human_action": "standing_break",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "workday_movement_break",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+        "observationReference": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+        "scene_fingerprint": {
+          "scene_type": "workday_break",
+          "location_type": "reception",
+          "human_action": "standing_break",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "workday_movement_break",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "boxing-beginner-scared-before-mitt-training",
+        "checkedAt": "2026-10-05T12:07:58.242Z",
+        "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+        "originVideoFileId": "",
+        "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+        "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+        "imageHeadlineShort": "怖くても、\n最初は基本から。",
+        "customerPresentation": "male",
+        "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+        "sceneFingerprint": {
+          "scene_type": "exercise",
+          "location_type": "boxing_area",
+          "human_action": "boxing_stance",
+          "composition_type": "close_action_portrait",
+          "visual_role": "training_execution",
+          "article_intent": "boxing_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+        "observationReference": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "boxing_area",
+          "human_action": "boxing_stance",
+          "composition_type": "close_action_portrait",
+          "visual_role": "training_execution",
+          "article_intent": "boxing_start"
+        }
+      },
+      {
+        "slug": "denba-electric-potential-space-radio-wave-difference",
+        "checkedAt": "2026-10-04T09:45:25.230Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+        "imageHeadlineShort": "DENBAの基本\n電位空間",
+        "customerPresentation": "female",
+        "articleTitle": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+        "sceneFingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+        "observationReference": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "reception",
+          "human_action": "observing_real_equipment",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "component_relationship",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+        "checkedAt": "2026-10-04T05:12:02.251Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+        "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+        "customerPresentation": "male",
+        "articleTitle": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+        "observationReference": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        }
+      },
+      {
+        "slug": "beginner-strength-training-few-exercises-frequency",
+        "checkedAt": "2026-10-03T14:29:13.715Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-auto-evolgear-20260922-6bf9953b",
+        "imageHeadlineShort": "続けられる頻度を、\n最初に決める。",
+        "customerPresentation": "female",
+        "articleTitle": "筋トレ初心者は種目が少なくても効果はある？週の回数と始め方",
+        "sceneFingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "training_area",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_execution"
+        },
+        "thumbnail": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+        "observationReference": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "training_area",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_execution"
+        }
+      }
+    ],
+    "asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+    "asset_hashes": {
+      "source": "004fb1a4d56c8d5bae7ee09c77dd12674047107e5c006de5550d66f586452090",
+      "scene": "ecfcfd940921b28d03d72deddc9c33a1ee9588bcebb861e1b57d0a9efbb4d399",
+      "thumbnail": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683",
+      "og": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c",
+      "gbp": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6"
+    },
+    "reviewer": "ChatGPT Work independent subagent /root/independent_visual_qc"
+  },
+  "scene_fingerprint": {
+    "scene_type": "before_start",
+    "location_type": "boxing_area",
+    "human_action": "boxing_stance",
+    "composition_type": "medium_three_quarter_portrait",
+    "visual_role": "safe_first_step",
+    "article_intent": "boxing_start"
+  },
+  "scene_location_consistency": true,
+  "equipment_source_grounding": true,
+  "spatial_plausibility": true,
+  "action_location_consistency": true,
+  "article_scene_match": true,
+  "recent_semantic_similarity": {
+    "pass": true,
+    "window": 12,
+    "compared": 12,
+    "unknown_count": 0,
+    "penalty": 0.5,
+    "matches": [
+      {
+        "slug": "cable-machine-how-it-works-the-rev",
+        "score": 0.16666666666666666,
+        "equal": [
+          "composition_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "score": 0.16666666666666666,
+        "equal": [
+          "scene_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "the-rev-trial-three-menus-first-visit",
+        "score": 0.16666666666666666,
+        "equal": [
+          "composition_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "nekose-strength-training-posture",
+        "score": 0.16666666666666666,
+        "equal": [
+          "scene_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "pre-workout-stretching-duration",
+        "score": 0.16666666666666666,
+        "equal": [
+          "scene_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "denba-health-device-mat-role",
+        "score": 0,
+        "equal": [],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "shinomiya-gym-beginner-choose",
+        "score": 0.16666666666666666,
+        "equal": [
+          "scene_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "desk-work-stand-every-30-minutes",
+        "score": 0.16666666666666666,
+        "equal": [
+          "composition_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "boxing-beginner-scared-before-mitt-training",
+        "score": 0.5,
+        "equal": [
+          "location_type",
+          "human_action",
+          "article_intent"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "denba-electric-potential-space-radio-wave-difference",
+        "score": 0,
+        "equal": [],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+        "score": 0.16666666666666666,
+        "equal": [
+          "scene_type"
+        ],
+        "hard_exclusion": false
+      },
+      {
+        "slug": "beginner-strength-training-few-exercises-frequency",
+        "score": 0,
+        "equal": [],
+        "hard_exclusion": false
+      }
+    ]
+  },
+  "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+  "thumbnail_typography_visual": {
+    "thumbnail": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "og": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    },
+    "gbp": {
+      "pass": true,
+      "immediately_readable": true,
+      "title_is_primary": true,
+      "whitespace_has_purpose": true,
+      "natural_line_breaks": true,
+      "fade_contains_text": true,
+      "contrast_sufficient": true,
+      "text_not_buried": true,
+      "article_recognizable": true
+    }
+  },
+  "visual_art_direction": {
+    "pass": true,
+    "variants": {
+      "thumbnail": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "composition_balanced": true,
+        "fade_integrated": true
+      },
+      "og": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "composition_balanced": true,
+        "fade_integrated": true
+      },
+      "gbp": {
+        "pass": true,
+        "not_size_only": true,
+        "photo_text_hierarchy_natural": true,
+        "whitespace_meaningful": true,
+        "no_white_board": true,
+        "keyword_hierarchy_present": true,
+        "format_layout_independent": true,
+        "not_generic_template": true,
+        "premium_rev_preserved": true,
+        "inviting_at_list_size": true,
+        "thumbnail_functional": true,
+        "golden_grammar_matches": true,
+        "composition_balanced": true,
+        "fade_integrated": true
+      }
+    },
+    "comments": "全比率で「グローブは、／借りて／始められる。」という自然な3句。Golden参照と同じく中央の黄土色語「借りて」を大きく、前後句を墨色で従属させている。wide/OGPは左中央の大きなタイトルと右の表情・グローブが釣り合い、GBPは独立した狭いブロックと局所veilで顔・両グローブを残している。実320/400pxで即読でき、紙色fadeは窓や壁へ柔らかく溶け、白板や上端の小ラベルには見えない。余白は見出しの階層と表情の呼吸に使われる。"
+  },
+  "thumbnail_typography_acceptance": {
+    "pass": true,
+    "deterministic": {
+      "revision": "thumbnail-golden-typography-v1",
+      "slug": "boxing-trial-what-to-bring",
+      "asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "lines": [
+            "グローブは、",
+            "借りて",
+            "始められる。"
+          ],
+          "text_preserved": true,
+          "font_size": 72,
+          "font_size_at_320": 19.2,
+          "line_count": 3,
+          "line_height": 1.12,
+          "line_balance": 0.7375149432476575,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            72,
+            125.53846153846153,
+            84.96
+          ],
+          "focus_line": 1,
+          "focus_text": "借りて",
+          "focus_scale": 1.7435897435897436,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9883968919020434,
+          "block_area_ratio": 0.2235813256332398,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 337.1796875,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "canonical-bezier-v1",
+          "paper_opacity_floor": 0.8588235294117647,
+          "fade_start": 601,
+          "fade_end": 738,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 4.618575862874591,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 149,
+              "right": 496.734375,
+              "bottom": 253,
+              "width": 432.734375
+            },
+            {
+              "left": 64,
+              "top": 239.625,
+              "right": 442.71875,
+              "bottom": 419.625,
+              "width": 378.71875
+            },
+            {
+              "left": 64,
+              "top": 404.21875,
+              "right": 578.046875,
+              "bottom": 526.21875,
+              "width": 514.046875
+            }
+          ],
+          "asset_path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+          "asset_sha256": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-320.jpg",
+              "sha256": "a0c75b029b78de31deef2a8d8af787f1406bce8c927abf0312b5c6478ab02637"
+            },
+            "400": {
+              "path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-400.jpg",
+              "sha256": "6dd865c171395d3d0b879b2113285e56bb56927cb4bce7f69467bf1b1c874048"
+            }
+          }
+        },
+        "og": {
+          "pass": true,
+          "lines": [
+            "グローブは、",
+            "借りて",
+            "始められる。"
+          ],
+          "text_preserved": true,
+          "font_size": 72,
+          "font_size_at_320": 19.2,
+          "line_count": 3,
+          "line_height": 1.12,
+          "line_balance": 0.7375149432476575,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            72,
+            125.53846153846153,
+            84.96
+          ],
+          "focus_line": 1,
+          "focus_text": "借りて",
+          "focus_scale": 1.7435897435897436,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9883968919020434,
+          "block_area_ratio": 0.23955142032132834,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 315.1796875,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "canonical-bezier-v1",
+          "paper_opacity_floor": 0.8588235294117647,
+          "fade_start": 601,
+          "fade_end": 738,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 4.618575862874591,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 127,
+              "right": 496.734375,
+              "bottom": 231,
+              "width": 432.734375
+            },
+            {
+              "left": 64,
+              "top": 217.625,
+              "right": 442.71875,
+              "bottom": 397.625,
+              "width": 378.71875
+            },
+            {
+              "left": 64,
+              "top": 382.21875,
+              "right": 578.046875,
+              "bottom": 504.21875,
+              "width": 514.046875
+            }
+          ],
+          "asset_path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+          "asset_sha256": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-320.jpg",
+              "sha256": "4540d92a9897db56b6754398c2d7f0bacd0c0f0a5002c7135abe39eecb38488a"
+            },
+            "400": {
+              "path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-400.jpg",
+              "sha256": "af06060962257d3cf048caf926f17802449b0ca2165c34af048760f702275c46"
+            }
+          }
+        },
+        "gbp": {
+          "pass": true,
+          "lines": [
+            "グローブは、",
+            "借りて",
+            "始められる。"
+          ],
+          "text_preserved": true,
+          "font_size": 64,
+          "font_size_at_320": 17.066666666666666,
+          "line_count": 3,
+          "line_height": 1.12,
+          "line_balance": 0.7341224128564815,
+          "layout_rule": "golden-gbp-v1",
+          "line_font_sizes": [
+            64,
+            105.41176470588235,
+            71.68
+          ],
+          "focus_line": 1,
+          "focus_text": "借りて",
+          "focus_scale": 1.6470588235294117,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9854904529918324,
+          "block_area_ratio": 0.12446379424822773,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 432,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "canonical-bezier-v1",
+          "paper_opacity_floor": 0.9098039215686274,
+          "fade_start": 516,
+          "fade_end": 635,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.213181538979519,
+          "line_rects": [
+            {
+              "left": 60,
+              "top": 266,
+              "right": 444.640625,
+              "bottom": 358,
+              "width": 384.640625
+            },
+            {
+              "left": 60,
+              "top": 351.671875,
+              "right": 378.140625,
+              "bottom": 502.671875,
+              "width": 318.140625
+            },
+            {
+              "left": 60,
+              "top": 494.71875,
+              "right": 493.875,
+              "bottom": 598.71875,
+              "width": 433.875
+            }
+          ],
+          "asset_path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+          "asset_sha256": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6",
+          "previews": {
+            "320": {
+              "path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-320.jpg",
+              "sha256": "c402523bb3950f87e624a9aa62f655add9b855af8b705632ae8ad3996fde2941"
+            },
+            "400": {
+              "path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-400.jpg",
+              "sha256": "cc80a8bdfafb553aa6ea732dc8a36c670dc326780899726cdccfcb18aacf1545"
+            }
+          }
+        }
+      }
+    },
+    "visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "全比率で「グローブは、／借りて／始められる。」という自然な3句。Golden参照と同じく中央の黄土色語「借りて」を大きく、前後句を墨色で従属させている。wide/OGPは左中央の大きなタイトルと右の表情・グローブが釣り合い、GBPは独立した狭いブロックと局所veilで顔・両グローブを残している。実320/400pxで即読でき、紙色fadeは窓や壁へ柔らかく溶け、白板や上端の小ラベルには見えない。余白は見出しの階層と表情の呼吸に使われる。"
+    },
+    "golden_reference": {
+      "revision": "approved-typography-20261001-v1",
+      "assets": [
+        {
+          "variant": "wide",
+          "path": "editorial/typography-golden-reference/reference-16x9.png",
+          "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+        },
+        {
+          "variant": "gbp",
+          "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+          "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+        },
+        {
+          "variant": "list",
+          "path": "editorial/typography-golden-reference/reference-list-view.png",
+          "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+        }
+      ]
+    }
+  },
+  "gbp_image_required": true,
+  "gbp_image_path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3",
+  "gbp_aspect_ratio_pass": true,
+  "gbp_safe_area_pass": true,
+  "gbp_copy_legible": true,
+  "asset_hashes": {
+    "source": "004fb1a4d56c8d5bae7ee09c77dd12674047107e5c006de5550d66f586452090",
+    "scene": "ecfcfd940921b28d03d72deddc9c33a1ee9588bcebb861e1b57d0a9efbb4d399",
+    "thumbnail": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683",
+    "og": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c",
+    "gbp": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6"
+  },
+  "assets": {
+    "source": {
+      "path": "assets/images/photo-boxing.jpg",
+      "sha256": "004fb1a4d56c8d5bae7ee09c77dd12674047107e5c006de5550d66f586452090"
+    },
+    "scene": {
+      "path": "assets/images/editorial-generated/boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-scene.png",
+      "sha256": "ecfcfd940921b28d03d72deddc9c33a1ee9588bcebb861e1b57d0a9efbb4d399"
+    },
+    "thumbnail": {
+      "path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+      "sha256": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683"
+    },
+    "og": {
+      "path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+      "sha256": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c"
+    },
+    "gbp": {
+      "path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+      "sha256": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6"
+    }
+  },
+  "api_usage": {
+    "generation_calls": 0,
+    "qc_calls": 0,
+    "confirmed_cost": 0,
+    "calls": [],
+    "scope": "Independent reviewer used Work and local canonical deterministic code only."
+  },
+  "comments": "女性顧客1名の笑顔と自然な構えが、小さいカードでも「初めてグローブを着けて体験へ進む」状況を伝える。生成側にトレーナー・ミット保持者・第三者はいない。元写真のボクシング空間の窓、梁、照明、壁、マットをアンカーとして保ち、自然な浅い奥行きで背景を従属させている。貸出の取引そのものは静止画から立証できないが、主張は本文の店舗一次情報に基づき、写真は着用したグローブで体験前の準備を具体化する。Thumbnailで右腕外縁が画角にかかるが顔・両グローブと構えの意味は失われず、GBPは両グローブが収まる。語や助詞だけの不自然な改行はない。",
+  "limitations": [
+    "Three-quarter framing excludes feet; sole contact cannot be directly inspected. No whole-body cutout, floating or scale defect is visible in the included frame.",
+    "Source trainer is present only in the original source image and has been removed from all generated/final assets; original source must not itself be used as final thumbnail.",
+    "Visual PASS is not public-byte verification, Console READY, publish preflight or human Publish approval. Parent must perform canonical operational adoption and latest-history verification."
+  ],
+  "required_repairs": [],
+  "canonical_validation": {
+    "scene_grounding_pass": true,
+    "typography_acceptance_pass": true,
+    "hybrid_qa_ready": true,
+    "image_review_gate": {
+      "ok": true,
+      "mode": "HYBRID_GENERATED",
+      "errors": [],
+      "checks": {
+        "qa_pass": true,
+        "source_scene_grounding": true,
+        "manual_visual_rejection_absent": true,
+        "realism_qc_version": true,
+        "human_environment_integration": true,
+        "perspective_scale_consistency": true,
+        "ground_contact_shadow_consistency": true,
+        "lighting_consistency": true,
+        "anatomy_pose_realism": true,
+        "no_cutout_or_sticker_look": true,
+        "location_semantics_pass": true,
+        "exercise_pose_plausible": true,
+        "trainer_absent": true,
+        "unknown_trainer_absent": true,
+        "non_customer_people_absent": true,
+        "customer_only": true,
+        "generated_customer_present": true,
+        "generated_customer_count": true,
+        "facility_only_forbidden": true,
+        "fixed_overlay_confirmed": true,
+        "layout_template": true,
+        "policy_revision": true,
+        "human_subject_prominence": true,
+        "human_visual_attention_share": true,
+        "face_expression_readable": true,
+        "background_secondary": true,
+        "background_soft_blur": true,
+        "the_rev_anchor_visible": true,
+        "customer_presentation_matches_plan": true,
+        "real_the_rev_background": true,
+        "source_scope": true,
+        "background_source_recorded": true,
+        "background_selection_reason_recorded": true,
+        "recent_similarity_checked": true,
+        "same_image_absent": true,
+        "same_background_absent": true,
+        "trainer_photo_not_reused": true,
+        "recent_window": true,
+        "series_consistency": true,
+        "editorial_quality": true,
+        "typography_harmony": true,
+        "negative_space": true,
+        "photo_treatment": true,
+        "article_visual_relevance": true,
+        "rev_environment_consistency": true,
+        "brand_space_authenticity": true,
+        "expected_copy_present": true,
+        "copy_legible": true,
+        "thumbnail_typography_acceptance": true,
+        "headline_line_break_quality": true,
+        "headline_balance_score": true,
+        "location_behavior_plausible": true,
+        "service_misrepresentation_absent": true,
+        "unsupported_equipment_absent": true,
+        "scene_plausible_at_the_rev": true,
+        "semantic_qc_legacy_pre_cutover": true,
+        "not_too_promotional": true,
+        "image_generation_used": true,
+        "fallback_not_used": true,
+        "provenance_no_recent_repeat": true,
+        "trainer_source_absent": true
+      },
+      "recentWindow": 4,
+      "deterministicBackgroundRepeat": false,
+      "groundedReuseException": false,
+      "narrowApprovedR7": false,
+      "legacyAcceptedReference": false,
+      "realismRequired": true,
+      "humanFirstRequired": true,
+      "typographyBreakRequired": true,
+      "realismQcVersion": "v1"
+    }
+  }
+}
