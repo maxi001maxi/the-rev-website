@@ -630,5 +630,16 @@
       "male"
     ]
   },
-  "max_generation_attempts": 1
+  "max_generation_attempts": 1,
+  "work_execution": {
+    "execution_provider": "ChatGPT Work",
+    "actual_generation_model": "ChatGPT Work built-in imagegen",
+    "actual_qa_provider": "ChatGPT Work independent visual reviewer",
+    "content_id": "BLOG-20261025-a5418e",
+    "scene_sha256": "505c1360644215317e3ec1327c054cbeac85419668e47b091f3c3552285177df",
+    "paid_external_api_calls": 0,
+    "independent_qa_report_path": "editorial/image-qa/cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.json",
+    "xserver_bytes_verified": true,
+    "notes": "Configured canonical provider fields are retained as the job contract. These actual image bytes and QA were supplied by the authorized Work operator; no paid external generation was executed."
+  }
 }
