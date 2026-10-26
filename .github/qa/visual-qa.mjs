@@ -187,13 +187,17 @@ w(`Target: \`${BASE}\``);
 w('');
 w('| Page | VP | HTTP | h1 | Hero | Card 16:9 | 本文字数 | CTA行数 | Related | Footer links | 横スクロール | Console err | Network fail | 4xx/5xx | 壊れ画像 |');
 w('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
+const isExpectedExternalNetworkNoise = (x) =>
+  x.includes('fonts.gstatic.com') ||
+  (/net::ERR_ABORTED/.test(x) && x.includes('https://www.google-analytics.com/g/collect'));
+
 let fail = 0;
 for (const r of results) {
-  const fontFails = r.networkFailures.filter(x => x.includes('fonts.gstatic.com')).length;
-  const otherNetFails = r.networkFailures.length - fontFails;
+  const expectedExternalFails = r.networkFailures.filter(isExpectedExternalNetworkNoise).length;
+  const otherNetFails = r.networkFailures.length - expectedExternalFails;
   const bad = r.horizontalOverflow || r.blogCardRatioMismatch || otherNetFails || r.badResponses.length || r.imagesBroken.length || r.h1.length !== 1;
   if (bad) fail = 1;
-  w(`| ${r.page} | ${r.vp} | ${r.status} | ${r.h1.length} | ${r.heroImg ? (r.heroImg.natural > 0 ? '✅' : '❌') : '—'} | ${r.blogCardMedia.length ? (r.blogCardRatioMismatch ? '❌' : '✅') : '—'} | ${r.bodyChars || '—'} | ${r.cta.map(c => c.lines).join('/') || '—'} | ${r.related.length} | ${r.footerLinks} | ${r.horizontalOverflow ? '❌ ' + r.scrollWidth + '>' + r.clientWidth : '✅'} | ${r.consoleErrors.length} | ${otherNetFails} (+font ${fontFails}) | ${r.badResponses.length} | ${r.imagesBroken.length} |`);
+  w(`| ${r.page} | ${r.vp} | ${r.status} | ${r.h1.length} | ${r.heroImg ? (r.heroImg.natural > 0 ? '✅' : '❌') : '—'} | ${r.blogCardMedia.length ? (r.blogCardRatioMismatch ? '❌' : '✅') : '—'} | ${r.bodyChars || '—'} | ${r.cta.map(c => c.lines).join('/') || '—'} | ${r.related.length} | ${r.footerLinks} | ${r.horizontalOverflow ? '❌ ' + r.scrollWidth + '>' + r.clientWidth : '✅'} | ${r.consoleErrors.length} | ${otherNetFails} (+external ${expectedExternalFails}) | ${r.badResponses.length} | ${r.imagesBroken.length} |`);
 }
 w('');
 const allConsole = [...new Set(results.flatMap(r => r.consoleErrors))];
