@@ -219,6 +219,27 @@ test('daily prepare refreshes a stale waiting proposal before LINE notification'
   assert(r.notifications.some(n=>n.proposal_id===old.id && n.kind==='TOPICS_RETRY_1'));
 });
 
+test('stale pool without three replacements holds an unselected proposal without approving or drafting',async()=>{
+  const old=proposal();
+  old.notification_status='SENT';
+  const row={content_id:'EXISTING',topic_candidate_id:old.options[0].candidate_id,
+    primary_query:old.options[0].candidate.primary_query,queue_status:'REVIEW_READY',
+    run_date:'2026/10/04',target_date:'2026/10/04'};
+  const db=memoryDb([old]);
+  const result=await topicResponse({...args,action:'prepare',target_date:old.target_date,
+    rows:[row],shortlist:[{...shortlist[0],candidate_id:'BT-20261004-DAILY-999'}]},db,deps);
+  const held=db.tables.editorial_topic_proposals.find(p=>p.id===old.id);
+  assert.equal(held.status,'REVIEW_REQUIRED');
+  assert.equal(held.notification_kind,'BLOCKED');
+  assert.equal(held.last_error,'FRESH_DAILY_POOL_INSUFFICIENT_NO_OLD_RESEND');
+  assert.equal(held.selected_candidate_id,undefined);
+  assert.equal(held.approved_at,undefined);
+  assert.deepEqual(result.ready,[]);
+  assert.equal(approvedQueue(held,args).queue_row,null);
+  assert.throws(()=>answerInterview(held,{answers:['a','b'],source:'GPT',actor:'owner'}),/NOT_WAITING_FOR_INTERVIEW/);
+  assert(result.notifications.some(n=>n.proposal_id===old.id&&n.kind==='BLOCKED'));
+});
+
 test('confirmed LINE non-delivery creates a new topic notification generation without changing the topic choice',async()=>{
   const p={...proposal(),notification_status:'SENT',notification_kind:'TOPICS',notification_sent_at:now.toISOString()};
   const db=memoryDb([p]);
