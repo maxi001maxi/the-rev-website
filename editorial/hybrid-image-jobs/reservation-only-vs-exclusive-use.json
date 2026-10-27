@@ -608,5 +608,20 @@
       "male"
     ]
   },
-  "max_generation_attempts": 1
+  "max_generation_attempts": 1,
+  "typography_override": {
+    "gbp": {
+      "emphasis_text": "貸切の違い"
+    }
+  },
+  "work_execution": {
+    "provider": "ChatGPT Work",
+    "image_generation_provider": "ChatGPT Work built-in imagegen",
+    "visual_qc_provider": "ChatGPT Work independent visual reviewer",
+    "generation_attempts": 1,
+    "paid_external_generation_calls": 0,
+    "paid_external_qc_calls": 0,
+    "date_jst": "2026-10-27",
+    "note": "Canonical job contract model fields remain configured values; actual execution was Work. Deterministic overlay and gates unchanged. Human Publish required."
+  }
 }
