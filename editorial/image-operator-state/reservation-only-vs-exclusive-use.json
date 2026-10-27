@@ -1,15 +1,63 @@
 {
   "slug": "reservation-only-vs-exclusive-use",
-  "status": "GENERATING",
+  "status": "READY_CANDIDATE",
   "job_path": "editorial/hybrid-image-jobs/reservation-only-vs-exclusive-use.json",
   "max_attempts": 1,
   "attempts_total": 1,
   "started_at": "2026-10-27T00:54:55.030Z",
-  "updated_at": "2026-10-27T00:54:55.030Z",
+  "updated_at": "2026-10-27T01:20:15.945Z",
   "execution_provider": "ChatGPT Work",
   "operator": "ChatGPT Work single-run operator",
-  "stage": "WORK_SCENE_GENERATED_INDEPENDENT_QC_IN_PROGRESS",
+  "stage": "WORK_GENERATION_AND_INDEPENDENT_QC_COMPLETE",
   "last_error": null,
   "paid_external_api_calls": 0,
-  "notes": "Work-only execution actively in progress; generated scene exists locally, fixed overlay and independent QC underway. No API image generation is authorized. Do not claim asset READY until all canonical gates and Xserver verification pass."
+  "notes": "Exact Work scene and three fixed-overlay JPEGs passed independent canonical visual QC and SHA256 match live Xserver. Canonical Bridge owns job. Human Publish required.",
+  "asset_version": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+  "generated_scene_path": "assets/images/editorial-generated/reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-scene.png",
+  "thumbnail": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+  "og_image": "assets/images/blog/og/og-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+  "gbp_image": "assets/images/gbp/gbp-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+  "qa_report_path": "editorial/image-qa/reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.json",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-10-27T01:19:48.221756+00:00",
+  "xserver_asset_evidence": [
+    {
+      "variant": "thumbnail",
+      "url": "https://therev-lab.com/assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg?work-accepted=20261028-011928",
+      "status": 200,
+      "sha256": "3391e2a0a67895ccb249426014fbd7c778a537a174b8a7e332aee62cb2b7cdeb",
+      "expected_sha256": "3391e2a0a67895ccb249426014fbd7c778a537a174b8a7e332aee62cb2b7cdeb",
+      "bytes": 124899,
+      "pass": true
+    },
+    {
+      "variant": "og_image",
+      "url": "https://therev-lab.com/assets/images/blog/og/og-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg?work-accepted=20261028-011935",
+      "status": 200,
+      "sha256": "c1035086e0500532793688337826bc3cd6354cad21106c5d1df7fe4d5ea0469a",
+      "expected_sha256": "c1035086e0500532793688337826bc3cd6354cad21106c5d1df7fe4d5ea0469a",
+      "bytes": 120932,
+      "pass": true
+    },
+    {
+      "variant": "gbp_image",
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg?work-accepted=20261028-011941",
+      "status": 200,
+      "sha256": "c2bb6c45812d872abe8a67b2cecca4f9a00721015ce5aff2fc78552288e22611",
+      "expected_sha256": "c2bb6c45812d872abe8a67b2cecca4f9a00721015ce5aff2fc78552288e22611",
+      "bytes": 185792,
+      "pass": true
+    }
+  ],
+  "last_qa": {
+    "pass": true,
+    "asset_version": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+    "checked_at": "2026-10-27T01:02:43.848Z",
+    "independent_from_author": true
+  },
+  "api_usage": {
+    "paid_external_generation_calls": 0,
+    "paid_external_qc_calls": 0,
+    "work_image_generation_calls": 1
+  }
 }
