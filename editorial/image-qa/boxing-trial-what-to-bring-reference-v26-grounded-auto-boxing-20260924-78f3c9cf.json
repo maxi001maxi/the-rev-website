@@ -1517,5 +1517,6 @@
       "typographyBreakRequired": true,
       "realismQcVersion": "v1"
     }
-  }
+  },
+  "review_mode": "HYBRID_GENERATED"
 }
