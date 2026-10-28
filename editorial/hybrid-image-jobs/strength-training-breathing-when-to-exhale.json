@@ -633,5 +633,15 @@
       "female"
     ]
   },
-  "max_generation_attempts": 1
+  "max_generation_attempts": 1,
+  "work_execution": {
+    "provider": "ChatGPT Work built-in image_gen",
+    "scene_generations": 1,
+    "paid_external_generation_calls": 0,
+    "generation_prompt_artifact": "private Owner review packet: IMAGE_GENERATION_WORK.json",
+    "canonical_job_created_by": "Editorial Bridge",
+    "actual_scene_path": "assets/images/editorial-generated/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069-scene.png",
+    "same_scene_from_unaccepted_initial_copy": true,
+    "human_publish_required": true
+  }
 }
