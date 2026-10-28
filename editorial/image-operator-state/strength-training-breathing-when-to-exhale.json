@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "slug": "strength-training-breathing-when-to-exhale",
+  "content_id": "BLOG-20261029-8ae0ec",
+  "status": "GENERATING",
+  "job_path": "editorial/hybrid-image-jobs/strength-training-breathing-when-to-exhale.json",
+  "operator": "ChatGPT Work single-run operator",
+  "stage": "WORK_ACTIVE_AWAITING_CANONICAL_BRIDGE_JOB",
+  "started_at": "2026-10-28T08:52:45.750Z",
+  "updated_at": "2026-10-28T08:52:45.750Z",
+  "generation_provider": "ChatGPT Work built-in image generation",
+  "paid_external_generation_calls": 0,
+  "notes": "Owner-authorized Work generation. Canonical Bridge creates job; asset version intentionally unassigned until actual job readback. Do not launch parallel paid provider."
+}
