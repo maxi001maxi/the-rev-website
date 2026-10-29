@@ -40,7 +40,11 @@ function v068SyncRecentArticleAssets_(){
    site_draft_id:String(a.id||row.site_draft_id||''),review_url:String(payload.review_url||row.review_url||''),editor_url:String(payload.editor_url||row.editor_url||''),title:String(a.title||row.title||''),slug:String(a.slug||row.slug||''),
    image_status:String(a.image_status||''),thumbnail_path:String(a.thumbnail||''),og_image_path:String(a.og_image||''),image_strategy:String(a.image_strategy||row.image_strategy||''),image_updated_at:a.image_updated_at||new Date(),image_render_version:String(a.image_render_version||''),image_qa:v068QaSummary_(a.image_qa),image_style_template:String(a.image_style_template||''),image_headline_short:String(a.image_headline_short||''),image_asset_version:String(a.image_asset_version||''),
    gbp_image_status:String(a.gbp_image_status||''),gbp_image_path:String(a.gbp_image||''),gbp_image_asset_version:String(a.gbp_image_asset_version||''),gbp_image_updated_at:a.gbp_image_checked_at||new Date(),gbp_image_notes:v068GbpQaSummary_(a.gbp_image_qa)
-  });synced++;
+  });
+  // Queue may already be PUBLISHED when an older GBP copy is repaired/recreated.
+  // Reconcile from the authenticated status evidence on every ledger refresh.
+  v081ReconcileGbpPublication_(String(row.content_id||'').trim(),a);
+  synced++;
  }catch(e){errors++;setObjectRow_(bsh,row.__row,{gbp_image_notes:'SYNC ERROR: '+String(e&&e.message||e).slice(0,500)});}});
  if(typeof v067RefreshGbpPostsFromBridge_==='function')v067RefreshGbpPostsFromBridge_();
  return {status:errors?'PARTIAL':'OK',checked:rows.length,synced:synced,errors:errors};
@@ -53,12 +57,57 @@ function scheduledEditorialAssetLedgerSyncV068(){
  const gbpView=v081RepairGbpView_(),coverage=v081GbpCoverage_();
  return {status:assets.errors||coverage.missing.length?'PARTIAL':'SUCCESS',version:'v0.6.8',assets:assets,ledger:ledger,sort:sort,gbp_view:gbpView,gbp_coverage:coverage,auto_publish:false};
 }
+
+function v081VerifiedGbpParentUrl_(article){
+ const a=article||{},url=String(a.published_url||'').trim();
+ return a.publish_status==='PUBLISHED'&&Number.isFinite(Date.parse(a.publish_verified_at||''))&&
+  /^https:\/\/therev-lab\.com\/blog\/[a-z0-9-]+\/$/.test(url)?url:'';
+}
+function v081GbpPublicationPatch_(copy,article){
+ const g=copy||{},url=v081VerifiedGbpParentUrl_(article);if(!url||!String(g.body_copy_paste||'').trim())return {};
+ let body=String(g.body_copy_paste).replace(/［BLOG_URL］/g,'[BLOG_URL]');
+ const links=body.match(/https?:\/\/[^\s<>]+/g)||[];
+ // Do not silently accept a different article or a writer-invented link.
+ if(links.some(link=>link!==url)){
+  const note='GBP URL review required: copy contains a different URL; verified parent '+url;
+  const hold={};
+  if(['','READY','BLOCKED_URL'].includes(String(g.post_ready||'').toUpperCase())&&g.post_ready!=='BLOCKED_URL')hold.post_ready='BLOCKED_URL';
+  if(!String(g.notes||'').includes(note))hold.notes=(g.notes?g.notes+' | ':'')+note;
+  return hold;
+ }
+ if(body.includes('[BLOG_URL]')||body.split(url).length!==2)body=body.replace(/\[BLOG_URL\]/g,'').split(url).join('').trim()+'\n\n'+url;
+ const patch={};
+ const resolvedReview='GBP URL review required: copy contains a different URL; verified parent '+url;
+ const notes=String(g.notes||'').split(' | ').filter(note=>note!==resolvedReview).join(' | ');
+ if(notes!==String(g.notes||''))patch.notes=notes;
+ if(body!==g.body_copy_paste)patch.body_copy_paste=body;
+ if(g.blog_url_placeholder!==url)patch.blog_url_placeholder=url;
+ if(String(g.post_ready||'').toUpperCase()==='BLOCKED_URL'&&g.image_status==='READY')patch.post_ready='READY';
+ if(Object.keys(patch).length){
+  const note='GBP parent URL verified by authenticated publication evidence';
+  patch.notes=notes.includes(note)?notes:(notes?notes+' | ':'')+note;
+ }
+ return patch;
+}
+function v081ReconcileGbpPublication_(contentId,article){
+ if(!contentId||!v081VerifiedGbpParentUrl_(article))return {updated:0,posted:false};
+ const sh=ss_().getSheetByName('22_GBP_POST');if(!sh)return {updated:0,posted:false};
+ let updated=0;
+ getObjectsWithRow_(sh).filter(g=>String(g.parent_blog_id||'').trim()===contentId).forEach(g=>{
+  const patch=v081GbpPublicationPatch_(g,article);
+  if(Object.keys(patch).length){setObjectRow_(sh,g.__row,patch);updated++;}
+ });
+ return {updated:updated,posted:false};
+}
 // Derived view only: never physically reorder source rows used by the Primary.
 // Normalize native dates, older comma dates and UTC ISO timestamps into JST.
 function v081GbpViewFormula_(){
  const g="'22_GBP_POST'!",a=g+'A2:A';
  const date=`IF(ISNUMBER(${a}),${a},IFERROR(VALUE(SUBSTITUTE(SUBSTITUTE(LEFT(SUBSTITUTE(TO_TEXT(${a}),",",""),19),"T"," "),"-","/"))+IF(REGEXMATCH(TO_TEXT(${a}),"Z$"),9/24,0),0))`;
- const values=`{${date},IF(${date}>0,TEXT(${date},"yyyy/mm/dd hh:mm"),TO_TEXT(${a})),${g}E2:E,${g}F2:F,${g}G2:G,${g}H2:H,${g}I2:I,IF(${g}P2:P<>"",${g}P2:P,IF(${g}I2:I="[BLOG_URL]","BLOCKED_URL",${g}J2:J)),IF(${g}L2:L="READY","準備完了",${g}L2:L),${g}M2:M,${g}K2:K,${g}D2:D,ROW(${a})}`;
+ const urlReview=`(${g}P2:P="BLOCKED_URL")*REGEXMATCH(TO_TEXT(${g}K2:K),"GBP URL review required")`;
+ const url=`IF(${urlReview},"記事URL要確認（備考参照）",IF((${g}I2:I="")+(${g}I2:I="[BLOG_URL]"),"記事公開待ち（公開後にURLを自動反映）",${g}I2:I))`;
+ const state=`IF(${g}P2:P="BLOCKED_URL",IF(${urlReview},"記事URL要確認","記事公開待ち"),IF(${g}P2:P<>"",${g}P2:P,IF((${g}I2:I="[BLOG_URL]")+(${g}I2:I=""),"記事公開待ち",${g}J2:J)))`;
+ const values=`{${date},IF(${date}>0,TEXT(${date},"yyyy/mm/dd hh:mm"),TO_TEXT(${a})),${g}E2:E,${g}F2:F,${g}G2:G,${g}H2:H,${url},${state},IF(${g}L2:L="READY","準備完了",${g}L2:L),${g}M2:M,${g}K2:K,${g}D2:D,ROW(${a})}`;
  return `=ARRAYFORMULA(IFNA(CHOOSECOLS(SORT(SORTN(SORT(FILTER(${values},${g}E2:E<>"",${g}D2:D<>""),1,FALSE,13,FALSE),9^9,2,12,TRUE),1,FALSE,13,FALSE),2,3,4,5,6,7,8,9,10,11,12),""))`;
 }
 function v081RepairGbpView_(){
