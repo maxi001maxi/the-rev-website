@@ -65,7 +65,7 @@ jobs:
           import fs from 'node:fs';
           import {execFileSync} from 'node:child_process';
           const paths=process.env.EVENT_NAME==='pull_request'
-            ? execFileSync('git',['diff','--name-only',process.env.PR_BASE,process.env.PR_HEAD],{encoding:'utf8'}).trim().split('\n')
+            ? execFileSync('git',['diff','--name-only',process.env.PR_BASE+'...'+process.env.PR_HEAD],{encoding:'utf8'}).trim().split('\n')
             : ['editorial/prepublication/2026-10-21-evening-strength-sleep/QC_EXECUTION.json'];
           const relevant=paths.some(p=>/^editorial\/prepublication\/2026-10-21-evening-strength-sleep\//.test(p)||
             /^scripts\/(?:preflight-oct21-image-admission|prepare-oct21-image-[^/]+|finalize-oct21-image-execution)\.mjs$/.test(p)||
