@@ -22,3 +22,5 @@ GitHubへのmergeだけでは、既存のbound Apps Scriptは更新されない�
 ## 検証
 
 `node --test scripts/test-google-business-voice-publication.mjs scripts/test-editorial-owner-order.mjs`。公開済みQueueの後からの復旧、本文URL欠落、未公開・検証不足・別hostの拒否、画像却下維持、再実行の冪等性、実際の生成wrapperへの文体指示、URL枠の欠落補正を検証する。モデル呼び出しはローカルstubのみ。
+
+関連しないGAS変更にも一回限りのOct21画像実行Admissionが走り、現在のrecent4履歴で既存素材の再利用を正しく拒否してCIを止める問題も確認した。既存のRecovery回帰はすべて維持し、この一回限りの実行AdmissionだけをOct21実行入力・素材registry・画像選定/grounding関連コードの変更時に限定する。GBP修正で過去の承認済み画像Jobを再開しない。Topic/Knowledge/品質/画像/Publish Gateや基準を変更するものではない。

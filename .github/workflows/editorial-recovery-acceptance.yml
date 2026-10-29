@@ -45,6 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -52,13 +54,34 @@ jobs:
       - run: npm ci
       - run: node --test scripts/test-editorial-owner-order.mjs
       - run: node scripts/build-gas-bundle.mjs --check
+      - name: Scope the one-off Oct21 execution admission
+        id: oct21_scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {execFileSync} from 'node:child_process';
+          const paths=process.env.EVENT_NAME==='pull_request'
+            ? execFileSync('git',['diff','--name-only',process.env.PR_BASE,process.env.PR_HEAD],{encoding:'utf8'}).trim().split('\n')
+            : ['editorial/prepublication/2026-10-21-evening-strength-sleep/QC_EXECUTION.json'];
+          const relevant=paths.some(p=>/^editorial\/prepublication\/2026-10-21-evening-strength-sleep\//.test(p)||
+            /^scripts\/(?:preflight-oct21-image-admission|prepare-oct21-image-[^/]+|finalize-oct21-image-execution)\.mjs$/.test(p)||
+            /^(?:editorial\/automated-image-sources\.json|lib\/editorial(?:AutomatedHybridImage|SceneGrounding|ImageStyle)\.mjs)$/.test(p));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,'required='+relevant+'\n');
+          console.log(relevant?'Oct21 execution inputs changed: run the existing free admission':'No Oct21 execution input change: keep its accepted job closed; run all recovery regressions below');
+          NODE
       - name: Free Oct21 recovery source and semantic admission (no provider or writes)
+        if: steps.oct21_scope.outputs.required == 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_BRANCH: ${{ github.sha }}
         run: node scripts/preflight-oct21-image-admission.mjs
       - name: Exact approved Oct21 image job free preflight (no provider or production writes)
+        if: steps.oct21_scope.outputs.required == 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPO: ${{ github.repository }}
