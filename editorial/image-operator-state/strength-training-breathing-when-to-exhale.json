@@ -2,13 +2,56 @@
   "schema_version": "1.0.0",
   "slug": "strength-training-breathing-when-to-exhale",
   "content_id": "BLOG-20261029-8ae0ec",
-  "status": "GENERATING",
+  "status": "READY_CANDIDATE",
   "job_path": "editorial/hybrid-image-jobs/strength-training-breathing-when-to-exhale.json",
   "operator": "ChatGPT Work single-run operator",
-  "stage": "WORK_ACTIVE_AWAITING_CANONICAL_BRIDGE_JOB",
+  "stage": "WORK_GENERATION_AND_INDEPENDENT_QC_COMPLETE",
   "started_at": "2026-10-28T08:52:45.750Z",
-  "updated_at": "2026-10-28T08:52:45.750Z",
+  "updated_at": "2026-10-29T06:04:09.054Z",
   "generation_provider": "ChatGPT Work built-in image generation",
   "paid_external_generation_calls": 0,
-  "notes": "Owner-authorized Work generation. Canonical Bridge creates job; asset version intentionally unassigned until actual job readback. Do not launch parallel paid provider."
+  "notes": "Work scene and three derivatives passed independent canonical QC and actual live SHA256 check. Full Xserver deploy40662062974 SUCCESS. Final Publish human-only.",
+  "asset_version": "reference-v26-grounded-auto-lobby-20260924-ff29d069",
+  "generated_scene_path": "assets/images/editorial-generated/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069-scene.png",
+  "thumbnail": "assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+  "og_image": "assets/images/blog/og/og-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+  "gbp_image": "assets/images/gbp/gbp-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+  "qa_report_path": "editorial/image-qa/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.json",
+  "xserver_verified": true,
+  "xserver_verified_at": "20261029T060131396223Z",
+  "xserver_asset_evidence": [
+    {
+      "kind": "thumbnail",
+      "url": "https://therev-lab.com/assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+      "http_status": 200,
+      "expected_sha256": "54054b29aea2e7235d20e31dd420db8ac013cfbdf6906ab6ab96cc33724c99fe",
+      "actual_sha256": "54054b29aea2e7235d20e31dd420db8ac013cfbdf6906ab6ab96cc33724c99fe",
+      "byte_identical": true,
+      "bytes": 134201
+    },
+    {
+      "kind": "og_image",
+      "url": "https://therev-lab.com/assets/images/blog/og/og-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+      "http_status": 200,
+      "expected_sha256": "c5c1345c3ee07bbec8b1078d61b3bab5b33d75b34e8313492d30a0b3ab928fbc",
+      "actual_sha256": "c5c1345c3ee07bbec8b1078d61b3bab5b33d75b34e8313492d30a0b3ab928fbc",
+      "byte_identical": true,
+      "bytes": 129993
+    },
+    {
+      "kind": "gbp_image",
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+      "http_status": 200,
+      "expected_sha256": "661f9d9d0549fb039fd0bd153dd9dc3c70514d8056dc1819379f8854b4da8bbc",
+      "actual_sha256": "661f9d9d0549fb039fd0bd153dd9dc3c70514d8056dc1819379f8854b4da8bbc",
+      "byte_identical": true,
+      "bytes": 205789
+    }
+  ],
+  "last_error": null,
+  "api_usage": {
+    "paid_external_generation_calls": 0,
+    "paid_external_qc_calls": 0,
+    "work_image_generation_calls": 1
+  }
 }
