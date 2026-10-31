@@ -1,0 +1,13 @@
+{
+  "slug": "after-training-shower-changing-the-rev",
+  "status": "GENERATING",
+  "job_path": "editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json",
+  "attempts_total": 0,
+  "max_attempts": 1,
+  "operator": "ChatGPT Work single-run operator",
+  "generation_provider": "ChatGPT Work built-in image_gen",
+  "paid_external_generation_calls": 0,
+  "last_error": "",
+  "note": "Explicit Owner-authorized Work execution. Reservation prevents a parallel paid operator call while the canonical Bridge job is created and completed.",
+  "updated_at": "2026-10-31T02:06:53.951Z"
+}
