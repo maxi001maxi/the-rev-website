@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: work/shower-draft-20261101
       EDITORIAL_IMAGE_DISABLE_GENERATION: '1'
       EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
     steps:
@@ -119,6 +122,7 @@ jobs:
           JS
           while IFS= read -r p; do git add -- "$p"; done < .shower-commit-paths
           git -c user.name='THE REV Editorial Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Verify shower article images for prepublication review'
+          git pull --rebase origin work/shower-draft-20261101
           git push origin HEAD:work/shower-draft-20261101
       - uses: actions/upload-artifact@v4
         if: always()

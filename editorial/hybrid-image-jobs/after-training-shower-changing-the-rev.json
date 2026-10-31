@@ -524,7 +524,9 @@
     "content_id": "BLOG-20261101-c36b34",
     "scene_reused_from": "Library libfile_a6dd1b85f4f08191bf61085eeb997fb7",
     "new_image_generation_calls": 0,
-    "publication_allowed": false
+    "publication_allowed": false,
+    "generation_max_calls": 0,
+    "independent_qc_max_calls": 2
   },
   "visual_claim": "運動後、実シャワー・更衣スペースで外出着に着替えた顧客がバッグを持って出かける準備をしている。備品の品ぞろえや即時利用を保証する画像ではない。"
 }
