@@ -1,0 +1,39 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "after-training-shower-changing-the-rev",
+  "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+  "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-shower-changing-20261031-img0651",
+    "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+    "scene_type": "recovery_transition",
+    "location_type": "recovery_area",
+    "human_action": "prepare",
+    "composition_type": "medium_three_quarter_portrait",
+    "visual_role": "recovery_time",
+    "article_intent": "facility_selection",
+    "required_equipment": [],
+    "subject_zone": "recovery_area",
+    "article_specific_directive": "外出着に着替えた男性顧客1人がバッグを持ち出発準備。実シャワーブース・鏡台は背景。鏡の人物は同一顧客の反射。追加備品・スタッフ・トレーニング動作なし。"
+  },
+  "headline": "ジムのあと、\n出かけよう。",
+  "thumbnail": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "og": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "gbp": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "qc_only_call_limits": {
+    "generation": 0,
+    "qc": 2
+  },
+  "contract_sha256": "a5edbee4384f28ed71a5bcf3185373999ba92c2b9d3457c11ac73fb472910988",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "qc",
+      "status": "STARTED",
+      "at": "2026-10-31T23:37:28.574Z",
+      "confirmed_cost": null
+    }
+  ],
+  "confirmed_cost": null
+}
