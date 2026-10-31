@@ -1,0 +1,19 @@
+{
+  "status": "BLOCKED_PROVIDER_CREDITS",
+  "slug": "after-training-shower-changing-the-rev",
+  "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+  "body_sha256": "6103919e9b35d7ac3fa3569ab7c3121843c8a591908ab5ff85d7d1f4cd7cad20",
+  "body_characters": 1957,
+  "text_qc_pass": true,
+  "deterministic_typography_pass": true,
+  "independent_visual_qc": "NOT_EXECUTED_PROVIDER_HTTP429",
+  "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+  "provider_run_id": 41253192557,
+  "request_id": "req_817f39d7c0854430bd00b89eecd000b5",
+  "new_generation_calls": 0,
+  "blog_published": false,
+  "gbp_posted": false,
+  "xserver_staged": false,
+  "review_ready": false,
+  "do_not_automatically_retry": true
+}
