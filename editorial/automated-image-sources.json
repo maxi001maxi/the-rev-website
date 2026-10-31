@@ -597,6 +597,51 @@
           "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
         }
       }
+    },
+    {
+      "source_id": "the-rev-shower-changing-20261031",
+      "repo_path": "assets/images/photo-shower-changing-20261031.jpg",
+      "drive_file_id": "1mOLC1F15NwTBMAAheZJ1hg0gm5mqPMk1",
+      "drive_file_name": "AI_SOURCE_shower-changing_IMG0651_20261031.jpg",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "shower-changing-20261031",
+      "categories": [
+        "gym-guide"
+      ],
+      "keywords": [
+        "シャワー",
+        "更衣",
+        "持ち物",
+        "身支度",
+        "外出"
+      ],
+      "scene_semantics": "実在する更衣・シャワールーム。顧客1人が外出前の身支度を整える。完全着衣。設備やアメニティを創作しない。",
+      "selection_reason": "Owner explicitly requested supplied shower-room photographs for this article; actual shower/vanity better matches its topic than the pending lobby job.",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+        "primary_location": "changing_area",
+        "subject_zone": "changing_area",
+        "visible_equipment": [],
+        "allowed_generated_actions": [
+          "prepare"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment",
+          "unverified_amenities"
+        ],
+        "suitable_article_intents": [
+          "facility_selection"
+        ],
+        "verification": {
+          "method": "Owner supplied IMG_0651.jpeg visually inspected; uploaded to canonical scoped Drive root; original bytes mirrored unchanged",
+          "verified_at": "2026-10-31",
+          "note": "Actual narrow THE REV changing/shower room: shower cubicle rear left, wood vanity/mirror/black stool right, baskets central right. No training equipment. Never invent a sink, windows, extra facilities or amenity products."
+        }
+      }
     }
   ],
   "scene_grounding_version": "the-rev-source-scene-v1"

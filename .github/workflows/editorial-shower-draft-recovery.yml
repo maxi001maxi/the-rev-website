@@ -1,0 +1,130 @@
+name: Shower draft independent QC and image delivery
+on:
+  push:
+    branches: [ops/shower-draft-recovery-20261031]
+    paths: ['editorial/prepublication/2026-10-31-shower/EXECUTION.json']
+permissions:
+  contents: write
+concurrency:
+  group: approved-shower-draft-recovery-20261031
+  cancel-in-progress: false
+jobs:
+  qc-and-delivery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: ops/shower-draft-recovery-20261031
+      EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get install -y -qq fonts-noto-cjk lftp
+      - name: Verify owner scope and immutable generated scene
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          const r='editorial/prepublication/2026-10-31-shower/',m=JSON.parse(fs.readFileSync(r+'EXECUTION.json'));
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));
+          if(m.owner_approval!==true||m.content_id!=='BLOG-20261101-c36b34'||m.article_publish!==false||m.gbp_post!==false)throw Error('OWNER_SCOPE_INVALID');
+          if(j.execution.generation_max_calls!==0||j.execution.independent_qc_max_calls!==2)throw Error('QC_ONLY_SCOPE_INVALID');
+          if(createHash('sha256').update(fs.readFileSync(j.generated_scene_path)).digest('hex')!==m.generated_scene_sha256)throw Error('SCENE_BYTES_CHANGED');
+          JS
+          node scripts/preflight-auto-editorial-image.mjs editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json
+      - name: Independent source observation and full visual QC, zero generation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EDITORIAL_IMAGE_DISABLE_GENERATION: '1'
+        run: node scripts/auto-editorial-hybrid-image.mjs editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json
+      - name: Require actual independent QC and canonical image gate
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {hybridQaReady} from './lib/editorialHybridImageFormat.mjs';import {createHash} from 'node:crypto';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));
+          const q=JSON.parse(fs.readFileSync(j.qa_report_path));
+          const s=JSON.parse(fs.readFileSync('editorial/image-operator-state/'+j.slug+'.json'));
+          const d={image_render_version:j.render_version,image_strategy:j.image_strategy,image_asset_version:j.asset_version,gbp_image_asset_version:j.asset_version};
+          if(s.status!=='READY_CANDIDATE'||!hybridQaReady(d,q)||q.api_usage.generation_calls!==0||q.api_usage.qc_calls!==2)throw Error('INDEPENDENT_QC_NOT_ACCEPTED: '+q.comments);
+          const paths=[j.thumbnail,j.og_image,j.gbp_image];
+          const assets=paths.map(path=>({path,sha256:createHash('sha256').update(fs.readFileSync(path)).digest('hex')}));
+          fs.writeFileSync('editorial/prepublication/2026-10-31-shower/READY_GATE.json',JSON.stringify({pass:true,independent_qc:true,assets,article_published:false,gbp_posted:false},null,2)+'\n');
+          fs.writeFileSync('.shower-assets',paths.join('\n')+'\n');
+          JS
+          npm run test:editorial-images
+          npm run test:phase-9
+          npm run test:daily-editorial-contract
+          npm run test:daily-editorial-state-machine
+          npm run test:daily-creator
+      - name: Stage only the three versioned images to existing Xserver
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          COMMANDS="$(mktemp)"
+          trap 'rm -f "$COMMANDS"' EXIT
+          {
+            echo 'set ftp:ssl-force true'
+            echo 'set ftp:ssl-protect-data true'
+            echo 'set ftp:passive-mode true'
+            echo 'set ssl:verify-certificate yes'
+            echo 'set net:max-retries 1'
+            echo 'set net:timeout 25'
+            while IFS= read -r p; do
+              case "$p" in assets/images/*after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg) ;; *) exit 1 ;; esac
+              printf 'put "%s" -o "/%s"\n' "$p" "$p"
+            done < .shower-assets
+            echo bye
+          } > "$COMMANDS"
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp < "$COMMANDS"
+      - name: Verify real public image bytes, without publishing the article
+        run: |
+          python3 - <<'PY'
+          import pathlib,json,urllib.request,hashlib,datetime,os
+          root=pathlib.Path('editorial/prepublication/2026-10-31-shower')
+          m=json.loads((root/'READY_GATE.json').read_text());receipts=[]
+          for a in m['assets']:
+            url='https://therev-lab.com/'+a['path']
+            with urllib.request.urlopen(url+'?shower-recovery='+os.environ['GITHUB_RUN_ID'],timeout=30) as r:
+              data=r.read();status=r.status
+            sha=hashlib.sha256(data).hexdigest()
+            if status!=200 or sha!=a['sha256']:raise RuntimeError('LIVE_ASSET_SHA_MISMATCH')
+            receipts.append(dict(url=url,status=status,sha256=sha,bytes=len(data)))
+          if len(receipts)!=3:raise RuntimeError('THREE_FORMATS_REQUIRED')
+          report=dict(status='THREE_FORMATS_LIVE_SHA_PASS',receipts=receipts,checked_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),run_id=os.environ['GITHUB_RUN_ID'],db_writes=False,article_published=False,gbp_posted=False)
+          (root/'DELIVERY.json').write_text(json.dumps(report,indent=2)+'\n')
+          p=pathlib.Path('editorial/image-operator-state/after-training-shower-changing-the-rev.json');s=json.loads(p.read_text());s['xserver_verified']=True;s['xserver_verification']=report;s['updated_at']=report['checked_at'];p.write_text(json.dumps(s,indent=2)+'\n')
+          PY
+      - name: Preserve all real outcomes on working branch only
+        if: always()
+        run: |
+          git config user.name 'THE REV Editorial Recovery'
+          git config user.email 'actions@users.noreply.github.com'
+          git add editorial/prepublication/2026-10-31-shower editorial/image-operator-state/after-training-shower-changing-the-rev.json editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json
+          git add -A -- assets/images/blog/*after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1* assets/images/blog/og/*after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1* assets/images/gbp/*after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1* || true
+          git add editorial/image-qa/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.json || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Record independent shower-image QC and delivery outcome; no article publication'
+          git pull --rebase --autostash origin "$GITHUB_BRANCH"
+          git push origin HEAD:"$GITHUB_BRANCH"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shower-draft-recovery-${{ github.run_id }}
+          path: |
+            editorial/prepublication/2026-10-31-shower
+            editorial/image-qa/after-training-shower-changing-the-rev*.json
+            .operator-rejected-evidence/after-training-shower-changing-the-rev
+          if-no-files-found: warn
+          retention-days: 30

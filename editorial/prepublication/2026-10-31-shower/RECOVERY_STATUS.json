@@ -1,0 +1,18 @@
+{
+  "status": "LOCAL_DRAFT_COMPLETE_EXTERNAL_ASSET_TRANSFER_HELD",
+  "content_id": "BLOG-20261101-c36b34",
+  "draft_id": "e63749b5-d8d2-460f-a4c1-e75e91aec1ee",
+  "title": "ジムのあとに出かけられる？THE REV.のシャワー備品と持参品の違い",
+  "body_sha256": "6103919e9b35d7ac3fa3569ab7c3121843c8a591908ab5ff85d7d1f4cd7cad20",
+  "body_matches_existing_independent_text_qc": true,
+  "generated_customer_count": 1,
+  "imagegen_calls": 1,
+  "external_image_generation_calls": 0,
+  "image_independent_qc": "NOT_RUN",
+  "typography_deterministic_qc": "PASS_ALL_3_FORMATS",
+  "formal_image_review_gate_pass": false,
+  "public_asset_transfer": false,
+  "article_published": false,
+  "gbp_posted": false,
+  "approval_needed": "User supplied source photo and generated/derived images to existing public maxi001maxi/the-rev-website GitHub repository; independent image QC; stage three derivative assets to existing Xserver; update existing unpublished draft only. Do not publish article or post GBP."
+}

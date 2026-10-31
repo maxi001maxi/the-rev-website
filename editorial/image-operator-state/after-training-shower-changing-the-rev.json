@@ -1,13 +1,13 @@
 {
   "slug": "after-training-shower-changing-the-rev",
-  "status": "GENERATING",
+  "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+  "status": "SCENE_GENERATED",
   "job_path": "editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json",
-  "attempts_total": 0,
+  "attempts_total": 1,
   "max_attempts": 1,
-  "operator": "ChatGPT Work single-run operator",
-  "generation_provider": "ChatGPT Work built-in image_gen",
-  "paid_external_generation_calls": 0,
-  "last_error": "",
-  "note": "Explicit Owner-authorized Work execution. Reservation prevents a parallel paid operator call while the canonical Bridge job is created and completed.",
-  "updated_at": "2026-10-31T02:06:53.951Z"
+  "scene_sha256": "323e4b80f91618f23c43d4d9672a988ebd6b6ac5afafb987c7a20139ba63e711",
+  "generated_scene_path": "assets/images/editorial-generated/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-scene.png",
+  "operator": "ChatGPT Work recovery",
+  "xserver_verified": false,
+  "updated_at": "2026-10-31T02:40:59.900128+00:00"
 }

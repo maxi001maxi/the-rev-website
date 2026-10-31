@@ -1,0 +1,13 @@
+{
+  "owner_approval": true,
+  "approval_source": "Owner's explicit 2026-10-31 chat reply authorizing photo storage in public repository, cross-checking, and execution up to immediately before publication",
+  "content_id": "BLOG-20261101-c36b34",
+  "generated_scene_sha256": "323e4b80f91618f23c43d4d9672a988ebd6b6ac5afafb987c7a20139ba63e711",
+  "generation_max_calls": 0,
+  "independent_qc_max_calls": 2,
+  "public_source_and_generated_asset_storage": true,
+  "three_image_xserver_delivery": true,
+  "existing_draft_ready_update": true,
+  "article_publish": false,
+  "gbp_post": false
+}

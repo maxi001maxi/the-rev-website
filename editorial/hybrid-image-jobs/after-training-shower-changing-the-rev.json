@@ -3,31 +3,31 @@
   "article_title": "ジムのあとに出かけられる？THE REV.のシャワー備品と持参品の違い",
   "category_label": "GYM GUIDE",
   "column_label": "COLUMN",
-  "image_headline_short": "ジムのあとに出かけられる。",
+  "image_headline_short": "ジムのあと、\n出かけよう。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-lobby-sp-20260927\",\"source_sha256\":\"ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662\",\"scene_type\":\"arrival\",\"location_type\":\"reception\",\"human_action\":\"enter\",\"composition_type\":\"medium_three_quarter_portrait\",\"visual_role\":\"first_visit_reassurance\",\"article_intent\":\"facility_selection\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.8333333333333334,\"matches\":[{\"slug\":\"strength-training-breathing-when-to-exhale\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"reservation-only-vs-exclusive-use\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"boxing-trial-what-to-bring\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"cable-machine-how-it-works-the-rev\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"personal-gym-first-session-pain-health-history\",\"score\":0.16666666666666666,\"equal\":[\"location_type\"],\"hard_exclusion\":false},{\"slug\":\"the-rev-trial-three-menus-first-visit\",\"score\":0.8333333333333334,\"equal\":[\"scene_type\",\"location_type\",\"composition_type\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"nekose-strength-training-posture\",\"score\":0.16666666666666666,\"equal\":[\"location_type\"],\"hard_exclusion\":false},{\"slug\":\"pre-workout-stretching-duration\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"denba-health-device-mat-role\",\"score\":0.16666666666666666,\"equal\":[\"location_type\"],\"hard_exclusion\":false},{\"slug\":\"shinomiya-gym-beginner-choose\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"desk-work-stand-every-30-minutes\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"boxing-beginner-scared-before-mitt-training\",\"score\":0,\"equal\":[],\"hard_exclusion\":false}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"rear_training_area\"},{\"object\":\"weight_plates\",\"zone\":\"rear_training_area\"},{\"object\":\"training_bench\",\"zone\":\"rear_training_area\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-14\",\"note\":\"Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be enter in reception; visual role first_visit_reassurance.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-shower-changing-20261031\",\"source_sha256\":\"7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603\",\"scene_type\":\"recovery_transition\",\"location_type\":\"changing_area\",\"human_action\":\"prepare\",\"composition_type\":\"medium_three_quarter_portrait\",\"visual_role\":\"checking_readiness\",\"article_intent\":\"facility_selection\",\"required_equipment\":[],\"subject_zone\":\"changing_area\",\"article_specific_directive\":\"Fully clothed customer in actual changing/shower room, finished preparing for going out; bag in hand, dry hair, relaxed face. Actual shower rear left and vanity right remain in place. No new amenities. Owner supplied photos supersede stale lobby choice.\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.5,\"matches\":[{\"slug\":\"strength-training-breathing-when-to-exhale\",\"score\":0.5,\"equal\":[\"human_action\",\"composition_type\",\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"reservation-only-vs-exclusive-use\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"boxing-trial-what-to-bring\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"cable-machine-how-it-works-the-rev\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"personal-gym-first-session-pain-health-history\",\"score\":0.16666666666666666,\"equal\":[\"human_action\"],\"hard_exclusion\":false},{\"slug\":\"the-rev-trial-three-menus-first-visit\",\"score\":0.3333333333333333,\"equal\":[\"composition_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"nekose-strength-training-posture\",\"score\":0.16666666666666666,\"equal\":[\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"pre-workout-stretching-duration\",\"score\":0.3333333333333333,\"equal\":[\"human_action\",\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-device-mat-role\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"shinomiya-gym-beginner-choose\",\"score\":0.3333333333333333,\"equal\":[\"human_action\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"desk-work-stand-every-30-minutes\",\"score\":0.16666666666666666,\"equal\":[\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"boxing-beginner-scared-before-mitt-training\",\"score\":0,\"equal\":[],\"hard_exclusion\":false}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603\",\"primary_location\":\"changing_area\",\"subject_zone\":\"changing_area\",\"visible_equipment\":[],\"allowed_generated_actions\":[\"prepare\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\",\"unverified_amenities\"],\"suitable_article_intents\":[\"facility_selection\"],\"verification\":{\"method\":\"Owner supplied IMG_0651.jpeg visually inspected; uploaded to canonical scoped Drive root; original bytes mirrored unchanged\",\"verified_at\":\"2026-10-31\",\"note\":\"Actual narrow THE REV changing/shower room: shower cubicle rear left, wood vanity/mirror/black stool right, baskets central right. No training equipment. Never invent a sink, windows, extra facilities or amenity products.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be prepare in changing_area; visual role checking_readiness.\nFully clothed customer in actual changing/shower room, finished preparing for going out; bag in hand, dry hair, relaxed face. Actual shower rear left and vanity right remain in place. No new amenities. Owner supplied photos supersede stale lobby choice.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/after-training-shower-changing-the-rev-reference-v26-grounded-auto-lobby-sp-20260927-4115ae66-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-lobby-sp-20260927-4115ae66",
-  "thumbnail": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-auto-lobby-sp-20260927-4115ae66.jpg",
-  "og_image": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-auto-lobby-sp-20260927-4115ae66.jpg",
-  "gbp_image": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-auto-lobby-sp-20260927-4115ae66.jpg",
+  "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+  "thumbnail": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "og_image": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/after-training-shower-changing-the-rev-reference-v26-grounded-auto-lobby-sp-20260927-4115ae66.json",
+  "qa_report_path": "editorial/image-qa/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -65,50 +65,50 @@
     "scene_plausibility_version": "the-rev-scene-plausibility-v1"
   },
   "background_source": {
-    "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "drive_file_id": "1mOLC1F15NwTBMAAheZJ1hg0gm5mqPMk1",
     "cached_frame_drive_file_id": "",
     "origin_video_file_id": "",
-    "origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "origin_video_file_name": "AI_SOURCE_shower-changing_IMG0651_20261031.jpg",
     "frame_position_ratio": null,
-    "selection_reason": "初心者の見学・来店前後に適した実受付写真。奥のラックは背景のみで、受付前景での器具操作には使用しない。",
-    "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
+    "selection_reason": "Owner explicitly requested supplied shower-room photographs for this article; actual shower/vanity better matches its topic than the pending lobby job.",
+    "treatment": "Owner-supplied actual shower/changing room as spatial truth; scene-aware customer generation, natural depth and light harmonization"
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "scene_grounding_version": "the-rev-source-scene-v1",
   "scene_plan": {
     "version": "the-rev-source-scene-v1",
-    "source_id": "the-rev-lobby-sp-20260927",
-    "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
-    "scene_type": "arrival",
-    "location_type": "reception",
-    "human_action": "enter",
+    "source_id": "the-rev-shower-changing-20261031",
+    "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+    "scene_type": "recovery_transition",
+    "location_type": "changing_area",
+    "human_action": "prepare",
     "composition_type": "medium_three_quarter_portrait",
-    "visual_role": "first_visit_reassurance",
+    "visual_role": "checking_readiness",
     "article_intent": "facility_selection",
     "required_equipment": [],
-    "subject_zone": "reception",
-    "article_specific_directive": "",
+    "subject_zone": "changing_area",
+    "article_specific_directive": "Fully clothed customer in actual changing/shower room, finished preparing for going out; bag in hand, dry hair, relaxed face. Actual shower rear left and vanity right remain in place. No new amenities. Owner supplied photos supersede stale lobby choice.",
     "similarity": {
       "pass": true,
       "window": 12,
       "compared": 12,
       "unknown_count": 0,
-      "penalty": 0.8333333333333334,
+      "penalty": 0.5,
       "matches": [
         {
           "slug": "strength-training-breathing-when-to-exhale",
-          "score": 0.3333333333333333,
+          "score": 0.5,
           "equal": [
-            "location_type",
-            "composition_type"
+            "human_action",
+            "composition_type",
+            "visual_role"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "reservation-only-vs-exclusive-use",
-          "score": 0.3333333333333333,
+          "score": 0.16666666666666666,
           "equal": [
-            "location_type",
             "article_intent"
           ],
           "hard_exclusion": false
@@ -133,18 +133,15 @@
           "slug": "personal-gym-first-session-pain-health-history",
           "score": 0.16666666666666666,
           "equal": [
-            "location_type"
+            "human_action"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "the-rev-trial-three-menus-first-visit",
-          "score": 0.8333333333333334,
+          "score": 0.3333333333333333,
           "equal": [
-            "scene_type",
-            "location_type",
             "composition_type",
-            "visual_role",
             "article_intent"
           ],
           "hard_exclusion": false
@@ -153,37 +150,38 @@
           "slug": "nekose-strength-training-posture",
           "score": 0.16666666666666666,
           "equal": [
-            "location_type"
+            "visual_role"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "pre-workout-stretching-duration",
+          "score": 0.3333333333333333,
+          "equal": [
+            "human_action",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
           "score": 0,
           "equal": [],
           "hard_exclusion": false
         },
         {
-          "slug": "denba-health-device-mat-role",
-          "score": 0.16666666666666666,
-          "equal": [
-            "location_type"
-          ],
-          "hard_exclusion": false
-        },
-        {
           "slug": "shinomiya-gym-beginner-choose",
-          "score": 0.16666666666666666,
+          "score": 0.3333333333333333,
           "equal": [
+            "human_action",
             "article_intent"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "desk-work-stand-every-30-minutes",
-          "score": 0.3333333333333333,
+          "score": 0.16666666666666666,
           "equal": [
-            "location_type",
             "composition_type"
           ],
           "hard_exclusion": false
@@ -199,45 +197,25 @@
   },
   "source_scene_inventory": {
     "version": "the-rev-source-scene-v1",
-    "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
-    "primary_location": "reception",
-    "subject_zone": "reception",
-    "visible_equipment": [
-      {
-        "object": "training_rack",
-        "zone": "rear_training_area"
-      },
-      {
-        "object": "weight_plates",
-        "zone": "rear_training_area"
-      },
-      {
-        "object": "training_bench",
-        "zone": "rear_training_area"
-      }
-    ],
+    "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+    "primary_location": "changing_area",
+    "subject_zone": "changing_area",
+    "visible_equipment": [],
     "allowed_generated_actions": [
-      "enter",
-      "prepare",
-      "rest",
-      "compare_notes",
-      "review_paper",
-      "observe_facility"
+      "prepare"
     ],
     "forbidden_generated_objects": [
       "medical_device",
-      "unverified_training_equipment"
+      "unverified_training_equipment",
+      "unverified_amenities"
     ],
     "suitable_article_intents": [
-      "facility_selection",
-      "health_before_start",
-      "readiness",
-      "training_start"
+      "facility_selection"
     ],
     "verification": {
-      "method": "source image visual inspection + canonical scoped registry",
-      "verified_at": "2026-10-14",
-      "note": "Correction based on independent 2026-10-14 image-operator source recognition of verified actual AI_SOURCE_photo-lobby-sp_20260927.jpg: rack, weight_plates and training_bench are all visible ONLY in rear_training_area, behind reception. Exact photo/source_sha256 unchanged. The prior registry accidentally omitted the plate and bench; do not relocate any item or reinterpret room geometry. The operator continues to enforce independent visual QC."
+      "method": "Owner supplied IMG_0651.jpeg visually inspected; uploaded to canonical scoped Drive root; original bytes mirrored unchanged",
+      "verified_at": "2026-10-31",
+      "note": "Actual narrow THE REV changing/shower room: shower cubicle rear left, wood vanity/mirror/black stool right, baskets central right. No training equipment. Never invent a sink, windows, extra facilities or amenity products."
     }
   },
   "automation": {
@@ -256,8 +234,8 @@
       "version": "v0.8.2"
     },
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-lobby-sp-20260927",
-    "source_repo_path": "assets/images/photo-lobby-sp.jpg",
+    "selected_source_id": "the-rev-shower-changing-20261031",
+    "source_repo_path": "assets/images/photo-shower-changing-20261031.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
@@ -624,5 +602,22 @@
       "male"
     ]
   },
-  "max_generation_attempts": 1
+  "max_generation_attempts": 1,
+  "typography_emphasis_text": "出かけよう。",
+  "execution": {
+    "generation_max_calls": 0,
+    "independent_qc_max_calls": 2,
+    "request": "Recover existing approved article to prepublication draft. Built-in generation already completed; independent QC only, no paid image generation.",
+    "publish_invoked": false
+  },
+  "recovery_provenance": {
+    "previous_asset_version": "reference-v26-grounded-auto-lobby-sp-20260927-4115ae66",
+    "previous_source": "assets/images/photo-lobby-sp.jpg",
+    "reason": "Owner supplied actual shower room after original lobby job; interrupted Work generation was never registered.",
+    "owner_source_library_file_id": "libfile_c4d7791ce1bc8191b9bf8cfa9e277365",
+    "generated_scene_provider": "ChatGPT Work built-in image_gen",
+    "generated_scene_calls": 1,
+    "paid_external_image_generation_calls": 0,
+    "generated_scene_sha256": "323e4b80f91618f23c43d4d9672a988ebd6b6ac5afafb987c7a20139ba63e711"
+  }
 }

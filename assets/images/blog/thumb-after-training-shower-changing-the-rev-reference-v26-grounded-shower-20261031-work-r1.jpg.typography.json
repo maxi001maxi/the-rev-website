@@ -1,0 +1,209 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "after-training-shower-changing-the-rev",
+  "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "ジムのあと、",
+        "出かけよう。"
+      ],
+      "text_preserved": true,
+      "font_size": 66,
+      "font_size_at_320": 17.6,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.7692581051439251,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        66,
+        85.8085808580858
+      ],
+      "focus_line": 1,
+      "focus_text": "出かけよう。",
+      "focus_scale": 1.3001300130013,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982142978889986,
+      "block_area_ratio": 0.12048585216394919,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.0078125,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8901960784313725,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.979150214640286,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 232,
+          "right": 461.328125,
+          "bottom": 327,
+          "width": 397.328125
+        },
+        {
+          "left": 64,
+          "top": 320.90625,
+          "right": 582.75,
+          "bottom": 444.90625,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+      "asset_sha256": "6a9e961e34925a619ec923d5cec0768772045c21a479245f155c6803f5b7cfc3",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-320.jpg",
+          "sha256": "dcd25f813f97a242c5dc8f40a65b6a7a2aa05a275b7c6329845434bd80f47bda"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-400.jpg",
+          "sha256": "96e050a8042e452847a20dadce984082d4a29643ee31d1c12c73548f86004e4a"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "ジムのあと、",
+        "出かけよう。"
+      ],
+      "text_preserved": true,
+      "font_size": 66,
+      "font_size_at_320": 17.6,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.7692581051439251,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        66,
+        85.8085808580858
+      ],
+      "focus_line": 1,
+      "focus_text": "出かけよう。",
+      "focus_scale": 1.3001300130013,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982142978889986,
+      "block_area_ratio": 0.12909198446137413,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.0078125,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8901960784313725,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.979150214640286,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 210,
+          "right": 461.328125,
+          "bottom": 305,
+          "width": 397.328125
+        },
+        {
+          "left": 64,
+          "top": 298.90625,
+          "right": 582.75,
+          "bottom": 422.90625,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+      "asset_sha256": "4a9c819fedd4f43d6147d3a0638042b860a75b362baafebaa99825ef28677202",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-320.jpg",
+          "sha256": "2e478fa87076b7d31ad7dfcc0871f8b396bc7e9fd1a58a9295f06ff810a8fb9c"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-400.jpg",
+          "sha256": "372de3a0a23294989caaf994887572c2fe8f8c44b05ee2dc2d71c632dfbbdb2b"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "ジムのあと、",
+        "出かけよう。"
+      ],
+      "text_preserved": true,
+      "font_size": 63,
+      "font_size_at_320": 16.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.7636355056875545,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        63,
+        82.5082508250825
+      ],
+      "focus_line": 1,
+      "focus_text": "出かけよう。",
+      "focus_scale": 1.3096547750013094,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982506419770395,
+      "block_area_ratio": 0.08455234929766461,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.4765625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 581,
+      "fade_end": 700,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 330,
+          "right": 439.265625,
+          "bottom": 421,
+          "width": 379.265625
+        },
+        {
+          "left": 60,
+          "top": 417.546875,
+          "right": 558.78125,
+          "bottom": 536.546875,
+          "width": 498.78125
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+      "asset_sha256": "6740be71c0f6e049124749546a8be068ba4fb24a99a0dbfce372c3b6df583244",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-320.jpg",
+          "sha256": "7556df897b126ce2da38ed2940fe661e06d00251b786c6cb9ca70c9eebac933f"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-400.jpg",
+          "sha256": "979d79de7d5e23eb6e7ad7f4a3a988b7bace7302b80b159efcc86ea6b618c727"
+        }
+      }
+    }
+  }
+}
