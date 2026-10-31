@@ -30,9 +30,17 @@
     {
       "sequence": 1,
       "kind": "qc",
-      "status": "STARTED",
+      "status": "FAILED",
       "at": "2026-10-31T23:37:28.574Z",
-      "confirmed_cost": null
+      "confirmed_cost": null,
+      "http_status": 429,
+      "request_id": "req_817f39d7c0854430bd00b89eecd000b5",
+      "response_id": null,
+      "response_status": null,
+      "model": "gpt-5.6",
+      "usage": null,
+      "image_generation_calls": [],
+      "completed_at": "2026-10-31T23:37:31.983Z"
     }
   ],
   "confirmed_cost": null
