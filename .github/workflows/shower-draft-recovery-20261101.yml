@@ -1,0 +1,132 @@
+name: Shower draft recovery - QA and image staging only
+on:
+  push:
+    branches: [work/shower-draft-20261101]
+    paths: ['.github/workflows/shower-draft-recovery-20261101.yml', 'editorial/prepublication/2026-11-01-shower/RUN.json']
+permissions:
+  contents: write
+concurrency:
+  group: shower-draft-recovery-20261101
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      EDITORIAL_IMAGE_DISABLE_GENERATION: '1'
+      EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install canonical renderer dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk lftp
+      - name: Reuse existing scene, render all sizes, independent canonical QC
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -euo pipefail
+          node scripts/auto-editorial-hybrid-image.mjs editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import {hybridQaReady} from './lib/editorialHybridImageFormat.mjs';
+          import {evaluateEditorialImageReview} from './lib/editorialImageReviewGate.mjs';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));
+          const qa=JSON.parse(fs.readFileSync(j.qa_report_path));
+          const d={slug:j.slug,image_asset_version:j.asset_version,image_render_version:j.render_version,image_strategy:j.image_strategy,image_source_path:j.automation.source_repo_path,gbp_image_asset_version:j.asset_version,image_qa:qa};
+          const review=evaluateEditorialImageReview({draft:d,qa});
+          if(!hybridQaReady(d,qa)||!review.ok)throw Error(JSON.stringify(review.errors));
+          fs.writeFileSync('editorial/prepublication/2026-11-01-shower/IMAGE_REVIEW.json',JSON.stringify(review,null,2)+'\n');
+          JS
+      - name: Required canonical verification
+        run: |
+          set -euo pipefail
+          npm run test:editorial-images
+          npm run test:phase-9
+          npm run test:daily-editorial-contract
+          npm run test:daily-editorial-state-machine
+          npm run test:daily-creator
+          npm run test:thumbnail-typography
+          npm run test:thumbnail-typography-browser
+          npm run build:blog
+      - name: Stage only the three unpublished article images
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));
+          fs.writeFileSync('.shower-images',[j.thumbnail,j.og_image,j.gbp_image].join('\n')+'\n');
+          JS
+          COMMANDS="$(mktemp)"
+          trap 'rm -f "$COMMANDS"' EXIT
+          {
+            echo 'set ftp:ssl-force true'
+            echo 'set ftp:ssl-protect-data true'
+            echo 'set ftp:passive-mode true'
+            echo 'set ssl:verify-certificate yes'
+            echo 'set net:max-retries 3'
+            echo 'set net:timeout 25'
+            echo 'mkdir -p /assets/images/blog'
+            echo 'mkdir -p /assets/images/blog/og'
+            echo 'mkdir -p /assets/images/gbp'
+            while IFS= read -r p; do echo "put \"$p\" -o \"/$p\""; done < .shower-images
+            echo bye
+          } > "$COMMANDS"
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp < "$COMMANDS"
+      - name: Verify exact public image bytes and hidden article boundary
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          const jobPath='editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json';
+          const j=JSON.parse(fs.readFileSync(jobPath));const checks=[];
+          for(const p of [j.thumbnail,j.og_image,j.gbp_image]){
+            const want=createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+            const r=await fetch('https://therev-lab.com/'+p+'?shower-stage='+process.env.GITHUB_RUN_ID);
+            const got=createHash('sha256').update(Buffer.from(await r.arrayBuffer())).digest('hex');
+            if(!r.ok||want!==got)throw Error('Image byte mismatch: '+p);
+            checks.push({path:p,sha256:got,http_status:r.status});
+          }
+          const url='https://therev-lab.com/blog/'+j.slug+'/';const article=await fetch(url);
+          if(article.status===200)throw Error('Article unexpectedly publicly accessible');
+          const sp='editorial/image-operator-state/'+j.slug+'.json';const state=JSON.parse(fs.readFileSync(sp));
+          state.xserver_verified=true;state.xserver_verified_at=new Date().toISOString();fs.writeFileSync(sp,JSON.stringify(state,null,2)+'\n');
+          fs.writeFileSync('editorial/prepublication/2026-11-01-shower/ACCEPTANCE.json',JSON.stringify({status:'IMAGES_QC_PASS_XSERVER_VERIFIED',run_id:process.env.GITHUB_RUN_ID,asset_version:j.asset_version,image_checks:checks,article_http_status:article.status,blog_published:false,gbp_posted:false,owner_publish_approval:false,new_image_generation_calls:0},null,2)+'\n');
+          JS
+      - name: Commit only scoped recovery evidence to the review branch
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const jp='editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json';const j=JSON.parse(fs.readFileSync(jp));
+          const p=[jp,j.thumbnail,j.og_image,j.gbp_image,j.qa_report_path,j.thumbnail+'.typography.json','editorial/image-operator-state/'+j.slug+'.json','editorial/prepublication/2026-11-01-shower/IMAGE_REVIEW.json','editorial/prepublication/2026-11-01-shower/ACCEPTANCE.json'];
+          for(const img of [j.thumbnail,j.og_image,j.gbp_image])for(const w of [320,400])p.push(img.replace(/\.jpg$/,'-preview-'+w+'.jpg'));
+          fs.writeFileSync('.shower-commit-paths',p.join('\n')+'\n');
+          JS
+          while IFS= read -r p; do git add -- "$p"; done < .shower-commit-paths
+          git -c user.name='THE REV Editorial Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Verify shower article images for prepublication review'
+          git push origin HEAD:work/shower-draft-20261101
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shower-draft-recovery-${{ github.run_id }}
+          include-hidden-files: true
+          path: |
+            editorial/prepublication/2026-11-01-shower/
+            editorial/image-qa/*after-training-shower-changing-the-rev*
+            editorial/image-operator-state/after-training-shower-changing-the-rev.json
+            .operator-rejected-evidence/after-training-shower-changing-the-rev/

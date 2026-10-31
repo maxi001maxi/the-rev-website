@@ -597,6 +597,67 @@
           "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
         }
       }
+    },
+    {
+      "source_id": "the-rev-shower-changing-20261031-img0651",
+      "repo_path": "assets/images/editorial-sources/shower-changing-IMG0651-20261031.jpg",
+      "drive_file_id": "1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j",
+      "drive_file_name": "AI_SOURCE_shower-changing_IMG_0651_20261031.jpg",
+      "lineage_key": "shower-changing-20261031",
+      "categories": [
+        "gym-guide"
+      ],
+      "keywords": [
+        "シャワー",
+        "更衣",
+        "身支度",
+        "持参品"
+      ],
+      "scene_semantics": "外出着に着替えた男性顧客1人がバッグを持ち出発準備。実シャワーブース・鏡台は背景。鏡の人物は同一顧客の反射。追加備品・スタッフ・トレーニング動作なし。",
+      "selection_reason": "オーナー提供の実シャワー・更衣スペース。備品案内と運動後の身支度に直接対応。指定Drive素材ルート内で2026-11-01再確認。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+        "primary_location": "recovery_area",
+        "subject_zone": "recovery_area",
+        "visible_equipment": [],
+        "allowed_generated_actions": [
+          "enter",
+          "prepare",
+          "compare_notes"
+        ],
+        "forbidden_generated_objects": [
+          "training_equipment",
+          "additional_amenities"
+        ],
+        "suitable_article_intents": [
+          "facility_selection"
+        ],
+        "verification": {
+          "method": "Owner-provided source photograph, scoped Drive metadata, direct visual comparison",
+          "verified_at": "2026-11-01",
+          "note": "recovery_area is the existing ontology classification for the post-training shower/changing space; exact physical zone is shower_changing_space."
+        },
+        "visible_fixtures": [
+          {
+            "object": "shower_booth",
+            "zone": "rear_left"
+          },
+          {
+            "object": "vanity_mirror",
+            "zone": "right_wall"
+          },
+          {
+            "object": "vanity_drawers",
+            "zone": "right_wall"
+          },
+          {
+            "object": "stool",
+            "zone": "vanity_front"
+          }
+        ]
+      },
+      "manual_verified_source": true
     }
   ],
   "scene_grounding_version": "the-rev-source-scene-v1"
