@@ -1,0 +1,87 @@
+{
+  "checked_at": "2026-11-01T00:34:18.633Z",
+  "method": "Unchanged CMS runPreflight using exact current database snapshot; GitHub main and live image checks use real connections.",
+  "snapshot_sha256": "ba74d9a404ddcca3b01c24078a6638564d487bb79f05ed205eb9b541da708ad4",
+  "owner_publish_permission": {
+    "active": true,
+    "can_publish": true
+  },
+  "ok": false,
+  "checks": [
+    {
+      "id": "auth",
+      "label": "認証",
+      "status": "skip",
+      "message": "Editorial Bridgeのサーバー間認証で実行しています。"
+    },
+    {
+      "id": "publisher",
+      "label": "Publisher権限",
+      "status": "skip",
+      "message": "自動化は公開しません。Human Publish時に権限を再確認します。"
+    },
+    {
+      "id": "draft",
+      "label": "Draft存在",
+      "status": "ok",
+      "message": "下書きを読み込みました。"
+    },
+    {
+      "id": "required",
+      "label": "必須項目",
+      "status": "error",
+      "message": "Editorial Closing QC: THE REV.への言及はありますが、店舗名や予約案内だけで締めています。記事固有の考え方・現場判断を本文の結論として追加してください。"
+    },
+    {
+      "id": "slug_format",
+      "label": "Slug形式",
+      "status": "ok",
+      "message": "/blog/after-training-shower-changing-the-rev/ として公開されます。"
+    },
+    {
+      "id": "independent_text_qc",
+      "label": "本文の独立QC",
+      "status": "ok",
+      "message": "現在の本文と独立QC証拠が一致しています。"
+    },
+    {
+      "id": "image_review_gate",
+      "label": "画像Review Gate",
+      "status": "ok",
+      "message": "HYBRID_GENERATED / trainer absent / generated customer / recent-4 reuse check PASS。"
+    },
+    {
+      "id": "image_release",
+      "label": "記事画像",
+      "status": "ok",
+      "message": "旧5記事参照 rev-column-reference-v2 / GPT Image hybrid / editorial-thumbnail-v2.4 / rev-column-v24-fixed-overlay-v1 / generated customer + real THE REV. environment / Brand QA PASS。"
+    },
+    {
+      "id": "github_connection",
+      "label": "GitHub接続",
+      "status": "ok",
+      "message": "maxi001maxi/the-rev-website @ main へ接続できました。"
+    },
+    {
+      "id": "github_target",
+      "label": "GitHub上のslug衝突",
+      "status": "ok",
+      "message": "content/blog/after-training-shower-changing-the-rev.md は未使用です（新規作成）。"
+    },
+    {
+      "id": "source_sync",
+      "label": "source_path / source_sha",
+      "status": "ok",
+      "message": "新規公開のため未設定です（公開成功後に保存されます）。"
+    }
+  ],
+  "blocker": {
+    "code": "validation_error",
+    "status": 422,
+    "message": "Editorial Closing QC: THE REV.への言及はありますが、店舗名や予約案内だけで締めています。記事固有の考え方・現場判断を本文の結論として追加してください。"
+  },
+  "targetPath": "content/blog/after-training-shower-changing-the-rev.md",
+  "canonical": "https://therev-lab.com/blog/after-training-shower-changing-the-rev/",
+  "blog_published": false,
+  "external_ai_api_calls": 0
+}
