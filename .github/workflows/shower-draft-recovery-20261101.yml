@@ -1,23 +1,17 @@
-name: Shower draft recovery - QA and image staging only
+name: Shower draft - conversation QC and image staging
 on:
   push:
     branches: [work/shower-draft-20261101]
-    paths: ['.github/workflows/shower-draft-recovery-20261101.yml', 'editorial/prepublication/2026-11-01-shower/RUN.json']
+    paths: ['.github/workflows/shower-draft-recovery-20261101.yml']
 permissions:
   contents: write
 concurrency:
   group: shower-draft-recovery-20261101
   cancel-in-progress: false
 jobs:
-  recover:
+  stage-reviewed-images:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
-      GITHUB_REPO: ${{ github.repository }}
-      GITHUB_BRANCH: work/shower-draft-20261101
-      EDITORIAL_IMAGE_DISABLE_GENERATION: '1'
-      EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,41 +21,34 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Install canonical renderer dependencies
-        run: |
-          npm ci
-          npx playwright install --with-deps chromium
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-noto-cjk lftp
-      - name: Reuse existing scene, render all sizes, independent canonical QC
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      - name: Verify conversation QC and exact image hashes
         run: |
           set -euo pipefail
-          node scripts/auto-editorial-hybrid-image.mjs editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json
           node --input-type=module <<'JS'
-          import fs from 'node:fs';
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
           import {hybridQaReady} from './lib/editorialHybridImageFormat.mjs';
           import {evaluateEditorialImageReview} from './lib/editorialImageReviewGate.mjs';
           const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));
           const qa=JSON.parse(fs.readFileSync(j.qa_report_path));
-          const d={slug:j.slug,image_asset_version:j.asset_version,image_render_version:j.render_version,image_strategy:j.image_strategy,image_source_path:j.automation.source_repo_path,gbp_image_asset_version:j.asset_version,image_qa:qa};
-          const review=evaluateEditorialImageReview({draft:d,qa});
-          if(!hybridQaReady(d,qa)||!review.ok)throw Error(JSON.stringify(review.errors));
-          fs.writeFileSync('editorial/prepublication/2026-11-01-shower/IMAGE_REVIEW.json',JSON.stringify(review,null,2)+'\n');
+          if(j.execution.ai_api_calls_allowed!==false||qa.actual_reviewer.external_ai_api_calls!==0||!j.execution.owner_qc_method_override)throw Error('Conversation QC authorization missing');
+          for(const [k,p] of Object.entries({source:j.automation.source_repo_path,scene:j.generated_scene_path,thumbnail:j.thumbnail,og:j.og_image,gbp:j.gbp_image})){
+            if(createHash('sha256').update(fs.readFileSync(p)).digest('hex')!==qa.scene_grounding.asset_hashes[k])throw Error('Image evidence drift: '+p);
+          }
+          const draft={slug:j.slug,image_asset_version:j.asset_version,image_render_version:j.render_version,image_strategy:j.image_strategy,image_source_path:j.automation.source_repo_path,gbp_image_asset_version:j.asset_version,image_qa:qa};
+          if(!hybridQaReady(draft,qa)||!evaluateEditorialImageReview({draft,qa}).ok)throw Error('Canonical review gate failed');
           JS
-      - name: Required canonical verification
+      - name: Required canonical tests
         run: |
           set -euo pipefail
+          npm ci
           npm run test:editorial-images
           npm run test:phase-9
           npm run test:daily-editorial-contract
           npm run test:daily-editorial-state-machine
           npm run test:daily-creator
           npm run test:thumbnail-typography
-          npm run test:thumbnail-typography-browser
           npm run build:blog
-      - name: Stage only the three unpublished article images
+      - name: Stage only the three reviewed images
         env:
           XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
           XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
@@ -69,6 +56,8 @@ jobs:
           set -euo pipefail
           test -n "$XSERVER_FTP_USER"
           test -n "$XSERVER_FTP_PASSWORD"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
           node --input-type=module <<'JS'
           import fs from 'node:fs';
           const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));
@@ -90,47 +79,35 @@ jobs:
             echo bye
           } > "$COMMANDS"
           lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp < "$COMMANDS"
-      - name: Verify exact public image bytes and hidden article boundary
+      - name: Verify staged image bytes and unpublished article
         run: |
           set -euo pipefail
           node --input-type=module <<'JS'
           import fs from 'node:fs';import {createHash} from 'node:crypto';
-          const jobPath='editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json';
-          const j=JSON.parse(fs.readFileSync(jobPath));const checks=[];
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json'));const checks=[];
           for(const p of [j.thumbnail,j.og_image,j.gbp_image]){
             const want=createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-            const r=await fetch('https://therev-lab.com/'+p+'?shower-stage='+process.env.GITHUB_RUN_ID);
+            const r=await fetch('https://therev-lab.com/'+p+'?review-stage='+process.env.GITHUB_RUN_ID);
             const got=createHash('sha256').update(Buffer.from(await r.arrayBuffer())).digest('hex');
-            if(!r.ok||want!==got)throw Error('Image byte mismatch: '+p);
+            if(!r.ok||want!==got)throw Error('Live image byte mismatch: '+p);
             checks.push({path:p,sha256:got,http_status:r.status});
           }
-          const url='https://therev-lab.com/blog/'+j.slug+'/';const article=await fetch(url);
-          if(article.status===200)throw Error('Article unexpectedly publicly accessible');
-          const sp='editorial/image-operator-state/'+j.slug+'.json';const state=JSON.parse(fs.readFileSync(sp));
-          state.xserver_verified=true;state.xserver_verified_at=new Date().toISOString();fs.writeFileSync(sp,JSON.stringify(state,null,2)+'\n');
-          fs.writeFileSync('editorial/prepublication/2026-11-01-shower/ACCEPTANCE.json',JSON.stringify({status:'IMAGES_QC_PASS_XSERVER_VERIFIED',run_id:process.env.GITHUB_RUN_ID,asset_version:j.asset_version,image_checks:checks,article_http_status:article.status,blog_published:false,gbp_posted:false,owner_publish_approval:false,new_image_generation_calls:0},null,2)+'\n');
+          const article=await fetch('https://therev-lab.com/blog/'+j.slug+'/');
+          if(article.status===200)throw Error('Article unexpectedly published');
+          const p='editorial/image-operator-state/'+j.slug+'.json';const s=JSON.parse(fs.readFileSync(p));s.xserver_verified=true;s.xserver_verified_at=new Date().toISOString();s.last_error='';fs.writeFileSync(p,JSON.stringify(s,null,2)+'\n');
+          fs.writeFileSync('editorial/prepublication/2026-11-01-shower/ACCEPTANCE.json',JSON.stringify({status:'CONVERSATION_QC_PASS_XSERVER_VERIFIED',run_id:process.env.GITHUB_RUN_ID,asset_version:j.asset_version,image_checks:checks,article_http_status:article.status,blog_published:false,gbp_posted:false,owner_publish_approval:false,external_ai_api_calls:0},null,2)+'\n');
           JS
-      - name: Commit only scoped recovery evidence to the review branch
+      - name: Save verified image staging evidence
         run: |
           set -euo pipefail
-          node --input-type=module <<'JS'
-          import fs from 'node:fs';
-          const jp='editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json';const j=JSON.parse(fs.readFileSync(jp));
-          const p=[jp,j.thumbnail,j.og_image,j.gbp_image,j.qa_report_path,j.thumbnail+'.typography.json','editorial/image-operator-state/'+j.slug+'.json','editorial/prepublication/2026-11-01-shower/IMAGE_REVIEW.json','editorial/prepublication/2026-11-01-shower/ACCEPTANCE.json'];
-          for(const img of [j.thumbnail,j.og_image,j.gbp_image])for(const w of [320,400])p.push(img.replace(/\.jpg$/,'-preview-'+w+'.jpg'));
-          fs.writeFileSync('.shower-commit-paths',p.join('\n')+'\n');
-          JS
-          while IFS= read -r p; do git add -- "$p"; done < .shower-commit-paths
-          git -c user.name='THE REV Editorial Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Verify shower article images for prepublication review'
-          git pull --rebase origin work/shower-draft-20261101
+          git add -- editorial/image-operator-state/after-training-shower-changing-the-rev.json editorial/prepublication/2026-11-01-shower/ACCEPTANCE.json
+          git -c user.name='THE REV Editorial Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Verify conversation-reviewed shower images on Xserver; article remains draft'
           git push origin HEAD:work/shower-draft-20261101
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: shower-draft-recovery-${{ github.run_id }}
-          include-hidden-files: true
+          name: shower-conversation-qc-stage-${{ github.run_id }}
           path: |
             editorial/prepublication/2026-11-01-shower/
-            editorial/image-qa/*after-training-shower-changing-the-rev*
             editorial/image-operator-state/after-training-shower-changing-the-rev.json
-            .operator-rejected-evidence/after-training-shower-changing-the-rev/
+

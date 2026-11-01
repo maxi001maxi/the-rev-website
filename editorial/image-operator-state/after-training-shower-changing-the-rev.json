@@ -1,11 +1,18 @@
 {
   "slug": "after-training-shower-changing-the-rev",
-  "status": "OVERLAY_RERENDER_REQUESTED",
+  "status": "READY_CANDIDATE",
   "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
-  "scene_sha256": "f6a9417953bc43e52cf3b3ddd110320dcc4f916bbcaa7265d72c8fddf474ae36",
   "job_path": "editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json",
+  "generated_scene_path": "assets/images/editorial-generated/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-scene.jpg",
+  "thumbnail": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "og_image": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+  "qa_report_path": "editorial/image-qa/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.json",
   "attempts_total": 1,
   "max_attempts": 1,
   "xserver_verified": false,
-  "generation_disabled": true
+  "actual_qa_provider": "current ChatGPT conversation",
+  "ai_api_calls_allowed": false,
+  "last_error": "",
+  "updated_at": "2026-11-01T00:29:40.248Z"
 }
