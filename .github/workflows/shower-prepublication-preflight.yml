@@ -46,3 +46,5 @@ jobs:
           git add -- editorial/prepublication/2026-11-01-shower/CMS_PREFLIGHT_RESULT.json
           git -c user.name='THE REV Editorial QC' -c user.email='actions@users.noreply.github.com' commit -m 'Record actual CMS prepublication checks; no article published'
           git push origin HEAD:work/shower-draft-20261101
+
+# Recheck clarified link and refreshed in-conversation text QC proof.
