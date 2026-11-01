@@ -1372,14 +1372,17 @@
   },
   "editorial_text_qc": {
     "schema": "editorial-text-qc-v1",
+    "version": "v0.8.2-conversation-qc",
     "content_id": "BLOG-20261101-c36b34",
-    "body_sha256": "6103919e9b35d7ac3fa3569ab7c3121843c8a591908ab5ff85d7d1f4cd7cad20",
-    "evidence_sha256": "cecfafdab2428d718b25e873745929129969ffa39d5d2a908f5c4fbd939447d2",
+    "body_sha256": "24369ab8b3a0f01e870c3362d1ece8102a383571972c3ccccf372a00c05545de",
+    "evidence_sha256": "ad8456f712e366b36ffa5e5d3b7efac3832fec6c5cc2fc99118c15c15e82b067",
     "pass": true,
     "total": 19,
-    "source_unverified": false,
     "issues": [],
-    "version": "v0.8.2"
+    "source_unverified": false,
+    "review_method": "ChatGPT Work in-conversation editorial QC",
+    "external_ai_api_calls": 0,
+    "checked_at": "2026-11-01T00:35:47.589Z"
   },
   "publish_requires_human_approval": true,
   "external_ai_api_calls_this_review": 0,
