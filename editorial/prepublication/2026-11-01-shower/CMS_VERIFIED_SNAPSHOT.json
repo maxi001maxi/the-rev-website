@@ -1,0 +1,1475 @@
+{
+  "read_at": "2026-11-01T00:34:01.344Z",
+  "source": "Supabase connected SELECT admin_article_drafts",
+  "draft": {
+    "id": "e63749b5-d8d2-460f-a4c1-e75e91aec1ee",
+    "slug": "after-training-shower-changing-the-rev",
+    "title": "ジムのあとに出かけられる？THE REV.のシャワー備品と持参品の違い",
+    "author": "服部 真騎士",
+    "status": "draft",
+    "noindex": false,
+    "updated": "2026-11-01",
+    "category": "gym-guide",
+    "cta_type": "personal-training",
+    "featured": false,
+    "image_qa": {
+      "pass": true,
+      "slug": "after-training-shower-changing-the-rev",
+      "template": "rev-column-reference-v2",
+      "checked_at": "2026-11-01T00:29:40.248Z",
+      "gbp_posted": false,
+      "review_mode": "HYBRID_GENERATED",
+      "copy_legible": true,
+      "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+      "fallback_used": false,
+      "blog_published": false,
+      "layout_variant": "human-first-v1",
+      "negative_space": 8,
+      "render_version": "rev-column-reference-v2.3-hybrid",
+      "actual_reviewer": {
+        "method": "ChatGPT Work in-conversation visual review",
+        "provider": "current ChatGPT conversation",
+        "checked_at": "2026-11-01T00:29:40.248Z",
+        "observations": [
+          "実提供写真のシャワーブース・右壁の鏡台・天井梁・床の位置関係を照合。主要な実空間の特徴が残る。",
+          "外出着の顧客1人がバッグを持つ身支度後の場面。鏡の人物は同一人物の反射。スタッフ・トレーナー・医療機器・新しいアメニティの追加はない。",
+          "手・バッグの保持・肩・顔に明らかな破綻はなく、人物と室内の遠近・色温度は自然。足元は画面外で、運動や器具接触の場面ではない。",
+          "シャワーと鏡台は認識でき、人物が写真の主役。主コピーは320pxで読め、2行の改行・強調は自然。",
+          "3比率とも文字と人物が重ならず、アイボリーのfadeは曲線で写真につながる。GBPでは文字ブロックが人物の左に収まる。",
+          "本文1,957字を読み、追加料金・事前申告不要、終了後は空き状況によること、貸出タオル/シャンプー/リンス/ドライヤー、その他持参品を一次情報と照合した。"
+        ],
+        "owner_authorization": "2026-11-01: user explicitly requires this conversation to perform QC without AI API calls and finish the CMS prepublication draft.",
+        "score_interpretation": "Scores below are this reviewer’s editorial judgments, not measurements or an external model result.",
+        "external_ai_api_calls": 0
+      },
+      "design_revision": "editorial-thumbnail-v2.6-human-first",
+      "photo_treatment": 8,
+      "policy_revision": "editorial-thumbnail-v2.4",
+      "scene_grounding": {
+        "pass": true,
+        "plan": {
+          "version": "the-rev-source-scene-v1",
+          "source_id": "the-rev-shower-changing-20261031-img0651",
+          "scene_type": "recovery_transition",
+          "visual_role": "recovery_time",
+          "human_action": "prepare",
+          "subject_zone": "recovery_area",
+          "location_type": "recovery_area",
+          "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+          "article_intent": "facility_selection",
+          "composition_type": "medium_three_quarter_portrait",
+          "required_equipment": [],
+          "article_specific_directive": "外出着に着替えた男性顧客1人がバッグを持ち出発準備。実シャワーブース・鏡台は背景。鏡の人物は同一顧客の反射。追加備品・スタッフ・トレーニング動作なし。"
+        },
+        "errors": [],
+        "recent": [
+          {
+            "slug": "strength-training-breathing-when-to-exhale",
+            "checkedAt": "2026-10-28T09:05:46.569Z",
+            "thumbnail": "assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+            "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+            "articleTitle": "筋トレの呼吸、いつ吐く？動きと息を合わせる基本",
+            "assetVersion": "reference-v26-grounded-auto-lobby-20260924-ff29d069",
+            "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "imageHeadlineShort": "筋トレの呼吸、いつ吐く。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "reservation-only-vs-exclusive-use",
+            "checkedAt": "2026-10-27T01:02:43.848Z",
+            "thumbnail": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+            "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+            "articleTitle": "完全予約制のジムは貸切と同じ？違いと人目の確認ポイント",
+            "assetVersion": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+            "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+            "sceneFingerprint": {
+              "scene_type": "personal_choice",
+              "visual_role": "deciding_own_start",
+              "human_action": "compare_notes",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+            "scene_fingerprint": {
+              "scene_type": "personal_choice",
+              "visual_role": "deciding_own_start",
+              "human_action": "compare_notes",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "imageHeadlineShort": "完全予約制と、\n貸切の違い。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "boxing-trial-what-to-bring",
+            "checkedAt": "2026-10-25T05:58:04.252Z",
+            "thumbnail": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+            "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+            "articleTitle": "ボクシング体験、何を持って行く？服装・靴・グローブの準備",
+            "assetVersion": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+            "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "safe_first_step",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "safe_first_step",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "imageHeadlineShort": "グローブは、\n借りて始められる。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "cable-machine-how-it-works-the-rev",
+            "checkedAt": "2026-10-25T01:45:04.578Z",
+            "thumbnail": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+            "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+            "articleTitle": "ケーブルマシンは何をするもの？THE REV.の設備とフォーム・設定の基本",
+            "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+            "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+            "sceneFingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "strength_exercise",
+              "location_type": "training_area",
+              "article_intent": "training_execution",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "strength_exercise",
+              "location_type": "training_area",
+              "article_intent": "training_execution",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "imageHeadlineShort": "引っ張る方向で、\n動きが変わる。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "personal-gym-first-session-pain-health-history",
+            "checkedAt": "2026-10-15T03:46:44.330Z",
+            "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+            "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+            "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+            "assetVersion": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+            "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "considering_health_report",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "health_before_start",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "considering_health_report",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "health_before_start",
+              "composition_type": "medium_seated_portrait"
+            },
+            "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "the-rev-trial-three-menus-first-visit",
+            "checkedAt": "2026-10-14T02:01:11.756Z",
+            "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+            "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+            "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+            "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+            "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+            "sceneFingerprint": {
+              "scene_type": "arrival",
+              "visual_role": "first_visit_reassurance",
+              "human_action": "observe_facility",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "arrival",
+              "visual_role": "first_visit_reassurance",
+              "human_action": "observe_facility",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "nekose-strength-training-posture",
+            "checkedAt": "2026-10-13T01:53:31.806Z",
+            "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+            "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+            "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+            "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+            "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "rest",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "rest",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_seated_portrait"
+            },
+            "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "pre-workout-stretching-duration",
+            "checkedAt": "2026-10-11T00:47:06.303Z",
+            "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+            "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+            "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+            "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+            "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "training_area",
+              "article_intent": "training_start",
+              "composition_type": "wide_full_body"
+            },
+            "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+            "scene_fingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "training_area",
+              "article_intent": "training_start",
+              "composition_type": "wide_full_body"
+            },
+            "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "denba-health-device-mat-role",
+            "checkedAt": "2026-10-10T02:43:04.486Z",
+            "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+            "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+            "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+            "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+            "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "equipment_orientation",
+              "visual_role": "component_relationship",
+              "human_action": "observing_real_equipment",
+              "location_type": "reception",
+              "article_intent": "equipment_explanation",
+              "composition_type": "close_action_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "equipment_orientation",
+              "visual_role": "component_relationship",
+              "human_action": "observing_real_equipment",
+              "location_type": "reception",
+              "article_intent": "equipment_explanation",
+              "composition_type": "close_action_portrait"
+            },
+            "imageHeadlineShort": "本体とマット、\n役割は別。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "shinomiya-gym-beginner-choose",
+            "checkedAt": "2026-10-07T05:24:50.575Z",
+            "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+            "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+            "articleTitle": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
+            "assetVersion": "reference-v26-grounded-evolgear-20261007-r4",
+            "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "deciding_own_start",
+              "human_action": "prepare",
+              "location_type": "training_area",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "deciding_own_start",
+              "human_action": "prepare",
+              "location_type": "training_area",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "imageHeadlineShort": "続けやすさで、\n選ぶ。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "desk-work-stand-every-30-minutes",
+            "checkedAt": "2026-10-06T01:08:15.230Z",
+            "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+            "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+            "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+            "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+            "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+            "sceneFingerprint": {
+              "scene_type": "workday_break",
+              "visual_role": "workday_movement_break",
+              "human_action": "standing_break",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+            "scene_fingerprint": {
+              "scene_type": "workday_break",
+              "visual_role": "workday_movement_break",
+              "human_action": "standing_break",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+            "customerPresentation": "female",
+            "observationReference": "editorial/image-qa/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.json"
+          },
+          {
+            "slug": "boxing-beginner-scared-before-mitt-training",
+            "checkedAt": "2026-10-05T12:07:58.242Z",
+            "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+            "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+            "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+            "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+            "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "close_action_portrait"
+            },
+            "originVideoFileId": "",
+            "scene_fingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "close_action_portrait"
+            },
+            "imageHeadlineShort": "怖くても、\n最初は基本から。",
+            "customerPresentation": "male",
+            "observationReference": "editorial/image-qa/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.json"
+          }
+        ],
+        "version": "the-rev-source-scene-v1",
+        "inventory": {
+          "version": "the-rev-source-scene-v1",
+          "subject_zone": "recovery_area",
+          "verification": {
+            "note": "recovery_area is the existing ontology classification for the post-training shower/changing space; exact physical zone is shower_changing_space.",
+            "method": "Owner-provided source photograph, scoped Drive metadata, direct visual comparison",
+            "verified_at": "2026-11-01"
+          },
+          "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+          "primary_location": "recovery_area",
+          "visible_fixtures": [
+            {
+              "zone": "rear_left",
+              "object": "shower_booth"
+            },
+            {
+              "zone": "right_wall",
+              "object": "vanity_mirror"
+            },
+            {
+              "zone": "right_wall",
+              "object": "vanity_drawers"
+            },
+            {
+              "zone": "vanity_front",
+              "object": "stool"
+            }
+          ],
+          "visible_equipment": [],
+          "suitable_article_intents": [
+            "facility_selection"
+          ],
+          "allowed_generated_actions": [
+            "enter",
+            "prepare",
+            "compare_notes"
+          ],
+          "forbidden_generated_objects": [
+            "training_equipment",
+            "additional_amenities"
+          ]
+        },
+        "similarity": {
+          "pass": true,
+          "window": 12,
+          "matches": [
+            {
+              "slug": "strength-training-breathing-when-to-exhale",
+              "equal": [
+                "human_action",
+                "composition_type"
+              ],
+              "score": 0.3333333333333333,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "reservation-only-vs-exclusive-use",
+              "equal": [
+                "article_intent"
+              ],
+              "score": 0.16666666666666666,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "boxing-trial-what-to-bring",
+              "equal": [
+                "composition_type"
+              ],
+              "score": 0.16666666666666666,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "cable-machine-how-it-works-the-rev",
+              "equal": [
+                "composition_type"
+              ],
+              "score": 0.16666666666666666,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "personal-gym-first-session-pain-health-history",
+              "equal": [
+                "human_action"
+              ],
+              "score": 0.16666666666666666,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "the-rev-trial-three-menus-first-visit",
+              "equal": [
+                "composition_type",
+                "article_intent"
+              ],
+              "score": 0.3333333333333333,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "nekose-strength-training-posture",
+              "equal": [],
+              "score": 0,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "pre-workout-stretching-duration",
+              "equal": [
+                "human_action"
+              ],
+              "score": 0.16666666666666666,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "denba-health-device-mat-role",
+              "equal": [],
+              "score": 0,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "shinomiya-gym-beginner-choose",
+              "equal": [
+                "human_action",
+                "article_intent"
+              ],
+              "score": 0.3333333333333333,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "desk-work-stand-every-30-minutes",
+              "equal": [
+                "composition_type"
+              ],
+              "score": 0.16666666666666666,
+              "hard_exclusion": false
+            },
+            {
+              "slug": "boxing-beginner-scared-before-mitt-training",
+              "equal": [],
+              "score": 0,
+              "hard_exclusion": false
+            }
+          ],
+          "penalty": 0.3333333333333333,
+          "compared": 12,
+          "unknown_count": 0
+        },
+        "observation": {
+          "complete": true,
+          "equipment": [],
+          "human_action": "prepare",
+          "subject_zone": "recovery_area",
+          "location_type": "recovery_area",
+          "visible_fixtures": [
+            {
+              "zone": "rear_left",
+              "object": "shower_booth"
+            },
+            {
+              "zone": "right_wall",
+              "object": "vanity_mirror"
+            },
+            {
+              "zone": "right_wall",
+              "object": "vanity_drawers"
+            },
+            {
+              "zone": "vanity_front",
+              "object": "stool"
+            }
+          ],
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "prepare",
+            "location_type": "recovery_area",
+            "article_intent": "facility_selection",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "article_scene_match": true,
+          "equipment_relocated": false,
+          "room_geometry_preserved": true
+        },
+        "asset_hashes": {
+          "og": "9fe1d7b40ad098d835ce347d2a00153ff97363cb412c39e8696fd1cbf1a7f742",
+          "gbp": "e673f06e861de695d912d2bfa69f5daffb43eb68e59f0cef3d605a93bde9abb7",
+          "scene": "f6a9417953bc43e52cf3b3ddd110320dcc4f916bbcaa7265d72c8fddf474ae36",
+          "source": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+          "thumbnail": "b882f6353c21f849e7ba1657ec2e0c98ca84fb130273246cd0eb20609fc3eaf5"
+        },
+        "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+        "sourceRecognition": {
+          "complete": true,
+          "equipment": [],
+          "visible_fixtures": [
+            {
+              "zone": "rear_left",
+              "object": "shower_booth"
+            },
+            {
+              "zone": "right_wall",
+              "object": "vanity_mirror"
+            },
+            {
+              "zone": "right_wall",
+              "object": "vanity_drawers"
+            },
+            {
+              "zone": "vanity_front",
+              "object": "stool"
+            }
+          ]
+        },
+        "observation_method": "ChatGPT Work in-conversation visual review"
+      },
+      "too_promotional": false,
+      "trainer_present": false,
+      "gbp_copy_legible": true,
+      "content_reference": "drive://1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j/AI_SOURCE_shower-changing_IMG_0651_20261031.jpg",
+      "editorial_quality": 8,
+      "editorial_text_qc": {
+        "pass": true,
+        "total": 19,
+        "issues": [],
+        "schema": "editorial-text-qc-v1",
+        "version": "v0.8.2",
+        "content_id": "BLOG-20261101-c36b34",
+        "body_sha256": "6103919e9b35d7ac3fa3569ab7c3121843c8a591908ab5ff85d7d1f4cd7cad20",
+        "evidence_sha256": "cecfafdab2428d718b25e873745929129969ffa39d5d2a908f5c4fbd939447d2",
+        "source_unverified": false
+      },
+      "gbp_image_required": true,
+      "gbp_safe_area_pass": true,
+      "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+      "realism_qc_version": "v1",
+      "series_consistency": 8,
+      "typography_harmony": 9,
+      "anatomy_pose_realism": 9,
+      "lighting_consistency": 9,
+      "trainer_photo_reused": false,
+      "expected_copy_present": true,
+      "gbp_aspect_ratio_pass": true,
+      "github_assets_present": true,
+      "image_generation_used": true,
+      "headline_balance_score": 9,
+      "recent_reference_guard": {
+        "mode": "manual-work-recovery-v1",
+        "source_id": "the-rev-shower-changing-20261031-img0651",
+        "source_sha256": "7a4536abdbcbd541830492bbd37b33aeebbea79f5a5757eb91bf1f5fc12c2603",
+        "recent_articles": [
+          {
+            "slug": "strength-training-breathing-when-to-exhale",
+            "checkedAt": "2026-10-28T09:05:46.569Z",
+            "thumbnail": "assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+            "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+            "articleTitle": "筋トレの呼吸、いつ吐く？動きと息を合わせる基本",
+            "assetVersion": "reference-v26-grounded-auto-lobby-20260924-ff29d069",
+            "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "筋トレの呼吸、いつ吐く。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "reservation-only-vs-exclusive-use",
+            "checkedAt": "2026-10-27T01:02:43.848Z",
+            "thumbnail": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+            "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+            "articleTitle": "完全予約制のジムは貸切と同じ？違いと人目の確認ポイント",
+            "assetVersion": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+            "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+            "sceneFingerprint": {
+              "scene_type": "personal_choice",
+              "visual_role": "deciding_own_start",
+              "human_action": "compare_notes",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+            "imageHeadlineShort": "完全予約制と、\n貸切の違い。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "boxing-trial-what-to-bring",
+            "checkedAt": "2026-10-25T05:58:04.252Z",
+            "thumbnail": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+            "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+            "articleTitle": "ボクシング体験、何を持って行く？服装・靴・グローブの準備",
+            "assetVersion": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+            "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "safe_first_step",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "グローブは、\n借りて始められる。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "cable-machine-how-it-works-the-rev",
+            "checkedAt": "2026-10-25T01:45:04.578Z",
+            "thumbnail": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+            "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+            "articleTitle": "ケーブルマシンは何をするもの？THE REV.の設備とフォーム・設定の基本",
+            "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+            "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+            "sceneFingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "strength_exercise",
+              "location_type": "training_area",
+              "article_intent": "training_execution",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "引っ張る方向で、\n動きが変わる。",
+            "customerPresentation": "male"
+          }
+        ],
+        "repeat_distance": null,
+        "source_registry": "editorial/automated-image-sources.json",
+        "source_repo_path": "assets/images/editorial-sources/shower-changing-IMG0651-20261031.jpg",
+        "editorial_text_qc": {
+          "pass": true,
+          "total": 19,
+          "issues": [],
+          "schema": "editorial-text-qc-v1",
+          "version": "v0.8.2",
+          "content_id": "BLOG-20261101-c36b34",
+          "body_sha256": "6103919e9b35d7ac3fa3569ab7c3121843c8a591908ab5ff85d7d1f4cd7cad20",
+          "evidence_sha256": "cecfafdab2428d718b25e873745929129969ffa39d5d2a908f5c4fbd939447d2",
+          "source_unverified": false
+        },
+        "selected_source_id": "the-rev-shower-changing-20261031-img0651",
+        "recent_semantic_articles": [
+          {
+            "slug": "strength-training-breathing-when-to-exhale",
+            "checkedAt": "2026-10-28T09:05:46.569Z",
+            "thumbnail": "assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+            "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+            "articleTitle": "筋トレの呼吸、いつ吐く？動きと息を合わせる基本",
+            "assetVersion": "reference-v26-grounded-auto-lobby-20260924-ff29d069",
+            "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "筋トレの呼吸、いつ吐く。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "reservation-only-vs-exclusive-use",
+            "checkedAt": "2026-10-27T01:02:43.848Z",
+            "thumbnail": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+            "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+            "articleTitle": "完全予約制のジムは貸切と同じ？違いと人目の確認ポイント",
+            "assetVersion": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+            "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+            "sceneFingerprint": {
+              "scene_type": "personal_choice",
+              "visual_role": "deciding_own_start",
+              "human_action": "compare_notes",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+            "imageHeadlineShort": "完全予約制と、\n貸切の違い。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "boxing-trial-what-to-bring",
+            "checkedAt": "2026-10-25T05:58:04.252Z",
+            "thumbnail": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+            "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+            "articleTitle": "ボクシング体験、何を持って行く？服装・靴・グローブの準備",
+            "assetVersion": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+            "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "safe_first_step",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "グローブは、\n借りて始められる。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "cable-machine-how-it-works-the-rev",
+            "checkedAt": "2026-10-25T01:45:04.578Z",
+            "thumbnail": "assets/images/blog/thumb-cable-machine-how-it-works-the-rev-reference-v26-grounded-auto-evolgear-20260922-0385470b.jpg",
+            "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+            "articleTitle": "ケーブルマシンは何をするもの？THE REV.の設備とフォーム・設定の基本",
+            "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+            "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+            "sceneFingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "strength_exercise",
+              "location_type": "training_area",
+              "article_intent": "training_execution",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "引っ張る方向で、\n動きが変わる。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "personal-gym-first-session-pain-health-history",
+            "checkedAt": "2026-10-15T03:46:44.330Z",
+            "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+            "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+            "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+            "assetVersion": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+            "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "considering_health_report",
+              "human_action": "prepare",
+              "location_type": "reception",
+              "article_intent": "health_before_start",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "the-rev-trial-three-menus-first-visit",
+            "checkedAt": "2026-10-14T02:01:11.756Z",
+            "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+            "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+            "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+            "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+            "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+            "sceneFingerprint": {
+              "scene_type": "arrival",
+              "visual_role": "first_visit_reassurance",
+              "human_action": "observe_facility",
+              "location_type": "reception",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "nekose-strength-training-posture",
+            "checkedAt": "2026-10-13T01:53:31.806Z",
+            "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+            "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+            "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+            "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+            "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "rest",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "pre-workout-stretching-duration",
+            "checkedAt": "2026-10-11T00:47:06.303Z",
+            "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+            "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+            "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+            "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+            "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "checking_readiness",
+              "human_action": "prepare",
+              "location_type": "training_area",
+              "article_intent": "training_start",
+              "composition_type": "wide_full_body"
+            },
+            "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+            "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "denba-health-device-mat-role",
+            "checkedAt": "2026-10-10T02:43:04.486Z",
+            "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+            "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+            "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+            "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+            "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "equipment_orientation",
+              "visual_role": "component_relationship",
+              "human_action": "observing_real_equipment",
+              "location_type": "reception",
+              "article_intent": "equipment_explanation",
+              "composition_type": "close_action_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "本体とマット、\n役割は別。",
+            "customerPresentation": "female"
+          },
+          {
+            "slug": "shinomiya-gym-beginner-choose",
+            "checkedAt": "2026-10-07T05:24:50.575Z",
+            "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+            "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+            "articleTitle": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
+            "assetVersion": "reference-v26-grounded-evolgear-20261007-r4",
+            "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+            "sceneFingerprint": {
+              "scene_type": "before_start",
+              "visual_role": "deciding_own_start",
+              "human_action": "prepare",
+              "location_type": "training_area",
+              "article_intent": "facility_selection",
+              "composition_type": "medium_seated_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "続けやすさで、\n選ぶ。",
+            "customerPresentation": "male"
+          },
+          {
+            "slug": "desk-work-stand-every-30-minutes",
+            "checkedAt": "2026-10-06T01:08:15.230Z",
+            "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+            "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+            "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+            "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+            "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+            "sceneFingerprint": {
+              "scene_type": "workday_break",
+              "visual_role": "workday_movement_break",
+              "human_action": "standing_break",
+              "location_type": "reception",
+              "article_intent": "training_start",
+              "composition_type": "medium_three_quarter_portrait"
+            },
+            "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+            "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+            "customerPresentation": "female",
+            "observationReference": "editorial/image-qa/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.json"
+          },
+          {
+            "slug": "boxing-beginner-scared-before-mitt-training",
+            "checkedAt": "2026-10-05T12:07:58.242Z",
+            "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+            "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+            "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+            "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+            "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+            "sceneFingerprint": {
+              "scene_type": "exercise",
+              "visual_role": "training_execution",
+              "human_action": "boxing_stance",
+              "location_type": "boxing_area",
+              "article_intent": "boxing_start",
+              "composition_type": "close_action_portrait"
+            },
+            "originVideoFileId": "",
+            "imageHeadlineShort": "怖くても、\n最初は基本から。",
+            "customerPresentation": "male",
+            "observationReference": "editorial/image-qa/strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.json"
+          }
+        ],
+        "recent_similarity_window": 4,
+        "repeated_due_to_relevance": false,
+        "recent_thumbnail_headlines": [
+          "筋トレの呼吸、いつ吐く。",
+          "完全予約制と、\n貸切の違い。",
+          "グローブは、\n借りて始められる。",
+          "引っ張る方向で、\n動きが変わる。",
+          "痛みや体調は、\nどこまで伝える？",
+          "初回体験、\n何を選ぶ？",
+          "姿勢は、\n動きから見直す。",
+          "運動前は、\n動ける状態へ。",
+          "本体とマット、\n役割は別。",
+          "続けやすさで、\n選ぶ。",
+          "座り仕事、\n30分ごとに立つ？",
+          "怖くても、\n最初は基本から。",
+          "DENBAの基本\n電位空間",
+          "始める前に、\n状態を確かめる。",
+          "続けられる頻度を、\n最初に決める。",
+          "通いやすさまで、\n選ぶ基準に。",
+          "通いやすさまで、\n選ぶ基準に。",
+          "中では、静かに休むだけ。",
+          "DENBAって何？",
+          "DENBAって、\n何するもの？",
+          "酸素ルームって、\n何する場所？",
+          "耳抜きは、\n我慢しない。",
+          "設備だけで、\n決めない。",
+          "軽く動いて、\n調子を見る。",
+          "設備だけで、\n決めない。"
+        ],
+        "production_recovery_version": "v0.8.2",
+        "recent_thumbnail_copy_window": 25,
+        "recent_customer_presentations": [
+          "female",
+          "male",
+          "female",
+          "male",
+          "female",
+          "male"
+        ],
+        "require_complete_semantic_preflight": true
+      },
+      "the_rev_anchor_visible": true,
+      "article_title_separated": true,
+      "exercise_pose_plausible": true,
+      "facility_only_thumbnail": false,
+      "location_semantics_pass": true,
+      "manual_visual_rejection": false,
+      "scene_grounding_version": "the-rev-source-scene-v1",
+      "unknown_trainer_present": false,
+      "article_visual_relevance": 9,
+      "brand_space_authenticity": 8,
+      "face_expression_readable": true,
+      "gbp_github_asset_present": true,
+      "generated_customer_count": 1,
+      "human_subject_prominence": 9,
+      "main_claim_visualization": 9,
+      "recent_similarity_window": 4,
+      "background_secondary_pass": true,
+      "background_soft_blur_pass": true,
+      "no_cutout_or_sticker_look": true,
+      "background_source_recorded": true,
+      "customer_only_or_no_people": true,
+      "generated_customer_present": true,
+      "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+      "scene_plausible_at_the_rev": true,
+      "source_material_scope_pass": true,
+      "xserver_live_verify_passed": true,
+      "background_selection_reason": "オーナー提供の実シャワー・更衣スペース。備品案内と運動後の身支度に直接対応。指定Drive素材ルート内で2026-11-01再確認。",
+      "headline_line_break_quality": true,
+      "location_behavior_plausible": true,
+      "non_customer_people_present": false,
+      "rev_environment_consistency": 8,
+      "human_visual_attention_share": 65,
+      "recent_similarity_check_pass": true,
+      "unsupported_equipment_absent": true,
+      "human_environment_integration": 9,
+      "perspective_scale_consistency": 9,
+      "same_image_as_recent_articles": false,
+      "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+      "fixed_overlay_layout_confirmed": true,
+      "gbp_xserver_live_verify_passed": true,
+      "background_source_drive_file_id": "1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j",
+      "publish_requires_human_approval": true,
+      "thumbnail_typography_acceptance": {
+        "pass": true,
+        "visual": {
+          "og": {
+            "pass": true,
+            "text_not_buried": true,
+            "title_is_primary": true,
+            "fade_contains_text": true,
+            "contrast_sufficient": true,
+            "natural_line_breaks": true,
+            "article_recognizable": true,
+            "immediately_readable": true,
+            "whitespace_has_purpose": true
+          },
+          "gbp": {
+            "pass": true,
+            "text_not_buried": true,
+            "title_is_primary": true,
+            "fade_contains_text": true,
+            "contrast_sufficient": true,
+            "natural_line_breaks": true,
+            "article_recognizable": true,
+            "immediately_readable": true,
+            "whitespace_has_purpose": true
+          },
+          "thumbnail": {
+            "pass": true,
+            "text_not_buried": true,
+            "title_is_primary": true,
+            "fade_contains_text": true,
+            "contrast_sufficient": true,
+            "natural_line_breaks": true,
+            "article_recognizable": true,
+            "immediately_readable": true,
+            "whitespace_has_purpose": true
+          }
+        },
+        "art_direction": {
+          "pass": true,
+          "comments": "原寸・縮小JPEGをこの会話で確認。文字と人物の階層、自然なfade、3比率それぞれの構図を評価。",
+          "variants": {
+            "og": {
+              "pass": true,
+              "not_size_only": true,
+              "no_white_board": true,
+              "fade_integrated": true,
+              "composition_balanced": true,
+              "not_generic_template": true,
+              "thumbnail_functional": true,
+              "inviting_at_list_size": true,
+              "premium_rev_preserved": true,
+              "whitespace_meaningful": true,
+              "golden_grammar_matches": true,
+              "format_layout_independent": true,
+              "keyword_hierarchy_present": true,
+              "photo_text_hierarchy_natural": true
+            },
+            "gbp": {
+              "pass": true,
+              "not_size_only": true,
+              "no_white_board": true,
+              "fade_integrated": true,
+              "composition_balanced": true,
+              "not_generic_template": true,
+              "thumbnail_functional": true,
+              "inviting_at_list_size": true,
+              "premium_rev_preserved": true,
+              "whitespace_meaningful": true,
+              "golden_grammar_matches": true,
+              "format_layout_independent": true,
+              "keyword_hierarchy_present": true,
+              "photo_text_hierarchy_natural": true
+            },
+            "thumbnail": {
+              "pass": true,
+              "not_size_only": true,
+              "no_white_board": true,
+              "fade_integrated": true,
+              "composition_balanced": true,
+              "not_generic_template": true,
+              "thumbnail_functional": true,
+              "inviting_at_list_size": true,
+              "premium_rev_preserved": true,
+              "whitespace_meaningful": true,
+              "golden_grammar_matches": true,
+              "format_layout_independent": true,
+              "keyword_hierarchy_present": true,
+              "photo_text_hierarchy_natural": true
+            }
+          }
+        },
+        "deterministic": {
+          "pass": true,
+          "slug": "after-training-shower-changing-the-rev",
+          "revision": "thumbnail-golden-typography-v1",
+          "variants": {
+            "og": {
+              "pass": true,
+              "lines": [
+                "ジムのあと、",
+                "出かけよう。"
+              ],
+              "fade_end": 742,
+              "previews": {
+                "320": {
+                  "path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-320.jpg",
+                  "sha256": "6f5a265c4e9417a36a44d2e7eaf1e86f526212d0285c34ac9b32ec6d11bd323b"
+                },
+                "400": {
+                  "path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-400.jpg",
+                  "sha256": "a92f7071e32136839d7a84683487cac7b7d9752d0df559e1f5bd4c66b61eb8b4"
+                }
+              },
+              "font_size": 66,
+              "asset_path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+              "fade_start": 605,
+              "focus_line": 1,
+              "focus_text": "出かけよう。",
+              "line_count": 2,
+              "line_rects": [
+                {
+                  "top": 210,
+                  "left": 64,
+                  "right": 461.328125,
+                  "width": 397.328125,
+                  "bottom": 305
+                },
+                {
+                  "top": 298.90625,
+                  "left": 64,
+                  "right": 582.75,
+                  "width": 518.75,
+                  "bottom": 422.90625
+                }
+              ],
+              "focus_scale": 1.3001300130013,
+              "layout_rule": "golden-wide-v1",
+              "line_height": 1.12,
+              "asset_sha256": "9fe1d7b40ad098d835ce347d2a00153ff97363cb412c39e8696fd1cbf1a7f742",
+              "line_balance": 0.7692581051439251,
+              "veil_profile": "canonical-bezier-v1",
+              "label_removed": true,
+              "paper_profile": "local-curved-veil",
+              "contrast_floor": 4.979150214640286,
+              "hierarchy_kind": "lines",
+              "hierarchy_pass": true,
+              "safe_area_pass": true,
+              "text_preserved": true,
+              "line_font_sizes": [
+                66,
+                85.8085808580858
+              ],
+              "width_occupancy": 0.9982142978889986,
+              "block_area_ratio": 0.12909198446137413,
+              "font_size_at_320": 17.6,
+              "headline_center_y": 315.0078125,
+              "label_subordinate": true,
+              "fade_contains_text": true,
+              "fade_vertical_tail": 125,
+              "bottom_mark_removed": true,
+              "paper_opacity_floor": 0.8901960784313725,
+              "layout_balance_revision": "centered-organic-v1"
+            },
+            "gbp": {
+              "pass": true,
+              "lines": [
+                "ジムのあと、",
+                "出かけよう。"
+              ],
+              "fade_end": 700,
+              "previews": {
+                "320": {
+                  "path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-320.jpg",
+                  "sha256": "4741ebfc3becadd86f7066c1be086d017e30bd9cbd8d6bea945221db103faf9b"
+                },
+                "400": {
+                  "path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-400.jpg",
+                  "sha256": "c49724a2c330258f6c34a93501e69725cf4c601e9a2cc458198cc2a6c97864af"
+                }
+              },
+              "font_size": 63,
+              "asset_path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+              "fade_start": 581,
+              "focus_line": 1,
+              "focus_text": "出かけよう。",
+              "line_count": 2,
+              "line_rects": [
+                {
+                  "top": 330,
+                  "left": 60,
+                  "right": 439.265625,
+                  "width": 379.265625,
+                  "bottom": 421
+                },
+                {
+                  "top": 417.546875,
+                  "left": 60,
+                  "right": 558.78125,
+                  "width": 498.78125,
+                  "bottom": 536.546875
+                }
+              ],
+              "focus_scale": 1.3096547750013094,
+              "layout_rule": "golden-gbp-v1",
+              "line_height": 1.12,
+              "asset_sha256": "e673f06e861de695d912d2bfa69f5daffb43eb68e59f0cef3d605a93bde9abb7",
+              "line_balance": 0.7636355056875545,
+              "veil_profile": "canonical-bezier-v1",
+              "label_removed": true,
+              "paper_profile": "local-curved-veil",
+              "contrast_floor": 5.308677408263676,
+              "hierarchy_kind": "lines",
+              "hierarchy_pass": true,
+              "safe_area_pass": true,
+              "text_preserved": true,
+              "line_font_sizes": [
+                63,
+                82.5082508250825
+              ],
+              "width_occupancy": 0.9982506419770395,
+              "block_area_ratio": 0.08455234929766461,
+              "font_size_at_320": 16.8,
+              "headline_center_y": 432.4765625,
+              "label_subordinate": true,
+              "fade_contains_text": true,
+              "fade_vertical_tail": 125,
+              "bottom_mark_removed": true,
+              "paper_opacity_floor": 0.9176470588235294,
+              "layout_balance_revision": "centered-organic-v1"
+            },
+            "thumbnail": {
+              "pass": true,
+              "lines": [
+                "ジムのあと、",
+                "出かけよう。"
+              ],
+              "fade_end": 742,
+              "previews": {
+                "320": {
+                  "path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-320.jpg",
+                  "sha256": "cdeaec658bcdeaabeefd2dbdcbb8c1a0dbe150b9e9c385ddea60a21c1f52df80"
+                },
+                "400": {
+                  "path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1-preview-400.jpg",
+                  "sha256": "113de6e57af7b213adb7cda93c220f67ccae6ed49f1767fbe69bbab02bdd29ff"
+                }
+              },
+              "font_size": 66,
+              "asset_path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+              "fade_start": 605,
+              "focus_line": 1,
+              "focus_text": "出かけよう。",
+              "line_count": 2,
+              "line_rects": [
+                {
+                  "top": 232,
+                  "left": 64,
+                  "right": 461.328125,
+                  "width": 397.328125,
+                  "bottom": 327
+                },
+                {
+                  "top": 320.90625,
+                  "left": 64,
+                  "right": 582.75,
+                  "width": 518.75,
+                  "bottom": 444.90625
+                }
+              ],
+              "focus_scale": 1.3001300130013,
+              "layout_rule": "golden-wide-v1",
+              "line_height": 1.12,
+              "asset_sha256": "b882f6353c21f849e7ba1657ec2e0c98ca84fb130273246cd0eb20609fc3eaf5",
+              "line_balance": 0.7692581051439251,
+              "veil_profile": "canonical-bezier-v1",
+              "label_removed": true,
+              "paper_profile": "local-curved-veil",
+              "contrast_floor": 4.979150214640286,
+              "hierarchy_kind": "lines",
+              "hierarchy_pass": true,
+              "safe_area_pass": true,
+              "text_preserved": true,
+              "line_font_sizes": [
+                66,
+                85.8085808580858
+              ],
+              "width_occupancy": 0.9982142978889986,
+              "block_area_ratio": 0.12048585216394919,
+              "font_size_at_320": 17.6,
+              "headline_center_y": 337.0078125,
+              "label_subordinate": true,
+              "fade_contains_text": true,
+              "fade_vertical_tail": 125,
+              "bottom_mark_removed": true,
+              "paper_opacity_floor": 0.8901960784313725,
+              "layout_balance_revision": "centered-organic-v1"
+            }
+          },
+          "asset_version": "reference-v26-grounded-shower-20261031-work-r1"
+        },
+        "golden_reference": {
+          "assets": [
+            {
+              "path": "editorial/typography-golden-reference/reference-16x9.png",
+              "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e",
+              "variant": "wide"
+            },
+            {
+              "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+              "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640",
+              "variant": "gbp"
+            },
+            {
+              "path": "editorial/typography-golden-reference/reference-list-view.png",
+              "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7",
+              "variant": "list"
+            }
+          ],
+          "revision": "approved-typography-20261001-v1",
+          "comparison_basis": "Canonical typography grammar, fixed renderer, locked reference metadata; reference bytes are additionally verified by repository CI."
+        }
+      },
+      "service_misrepresentation_absent": true,
+      "external_ai_api_calls_this_review": 0,
+      "ground_contact_shadow_consistency": 9,
+      "real_the_rev_background_confirmed": true,
+      "customer_presentation_matches_plan": true,
+      "same_background_as_recent_articles": false,
+      "background_selection_reason_recorded": true,
+      "article_theme_inferable_without_title": true,
+      "scene_action_has_article_specific_meaning": true,
+      "generic_passive_pose_without_article_reason": false
+    },
+    "keywords": [
+      "パーソナルジム シャワー 持ち物 利用",
+      "運動後に仕事や用事へ向かう人が、更衣・シャワーの利用条件と持参品を確認する"
+    ],
+    "og_image": "/assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+    "canonical": null,
+    "gbp_image": "/assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+    "published": "2026-11-01",
+    "thumbnail": "/assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+    "created_at": "2026-10-31T02:09:37.823188+00:00",
+    "source_sha": null,
+    "updated_at": "2026-11-01T00:33:27.825924+00:00",
+    "author_role": "THE REV. CONDITIONING LAB. 代表トレーナー",
+    "description": "ジムを選ぶときに知りたい、THE REV.の更衣・シャワー設備。追加料金・事前申告は不要です。終了後の空き条件、貸出タオルや洗髪・乾髪用品、持参品を紹介します。",
+    "source_path": null,
+    "gbp_image_qa": {
+      "pass": true,
+      "ratio": "4:3",
+      "width": 1200,
+      "height": 900,
+      "copy_legible": true,
+      "safe_area_pass": true,
+      "aspect_ratio_pass": true
+    },
+    "image_status": "READY",
+    "published_at": null,
+    "body_markdown": "「ジムのあとに予定を入れたい。でも、汗をかいたまま出かけるのは気になる」。運動を続ける場所を選ぶときは、トレーニングの内容だけでなく、終わったあとにどう過ごせるかも大切です。\n\nTHE REV.には、更衣スペースとシャワーがあります。シャワーの追加料金や事前の申告は必要ありません。シャワー用タオルの貸し出しに加え、シャンプー・リンス・ドライヤーも用意しています。\n\nただし、「全部そろっているから何も持たなくていい」「トレーニング終了後は、いつでも使える」というわけではありません。この記事では、THE REV.で使えるものと、自分で用意しておきたいものを整理します。\n\n## シャワーは、追加料金・事前申告なしで利用できます\n\nTHE REV.では、トレーニング後のシャワー利用に追加料金はかかりません。利用することを、予約時にあらかじめ申告しておく必要もありません。「使うと言っていなかったから、今日は使えないのかな」と気にせず、利用を考えていただけます。\n\nまた、空いていれば、トレーニングの時間が終わったあとでも利用できます。ここで大切なのは、**終了後の利用は、そのときの空き状況による**という点です。毎回必ず使えることや、何分間使えることをお約束するものではありません。\n\n「事前申告がいらないこと」と「希望する時刻に必ず利用できること」は別です。次の予定が決まっている日は、トレーニングだけでなく、その後の身支度まで含めて時間に余裕を持たせておくと予定を組みやすくなります。当日の利用のタイミングが気になる場合は、スタッフにお尋ねください。\n\n## 用意しているものは、タオルと洗髪・乾髪用品\n\nシャワーまわりで用意しているのは、次のものです。\n\n- シャワー用タオルの貸し出し\n- シャンプー\n- リンス\n- ドライヤー\n\nタオルやドライヤーを自分で持ち歩くかどうか、迷う方もいると思います。THE REV.には上記の用意があるので、荷物を考えるときの目安にしてください。普段使っているものを使いたい方は、ご自身のものを持参する準備でも構いません。\n\n一方で、上記以外のアメニティは置いていません。ボディソープや洗顔料、化粧水、整髪料などを使いたい場合は、必要なものをご自身で用意してください。「シャワーがある」と聞くと、洗うものから身支度の道具まで一式そろっているように感じるかもしれませんが、備品の範囲を知っておくと、当日に困りにくくなります。\n\n## 持ち物は「次にどこへ行くか」から考える\n\n同じトレーニング後でも、帰宅する日と、そのまま仕事や用事へ向かう日では、必要な準備が変わります。まずは、その日の次の予定を思い浮かべてみてください。\n\nたとえば、そのまま帰宅するなら、着替えや自分が使いたい洗浄用品を中心に準備する方法があります。仕事や人と会う予定があるなら、外出用の着替えに加え、普段の身支度で使うものも確認しておくと安心です。ここで挙げているのは持ち物を考えるための例で、すべてを持参する必要があるわけではありません。\n\n確認するときは、次の三つに分けると整理しやすくなります。\n\n1. 着替えるためのもの：下着や、運動後に着る服など。\n2. 洗うためのもの：備え付け以外で、自分が使いたいもの。\n3. 整えるためのもの：スキンケア用品や整髪料など、外出前に必要なもの。\n\n毎回の荷物を増やすよりも、その日の予定に合わせて選ぶ。そのうえで、使い終わった衣類を入れる袋なども自分で用意しておくと、帰りの荷物をまとめやすくなります。\n\n## 「運動が終わる時刻」と「出発する時刻」を分けておく\n\nトレーニングの終了時刻を、そのまま次の場所へ向けて出発できる時刻として考えると、身支度の時間が抜けてしまいます。シャワーを使い、髪を乾かし、着替えるなら、そのための時間も必要です。\n\nかかる時間は、髪の長さや身支度の内容などによって変わります。「誰でも何分あれば十分」と決めず、自分が普段どのくらい時間を使うかを目安にしてください。さらに、終了後のシャワー利用は空き状況によるため、予定を詰めすぎない組み方がおすすめです。\n\nTHE REV.は、シャワーと更衣の設備を使って、運動のあとの予定につなげる準備ができる場所です。追加料金・事前申告は不要で、シャワー用の貸出タオルとシャンプー・リンス・ドライヤーがあります。必要なものだけ持参し、その日の空き状況と身支度の時間を見ながら、無理のない予定を組んでみてください。初めての方は、[THE REV.のトレーニング案内](https://therev-lab.com/price.html#cat-training)もご覧ください。",
+    "published_url": null,
+    "category_label": "GYM GUIDE",
+    "image_attempts": 1,
+    "image_job_path": "editorial/hybrid-image-jobs/after-training-shower-changing-the-rev.json",
+    "image_qa_model": "gpt-5.6-sol-visual-qc",
+    "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+    "publish_status": "NOT_PUBLISHED",
+    "editorial_source": "the-rev-editorial-ai",
+    "gbp_image_status": "READY",
+    "image_checked_at": "2026-11-01T00:33:27.678+00:00",
+    "image_last_error": null,
+    "image_asset_ready": true,
+    "image_source_path": "assets/images/editorial-sources/shower-changing-IMG0651-20261031.jpg",
+    "gbp_image_attempts": 0,
+    "image_series_label": "COLUMN",
+    "publish_commit_sha": null,
+    "editorial_sync_hash": "81b2fe49ebc785e52bf73f37da52506c760e07edad8da72bc7d4cf0f67110825",
+    "editorial_synced_at": "2026-10-31T02:09:37.694+00:00",
+    "image_asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+    "publish_verified_at": null,
+    "editorial_content_id": "BLOG-20261101-c36b34",
+    "editorial_week_start": "2026-10-31",
+    "gbp_image_checked_at": "2026-11-01T00:33:27.678+00:00",
+    "gbp_image_last_error": null,
+    "image_brand_qa_score": 8,
+    "image_category_label": "GYM GUIDE",
+    "image_headline_short": "ジムのあと、\n出かけよう。",
+    "image_qa_report_path": "editorial/image-qa/after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.json",
+    "image_render_version": "rev-column-reference-v2.3-hybrid",
+    "image_style_template": "rev-column-reference-v2",
+    "publish_committed_at": null,
+    "published_content_sha": null,
+    "image_generation_model": "gpt-image-hybrid",
+    "gbp_image_asset_version": "reference-v26-grounded-shower-20261031-work-r1"
+  },
+  "owner_publish_permission": {
+    "active": true,
+    "can_publish": true
+  }
+}

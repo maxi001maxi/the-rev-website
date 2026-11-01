@@ -1,0 +1,48 @@
+name: Shower CMS read-only publication preflight
+on:
+  push:
+    branches: [work/shower-draft-20261101]
+    paths: ['.github/workflows/shower-prepublication-preflight.yml']
+permissions:
+  contents: write
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Run unchanged CMS preflight on freshly read actual draft snapshot
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          import {runPreflight} from './lib/publishFlow.mjs';
+          const file='editorial/prepublication/2026-11-01-shower/CMS_VERIFIED_SNAPSHOT.json';
+          const snapshot=JSON.parse(fs.readFileSync(file));const d=snapshot.draft;
+          if(d.id!=='e63749b5-d8d2-460f-a4c1-e75e91aec1ee'||d.status!=='draft'||d.publish_status!=='NOT_PUBLISHED'||!snapshot.owner_publish_permission.active||!snapshot.owner_publish_permission.can_publish)throw Error('Draft or publisher snapshot mismatch');
+          const supabase={from(table){if(table!=='admin_article_drafts')throw Error('Unexpected table');return {select(){return this;},eq(k,v){if(k!=='id'||v!==d.id)throw Error('Unexpected draft');return this;},async maybeSingle(){return {data:d,error:null};}};}};
+          const p=await runPreflight({supabase,articleId:d.id,actor:'automation'});
+          const out={checked_at:new Date().toISOString(),method:'Unchanged CMS runPreflight using exact current database snapshot; GitHub main and live image checks use real connections.',snapshot_sha256:createHash('sha256').update(fs.readFileSync(file)).digest('hex'),owner_publish_permission:snapshot.owner_publish_permission,ok:p.ok,checks:p.checks,blocker:p.blocker,targetPath:p.targetPath,canonical:p.canonical,blog_published:false,external_ai_api_calls:0};
+          fs.writeFileSync('editorial/prepublication/2026-11-01-shower/CMS_PREFLIGHT_RESULT.json',JSON.stringify(out,null,2)+'\n');
+          console.log(JSON.stringify(out));
+          if(!p.ok)process.exitCode=1;
+          JS
+      - name: Retain actual preflight result without publishing
+        if: always()
+        run: |
+          set -euo pipefail
+          test -f editorial/prepublication/2026-11-01-shower/CMS_PREFLIGHT_RESULT.json
+          git add -- editorial/prepublication/2026-11-01-shower/CMS_PREFLIGHT_RESULT.json
+          git -c user.name='THE REV Editorial QC' -c user.email='actions@users.noreply.github.com' commit -m 'Record actual CMS prepublication checks; no article published'
+          git push origin HEAD:work/shower-draft-20261101
