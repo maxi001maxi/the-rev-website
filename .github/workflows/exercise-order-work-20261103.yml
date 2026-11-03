@@ -1,0 +1,43 @@
+name: Exercise order draft - Work preparation
+on:
+  push:
+    branches: [work/exercise-order-draft-20261103]
+    paths: ['.github/workflows/exercise-order-work-20261103.yml']
+permissions:
+  contents: write
+concurrency:
+  group: exercise-order-work-20261103
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate text and prepare canonical image plan without AI API
+        run: node editorial/prepublication/2026-11-03-exercise-order/prepare.mjs
+      - name: Save manual Work job and planning evidence
+        run: |
+          set -euo pipefail
+          git add -- editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json editorial/prepublication/2026-11-03-exercise-order/PLAN.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Prepare grounded exercise order image job for Work; no AI API'
+          git push origin HEAD:work/exercise-order-draft-20261103
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: exercise-order-work-plan-${{ github.run_id }}
+          path: |
+            editorial/prepublication/2026-11-03-exercise-order/
+            editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json
