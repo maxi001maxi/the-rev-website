@@ -34,6 +34,7 @@ jobs:
           import fs from 'node:fs';import {preflightEditorialImage} from './lib/editorialProductionImagePreflight.mjs';
           const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json'));
           if(j.automation.mode!=='manual-work-recovery-v1'||j.execution.ai_api_calls_allowed!==false)throw Error('No-AI-API contract missing');
+          const {ensureCopy}=await import('./lib/editorialAutomatedHybridImage.mjs');const copyHistory=fs.readdirSync('editorial/hybrid-image-jobs').filter(p=>p.endsWith('.json')&&p!=='_template.json').map(p=>JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/'+p))).filter(x=>x.slug!==j.slug).map(x=>({imageHeadlineShort:x.image_headline_short}));if(ensureCopy({title:j.article_title,image_headline_short:j.image_headline_short},copyHistory)!==j.image_headline_short)throw Error('Copy contract mismatch');
           const r=preflightEditorialImage(j,JSON.parse(fs.readFileSync('editorial/automated-image-sources.json')),{requireStrict:true});
           if(!r.pass)throw Error(JSON.stringify(r));fs.writeFileSync('editorial/prepublication/2026-11-03-exercise-order/FREE_PREFLIGHT.json',JSON.stringify(r,null,2)+'\n');
           JS
@@ -53,3 +54,4 @@ jobs:
             assets/images/blog/og/*strength-training-exercise-order-first-exercise*
             assets/images/gbp/*strength-training-exercise-order-first-exercise*
             editorial/prepublication/2026-11-03-exercise-order/FREE_PREFLIGHT.json
+# Shortened editorial copy keeps natural hierarchy at canonical minimum font sizes.

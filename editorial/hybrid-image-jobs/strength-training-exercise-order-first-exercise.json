@@ -3,7 +3,7 @@
   "article_title": "筋トレは何から始める？最初の種目とウォーミングアップの決め方",
   "category_label": "TRAINING",
   "column_label": "COLUMN",
-  "image_headline_short": "最初の種目は、\n目的で選ぶ。",
+  "image_headline_short": "種目の順番、\n目的から。",
   "image_style_template": "rev-column-reference-v2",
   "policy_revision": "editorial-thumbnail-v2.4",
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
@@ -622,7 +622,7 @@
     "repeated_due_to_relevance": false
   },
   "max_generation_attempts": 1,
-  "typography_emphasis_text": "目的で選ぶ。",
+  "typography_emphasis_text": "目的から。",
   "execution": {
     "operator": "ChatGPT Work",
     "content_id": "BLOG-20261103-9b1ae7",
