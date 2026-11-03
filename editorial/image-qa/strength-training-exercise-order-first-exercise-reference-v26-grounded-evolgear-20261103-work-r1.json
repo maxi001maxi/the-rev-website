@@ -1488,5 +1488,8 @@
   "publish_requires_human_approval": true,
   "external_ai_api_calls_this_review": 0,
   "blog_published": false,
-  "gbp_posted": false
+  "gbp_posted": false,
+  "xserver_live_verify_passed": true,
+  "gbp_xserver_live_verify_passed": true,
+  "bridge_sync_method": "Canonical normalizeArticleInput + validateBridgeEnvelope + normalizeBridgeMetadata + computeEditorialSyncHash via connected operator; no paid AI API"
 }

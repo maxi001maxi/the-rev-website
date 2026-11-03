@@ -10,9 +10,10 @@
   "qa_report_path": "editorial/image-qa/strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.json",
   "attempts_total": 1,
   "max_attempts": 1,
-  "xserver_verified": false,
+  "xserver_verified": true,
   "actual_qa_provider": "current ChatGPT conversation",
   "ai_api_calls_allowed": false,
   "last_error": "",
-  "updated_at": "2026-11-03T07:38:16.247Z"
+  "updated_at": "2026-11-03T07:38:16.247Z",
+  "xserver_verified_at": "2026-11-03T07:41:20.605Z"
 }
