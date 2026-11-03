@@ -1,0 +1,18 @@
+{
+  "slug": "strength-training-exercise-order-first-exercise",
+  "status": "READY_CANDIDATE",
+  "asset_version": "reference-v26-grounded-evolgear-20261103-work-r1",
+  "job_path": "editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json",
+  "generated_scene_path": "assets/images/editorial-generated/strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1-scene.jpg",
+  "thumbnail": "assets/images/blog/thumb-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+  "og_image": "assets/images/blog/og/og-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+  "qa_report_path": "editorial/image-qa/strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.json",
+  "attempts_total": 1,
+  "max_attempts": 1,
+  "xserver_verified": false,
+  "actual_qa_provider": "current ChatGPT conversation",
+  "ai_api_calls_allowed": false,
+  "last_error": "",
+  "updated_at": "2026-11-03T07:38:16.247Z"
+}

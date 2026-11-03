@@ -630,6 +630,7 @@
     "qc_mode": "in-conversation",
     "generation_max_calls": 0,
     "independent_qc_max_calls": 0,
-    "owner_qc_method_override": "Owner requests all writing, generation and QC in this ChatGPT Work conversation; no paid AI API; stop at prepublication draft."
+    "owner_qc_method_override": "2026-11-03: Owner requests this conversation to complete writing, image generation and QC without paid AI API calls, stopping at the CMS prepublication draft.",
+    "actual_qa_provider": "current ChatGPT conversation"
   }
 }
