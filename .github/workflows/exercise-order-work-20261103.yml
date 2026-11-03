@@ -1,4 +1,4 @@
-name: Exercise order draft - Work preparation
+name: Exercise order draft - Work image rendering
 on:
   push:
     branches: [work/exercise-order-draft-20261103]
@@ -9,13 +9,9 @@ concurrency:
   group: exercise-order-work-20261103
   cancel-in-progress: false
 jobs:
-  prepare:
+  render:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
-      GITHUB_REPO: ${{ github.repository }}
-      GITHUB_BRANCH: main
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,20 +22,34 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Validate text and prepare canonical image plan without AI API
-        run: node editorial/prepublication/2026-11-03-exercise-order/prepare.mjs
-      - name: Save manual Work job and planning evidence
+      - name: Install browser and Japanese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npx playwright install --with-deps chromium
+      - name: Canonical free preflight and fixed overlay
         run: |
           set -euo pipefail
-          git add -- editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json editorial/prepublication/2026-11-03-exercise-order/PLAN.json
-          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Prepare grounded exercise order image job for Work; no AI API'
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {preflightEditorialImage} from './lib/editorialProductionImagePreflight.mjs';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json'));
+          if(j.automation.mode!=='manual-work-recovery-v1'||j.execution.ai_api_calls_allowed!==false)throw Error('No-AI-API contract missing');
+          const r=preflightEditorialImage(j,JSON.parse(fs.readFileSync('editorial/automated-image-sources.json')),{requireStrict:true});
+          if(!r.pass)throw Error(JSON.stringify(r));fs.writeFileSync('editorial/prepublication/2026-11-03-exercise-order/FREE_PREFLIGHT.json',JSON.stringify(r,null,2)+'\n');
+          JS
+          npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json
+      - name: Save rendered assets for conversation review
+        run: |
+          set -euo pipefail
+          git add -- assets/images/blog/*strength-training-exercise-order-first-exercise* assets/images/blog/og/*strength-training-exercise-order-first-exercise* assets/images/gbp/*strength-training-exercise-order-first-exercise* editorial/prepublication/2026-11-03-exercise-order/FREE_PREFLIGHT.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Render exercise order image formats and actual 320/400 previews; pending Work QC'
           git push origin HEAD:work/exercise-order-draft-20261103
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: exercise-order-work-plan-${{ github.run_id }}
+          name: exercise-order-work-render-${{ github.run_id }}
           path: |
-            editorial/prepublication/2026-11-03-exercise-order/
-            editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json
-# Manual article-specific side rehearsal; canonical quality gates unchanged.
-# First-exercise movement rehearsal: canonical training_execution intent.
+            assets/images/blog/*strength-training-exercise-order-first-exercise*
+            assets/images/blog/og/*strength-training-exercise-order-first-exercise*
+            assets/images/gbp/*strength-training-exercise-order-first-exercise*
+            editorial/prepublication/2026-11-03-exercise-order/FREE_PREFLIGHT.json
