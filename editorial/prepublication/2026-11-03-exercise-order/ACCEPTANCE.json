@@ -1,0 +1,27 @@
+{
+  "status": "CONVERSATION_QC_PASS_XSERVER_VERIFIED",
+  "run_id": "41597893854",
+  "asset_version": "reference-v26-grounded-evolgear-20261103-work-r1",
+  "image_checks": [
+    {
+      "path": "assets/images/blog/thumb-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+      "sha256": "a0158ee4454f8ba85cc158d35693c48a3b2ceaf28a036b2e848842547112a3ef",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/blog/og/og-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+      "sha256": "e5782ef68da60a962512194f2025beb6aed06827ac89a770f7a885e46bb046a7",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/gbp/gbp-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+      "sha256": "631397f6bcce93f6d0e45886150e2378f9508444f7a916a4ee2e32590de28752",
+      "http_status": 200
+    }
+  ],
+  "article_http_status": 404,
+  "blog_published": false,
+  "gbp_posted": false,
+  "owner_publish_approval": false,
+  "external_ai_api_calls": 0
+}
