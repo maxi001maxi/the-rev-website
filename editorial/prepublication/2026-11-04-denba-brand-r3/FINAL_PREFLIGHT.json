@@ -1,0 +1,139 @@
+{
+  "ok": true,
+  "mode": "create",
+  "checks": [
+    {
+      "id": "auth",
+      "label": "認証",
+      "status": "skip",
+      "message": "Editorial Bridgeのサーバー間認証で実行しています。"
+    },
+    {
+      "id": "publisher",
+      "label": "Publisher権限",
+      "status": "skip",
+      "message": "自動化は公開しません。Human Publish時に権限を再確認します。"
+    },
+    {
+      "id": "draft",
+      "label": "Draft存在",
+      "status": "ok",
+      "message": "下書きを読み込みました。"
+    },
+    {
+      "id": "required",
+      "label": "必須項目",
+      "status": "ok",
+      "message": "必要な項目はすべて入力されています。"
+    },
+    {
+      "id": "slug_format",
+      "label": "Slug形式",
+      "status": "ok",
+      "message": "/blog/denba-health-effects-research-evidence/ として公開されます。"
+    },
+    {
+      "id": "independent_text_qc",
+      "label": "本文の独立QC",
+      "status": "ok",
+      "message": "現在の本文と独立QC証拠が一致しています。"
+    },
+    {
+      "id": "image_review_gate",
+      "label": "画像Review Gate",
+      "status": "ok",
+      "message": "HYBRID_GENERATED / trainer absent / generated customer / recent-4 reuse check PASS。"
+    },
+    {
+      "id": "image_release",
+      "label": "記事画像",
+      "status": "ok",
+      "message": "旧5記事参照 rev-column-reference-v2 / GPT Image hybrid / editorial-thumbnail-v2.4 / rev-column-v24-fixed-overlay-v1 / generated customer + real THE REV. environment / Brand QA PASS。"
+    },
+    {
+      "id": "github_connection",
+      "label": "GitHub接続",
+      "status": "ok",
+      "message": "maxi001maxi/the-rev-website @ main へ接続できました。"
+    },
+    {
+      "id": "image_assets",
+      "label": "画像3形式",
+      "status": "ok",
+      "message": "GitHubの3画像を確認しました。"
+    },
+    {
+      "id": "image_live",
+      "label": "本番画像反映",
+      "status": "ok",
+      "message": "XserverとGitHubの3画像SHA256一致。"
+    },
+    {
+      "id": "github_target",
+      "label": "GitHub上のslug衝突",
+      "status": "ok",
+      "message": "content/blog/denba-health-effects-research-evidence.md は未使用です（新規作成）。"
+    },
+    {
+      "id": "source_sync",
+      "label": "source_path / source_sha",
+      "status": "ok",
+      "message": "新規公開のため未設定です（公開成功後に保存されます）。"
+    }
+  ],
+  "blocker": null,
+  "targetPath": "content/blog/denba-health-effects-research-evidence.md",
+  "publicUrl": "/blog/denba-health-effects-research-evidence/",
+  "github": {
+    "configured": true,
+    "repo": "maxi001maxi/the-rev-website",
+    "branch": "main",
+    "missing": [],
+    "currentSha": null,
+    "htmlUrl": null
+  },
+  "production_recovery": {
+    "version": "v0.8.2",
+    "stage": "REVIEW_READY",
+    "last_successful_stage": "REVIEW_READY",
+    "ready_for_owner_publish": true,
+    "next_action": "OWNER_PUBLISH",
+    "stopped_reason": null,
+    "human_publish_required": true,
+    "automatic_publish": false,
+    "text_qc": {
+      "pass": true,
+      "checks": {
+        "proof_present": true,
+        "evidence_recorded": true,
+        "content_id_matches": true,
+        "independent_pass": true,
+        "body_matches": true
+      },
+      "missing": []
+    },
+    "bridge_synced": true,
+    "reusable_artifacts": {
+      "body_sha256": "46d53ade68b3577eed04c308fbc7c46fe198196cb830e770645552307a8bf2ab",
+      "image_asset_version": "reference-v26-denba-health-20261104-r3",
+      "image_job_path": "editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json",
+      "thumbnail": "/assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+      "og_image": "/assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+      "gbp_image": "/assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg"
+    },
+    "api_usage": {
+      "generation_attempts_reported": 1,
+      "qc_calls": null,
+      "confirmed_cost": null
+    }
+  },
+  "checked_at": "2026-11-04T02:19:51.860Z",
+  "actual_cms_updated_at": "2026-11-04T02:16:21.221176+00:00",
+  "body_sha256": "46d53ade68b3577eed04c308fbc7c46fe198196cb830e770645552307a8bf2ab",
+  "db_source": "Exact connected production Supabase readback; user_id omitted from public verification snapshot",
+  "canonical_preflight": "Unmodified lib/publishFlow.mjs runPreflight",
+  "external_ai_api_calls": 0,
+  "blog_published": false,
+  "gbp_posted": false,
+  "owner_publish_approval": false
+}
