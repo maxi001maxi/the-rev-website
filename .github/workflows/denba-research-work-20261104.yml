@@ -1,4 +1,4 @@
-name: DENBA research draft - Work preparation
+name: DENBA research draft - distinct research copy preparation
 on:
   push:
     branches: [work/denba-research-draft-20261104]
