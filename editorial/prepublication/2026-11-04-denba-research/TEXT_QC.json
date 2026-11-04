@@ -1,0 +1,13 @@
+{
+  "schema": "editorial-text-qc-v1",
+  "content_id": "BLOG-20261104-fbe3b0",
+  "body_sha256": "7967965b248ad9320427eb8876160dd2e362cb6732781dad14f830425ba4d031",
+  "evidence_sha256": "6e782f69ef433427986bd39f21f981dbf850b04cbebfd76a9f8ebc567e1b4451",
+  "pass": true,
+  "total": 19,
+  "source_unverified": false,
+  "issues": [],
+  "version": "v0.8.2",
+  "review_method": "ChatGPT Work in-conversation research and editorial review; no paid AI API",
+  "external_ai_api_calls": 0
+}
