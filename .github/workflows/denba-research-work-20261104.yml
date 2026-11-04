@@ -1,0 +1,43 @@
+name: DENBA research draft - Work preparation
+on:
+  push:
+    branches: [work/denba-research-draft-20261104]
+    paths: ['.github/workflows/denba-research-work-20261104.yml']
+permissions:
+  contents: write
+concurrency:
+  group: denba-research-work-20261104
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate text and prepare canonical image plan without AI API
+        run: node editorial/prepublication/2026-11-04-denba-research/prepare.mjs
+      - name: Save manual Work job and planning evidence
+        run: |
+          set -euo pipefail
+          git add -- editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json editorial/prepublication/2026-11-04-denba-research/PLAN.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Prepare grounded DENBA research image job for Work; no AI API'
+          git push origin HEAD:work/denba-research-draft-20261104
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: denba-research-work-plan-${{ github.run_id }}
+          path: |
+            editorial/prepublication/2026-11-04-denba-research/
+            editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json
