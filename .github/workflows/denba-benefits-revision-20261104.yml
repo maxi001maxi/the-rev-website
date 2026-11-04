@@ -1,0 +1,118 @@
+name: DENBA benefits revision - reviewed copy staging
+on:
+  push:
+    branches: [work/denba-benefits-revision-20261104]
+    paths: ['.github/workflows/denba-benefits-revision-20261104.yml']
+permissions:
+  contents: write
+concurrency:
+  group: denba-benefits-revision-20261104
+  cancel-in-progress: false
+jobs:
+  stage-reviewed-images:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Record actual in-conversation observations and canonical QC
+        run: node editorial/prepublication/2026-11-04-denba-benefits-r2/record-conversation-qc.mjs
+      - name: Verify conversation QC and exact image hashes
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          import {hybridQaReady} from './lib/editorialHybridImageFormat.mjs';
+          import {evaluateEditorialImageReview} from './lib/editorialImageReviewGate.mjs';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json'));
+          const qa=JSON.parse(fs.readFileSync(j.qa_report_path));
+          if(j.execution.ai_api_calls_allowed!==false||qa.actual_reviewer.external_ai_api_calls!==0||!j.execution.owner_qc_method_override)throw Error('Conversation QC authorization missing');
+          for(const [k,p] of Object.entries({source:j.automation.source_repo_path,scene:j.generated_scene_path,thumbnail:j.thumbnail,og:j.og_image,gbp:j.gbp_image})){
+            if(createHash('sha256').update(fs.readFileSync(p)).digest('hex')!==qa.scene_grounding.asset_hashes[k])throw Error('Image evidence drift: '+p);
+          }
+          const draft={slug:j.slug,image_asset_version:j.asset_version,image_render_version:j.render_version,image_strategy:j.image_strategy,image_source_path:j.automation.source_repo_path,gbp_image_asset_version:j.asset_version,image_qa:qa};
+          if(!hybridQaReady(draft,qa)||!evaluateEditorialImageReview({draft,qa}).ok)throw Error('Canonical review gate failed');
+          JS
+      - name: Required canonical tests
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run test:editorial-images
+          npm run test:phase-9
+          npm run test:daily-editorial-contract
+          npm run test:daily-editorial-state-machine
+          npm run test:daily-creator
+          npm run test:thumbnail-typography
+          npm run build:blog
+      - name: Stage only the three reviewed images
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json'));
+          fs.writeFileSync('.denba-research-images',[j.thumbnail,j.og_image,j.gbp_image].join('\n')+'\n');
+          JS
+          COMMANDS="$(mktemp)"
+          trap 'rm -f "$COMMANDS"' EXIT
+          {
+            echo 'set ftp:ssl-force true'
+            echo 'set ftp:ssl-protect-data true'
+            echo 'set ftp:passive-mode true'
+            echo 'set ssl:verify-certificate yes'
+            echo 'set net:max-retries 3'
+            echo 'set net:timeout 25'
+            echo 'mkdir -p /assets/images/blog'
+            echo 'mkdir -p /assets/images/blog/og'
+            echo 'mkdir -p /assets/images/gbp'
+            while IFS= read -r p; do echo "put \"$p\" -o \"/$p\""; done < .denba-research-images
+            echo bye
+          } > "$COMMANDS"
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp < "$COMMANDS"
+      - name: Verify staged image bytes and unpublished article
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json'));const checks=[];
+          for(const p of [j.thumbnail,j.og_image,j.gbp_image]){
+            const want=createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+            const r=await fetch('https://therev-lab.com/'+p+'?review-stage='+process.env.GITHUB_RUN_ID);
+            const got=createHash('sha256').update(Buffer.from(await r.arrayBuffer())).digest('hex');
+            if(!r.ok||want!==got)throw Error('Live image byte mismatch: '+p);
+            checks.push({path:p,sha256:got,http_status:r.status});
+          }
+          const article=await fetch('https://therev-lab.com/blog/'+j.slug+'/');
+          if(article.status===200)throw Error('Article unexpectedly published');
+          const p='editorial/image-operator-state/'+j.slug+'.json';const s=JSON.parse(fs.readFileSync(p));s.xserver_verified=true;s.xserver_verified_at=new Date().toISOString();s.last_error='';fs.writeFileSync(p,JSON.stringify(s,null,2)+'\n');
+          fs.writeFileSync('editorial/prepublication/2026-11-04-denba-benefits-r2/ACCEPTANCE.json',JSON.stringify({status:'CONVERSATION_QC_PASS_XSERVER_VERIFIED',run_id:process.env.GITHUB_RUN_ID,asset_version:j.asset_version,image_checks:checks,article_http_status:article.status,blog_published:false,gbp_posted:false,owner_publish_approval:false,external_ai_api_calls:0},null,2)+'\n');
+          JS
+      - name: Prepare exact canonical CMS payload
+        run: node editorial/prepublication/2026-11-04-denba-benefits-r2/prepare-cms-payload.mjs
+      - name: Save verified image staging evidence
+        run: |
+          set -euo pipefail
+          git add -- editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json editorial/prepublication/2026-11-04-denba-benefits-r2/CONVERSATION_QC.json editorial/image-operator-state/denba-health-effects-research-evidence.json editorial/image-qa/denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.json editorial/prepublication/2026-11-04-denba-benefits-r2/ACCEPTANCE.json editorial/prepublication/2026-11-04-denba-benefits-r2/CMS_PAYLOAD.json editorial/prepublication/2026-11-04-denba-benefits-r2/BRIDGE_VALIDATION.json
+          git -c user.name='THE REV Editorial Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Verify conversation-reviewed DENBA research images on Xserver; article remains draft'
+          git push origin HEAD:work/denba-benefits-revision-20261104
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: denba-research-conversation-qc-stage-${{ github.run_id }}
+          path: |
+            editorial/prepublication/2026-11-04-denba-benefits-r2/
+            editorial/image-operator-state/denba-health-effects-research-evidence.json
+
+

@@ -1,0 +1,11 @@
+import fs from 'node:fs';import path from 'node:path';
+import {normalizeArticleInput} from '../../../lib/supabaseAdmin.mjs';
+import {validateBridgeEnvelope} from '../../../lib/editorialBridge.mjs';
+import {validateEditorialTextQc} from '../../../lib/editorialProductionRecovery.mjs';
+import {evaluateEditorialLength} from '../../../lib/editorialReadiness.mjs';
+import {validateEditorialClosingForPublish} from '../../../lib/blogMarkdown.mjs';
+const dir='editorial/prepublication/2026-11-04-denba-benefits-r2';
+const body=JSON.parse(fs.readFileSync(dir+'/ARTICLE.json'));const env={...body,content_id:body.editorial_content_id,week_start:body.editorial_week_start,editorial_status:'READY',fact_check_status:'PASS',topic_gate_decision:'PUBLISH',article_type:'STANDARD'};
+const gate=validateBridgeEnvelope(env),normalized=normalizeArticleInput(body),text=validateEditorialTextQc(body.body_markdown,body.editorial_text_qc,{contentId:body.editorial_content_id}),length=evaluateEditorialLength('STANDARD',body.body_markdown),closing=validateEditorialClosingForPublish(body);
+if(gate.errors.length||normalized.errors||!text.pass||!length.pass||closing.length)throw Error(JSON.stringify({gate,normalized,text,length,closing}));
+const {selectUniqueImageHeadlineShort}=await import('../../../lib/editorialImageCopy.mjs');const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/'+body.slug+'.json'));const copy=selectUniqueImageHeadlineShort({imageHeadlineShort:j.image_headline_short},j.automation.recent_thumbnail_headlines,{window:25});if(copy.copy!==j.image_headline_short)throw Error('Copy repeats history');console.log(JSON.stringify({text_gate:text,length,closing,copy:copy.copy,external_ai_api_calls:0}));
