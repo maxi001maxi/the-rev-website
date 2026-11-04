@@ -1,0 +1,49 @@
+{
+  "target_date": "2026-11-04",
+  "content_id": "BLOG-20261104-fbe3b0",
+  "cms_id": "a0dadd28-52d6-4744-8ffd-18423ee98dfe",
+  "status": "REVIEW_READY",
+  "title": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+  "copy": "DENBA Health\n休息をケアに。",
+  "official_brand": "DENBA Health",
+  "notation_only_diff_pass": true,
+  "body_notation_changes": 2,
+  "approved_content_substance_unchanged": true,
+  "body_sha256": "46d53ade68b3577eed04c308fbc7c46fe198196cb830e770645552307a8bf2ab",
+  "asset_version": "reference-v26-denba-health-20261104-r3",
+  "canonical_master_readiness": {
+    "ok": true,
+    "checks": {
+      "blog_ready": true,
+      "fact_check_pass": true,
+      "length_pass": true,
+      "editorial_closing": true,
+      "gbp_row_exists": true,
+      "gbp_parent_matches": true,
+      "gbp_ready": true,
+      "gbp_image_ready": true,
+      "gbp_image_path": true,
+      "gbp_ratio": true,
+      "visual_qa": true,
+      "source_scene_grounding": true,
+      "scene_plausibility": true,
+      "xserver_verified": true,
+      "bridge_ready": true,
+      "review_url": true
+    },
+    "missing": []
+  },
+  "canonical_preflight_pass": true,
+  "browser_typography_run": 41759801309,
+  "notification": {
+    "channel": "GPT",
+    "actual_message_sent_at": "2026-11-04T02:22:23.142Z",
+    "review_url": "https://the-rev-website.vercel.app/admin/articles/review/?id=a0dadd28-52d6-4744-8ffd-18423ee98dfe"
+  },
+  "external_ai_api_calls": 0,
+  "additional_image_generation_calls": 0,
+  "blog_published": false,
+  "gbp_posted": false,
+  "owner_publish_approval": false,
+  "checked_at": "2026-11-04T02:22:23.142Z"
+}
