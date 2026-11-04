@@ -1,4 +1,4 @@
-name: DENBA benefits revision - fixed overlay rendering
+name: DENBA benefits revision - brand-first fixed overlay rendering
 on:
   push:
     branches: [work/denba-benefits-revision-20261104]
