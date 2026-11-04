@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-11-04T00:31:44.255Z",
+  "provider": "ChatGPT built-in image generation",
+  "external_ai_api_calls": 0,
+  "built_in_image_calls": 1,
+  "source_repo_path": "assets/images/photo-solution-denba.jpg",
+  "source_sha256": "ad6815de0c7fc7b9bc72b7ab387941aec5f708f2a1e986d885a4eacaedf79e16",
+  "generated_scene_path": "assets/images/editorial-generated/denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3-scene.png",
+  "generated_scene_sha256": "bf2a2677a6f6e383de5a8cc75136a61379d2903b1406262314f5dca8e39929e4",
+  "prompt": "Use case: photorealistic-natural. Create a new premium Japanese health-club editorial PHOTOGRAPH, landscape 1536x1024, no added headline/graphics. Image 1 is the exact THE REV. spatial/product reference, Image 2 and 3 supply only restrained warmth and photographic quality, NOT their composition, objects or people. Actual location: the reception corner in Image 1, warm beige textured wall, black THE REV. dimensional wall logo, right white light-switch panel, white glossy cabinet, a SINGLE actual black DENBA Health unit with silver bezel and subtle blue label on the cabinet. Preserve the actual unit's shape, scale and placement against that wall and cabinet. Don't invent mats or controls, machines, treatment equipment or oxygen-room interiors. No gym training equipment from style references.\nOne fictional Japanese adult MALE customer around 35, short natural black hair, plain dark-olive casual knit/crew-neck and charcoal trousers, no uniform or badge, takes a quiet seated pause near this actual equipment before deciding to try the service. He is in the right 55% foreground, shown in a medium seated portrait from waist up, eyes OPEN, calm thoughtful neutral face in three-quarter view, gaze gently angled toward the real DENBA, hands resting loosely in lap at bottom of frame; clearly no touching, no demonstrating, no medical treatment, no promise of improvement. Seat itself stays fully outside the crop; do not add visible furniture. Human is the visual protagonist, 60-70% of attention, face readable at thumbnail size. The real small DENBA unit remains visible behind/beside him, softly defocused but recognizable as the SAME device and same white cabinet with beige wall/black wall-logo anchor. Natural relative sizes (device is smaller than person's torso), coherent light and perspective; seamless single photograph, never pasted/cutout look. Use a close portrait composition and gentle realistic depth of field; background secondary. Warm-ivory editorial tone, authentic skin texture, subtle grain, soft natural indoor illumination. Keep upper/middle left 40% as the actual softly defocused beige wall/cabinet environment for later typography, NOT a blank white panel. No new written text, diagrams, glowing fields, medical charts, lab coats, trainer/staff, extra people or reflections, before-after, medals, equipment duplication, or exaggerated euphoria. Keep existing wall/device branding only as source-grounded background detail. Render image only.",
+  "visual_inspection_before_overlay": {
+    "customer_count": 1,
+    "presentation": "male",
+    "real_environment_preserved": true,
+    "denba_device_not_operated": true,
+    "medical_effect_not_visualized": true,
+    "seat_outside_crop": true,
+    "notes": "Actual source wall, logo, light switch and DENBA on white cabinet compared. One calm seated male foreground; no extra equipment, no trainer, no effect visualization. Final derivative inspection remains pending."
+  }
+}
