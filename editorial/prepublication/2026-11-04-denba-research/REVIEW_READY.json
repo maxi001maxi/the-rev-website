@@ -1,0 +1,53 @@
+{
+  "target_date": "2026-11-04",
+  "content_id": "BLOG-20261104-fbe3b0",
+  "cms_id": "a0dadd28-52d6-4744-8ffd-18423ee98dfe",
+  "review_url": "https://the-rev-website.vercel.app/admin/articles/review/?id=a0dadd28-52d6-4744-8ffd-18423ee98dfe",
+  "status": "REVIEW_READY",
+  "canonical_master_readiness": {
+    "ok": true,
+    "checks": {
+      "blog_ready": true,
+      "fact_check_pass": true,
+      "length_pass": true,
+      "editorial_closing": true,
+      "gbp_row_exists": true,
+      "gbp_parent_matches": true,
+      "gbp_ready": true,
+      "gbp_image_ready": true,
+      "gbp_image_path": true,
+      "gbp_ratio": true,
+      "visual_qa": true,
+      "source_scene_grounding": true,
+      "scene_plausibility": true,
+      "xserver_verified": true,
+      "bridge_ready": true,
+      "review_url": true
+    },
+    "missing": []
+  },
+  "final_preflight_ok": true,
+  "browser_typography_regression": {
+    "run_id": 41748319567,
+    "status": "success"
+  },
+  "master_rows": {
+    "blog": 29,
+    "gbp": 27,
+    "bridge": 36,
+    "queue": 32,
+    "selected_shortlist": 148
+  },
+  "notification": {
+    "channel": "GPT",
+    "status": "SENT",
+    "sent_at": "2026-11-04T00:41:34.085Z",
+    "summary": "本会話のコメントで実Review URL、REVIEW_READY、本文・画像・GBP案の準備完了、記事/GBP未公開を通知。LINE送信・到達は主張していない。"
+  },
+  "external_ai_api_calls": 0,
+  "built_in_image_generation_calls": 1,
+  "blog_published": false,
+  "gbp_posted": false,
+  "owner_publish_approval": false,
+  "checked_at": "2026-11-04T00:41:34.085Z"
+}
