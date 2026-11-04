@@ -613,7 +613,7 @@
     "qc_mode": "in-conversation",
     "generation_max_calls": 0,
     "independent_qc_max_calls": 0,
-    "owner_qc_method_override": "Owner requests all writing, generation and QC in this ChatGPT Work conversation; no paid AI API; stop at prepublication draft.",
+    "owner_qc_method_override": "Owner requests writing, generation and QC in this ChatGPT Work conversation without paid AI API; Nov4 chose DENBA research; stop at CMS prepublication draft.",
     "actual_generation_provider": "ChatGPT built-in image generation",
     "actual_qa_provider": "current ChatGPT conversation",
     "compatibility_model_fields_note": "generation_model / qa_model retain canonical compatibility identifiers; actual execution providers are recorded here and in actual_reviewer. No external AI API was called."
