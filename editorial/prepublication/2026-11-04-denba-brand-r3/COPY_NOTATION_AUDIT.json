@@ -1,0 +1,45 @@
+{
+  "canonical_copy_check": {
+    "copy": null,
+    "candidates": [
+      "DENBA Health\n休息をケアに。"
+    ],
+    "recentHeadlines": [
+      "種目の順番、\n目的から。",
+      "ジムのあと、\n出かけよう。",
+      "筋トレの呼吸、いつ吐く。",
+      "完全予約制と、\n貸切の違い。",
+      "グローブは、\n借りて始められる。",
+      "引っ張る方向で、\n動きが変わる。",
+      "痛みや体調は、\nどこまで伝える？",
+      "初回体験、\n何を選ぶ？",
+      "姿勢は、\n動きから見直す。",
+      "運動前は、\n動ける状態へ。",
+      "本体とマット、\n役割は別。",
+      "続けやすさで、\n選ぶ。",
+      "座り仕事、\n30分ごとに立つ？",
+      "怖くても、\n最初は基本から。",
+      "DENBAの基本\n電位空間",
+      "始める前に、\n状態を確かめる。",
+      "続けられる頻度を、\n最初に決める。",
+      "通いやすさまで、\n選ぶ基準に。",
+      "通いやすさまで、\n選ぶ基準に。",
+      "中では、静かに休むだけ。",
+      "DENBAって何？",
+      "DENBAって、\n何するもの？",
+      "酸素ルームって、\n何する場所？",
+      "耳抜きは、\n我慢しない。",
+      "設備だけで、\n決めない。"
+    ],
+    "blockedCandidates": [
+      "DENBA Health\n休息をケアに。"
+    ],
+    "exactHistoryCount": 24
+  },
+  "owner_requested_brand_spelling_correction": true,
+  "same_article": true,
+  "previous_copy": "デンバで、\n休息をケアに。",
+  "new_copy": "DENBA Health\n休息をケアに。",
+  "scope": "Only official English brand notation and line wrapping. Same approved care slogan. Repeated product name is expected and is not a new duplicate headline concept.",
+  "external_ai_api_calls": 0
+}
