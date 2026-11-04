@@ -1,4 +1,4 @@
-name: DENBA research draft - conversation QC and image staging
+name: DENBA research draft - verified conversation QC staging
 on:
   push:
     branches: [work/denba-research-draft-20261104]
@@ -104,7 +104,7 @@ jobs:
       - name: Save verified image staging evidence
         run: |
           set -euo pipefail
-          git add -- editorial/image-operator-state/denba-health-effects-research-evidence.json editorial/image-qa/denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.json editorial/prepublication/2026-11-04-denba-research/ACCEPTANCE.json editorial/prepublication/2026-11-04-denba-research/CMS_PAYLOAD.json editorial/prepublication/2026-11-04-denba-research/BRIDGE_VALIDATION.json
+          git add -- editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json editorial/prepublication/2026-11-04-denba-research/CONVERSATION_QC.json editorial/image-operator-state/denba-health-effects-research-evidence.json editorial/image-qa/denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.json editorial/prepublication/2026-11-04-denba-research/ACCEPTANCE.json editorial/prepublication/2026-11-04-denba-research/CMS_PAYLOAD.json editorial/prepublication/2026-11-04-denba-research/BRIDGE_VALIDATION.json
           git -c user.name='THE REV Editorial Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Verify conversation-reviewed DENBA research images on Xserver; article remains draft'
           git push origin HEAD:work/denba-research-draft-20261104
       - uses: actions/upload-artifact@v4
