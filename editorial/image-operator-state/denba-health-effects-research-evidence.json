@@ -1,19 +1,19 @@
 {
   "slug": "denba-health-effects-research-evidence",
   "status": "READY_CANDIDATE",
-  "asset_version": "reference-v26-denba-care-20261104-r2",
+  "asset_version": "reference-v26-denba-health-20261104-r3",
   "job_path": "editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json",
   "generated_scene_path": "assets/images/editorial-generated/denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3-scene.jpg",
-  "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.jpg",
-  "og_image": "assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.jpg",
-  "qa_report_path": "editorial/image-qa/denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.json",
+  "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+  "og_image": "assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+  "gbp_image": "assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+  "qa_report_path": "editorial/image-qa/denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.json",
   "attempts_total": 1,
   "max_attempts": 1,
   "xserver_verified": true,
   "actual_qa_provider": "current ChatGPT conversation",
   "ai_api_calls_allowed": false,
   "last_error": "",
-  "updated_at": "2026-11-04T01:04:41.294Z",
-  "xserver_verified_at": "2026-11-04T01:05:07.051Z"
+  "updated_at": "2026-11-04T02:14:51.325Z",
+  "xserver_verified_at": "2026-11-04T02:15:23.963Z"
 }
