@@ -1,0 +1,57 @@
+name: DENBA Health official notation - render
+on:
+  push:
+    branches: [work/denba-brand-notation-20261104]
+    paths: ['.github/workflows/denba-brand-notation-20261104.yml']
+permissions:
+  contents: write
+concurrency:
+  group: denba-benefits-revision-20261104
+  cancel-in-progress: false
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Install browser and Japanese fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          npx playwright install --with-deps chromium
+      - name: Validate revised text and copy
+        run: node editorial/prepublication/2026-11-04-denba-brand-r3/prepare-r3.mjs
+      - name: Canonical free preflight and fixed overlay
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {preflightEditorialImage} from './lib/editorialProductionImagePreflight.mjs';
+          const j=JSON.parse(fs.readFileSync('editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json'));
+          if(j.automation.mode!=='manual-work-recovery-v1'||j.execution.ai_api_calls_allowed!==false)throw Error('No-AI-API contract missing');
+          const r=preflightEditorialImage(j,JSON.parse(fs.readFileSync('editorial/automated-image-sources.json')),{requireStrict:true});
+          if(!r.pass)throw Error(JSON.stringify(r));fs.writeFileSync('editorial/prepublication/2026-11-04-denba-brand-r3/FREE_PREFLIGHT.json',JSON.stringify(r,null,2)+'\n');
+          JS
+          npm run image:render-hybrid-overlay -- editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json
+      - name: Save rendered assets for conversation review
+        run: |
+          set -euo pipefail
+          git add -- assets/images/blog/*denba-health-effects-research-evidence* assets/images/blog/og/*denba-health-effects-research-evidence* assets/images/gbp/*denba-health-effects-research-evidence* editorial/prepublication/2026-11-04-denba-brand-r3/FREE_PREFLIGHT.json editorial/prepublication/2026-11-04-denba-brand-r3/COPY_NOTATION_AUDIT.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Render DENBA research image formats and actual 320/400 previews; pending Work QC'
+          git push origin HEAD:work/denba-brand-notation-20261104
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: denba-research-work-render-${{ github.run_id }}
+          path: |
+            assets/images/blog/*denba-health-effects-research-evidence*
+            assets/images/blog/og/*denba-health-effects-research-evidence*
+            assets/images/gbp/*denba-health-effects-research-evidence*
+            editorial/prepublication/2026-11-04-denba-brand-r3/FREE_PREFLIGHT.json
