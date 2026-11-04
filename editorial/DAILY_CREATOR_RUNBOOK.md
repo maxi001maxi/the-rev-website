@@ -242,3 +242,10 @@ ONE_PASTEのconsistency-v1 runtime adapterは既存SupervisorのLength GateをST
 GitHub mergeはGASインストールの証明ではない。実行ログ・installed source・実Sheet readbackまで確認する。
 
 予備経路はreviewInputsByContentIdに実Blog/GBP/Bridge/Supabase QAを渡し、返されたreview_readinessがokの行だけREVIEW_READYへ進める。GBP行欠落は旧生成関数による復旧、またはBLOCKEDで止める。
+
+
+## ChatGPT WorkでGBPを作成・修正する場合の文体QC（2026-11-04）
+
+自動生成と同じ `editorial/gas/GoogleBusinessVoice_v081.gs` の `v081GbpVoiceInstructions_()` を先に読む。GASを呼ばないことは文体ルールを省略する理由にしない。通常は意味のある絵文字1〜2か所を自然に添える。数合わせ・連打・固定テンプレートを避け、安全条件や効果を軽く見せない。意図的に使わない場合はGBP notesに理由を残す。
+
+本文QCや画像READYと別に、親記事の事実を上限にした自然な文章、絵文字の適合、実際の改行、末尾の記事URL1回、直近原稿との構造重複を確認する。未公開は `[BLOG_URL]`、公開後は検証済み正式URLを使う。GBP notesへ結果を記録し、`22_GBP_POST` と「Googleビジネス投稿」の表示を保存後に読み戻す。Google投稿は従来どおり人間承認・人間操作で停止する。GAS本番反映の有無は別途実コードで確認し、GitHub保存や手動原稿の不備だけから推測しない。

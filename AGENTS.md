@@ -56,6 +56,14 @@ Hobby quotaをGit commit単位で消費しないため、`vercel.json` の `git.
 - 最終PublishとGBP投稿は人間承認で停止する。自動公開のSafety Gateは `lib/editorialAutoPublishGate.mjs`（Vercel env `AUTO_PUBLISH_ENABLED=true` と 08_SETTINGS `auto_publish=TRUE` の両方 + executor登録）。現在はexecutor未実装で、両方ONでも公開しない
 - Blogの公開履歴を `01_POST_HISTORY` に書かない（Instagramの企画・類似判定・実績同期が `post_id` で参照するため）。Blogの履歴はQueue / Bridge
 
+## Googleビジネス投稿の文体（自動・ChatGPT Work共通）
+
+- 正本は `editorial/gas/GoogleBusinessVoice_v081.gs` の `v081GbpVoiceInstructions_()` と `editorial/GBP_VOICE_URL_UPDATE_20261029.md`。GASを通さずこの場で書く場合・復旧・表記修正でも、作成前に読み、保存後の実原稿へ適用する。
+- 通常は意味のある絵文字を1〜2か所、内容に合う位置へ自然に添える。毎段落・連打・同じ絵文字と位置の固定化を避ける。医療・安全上の注意や効果保証を装飾しない。数合わせでなく相性を優先する。
+- GBPのQCは本文・画像のQCと分けて実施する。親記事との事実一致、自然な話し言葉、絵文字の意味と配置、改行、末尾URL1回、直近原稿との構造の重なりを確認し、結果をGBPのnotesへ記録する。通常題材が無絵文字なら見落としとして直す。意図的に省く場合は理由を記録する。
+- 未公開は `[BLOG_URL]`、公開後は検証済み正式URLへ同期する。保存した `22_GBP_POST` と実際の「Googleビジネス投稿」表示を読み戻す。本文の機械的なREADY判定や画像PASSだけでGBP文体まで合格としない。
+- この確認は有料AI APIを要しない。Google投稿・既存公開投稿の編集を実行した証拠にはしない。
+
 ## Editorial Image Improvement v1（開発中、OFFが正式）
 
 画質向上の開発工程・A/B評価・公開までの境界は `editorial/IMAGE_QUALITY_IMPROVEMENT_V1.md` を参照する。
