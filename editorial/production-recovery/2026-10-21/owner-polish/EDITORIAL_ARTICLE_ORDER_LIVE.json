@@ -1,0 +1,120 @@
+{
+  "url": "https://the-rev-website.vercel.app/admin/articles/",
+  "rows": [
+    {
+      "review": "/admin/articles/review/?id=ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+      "status": "DRAFT",
+      "title": "夜に筋トレしても眠れる？寝る前の時間と強さを決める目安"
+    },
+    {
+      "review": "/admin/articles/review/?id=2519f5a1-2ed9-4397-8a85-153354b4421a",
+      "status": "DRAFT",
+      "title": "パーソナルジム体験前に確認したい3つのこと｜料金・予約・退会"
+    },
+    {
+      "review": "/admin/articles/review/?id=89fcc8e3-e44f-4d82-afce-37ad9f29f2c2",
+      "status": "PUBLISHING",
+      "title": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと"
+    },
+    {
+      "review": "/admin/articles/review/?id=9eafdf0f-cc43-4ff7-a03a-5565abcb25ac",
+      "status": "PUBLISHING",
+      "title": "酸素ルームの中にあるDENBAって何？｜THE REV.での使い方をやさしく紹介"
+    },
+    {
+      "review": "/admin/articles/review/?id=9a1fd56a-be01-4687-9474-f2377dc7e978",
+      "status": "PUBLISHED",
+      "title": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由"
+    },
+    {
+      "review": "/admin/articles/review/?id=7347222b-cfff-4626-b040-30fb9ecc6185",
+      "status": "PUBLISHED",
+      "title": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと"
+    },
+    {
+      "review": "/admin/articles/review/?id=93ca4aad-b886-43cf-a40d-1b76d15b043e",
+      "status": "PUBLISHED",
+      "title": "運動前のストレッチは何分？ 筋トレ・ボクシングで変わる準備の順番"
+    },
+    {
+      "review": "/admin/articles/review/?id=881b5441-5a60-40ec-b1d1-9fa32806c332",
+      "status": "PUBLISHED",
+      "title": "DENBA Healthはマットに触れなくても使える？ 本体とマットの役割"
+    },
+    {
+      "review": "/admin/articles/review/?id=48e9c281-a2cd-4e30-880c-9d762288f984",
+      "status": "PUBLISHED",
+      "title": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い"
+    },
+    {
+      "review": "/admin/articles/review/?id=9cfa1d4c-f8dd-4fa0-98d1-63a3a12bb49e",
+      "status": "PUBLISHED",
+      "title": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方"
+    },
+    {
+      "review": "/admin/articles/review/?id=8c3c979a-3882-4f33-a5f4-22fe52206089",
+      "status": "PUBLISHED",
+      "title": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと"
+    },
+    {
+      "review": "/admin/articles/review/?id=38c56810-1275-413c-9dda-2b5c052ff824",
+      "status": "PUBLISHED",
+      "title": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理"
+    },
+    {
+      "review": "/admin/articles/review/?id=f854d60e-7124-42d7-9c79-d8bda41b0f2f",
+      "status": "PUBLISHED",
+      "title": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認"
+    },
+    {
+      "review": "/admin/articles/review/?id=9ad2cc86-30ed-4f6b-a170-4eeec42ffb97",
+      "status": "PUBLISHED",
+      "title": "筋トレ初心者は種目が少なくても効果はある？週の回数と始め方"
+    },
+    {
+      "review": "/admin/articles/review/?id=4b7b2a01-cc78-48fd-8bd8-76dfadff0ce8",
+      "status": "PUBLISHED",
+      "title": "新大宮で完全予約制のパーソナルジムを探す方へ｜THE REV.の設備と過ごし方"
+    },
+    {
+      "review": "/admin/articles/review/?id=5eb10f52-01d3-45cf-a2e5-98e8dc2bc972",
+      "status": "PUBLISHED",
+      "title": "酸素ルームの中では何をする？｜横になって過ごす時間の使い方"
+    },
+    {
+      "review": "/admin/articles/review/?id=96dcb907-97be-4bfb-a35b-023eb3c65c77",
+      "status": "PUBLISHED",
+      "title": "運動を始めたい。でも疲れそうで続かない人へ｜最初に決めるのは翌日の予定です"
+    },
+    {
+      "review": "/admin/articles/review/?id=e219ea44-6b54-4d8b-b1db-8f05a9da15fd",
+      "status": "PUBLISHED",
+      "title": "新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント"
+    },
+    {
+      "review": "/admin/articles/review/?id=db129ceb-75a9-4cce-b58c-9741fcb2416c",
+      "status": "PUBLISHED",
+      "title": "健康診断の結果を見て運動を始める前に。受診を優先したいサインと最初の一歩"
+    },
+    {
+      "review": "/admin/articles/review/?id=ff8d5381-bf18-453b-ab1b-5457452e3de0",
+      "status": "PUBLISHED",
+      "title": "筋肉量が増えない＝筋トレは無駄？体重計に出ない「3つの進歩」"
+    },
+    {
+      "review": "/admin/articles/review/?id=f11add0c-3073-4e58-a4f6-ba050403b82e",
+      "status": "PUBLISHED",
+      "title": "筋トレは毎回限界まで追い込むべき？フォームと翌日の疲労で決める目安"
+    },
+    {
+      "review": "/admin/articles/review/?id=9ed3b844-68c2-4918-9982-acec86de5743",
+      "status": "PUBLISHED",
+      "title": "運動する時間がないのにジムが続かない人へ。見直すのは30分より「行く前後」かもしれません"
+    },
+    {
+      "review": "/admin/articles/review/?id=d00065c1-c554-43fc-8c94-e892465a74de",
+      "status": "PUBLISHED",
+      "title": "仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安"
+    }
+  ]
+}
