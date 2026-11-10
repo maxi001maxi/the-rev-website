@@ -23,6 +23,8 @@
 .tb-pill-dark:hover{ background:#7a6045; color:#fff; }
 .tb-pill-outline{ display:inline-flex; align-items:center; min-height:48px; padding:0 24px; border:1px solid #1d1b18; font-weight:700; font-size:15px; border-radius:999px; transition:background .25s,color .25s; }
 .tb-pill-outline:hover{ background:#1d1b18; color:#f8f6f1; }
+.tb-menu-link{ display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:15px; color:#9a9188; cursor:default; }
+.tb-menu-link .ic{ font-size:14px; }
 .tb-arrow-circle{ width:28px; height:28px; border-radius:50%; background:#1d1b18; color:#f8f6f1; display:flex; align-items:center; justify-content:center; font-size:12px; flex:none; }
 
 /* フェードイン表示は既存の .reveal（assets/css/style.css）とmain.jsのIntersectionObserverをそのまま使う */
