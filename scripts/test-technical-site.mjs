@@ -17,7 +17,7 @@ if(root!=='.'){
    assert.equal(match[4],'?v='+expected,file+': current script bytes must replace a seven-day cached URL');seen.add(match[3]);
   }
  }
- assert.deepEqual([...seen].sort(),['home-v7','main','unified-navigation']);
+ assert.deepEqual([...seen].sort(),['main','unified-navigation']);
 }
 for(const name of ['index.html','solution.html']){
  const html=fs.readFileSync(`${root}/${name}`,'utf8');
@@ -43,7 +43,8 @@ for(const name of ['index.html','solution.html']){
  assert.equal(club.openingHoursSpecification.length,4);assert.equal(club.priceRange,undefined);
  assert.equal(club.aggregateRating,undefined);assert.equal(club.potentialAction.target,'https://cl.gyms.jp/t/CC2237480443/');
  const anchors=[...html.matchAll(/<a\b[^>]*>/g)].map(x=>x[0]).filter(x=>x.includes('https://cl.gyms.jp/'));
- assert.equal(anchors.length,7,`${name}: every header/body/footer/drawer/sticky CTA`);
+ const expectedBookingAnchors={'index.html':9,'solution.html':7}[name];
+ assert.equal(anchors.length,expectedBookingAnchors,`${name}: every header/body/footer/drawer/sticky CTA`);
  for(const tag of anchors){
   const placement=tag.match(/data-placement="([^"]+)"/)?.[1];assert.ok(placement);
   assert.match(tag,/data-track="reserve_click"/);

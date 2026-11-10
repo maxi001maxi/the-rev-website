@@ -11,7 +11,7 @@ const read=(relative)=>{const full=path.join(dist,relative);if(!fs.existsSync(fu
   const s=fs.readFileSync(full,'utf8');if(!s.includes('</html>')) throw new Error('Truncated HTML: '+relative);return s;};
 const pages=Object.fromEntries(Object.entries(routes).map(([route,file])=>[route,read(file)]));
 const top=pages['/'],rec=pages['/solution.html'];
-if(!top.includes('id="service"') || !top.includes('id="trial"') || !top.includes('ちゃんと向き合う時間')) throw new Error('Approved TOP markers or anchors missing');
+if(!top.includes('id="service"') || !top.includes('id="trial"') || !top.includes('今の動きを見て')) throw new Error('Approved TOP markers or anchors missing');
 if(!rec.includes('rv-denba') || !rec.includes('DENBA') || !rec.includes('id="top"')) throw new Error('Recovery markers/anchor missing');
 for(const [route,html] of Object.entries(pages)){
   const policy = preview ? 'noindex,nofollow' : 'index,follow';
