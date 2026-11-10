@@ -252,6 +252,90 @@
     window.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
   }
 
+  /* ---- 目的から選ぶ：4メニューを畳み、スクロール（またはタップ）で1つずつ開く ---- */
+  function initChoose(main) {
+    var box = $('[data-tbc]', main);
+    if (!box) return;
+    var stick = $('[data-tbc-stick]', box), list = $('.tbc-list', box);
+    var items = $$('[data-tbc-item]', box), dots = $$('.tbc-dots i', box);
+    var n = items.length, cur = 0, scrolly = false, STEP = 0, lockUntil = 0;
+    function hdrH() { return parseFloat(getComputedStyle(main).getPropertyValue('--tb-hdr')) || 64; }
+    function set(i) {
+      if (i === cur) return;
+      cur = i;
+      items.forEach(function (it, k) {
+        var on = k === i;
+        it.classList.toggle('is-on', on);
+        $('.tbc-row', it).setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+      dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
+    }
+    function measure() {
+      var pc = window.innerWidth >= 1000, maxIn = 0;
+      items.forEach(function (it) { var h = $('.tbc-in', it).offsetHeight; if (h > maxIn) maxIn = h; });
+      if (pc) {
+        box.style.removeProperty('--tbc-h');
+        var rows = 0; items.forEach(function (it) { rows += $('.tbc-row', it).offsetHeight + 1; });
+        list.style.setProperty('--tbc-pc-h', Math.max(rows, maxIn + 24) + 'px');
+      } else {
+        list.style.removeProperty('--tbc-pc-h');
+        box.style.setProperty('--tbc-h', maxIn + 'px');
+      }
+      // 一覧が画面に収まるときだけ、スクロールで順に開く（収まらない・動きを減らす設定ならタップのみ）
+      box.classList.remove('is-scrolly'); box.style.height = '';
+      var stickH = stick.offsetHeight;
+      scrolly = !reduce && stickH + hdrH() + 24 <= window.innerHeight;
+      if (scrolly) {
+        STEP = Math.round(Math.min(window.innerHeight * 0.32, 260));
+        box.classList.add('is-scrolly');
+        box.style.height = (stickH + (n - 1) * STEP) + 'px';
+      }
+      onScroll();
+    }
+    function onScroll() {
+      if (!scrolly || Date.now() < lockUntil) return;
+      var p = (hdrH() + 8 - box.getBoundingClientRect().top) / STEP;
+      set(Math.max(0, Math.min(n - 1, Math.floor(p + 0.5))));
+    }
+    items.forEach(function (it, i) {
+      $('.tbc-row', it).addEventListener('click', function () {
+        set(i);
+        if (scrolly) {
+          lockUntil = Date.now() + 800;
+          var y = box.getBoundingClientRect().top + window.scrollY - (hdrH() + 8) + i * STEP;
+          window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+    });
+    var t = 0;
+    window.addEventListener('scroll', function () { if (!t) t = requestAnimationFrame(function () { t = 0; onScroll(); }); }, { passive: true });
+    var rt = 0;
+    window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(measure, 120); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    window.addEventListener('load', measure);
+    measure();
+  }
+
+  /* ---- スマホ下部の固定バー：ファーストビューを過ぎたら出す（参照版と同じ条件） ---- */
+  function initBar(main) {
+    var bar = $('[data-tb-bar]', main);
+    if (!bar) return;
+    var links = $$('a', bar), shown = null;
+    function tick() {
+      var on = window.innerWidth < 760 && window.scrollY > window.innerHeight * 0.75 && !document.body.classList.contains('rev-menu-open');
+      if (on === shown) return;
+      shown = on;
+      bar.classList.toggle('is-on', on);
+      bar.setAttribute('aria-hidden', on ? 'false' : 'true');
+      links.forEach(function (a) { a.setAttribute('tabindex', on ? '0' : '-1'); });
+    }
+    var t = 0;
+    window.addEventListener('scroll', function () { if (!t) t = requestAnimationFrame(function () { t = 0; tick(); }); }, { passive: true });
+    window.addEventListener('resize', tick);
+    new MutationObserver(tick).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    tick();
+  }
+
   function init() {
     var main = document.querySelector('main.tb-main');
     if (!main) return;
@@ -266,6 +350,8 @@
     initVoices(main);
     initTabs(main);
     initLightbox(main);
+    initChoose(main);
+    initBar(main);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

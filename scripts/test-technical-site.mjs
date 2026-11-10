@@ -43,7 +43,7 @@ for(const name of ['index.html','solution.html']){
  assert.equal(club.openingHoursSpecification.length,4);assert.equal(club.priceRange,undefined);
  assert.equal(club.aggregateRating,undefined);assert.equal(club.potentialAction.target,'https://cl.gyms.jp/t/CC2237480443/');
  const anchors=[...html.matchAll(/<a\b[^>]*>/g)].map(x=>x[0]).filter(x=>x.includes('https://cl.gyms.jp/'));
- const expectedBookingAnchors={'index.html':10,'solution.html':7}[name];
+ const expectedBookingAnchors={'index.html':11,'solution.html':7}[name];
  assert.equal(anchors.length,expectedBookingAnchors,`${name}: every header/body/footer/drawer/sticky CTA`);
  for(const tag of anchors){
   const placement=tag.match(/data-placement="([^"]+)"/)?.[1];assert.ok(placement);
