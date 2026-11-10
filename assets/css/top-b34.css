@@ -25,6 +25,11 @@
 .tb-pill-outline:hover{ background:#1d1b18; color:#f8f6f1; }
 .tb-menu-link{ display:inline-flex; align-items:center; gap:12px; min-height:48px; font-size:15.5px; font-weight:700; color:#1d1b18; cursor:default; }
 .tb-menu-link .ic{ width:32px; height:32px; flex:0 0 auto; border-radius:50%; background:#1d1b18; color:#fbfaf7; display:flex; align-items:center; justify-content:center; font-size:13px; }
+.tb-narrow-only{ display:inline; }
+@media(min-width:760px){ .tb-narrow-only{ display:none; } }
+.tb-price-dlink{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; margin-top:6px; }
+.tb-menu-link-sm{ gap:10px; min-height:44px; font-size:14px; }
+.tb-menu-link-sm .ic{ width:26px; height:26px; font-size:11px; }
 .tb-arrow-circle{ width:28px; height:28px; border-radius:50%; background:#1d1b18; color:#f8f6f1; display:flex; align-items:center; justify-content:center; font-size:12px; flex:none; }
 
 /* フェードイン表示は既存の .reveal（assets/css/style.css）とmain.jsのIntersectionObserverをそのまま使う */
@@ -55,9 +60,14 @@
 .tb-fv-chip:hover span{ background:rgba(251,250,247,.16); }
 .tb-fv-chips p{ margin:0; font-size:clamp(15.5px,1.15vw,17px); line-height:1.8; color:#f4efe7; }
 .tb-fv-cta{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 26px; }
+.tb-fv-cta-wide{ display:none; }
+@media(min-width:760px){ .tb-fv-cta-wide{ display:flex; } .tb-fv-cta-narrow{ display:none; } }
 .tb-fv-cta-book{ display:inline-flex; align-items:center; gap:12px; height:48px; padding:0 24px; background:#fbfaf7; color:#1d1b18; font-weight:700; font-size:14.5px; letter-spacing:.04em; border-radius:999px; transition:background .2s; }
 .tb-fv-cta-book:hover{ background:#e9e2d6; }
 .tb-fv-cta-line{ display:inline-flex; align-items:center; gap:8px; min-height:44px; color:#fbfaf7; font-weight:700; font-size:14.5px; border-bottom:1px solid rgba(251,250,247,.6); }
+.tb-fv-cta-narrow{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:8px; width:100%; }
+.tb-fv-cta-line-n{ display:flex; justify-content:center; align-items:center; height:46px; padding:0 10px; border:1px solid rgba(251,250,247,.85); color:#fbfaf7; font-weight:700; font-size:13.5px; border-radius:999px; white-space:nowrap; }
+.tb-fv-cta-book-n{ display:flex; justify-content:center; align-items:center; height:46px; padding:0 10px; background:#fbfaf7; color:#1d1b18; font-weight:700; font-size:13.5px; border-radius:999px; white-space:nowrap; }
 
 .tb-fv-below{ max-width:1240px; margin:0 auto; padding:28px clamp(20px,5vw,72px) 56px; }
 .tb-trial-strip{ display:flex; flex-direction:column; gap:16px; align-items:flex-start; margin:8px 0 4px; padding:clamp(18px,2.4vw,28px) clamp(20px,2.8vw,36px); background:#fbfaf7; border:1px solid rgba(29,27,24,.1); border-radius:16px; }
