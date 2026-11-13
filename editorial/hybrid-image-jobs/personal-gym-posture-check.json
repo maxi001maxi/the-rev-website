@@ -83,6 +83,10 @@
     "content_id": "BLOG-20261114-284ba6",
     "actual_generation_provider": "ChatGPT Work built-in image generation",
     "actual_qa_reviewer": "ChatGPT Work in-conversation visual review",
-    "external_ai_api_calls": 0
+    "external_ai_api_calls": 0,
+    "xserver_asset_commit_sha": "0e59c7e0a39cb4f13fa51e16468c6b43ea7b2580",
+    "xserver_workflow_id": 43446573534,
+    "preflight_evidence_path": "editorial/prepublication/2026-11-14-posture/FINAL_PREFLIGHT.json",
+    "owner_interview_raw_path": "editorial/prepublication/2026-11-14-posture/OWNER_INTERVIEW_RAW.json"
   }
 }
