@@ -1,0 +1,1075 @@
+{
+  "slug": "personal-gym-posture-check",
+  "status": "READY_CANDIDATE",
+  "asset_version": "reference-v26-grounded-posture-20261114-work-r1",
+  "job_path": "editorial/hybrid-image-jobs/personal-gym-posture-check.json",
+  "thumbnail": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+  "og_image": "assets/images/blog/og/og-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+  "qa_report_path": "editorial/image-qa/personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.json",
+  "xserver_verified": false,
+  "actual_operator": "ChatGPT Work manual; no paid AI API",
+  "last_qa": {
+    "pass": true,
+    "slug": "personal-gym-posture-check",
+    "article_title": "パーソナルジムの姿勢チェックは何を見る？自分の姿勢を知って筋トレを始める",
+    "asset_version": "reference-v26-grounded-posture-20261114-work-r1",
+    "checked_at": "2026-11-13T14:48:10.243Z",
+    "review_mode": "HYBRID_GENERATED",
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "series_consistency": 9,
+    "editorial_quality": 8,
+    "typography_harmony": 9,
+    "negative_space": 8,
+    "photo_treatment": 9,
+    "article_visual_relevance": 9,
+    "rev_environment_consistency": 9,
+    "brand_space_authenticity": 9,
+    "realism_qc_version": "v1",
+    "human_environment_integration": 9,
+    "perspective_scale_consistency": 9,
+    "ground_contact_shadow_consistency": 9,
+    "lighting_consistency": 9,
+    "anatomy_pose_realism": 9,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": false,
+    "trainer_present": false,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "generated_customer_count": 1,
+    "facility_only_thumbnail": false,
+    "fixed_overlay_layout_confirmed": true,
+    "human_subject_prominence": 9,
+    "human_visual_attention_share": 63,
+    "face_expression_readable": true,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": true,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "customer_presentation": "male",
+    "real_the_rev_background_confirmed": true,
+    "source_material_scope_pass": true,
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "background_source_drive_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "background_origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+    "background_origin_video_file_name": "IMG_4387.MOV",
+    "content_reference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/AI_FRAME_IMG_4387_75.jpg",
+    "current_background_source_id": "the-rev-frame-4387-75",
+    "recent_similarity_check_pass": true,
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "recent_similarity_window": 4,
+    "recent_reference_guard": {
+      "pass": true,
+      "recent": [
+        {
+          "title": "24時間ジムで何をすればいいか分からない人へ｜メニューをプロに相談する方法",
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "editorial_content_id": "BLOG-20261107-ff0612",
+          "created_at": "2026-11-07 03:35:18.675764+00",
+          "image_source_path": "assets/images/photo-lobby-sp.jpg",
+          "image_asset_version": "reference-v26-grounded-mygym-20261107-work-r1",
+          "image_headline_short": "今のジムで、\n迷わず進める。",
+          "drive_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "review_paper",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        },
+        {
+          "title": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+          "slug": "denba-health-effects-research-evidence",
+          "editorial_content_id": "BLOG-20261104-fbe3b0",
+          "created_at": "2026-11-04 00:37:29.104146+00",
+          "image_source_path": "assets/images/photo-solution-denba.jpg",
+          "image_asset_version": "reference-v26-denba-health-20261104-r3",
+          "image_headline_short": "DENBA Health\n休息をケアに。",
+          "drive_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          }
+        },
+        {
+          "title": "筋トレは何から始める？最初の種目とウォーミングアップの決め方",
+          "slug": "strength-training-exercise-order-first-exercise",
+          "editorial_content_id": "BLOG-20261103-9b1ae7",
+          "created_at": "2026-11-03 07:42:56.133167+00",
+          "image_source_path": "assets/images/photo-evolgear.jpg",
+          "image_asset_version": "reference-v26-grounded-evolgear-20261103-work-r1",
+          "image_headline_short": "種目の順番、\n目的から。",
+          "drive_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "wide_full_body"
+          }
+        },
+        {
+          "title": "ジムのあとに出かけられる？THE REV.のシャワー備品と持参品の違い",
+          "slug": "after-training-shower-changing-the-rev",
+          "editorial_content_id": "BLOG-20261101-c36b34",
+          "created_at": "2026-10-31 02:09:37.823188+00",
+          "image_source_path": "assets/images/editorial-sources/shower-changing-IMG0651-20261031.jpg",
+          "image_asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+          "image_headline_short": "ジムのあと、\n出かけよう。",
+          "drive_id": "1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j",
+          "presentation": null,
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "prepare",
+            "location_type": "recovery_area",
+            "article_intent": "facility_selection",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        }
+      ]
+    },
+    "recent_background_source_ids": [
+      "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+      "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+      "1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j"
+    ],
+    "headline_history_check": {
+      "copy": "姿勢から、\n鍛え方を考える。",
+      "candidates": [
+        "姿勢から、\n鍛え方を考える。"
+      ],
+      "recentHeadlines": [
+        "今のジムで、\n迷わず進める。",
+        "DENBA Health\n休息をケアに。",
+        "種目の順番、\n目的から。",
+        "ジムのあと、\n出かけよう。",
+        "筋トレの呼吸、いつ吐く。",
+        "完全予約制と、\n貸切の違い。",
+        "グローブは、\n借りて始められる。",
+        "引っ張る方向で、\n動きが変わる。",
+        "夜の筋トレ、\n何時まで？",
+        "体験前に、\n3つだけ。",
+        "痛みや体調は、\nどこまで伝える？",
+        "初回体験、\n何を選ぶ？",
+        "姿勢は、\n動きから見直す。",
+        "運動前は、\n動ける状態へ。",
+        "本体とマット、\n役割は別。",
+        "続けやすさで、\n選ぶ。",
+        "座り仕事、\n30分ごとに立つ？",
+        "怖くても、\n最初は基本から。",
+        "DENBAの基本\n電位空間",
+        "始める前に、\n状態を確かめる。",
+        "続けられる頻度を、\n最初に決める。",
+        "通いやすさまで、\n選ぶ基準に。",
+        "中では、静かに休むだけ。",
+        "DENBAって何？",
+        "軽く動いて、\n調子を見る。"
+      ],
+      "blockedCandidates": [],
+      "exactHistoryCount": 31
+    },
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "too_promotional": false,
+    "headline_line_break_quality": true,
+    "headline_balance_score": 9,
+    "main_claim_visualization": 9,
+    "article_theme_inferable_without_title": true,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false,
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "location_behavior_plausible": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "scene_plausible_at_the_rev": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "gbp_image_required": true,
+    "gbp_aspect_ratio_pass": true,
+    "gbp_safe_area_pass": true,
+    "gbp_copy_legible": true,
+    "scene_grounding_version": "the-rev-source-scene-v1",
+    "scene_grounding": {
+      "version": "the-rev-source-scene-v1",
+      "pass": true,
+      "errors": [],
+      "inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      },
+      "plan": {
+        "version": "the-rev-source-scene-v1",
+        "source_id": "the-rev-frame-4387-75",
+        "source_sha256": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
+        "scene_type": "before_start",
+        "location_type": "training_area",
+        "human_action": "prepare",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "checking_readiness",
+        "article_intent": "training_start",
+        "required_equipment": [],
+        "subject_zone": "training_area",
+        "article_specific_directive": "運動前に自然な立ち姿を確認する男性顧客1人。姿勢の確認のための静的な側面寄りの構図。診断・専門的動作評価・スタッフを描かない。"
+      },
+      "sourceRecognition": {
+        "complete": true,
+        "equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "method": "Direct visual inspection of the real source before generation; rack, cables, barbell and bench recognized in their actual training zone"
+      },
+      "observation": {
+        "complete": true,
+        "equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "location_type": "training_area",
+        "subject_zone": "training_area",
+        "human_action": "prepare",
+        "equipment_relocated": false,
+        "room_geometry_preserved": true,
+        "article_scene_match": true,
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "method": "Current ChatGPT Work direct visual inspection of generated scene and all final derivatives"
+      },
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "compared": 12,
+        "unknown_count": 0,
+        "penalty": 0.6666666666666666,
+        "matches": [
+          {
+            "slug": "24-hour-gym-workout-menu-consultation",
+            "score": 0.16666666666666666,
+            "equal": [
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-health-effects-research-evidence",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "strength-training-exercise-order-first-exercise",
+            "score": 0.16666666666666666,
+            "equal": [
+              "location_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "after-training-shower-changing-the-rev",
+            "score": 0.16666666666666666,
+            "equal": [
+              "human_action"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "strength-training-breathing-when-to-exhale",
+            "score": 0.6666666666666666,
+            "equal": [
+              "scene_type",
+              "human_action",
+              "visual_role",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "reservation-only-vs-exclusive-use",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "boxing-trial-what-to-bring",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "cable-machine-how-it-works-the-rev",
+            "score": 0.16666666666666666,
+            "equal": [
+              "location_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "night-workout-sleep-timing-intensity",
+            "score": 0.16666666666666666,
+            "equal": [
+              "location_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "personal-gym-trial-three-checks",
+            "score": 0.3333333333333333,
+            "equal": [
+              "composition_type",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "personal-gym-first-session-pain-health-history",
+            "score": 0.3333333333333333,
+            "equal": [
+              "scene_type",
+              "human_action"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "the-rev-trial-three-menus-first-visit",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          }
+        ]
+      },
+      "asset_version": "reference-v26-grounded-posture-20261114-work-r1",
+      "recent": [
+        {
+          "title": "24時間ジムで何をすればいいか分からない人へ｜メニューをプロに相談する方法",
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "editorial_content_id": "BLOG-20261107-ff0612",
+          "created_at": "2026-11-07 03:35:18.675764+00",
+          "image_source_path": "assets/images/photo-lobby-sp.jpg",
+          "image_asset_version": "reference-v26-grounded-mygym-20261107-work-r1",
+          "image_headline_short": "今のジムで、\n迷わず進める。",
+          "drive_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "review_paper",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        },
+        {
+          "title": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+          "slug": "denba-health-effects-research-evidence",
+          "editorial_content_id": "BLOG-20261104-fbe3b0",
+          "created_at": "2026-11-04 00:37:29.104146+00",
+          "image_source_path": "assets/images/photo-solution-denba.jpg",
+          "image_asset_version": "reference-v26-denba-health-20261104-r3",
+          "image_headline_short": "DENBA Health\n休息をケアに。",
+          "drive_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          }
+        },
+        {
+          "title": "筋トレは何から始める？最初の種目とウォーミングアップの決め方",
+          "slug": "strength-training-exercise-order-first-exercise",
+          "editorial_content_id": "BLOG-20261103-9b1ae7",
+          "created_at": "2026-11-03 07:42:56.133167+00",
+          "image_source_path": "assets/images/photo-evolgear.jpg",
+          "image_asset_version": "reference-v26-grounded-evolgear-20261103-work-r1",
+          "image_headline_short": "種目の順番、\n目的から。",
+          "drive_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "wide_full_body"
+          }
+        },
+        {
+          "title": "ジムのあとに出かけられる？THE REV.のシャワー備品と持参品の違い",
+          "slug": "after-training-shower-changing-the-rev",
+          "editorial_content_id": "BLOG-20261101-c36b34",
+          "created_at": "2026-10-31 02:09:37.823188+00",
+          "image_source_path": "assets/images/editorial-sources/shower-changing-IMG0651-20261031.jpg",
+          "image_asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+          "image_headline_short": "ジムのあと、\n出かけよう。",
+          "drive_id": "1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j",
+          "presentation": null,
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "prepare",
+            "location_type": "recovery_area",
+            "article_intent": "facility_selection",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        },
+        {
+          "title": "筋トレの呼吸、いつ吐く？動きと息を合わせる基本",
+          "slug": "strength-training-breathing-when-to-exhale",
+          "editorial_content_id": "BLOG-20261029-8ae0ec",
+          "created_at": "2026-10-28 08:57:34.094289+00",
+          "image_source_path": "assets/images/photo-lobby.jpg",
+          "image_asset_version": "reference-v26-grounded-auto-lobby-20260924-ff29d069",
+          "image_headline_short": "筋トレの呼吸、いつ吐く。",
+          "drive_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "prepare",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        },
+        {
+          "title": "完全予約制のジムは貸切と同じ？違いと人目の確認ポイント",
+          "slug": "reservation-only-vs-exclusive-use",
+          "editorial_content_id": "BLOG-20261028-25fb55",
+          "created_at": "2026-10-27 01:00:44.851413+00",
+          "image_source_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+          "image_asset_version": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+          "image_headline_short": "完全予約制と、\n貸切の違い。",
+          "drive_id": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "compare_notes",
+            "location_type": "reception",
+            "article_intent": "facility_selection",
+            "composition_type": "medium_seated_portrait"
+          }
+        },
+        {
+          "title": "ボクシング体験、何を持って行く？服装・靴・グローブの準備",
+          "slug": "boxing-trial-what-to-bring",
+          "editorial_content_id": "BLOG-20261027-5dcf17",
+          "created_at": "2026-10-25 08:01:39.175772+00",
+          "image_source_path": "assets/images/photo-boxing.jpg",
+          "image_asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+          "image_headline_short": "グローブは、\n借りて始められる。",
+          "drive_id": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "safe_first_step",
+            "human_action": "boxing_stance",
+            "location_type": "boxing_area",
+            "article_intent": "boxing_start",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        },
+        {
+          "title": "ケーブルマシンは何をするもの？THE REV.の設備とフォーム・設定の基本",
+          "slug": "cable-machine-how-it-works-the-rev",
+          "editorial_content_id": "BLOG-20261025-a5418e",
+          "created_at": "2026-10-25 02:08:50.026802+00",
+          "image_source_path": "assets/images/photo-evolgear.jpg",
+          "image_asset_version": "reference-v26-grounded-auto-evolgear-20260922-0385470b",
+          "image_headline_short": "引っ張る方向で、\n動きが変わる。",
+          "drive_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        },
+        {
+          "title": "夜に筋トレしても眠れる？寝る前の時間と強さを決める目安",
+          "slug": "night-workout-sleep-timing-intensity",
+          "editorial_content_id": "BLOG-20261021-4ac8fd",
+          "created_at": "2026-10-20 02:02:43.361161+00",
+          "image_source_path": "assets/images/photo-evolgear.jpg",
+          "image_asset_version": "reference-v082-evolgear-r5-qc-context-20261021",
+          "image_headline_short": "夜の筋トレ、\n何時まで？",
+          "drive_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "recovery",
+            "composition_type": "wide_full_body"
+          }
+        },
+        {
+          "title": "パーソナルジム体験前に確認したい3つのこと｜料金・予約・退会",
+          "slug": "personal-gym-trial-three-checks",
+          "editorial_content_id": "BLOG-20261018-082d82",
+          "created_at": "2026-10-17 01:39:31.644111+00",
+          "image_source_path": null,
+          "image_asset_version": "reference-v3-lobby-route-b-20261018-contract-r6",
+          "image_headline_short": "体験前に、\n3つだけ。",
+          "drive_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "observe_facility",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_side_portrait"
+          }
+        },
+        {
+          "title": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+          "slug": "personal-gym-first-session-pain-health-history",
+          "editorial_content_id": "BLOG-20261015-fac1fd",
+          "created_at": "2026-10-14 04:49:44.594698+00",
+          "image_source_path": "assets/images/photo-evolgear.jpg",
+          "image_asset_version": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+          "image_headline_short": "痛みや体調は、\nどこまで伝える？",
+          "drive_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "presentation": "female",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "considering_health_report",
+            "human_action": "prepare",
+            "location_type": "reception",
+            "article_intent": "health_before_start",
+            "composition_type": "medium_seated_portrait"
+          }
+        },
+        {
+          "title": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "editorial_content_id": "BLOG-20261014-MEDIA-TRIAL",
+          "created_at": "2026-10-14 01:49:53.769929+00",
+          "image_source_path": "assets/images/photo-lobby-sp.jpg",
+          "image_asset_version": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+          "image_headline_short": "初回体験、\n何を選ぶ？",
+          "drive_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "presentation": "male",
+          "fingerprint": null,
+          "scene_fingerprint": {
+            "scene_type": "arrival",
+            "visual_role": "first_visit_reassurance",
+            "human_action": "observe_facility",
+            "location_type": "reception",
+            "article_intent": "facility_selection",
+            "composition_type": "medium_three_quarter_portrait"
+          }
+        }
+      ],
+      "asset_hashes": {
+        "source": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
+        "scene": "0346fe6edd52b8a7745ac1023dc16612c1c3f93457e8eb52216ffb34a843292c",
+        "thumbnail": "b37f31d2a80143d02a2fdd31f26aeeabd9e8e0dac289c881733101857ff52aed",
+        "og": "5a88dfc3c12ba00a51927c690359b4582fe5656d1c87499e222c208160cc0f8b",
+        "gbp": "0624bc8ba0dde7692c64f85a79096a74787e413f3e8907728f200a95a8d36c06"
+      }
+    },
+    "editorial_text_qc": {
+      "schema": "editorial-text-qc-v1",
+      "content_id": "BLOG-20261114-284ba6",
+      "body_sha256": "d36715d94ea2ce3de17e757c6bbf96c00ad3daa92bcb2ed07266ab431984f357",
+      "evidence_sha256": "444d98baba5ec0bac19deec3ba280fe1c1b7ec3f37ac0d5ae9da934d7967e0fa",
+      "pass": true,
+      "source_unverified": false,
+      "issues": [],
+      "total": 20,
+      "reviewer": "ChatGPT Work current conversation, separate QC pass",
+      "external_ai_api_calls": 0,
+      "checked_at": "2026-11-13T14:48:10.243Z"
+    },
+    "independent_qc_pass": true,
+    "bridge_synced": false,
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "thumbnail_typography_acceptance": {
+      "pass": true,
+      "deterministic": {
+        "revision": "thumbnail-golden-typography-v1",
+        "slug": "personal-gym-posture-check",
+        "asset_version": "reference-v26-grounded-posture-20261114-work-r1",
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "姿勢から、",
+              "鍛え方を考える。"
+            ],
+            "text_preserved": true,
+            "font_size": 64,
+            "font_size_at_320": 17.066666666666666,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.9952151785932632,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              102.97029702970298,
+              64
+            ],
+            "focus_line": 0,
+            "focus_text": "姿勢から、",
+            "focus_scale": 1.608910891089109,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9980043398180901,
+            "block_area_ratio": 0.1313322886905523,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 337.4921875,
+            "paper_profile": "local-curved-veil",
+            "veil_profile": "canonical-bezier-v1",
+            "paper_opacity_floor": 0.8901960784313725,
+            "fade_start": 605,
+            "fade_end": 742,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 4.979150214640286,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 218,
+                "right": 582.046875,
+                "bottom": 366,
+                "width": 518.046875
+              },
+              {
+                "left": 64,
+                "top": 357.3125,
+                "right": 581.125,
+                "bottom": 449.3125,
+                "width": 517.125
+              }
+            ],
+            "asset_path": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+            "asset_sha256": "b37f31d2a80143d02a2fdd31f26aeeabd9e8e0dac289c881733101857ff52aed",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1-preview-320.jpg",
+                "sha256": "e7c53ba30a15793b5041187db777acd5de5a6096a3c3a79f29b1f6ebc35633c6"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1-preview-400.jpg",
+                "sha256": "e139b7ffb82294e92129b877b7596cd4076ca0e589f4a8bcfa381d62ec6cff3b"
+              }
+            }
+          },
+          "og": {
+            "pass": true,
+            "lines": [
+              "姿勢から、",
+              "鍛え方を考える。"
+            ],
+            "text_preserved": true,
+            "font_size": 64,
+            "font_size_at_320": 17.066666666666666,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.9952151785932632,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              102.97029702970298,
+              64
+            ],
+            "focus_line": 0,
+            "focus_text": "姿勢から、",
+            "focus_scale": 1.608910891089109,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9980043398180901,
+            "block_area_ratio": 0.1407131664541632,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 314.4921875,
+            "paper_profile": "local-curved-veil",
+            "veil_profile": "canonical-bezier-v1",
+            "paper_opacity_floor": 0.8901960784313725,
+            "fade_start": 605,
+            "fade_end": 742,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 4.979150214640286,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 195,
+                "right": 582.046875,
+                "bottom": 343,
+                "width": 518.046875
+              },
+              {
+                "left": 64,
+                "top": 334.3125,
+                "right": 581.125,
+                "bottom": 426.3125,
+                "width": 517.125
+              }
+            ],
+            "asset_path": "assets/images/blog/og/og-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+            "asset_sha256": "5a88dfc3c12ba00a51927c690359b4582fe5656d1c87499e222c208160cc0f8b",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1-preview-320.jpg",
+                "sha256": "fa5adab9a6db2e68972dc881820dd58597e9a71e524711bb49115d8147f27e12"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1-preview-400.jpg",
+                "sha256": "36e8233ae7c9408cfc0f1c9f61deb76c075b7cba6514835ec8bb024af96e5902"
+              }
+            }
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "姿勢から、",
+              "鍛え方を",
+              "考える。"
+            ],
+            "text_preserved": true,
+            "font_size": 67,
+            "font_size_at_320": 17.866666666666667,
+            "line_count": 3,
+            "line_height": 1.12,
+            "line_balance": 0.6150115497453451,
+            "layout_rule": "golden-gbp-v1",
+            "line_font_sizes": [
+              87.12871287128714,
+              67,
+              75.04
+            ],
+            "focus_line": 0,
+            "focus_text": "姿勢から、",
+            "focus_scale": 1.3004285503177184,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9977995679359195,
+            "block_area_ratio": 0.1205940095863108,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 432.328125,
+            "paper_profile": "local-curved-veil",
+            "veil_profile": "canonical-bezier-v1",
+            "paper_opacity_floor": 0.9215686274509803,
+            "fade_start": 521,
+            "fade_end": 640,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.356830663826178,
+            "line_rects": [
+              {
+                "left": 60,
+                "top": 270,
+                "right": 498.90625,
+                "bottom": 395,
+                "width": 438.90625
+              },
+              {
+                "left": 60,
+                "top": 390.578125,
+                "right": 330.6875,
+                "bottom": 486.578125,
+                "width": 270.6875
+              },
+              {
+                "left": 60,
+                "top": 484.609375,
+                "right": 362.8125,
+                "bottom": 591.609375,
+                "width": 302.8125
+              }
+            ],
+            "asset_path": "assets/images/gbp/gbp-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+            "asset_sha256": "0624bc8ba0dde7692c64f85a79096a74787e413f3e8907728f200a95a8d36c06",
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1-preview-320.jpg",
+                "sha256": "446419282577e70ac6b4a5815d0bf6ae6dcb2e4dfbc91142e1955eb3ee97434f"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1-preview-400.jpg",
+                "sha256": "4a20cd04e8fdc17444746b9c61b63eea1b6c600b9e93a22a8154f8e42483018b"
+              }
+            }
+          }
+        }
+      },
+      "visual": {
+        "thumbnail": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "og": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "gbp": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        }
+      },
+      "art_direction": {
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "og": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "gbp": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          }
+        }
+      },
+      "golden_reference": {
+        "revision": "approved-typography-20261001-v1",
+        "assets": [
+          {
+            "variant": "wide",
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+          },
+          {
+            "variant": "gbp",
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+          },
+          {
+            "variant": "list",
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+          }
+        ],
+        "provenance": "Canonical lock/module and directly inspected two style references; no claim of downloading large golden PNG references"
+      }
+    },
+    "actual_reviewer": {
+      "provider": "ChatGPT Work current conversation",
+      "method": "Direct inspection of real source, generated scene, final thumbnail/OGP/GBP and six actual 320/400 JPEG previews; separate text/source check",
+      "checked_at": "2026-11-13T14:48:10.243Z",
+      "score_interpretation": "Visual scores and attention share are reviewer estimates, not measured external model results.",
+      "observations": [
+        "One male customer in a relaxed side-oriented standing posture, arms by sides, attentive expression; no trainer, diagnostic device or exercise depiction",
+        "Real source silver rack, cables, barbell, bench and ceiling remain recognizable; source low-angle image is reframed to eye level with natural depth of field",
+        "Head, arms and visible fingers are coherent; feet are outside the crop, so no claim of inspected foot-floor contact is made; visible torso positioning and lighting agree with room perspective",
+        "Text reads 姿勢から、鍛え方を考える。 and remains readable in 320/400 previews; no clipped glyphs; emphasis uses complete phrase 姿勢から",
+        "GBP uses independent three-line composition; curved veil does not obscure face or hands; warm background remains secondary",
+        "Body sample crop visibly says sample report, includes only reference score and front/side photos, and is labeled fictional in article"
+      ],
+      "external_ai_api_calls": 0
+    },
+    "api_usage": {
+      "external_ai_api_calls": 0,
+      "built_in_image_generation_calls": 1,
+      "qc_api_calls": 0,
+      "paid_generation_workflow_invoked": false
+    }
+  },
+  "attempts_total": 1,
+  "updated_at": "2026-11-13T14:48:10.243Z",
+  "last_error": null
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "editorial-text-qc-v1",
+  "content_id": "BLOG-20261114-284ba6",
+  "body_sha256": "d36715d94ea2ce3de17e757c6bbf96c00ad3daa92bcb2ed07266ab431984f357",
+  "evidence_sha256": "444d98baba5ec0bac19deec3ba280fe1c1b7ec3f37ac0d5ae9da934d7967e0fa",
+  "pass": true,
+  "source_unverified": false,
+  "issues": [],
+  "total": 20,
+  "reviewer": "ChatGPT Work current conversation, separate QC pass",
+  "external_ai_api_calls": 0,
+  "checked_at": "2026-11-13T14:48:10.243Z"
+}

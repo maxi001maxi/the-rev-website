@@ -1,0 +1,46 @@
+{
+  "review_method": "Separate source check and editorial reread in this ChatGPT Work conversation; not an independent external model.",
+  "owner_facts": [
+    "Posture can be checked; movement assessment limited to what owner can observe",
+    "Discussion mainly about muscle balance",
+    "Training, everyday awareness and stretching are reference suggestions, not prescriptions",
+    "Owner supplied fictional sample and authorized illustrative use"
+  ],
+  "source_facts": [
+    "Actual supplied sample inspected on both PDF pages and app screenshot",
+    "Only first-page header, score and front/side photo region used publicly",
+    "No disease-risk percentages, disease-prevention promises, manual therapy or insoles promoted",
+    "Developer listing confirms estimated photo features and reference scores, not medical evaluation",
+    "Official THE REV website confirms location, reservation model and LINE link"
+  ],
+  "checks": [
+    "Title, lead and body answer posture-check visit question",
+    "Factual service scope grounded in owner answer",
+    "No advanced movement-assessment claim",
+    "No photo-only muscle-strength diagnosis",
+    "No pain cause or predictive disease guarantee",
+    "No invented customer story or results",
+    "Fictional sample identified in alt and adjacent caption",
+    "No before/after result implied",
+    "No fixed examination protocol, delivery schedule or trial inclusion invented",
+    "No unsupported price or treatment offering",
+    "Training/awareness/stretching reflect owner answer",
+    "Safety sentence proportionate",
+    "Readable Japanese and clear H2/H3 structure",
+    "Metadata matches article scope",
+    "No repeated keyword stuffing",
+    "Internal link to existing published posture article",
+    "Explicit current LINE CTA",
+    "Closing explains concrete consultation and next action",
+    "GBP separately checked against article and recent originals",
+    "Article remains unpublished"
+  ],
+  "references": [
+    "Owner current conversation 2026-11-13",
+    "User-supplied sample posture PDFs 2026-11-05",
+    "https://play.google.com/store/apps/details?hl=ja&id=com.saucer.shiseinavi.android",
+    "https://shiseinavi.com/",
+    "https://therev-lab.com/",
+    "https://www.southtees.nhs.uk/resources/posture/"
+  ]
+}

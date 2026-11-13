@@ -1,0 +1,20 @@
+{
+  "proposal_id": "TP-20261114",
+  "selected_candidate_id": "BT-20261113-AUD08-LIVE-1",
+  "questions": [
+    "姿勢ナビの結果を見て、お客様とは普段どんな点を確認・共有していますか？実際に説明していることを教えてください。",
+    "姿勢を確認したあと、立ち方やトレーニング中の姿勢などについて、普段どのような助言をしていますか？実際の対応を一つ教えてください。姿勢の説明までであれば、その範囲で構いません。"
+  ],
+  "answers": [
+    "まず結果を見ながらどこの筋肉が足りなくて、どういうバランスでとか、やっぱり筋肉のバランスの話がメインに来るのかなっていうところがあったり。",
+    "それをもとに筋トレと意識とストレッチというところも、処方ではないけど、あくまでも参考程度にしていく感じ。推奨で進める。添付はイメージであり、記事で使ってよい。前の本人回答：動作評価の知識はあまりなく、ある程度しか見られない。姿勢は見られる。"
+  ],
+  "owner_answer_source": "Current conversation 2026-11-13, condensed transcription with scope preserved",
+  "sample_files": [
+    "fictional_posture_front(1).png",
+    "fictional_posture_left_profile(1).png",
+    "姿勢分析レポート_※サンプルレポート_20261105.pdf",
+    "スクリーンショット 2026-11-05 17.58.16.pdf"
+  ],
+  "use_scope": "Illustrative fictional sample only; no client result, medical diagnosis, muscle strength finding or predictive illness percentages adopted"
+}
