@@ -1,0 +1,40 @@
+name: Oxygen comparison final draft preflight
+on:
+  push:
+    branches: [review/oxygen-comparison-preflight-20261115]
+    paths: ['.github/workflows/oxygen-comparison-preflight-20261115.yml']
+permissions:
+  contents: write
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+      PRODUCTION_URL: https://therev-lab.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Read-only canonical preflight; do not publish
+        run: node editorial/prepublication/2026-11-15-oxygen-comparison/final-preflight.mjs
+      - name: Retain actual preflight result
+        if: always()
+        run: |
+          if test -f editorial/prepublication/2026-11-15-oxygen-comparison/FINAL_PREFLIGHT.json; then
+            git add editorial/prepublication/2026-11-15-oxygen-comparison/FINAL_PREFLIGHT.json
+            git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Record final oxygen comparison draft preflight; keep article unpublished'
+            git push origin HEAD:review/oxygen-comparison-preflight-20261115
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oxygen-comparison-final-preflight-${{ github.run_id }}
+          path: editorial/prepublication/2026-11-15-oxygen-comparison/FINAL_PREFLIGHT.json

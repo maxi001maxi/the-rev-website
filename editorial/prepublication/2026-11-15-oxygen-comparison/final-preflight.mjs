@@ -1,0 +1,11 @@
+import fs from 'node:fs';import {createHash} from 'node:crypto';import {runPreflight} from '../../../lib/publishFlow.mjs';
+const dir='editorial/prepublication/2026-11-15-oxygen-comparison';
+const snapshot=JSON.parse(fs.readFileSync(dir+'/ACTUAL_CMS_SNAPSHOT.json','utf8'));
+if(snapshot.id!=='d32c0a5c-838d-4056-ad39-113dfbadd0c3'||snapshot.editorial_content_id!=='BLOG-20261115-9e8603'||snapshot.publish_status!=='NOT_PUBLISHED'||snapshot.source_path)throw Error('Actual draft identity or unpublished state drift');
+const bodyHash=createHash('sha256').update(snapshot.body_markdown.trim()).digest('hex');
+if(bodyHash!==snapshot.image_qa?.editorial_text_qc?.body_sha256)throw Error('Actual draft text proof mismatch');
+const db={from(table){if(table!=='admin_article_drafts')throw Error('Unexpected table');return{select(){return{eq(key,id){if(key!=='id'||id!==snapshot.id)throw Error('Unexpected row');return{async maybeSingle(){return{data:snapshot,error:null};}};}};}};}};
+const result=await runPreflight({supabase:db,user:null,articleId:snapshot.id,actor:'automation'});
+const out={ok:result.ok,mode:result.mode,checks:result.checks,blocker:result.blocker,targetPath:result.targetPath,publicUrl:result.publicUrl,github:result.github,body_sha256:bodyHash,actual_cms_updated_at:snapshot.updated_at,checked_at:new Date().toISOString(),db_source:'Exact connected production Supabase readback, user_id omitted',canonical_preflight:'Unmodified lib/publishFlow.mjs runPreflight on actual draft, GitHub main and live Xserver',github_commit:process.env.GITHUB_SHA,blog_published:false,gbp_posted:false,automatic_publish:false,external_ai_api_calls:0};
+fs.writeFileSync(dir+'/FINAL_PREFLIGHT.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out,null,2));
+if(!out.ok)process.exitCode=1;
