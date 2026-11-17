@@ -1,9 +1,9 @@
 ---
 title: "完全予約制のジムは貸切と同じ？違いと人目の確認ポイント"
 slug: "reservation-only-vs-exclusive-use"
-description: "THE REV.の完全予約制と貸切の違いを代表の回答から説明。トレーニング1枠の運用、酸素ルームなどの同時利用、北側・南側のスペースの距離と来店前の確認点を整理します。"
+description: "完全予約制でも、施設全体の貸切ではありません。代表の説明をもとに、トレーニングは1枠という運用の内容と、人目が気になる方が来店前に確認したい点を整理します。"
 published: "2026-10-28"
-updated: "2026-10-28"
+updated: "2026-11-17"
 category: "gym-guide"
 category_label: "GYM GUIDE"
 author: "服部 真騎士"
