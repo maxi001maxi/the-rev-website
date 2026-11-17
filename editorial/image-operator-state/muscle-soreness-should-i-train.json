@@ -1,0 +1,10 @@
+{
+  "slug": "muscle-soreness-should-i-train",
+  "status": "BLOCKED_PROVIDER_CREDITS",
+  "attempts_total": 1,
+  "max_attempts": 3,
+  "last_error": "OpenAI Responses API failed: HTTP 429 / You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
+  "job_path": "editorial/hybrid-image-jobs/muscle-soreness-should-i-train.json",
+  "updated_at": "2026-11-17T09:47:24.563Z",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924"
+}
