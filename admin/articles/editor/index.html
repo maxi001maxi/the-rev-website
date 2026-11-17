@@ -450,7 +450,8 @@ function goToReview() {
     showError('先にDraftを保存してください。未保存の変更があるため、Review画面へは進めません。');
     return;
   }
-  location.href = `/admin/articles/review/?id=${encodeURIComponent(articleId)}`;
+  // 公開済み記事の再公開: Review側が「公開済み」の復元画面で止まらないよう、編集画面からの遷移を明示する。
+  location.href = `/admin/articles/review/?id=${encodeURIComponent(articleId)}&from=editor`;
 }
 
 async function remove() {

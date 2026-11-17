@@ -739,7 +739,10 @@ async function init() {
     const payload = await AdminApi.publishStatus(articleId);
     const state = String(payload?.article?.publish_status || 'NOT_PUBLISHED');
 
-    if (state === 'PUBLISH_COMMITTED' || state === 'PUBLISHED') {
+    // 編集画面から来た公開済み記事は、復元画面で止めずPreflight→Publishへ進める（再公開）。
+    // PUBLISH_COMMITTED（反映中）は従来どおり進捗復元を優先し、二重公開を防ぐ。
+    const republishFromEditor = state === 'PUBLISHED' && params.get('from') === 'editor';
+    if (!republishFromEditor && (state === 'PUBLISH_COMMITTED' || state === 'PUBLISHED')) {
       restorePublicationProgress(payload);
 
       if (renderFinalPublicationState(payload)) return;
