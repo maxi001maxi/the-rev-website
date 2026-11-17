@@ -6,6 +6,11 @@
 Chat historyは正本にしない。Current Truth / Active Decision Memory / domain canon / Operating Knowledge / Research Indexの順序を守る。
 Editorial / Websiteの実行ロジックやPublish Gateは、このリポジトリのcanonical code/runbookを実行正本として維持する。
 
+## コラム生成・PDCA（新しいセッションは最初に読む）
+
+コラムの作成・サムネイル・毎週の改善（Search Console → 分類 → 最大3本）・費用の扱い・モデルの使い分けは `docs/operations/COLUMN_PDCA_PROTOCOL_V1.md` に従う。作業の前に必ず読む。
+記事別の実績と改善記録はマスターシートの `42_BLOG_PERFORMANCE` / `43_BLOG_IMPROVEMENT_LOG`。
+
 ## Vercel Release / Deployment Budget
 
 Vercel releaseの実行正本は `docs/operations/VERCEL_RELEASE_POLICY_V1.md`。
