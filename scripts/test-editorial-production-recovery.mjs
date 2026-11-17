@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {createImageApiLedger} from '../lib/editorialImageApiLedger.mjs';
+import {createImageApiLedger, POLICY} from '../lib/editorialImageApiLedger.mjs';
 import {editorialBodySha,validateEditorialTextQc,editorialProductionProgress} from '../lib/editorialProductionRecovery.mjs';
 import {editorialAssetRejected} from '../lib/editorialRejectedAsset.mjs';
 import {hybridQaReady} from '../lib/editorialHybridImageFormat.mjs';
@@ -36,7 +36,7 @@ test('evidence requires exact primary URL; source strings cannot masquerade as v
  assert.equal(h.sandbox.v082ResearchEvidence_(['https://pubmed.ncbi.nlm.nih.gov/34416428/']).length,1);
 });
 test('real Oct21 legacy bypass blocks before any billable request; intent is recovery after evening training',()=>{
- const old=preflightEditorialImage(oct21,registry,{requireStrict:true});assert.equal(old.pass,false);assert(old.errors.includes('SEMANTIC_HISTORY_INCOMPLETE'));assert(old.errors.includes('STRICT_ATTEMPT_LIMIT_NOT_ONE'));assert(old.errors.includes('ARTICLE_INTENT_MISMATCH'));assert.equal(old.no_api_calls,true);
+ const old=preflightEditorialImage(oct21,registry,{requireStrict:true});assert.equal(old.pass,false);assert(old.errors.includes('SEMANTIC_HISTORY_INCOMPLETE'));assert(!old.errors.includes('STRICT_ATTEMPT_LIMIT_NOT_ONE'));/* 2026-11-17: attempts are now policy-bound (1..3), see editorial/image-attempt-policy.json */assert(old.errors.includes('ARTICLE_INTENT_MISMATCH'));assert.equal(old.no_api_calls,true);
  assert.equal(articleSceneIntent({title:oct21.article_title}),'recovery');
 });
 test('R2/R3/R4/R6/R8/R9 rejection ledger survives fake PASS, asset rename with same hashes',()=>{
@@ -52,8 +52,9 @@ test('durable API reservations survive runner restart and forbid repeated or amb
  let ledger=createImageApiLedger({job,...store});const n=await ledger.reserve('generation');
  ledger=createImageApiLedger({job,...store});await assert.rejects(()=>ledger.reserve('qc'),/AMBIGUOUS/);
  await ledger.complete(n,{http_status:200,usage:{total_tokens:7},request_id:'synthetic'});
+ for(let i=1;i<POLICY.max_generation_attempts;i++){const g=await ledger.reserve('generation');await ledger.complete(g,{http_status:200});}
  await assert.rejects(()=>ledger.reserve('generation'),/GENERATION_CALL_LIMIT/);
- for(let i=0;i<2;i++){const q=await ledger.reserve('qc');await ledger.complete(q,{http_status:200});}
+ for(let i=0;i<POLICY.max_generation_attempts*POLICY.qc_calls_per_attempt;i++){const q=await ledger.reserve('qc');await ledger.complete(q,{http_status:200});}
  await assert.rejects(()=>ledger.reserve('qc'),/QC_CALL_LIMIT/);assert.equal(store.get().confirmed_cost,null);
  await assert.rejects(()=>createImageApiLedger({job:{...job,image_headline_short:'changed'},...store}).reserve('qc'),/CONTRACT_CHANGED/);
 });

@@ -1,3 +1,4 @@
+import {POLICY} from '../lib/editorialImageApiLedger.mjs';
 import {recoverySandbox} from './helpers/editorial-recovery-sandbox.mjs';
 import {editorialProductionProgress} from '../lib/editorialProductionRecovery.mjs';
 import test from 'node:test';
@@ -121,7 +122,7 @@ test('A: connected topic → approval → interview → quality checkpoint → P
     assert.equal(preflight.data.ok,true,JSON.stringify(preflight.data));
     assert.equal(preflight.data.publish_requires_human_approval,true);
     assert.equal(editorialProductionProgress(h.draft,preflight.data).stage,'REVIEW_READY');
-    assert.equal(h.job.max_generation_attempts,1);assert.equal(h.job.automation.require_complete_semantic_preflight,true);
+    assert.equal(h.job.max_generation_attempts,POLICY.max_generation_attempts);assert.equal(h.job.automation.require_complete_semantic_preflight,true);
     assert.equal(h.draft.publish_status,'NOT_PUBLISHED');
     const before=h.svc.calls.filter(c=>c.method==='PUT').length;
     const again=await invoke(bridge,{method:'POST',body:h.payload});assert.equal(again.statusCode,200);

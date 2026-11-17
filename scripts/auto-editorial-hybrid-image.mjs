@@ -1,7 +1,7 @@
 import { SCENE_PLAUSIBILITY_VERSION, SCENE_PLAUSIBILITY_GUIDANCE, scenePlausibilityPass } from '../lib/editorialScenePlausibility.mjs';
 import fs from 'node:fs';
 import {preflightEditorialImage} from '../lib/editorialProductionImagePreflight.mjs';
-import {createImageApiLedger} from '../lib/editorialImageApiLedger.mjs';
+import {createImageApiLedger, POLICY} from '../lib/editorialImageApiLedger.mjs';
 import {FINISH_VERSION,finishQcGuidance,finishInputLabel,finishVisualPass,editOwnerFinish} from '../lib/editorialOwnerFinishEdit.mjs';
 import {reuseGroundingObservation} from '../lib/editorialGroundingObservationReuse.mjs';
 import path from 'node:path';
@@ -25,7 +25,7 @@ const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 
 const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
 const MAX_TOTAL_ATTEMPTS = Math.max(
   1,
-  Math.min(1, Number(job?.max_generation_attempts || 1))
+  Math.min(POLICY.max_generation_attempts, Number(job?.max_generation_attempts || POLICY.max_generation_attempts))
 );
 
 if (!OPENAI_API_KEY) throw new Error('OPENAI_API_KEY is required.');
@@ -259,7 +259,7 @@ function generationPrompt(attempt, previousQa = null) {
     `Editorial copy that will be added later: ${job.image_headline_short}`,
     `Source selection reason: ${sourceNote}`,
     `Allowed treatment: ${treatment}`,
-    attempt > 1 ? `This is the final allowed retry (${attempt}/2). Correct the prior rejection without changing the article claim.` : '',
+    attempt > 1 ? `This is the retry (${attempt}/${MAX_TOTAL_ATTEMPTS}). Correct the prior rejection without changing the article claim.` : '',
     attempt > 1 && previousQa?.comments ? `Previous Visual QC rejection: ${String(previousQa.comments).slice(0, 600)}` : ''
   ].filter(Boolean).join('\n');
 }
