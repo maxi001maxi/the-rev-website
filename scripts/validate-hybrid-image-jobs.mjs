@@ -105,6 +105,13 @@ function validateJob(jobPath) {
   assertTrue(clean(job.slug), `${name}: slug missing`);
   assertTrue(clean(job.article_title), `${name}: article_title missing`);
   assertTrue(clean(job.image_headline_short), `${name}: image_headline_short missing`);
+  // 2026-11-17: ChatGPT(Work)の組み込み生成で作った画像を取り込んだジョブ（recovered）は、
+  // APIで作るジョブ用の厳格な検査（モデル名・参照画像の順序など）の対象外にし、基本項目だけ確認する。
+  // 偽ってAPI生成の記録にはしない。
+  if (job.generation_model === 'chatgpt-built-in-recovered-existing-image') {
+    assertEqual(job.publish_requires_human_approval, true, `${name}: human publish boundary removed`);
+    return { slug: job.slug, assetVersion: job.asset_version, pending: true, recovered: true };
+  }
   assertEqual(job.render_version, HYBRID_IMAGE_FORMAT.id, `${name}: render_version drift`);
   assertEqual(job.image_strategy, HYBRID_IMAGE_FORMAT.strategy, `${name}: image_strategy drift`);
   assertEqual(job.image_style_template, HYBRID_IMAGE_FORMAT.styleTemplate, `${name}: image_style_template drift`);
@@ -320,7 +327,7 @@ const results = jobs.map((name) => validateJob(path.join(JOB_DIR, name)));
 console.log(`V2.3 Hybrid engine / V2.4 policy validation: PASS (${results.length} jobs)`);
 for (const r of results) {
   if (r.pending) {
-    console.log(`- ${r.slug}: ${r.assetVersion} / PENDING_GENERATION (job contract valid; strict asset QA begins at READY_CANDIDATE)`);
+    console.log(`- ${r.slug}: ${r.assetVersion} / ${r.recovered ? 'RECOVERED_EXISTING_IMAGE (基本項目のみ確認)' : 'PENDING_GENERATION (job contract valid; strict asset QA begins at READY_CANDIDATE)'}`);
     continue;
   }
   console.log(
