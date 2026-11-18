@@ -295,6 +295,13 @@
       "image_generation_calls": [],
       "completed_at": "2026-11-18T08:15:05.066Z",
       "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 6,
+      "kind": "qc",
+      "status": "STARTED",
+      "at": "2026-11-18T08:15:06.335Z",
+      "confirmed_cost": null
     }
   ],
   "confirmed_cost": null
