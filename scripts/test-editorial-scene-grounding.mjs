@@ -113,3 +113,7 @@ test('pre-workout stretching mentioning boxing stays training-start and uses an 
   assert.match(p.article_specific_directive,/not a wide full-room view/);
   assert.notEqual(p.human_action,'boxing_stance');
 });
+test('boxing vs strength comparison is a choose-your-entry article, not a boxing-start one',()=>{
+  assert.equal(articleSceneIntent({title:'ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ'}),'training_start');
+  assert.equal(articleSceneIntent({title:'ボクシング体験、何を持って行く？服装・靴・グローブの準備'}),'boxing_start');
+});
