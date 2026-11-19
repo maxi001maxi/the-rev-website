@@ -1,0 +1,209 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "boxing-vs-strength-training-for-diet",
+  "asset_version": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "入口は、",
+        "続くほうから。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9951521978832529,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        127.28205128205128,
+        73
+      ],
+      "focus_line": 0,
+      "focus_text": "入口は、",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911147390512319,
+      "block_area_ratio": 0.15416652111117046,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.1484375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8784313725490196,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.841942402339893,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 196,
+          "right": 575.984375,
+          "bottom": 378,
+          "width": 511.984375
+        },
+        {
+          "left": 64,
+          "top": 364.546875,
+          "right": 580.125,
+          "bottom": 469.546875,
+          "width": 516.125
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+      "asset_sha256": "8b6f2dd6f142037506c3bf0c8b0282c1ec4ea96e25a7abbe21688c07fdd108c3",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-preview-320.jpg",
+          "sha256": "9b4adc88473991eba03ba4029a85663035fc7f94e194f9a849c67f308457bd4f"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-preview-400.jpg",
+          "sha256": "f27cff46c674036aa963b47219e11f1a43fa3e46fa828ec83b81b281dcfcf0c3"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "入口は、",
+        "続くほうから。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9951521978832529,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        127.28205128205128,
+        73
+      ],
+      "focus_line": 0,
+      "focus_text": "入口は、",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911147390512319,
+      "block_area_ratio": 0.16517841547625406,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.1484375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8784313725490196,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.841942402339893,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 174,
+          "right": 575.984375,
+          "bottom": 356,
+          "width": 511.984375
+        },
+        {
+          "left": 64,
+          "top": 342.546875,
+          "right": 580.125,
+          "bottom": 447.546875,
+          "width": 516.125
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+      "asset_sha256": "9b3cb583439ee5757404416ebe26790e8270f1c526576360be29de3de65162ff",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-preview-320.jpg",
+          "sha256": "662f0d4ae8e15e6a6747701321df4dcf2dc0613467dc7952dfb683314fbd7d29"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-preview-400.jpg",
+          "sha256": "4f854efb3dc5048f4860db00c97571083850efd1517859b88182ce03e2d18929"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "入口は、",
+        "続くほうから。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9401011439393195,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        102.11764705882354,
+        62
+      ],
+      "focus_line": 0,
+      "focus_text": "入口は、",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9948186673251066,
+      "block_area_ratio": 0.08260449170282153,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.90625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9137254901960784,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.26079451179723,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 313,
+          "right": 470.921875,
+          "bottom": 460,
+          "width": 410.921875
+        },
+        {
+          "left": 60,
+          "top": 454.375,
+          "right": 498.34375,
+          "bottom": 543.375,
+          "width": 438.34375
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+      "asset_sha256": "bff6b7e92fc377953308e167238d59923b7d336bed6f0cd01792b33d9e119687",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-preview-320.jpg",
+          "sha256": "50fd0ca6c82a896f031e503d185425cf5c2d1e1ff4791e6d82eba6dea4c18e92"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-preview-400.jpg",
+          "sha256": "0c5913a62e38594d42c9422efecf917df184cf20465a95f23fae373f02e1d549"
+        }
+      }
+    }
+  }
+}
