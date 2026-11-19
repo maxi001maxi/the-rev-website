@@ -3,7 +3,7 @@
   "status": "ERROR",
   "attempts_total": 3,
   "max_attempts": 3,
-  "last_error": "Source/Scene FAIL: source_unsupported_equipment:denba_device@reception. 受付の壁面ロゴとカウンターがTHE REV.の場所性を保ち、男性客一人がスマートフォンと小型ノートを比較する承認済み行動になっている。表情、手指、着座姿勢、光、接触感はいずれも自然で貼り付け感はない。タイトルなしではボクシング対筋トレまでは特定できないが、開始方法を比較検討する記事固有の意思決定場面として十分に機能する。",
+  "last_error": "文字設計と人物表現は良好だが、生成背景では受付カウンターの分割・配置、前景の低い什器、座面などが元画像の空間構成から変化している。さらに背景が明瞭すぎて差異が目立ち、指定された自然なソフトブラーによる背景の従属化も不足するため、実環境忠実性の必須ゲートで不合格。",
   "last_qa": {
     "pass": false,
     "thumbnail_typography_visual": {
@@ -93,40 +93,40 @@
           "fade_integrated": true
         }
       },
-      "comments": "3形式ともゴールデン参照の、暖色キーフレーズと墨色補助行、写真へ溶ける柔らかなベールという文法を維持している。320pxでも見出しが明確な第二焦点となり、人物との重量バランスも良好。GBPは横長版の単純流用ではなく、左中央のコンパクトな見出しと局所的なベールで人物の顔・手元を保護している。"
+      "comments": "3形式とも実寸プレビューで見出しが即読でき、「入口は、」を暖色かつ大きく置く階層、黒い補助行、柔らかな写真遷移がゴールデンの文法に沿っている。改行も意味単位として自然で、GBPは顔を避けた局所的な左ベールとして成立している。"
     },
-    "series_consistency": 9,
-    "editorial_quality": 9,
+    "series_consistency": 8,
+    "editorial_quality": 8,
     "typography_harmony": 9,
-    "negative_space": 8,
-    "photo_treatment": 9,
-    "article_visual_relevance": 8,
-    "main_claim_visualization": 8,
-    "human_subject_prominence": 9,
+    "negative_space": 7,
+    "photo_treatment": 7,
+    "article_visual_relevance": 6,
+    "main_claim_visualization": 5,
+    "human_subject_prominence": 8,
     "human_visual_attention_share": 66,
     "face_expression_readable": true,
-    "background_secondary_pass": true,
-    "background_soft_blur_pass": true,
+    "background_secondary_pass": false,
+    "background_soft_blur_pass": false,
     "the_rev_anchor_visible": true,
     "customer_presentation_matches_plan": true,
     "article_theme_inferable_without_title": false,
     "scene_action_has_article_specific_meaning": true,
     "generic_passive_pose_without_article_reason": false,
-    "rev_environment_consistency": 8,
-    "brand_space_authenticity": 8,
-    "human_environment_integration": 9,
-    "perspective_scale_consistency": 9,
-    "ground_contact_shadow_consistency": 9,
-    "lighting_consistency": 9,
-    "anatomy_pose_realism": 9,
+    "rev_environment_consistency": 5,
+    "brand_space_authenticity": 5,
+    "human_environment_integration": 8,
+    "perspective_scale_consistency": 8,
+    "ground_contact_shadow_consistency": 7,
+    "lighting_consistency": 8,
+    "anatomy_pose_realism": 8,
     "no_cutout_or_sticker_look": true,
     "location_semantics_pass": true,
     "location_behavior_plausible": true,
     "service_misrepresentation_absent": true,
     "unsupported_equipment_absent": true,
-    "scene_plausible_at_the_rev": true,
+    "scene_plausible_at_the_rev": false,
     "exercise_pose_plausible": true,
-    "manual_visual_rejection": false,
+    "manual_visual_rejection": true,
     "trainer_present": false,
     "unknown_trainer_present": false,
     "non_customer_people_present": false,
@@ -134,7 +134,7 @@
     "generated_customer_present": true,
     "generated_customer_count": 1,
     "facility_only_thumbnail": false,
-    "real_the_rev_background_confirmed": true,
+    "real_the_rev_background_confirmed": false,
     "expected_copy_present": true,
     "copy_legible": true,
     "headline_line_break_quality": true,
@@ -143,20 +143,23 @@
     "gbp_aspect_ratio_pass": true,
     "gbp_safe_area_pass": true,
     "gbp_copy_legible": true,
-    "comments": "Source/Scene FAIL: source_unsupported_equipment:denba_device@reception. 受付の壁面ロゴとカウンターがTHE REV.の場所性を保ち、男性客一人がスマートフォンと小型ノートを比較する承認済み行動になっている。表情、手指、着座姿勢、光、接触感はいずれも自然で貼り付け感はない。タイトルなしではボクシング対筋トレまでは特定できないが、開始方法を比較検討する記事固有の意思決定場面として十分に機能する。",
+    "comments": "文字設計と人物表現は良好だが、生成背景では受付カウンターの分割・配置、前景の低い什器、座面などが元画像の空間構成から変化している。さらに背景が明瞭すぎて差異が目立ち、指定された自然なソフトブラーによる背景の従属化も不足するため、実環境忠実性の必須ゲートで不合格。",
     "scene_grounding_version": "the-rev-source-scene-v1",
     "scene_grounding": {
       "version": "the-rev-source-scene-v1",
-      "pass": false,
-      "errors": [
-        "source_unsupported_equipment:denba_device@reception"
-      ],
+      "pass": true,
+      "errors": [],
       "inventory": {
         "version": "the-rev-source-scene-v1",
         "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
         "primary_location": "reception",
         "subject_zone": "reception",
-        "visible_equipment": [],
+        "visible_equipment": [
+          {
+            "object": "denba_device",
+            "zone": "reception"
+          }
+        ],
         "allowed_generated_actions": [
           "enter",
           "prepare",
@@ -312,7 +315,12 @@
       },
       "observation": {
         "complete": true,
-        "equipment": [],
+        "equipment": [
+          {
+            "object": "denba_device",
+            "zone": "reception"
+          }
+        ],
         "location_type": "reception",
         "subject_zone": "reception",
         "human_action": "compare_notes",
@@ -337,16 +345,18 @@
         "matches": [
           {
             "slug": "muscle-soreness-should-i-train",
-            "score": 0.16666666666666666,
+            "score": 0.3333333333333333,
             "equal": [
+              "composition_type",
               "article_intent"
             ],
             "hard_exclusion": false
           },
           {
             "slug": "workout-after-meal-timing",
-            "score": 0.16666666666666666,
+            "score": 0.3333333333333333,
             "equal": [
+              "location_type",
               "article_intent"
             ],
             "hard_exclusion": false
@@ -378,8 +388,9 @@
           },
           {
             "slug": "denba-health-effects-research-evidence",
-            "score": 0.16666666666666666,
+            "score": 0.3333333333333333,
             "equal": [
+              "location_type",
               "composition_type"
             ],
             "hard_exclusion": false
@@ -452,10 +463,10 @@
           },
           "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
           "scene_fingerprint": {
-            "scene_type": "before_start",
+            "scene_type": "recovery_transition",
             "location_type": "training_area",
-            "human_action": "prepare",
-            "composition_type": "wide_full_body",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
             "visual_role": "checking_readiness",
             "article_intent": "training_start"
           }
@@ -481,10 +492,10 @@
           "thumbnail": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
           "scene_fingerprint": {
             "scene_type": "before_start",
-            "location_type": "training_area",
+            "location_type": "reception",
             "human_action": "prepare",
-            "composition_type": "medium_three_quarter_portrait",
-            "visual_role": "checking_readiness",
+            "composition_type": "close_action_portrait",
+            "visual_role": "safe_first_step",
             "article_intent": "training_start"
           }
         },
@@ -508,11 +519,11 @@
           },
           "thumbnail": "assets/images/blog/thumb-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
           "scene_fingerprint": {
-            "scene_type": "equipment_orientation",
+            "scene_type": "arrival",
             "location_type": "recovery_area",
-            "human_action": "observing_real_equipment",
-            "composition_type": "medium_three_quarter_portrait",
-            "visual_role": "facility_inspection",
+            "human_action": "observe_facility",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "first_visit_reassurance",
             "article_intent": "recovery"
           }
         },
@@ -593,7 +604,7 @@
           "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
           "scene_fingerprint": {
             "scene_type": "recovery_transition",
-            "location_type": "recovery_area",
+            "location_type": "reception",
             "human_action": "rest",
             "composition_type": "medium_seated_portrait",
             "visual_role": "recovery_time",
@@ -624,7 +635,7 @@
             "location_type": "training_area",
             "human_action": "strength_exercise",
             "composition_type": "wide_full_body",
-            "visual_role": "safe_first_step",
+            "visual_role": "training_execution",
             "article_intent": "training_execution"
           }
         },
@@ -652,7 +663,7 @@
             "location_type": "recovery_area",
             "human_action": "prepare",
             "composition_type": "wide_full_body",
-            "visual_role": "recovery_time",
+            "visual_role": "checking_readiness",
             "article_intent": "facility_selection"
           }
         },
@@ -676,11 +687,11 @@
           },
           "thumbnail": "assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
           "scene_fingerprint": {
-            "scene_type": "exercise",
+            "scene_type": "before_start",
             "location_type": "reception",
             "human_action": "prepare",
             "composition_type": "medium_three_quarter_portrait",
-            "visual_role": "checking_readiness",
+            "visual_role": "safe_first_step",
             "article_intent": "training_start"
           }
         },
@@ -769,13 +780,13 @@
           }
         }
       ],
-      "asset_version": "reference-v26-grounded-auto-3978-20-7182b436",
+      "asset_version": "reference-v26-grounded-auto-3978-20-7182b436-r2",
       "asset_hashes": {
         "source": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
-        "scene": "535d823aa5baf7274b418df2aa3aa844dd64dae203682b463f93d5eba586f003",
-        "thumbnail": "90bfae6e504ce05ae9a66c2801610c9cb8fbea79eed9c74f76ed6bf18ea998f4",
-        "og": "e715e76fafdd4ed8cdb8127f8b3881414209a0607c71c704008f775a03e099d0",
-        "gbp": "830b50a673a19d7e82e6812e1362888fcbb0a1985114787d32d0ecd8be7fd5b3"
+        "scene": "1ea763c5b96042f558ea8c289d6d310b7277fc4ce5869898c2326d27c5bb7c7d",
+        "thumbnail": "c376718693909164362941421981bf642715625e3dcf8b99f1bc11901fb7ee96",
+        "og": "50bcc56c73138eb79085ace1e3525a657bf5300fe7ae740e09e5916fc2c870b1",
+        "gbp": "34a175ea0da0a04e693f4e1e7463a847e853519685796978f4321468aef104c1"
       },
       "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
     },
@@ -788,7 +799,7 @@
       "article_intent": "training_start"
     },
     "scene_location_consistency": true,
-    "equipment_source_grounding": false,
+    "equipment_source_grounding": true,
     "spatial_plausibility": true,
     "action_location_consistency": true,
     "article_scene_match": true,
@@ -801,16 +812,18 @@
       "matches": [
         {
           "slug": "muscle-soreness-should-i-train",
-          "score": 0.16666666666666666,
+          "score": 0.3333333333333333,
           "equal": [
+            "composition_type",
             "article_intent"
           ],
           "hard_exclusion": false
         },
         {
           "slug": "workout-after-meal-timing",
-          "score": 0.16666666666666666,
+          "score": 0.3333333333333333,
           "equal": [
+            "location_type",
             "article_intent"
           ],
           "hard_exclusion": false
@@ -842,8 +855,9 @@
         },
         {
           "slug": "denba-health-effects-research-evidence",
-          "score": 0.16666666666666666,
+          "score": 0.3333333333333333,
           "equal": [
+            "location_type",
             "composition_type"
           ],
           "hard_exclusion": false
@@ -901,7 +915,7 @@
       "deterministic": {
         "revision": "thumbnail-golden-typography-v1",
         "slug": "boxing-vs-strength-training-for-diet",
-        "asset_version": "reference-v26-grounded-auto-3978-20-7182b436",
+        "asset_version": "reference-v26-grounded-auto-3978-20-7182b436-r2",
         "pass": true,
         "variants": {
           "thumbnail": {
@@ -958,16 +972,16 @@
                 "width": 516.125
               }
             ],
-            "asset_path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436.jpg",
-            "asset_sha256": "90bfae6e504ce05ae9a66c2801610c9cb8fbea79eed9c74f76ed6bf18ea998f4",
+            "asset_path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+            "asset_sha256": "c376718693909164362941421981bf642715625e3dcf8b99f1bc11901fb7ee96",
             "previews": {
               "320": {
-                "path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-preview-320.jpg",
-                "sha256": "c2c3f5c23a375f4f9ff940da140eb51b4199f1c88aede3529782c4ca714be5ec"
+                "path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-preview-320.jpg",
+                "sha256": "f5df994d3697975be6eda3e7200aa31068953c3d0add65edaf419711e6aa1450"
               },
               "400": {
-                "path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-preview-400.jpg",
-                "sha256": "295a9cb3603dc58c311bc87e793e266a38b8ab43ef261f9d66f5bc7070a997b3"
+                "path": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-preview-400.jpg",
+                "sha256": "3771fbd6028ff908e2afa73adc7d638092041d80f414f6b4a576ba57f850e268"
               }
             }
           },
@@ -1025,16 +1039,16 @@
                 "width": 516.125
               }
             ],
-            "asset_path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436.jpg",
-            "asset_sha256": "e715e76fafdd4ed8cdb8127f8b3881414209a0607c71c704008f775a03e099d0",
+            "asset_path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+            "asset_sha256": "50bcc56c73138eb79085ace1e3525a657bf5300fe7ae740e09e5916fc2c870b1",
             "previews": {
               "320": {
-                "path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-preview-320.jpg",
-                "sha256": "c9774ba5361105c4336ab0797836017675f4ef26e7c8fc9a3228123a60242f09"
+                "path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-preview-320.jpg",
+                "sha256": "00971d72cb6fa4ba69084560c7a3fd5d4d1d12f860ce5f898552677f57ccc2a6"
               },
               "400": {
-                "path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-preview-400.jpg",
-                "sha256": "c508a949d54dd8ddbc965e0f9a714b443a96215c42bc879edfdda69da76a672a"
+                "path": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-preview-400.jpg",
+                "sha256": "0c2a7e1344ad73b99de558bb958ea7c7a2b5ae41ecea7013fa5c329fb67b606d"
               }
             }
           },
@@ -1092,16 +1106,16 @@
                 "width": 438.34375
               }
             ],
-            "asset_path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436.jpg",
-            "asset_sha256": "830b50a673a19d7e82e6812e1362888fcbb0a1985114787d32d0ecd8be7fd5b3",
+            "asset_path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+            "asset_sha256": "34a175ea0da0a04e693f4e1e7463a847e853519685796978f4321468aef104c1",
             "previews": {
               "320": {
-                "path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-preview-320.jpg",
-                "sha256": "48364ed2e4f896416a36b7a94af3e5e12cbadad05e5a357ca38a1ffd720f6231"
+                "path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-preview-320.jpg",
+                "sha256": "385c3950c3a47fa0e57588cb745f79c9c3676ed05dad717bccfc8059009fffb8"
               },
               "400": {
-                "path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-preview-400.jpg",
-                "sha256": "5025dc0083cebdb4317dfbb7fb56556f733e58029fb7005749035e9c52a89e45"
+                "path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-preview-400.jpg",
+                "sha256": "366c8ead3c0c534bf0f6b0b8596e18aa0b398575dc0acc0001530aec9b3b2b02"
               }
             }
           }
@@ -1194,7 +1208,7 @@
             "fade_integrated": true
           }
         },
-        "comments": "3形式ともゴールデン参照の、暖色キーフレーズと墨色補助行、写真へ溶ける柔らかなベールという文法を維持している。320pxでも見出しが明確な第二焦点となり、人物との重量バランスも良好。GBPは横長版の単純流用ではなく、左中央のコンパクトな見出しと局所的なベールで人物の顔・手元を保護している。"
+        "comments": "3形式とも実寸プレビューで見出しが即読でき、「入口は、」を暖色かつ大きく置く階層、黒い補助行、柔らかな写真遷移がゴールデンの文法に沿っている。改行も意味単位として自然で、GBPは顔を避けた局所的な左ベールとして成立している。"
       },
       "golden_reference": {
         "revision": "approved-typography-20261001-v1",
@@ -1362,13 +1376,13 @@
     "qa_model": "gpt-5.6",
     "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
     "slug": "boxing-vs-strength-training-for-diet",
-    "asset_version": "reference-v26-grounded-auto-3978-20-7182b436",
-    "checked_at": "2026-11-18T08:16:44.020Z",
+    "asset_version": "reference-v26-grounded-auto-3978-20-7182b436-r2",
+    "checked_at": "2026-11-19T00:57:22.822Z",
     "review_mode": "HYBRID_GENERATED",
     "realism_qc_version": "v1",
     "scene_plausibility_version": "the-rev-scene-plausibility-v1",
     "gbp_image_required": true,
-    "gbp_image_path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436.jpg",
+    "gbp_image_path": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
     "gbp_image_width": 1200,
     "gbp_image_height": 900,
     "gbp_image_aspect_ratio": "4:3",
@@ -1382,48 +1396,48 @@
           "sequence": 1,
           "kind": "generation",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:12:35.315Z",
+          "at": "2026-11-19T00:53:12.453Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_2a1d281fcc0545ceba7fd9551879229b",
-          "response_id": "resp_01912fe875b8d329006afd5df5558887d185c8c1f44a22c02f",
+          "request_id": "req_c4b6e78b1c294e06b59489b651bb72e7",
+          "response_id": "resp_0f37cb2d12525ba3006afe487a4f5087d093ee824d50163a1a",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
-            "input_tokens": 9215,
+            "input_tokens": 9797,
             "input_tokens_details": {
-              "cache_write_tokens": 6760,
+              "cache_write_tokens": 6772,
               "cache_write_tokens_details": {
                 "ttl_12h_tokens": 0,
-                "ttl_30m_tokens": 6760
+                "ttl_30m_tokens": 6772
               },
               "cached_tokens": 0
             },
-            "output_tokens": 601,
+            "output_tokens": 1171,
             "output_tokens_details": {
-              "reasoning_tokens": 100
+              "reasoning_tokens": 494
             },
-            "total_tokens": 9816
+            "total_tokens": 10968
           },
           "image_generation_calls": [
             {
-              "id": "ig_01912fe875b8d329006afd5df7ad4c87d18648e0e1e97a8017",
+              "id": "ig_0f37cb2d12525ba3006afe4880ec8087d0a75c461d0017f8ee",
               "status": "completed",
               "usage": null
             }
           ],
-          "completed_at": "2026-11-18T08:13:03.025Z",
+          "completed_at": "2026-11-19T00:53:45.218Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 2,
           "kind": "qc",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:13:07.602Z",
+          "at": "2026-11-19T00:53:50.747Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_4fc91f8ab5b14a018eb93a89ff949790",
-          "response_id": "resp_090787d402b8739a006afd5e14b6e087d19b41f6aa287417de",
+          "request_id": "req_ab0cb3cbc7204fd7b6f725a58211038e",
+          "response_id": "resp_0a25f9dcac3a403f006afe48a0b7e087d0ac95105f3205cdca",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
@@ -1436,93 +1450,93 @@
               },
               "cached_tokens": 0
             },
-            "output_tokens": 2270,
+            "output_tokens": 2479,
             "output_tokens_details": {
-              "reasoning_tokens": 1442
+              "reasoning_tokens": 1658
             },
-            "total_tokens": 20460
+            "total_tokens": 20669
           },
           "image_generation_calls": [],
-          "completed_at": "2026-11-18T08:13:35.354Z",
+          "completed_at": "2026-11-19T00:54:17.787Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 3,
           "kind": "qc",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:13:36.489Z",
+          "at": "2026-11-19T00:54:18.906Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_00d66e16a70f4c6a8c17ac1b37e63b20",
-          "response_id": "resp_00e767cad9c192fc006afd5e320e3487d18e5c3fdcf4a7b520",
+          "request_id": "req_e4ebf58041fa4e56bc263d8f1c1cc080",
+          "response_id": "resp_08440b1e4ca5f934006afe48bcb5b487d0916e32e49c55b14f",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
-            "input_tokens": 17568,
+            "input_tokens": 17580,
             "input_tokens_details": {
-              "cache_write_tokens": 17565,
+              "cache_write_tokens": 17577,
               "cache_write_tokens_details": {
                 "ttl_12h_tokens": 0,
-                "ttl_30m_tokens": 17565
+                "ttl_30m_tokens": 17577
               },
               "cached_tokens": 0
             },
-            "output_tokens": 2119,
+            "output_tokens": 1601,
             "output_tokens_details": {
-              "reasoning_tokens": 970
+              "reasoning_tokens": 470
             },
-            "total_tokens": 19687
+            "total_tokens": 19181
           },
           "image_generation_calls": [],
-          "completed_at": "2026-11-18T08:14:01.024Z",
+          "completed_at": "2026-11-19T00:54:36.295Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 4,
           "kind": "generation",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:14:02.217Z",
+          "at": "2026-11-19T00:54:37.811Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_0e665cc613e8404e8ae68c14da982641",
-          "response_id": "resp_0316dd97d16423ea006afd5e4b750c87d180ea7d8a9fb12fdb",
+          "request_id": "req_0abcb93674c74cb2af4d7b9405ee1cd8",
+          "response_id": "resp_015bc42e03394892006afe48cf44f887d0bd72455c222c413d",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
-            "input_tokens": 9832,
+            "input_tokens": 9471,
             "input_tokens_details": {
-              "cache_write_tokens": 6962,
+              "cache_write_tokens": 6942,
               "cache_write_tokens_details": {
                 "ttl_12h_tokens": 0,
-                "ttl_30m_tokens": 6962
+                "ttl_30m_tokens": 6942
               },
               "cached_tokens": 0
             },
-            "output_tokens": 1016,
+            "output_tokens": 675,
             "output_tokens_details": {
-              "reasoning_tokens": 437
+              "reasoning_tokens": 79
             },
-            "total_tokens": 10848
+            "total_tokens": 10146
           },
           "image_generation_calls": [
             {
-              "id": "ig_0316dd97d16423ea006afd5e5264f487d1a2a13bbaabf0c124",
+              "id": "ig_015bc42e03394892006afe48d1105c87d0af9be1bbd9d32077",
               "status": "completed",
               "usage": null
             }
           ],
-          "completed_at": "2026-11-18T08:14:35.606Z",
+          "completed_at": "2026-11-19T00:55:00.634Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 5,
           "kind": "qc",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:14:38.404Z",
+          "at": "2026-11-19T00:55:03.265Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_2c7fdb8a153b4bd48360889ba5a65803",
-          "response_id": "resp_055d525a021f9fb6006afd5e7020f087d19094eda48d303036",
+          "request_id": "req_79fbc568ce864af0a09e25a0a045bc90",
+          "response_id": "resp_0dbd19c08b6f8e30006afe48e8a72087d0b745d11f5670354e",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
@@ -1535,93 +1549,93 @@
               },
               "cached_tokens": 0
             },
-            "output_tokens": 2692,
+            "output_tokens": 2469,
             "output_tokens_details": {
-              "reasoning_tokens": 1878
+              "reasoning_tokens": 1643
             },
-            "total_tokens": 20882
+            "total_tokens": 20659
           },
           "image_generation_calls": [],
-          "completed_at": "2026-11-18T08:15:05.066Z",
+          "completed_at": "2026-11-19T00:55:27.602Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 6,
           "kind": "qc",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:15:06.335Z",
+          "at": "2026-11-19T00:55:28.771Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_ffd910a414ff460bbf3f27070e6da3f8",
-          "response_id": "resp_01cc24026187a2ae006afd5e8bb96c87d1816abe3c43538576",
+          "request_id": "req_e93a7208385b4e418cdd3003577adb29",
+          "response_id": "resp_07ee986a7873e588006afe4902410487d092712ca2f8c3b04b",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
-            "input_tokens": 17568,
+            "input_tokens": 17580,
             "input_tokens_details": {
-              "cache_write_tokens": 17565,
+              "cache_write_tokens": 17577,
               "cache_write_tokens_details": {
                 "ttl_12h_tokens": 0,
-                "ttl_30m_tokens": 17565
+                "ttl_30m_tokens": 17577
               },
               "cached_tokens": 0
             },
-            "output_tokens": 2046,
+            "output_tokens": 2190,
             "output_tokens_details": {
-              "reasoning_tokens": 866
+              "reasoning_tokens": 1084
             },
-            "total_tokens": 19614
+            "total_tokens": 19770
           },
           "image_generation_calls": [],
-          "completed_at": "2026-11-18T08:15:30.918Z",
+          "completed_at": "2026-11-19T00:55:53.050Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 7,
           "kind": "generation",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:15:32.323Z",
+          "at": "2026-11-19T00:55:54.324Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_6c7814c70c0845738b9ef43af94b38be",
-          "response_id": "resp_0416504ce02a6ede006afd5ea574d087d18baf933f9cc200bb",
+          "request_id": "req_cfcb36423b394ed79730dc5883840930",
+          "response_id": "resp_0d2b2a17fbc4c310006afe491bb23087d080503a2765e1839c",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
-            "input_tokens": 9843,
+            "input_tokens": 9576,
             "input_tokens_details": {
-              "cache_write_tokens": 6969,
+              "cache_write_tokens": 6947,
               "cache_write_tokens_details": {
                 "ttl_12h_tokens": 0,
-                "ttl_30m_tokens": 6969
+                "ttl_30m_tokens": 6947
               },
               "cached_tokens": 0
             },
-            "output_tokens": 1020,
+            "output_tokens": 775,
             "output_tokens_details": {
-              "reasoning_tokens": 373
+              "reasoning_tokens": 128
             },
-            "total_tokens": 10863
+            "total_tokens": 10351
           },
           "image_generation_calls": [
             {
-              "id": "ig_0416504ce02a6ede006afd5eab093c87d1b1cb8a795d15f573",
+              "id": "ig_0d2b2a17fbc4c310006afe491e265087d0aa3a5ff18753d4c4",
               "status": "completed",
               "usage": null
             }
           ],
-          "completed_at": "2026-11-18T08:16:03.527Z",
+          "completed_at": "2026-11-19T00:56:23.729Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 8,
           "kind": "qc",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:16:06.345Z",
+          "at": "2026-11-19T00:56:26.459Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_e9b2bf2029b94db99308b66bc5331d72",
-          "response_id": "resp_0d9fd7e4f315c886006afd5ec78be487d1b21e3e2ce9570ffe",
+          "request_id": "req_8458d71bc2e84da78d259ca318cf3c02",
+          "response_id": "resp_0cc6fd4a6334ad60006afe493bf60087d096ab1763263c25b0",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
@@ -1634,51 +1648,51 @@
               },
               "cached_tokens": 0
             },
-            "output_tokens": 1785,
+            "output_tokens": 2360,
             "output_tokens_details": {
-              "reasoning_tokens": 969
+              "reasoning_tokens": 1536
             },
-            "total_tokens": 19975
+            "total_tokens": 20550
           },
           "image_generation_calls": [],
-          "completed_at": "2026-11-18T08:16:27.218Z",
+          "completed_at": "2026-11-19T00:56:55.752Z",
           "estimated_cost_jpy": null
         },
         {
           "sequence": 9,
           "kind": "qc",
           "status": "COMPLETED",
-          "at": "2026-11-18T08:16:28.565Z",
+          "at": "2026-11-19T00:56:57.050Z",
           "confirmed_cost": null,
           "http_status": 200,
-          "request_id": "req_d798cf74e88b493884172d4e591f6aef",
-          "response_id": "resp_0f21789fd8d114c6006afd5ede132087d1bdbc4c38e6e9a299",
+          "request_id": "req_e94a730d215440a09428af1826d45f09",
+          "response_id": "resp_0ac31e8fc9e3fba6006afe495ad66887d09f37ea9966a5c6e5",
           "response_status": "completed",
           "model": "gpt-5.6-sol",
           "usage": {
-            "input_tokens": 17568,
+            "input_tokens": 17580,
             "input_tokens_details": {
-              "cache_write_tokens": 17565,
+              "cache_write_tokens": 17577,
               "cache_write_tokens_details": {
                 "ttl_12h_tokens": 0,
-                "ttl_30m_tokens": 17565
+                "ttl_30m_tokens": 17577
               },
               "cached_tokens": 0
             },
-            "output_tokens": 1397,
+            "output_tokens": 2413,
             "output_tokens_details": {
-              "reasoning_tokens": 302
+              "reasoning_tokens": 1357
             },
-            "total_tokens": 18965
+            "total_tokens": 19993
           },
           "image_generation_calls": [],
-          "completed_at": "2026-11-18T08:16:43.018Z",
+          "completed_at": "2026-11-19T00:57:21.847Z",
           "estimated_cost_jpy": null
         }
       ]
     }
   },
   "job_path": "editorial/hybrid-image-jobs/boxing-vs-strength-training-for-diet.json",
-  "updated_at": "2026-11-18T08:16:44.321Z",
-  "asset_version": "reference-v26-grounded-auto-3978-20-7182b436"
+  "updated_at": "2026-11-19T00:57:23.066Z",
+  "asset_version": "reference-v26-grounded-auto-3978-20-7182b436-r2"
 }
