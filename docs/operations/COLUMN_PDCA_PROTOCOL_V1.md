@@ -63,6 +63,14 @@
 - GitHub のファイルを直接編集すると、Supabase の下書きとずれる。直接編集したら、その旨を下書き側へ反映する。
 - 本番の Vercel デプロイは `VERCEL_RELEASE_POLICY_V1.md` に従う。docs だけの変更ではデプロイしない。
 
+### 5.5 下書き投入のルール（失敗の記録つき）
+
+- 下書き（`admin_article_drafts`）を入れるとき、`source_path` / `source_sha` / `publish_*` は空にする。これらは公開処理だけが書く。
+- 理由: 管理画面は「`source_path` あり＝公開済み」と扱う。未公開で入れると「GitHub上に記事が見つかりません」と表示される。
+- 失敗の記録: 2026-11-19 boxing-vs-strength で、AIが `source_path` を入れて発生。直近の対策として `source_path` を空に戻した。
+- 再発防止: DBに制約 `admin_article_drafts_source_path_requires_publish` を追加（未公開で `source_path` / `source_sha` を入れる更新・追加は拒否される）。本番適用・拒否動作の確認済み。
+- 品質チェック係の合否項目: 下書き投入直後に、公開状態が `NOT_PUBLISHED` で `source_path` が空であることを確認する。
+
 ## 6. モデルの使い分け（Fable / Opus / Sonnet）
 - Fable は、本当に考察が必要な所だけ（方針の設計、原因不明の不具合、判定の難しい品質評価）。
 - それ以外（取り込み、集計、定型の記録、確認作業）は Sonnet 等で足りる。
