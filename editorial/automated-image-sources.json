@@ -195,7 +195,12 @@
         "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
         "primary_location": "reception",
         "subject_zone": "reception",
-        "visible_equipment": [],
+        "visible_equipment": [
+          {
+            "object": "denba_device",
+            "zone": "reception"
+          }
+        ],
         "allowed_generated_actions": [
           "enter",
           "prepare",
