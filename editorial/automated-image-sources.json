@@ -663,6 +663,358 @@
         ]
       },
       "manual_verified_source": true
+    },
+    {
+      "source_id": "the-rev-floor-rack-wide-20261119",
+      "repo_path": "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
+      "drive_file_id": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+      "drive_file_name": "IMG_1312.HEIC",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "floor-rack-wide-20261119",
+      "categories": [
+        "training",
+        "gym-guide"
+      ],
+      "keywords": [
+        "筋トレ",
+        "トレーニング",
+        "マシン",
+        "フリーウェイト",
+        "ダンベル",
+        "バーベル",
+        "ラック",
+        "ケーブル",
+        "スミス",
+        "初心者",
+        "比較",
+        "どっち",
+        "選び方",
+        "設備",
+        "始める",
+        "ジム",
+        "新大宮"
+      ],
+      "scene_semantics": "THE REV.の実トレーニングフロア（広角）。EVOLGEARのラック・ケーブル・ベンチを手前から見る構図。左奥に酸素ルームが見える。器具の位置・床・窓は固定し、移動・複製しない。",
+      "selection_reason": "ラック・ケーブル・バーベル・ベンチが一枚に収まる実景。マシンとフリーウェイトの比較や筋トレ入門の記事に向く。左奥の酸素ルームは背景のみ。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          },
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress",
+          "recovery"
+        ],
+        "verification": {
+          "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+          "verified_at": "2026-11-19",
+          "note": "店長が撮影したIMG_1312（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-floor-rack-low-20261119",
+      "repo_path": "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+      "drive_file_id": "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+      "drive_file_name": "IMG_1310.HEIC",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "floor-rack-low-20261119",
+      "categories": [
+        "training",
+        "gym-guide"
+      ],
+      "keywords": [
+        "筋トレ",
+        "トレーニング",
+        "マシン",
+        "フリーウェイト",
+        "ダンベル",
+        "バーベル",
+        "ラック",
+        "ケーブル",
+        "スミス",
+        "初心者",
+        "比較",
+        "どっち",
+        "選び方",
+        "設備",
+        "始める",
+        "ジム",
+        "新大宮"
+      ],
+      "scene_semantics": "THE REV.の実トレーニングフロア（低い角度）。左手前に可変式ダンベル、中央にラックとケーブル、右にベンチ。窓の光と鏡の位置を維持する。器具は移動・複製しない。",
+      "selection_reason": "ダンベル（フリーウェイト）とラック・ケーブル（マシン側）が同時に写る。フリーウェイトとマシンの比較記事の背景に向く。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "ffd7aec55d34824335ce907aac1bfcc17abf8315fdb916cb992bcbb638d868b8",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          },
+          {
+            "object": "dumbbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "dumbbells",
+            "zone": "training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress",
+          "recovery"
+        ],
+        "verification": {
+          "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+          "verified_at": "2026-11-19",
+          "note": "店長が撮影したIMG_1310（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-floor-rack-window-20261119",
+      "repo_path": "assets/images/editorial-sources/floor-rack-window-IMG1311-20261119.jpg",
+      "drive_file_id": "1r-LyXZo5cHJrmYUwS9gJXU0upGBrBVjb",
+      "drive_file_name": "IMG_1311.HEIC",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "floor-rack-window-20261119",
+      "categories": [
+        "training",
+        "gym-guide"
+      ],
+      "keywords": [
+        "筋トレ",
+        "トレーニング",
+        "マシン",
+        "フリーウェイト",
+        "ダンベル",
+        "バーベル",
+        "ラック",
+        "ケーブル",
+        "スミス",
+        "初心者",
+        "比較",
+        "どっち",
+        "選び方",
+        "設備",
+        "始める",
+        "ジム",
+        "新大宮"
+      ],
+      "scene_semantics": "THE REV.の実トレーニングフロア（上から斜め）。ラックのバー、ケーブル、ベンチ、右の窓と壁面ロゴの位置関係を維持する。器具は移動・複製しない。",
+      "selection_reason": "ラック全体とベンチを明るい窓際から見る実景。筋トレの入口や器具選びの記事に向く。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "7d5fa02fd487f16cc3e9d0eb0d4eae6c673d59fad4044f12b23afdd268af26db",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress",
+          "recovery"
+        ],
+        "verification": {
+          "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+          "verified_at": "2026-11-19",
+          "note": "店長が撮影したIMG_1311（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+        }
+      }
+    },
+    {
+      "source_id": "the-rev-reception-denba-20261119",
+      "repo_path": "assets/images/editorial-sources/reception-denba-IMG1302-20261119.jpg",
+      "drive_file_id": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+      "drive_file_name": "IMG_1302.HEIC",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "",
+      "frame_position_ratio": null,
+      "lineage_key": "reception-denba-20261119",
+      "categories": [
+        "training",
+        "health",
+        "gym-guide"
+      ],
+      "keywords": [
+        "来店",
+        "初心者",
+        "体験",
+        "始める",
+        "受付",
+        "相談",
+        "比較",
+        "選び方",
+        "新大宮",
+        "ジム",
+        "パーソナルジム",
+        "通いやすさ"
+      ],
+      "scene_semantics": "THE REV.の実受付。壁面ロゴ、受付カウンター上のDENBA本体、観葉植物、奥のマット室の位置を維持する。受付前景へ設備を複製・移動しない。顧客は入店・相談前・比較メモ確認などの自然な受付行動のみ。",
+      "selection_reason": "受付カウンターとロゴ壁が縦構図で収まる実景。来店前後・入口選びの記事に向く。",
+      "scene_inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15",
+        "primary_location": "reception",
+        "subject_zone": "reception",
+        "visible_equipment": [
+          {
+            "object": "denba_device",
+            "zone": "reception"
+          },
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "enter",
+          "prepare",
+          "rest",
+          "compare_notes",
+          "review_paper",
+          "observe_facility"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start"
+        ],
+        "verification": {
+          "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+          "verified_at": "2026-11-19",
+          "note": "店長が撮影したIMG_1302（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+        }
+      }
     }
   ],
   "scene_grounding_version": "the-rev-source-scene-v1"

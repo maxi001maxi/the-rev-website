@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-frame-3978-20\",\"source_sha256\":\"b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05\",\"scene_type\":\"personal_choice\",\"location_type\":\"reception\",\"human_action\":\"compare_notes\",\"composition_type\":\"medium_seated_portrait\",\"visual_role\":\"deciding_own_start\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.8333333333333334,\"matches\":[{\"slug\":\"muscle-soreness-should-i-train\",\"score\":0.3333333333333333,\"equal\":[\"composition_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"workout-after-meal-timing\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"oxygen-capsule-vs-room\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"personal-gym-posture-check\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"24-hour-gym-workout-menu-consultation\",\"score\":0.6666666666666666,\"equal\":[\"scene_type\",\"location_type\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-effects-research-evidence\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"strength-training-exercise-order-first-exercise\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"after-training-shower-changing-the-rev\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"strength-training-breathing-when-to-exhale\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"reservation-only-vs-exclusive-use\",\"score\":0.8333333333333334,\"equal\":[\"scene_type\",\"location_type\",\"human_action\",\"composition_type\",\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"boxing-trial-what-to-bring\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"cable-machine-how-it-works-the-rev\",\"score\":0,\"equal\":[],\"hard_exclusion\":false}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"denba_device\",\"zone\":\"reception\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"source image visual inspection + canonical scoped registry\",\"verified_at\":\"2026-10-07\",\"note\":\"Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be compare_notes in reception; visual role deciding_own_start.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-reception-denba-20261119\",\"source_sha256\":\"82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15\",\"scene_type\":\"personal_choice\",\"location_type\":\"reception\",\"human_action\":\"compare_notes\",\"composition_type\":\"medium_seated_portrait\",\"visual_role\":\"deciding_own_start\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"reception\",\"article_specific_directive\":\"\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.8333333333333334,\"matches\":[{\"slug\":\"muscle-soreness-should-i-train\",\"score\":0.3333333333333333,\"equal\":[\"composition_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"workout-after-meal-timing\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"oxygen-capsule-vs-room\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"personal-gym-posture-check\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"24-hour-gym-workout-menu-consultation\",\"score\":0.6666666666666666,\"equal\":[\"scene_type\",\"location_type\",\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-effects-research-evidence\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"strength-training-exercise-order-first-exercise\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"after-training-shower-changing-the-rev\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"strength-training-breathing-when-to-exhale\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"reservation-only-vs-exclusive-use\",\"score\":0.8333333333333334,\"equal\":[\"scene_type\",\"location_type\",\"human_action\",\"composition_type\",\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"boxing-trial-what-to-bring\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"cable-machine-how-it-works-the-rev\",\"score\":0,\"equal\":[],\"hard_exclusion\":false}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15\",\"primary_location\":\"reception\",\"subject_zone\":\"reception\",\"visible_equipment\":[{\"object\":\"denba_device\",\"zone\":\"reception\"},{\"object\":\"oxygen_room\",\"zone\":\"recovery_area\"}],\"allowed_generated_actions\":[\"enter\",\"prepare\",\"rest\",\"compare_notes\",\"review_paper\",\"observe_facility\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\"],\"verification\":{\"method\":\"owner-supplied JPEG of Drive HEIC + visual inspection by Claude\",\"verified_at\":\"2026-11-19\",\"note\":\"店長が撮影したIMG_1302（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be compare_notes in reception; visual role deciding_own_start.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "male",
-  "generated_scene_path": "assets/images/editorial-generated/boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-3978-20-7182b436-r2",
-  "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
-  "og_image": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+  "asset_version": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+  "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+  "og_image": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+  "gbp_image": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.json",
+  "qa_report_path": "editorial/image-qa/boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -65,20 +65,20 @@
     "scene_plausibility_version": "the-rev-scene-plausibility-v1"
   },
   "background_source": {
-    "drive_file_id": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+    "drive_file_id": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
     "cached_frame_drive_file_id": "",
-    "origin_video_file_id": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
-    "origin_video_file_name": "IMG_3978.MOV",
-    "frame_position_ratio": 0.2,
-    "selection_reason": "生活導線・来店・習慣化テーマに適合する、指定Drive root由来の承認済みContent Reference。",
+    "origin_video_file_id": "",
+    "origin_video_file_name": "IMG_1302.HEIC",
+    "frame_position_ratio": null,
+    "selection_reason": "受付カウンターとロゴ壁が縦構図で収まる実景。来店前後・入口選びの記事に向く。",
     "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "scene_grounding_version": "the-rev-source-scene-v1",
   "scene_plan": {
     "version": "the-rev-source-scene-v1",
-    "source_id": "the-rev-frame-3978-20",
-    "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
+    "source_id": "the-rev-reception-denba-20261119",
+    "source_sha256": "82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15",
     "scene_type": "personal_choice",
     "location_type": "reception",
     "human_action": "compare_notes",
@@ -197,13 +197,17 @@
   },
   "source_scene_inventory": {
     "version": "the-rev-source-scene-v1",
-    "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
+    "source_sha256": "82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15",
     "primary_location": "reception",
     "subject_zone": "reception",
     "visible_equipment": [
       {
         "object": "denba_device",
         "zone": "reception"
+      },
+      {
+        "object": "oxygen_room",
+        "zone": "recovery_area"
       }
     ],
     "allowed_generated_actions": [
@@ -225,9 +229,9 @@
       "training_start"
     ],
     "verification": {
-      "method": "source image visual inspection + canonical scoped registry",
-      "verified_at": "2026-10-07",
-      "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+      "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+      "verified_at": "2026-11-19",
+      "note": "店長が撮影したIMG_1302（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
     }
   },
   "automation": {
@@ -236,8 +240,8 @@
     "production_recovery_version": "v0.8.2",
     "editorial_text_qc": null,
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-frame-3978-20",
-    "source_repo_path": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+    "selected_source_id": "the-rev-reception-denba-20261119",
+    "source_repo_path": "assets/images/editorial-sources/reception-denba-IMG1302-20261119.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
