@@ -1,0 +1,22 @@
+{
+  "content_id": "BLOG-20261114-284ba6",
+  "cms_id": "9e6663b0-b177-42d3-90b0-bf03dc038a86",
+  "review_url": "https://the-rev-website.vercel.app/admin/articles/review/?id=9e6663b0-b177-42d3-90b0-bf03dc038a86",
+  "queue_row": 35,
+  "queue_status": "REVIEW_READY",
+  "blog_row": 32,
+  "gbp_row": 30,
+  "bridge_row": 38,
+  "gbp_visible_view_matches": true,
+  "gbp_emojis": [
+    "🌿",
+    "📖"
+  ],
+  "gbp_article_url_state": "WAITING_FOR_PUBLICATION",
+  "gbp_preview_formulas_preserved": true,
+  "paid_ai_api_calls": 0,
+  "blog_published": false,
+  "google_business_post_sent": false,
+  "cms_visual_verification": "BLOCKED_BY_ORDINARY_SIGN_IN_SCREEN; database and canonical preflight verified",
+  "checked_at": "2026-11-13T14:57:56.674Z"
+}
