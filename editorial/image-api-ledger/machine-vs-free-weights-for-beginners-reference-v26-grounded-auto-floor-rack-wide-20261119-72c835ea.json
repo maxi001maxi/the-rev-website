@@ -131,9 +131,18 @@
     {
       "sequence": 1,
       "kind": "generation",
-      "status": "STARTED",
+      "status": "FAILED",
       "at": "2026-11-20T21:04:44.429Z",
-      "confirmed_cost": null
+      "confirmed_cost": null,
+      "http_status": 429,
+      "request_id": "req_84ff5288fb59462796de76781eba62ac",
+      "response_id": null,
+      "response_status": null,
+      "model": "gpt-5.6",
+      "usage": null,
+      "image_generation_calls": [],
+      "completed_at": "2026-11-20T21:04:47.453Z",
+      "estimated_cost_jpy": null
     }
   ],
   "confirmed_cost": null
