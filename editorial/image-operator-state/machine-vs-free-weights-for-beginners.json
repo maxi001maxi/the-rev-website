@@ -1,0 +1,10 @@
+{
+  "slug": "machine-vs-free-weights-for-beginners",
+  "status": "BLOCKED_PROVIDER_CREDITS",
+  "attempts_total": 1,
+  "max_attempts": 3,
+  "last_error": "OpenAI Responses API failed: HTTP 429 / You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
+  "job_path": "editorial/hybrid-image-jobs/machine-vs-free-weights-for-beginners.json",
+  "updated_at": "2026-11-20T21:04:48.392Z",
+  "asset_version": "reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea"
+}
