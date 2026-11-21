@@ -125,7 +125,9 @@ assertTrue(autoWorkflow.includes('OPENAI_API_KEY'), 'Automated Hybrid workflow m
 assertTrue(autoWorkflow.includes('XSERVER_FTP_USER'), 'Automated Hybrid workflow must stage assets to Xserver');
 assertTrue(autoWorkflow.includes('assets/images/gbp'), 'Automated Hybrid workflow must stage GBP 4:3 assets');
 assertTrue(autoWorkflow.includes('unattended-github-actions-v1'), 'Automated Hybrid workflow must ignore legacy/manual Hybrid jobs');
-assertTrue(autoWorkflow.includes("cron: '0 21 * * 1,2,3,5,6'"), 'Automated Hybrid safety schedule must run once on THE REV. business days');
+// 2026-11-21: 毎朝の起動は column-morning.yml（営業日の朝）から workflow_call で呼ぶ方式に一本化。
+const morningWorkflow = fs.readFileSync(path.join(ROOT, '.github/workflows/column-morning.yml'), 'utf8');
+assertTrue(autoWorkflow.includes('workflow_call:') && morningWorkflow.includes('uses: ./.github/workflows/auto-editorial-hybrid-images.yml') && morningWorkflow.includes("cron: '30 20 * * 1,2,3,5,6'"), 'Automated Hybrid must be called once on THE REV. business-day mornings');
 assertTrue(autoWorkflow.includes("id: select"), 'Automated Hybrid workflow must expose pending-job preflight state');
 assertTrue(autoWorkflow.includes("has_pending=true"), 'Automated Hybrid workflow must detect real pending work before heavy setup');
 assertTrue(autoWorkflow.indexOf('name: Select pending Hybrid jobs') < autoWorkflow.indexOf('name: Install dependencies'), 'Pending-job selection must happen before dependency installation');

@@ -22,7 +22,14 @@ if (!jobPath) {
 const job = JSON.parse(fs.readFileSync(jobPath, 'utf8'));
 const OPENAI_API_KEY = String(process.env.OPENAI_API_KEY || '').trim();
 const GENERATION_MODEL = String(process.env.EDITORIAL_IMAGE_GENERATION_MODEL || 'gpt-5.6').trim();
-const QA_MODEL = String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
+// 画像の合否判定（B案）: Claude が画像を直接見て判定する。基本は Sonnet、迷うものだけ Opus で二次確認。
+// ANTHROPIC_API_KEY が無い環境だけ、従来どおり OpenAI で判定する（移行期間の互換）。
+const ANTHROPIC_API_KEY = String(process.env.ANTHROPIC_API_KEY || '').trim();
+const QC_PROVIDER = String(process.env.EDITORIAL_IMAGE_QC_PROVIDER || (ANTHROPIC_API_KEY ? 'anthropic' : 'openai')).trim();
+const CLAUDE_QC_MODEL = String(process.env.EDITORIAL_IMAGE_QC_CLAUDE_MODEL || 'claude-sonnet-5-5').trim();
+const CLAUDE_QC_ESCALATION_MODEL = String(process.env.EDITORIAL_IMAGE_QC_CLAUDE_ESCALATION_MODEL || 'claude-opus-5-5').trim();
+const QA_MODEL = QC_PROVIDER === 'anthropic' ? CLAUDE_QC_MODEL : String(process.env.EDITORIAL_IMAGE_QA_MODEL || 'gpt-5.6').trim();
+if (QC_PROVIDER === 'anthropic' && !ANTHROPIC_API_KEY) throw new Error('ANTHROPIC_API_KEY is required for Claude image QC.');
 const MAX_TOTAL_ATTEMPTS = Math.max(
   1,
   Math.min(POLICY.max_generation_attempts, Number(job?.max_generation_attempts || POLICY.max_generation_attempts))
@@ -158,6 +165,75 @@ async function openaiResponse(payload) {
         .map(x=>({id:x.id,status:x.status,usage:x.usage||null}))})+'\n');
   }
   return json;
+}
+
+// OpenAI 形式の content（input_text / input_image）を Claude の content に変換する
+function toClaudeContent(parts) {
+  return parts.map((p) => {
+    if (p.type === 'input_text') return { type: 'text', text: p.text };
+    if (p.type === 'input_image') {
+      const m = String(p.image_url).match(/^data:([^;]+);base64,(.*)$/s);
+      if (!m) throw new Error('Claude QC expects data URL images');
+      return { type: 'image', source: { type: 'base64', media_type: m[1], data: m[2] } };
+    }
+    throw new Error(`Unsupported QC content part: ${p.type}`);
+  });
+}
+
+let anthropicClient = null;
+async function claudeQcCall(model, parts) {
+  if (!anthropicClient) {
+    const { default: Anthropic } = await import('@anthropic-ai/sdk');
+    anthropicClient = new Anthropic({ apiKey: ANTHROPIC_API_KEY, maxRetries: 3, timeout: 10 * 60 * 1000 });
+  }
+  const reservation = await apiLedger.reserve('qc');
+  let msg = null, err = null;
+  try {
+    msg = await anthropicClient.messages.stream({
+      model, max_tokens: 32000,
+      output_config: { effort: model.includes('opus') ? 'high' : 'medium' },
+      system: 'You are the independent image quality checker for THE REV. CONDITIONING LAB. editorial thumbnails. Look at the actual images yourself. Be strict and concrete; never pass an image because the plan says it should pass. Reply with one JSON object only, no prose, no code fences.',
+      messages: [{ role: 'user', content: toClaudeContent(parts) }]
+    }).finalMessage();
+  } catch (e) { err = e; }
+  await apiLedger.complete(reservation, { provider: 'anthropic', http_status: err ? (err.status || 0) : 200,
+    request_id: err?.request_id || msg?._request_id || '', response_id: msg?.id || null, response_status: msg?.stop_reason || null,
+    model: msg?.model || model, usage: msg?.usage || null, image_generation_calls: [] });
+  if (err) { const e = new Error(`Claude image QC failed: HTTP ${err.status || '?'} / ${String(err.message || '').slice(0, 600)}`); e.status = err.status; throw e; }
+  if (msg.stop_reason === 'refusal' || msg.stop_reason === 'max_tokens') throw new Error(`CLAUDE_QC_INCOMPLETE: ${msg.stop_reason}`);
+  const text = msg.content.filter((b) => b.type === 'text').map((b) => b.text).join(' ');
+  return { model: msg.model || model, text };
+}
+
+// 判定を返す。Claude の場合は OpenAI 形式の応答の形に包んで返す（呼び出し側の解析を変えない）。
+// borderline(json) が true のときだけ上位モデルで二次確認し、その結果を採用する。
+async function qcResponse(parts, borderline = () => false) {
+  if (QC_PROVIDER !== 'anthropic') return openaiResponse({ model: QA_MODEL, input: [{ role: 'user', content: parts }] });
+  const wrap = (r, extra) => ({ model: r.model, qc_provider: 'anthropic', ...extra,
+    output: [{ type: 'message', content: [{ type: 'output_text', text: r.text }] }] });
+  const first = await claudeQcCall(CLAUDE_QC_MODEL, parts);
+  let firstJson = null;
+  try { firstJson = extractJson(first.text); } catch {}
+  if (firstJson && !borderline(firstJson)) return wrap(first, { qc_escalated: false });
+  const second = await claudeQcCall(CLAUDE_QC_ESCALATION_MODEL, parts);
+  console.log(JSON.stringify({ status: 'IMAGE_QC_ESCALATED', primary_model: first.model, escalation_model: second.model, reason: firstJson ? 'borderline' : 'unparseable' }));
+  return wrap(second, { qc_escalated: true, qc_primary_model: first.model });
+}
+
+// 合否の境目付近か（Sonnet の判定を Opus で確かめる対象）
+function visualQaBorderline(q) {
+  const keys = ['series_consistency','editorial_quality','typography_harmony','headline_balance_score','negative_space','photo_treatment',
+    'article_visual_relevance','main_claim_visualization','human_subject_prominence','rev_environment_consistency','brand_space_authenticity',
+    'human_environment_integration','perspective_scale_consistency','ground_contact_shadow_consistency','lighting_consistency','anatomy_pose_realism'];
+  const scores = keys.map((k) => Number(q?.[k])).filter((n) => Number.isFinite(n));
+  if (scores.some((n) => n === 7 || n === 8)) return true;
+  const share = Number(q?.human_visual_attention_share);
+  if (Number.isFinite(share) && ((share >= 53 && share <= 63) || (share >= 70 && share <= 80))) return true;
+  const conf = Number(q?.confidence);
+  return Number.isFinite(conf) && conf < 0.7;
+}
+function groundingBorderline(o) {
+  return o?.source?.complete === false || o?.generated?.complete === false;
 }
 
 function outputText(response) {
@@ -568,11 +644,7 @@ async function visualQa(attempt) {
     `Attempt: ${attempt}`
   ].join('\n');
 
-  const response = await openaiResponse({
-    model: QA_MODEL,
-    input: [{
-      role: 'user',
-      content: [
+  const response = await qcResponse([
         { type: 'input_text', text: prompt + (ownerFinish?'\n'+finishQcGuidance(job):'') + (reviewOnly ? '\nAlso return r7_comparison:{pass:boolean,comments:string,variants:{thumbnail:boolean,og:boolean,gbp:boolean}}. Compare actual photographic integration, anatomy, hands/gaze, spatial authenticity and natural lighting against the labeled Oct15 R7 references. Do not award PASS just for typography or a shared gym. State concrete visible defects. The actual source and R7, not prior numeric scores, are evidence.' : '') },
         { type: 'input_image', image_url: dataUrl(sourcePath), detail: 'high' },
         { type: 'input_image', image_url: dataUrl(path.resolve(job.generated_scene_path)), detail: 'high' },
@@ -580,11 +652,12 @@ async function visualQa(attempt) {
         ...goldenImages,
         ...r7Images,
         ...(ownerFinish?[{type:'input_text',text:finishInputLabel(job)},{type:'input_image',image_url:dataUrl(job.v3.owner_finish.input_path),detail:'high'}]:[])
-      ]
-    }]
-  });
+  ], visualQaBorderline);
 
   const modelQa = extractJson(outputText(response));
+  modelQa.qc_provider = response.qc_provider || 'openai';
+  modelQa.qc_model = response.model || QA_MODEL;
+  modelQa.qc_escalated = response.qc_escalated === true;
   const bg = job.background_source || {};
   const scores = [
     'series_consistency','editorial_quality','typography_harmony','headline_balance_score','negative_space',
@@ -778,7 +851,7 @@ async function inspectSceneGrounding({job: inspectionJob = job,sourcePath: inspe
     content.push({type:'input_text',text:`RECENT ARTICLE ${r.slug}: ${r.imageHeadlineShort || ''}; title ${r.articleTitle || r.slug}`});
     content.push({type:'input_image',image_url:dataUrl(r.thumbnail),detail:'high'});
   }
-  const response=await openaiResponse({model:QA_MODEL,input:[{role:'user',content}]});
+  const response=await qcResponse(content, groundingBorderline);
   const observed=extractJson(outputText(response));
   const evaluatedHistory=recent.map(r=>{
     const observedFingerprint=observed.recent?.find(x=>x.slug===r.slug)?.scene_fingerprint || r.sceneFingerprint;
