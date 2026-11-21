@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-floor-rack-wide-20261119\",\"source_sha256\":\"4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73\",\"scene_type\":\"equipment_orientation\",\"location_type\":\"training_area\",\"human_action\":\"observing_real_equipment\",\"composition_type\":\"medium_side_portrait\",\"visual_role\":\"deciding_own_start\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"training_area\",\"article_specific_directive\":\"\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.5,\"matches\":[{\"slug\":\"boxing-vs-strength-training-for-diet\",\"score\":0.3333333333333333,\"equal\":[\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"muscle-soreness-should-i-train\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"workout-after-meal-timing\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"oxygen-capsule-vs-room\",\"score\":0.3333333333333333,\"equal\":[\"scene_type\",\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"personal-gym-posture-check\",\"score\":0.5,\"equal\":[\"location_type\",\"composition_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"24-hour-gym-workout-menu-consultation\",\"score\":0.3333333333333333,\"equal\":[\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-effects-research-evidence\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"strength-training-exercise-order-first-exercise\",\"score\":0.16666666666666666,\"equal\":[\"location_type\"],\"hard_exclusion\":false},{\"slug\":\"after-training-shower-changing-the-rev\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"strength-training-breathing-when-to-exhale\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"reservation-only-vs-exclusive-use\",\"score\":0.16666666666666666,\"equal\":[\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"boxing-trial-what-to-bring\",\"score\":0,\"equal\":[],\"hard_exclusion\":false}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73\",\"primary_location\":\"training_area\",\"subject_zone\":\"training_area\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"training_area\"},{\"object\":\"cable_machine\",\"zone\":\"training_area\"},{\"object\":\"barbell\",\"zone\":\"training_area\"},{\"object\":\"weight_plates\",\"zone\":\"training_area\"},{\"object\":\"training_bench\",\"zone\":\"training_area\"},{\"object\":\"oxygen_room\",\"zone\":\"recovery_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\",\"rack_adjustment\",\"cable_operation\",\"barbell_operation\",\"strength_exercise\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\",\"training_execution\",\"training_progress\",\"recovery\"],\"verification\":{\"method\":\"owner-supplied JPEG of Drive HEIC + visual inspection by Claude\",\"verified_at\":\"2026-11-19\",\"note\":\"店長が撮影したIMG_1312（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be observing_real_equipment in training_area; visual role deciding_own_start.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
+  "scene_intent": "ARTICLE INTENT -> APPROVED SCENE: {\"version\":\"the-rev-source-scene-v1\",\"source_id\":\"the-rev-floor-rack-low-20261119\",\"source_sha256\":\"ffd7aec55d34824335ce907aac1bfcc17abf8315fdb916cb992bcbb638d868b8\",\"scene_type\":\"equipment_orientation\",\"location_type\":\"training_area\",\"human_action\":\"observing_real_equipment\",\"composition_type\":\"medium_side_portrait\",\"visual_role\":\"deciding_own_start\",\"article_intent\":\"training_start\",\"required_equipment\":[],\"subject_zone\":\"training_area\",\"article_specific_directive\":\"EQUIPMENT-CHOICE FRAMING (human-first): one customer in a medium side portrait, face and calm thoughtful expression clearly readable at small card size, dominant at roughly 60-70% of visual attention. The customer looks over the verified real equipment from a safe distance with empty hands, deciding where to start. Keep the real machine/rack as a clearly recognizable but secondary anchor and render the rest of the verified background with natural shallow depth-of-field. Dumbbells may appear only if they are already visible in the source, small and in their original position; never add, move or enlarge equipment. No touching, loading or operating equipment, no trainer or staff.\",\"similarity\":{\"pass\":true,\"window\":12,\"compared\":12,\"unknown_count\":0,\"penalty\":0.5,\"matches\":[{\"slug\":\"boxing-vs-strength-training-for-diet\",\"score\":0.3333333333333333,\"equal\":[\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"muscle-soreness-should-i-train\",\"score\":0.3333333333333333,\"equal\":[\"location_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"workout-after-meal-timing\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"oxygen-capsule-vs-room\",\"score\":0.3333333333333333,\"equal\":[\"scene_type\",\"composition_type\"],\"hard_exclusion\":false},{\"slug\":\"personal-gym-posture-check\",\"score\":0.5,\"equal\":[\"location_type\",\"composition_type\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"24-hour-gym-workout-menu-consultation\",\"score\":0.3333333333333333,\"equal\":[\"visual_role\",\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"denba-health-effects-research-evidence\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"strength-training-exercise-order-first-exercise\",\"score\":0.16666666666666666,\"equal\":[\"location_type\"],\"hard_exclusion\":false},{\"slug\":\"after-training-shower-changing-the-rev\",\"score\":0,\"equal\":[],\"hard_exclusion\":false},{\"slug\":\"strength-training-breathing-when-to-exhale\",\"score\":0.16666666666666666,\"equal\":[\"article_intent\"],\"hard_exclusion\":false},{\"slug\":\"reservation-only-vs-exclusive-use\",\"score\":0.16666666666666666,\"equal\":[\"visual_role\"],\"hard_exclusion\":false},{\"slug\":\"boxing-trial-what-to-bring\",\"score\":0,\"equal\":[],\"hard_exclusion\":false}]}}\nCANONICAL SOURCE INVENTORY (absolute spatial constraint): {\"version\":\"the-rev-source-scene-v1\",\"source_sha256\":\"ffd7aec55d34824335ce907aac1bfcc17abf8315fdb916cb992bcbb638d868b8\",\"primary_location\":\"training_area\",\"subject_zone\":\"training_area\",\"visible_equipment\":[{\"object\":\"training_rack\",\"zone\":\"training_area\"},{\"object\":\"cable_machine\",\"zone\":\"training_area\"},{\"object\":\"barbell\",\"zone\":\"training_area\"},{\"object\":\"weight_plates\",\"zone\":\"training_area\"},{\"object\":\"training_bench\",\"zone\":\"training_area\"},{\"object\":\"dumbbell\",\"zone\":\"training_area\"},{\"object\":\"dumbbells\",\"zone\":\"training_area\"}],\"allowed_generated_actions\":[\"prepare\",\"rest\",\"observing_real_equipment\",\"rack_adjustment\",\"cable_operation\",\"barbell_operation\",\"strength_exercise\"],\"forbidden_generated_objects\":[\"medical_device\",\"unverified_training_equipment\"],\"suitable_article_intents\":[\"facility_selection\",\"health_before_start\",\"readiness\",\"training_start\",\"training_execution\",\"training_progress\",\"recovery\"],\"verification\":{\"method\":\"owner-supplied JPEG of Drive HEIC + visual inspection by Claude\",\"verified_at\":\"2026-11-19\",\"note\":\"店長が撮影したIMG_1310（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。\"}}\nEquipment in a background zone must STAY in that zone. Never copy, move, enlarge or add a rack/cable/bench into reception or foreground.\nNo equipment absent from this inventory. Style references supply mood only, never objects or spatial layout.\nCustomer action MUST be observing_real_equipment in training_area; visual role deciding_own_start.\nEQUIPMENT-CHOICE FRAMING (human-first): one customer in a medium side portrait, face and calm thoughtful expression clearly readable at small card size, dominant at roughly 60-70% of visual attention. The customer looks over the verified real equipment from a safe distance with empty hands, deciding where to start. Keep the real machine/rack as a clearly recognizable but secondary anchor and render the rest of the verified background with natural shallow depth-of-field. Dumbbells may appear only if they are already visible in the source, small and in their original position; never add, move or enlarge equipment. No touching, loading or operating equipment, no trainer or staff.\nFor compare_notes: one seated customer considering a small blank personal checklist/phone, calm thoughtful expression; no equipment touching. For observing_real_equipment: a customer studies the real equipment already present in the source from a safe distance, empty hands, no touching, adjusting, loading or operating. Do not invent a mat or any component not visible in the source.\nPreserve the room geometry, floor zones and furniture. Blur does not excuse moved/invented equipment.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-low-20261119-c53808c7-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea",
-  "thumbnail": "assets/images/blog/thumb-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
-  "og_image": "assets/images/blog/og/og-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
-  "gbp_image": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
+  "asset_version": "reference-v26-grounded-auto-floor-rack-low-20261119-c53808c7",
+  "thumbnail": "assets/images/blog/thumb-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-low-20261119-c53808c7.jpg",
+  "og_image": "assets/images/blog/og/og-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-low-20261119-c53808c7.jpg",
+  "gbp_image": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-low-20261119-c53808c7.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.json",
+  "qa_report_path": "editorial/image-qa/machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-low-20261119-c53808c7.json",
   "generation_model": "gpt-image-hybrid",
   "qa_model": "gpt-5.6-sol-visual-qc",
   "publish_requires_human_approval": true,
@@ -65,20 +65,20 @@
     "scene_plausibility_version": "the-rev-scene-plausibility-v1"
   },
   "background_source": {
-    "drive_file_id": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+    "drive_file_id": "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
     "cached_frame_drive_file_id": "",
     "origin_video_file_id": "",
-    "origin_video_file_name": "IMG_1312.HEIC",
+    "origin_video_file_name": "IMG_1310.HEIC",
     "frame_position_ratio": null,
-    "selection_reason": "ラック・ケーブル・バーベル・ベンチが一枚に収まる実景。マシンとフリーウェイトの比較や筋トレ入門の記事に向く。左奥の酸素ルームは背景のみ。",
+    "selection_reason": "ダンベル（フリーウェイト）とラック・ケーブル（マシン側）が同時に写る。フリーウェイトとマシンの比較記事の背景に向く。",
     "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
   },
   "scene_plausibility_version": "the-rev-scene-plausibility-v1",
   "scene_grounding_version": "the-rev-source-scene-v1",
   "scene_plan": {
     "version": "the-rev-source-scene-v1",
-    "source_id": "the-rev-floor-rack-wide-20261119",
-    "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+    "source_id": "the-rev-floor-rack-low-20261119",
+    "source_sha256": "ffd7aec55d34824335ce907aac1bfcc17abf8315fdb916cb992bcbb638d868b8",
     "scene_type": "equipment_orientation",
     "location_type": "training_area",
     "human_action": "observing_real_equipment",
@@ -87,7 +87,7 @@
     "article_intent": "training_start",
     "required_equipment": [],
     "subject_zone": "training_area",
-    "article_specific_directive": "",
+    "article_specific_directive": "EQUIPMENT-CHOICE FRAMING (human-first): one customer in a medium side portrait, face and calm thoughtful expression clearly readable at small card size, dominant at roughly 60-70% of visual attention. The customer looks over the verified real equipment from a safe distance with empty hands, deciding where to start. Keep the real machine/rack as a clearly recognizable but secondary anchor and render the rest of the verified background with natural shallow depth-of-field. Dumbbells may appear only if they are already visible in the source, small and in their original position; never add, move or enlarge equipment. No touching, loading or operating equipment, no trainer or staff.",
     "similarity": {
       "pass": true,
       "window": 12,
@@ -196,7 +196,7 @@
   },
   "source_scene_inventory": {
     "version": "the-rev-source-scene-v1",
-    "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+    "source_sha256": "ffd7aec55d34824335ce907aac1bfcc17abf8315fdb916cb992bcbb638d868b8",
     "primary_location": "training_area",
     "subject_zone": "training_area",
     "visible_equipment": [
@@ -221,8 +221,12 @@
         "zone": "training_area"
       },
       {
-        "object": "oxygen_room",
-        "zone": "recovery_area"
+        "object": "dumbbell",
+        "zone": "training_area"
+      },
+      {
+        "object": "dumbbells",
+        "zone": "training_area"
       }
     ],
     "allowed_generated_actions": [
@@ -250,7 +254,7 @@
     "verification": {
       "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
       "verified_at": "2026-11-19",
-      "note": "店長が撮影したIMG_1312（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+      "note": "店長が撮影したIMG_1310（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
     }
   },
   "automation": {
@@ -259,8 +263,8 @@
     "production_recovery_version": "v0.8.2",
     "editorial_text_qc": null,
     "source_registry": "editorial/automated-image-sources.json",
-    "selected_source_id": "the-rev-floor-rack-wide-20261119",
-    "source_repo_path": "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
+    "selected_source_id": "the-rev-floor-rack-low-20261119",
+    "source_repo_path": "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
     "recent_similarity_window": 4,
     "recent_articles": [
       {
