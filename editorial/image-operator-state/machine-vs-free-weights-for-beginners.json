@@ -1,0 +1,1681 @@
+{
+  "slug": "machine-vs-free-weights-for-beginners",
+  "status": "ERROR",
+  "attempts_total": 3,
+  "max_attempts": 3,
+  "last_error": "GENERATION_CALL_LIMIT",
+  "last_qa": {
+    "pass": false,
+    "thumbnail_typography_visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "visual_art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "3形式とも柔らかな写真フェード、墨色と温かい黄土色の階層、自然な2行構成がゴールデンの編集文法に沿っている。320pxでも見出しは即読でき、アイボリー領域は見出しを支える目的がある。GBPも横長版の単純流用ではなく、人物を残した局所的なベールとして成立している。ただし写真側は人物よりラックと室内の面積・重量が強く、human-first-v1の人物主役基準は満たさない。"
+    },
+    "series_consistency": 8,
+    "editorial_quality": 8,
+    "typography_harmony": 8,
+    "negative_space": 8,
+    "photo_treatment": 8,
+    "article_visual_relevance": 7,
+    "main_claim_visualization": 5,
+    "human_subject_prominence": 6,
+    "human_visual_attention_share": 45,
+    "face_expression_readable": false,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": true,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "article_theme_inferable_without_title": false,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false,
+    "rev_environment_consistency": 7,
+    "brand_space_authenticity": 7,
+    "human_environment_integration": 8,
+    "perspective_scale_consistency": 8,
+    "ground_contact_shadow_consistency": 8,
+    "lighting_consistency": 8,
+    "anatomy_pose_realism": 9,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "location_behavior_plausible": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "scene_plausible_at_the_rev": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": true,
+    "trainer_present": false,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "generated_customer_count": 1,
+    "facility_only_thumbnail": false,
+    "real_the_rev_background_confirmed": true,
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "headline_line_break_quality": true,
+    "headline_balance_score": 8,
+    "too_promotional": false,
+    "gbp_aspect_ratio_pass": true,
+    "gbp_safe_area_pass": true,
+    "gbp_copy_legible": true,
+    "comments": "Source/Scene FAIL: source_unsupported_equipment:unknown_equipment@training_area. 文字設計と各フォーマットのフェード処理は合格。女性客は自然に器具を観察しており、合成感・解剖・接地・照明にも重大な破綻はない。一方、実寸プレビューでは顔の表情が十分読めず、ラックと設備が人物以上に視線を占有している。人物の視覚的注意配分は約45%で、指定された60〜70%のhuman-first-v1基準未達。また写真だけではマシンとダンベルの比較が明確に伝わらず、主張の可視化も弱いため総合不合格。",
+    "scene_grounding_version": "the-rev-source-scene-v1",
+    "scene_grounding": {
+      "version": "the-rev-source-scene-v1",
+      "pass": false,
+      "errors": [
+        "source_unsupported_equipment:unknown_equipment@training_area"
+      ],
+      "inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          },
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress",
+          "recovery"
+        ],
+        "verification": {
+          "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+          "verified_at": "2026-11-19",
+          "note": "店長が撮影したIMG_1312（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+        }
+      },
+      "plan": {
+        "version": "the-rev-source-scene-v1",
+        "source_id": "the-rev-floor-rack-wide-20261119",
+        "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+        "scene_type": "equipment_orientation",
+        "location_type": "training_area",
+        "human_action": "observing_real_equipment",
+        "composition_type": "medium_side_portrait",
+        "visual_role": "deciding_own_start",
+        "article_intent": "training_start",
+        "required_equipment": [],
+        "subject_zone": "training_area",
+        "article_specific_directive": "",
+        "similarity": {
+          "pass": true,
+          "window": 12,
+          "compared": 12,
+          "unknown_count": 0,
+          "penalty": 0.5,
+          "matches": [
+            {
+              "slug": "boxing-vs-strength-training-for-diet",
+              "score": 0.3333333333333333,
+              "equal": [
+                "visual_role",
+                "article_intent"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "muscle-soreness-should-i-train",
+              "score": 0.3333333333333333,
+              "equal": [
+                "location_type",
+                "article_intent"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "workout-after-meal-timing",
+              "score": 0.16666666666666666,
+              "equal": [
+                "article_intent"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "oxygen-capsule-vs-room",
+              "score": 0.3333333333333333,
+              "equal": [
+                "scene_type",
+                "composition_type"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "personal-gym-posture-check",
+              "score": 0.5,
+              "equal": [
+                "location_type",
+                "composition_type",
+                "article_intent"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "24-hour-gym-workout-menu-consultation",
+              "score": 0.3333333333333333,
+              "equal": [
+                "visual_role",
+                "article_intent"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "denba-health-effects-research-evidence",
+              "score": 0,
+              "equal": [],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "strength-training-exercise-order-first-exercise",
+              "score": 0.16666666666666666,
+              "equal": [
+                "location_type"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "after-training-shower-changing-the-rev",
+              "score": 0,
+              "equal": [],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "strength-training-breathing-when-to-exhale",
+              "score": 0.16666666666666666,
+              "equal": [
+                "article_intent"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "reservation-only-vs-exclusive-use",
+              "score": 0.16666666666666666,
+              "equal": [
+                "visual_role"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "boxing-trial-what-to-bring",
+              "score": 0,
+              "equal": [],
+              "hard_exclusion": false
+            }
+          ]
+        }
+      },
+      "sourceRecognition": {
+        "complete": true,
+        "equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          },
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          },
+          {
+            "object": "unknown_equipment",
+            "zone": "training_area"
+          }
+        ]
+      },
+      "observation": {
+        "complete": true,
+        "equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          },
+          {
+            "object": "oxygen_room",
+            "zone": "recovery_area"
+          }
+        ],
+        "location_type": "training_area",
+        "subject_zone": "training_area",
+        "human_action": "observing_real_equipment",
+        "equipment_relocated": false,
+        "room_geometry_preserved": true,
+        "article_scene_match": true,
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "training_area",
+          "human_action": "observing_real_equipment",
+          "composition_type": "wide_full_body",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        }
+      },
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "compared": 12,
+        "unknown_count": 0,
+        "penalty": 0.5,
+        "matches": [
+          {
+            "slug": "boxing-vs-strength-training-for-diet",
+            "score": 0.3333333333333333,
+            "equal": [
+              "visual_role",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "muscle-soreness-should-i-train",
+            "score": 0.5,
+            "equal": [
+              "location_type",
+              "composition_type",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "workout-after-meal-timing",
+            "score": 0.3333333333333333,
+            "equal": [
+              "location_type",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "oxygen-capsule-vs-room",
+            "score": 0.3333333333333333,
+            "equal": [
+              "scene_type",
+              "human_action"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "personal-gym-posture-check",
+            "score": 0.3333333333333333,
+            "equal": [
+              "location_type",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "24-hour-gym-workout-menu-consultation",
+            "score": 0.3333333333333333,
+            "equal": [
+              "visual_role",
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-health-effects-research-evidence",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "strength-training-exercise-order-first-exercise",
+            "score": 0.3333333333333333,
+            "equal": [
+              "location_type",
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "after-training-shower-changing-the-rev",
+            "score": 0.16666666666666666,
+            "equal": [
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "strength-training-breathing-when-to-exhale",
+            "score": 0.16666666666666666,
+            "equal": [
+              "article_intent"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "reservation-only-vs-exclusive-use",
+            "score": 0.16666666666666666,
+            "equal": [
+              "visual_role"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "boxing-trial-what-to-bring",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          }
+        ]
+      },
+      "recent": [
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "checkedAt": "2026-11-19T04:54:15.561Z",
+          "driveFileId": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+          "originVideoFileId": "",
+          "contentReference": "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+          "assetVersion": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+          "imageHeadlineShort": "入口は、\n続くほうから。",
+          "customerPresentation": "male",
+          "articleTitle": "ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "compare_notes",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "compare_notes",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "checkedAt": "2026-11-17T09:58:24.928Z",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "originVideoFileId": "",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+          "imageHeadlineShort": "筋肉痛の日は、\nまず痛みを確かめる。",
+          "customerPresentation": "female",
+          "articleTitle": "筋肉痛があるとき、筋トレは休むべき？部位を変える目安",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "location_type": "training_area",
+            "human_action": "rest",
+            "composition_type": "wide_full_body",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "checkedAt": "2026-11-17T07:45:44.798688Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "assets/images/photo-lobby.jpg",
+          "assetVersion": "reference-v26-banana-20261117-r3",
+          "imageHeadlineShort": "食後の筋トレは\n何時間後？",
+          "customerPresentation": "male",
+          "articleTitle": "食後すぐに筋トレしていい？食事の量と運動までの時間の考え方",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "close_action_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "close_action_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "checkedAt": "2026-11-15T01:48:31.310Z",
+          "driveFileId": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+          "originVideoFileId": "",
+          "contentReference": "assets/images/photo-oxyroom.jpg",
+          "assetVersion": "reference-v26-grounded-oxycompare-20261115-work-r1",
+          "imageHeadlineShort": "広さで変わる、\n過ごし方。",
+          "customerPresentation": "female",
+          "articleTitle": "酸素カプセルと酸素ルームは何が違う？初めて選ぶときの確認ポイント",
+          "sceneFingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "recovery_area",
+            "human_action": "prepare",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "facility_inspection",
+            "article_intent": "recovery"
+          },
+          "thumbnail": "assets/images/blog/thumb-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
+          "scene_fingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "recovery_area",
+            "human_action": "observing_real_equipment",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "component_relationship",
+            "article_intent": "recovery"
+          }
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "checkedAt": "2026-11-13T14:48:10.243Z",
+          "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+          "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+          "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/AI_FRAME_IMG_4387_75.jpg",
+          "assetVersion": "reference-v26-grounded-posture-20261114-work-r1",
+          "imageHeadlineShort": "姿勢から、\n鍛え方を考える。",
+          "customerPresentation": "male",
+          "articleTitle": "パーソナルジムの姿勢チェックは何を見る？自分の姿勢を知って筋トレを始める",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "checkedAt": "2026-11-07T03:31:42.504Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "assetVersion": "reference-v26-grounded-mygym-20261107-work-r1",
+          "imageHeadlineShort": "今のジムで、\n迷わず進める。",
+          "customerPresentation": "female",
+          "articleTitle": "24時間ジムで何をすればいいか分からない人へ｜メニューをプロに相談する方法",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "review_paper",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1.jpg",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "review_paper",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "checkedAt": "2026-11-04T02:14:51.325Z",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "originVideoFileId": "",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "assetVersion": "reference-v26-denba-health-20261104-r3",
+          "imageHeadlineShort": "DENBA Health\n休息をケアに。",
+          "customerPresentation": "male",
+          "articleTitle": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "location_type": "reception",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "recovery_time",
+            "article_intent": "recovery"
+          },
+          "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "location_type": "recovery_area",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "recovery_time",
+            "article_intent": "recovery"
+          }
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "checkedAt": "2026-11-03T07:38:16.247Z",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "originVideoFileId": "",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "assetVersion": "reference-v26-grounded-evolgear-20261103-work-r1",
+          "imageHeadlineShort": "種目の順番、\n目的から。",
+          "customerPresentation": "female",
+          "articleTitle": "筋トレは何から始める？最初の種目とウォーミングアップの決め方",
+          "sceneFingerprint": {
+            "scene_type": "exercise",
+            "location_type": "training_area",
+            "human_action": "strength_exercise",
+            "composition_type": "wide_full_body",
+            "visual_role": "training_execution",
+            "article_intent": "training_execution"
+          },
+          "thumbnail": "assets/images/blog/thumb-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "location_type": "training_area",
+            "human_action": "strength_exercise",
+            "composition_type": "wide_full_body",
+            "visual_role": "training_execution",
+            "article_intent": "training_execution"
+          }
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "checkedAt": "2026-11-01T00:29:40.248Z",
+          "driveFileId": "1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j",
+          "originVideoFileId": "",
+          "contentReference": "drive://1PW9fWpzVuO01NUXIuMQ0T4FyTB0qZE6j/AI_SOURCE_shower-changing_IMG_0651_20261031.jpg",
+          "assetVersion": "reference-v26-grounded-shower-20261031-work-r1",
+          "imageHeadlineShort": "ジムのあと、\n出かけよう。",
+          "customerPresentation": "male",
+          "articleTitle": "ジムのあとに出かけられる？THE REV.のシャワー備品と持参品の違い",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "location_type": "recovery_area",
+            "human_action": "prepare",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "recovery_time",
+            "article_intent": "facility_selection"
+          },
+          "thumbnail": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "location_type": "recovery_area",
+            "human_action": "prepare",
+            "composition_type": "wide_full_body",
+            "visual_role": "recovery_time",
+            "article_intent": "facility_selection"
+          }
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "checkedAt": "2026-10-28T09:05:46.569Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+          "assetVersion": "reference-v26-grounded-auto-lobby-20260924-ff29d069",
+          "imageHeadlineShort": "筋トレの呼吸、いつ吐く。",
+          "customerPresentation": "female",
+          "articleTitle": "筋トレの呼吸、いつ吐く？動きと息を合わせる基本",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-strength-training-breathing-when-to-exhale-reference-v26-grounded-auto-lobby-20260924-ff29d069.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "checkedAt": "2026-10-27T01:02:43.848Z",
+          "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+          "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+          "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+          "assetVersion": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+          "imageHeadlineShort": "完全予約制と、\n貸切の違い。",
+          "customerPresentation": "male",
+          "articleTitle": "完全予約制のジムは貸切と同じ？違いと人目の確認ポイント",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "compare_notes",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "facility_selection"
+          },
+          "thumbnail": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "facility_selection"
+          }
+        },
+        {
+          "slug": "boxing-trial-what-to-bring",
+          "checkedAt": "2026-10-25T05:58:04.252Z",
+          "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+          "originVideoFileId": "",
+          "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+          "assetVersion": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+          "imageHeadlineShort": "グローブは、\n借りて始められる。",
+          "customerPresentation": "female",
+          "articleTitle": "ボクシング体験、何を持って行く？服装・靴・グローブの準備",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "boxing_area",
+            "human_action": "boxing_stance",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "safe_first_step",
+            "article_intent": "boxing_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "boxing_area",
+            "human_action": "boxing_stance",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "safe_first_step",
+            "article_intent": "boxing_start"
+          }
+        }
+      ],
+      "asset_version": "reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea",
+      "asset_hashes": {
+        "source": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+        "scene": "2ab856c3da019379d41d2106d6732ad773098914ddbe158e3e17d9547e01db2a",
+        "thumbnail": "ca903c66bd543c1c940a27145ddada0a8be538d73b1e6d66e282aa29594082e8",
+        "og": "b2192955dbe8c8edf3c0ad0b6aaf525c6531da2c239054be6fe8599825fc9bbe",
+        "gbp": "9bc1ddf23dbf5a57c9ab30421b563a99c9be3a85984651246e7069ce43f0b270"
+      },
+      "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
+    },
+    "scene_fingerprint": {
+      "scene_type": "equipment_orientation",
+      "location_type": "training_area",
+      "human_action": "observing_real_equipment",
+      "composition_type": "wide_full_body",
+      "visual_role": "deciding_own_start",
+      "article_intent": "training_start"
+    },
+    "scene_location_consistency": true,
+    "equipment_source_grounding": false,
+    "spatial_plausibility": true,
+    "action_location_consistency": true,
+    "article_scene_match": true,
+    "recent_semantic_similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.5,
+      "matches": [
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "score": 0.3333333333333333,
+          "equal": [
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "score": 0.5,
+          "equal": [
+            "location_type",
+            "composition_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.3333333333333333,
+          "equal": [
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "score": 0.16666666666666666,
+          "equal": [
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-trial-what-to-bring",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        }
+      ]
+    },
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "thumbnail_typography_acceptance": {
+      "pass": true,
+      "deterministic": {
+        "revision": "thumbnail-golden-typography-v1",
+        "slug": "machine-vs-free-weights-for-beginners",
+        "asset_version": "reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea",
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "マシンか",
+              "ダンベルか"
+            ],
+            "text_preserved": true,
+            "font_size": 78,
+            "font_size_at_320": 20.8,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.7579336008944113,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              128.7128712871287,
+              78
+            ],
+            "focus_line": 0,
+            "focus_text": "マシンか",
+            "focus_scale": 1.6501650165016502,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9974497810357958,
+            "block_area_ratio": 0.1597743689766112,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 337.7578125,
+            "paper_profile": "local-curved-veil",
+            "veil_profile": "canonical-bezier-v1",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 601,
+            "fade_end": 738,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 192,
+                "right": 578.71875,
+                "bottom": 377,
+                "width": 514.71875
+              },
+              {
+                "left": 64,
+                "top": 362.15625,
+                "right": 458.6875,
+                "bottom": 474.15625,
+                "width": 394.6875
+              }
+            ],
+            "asset_path": "assets/images/blog/thumb-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
+            "asset_sha256": "ca903c66bd543c1c940a27145ddada0a8be538d73b1e6d66e282aa29594082e8",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-preview-320.jpg",
+                "sha256": "f46394c03aa9ab81cf93f9a20f972e43d28e70f2bafadc1a1b12fd912108130e"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-preview-400.jpg",
+                "sha256": "b75934e8aa7d9195c125a885cf35ceddfb7d438b21180548d43f90279ce935d8"
+              }
+            }
+          },
+          "og": {
+            "pass": true,
+            "lines": [
+              "マシンか",
+              "ダンベルか"
+            ],
+            "text_preserved": true,
+            "font_size": 78,
+            "font_size_at_320": 20.8,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.7579336008944113,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              128.7128712871287,
+              78
+            ],
+            "focus_line": 0,
+            "focus_text": "マシンか",
+            "focus_scale": 1.6501650165016502,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9974497810357958,
+            "block_area_ratio": 0.171186823903512,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 314.7578125,
+            "paper_profile": "local-curved-veil",
+            "veil_profile": "canonical-bezier-v1",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 601,
+            "fade_end": 738,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 169,
+                "right": 578.71875,
+                "bottom": 354,
+                "width": 514.71875
+              },
+              {
+                "left": 64,
+                "top": 339.15625,
+                "right": 458.6875,
+                "bottom": 451.15625,
+                "width": 394.6875
+              }
+            ],
+            "asset_path": "assets/images/blog/og/og-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
+            "asset_sha256": "b2192955dbe8c8edf3c0ad0b6aaf525c6531da2c239054be6fe8599825fc9bbe",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-preview-320.jpg",
+                "sha256": "f54ddc67fd361a4b4cf83c5e79ffc696766ab55c9dbd173a248cb2ea56dec39a"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-preview-400.jpg",
+                "sha256": "6d8ebd3910c28bdc87f4597d9b7f30345f2be78df498906bf1980b1ad4831a20"
+              }
+            }
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "マシンか",
+              "ダンベルか"
+            ],
+            "text_preserved": true,
+            "font_size": 68,
+            "font_size_at_320": 18.133333333333333,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.7808756218215245,
+            "layout_rule": "golden-gbp-v1",
+            "line_font_sizes": [
+              108.91089108910892,
+              68
+            ],
+            "focus_line": 0,
+            "focus_text": "マシンか",
+            "focus_scale": 1.6016307513104253,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9974826994723398,
+            "block_area_ratio": 0.08864203896468316,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 432.0625,
+            "paper_profile": "local-curved-veil",
+            "veil_profile": "canonical-bezier-v1",
+            "paper_opacity_floor": 0.9215686274509803,
+            "fade_start": 518,
+            "fade_end": 637,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.356830663826178,
+            "line_rects": [
+              {
+                "left": 60,
+                "top": 305,
+                "right": 495.625,
+                "bottom": 461,
+                "width": 435.625
+              },
+              {
+                "left": 60,
+                "top": 453.96875,
+                "right": 404.09375,
+                "bottom": 550.96875,
+                "width": 344.09375
+              }
+            ],
+            "asset_path": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
+            "asset_sha256": "9bc1ddf23dbf5a57c9ab30421b563a99c9be3a85984651246e7069ce43f0b270",
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-preview-320.jpg",
+                "sha256": "2709147697e56219c1cd9970d1bd2c881ad69e082af4bb33875dc1fc8a534dcb"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea-preview-400.jpg",
+                "sha256": "8aa5c9fed0afbcb8a13889bcb38b0ffd0820c4a4fb564c9a807ebbea80e6c180"
+              }
+            }
+          }
+        }
+      },
+      "visual": {
+        "thumbnail": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "og": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "gbp": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        }
+      },
+      "art_direction": {
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "og": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "gbp": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          }
+        },
+        "comments": "3形式とも柔らかな写真フェード、墨色と温かい黄土色の階層、自然な2行構成がゴールデンの編集文法に沿っている。320pxでも見出しは即読でき、アイボリー領域は見出しを支える目的がある。GBPも横長版の単純流用ではなく、人物を残した局所的なベールとして成立している。ただし写真側は人物よりラックと室内の面積・重量が強く、human-first-v1の人物主役基準は満たさない。"
+      },
+      "golden_reference": {
+        "revision": "approved-typography-20261001-v1",
+        "assets": [
+          {
+            "variant": "wide",
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+          },
+          {
+            "variant": "gbp",
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+          },
+          {
+            "variant": "list",
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+          }
+        ]
+      }
+    },
+    "source_material_scope_pass": true,
+    "generated_customer_allowed_under_policy": true,
+    "generated_customer_role": "customer",
+    "customer_presentation": "female",
+    "image_headline_short": "マシンか\nダンベルか",
+    "fixed_overlay_layout_confirmed": true,
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "background_source_type": "verified_the_rev_repo_mirror",
+    "content_reference": "drive://1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ/IMG_1312.HEIC",
+    "background_source_drive_file_id": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+    "background_origin_video_file_id": "",
+    "background_origin_video_file_name": "IMG_1312.HEIC",
+    "background_frame_position_ratio": null,
+    "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "fallback_reason": "",
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "background_reuse_relevance_exception": false,
+    "owner_route_b_source_reuse": false,
+    "contextual_verified_facility_source_reuse": {
+      "allowed": false,
+      "policy": null,
+      "errors": [],
+      "source_repeated": false,
+      "scene_repeated": false
+    },
+    "recent_similarity_window": 4,
+    "recent_similarity_check_pass": true,
+    "recent_background_source_ids": [
+      "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+      "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+      "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+      "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+      "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "assets/images/photo-lobby.jpg",
+      "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+      "assets/images/photo-oxyroom.jpg"
+    ],
+    "recent_reference_guard": {
+      "window": 4,
+      "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+      "recent_articles": [
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "checkedAt": "2026-11-19T04:54:15.561Z",
+          "driveFileId": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+          "originVideoFileId": "",
+          "contentReference": "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+          "assetVersion": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+          "imageHeadlineShort": "入口は、\n続くほうから。",
+          "customerPresentation": "male",
+          "articleTitle": "ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "compare_notes",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg"
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "checkedAt": "2026-11-17T09:58:24.928Z",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "originVideoFileId": "",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+          "imageHeadlineShort": "筋肉痛の日は、\nまず痛みを確かめる。",
+          "customerPresentation": "female",
+          "articleTitle": "筋肉痛があるとき、筋トレは休むべき？部位を変える目安",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg"
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "checkedAt": "2026-11-17T07:45:44.798688Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "assets/images/photo-lobby.jpg",
+          "assetVersion": "reference-v26-banana-20261117-r3",
+          "imageHeadlineShort": "食後の筋トレは\n何時間後？",
+          "customerPresentation": "male",
+          "articleTitle": "食後すぐに筋トレしていい？食事の量と運動までの時間の考え方",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "close_action_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg"
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "checkedAt": "2026-11-15T01:48:31.310Z",
+          "driveFileId": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+          "originVideoFileId": "",
+          "contentReference": "assets/images/photo-oxyroom.jpg",
+          "assetVersion": "reference-v26-grounded-oxycompare-20261115-work-r1",
+          "imageHeadlineShort": "広さで変わる、\n過ごし方。",
+          "customerPresentation": "female",
+          "articleTitle": "酸素カプセルと酸素ルームは何が違う？初めて選ぶときの確認ポイント",
+          "sceneFingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "recovery_area",
+            "human_action": "prepare",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "facility_inspection",
+            "article_intent": "recovery"
+          },
+          "thumbnail": "assets/images/blog/thumb-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg"
+        }
+      ],
+      "selected_content_reference": "drive://1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ/IMG_1312.HEIC",
+      "selected_drive_file_id": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+      "avoided_repeat": true,
+      "repeated_due_to_relevance": false,
+      "repeat_distance": null,
+      "required_equipment": []
+    },
+    "template": "rev-column-reference-v2",
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "generation_model": "gpt-image-hybrid",
+    "qa_model": "gpt-5.6",
+    "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+    "slug": "machine-vs-free-weights-for-beginners",
+    "asset_version": "reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea",
+    "checked_at": "2026-11-21T03:30:23.500Z",
+    "review_mode": "HYBRID_GENERATED",
+    "realism_qc_version": "v1",
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "gbp_image_required": true,
+    "gbp_image_path": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea.jpg",
+    "gbp_image_width": 1200,
+    "gbp_image_height": 900,
+    "gbp_image_aspect_ratio": "4:3",
+    "editorial_text_qc": null,
+    "api_usage": {
+      "generation_calls": 3,
+      "qc_calls": 4,
+      "confirmed_cost": null,
+      "calls": [
+        {
+          "sequence": 1,
+          "kind": "generation",
+          "status": "FAILED",
+          "at": "2026-11-20T21:04:44.429Z",
+          "confirmed_cost": null,
+          "http_status": 429,
+          "request_id": "req_84ff5288fb59462796de76781eba62ac",
+          "response_id": null,
+          "response_status": null,
+          "model": "gpt-5.6",
+          "usage": null,
+          "image_generation_calls": [],
+          "completed_at": "2026-11-20T21:04:47.453Z",
+          "estimated_cost_jpy": null
+        },
+        {
+          "sequence": 2,
+          "kind": "generation",
+          "status": "COMPLETED",
+          "at": "2026-11-21T03:27:45.942Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_755bbffc9158458fb8aa0fd67ef7e918",
+          "response_id": "resp_0f5487ec0b899382006b010fb3884487d2a9f860a6641e850a",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 9374,
+            "input_tokens_details": {
+              "cache_write_tokens": 6772,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 6772
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 790,
+            "output_tokens_details": {
+              "reasoning_tokens": 196
+            },
+            "total_tokens": 10164
+          },
+          "image_generation_calls": [
+            {
+              "id": "ig_0f5487ec0b899382006b010fb6559087d29cc6911d7f87d46e",
+              "status": "completed",
+              "usage": null
+            }
+          ],
+          "completed_at": "2026-11-21T03:28:12.606Z",
+          "estimated_cost_jpy": null
+        },
+        {
+          "sequence": 3,
+          "kind": "qc",
+          "status": "COMPLETED",
+          "at": "2026-11-21T03:28:15.486Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_0f32a54dc4f343a8b1ea1b63719d9515",
+          "response_id": "resp_09b68c5c58265629006b010fd0e23887d2a90240d38453daf8",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 18021,
+            "input_tokens_details": {
+              "cache_write_tokens": 18018,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 18018
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 1958,
+            "output_tokens_details": {
+              "reasoning_tokens": 1021
+            },
+            "total_tokens": 19979
+          },
+          "image_generation_calls": [],
+          "completed_at": "2026-11-21T03:28:33.252Z",
+          "estimated_cost_jpy": null
+        },
+        {
+          "sequence": 4,
+          "kind": "qc",
+          "status": "COMPLETED",
+          "at": "2026-11-21T03:28:34.309Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_ed0ac9c07b9b4951bbd0cae535ed13c5",
+          "response_id": "resp_08a2c4dd650da183006b010fe3af2887d2a77f6e6f7904f50c",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 17555,
+            "input_tokens_details": {
+              "cache_write_tokens": 17552,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 17552
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 2640,
+            "output_tokens_details": {
+              "reasoning_tokens": 1552
+            },
+            "total_tokens": 20195
+          },
+          "image_generation_calls": [],
+          "completed_at": "2026-11-21T03:29:01.190Z",
+          "estimated_cost_jpy": null
+        },
+        {
+          "sequence": 5,
+          "kind": "generation",
+          "status": "COMPLETED",
+          "at": "2026-11-21T03:29:02.542Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_55c1850c09fb4d8f89ff96e8973bdb7d",
+          "response_id": "resp_05e378b3614ee55a006b010fffa49887d2ae2ff94b66b8893e",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 9528,
+            "input_tokens_details": {
+              "cache_write_tokens": 6964,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 6964
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 710,
+            "output_tokens_details": {
+              "reasoning_tokens": 128
+            },
+            "total_tokens": 10238
+          },
+          "image_generation_calls": [
+            {
+              "id": "ig_05e378b3614ee55a006b011001fbd087d2934153566f5e03d6",
+              "status": "completed",
+              "usage": null
+            }
+          ],
+          "completed_at": "2026-11-21T03:29:28.254Z",
+          "estimated_cost_jpy": null
+        },
+        {
+          "sequence": 6,
+          "kind": "qc",
+          "status": "COMPLETED",
+          "at": "2026-11-21T03:29:31.091Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_b210e90f02e04f9a805758dedf11b04d",
+          "response_id": "resp_01da4bcfa7bcba98006b01101c2b4887d28f980a250a08d35c",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 18021,
+            "input_tokens_details": {
+              "cache_write_tokens": 18018,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 18018
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 1881,
+            "output_tokens_details": {
+              "reasoning_tokens": 954
+            },
+            "total_tokens": 19902
+          },
+          "image_generation_calls": [],
+          "completed_at": "2026-11-21T03:29:49.774Z",
+          "estimated_cost_jpy": null
+        },
+        {
+          "sequence": 7,
+          "kind": "qc",
+          "status": "COMPLETED",
+          "at": "2026-11-21T03:29:50.682Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_3d84f369a8ed469f80eda6d8f7f0ffa5",
+          "response_id": "resp_0e25b5aaa70aadd3006b0110301ee087d28d7576199b3eba7b",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 17555,
+            "input_tokens_details": {
+              "cache_write_tokens": 17552,
+              "cache_write_tokens_details": {
+                "ttl_12h_tokens": 0,
+                "ttl_30m_tokens": 17552
+              },
+              "cached_tokens": 0
+            },
+            "output_tokens": 2809,
+            "output_tokens_details": {
+              "reasoning_tokens": 1660
+            },
+            "total_tokens": 20364
+          },
+          "image_generation_calls": [],
+          "completed_at": "2026-11-21T03:30:22.610Z",
+          "estimated_cost_jpy": null
+        }
+      ]
+    }
+  },
+  "job_path": "editorial/hybrid-image-jobs/machine-vs-free-weights-for-beginners.json",
+  "updated_at": "2026-11-21T03:30:23.706Z",
+  "asset_version": "reference-v26-grounded-auto-floor-rack-wide-20261119-72c835ea"
+}
