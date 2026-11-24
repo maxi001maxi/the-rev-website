@@ -1,0 +1,137 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "post-workout-recovery-methods-evidence",
+  "asset_version": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+  "source_sha256": "1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-oxy-solution-20260924",
+    "source_sha256": "1c6148d22999ae5fc2fb6b4608fe27013dbde6b44e34c00ee916243652803c60",
+    "scene_type": "recovery_transition",
+    "location_type": "recovery_area",
+    "human_action": "rest",
+    "composition_type": "medium_three_quarter_portrait",
+    "visual_role": "recovery_time",
+    "article_intent": "recovery",
+    "required_equipment": [],
+    "subject_zone": "recovery_area",
+    "article_specific_directive": "",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.6666666666666666,
+      "matches": [
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "score": 0.16666666666666666,
+          "equal": [
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "composition_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-trial-what-to-bring",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    }
+  },
+  "headline": "筋トレ後の回復\n効くのはどれ？",
+  "thumbnail": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+  "og": "assets/images/blog/og/og-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+  "gbp": "assets/images/gbp/gbp-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+  "contract_sha256": "8bc8420e6c543aac728a77922d5afd653bf24ebc2e8bf0f5eab919e598d53486",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "generation",
+      "status": "STARTED",
+      "at": "2026-11-24T08:28:45.229Z",
+      "confirmed_cost": null
+    }
+  ],
+  "confirmed_cost": null
+}
