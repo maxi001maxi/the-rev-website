@@ -161,6 +161,13 @@
       ],
       "completed_at": "2026-11-24T08:29:13.845Z",
       "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 2,
+      "kind": "qc",
+      "status": "STARTED",
+      "at": "2026-11-24T08:29:17.017Z",
+      "confirmed_cost": null
     }
   ],
   "confirmed_cost": null
