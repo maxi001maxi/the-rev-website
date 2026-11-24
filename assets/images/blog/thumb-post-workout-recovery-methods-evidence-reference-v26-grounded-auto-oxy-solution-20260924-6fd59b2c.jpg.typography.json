@@ -1,0 +1,236 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "post-workout-recovery-methods-evidence",
+  "asset_version": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "筋トレ後の回復",
+        "効くのは",
+        "どれ？"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5708215800683714,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 2,
+      "focus_text": "どれ？",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911146803635817,
+      "block_area_ratio": 0.21763455947678179,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.0234375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 154,
+          "right": 580.125,
+          "bottom": 259,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 253.75,
+          "right": 358.921875,
+          "bottom": 358.75,
+          "width": 294.921875
+        },
+        {
+          "left": 64,
+          "top": 345.5,
+          "right": 448,
+          "bottom": 527.5,
+          "width": 384
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+      "asset_sha256": "bd901d03ff397c4d44743ee74fee161047fd2847d25f60298f619cd432046a84",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-preview-320.jpg",
+          "sha256": "8edd103bb62a1ed11037947f9ba159aff7f081fc4457b1e059ecf0e4ff7d06e0"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-preview-400.jpg",
+          "sha256": "c8309a69ac3c2a52628be8f451cdd3fb617bc558ee849924eaad030ee10aa27c"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "筋トレ後の回復",
+        "効くのは",
+        "どれ？"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5708215800683714,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 2,
+      "focus_text": "どれ？",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911146803635817,
+      "block_area_ratio": 0.23317988515369475,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.0234375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 132,
+          "right": 580.125,
+          "bottom": 237,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 231.75,
+          "right": 358.921875,
+          "bottom": 336.75,
+          "width": 294.921875
+        },
+        {
+          "left": 64,
+          "top": 323.5,
+          "right": 448,
+          "bottom": 505.5,
+          "width": 384
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+      "asset_sha256": "551f476c866a659ecd54c13ff4e55aea20e3af249fe63e92848f9cee48cefd52",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-preview-320.jpg",
+          "sha256": "1cc254abba5e43d1626dff33ff1d5e31de3521853e91a8ce0421e344f09c787c"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-preview-400.jpg",
+          "sha256": "fc6b04bb82ed1a25dd9777eaf80276d4929cd006c614b0e1d28f94a5c5628c6f"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "筋トレ後の回復",
+        "効くのは",
+        "どれ？"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5708215300413004,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 2,
+      "focus_text": "どれ？",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9948186673251066,
+      "block_area_ratio": 0.1188531968934801,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 275,
+          "right": 498.34375,
+          "bottom": 364,
+          "width": 438.34375
+        },
+        {
+          "left": 60,
+          "top": 364.4375,
+          "right": 310.484375,
+          "bottom": 453.4375,
+          "width": 250.484375
+        },
+        {
+          "left": 60,
+          "top": 446.875,
+          "right": 368.203125,
+          "bottom": 593.875,
+          "width": 308.203125
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+      "asset_sha256": "be177acfdb3be36f1055b67e9eb9a801bbb8f06301ccecc3a46e09aeb401953d",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-preview-320.jpg",
+          "sha256": "da51455103103e5d26386950bcbe4707e4f58b1f95076bbe73b457856d03e32f"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-preview-400.jpg",
+          "sha256": "c637f9a6af74a0b37fa629472af373841c9ad40ce40778088bb743ba69093660"
+        }
+      }
+    }
+  }
+}
