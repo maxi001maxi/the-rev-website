@@ -326,9 +326,39 @@
     {
       "sequence": 7,
       "kind": "generation",
-      "status": "STARTED",
+      "status": "COMPLETED",
       "at": "2026-11-24T08:31:30.084Z",
-      "confirmed_cost": null
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_29e7ef23c9ef4a0f939a597ecc62fdaf",
+      "response_id": "resp_0f714ea63e4b1205006b054b63082c87d28585c72ea3c606be",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 8985,
+        "input_tokens_details": {
+          "cache_write_tokens": 6276,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6276
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 855,
+        "output_tokens_details": {
+          "reasoning_tokens": 193
+        },
+        "total_tokens": 9840
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_0f714ea63e4b1205006b054b65d0cc87d29f9c0e43c2da60a9",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-24T08:31:54.860Z",
+      "estimated_cost_jpy": null
     }
   ],
   "confirmed_cost": null
