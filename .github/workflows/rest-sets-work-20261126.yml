@@ -1,0 +1,37 @@
+name: Nov26 rest-sets draft canonical preflight
+on:
+  push:
+    branches: [work/rest-sets-preflight-20261126]
+    paths: ['.github/workflows/rest-sets-work-20261126.yml']
+permissions:
+  contents: write
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Check exact saved draft against GitHub main and live image bytes
+        run: node editorial/prepublication/2026-11-26-rest-between-sets/final-preflight.mjs
+      - name: Preserve result on this working branch
+        run: |
+          git add -- editorial/prepublication/2026-11-26-rest-between-sets/FINAL_PREFLIGHT.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Verify actual Nov26 CMS draft and live assets with canonical preflight'
+          git push origin HEAD:work/rest-sets-preflight-20261126
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rest-sets-final-preflight-${{ github.run_id }}
+          path: editorial/prepublication/2026-11-26-rest-between-sets/FINAL_PREFLIGHT.json

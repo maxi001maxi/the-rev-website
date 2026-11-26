@@ -1,0 +1,25 @@
+{
+  "base_sha": "efc2e237a55aea80cdad37a329c0f998976eb03f",
+  "article_required_checks": "PASS: editorial-images, phase-9 unit tests, daily-editorial-contract, daily-editorial-state-machine, daily-creator, build:blog",
+  "full_site_ci_green": false,
+  "unchanged_base_reproduced_failures": [
+    {
+      "command": "npm run test:blog-taxonomy",
+      "exit_code": 1,
+      "reason": "Exhaustiveness assertion reads only the first category page; gym-guide now has 13 articles and two pages."
+    },
+    {
+      "command": "npm run test:phase-e",
+      "exit_code": 1,
+      "reason": "Legacy data-faq-id markup assertion no longer matches the existing TOP page."
+    }
+  ],
+  "runtime_code_changes": false,
+  "existing_tests_modified": false,
+  "notes": "A proposed pagination-test correction was reverted to retain article-only scope. PR 323 final file diff contains only editorial records and image assets. The pre-existing failures were not suppressed or claimed to pass. Human article Publish remains unexecuted.",
+  "additional_checks_after_existing_phase_e_failure": {
+    "checks": 24,
+    "passed": 24,
+    "failed": []
+  }
+}
