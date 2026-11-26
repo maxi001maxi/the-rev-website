@@ -1,0 +1,57 @@
+{
+  "reviewer": "ChatGPT Work current conversation; editorial reread after drafting, not a separate agent",
+  "external_ai_api_calls": 0,
+  "pass": true,
+  "source_unverified": false,
+  "issues": [],
+  "total": 20,
+  "body_sha256": "554c5f7da65d8729ecce380040e28b2e39f5a96a90861649af7ffc9f0328f01e",
+  "checks": {
+    "answers_search_question": true,
+    "original_angle": true,
+    "all_history_overlap_pass": true,
+    "first_party_quotes_grounded": true,
+    "no_invented_customers": true,
+    "no_invented_store_rest_policy": true,
+    "two_minutes_labelled_as_editorial_starting_example": true,
+    "hypertrophy_distinct_from_strength": true,
+    "nov2026_accepted_abstract_labelled": true,
+    "no_best_interval_claim": true,
+    "no_effect_guarantees": true,
+    "no_pain_continuation": true,
+    "title_specific": true,
+    "store_name_not_in_title": true,
+    "plain_language": true,
+    "short_paragraphs": true,
+    "internal_link_valid_repo": true,
+    "brand_closing_grounded": true,
+    "length_in_standard_range": true,
+    "no_publication_or_api_calls": true
+  },
+  "sources": [
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11349676/",
+      "verified": "Full paper opened. Modest possible limb hypertrophy advantage >60s; heterogeneous, not a universal optimum."
+    },
+    {
+      "url": "https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2026.2032957/abstract",
+      "verified": "Accepted 2026-11-18; abstract only as of check. Strength advantage uncertain; equivalence not established."
+    },
+    {
+      "url": "https://kennet.mhlw.go.jp/information/information/exercise/s-00-008.html",
+      "verified": "Official exercise safety guidance opened."
+    }
+  ],
+  "first_party": {
+    "source": [
+      "BLOG-20260922-4d8f2a (First-party Interview)"
+    ],
+    "raw_answer": "上げるテンポであったり、フォームの乱れ等で見るような感じですね。力が入りすぎたり、上げることばかり意識しすぎた場合はフォームが崩れて、狙った筋肉に効かせられなかったりするので、あとはシンプルに呼吸（吐くタイミングなど）も見ます。\n\nせっかくやるなら効果があるようにやりたいので、例えばメニューが元々の回数よりも増えることもあるし、その日の調子が悪い場合は、フォームが崩れたら即座に10回の予定を8回に減らしたりも全然します。\n\n「与えられた回数ができなかった」と思うのではなくて、調子が悪い日は絶対にあるはずなので、その時その時で変えていった方がいいこともある、という観点でも見ていますね。\n\nフォームが崩れてまで無理に上げていく必要は、一般的なトレーニングが目的の場合はないことが多いです。翌日の仕事への影響も考えて、フォームを意識しながら回数を減らしたり増やしたりは柔軟にしていきます。",
+    "scope": "Only tempo/form/breathing and adjusting repetitions are attributed to THE REV. The practical rest examples are editorial suggestions, not claimed as the trainer’s past statements."
+  },
+  "ai_authored_examples": [
+    "10 repetitions then 5 is an illustrative example, explicitly labelled.",
+    "2-minute starting timer and small adjustments are practical editorial suggestions, not an owner quote."
+  ],
+  "char_count_non_whitespace": 2197
+}
