@@ -100,8 +100,16 @@ test('F-H. legacy migration stays correct while daily published articles may gro
 test('I-M,O. category pages are generated, exclusive and exhaustive', () => {
   const seen = new Map();
   for (const c of BLOG_CATEGORY_SLUGS) {
-    const html = read(`blog/category/${c}/index.html`);
-    const cards = [...html.matchAll(/data-article-slug="([^"]+)"/g)].map(m => m[1]);
+    // A growing category can span several pages. Verify every generated page,
+    // rather than comparing only the first twelve cards with all source posts.
+    const pages = [`blog/category/${c}/index.html`];
+    const pageRoot = path.join(ROOT, 'blog/category', c, 'page');
+    if (fs.existsSync(pageRoot)) {
+      for (const page of fs.readdirSync(pageRoot).sort((a, b) => Number(a) - Number(b))) {
+        if (/^[1-9]\d*$/.test(page)) pages.push(`blog/category/${c}/page/${page}/index.html`);
+      }
+    }
+    const cards = pages.flatMap(p => [...read(p).matchAll(/data-article-slug="([^"]+)"/g)].map(m => m[1]));
     const expected = published.filter(a => a.category === c).map(a => a.slug).sort();
     assert.deepEqual([...cards].sort(), expected, c);
     cards.forEach(s => seen.set(s, (seen.get(s) || 0) + 1));
