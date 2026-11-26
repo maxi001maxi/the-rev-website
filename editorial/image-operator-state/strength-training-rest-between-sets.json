@@ -1,0 +1,12 @@
+{
+  "slug": "strength-training-rest-between-sets",
+  "status": "READY_CANDIDATE",
+  "asset_version": "reference-v26-rest-sets-20261126-work-r1",
+  "job_path": "editorial/hybrid-image-jobs/strength-training-rest-between-sets.json",
+  "thumbnail": "assets/images/blog/thumb-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+  "og_image": "assets/images/blog/og/og-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+  "qa_report_path": "editorial/image-qa/strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.json",
+  "xserver_verified": false,
+  "actual_operator": "ChatGPT Work manual, built-in generation; no paid AI API"
+}
