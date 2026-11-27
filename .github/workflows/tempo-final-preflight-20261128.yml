@@ -1,4 +1,4 @@
-name: Nov28 final readonly review-ready verification
+name: Nov28 final readonly review-ready verification after canonical sync
 on:
   push:
     branches: [work/tempo-final-preflight-20261128]
