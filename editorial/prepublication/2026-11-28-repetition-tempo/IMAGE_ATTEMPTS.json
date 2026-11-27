@@ -1,6 +1,6 @@
 {
   "external_paid_ai_api_calls": 0,
-  "built_in_image_generation_calls": 2,
+  "built_in_image_generation_calls": 3,
   "max_generation_attempts": 3,
   "attempts": [
     {
@@ -12,8 +12,17 @@
     {
       "attempt": 2,
       "asset_version": "reference-v26-tempo-20261128-work-r2",
+      "pass": false,
+      "reason": "Owner requested crossed arms at chest; forward-reaching pose superseded by R3.",
+      "pass_at_creation": true,
+      "manual_visual_rejection": true
+    },
+    {
+      "attempt": 3,
+      "asset_version": "reference-v26-tempo-20261128-work-r3",
       "pass": true,
-      "reason": "Actual camera reframed to medium three-quarter; face clearer, source preserved, semantic and recent-source gates pass. Static speed cannot be measured; the image depicts lowering rehearsal."
+      "owner_requested_revision": "Only arms crossed over chest; same woman, squat depth, room, crop and copy.",
+      "external_paid_ai_api_calls": 0
     }
   ]
 }

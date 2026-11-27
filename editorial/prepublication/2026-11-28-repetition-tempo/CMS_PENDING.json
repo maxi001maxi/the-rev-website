@@ -7,9 +7,9 @@
   "author": "服部 真騎士",
   "author_role": "THE REV. CONDITIONING LAB. 代表トレーナー",
   "published": "2026-11-28",
-  "updated": "2026-11-27",
+  "updated": "2026-11-28",
   "status": "draft",
-  "cta_type": "personal-training",
+  "cta_type": null,
   "keywords": [
     "筋トレ ゆっくり 効果",
     "筋トレ 下ろす 動作",
@@ -39,27 +39,27 @@
     "checked_at": "2026-11-27T08:56:01.437Z"
   },
   "id": "9eb31128-f946-44f1-a410-d54c72e8171c",
-  "thumbnail": "/assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-  "og_image": "/assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-  "gbp_image": "/assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-  "image_asset_version": "reference-v26-tempo-20261128-work-r2",
+  "thumbnail": "/assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+  "og_image": "/assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+  "gbp_image": "/assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+  "image_asset_version": "reference-v26-tempo-20261128-work-r3",
   "image_render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
   "image_source_path": "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
   "image_status": "READY",
   "image_asset_ready": true,
-  "image_checked_at": "2026-11-27T09:05:06.254Z",
+  "image_checked_at": "2026-11-27T10:04:15.306Z",
   "image_style_template": "rev-column-reference-v2",
   "image_category_label": "TRAINING",
   "image_series_label": "COLUMN",
   "image_job_path": "editorial/hybrid-image-jobs/strength-training-slow-repetition-tempo.json",
-  "image_qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.json",
+  "image_qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.json",
   "image_qa": {
     "pass": true,
     "slug": "strength-training-slow-repetition-tempo",
     "article_title": "筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと",
-    "asset_version": "reference-v26-tempo-20261128-work-r2",
-    "checked_at": "2026-11-27T09:05:06.254Z",
+    "asset_version": "reference-v26-tempo-20261128-work-r3",
+    "checked_at": "2026-11-27T10:04:15.306Z",
     "review_mode": "HYBRID_GENERATED",
     "render_version": "rev-column-reference-v2.3-hybrid",
     "design_revision": "editorial-thumbnail-v2.6-human-first",
@@ -470,7 +470,7 @@
           "visual_role": "training_execution",
           "article_intent": "training_execution"
         },
-        "method": "Direct visual reread: one woman in sage shirt practices an unweighted partial squat on the actual training floor. Knees/hips are naturally bent and both separated hands are plausible. Feet are outside the frame; contact is judged on the preceding unchanged pose and visible spatial integration, not directly visible feet. Rack/bar/cables/bench stay behind her; oxygen booth remains far left rear. No added dumbbells, trainer or relocated equipment. Static image cannot measure speed; the pose depicts controlled lowering practice."
+        "method": "Direct visual reread: one woman in sage shirt practices an unweighted partial squat on the actual training floor. Knees/hips are naturally bent and forearms form a natural X at the chest, each hand rests on the opposite upper chest/shoulder, and the two hands are anatomically plausible. Feet are outside the frame; contact is judged on the preceding unchanged pose and visible spatial integration, not directly visible feet. Rack/bar/cables/bench stay behind her; oxygen booth remains far left rear. No added dumbbells, trainer or relocated equipment. Static image cannot measure speed; the pose depicts controlled lowering practice."
       },
       "similarity": {
         "pass": true,
@@ -558,7 +558,7 @@
           }
         ]
       },
-      "asset_version": "reference-v26-tempo-20261128-work-r2",
+      "asset_version": "reference-v26-tempo-20261128-work-r3",
       "recent": [
         {
           "slug": "strength-training-rest-between-sets",
@@ -899,10 +899,10 @@
       ],
       "asset_hashes": {
         "source": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
-        "scene": "8cd68478fef69a89bcfb32a76bad42e38f8ae9783c42f34245a7ff6d716507f4",
-        "thumbnail": "1824387c58d57c5a32476a00f35959dbe4cd96e0e4bd827c11cd25cf4c2f73a9",
-        "og": "4efaed35d55e4b786759a47e7b162f4f6c9618fb1348eac5ad98d66653993dbe",
-        "gbp": "1fb54470bb9f8957ebf0109ee01db3e232c28ae01e4456be3c0125d33f70b727"
+        "scene": "32e63a679cf50e2051c03ac6e72c57df8c31ceab4d578f6947ca7b7f2de3a3b5",
+        "thumbnail": "7c59b6e851a6804fb1dfc8d7a7bfc113156bf3ba5f00e49fa6b2d2387a5585c8",
+        "og": "399266a63db986c89a31d62356c94441dad110c65ecce126ecedd7470e6adeb2",
+        "gbp": "2881b8a44c237f9beb45a86e9ed88319ee979a96aa165e8b3aeaea8fe9c905a5"
       }
     },
     "editorial_text_qc": {
@@ -926,7 +926,7 @@
       "deterministic": {
         "revision": "thumbnail-golden-typography-v1",
         "slug": "strength-training-slow-repetition-tempo",
-        "asset_version": "reference-v26-tempo-20261128-work-r2",
+        "asset_version": "reference-v26-tempo-20261128-work-r3",
         "pass": true,
         "variants": {
           "thumbnail": {
@@ -983,16 +983,16 @@
                 "width": 511.984375
               }
             ],
-            "asset_path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-            "asset_sha256": "1824387c58d57c5a32476a00f35959dbe4cd96e0e4bd827c11cd25cf4c2f73a9",
+            "asset_path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+            "asset_sha256": "7c59b6e851a6804fb1dfc8d7a7bfc113156bf3ba5f00e49fa6b2d2387a5585c8",
             "previews": {
               "320": {
-                "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-preview-320.jpg",
-                "sha256": "9969e9ad52bf4cbce60923f079e90d0db470417d7f99fbe9e7d424cbe3940a77"
+                "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+                "sha256": "f7db14c1bf836310f5fae1eb06f147058ca16dcb0a9eff3ef99d6035787d4465"
               },
               "400": {
-                "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-preview-400.jpg",
-                "sha256": "26e325aac4697c98e97687cde55d5d3bc4071591c62a6278fce3aca5f0ff0c34"
+                "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+                "sha256": "15bc9d4163261a1e80c1d85cbdd6b2e7c5efee88b7424b698082fbb236371643"
               }
             }
           },
@@ -1050,16 +1050,16 @@
                 "width": 511.984375
               }
             ],
-            "asset_path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-            "asset_sha256": "4efaed35d55e4b786759a47e7b162f4f6c9618fb1348eac5ad98d66653993dbe",
+            "asset_path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+            "asset_sha256": "399266a63db986c89a31d62356c94441dad110c65ecce126ecedd7470e6adeb2",
             "previews": {
               "320": {
-                "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-preview-320.jpg",
-                "sha256": "9ce881f00b69ef4ca35dc2439d1f9b5e7390d39bd7a96a178d993eebb95ca0eb"
+                "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+                "sha256": "a47df93a140eaa943c5e1c11c159ec1efef345f435a95d8882576f1f77d21832"
               },
               "400": {
-                "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-preview-400.jpg",
-                "sha256": "a9294db61c7b621b332fe03b70aec1b193568fc2c39810921f86e6d01e8d51ba"
+                "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+                "sha256": "71d30c190be41d37648bf0ad331eba6c24b116130fa616045643baf0a06f9b47"
               }
             }
           },
@@ -1117,16 +1117,16 @@
                 "width": 410.921875
               }
             ],
-            "asset_path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-            "asset_sha256": "1fb54470bb9f8957ebf0109ee01db3e232c28ae01e4456be3c0125d33f70b727",
+            "asset_path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+            "asset_sha256": "2881b8a44c237f9beb45a86e9ed88319ee979a96aa165e8b3aeaea8fe9c905a5",
             "previews": {
               "320": {
-                "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-preview-320.jpg",
-                "sha256": "faad5d0015107399b3cefaf7b2bfef07a5c83a8e6dabaafb7a782348474ba1fb"
+                "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+                "sha256": "1b86022b4134240b8e90fa0d2fbe709cdd0440c524485e5a90aff7ded77cfd08"
               },
               "400": {
-                "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-preview-400.jpg",
-                "sha256": "8bbefa9434213ad21d97a4ed8d4b4ba3c7293372f902986b258f3b1fe40a534d"
+                "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+                "sha256": "72386170ac62dbf3040dd1c536136db4b1428980be5718e01d53af99d8c37f68"
               }
             }
           }
@@ -1143,7 +1143,7 @@
           "contrast_sufficient": true,
           "text_not_buried": true,
           "article_recognizable": true,
-          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains both hands and bent knees; clear hierarchy emphasizing 丁寧に。"
+          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains crossed hands and bent knees; clear hierarchy emphasizing 丁寧に。"
         },
         "og": {
           "pass": true,
@@ -1155,7 +1155,7 @@
           "contrast_sufficient": true,
           "text_not_buried": true,
           "article_recognizable": true,
-          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains both hands and bent knees; clear hierarchy emphasizing 丁寧に。"
+          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains crossed hands and bent knees; clear hierarchy emphasizing 丁寧に。"
         },
         "gbp": {
           "pass": true,
@@ -1167,7 +1167,7 @@
           "contrast_sufficient": true,
           "text_not_buried": true,
           "article_recognizable": true,
-          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains both hands and bent knees; clear hierarchy emphasizing 丁寧に。"
+          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains crossed hands and bent knees; clear hierarchy emphasizing 丁寧に。"
         }
       },
       "art_direction": {
@@ -1188,7 +1188,7 @@
             "golden_grammar_matches": true,
             "composition_balanced": true,
             "fade_integrated": true,
-            "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. The soft veil touches the rear-hand edge in GBP but its shape remains legible; left-aligned photo crop keeps the action readable. GBP has its own placement, not a stretched wide crop."
+            "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. Crossed hands at the chest stay outside the text veil; left-aligned photo crop preserves the pose. GBP has its own placement, not a stretched wide crop."
           },
           "og": {
             "pass": true,
@@ -1205,7 +1205,7 @@
             "golden_grammar_matches": true,
             "composition_balanced": true,
             "fade_integrated": true,
-            "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. The soft veil touches the rear-hand edge in GBP but its shape remains legible; left-aligned photo crop keeps the action readable. GBP has its own placement, not a stretched wide crop."
+            "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. Crossed hands at the chest stay outside the text veil; left-aligned photo crop preserves the pose. GBP has its own placement, not a stretched wide crop."
           },
           "gbp": {
             "pass": true,
@@ -1222,7 +1222,7 @@
             "golden_grammar_matches": true,
             "composition_balanced": true,
             "fade_integrated": true,
-            "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. The soft veil touches the rear-hand edge in GBP but its shape remains legible; left-aligned photo crop keeps the action readable. GBP has its own placement, not a stretched wide crop."
+            "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. Crossed hands at the chest stay outside the text veil; left-aligned photo crop preserves the pose. GBP has its own placement, not a stretched wide crop."
           }
         }
       },
@@ -1251,23 +1251,23 @@
       "provider": "ChatGPT Work current conversation",
       "method": "Separate visual reread after generation. Source, generated photo, three originals and all six 320/400px previews directly inspected.",
       "score_interpretation": "Scores and 65% attention share are reviewer estimates, not measurements or separate-model output. No separate agent or paid QC API. R2 feet are outside frame. R1 visible grounded pose was inspected but not accepted due to repeated full-body framing; R2 spatial integration judged from visible pose only. Static speed is not measurable.",
-      "observations": "Direct visual reread: one woman in sage shirt practices an unweighted partial squat on the actual training floor. Knees/hips are naturally bent and both separated hands are plausible. Feet are outside the frame; contact is judged on the preceding unchanged pose and visible spatial integration, not directly visible feet. Rack/bar/cables/bench stay behind her; oxygen booth remains far left rear. No added dumbbells, trainer or relocated equipment. Static image cannot measure speed; the pose depicts controlled lowering practice.",
+      "observations": "Direct visual reread: one woman in sage shirt practices an unweighted partial squat on the actual training floor. Knees/hips are naturally bent and forearms form a natural X at the chest, each hand rests on the opposite upper chest/shoulder, and the two hands are anatomically plausible. Feet are outside the frame; contact is judged on the preceding unchanged pose and visible spatial integration, not directly visible feet. Rack/bar/cables/bench stay behind her; oxygen booth remains far left rear. No added dumbbells, trainer or relocated equipment. Static image cannot measure speed; the pose depicts controlled lowering practice.",
       "external_ai_api_calls": 0
     },
     "api_usage": {
       "external_ai_api_calls": 0,
-      "built_in_image_generation_calls": 2,
+      "built_in_image_generation_calls": 3,
       "qc_api_calls": 0,
       "paid_generation_workflow_invoked": false
     }
   },
   "image_generation_model": "chatgpt-built-in-recovered-existing-image",
   "image_qa_model": "ChatGPT Work current conversation visual reread",
-  "image_attempts": 2,
+  "image_attempts": 3,
   "image_brand_qa_score": 8,
   "gbp_image_status": "READY",
-  "gbp_image_asset_version": "reference-v26-tempo-20261128-work-r2",
-  "gbp_image_checked_at": "2026-11-27T09:05:06.254Z",
+  "gbp_image_asset_version": "reference-v26-tempo-20261128-work-r3",
+  "gbp_image_checked_at": "2026-11-27T10:04:15.306Z",
   "gbp_image_qa": {
     "pass": true,
     "ratio": "4:3",
