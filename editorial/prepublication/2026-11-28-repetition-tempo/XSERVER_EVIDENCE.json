@@ -1,0 +1,41 @@
+{
+  "all_match": true,
+  "assets": [
+    {
+      "variant": "thumbnail",
+      "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+      "sha256": "1824387c58d57c5a32476a00f35959dbe4cd96e0e4bd827c11cd25cf4c2f73a9",
+      "url": "https://therev-lab.com/assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+      "http_status": 200,
+      "remote_sha256": "1824387c58d57c5a32476a00f35959dbe4cd96e0e4bd827c11cd25cf4c2f73a9",
+      "bytes": 128127,
+      "match": true
+    },
+    {
+      "variant": "og",
+      "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+      "sha256": "4efaed35d55e4b786759a47e7b162f4f6c9618fb1348eac5ad98d66653993dbe",
+      "url": "https://therev-lab.com/assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+      "http_status": 200,
+      "remote_sha256": "4efaed35d55e4b786759a47e7b162f4f6c9618fb1348eac5ad98d66653993dbe",
+      "bytes": 122012,
+      "match": true
+    },
+    {
+      "variant": "gbp",
+      "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+      "sha256": "1fb54470bb9f8957ebf0109ee01db3e232c28ae01e4456be3c0125d33f70b727",
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+      "http_status": 200,
+      "remote_sha256": "1fb54470bb9f8957ebf0109ee01db3e232c28ae01e4456be3c0125d33f70b727",
+      "bytes": 181930,
+      "match": true
+    }
+  ],
+  "checked_at": "2026-11-27T09:10:24.326Z",
+  "run_id": "45971342911",
+  "scope": "Only three new accepted images; no HTML or published articles",
+  "blog_published": false,
+  "gbp_posted": false,
+  "external_ai_api_calls": 0
+}
