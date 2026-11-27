@@ -94,11 +94,11 @@
   },
   "production_recovery": {
     "version": "v0.8.2",
-    "stage": "IMAGE_READY",
-    "last_successful_stage": "IMAGE_READY",
-    "ready_for_owner_publish": false,
-    "next_action": "CANONICAL_BRIDGE_SYNC",
-    "stopped_reason": "正式Bridge同期が未確認です。",
+    "stage": "REVIEW_READY",
+    "last_successful_stage": "REVIEW_READY",
+    "ready_for_owner_publish": true,
+    "next_action": "OWNER_PUBLISH",
+    "stopped_reason": null,
     "human_publish_required": true,
     "automatic_publish": false,
     "text_qc": {
@@ -112,7 +112,7 @@
       },
       "missing": []
     },
-    "bridge_synced": false,
+    "bridge_synced": true,
     "reusable_artifacts": {
       "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
       "image_asset_version": "reference-v26-tempo-20261128-work-r2",
@@ -128,8 +128,8 @@
       "paid_generation_workflow_invoked": false
     }
   },
-  "checked_at": "2026-11-27T09:10:30.624Z",
-  "actual_cms_updated_at": "2026-11-27T09:05:08.028976+00:00",
+  "checked_at": "2026-11-27T09:17:55.223Z",
+  "actual_cms_updated_at": "2026-11-27T09:16:58.890834+00:00",
   "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
   "db_source": "Exact connected production Supabase readback; user_id omitted",
   "canonical_preflight": "Unmodified lib/publishFlow.mjs runPreflight, real authenticated GitHub main reads and real Xserver SHA256 comparisons",
