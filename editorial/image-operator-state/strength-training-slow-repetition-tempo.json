@@ -7,6 +7,8 @@
   "og_image": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
   "gbp_image": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
   "qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.json",
-  "xserver_verified": false,
-  "actual_operator": "ChatGPT Work manual, built-in generation; no paid AI API"
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-11-27T09:10:24.326Z",
+  "delivery_run_id": "45971342911",
+  "actual_operator": "ChatGPT Work built-in generation 2 calls, external paid AI API0; final human article Publish required"
 }
