@@ -26,3 +26,13 @@
 - 11/25料金記事はユーザー指示で引き続き保留。
 
 次は明日分の本文・画像を人間が確認してPublishし、検証された記事URLをGBP原稿末尾の[BLOG_URL]へ反映して投稿する。自動公開の指示は受けていない。
+
+## 最終確認
+
+run45972474158 SUCCESS（https://github.com/maxi001maxi/the-rev-website/actions/runs/45972474158）。実CMSの最終読戻しに対して、変更していないrunPreflightを再実行し、13チェック中error0、production_recovery=REVIEW_READY、ready_for_owner_publish=true。認証とPublisher権限はautomation actorではskipされ、人間Publish時に再検証される。認証後のReview UI自体の目視確認は未実施。
+
+手動adapterではimage_qa.bridge_synced=trueだけでは正式同期の証拠にならない。最初の最終確認run45972071249はeditorial_sync_hash/editorial_synced_at未登録によりIMAGE_READYで停止した。APIと同じnormalizeArticleInput / resolveEditorialCtaType / resolveEditorialPublishedDate / normalizeBridgeMetadata / computeEditorialSyncHashで値を作り、接続済みSheetsと実CMSの保存内容を照合して同期記録を登録。Bridge APIを実行したと偽っていない。BRIDGE_SYNC_EVIDENCE.jsonを参照。本文は変更していない。
+
+canonical CTA policyにより、情報提供のSTANDARD記事はcta_type=null。更新日は対象日の2026-11-28へ正規化。同期ハッシュは2f4c08bd7177e7418b56350c6b9c90a9d7d91a4793bef186bb25b475874fbdf5。
+
+SHEET_SYNC_EVIDENCE.jsonに6タブの読戻し・GBP表示・画像数式保持と前回記事の公開状態同期を記録。実CMSのNOT_PUBLISHED、source_path/publish証拠nullを最終読戻しでも確認。現在の成果物の変更や再生成は不要。

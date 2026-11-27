@@ -1,0 +1,52 @@
+{
+  "checked_at": "2026-11-27T09:19:01.003Z",
+  "rows": [
+    {
+      "sheet": "25_WEB_PUBLISH_BRIDGE",
+      "status": "PREVIEW_READY",
+      "id": "BLOG-20261128-tempo",
+      "row": 42
+    },
+    {
+      "sheet": "22_GBP_POST",
+      "status": "READY",
+      "id": "GBP-20261128-tempo",
+      "row": 37,
+      "formulaKept": true
+    },
+    {
+      "sheet": "21_WEB_BLOG_OUTPUT",
+      "status": "READY",
+      "id": "BLOG-20261128-tempo",
+      "row": 36
+    },
+    {
+      "sheet": "26_DAILY_EDITORIAL_QUEUE",
+      "status": "REVIEW_READY",
+      "id": "BLOG-20261128-tempo",
+      "row": 39
+    },
+    {
+      "sheet": "43_BLOG_IMPROVEMENT_LOG",
+      "status": "公開前ドラフト完成・人間確認待ち",
+      "id": "strength-training-slow-repetition-tempo",
+      "row": 5
+    },
+    {
+      "sheet": "44_COLUMN_TOPIC_LOG",
+      "id": "strength-training-slow-repetition-tempo",
+      "row": 4
+    }
+  ],
+  "body_readback_exact_match": true,
+  "gbp_readback_exact_match": true,
+  "gbp_display_latest_article": true,
+  "gbp_image_formulas_retained": true,
+  "run_date": "2026-11-27",
+  "target_date": "2026-11-28",
+  "previous_rest_article_reconciled_from_verified_cms": true,
+  "blog_published": false,
+  "gbp_posted": false,
+  "canonical_final_preflight_run": "45972474158",
+  "canonical_final_stage": "REVIEW_READY"
+}
