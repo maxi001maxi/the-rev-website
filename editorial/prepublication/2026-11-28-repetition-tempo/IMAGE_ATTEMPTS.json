@@ -1,0 +1,19 @@
+{
+  "external_paid_ai_api_calls": 0,
+  "built_in_image_generation_calls": 2,
+  "max_generation_attempts": 3,
+  "attempts": [
+    {
+      "attempt": 1,
+      "asset_version": "reference-v26-tempo-20261128-work-r1",
+      "pass": false,
+      "reason": "Full-body composition repeated the recent exercise-order scene fingerprint. Original generated scene retained; rejected derivatives removed."
+    },
+    {
+      "attempt": 2,
+      "asset_version": "reference-v26-tempo-20261128-work-r2",
+      "pass": true,
+      "reason": "Actual camera reframed to medium three-quarter; face clearer, source preserved, semantic and recent-source gates pass. Static speed cannot be measured; the image depicts lowering rehearsal."
+    }
+  ]
+}
