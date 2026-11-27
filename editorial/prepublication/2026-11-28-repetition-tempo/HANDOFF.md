@@ -42,3 +42,5 @@ SHEET_SYNC_EVIDENCE.jsonに6タブの読戻し・GBP表示・画像数式保持�
 2026-11-27、店長が「手を前に出さず、胸の前でクロス」と指定。R2の人物・スクワット姿勢・実店舗背景・構図・見出しを維持し、腕だけを内蔵画像編集1回で修正。累計3回、外部有料AI API0回。R2は手の位置について人間却下として保存し、R3を3形式へ同じcanonical Overlayで展開。本文・GBP投稿文の変更はない。
 
 最新assetはreference-v26-tempo-20261128-work-r3。CMS・Bridge・GBP画像参照をR3へ同期。R3の配信証拠と最終Preflightはこの追記後に更新するXSERVER_EVIDENCE.json / FINAL_PREFLIGHT.jsonを参照。記事・GBPは未公開のまま。
+
+R3最終確認：run45979538309 SUCCESS。3画像の実HTTP200・SHA256一致、canonical Preflight13項目error0、REVIEW_READY。実CMSのR3参照と本文不変、未公開を最終読戻しでも確認。GBP表示と既存画像数式の保持も確認した。
