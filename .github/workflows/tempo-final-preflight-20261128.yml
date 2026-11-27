@@ -1,0 +1,40 @@
+name: Nov28 final readonly review-ready verification
+on:
+  push:
+    branches: [work/tempo-final-preflight-20261128]
+    paths: ['.github/workflows/tempo-final-preflight-20261128.yml']
+permissions:
+  contents: write
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+      PRODUCTION_URL: https://therev-lab.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Readonly canonical preflight after verified bridge sync
+        run: |
+          node editorial/prepublication/2026-11-28-repetition-tempo/final-preflight.mjs
+          node --input-type=module -e "import fs from 'node:fs';const j=JSON.parse(fs.readFileSync('editorial/prepublication/2026-11-28-repetition-tempo/FINAL_PREFLIGHT.json'));if(!j.ok||j.production_recovery?.stage!=='REVIEW_READY')throw Error('Not review ready');"
+      - name: Preserve read-only result on working branch
+        run: |
+          git add -- editorial/prepublication/2026-11-28-repetition-tempo/FINAL_PREFLIGHT.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Verify Nov28 REVIEW_READY after bridge readback'
+          git push origin HEAD:work/tempo-final-preflight-20261128
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tempo-final-preflight-${{ github.run_id }}
+          path: editorial/prepublication/2026-11-28-repetition-tempo/FINAL_PREFLIGHT.json
