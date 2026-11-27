@@ -9,25 +9,25 @@
   "layout_template_id": "rev-column-v24-fixed-overlay-v1",
   "design_revision": "editorial-thumbnail-v2.6-human-first",
   "layout_variant": "human-first-v1",
-  "scene_intent": "Use case: photorealistic-natural. Create a text-free landscape 3:2 editorial gym photograph. The input is the REAL THE REV. gym and the only spatial reference: preserve the black/silver rack and cables, racked bare bar, weight plate storage on its right, black adjustable bench in the rack, black rubber floor, and the silver oxygen booth far rear LEFT. Keep every machine and bench in its original location. Reframe at a natural closer eye level from the open training floor to the RIGHT of the rack so the rack is recognizable but softly blurred in background. Add exactly ONE fictional Japanese female customer aged about 45, ordinary healthy body, plain muted sage short sleeve athletic shirt, dark leggings, dark sneakers, no logos. She is on the existing open black rubber training floor in front/right of the rack, practicing an unweighted controlled quarter squat as warm-up: feet naturally shoulder-width, knees gently bent and hips just slightly back, neutral spine with a modest natural forward torso angle, arms relaxed forward at lower chest level for balance. Capture a still instant during the controlled lowering; not sitting, no barbell on shoulders, no added dumbbells, bands or equipment. Her face and posture are the main subject with calm attentive expression and eyes looking naturally ahead and slightly down. Show head through knees in three-quarter front view, body on RIGHT 70% of frame, so face and bent knees read clearly. Human should dominate roughly 65% visual attention; quiet left third for later text overlay. Natural neutral daylight, realistic skin texture, documentary photograph, soft contact and lighting integration, no model pose or advertising grin. No trainer, no other people, no person visible in mirrors or posters (crop those out), no repositioned furniture, no invented gym, no extra arms or fingers. Background naturally blurred but not replaced. No text, typography, watermark, clocks, UI, infographic, panels, cinematic color grading or strong vignette. Final framing revision: medium three-quarter head-to-knees portrait, feet outside frame, face significantly larger. Same woman, posture and real room.",
+  "scene_intent": "Use case: photorealistic-natural. Create a text-free landscape 3:2 editorial gym photograph. The input is the REAL THE REV. gym and the only spatial reference: preserve the black/silver rack and cables, racked bare bar, weight plate storage on its right, black adjustable bench in the rack, black rubber floor, and the silver oxygen booth far rear LEFT. Keep every machine and bench in its original location. Reframe at a natural closer eye level from the open training floor to the RIGHT of the rack so the rack is recognizable but softly blurred in background. Add exactly ONE fictional Japanese female customer aged about 45, ordinary healthy body, plain muted sage short sleeve athletic shirt, dark leggings, dark sneakers, no logos. She is on the existing open black rubber training floor in front/right of the rack, practicing an unweighted controlled quarter squat as warm-up: feet naturally shoulder-width, knees gently bent and hips just slightly back, neutral spine with a modest natural forward torso angle, arms crossed comfortably over the chest, each hand resting on the opposite upper chest/shoulder, elbows angled down. Capture a still instant during the controlled lowering; not sitting, no barbell on shoulders, no added dumbbells, bands or equipment. Her face and posture are the main subject with calm attentive expression and eyes looking naturally ahead and slightly down. Show head through knees in three-quarter front view, body on RIGHT 70% of frame, so face and bent knees read clearly. Human should dominate roughly 65% visual attention; quiet left third for later text overlay. Natural neutral daylight, realistic skin texture, documentary photograph, soft contact and lighting integration, no model pose or advertising grin. No trainer, no other people, no person visible in mirrors or posters (crop those out), no repositioned furniture, no invented gym, no extra arms or fingers. Background naturally blurred but not replaced. No text, typography, watermark, clocks, UI, infographic, panels, cinematic color grading or strong vignette. Final framing revision: medium three-quarter head-to-knees portrait, feet outside frame, face significantly larger. Same woman, posture and real room.",
   "generated_customer_count": 1,
   "customer_presentation": "female",
-  "generated_scene_path": "assets/images/editorial-generated/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2-scene.png",
+  "generated_scene_path": "assets/images/editorial-generated/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-scene.png",
   "style_references": [
     "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
     "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
   ],
   "render_version": "rev-column-reference-v2.3-hybrid",
   "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
-  "asset_version": "reference-v26-tempo-20261128-work-r2",
-  "thumbnail": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-  "og_image": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
-  "gbp_image": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.jpg",
+  "asset_version": "reference-v26-tempo-20261128-work-r3",
+  "thumbnail": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+  "og_image": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+  "gbp_image": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
   "gbp_image_required": true,
   "gbp_image_width": 1200,
   "gbp_image_height": 900,
   "gbp_image_aspect_ratio": "4:3",
-  "qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r2.json",
+  "qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.json",
   "generation_model": "chatgpt-built-in-recovered-existing-image",
   "qa_model": "ChatGPT Work current conversation visual reread",
   "publish_requires_human_approval": true,
@@ -77,7 +77,7 @@
     "selected_source_id": "the-rev-floor-rack-wide-20261119",
     "operator": "ChatGPT Work built-in generation; no paid AI API",
     "automatic_attempt": "Dumbbell-driven source matching exhausted the eligible pool; manual article-specific unweighted lowering rehearsal uses another verified source, no recency exception or policy change.",
-    "revision_reason": "R1 was full-body and matched the recent exercise-order scene fingerprint; rejected. R2 changes the actual camera framing to medium three-quarter, not just the QC label."
+    "revision_reason": "Owner explicitly requested crossing arms at the chest instead of reaching forward. R3 edits arms only; same woman, squat, framing, background and copy."
   },
   "scene_object_position": {
     "gbp": "left center"

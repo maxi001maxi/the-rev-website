@@ -1,5 +1,5 @@
 {
-  "pass": true,
+  "pass": false,
   "slug": "strength-training-slow-repetition-tempo",
   "template": "rev-column-reference-v2",
   "api_usage": {
@@ -831,7 +831,7 @@
   "exercise_pose_plausible": true,
   "facility_only_thumbnail": false,
   "location_semantics_pass": true,
-  "manual_visual_rejection": false,
+  "manual_visual_rejection": true,
   "scene_grounding_version": "the-rev-source-scene-v1",
   "unknown_trainer_present": false,
   "article_visual_relevance": 9,
@@ -1255,5 +1255,6 @@
       }
     ],
     "gbp_display_verified": true
-  }
+  },
+  "owner_rejection_reason": "2026-11-27 owner requested arms crossed at chest instead of reaching forward. Superseded by R3."
 }

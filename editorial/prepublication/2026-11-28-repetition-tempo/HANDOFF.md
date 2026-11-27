@@ -36,3 +36,9 @@ run45972474158 SUCCESS（https://github.com/maxi001maxi/the-rev-website/actions/
 canonical CTA policyにより、情報提供のSTANDARD記事はcta_type=null。更新日は対象日の2026-11-28へ正規化。同期ハッシュは2f4c08bd7177e7418b56350c6b9c90a9d7d91a4793bef186bb25b475874fbdf5。
 
 SHEET_SYNC_EVIDENCE.jsonに6タブの読戻し・GBP表示・画像数式保持と前回記事の公開状態同期を記録。実CMSのNOT_PUBLISHED、source_path/publish証拠nullを最終読戻しでも確認。現在の成果物の変更や再生成は不要。
+
+## 店長指定の腕位置修正（R3）
+
+2026-11-27、店長が「手を前に出さず、胸の前でクロス」と指定。R2の人物・スクワット姿勢・実店舗背景・構図・見出しを維持し、腕だけを内蔵画像編集1回で修正。累計3回、外部有料AI API0回。R2は手の位置について人間却下として保存し、R3を3形式へ同じcanonical Overlayで展開。本文・GBP投稿文の変更はない。
+
+最新assetはreference-v26-tempo-20261128-work-r3。CMS・Bridge・GBP画像参照をR3へ同期。R3の配信証拠と最終Preflightはこの追記後に更新するXSERVER_EVIDENCE.json / FINAL_PREFLIGHT.jsonを参照。記事・GBPは未公開のまま。
