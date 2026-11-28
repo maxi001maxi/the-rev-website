@@ -1,0 +1,1227 @@
+{
+  "id": "ee3cf60a-be55-4989-99d7-cf4571702025",
+  "slug": "oxygen-room-denba-combined-rest",
+  "title": "酸素ルームとDENBA。ふたつを一緒に使う休み方",
+  "author": "服部 真騎士",
+  "status": "draft",
+  "noindex": false,
+  "updated": "2026-11-28",
+  "category": "recovery",
+  "cta_type": "recovery",
+  "featured": false,
+  "image_qa": {
+    "pass": true,
+    "slug": "oxygen-room-denba-combined-rest",
+    "api_usage": {
+      "qc_api_calls": 0,
+      "external_ai_api_calls": 0,
+      "built_in_image_generation_calls": 1,
+      "paid_generation_workflow_invoked": false
+    },
+    "checked_at": "2026-11-28T08:27:36.174Z",
+    "review_mode": "HYBRID_GENERATED",
+    "copy_legible": true,
+    "article_title": "酸素ルームとDENBA。ふたつを一緒に使う休み方",
+    "asset_version": "reference-v26-oxydenba-20261128-work-r1",
+    "bridge_synced": true,
+    "fallback_used": false,
+    "layout_variant": "human-first-v1",
+    "negative_space": 8,
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "actual_reviewer": {
+      "method": "Separate visual reread after generation. Source, generated photo, three originals and all six 320/400px previews directly inspected.",
+      "provider": "ChatGPT Work current conversation",
+      "observations": "Directly inspected generated scene: exactly one middle-aged male customer standing naturally at right on wooden walkway OUTSIDE the closed OXYROOM, calmly looking toward it before entering. Face, shoulders, both arm chains and hands have natural adult proportions. Booth with two door windows, handle and side control panel remains left; rack stays far rear. No trainer, invented interior, bed, mat, medical device or furniture. Feet outside frame: direct sole contact/shadow is not visually assessable; visible torso/arm scale, floor perspective and lighting integration judged qualitatively.",
+      "score_interpretation": "Scores and 65% attention share are reviewer estimates, not measurements or separate-model output. No separate agent or paid QC API. Feet are outside frame; direct sole contact and contact shadow were not observed. Head/body and hands/face proportions and visible arm chains qualitatively reviewed; no measured anthropometry claimed. Standing before a closed booth avoids fabricating interior use. Static speed is not measurable.",
+      "external_ai_api_calls": 0
+    },
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "photo_treatment": 8,
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "scene_grounding": {
+      "pass": true,
+      "plan": {
+        "version": "the-rev-source-scene-v1",
+        "source_id": "the-rev-oxyroom-20260924",
+        "scene_type": "before_start",
+        "visual_role": "first_visit_reassurance",
+        "human_action": "prepare",
+        "subject_zone": "recovery_area",
+        "location_type": "recovery_area",
+        "source_sha256": "e4ae7b35097876940d49d862044765f570dd3582a7cbad73cee3928388b2fbb6",
+        "article_intent": "recovery",
+        "composition_type": "medium_side_portrait",
+        "required_equipment": [],
+        "article_specific_directive": "One customer stands on the real wood walkway outside the closed oxygen booth preparing for a recovery visit. No unseen interior, bed or DENBA mat invented. No training action or equipment relocated."
+      },
+      "errors": [],
+      "recent": [
+        {
+          "slug": "strength-training-slow-repetition-tempo",
+          "checkedAt": "2026-11-28T01:10:21.241Z",
+          "thumbnail": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+          "driveFileId": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+          "articleTitle": "筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと",
+          "assetVersion": "reference-v26-tempo-20261128-work-r4",
+          "contentReference": "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
+          "sceneFingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "imageHeadlineShort": "下ろすときも、\n丁寧に。",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "strength-training-rest-between-sets",
+          "checkedAt": "2026-11-26T07:07:01.712Z",
+          "thumbnail": "assets/images/blog/thumb-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+          "driveFileId": "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+          "articleTitle": "筋トレのセット間は何分休む？次のセットの質で決める休憩時間",
+          "assetVersion": "reference-v26-rest-sets-20261126-work-r1",
+          "contentReference": "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "close_action_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "close_action_portrait"
+          },
+          "imageHeadlineShort": "セット間、\n何分休む？",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "post-workout-recovery-methods-evidence",
+          "checkedAt": "2026-11-24T08:32:37.789Z",
+          "thumbnail": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+          "driveFileId": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+          "articleTitle": "筋トレ後の回復方法、効果が確かめられているのはどれ？研究から整理",
+          "assetVersion": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+          "contentReference": "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "recovery_area",
+            "article_intent": "recovery",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "recovery_area",
+            "article_intent": "recovery",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "imageHeadlineShort": "筋トレ後の回復\n効くのはどれ？",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "checkedAt": "2026-11-19T04:54:15.561Z",
+          "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+          "driveFileId": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+          "articleTitle": "ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ",
+          "assetVersion": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+          "contentReference": "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "compare_notes",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_seated_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "compare_notes",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_seated_portrait"
+          },
+          "imageHeadlineShort": "入口は、\n続くほうから。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "checkedAt": "2026-11-17T09:58:24.928Z",
+          "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "articleTitle": "筋肉痛があるとき、筋トレは休むべき？部位を変える目安",
+          "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "training_start",
+            "composition_type": "medium_seated_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "training_start",
+            "composition_type": "medium_seated_portrait"
+          },
+          "imageHeadlineShort": "筋肉痛の日は、\nまず痛みを確かめる。",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "checkedAt": "2026-11-17T07:45:44.798688Z",
+          "thumbnail": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "articleTitle": "食後すぐに筋トレしていい？食事の量と運動までの時間の考え方",
+          "assetVersion": "reference-v26-banana-20261117-r3",
+          "contentReference": "assets/images/photo-lobby.jpg",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "prepare",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "close_action_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "prepare",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "close_action_portrait"
+          },
+          "imageHeadlineShort": "食後の筋トレは\n何時間後？",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "checkedAt": "2026-11-15T01:48:31.310Z",
+          "thumbnail": "assets/images/blog/thumb-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
+          "driveFileId": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+          "articleTitle": "酸素カプセルと酸素ルームは何が違う？初めて選ぶときの確認ポイント",
+          "assetVersion": "reference-v26-grounded-oxycompare-20261115-work-r1",
+          "contentReference": "assets/images/photo-oxyroom.jpg",
+          "sceneFingerprint": {
+            "scene_type": "equipment_orientation",
+            "visual_role": "facility_inspection",
+            "human_action": "prepare",
+            "location_type": "recovery_area",
+            "article_intent": "recovery",
+            "composition_type": "medium_side_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "equipment_orientation",
+            "visual_role": "facility_inspection",
+            "human_action": "prepare",
+            "location_type": "recovery_area",
+            "article_intent": "recovery",
+            "composition_type": "medium_side_portrait"
+          },
+          "imageHeadlineShort": "広さで変わる、\n過ごし方。",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "checkedAt": "2026-11-13T14:48:10.243Z",
+          "thumbnail": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+          "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+          "articleTitle": "パーソナルジムの姿勢チェックは何を見る？自分の姿勢を知って筋トレを始める",
+          "assetVersion": "reference-v26-grounded-posture-20261114-work-r1",
+          "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/AI_FRAME_IMG_4387_75.jpg",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "prepare",
+            "location_type": "training_area",
+            "article_intent": "training_start",
+            "composition_type": "medium_side_portrait"
+          },
+          "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "prepare",
+            "location_type": "training_area",
+            "article_intent": "training_start",
+            "composition_type": "medium_side_portrait"
+          },
+          "imageHeadlineShort": "姿勢から、\n鍛え方を考える。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "checkedAt": "2026-11-07T03:31:42.504Z",
+          "thumbnail": "assets/images/blog/thumb-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1.jpg",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "articleTitle": "24時間ジムで何をすればいいか分からない人へ｜メニューをプロに相談する方法",
+          "assetVersion": "reference-v26-grounded-mygym-20261107-work-r1",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "review_paper",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "review_paper",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "imageHeadlineShort": "今のジムで、\n迷わず進める。",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "checkedAt": "2026-11-04T02:14:51.325Z",
+          "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "articleTitle": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+          "assetVersion": "reference-v26-denba-health-20261104-r3",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          },
+          "imageHeadlineShort": "DENBA Health\n休息をケアに。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "checkedAt": "2026-11-04T01:04:41.294Z",
+          "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.jpg",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "articleTitle": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+          "assetVersion": "reference-v26-denba-care-20261104-r2",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          },
+          "imageHeadlineShort": "デンバで、\n休息をケアに。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "checkedAt": "2026-11-04T00:35:50.527Z",
+          "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "articleTitle": "DENBA Healthの効果はどこまで分かる？研究と体験談の読み分け方",
+          "assetVersion": "reference-v26-grounded-auto-denba-20260924-63fb04d3",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "reception",
+            "article_intent": "recovery",
+            "composition_type": "medium_seated_portrait"
+          },
+          "imageHeadlineShort": "研究結果、\nどう読む？",
+          "customerPresentation": "male"
+        }
+      ],
+      "version": "the-rev-source-scene-v1",
+      "inventory": {
+        "version": "the-rev-source-scene-v1",
+        "subject_zone": "recovery_area",
+        "verification": {
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry.",
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07"
+        },
+        "source_sha256": "e4ae7b35097876940d49d862044765f570dd3582a7cbad73cee3928388b2fbb6",
+        "primary_location": "recovery_area",
+        "visible_equipment": [
+          {
+            "zone": "recovery_area",
+            "object": "oxygen_room"
+          },
+          {
+            "zone": "rear_training_area",
+            "object": "training_rack"
+          }
+        ],
+        "suitable_article_intents": [
+          "recovery"
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ]
+      },
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "matches": [
+          {
+            "slug": "strength-training-slow-repetition-tempo",
+            "equal": [],
+            "score": 0,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "strength-training-rest-between-sets",
+            "equal": [
+              "scene_type"
+            ],
+            "score": 0.16666666666666666,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "post-workout-recovery-methods-evidence",
+            "equal": [
+              "location_type",
+              "article_intent"
+            ],
+            "score": 0.3333333333333333,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "boxing-vs-strength-training-for-diet",
+            "equal": [],
+            "score": 0,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "muscle-soreness-should-i-train",
+            "equal": [
+              "scene_type"
+            ],
+            "score": 0.16666666666666666,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "workout-after-meal-timing",
+            "equal": [
+              "scene_type",
+              "human_action"
+            ],
+            "score": 0.3333333333333333,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "oxygen-capsule-vs-room",
+            "equal": [
+              "location_type",
+              "human_action",
+              "composition_type",
+              "article_intent"
+            ],
+            "score": 0.6666666666666666,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "personal-gym-posture-check",
+            "equal": [
+              "scene_type",
+              "human_action",
+              "composition_type"
+            ],
+            "score": 0.5,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "24-hour-gym-workout-menu-consultation",
+            "equal": [],
+            "score": 0,
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-health-effects-research-evidence",
+            "equal": [
+              "article_intent"
+            ],
+            "score": 0.16666666666666666,
+            "hard_exclusion": false
+          }
+        ],
+        "penalty": 0.6666666666666666,
+        "compared": 10,
+        "unknown_count": 0
+      },
+      "observation": {
+        "method": "Directly inspected generated scene: exactly one middle-aged male customer standing naturally at right on wooden walkway OUTSIDE the closed OXYROOM, calmly looking toward it before entering. Face, shoulders, both arm chains and hands have natural adult proportions. Booth with two door windows, handle and side control panel remains left; rack stays far rear. No trainer, invented interior, bed, mat, medical device or furniture. Feet outside frame: direct sole contact/shadow is not visually assessable; visible torso/arm scale, floor perspective and lighting integration judged qualitatively.",
+        "complete": true,
+        "equipment": [
+          {
+            "zone": "recovery_area",
+            "object": "oxygen_room"
+          },
+          {
+            "zone": "rear_training_area",
+            "object": "training_rack"
+          }
+        ],
+        "human_action": "prepare",
+        "subject_zone": "recovery_area",
+        "location_type": "recovery_area",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "visual_role": "first_visit_reassurance",
+          "human_action": "prepare",
+          "location_type": "recovery_area",
+          "article_intent": "recovery",
+          "composition_type": "medium_side_portrait"
+        },
+        "article_scene_match": true,
+        "equipment_relocated": false,
+        "room_geometry_preserved": true
+      },
+      "asset_hashes": {
+        "og": "e043ec8de4d4e602d6927705a4190a6ed2c97fe56370e3125dac3db85bae3a86",
+        "gbp": "cefa2a531ce423dc401674377c2413b36d35e8e00d597433690db3f4f534b6a0",
+        "scene": "5ddb29d082b42142bd1c1ca31509a365c81252a622b76fbfcc8910e1e20cce5c",
+        "source": "e4ae7b35097876940d49d862044765f570dd3582a7cbad73cee3928388b2fbb6",
+        "thumbnail": "982ad85bae7a3669efdcd472f6c765e18d23ddcaba4a9db3c6227954731a4c8c"
+      },
+      "asset_version": "reference-v26-oxydenba-20261128-work-r1",
+      "sourceRecognition": {
+        "method": "Directly viewed real photo-oxyroom.jpg: cream OXYROOM booth/door with two dark windows and handle at left, control panel at right edge of booth, wooden recovery walkway in foreground, training rack in rear on black floor. Interior and DENBA parts not visible.",
+        "complete": true,
+        "equipment": [
+          {
+            "zone": "recovery_area",
+            "object": "oxygen_room"
+          },
+          {
+            "zone": "rear_training_area",
+            "object": "training_rack"
+          }
+        ]
+      }
+    },
+    "too_promotional": false,
+    "trainer_present": false,
+    "gbp_copy_legible": true,
+    "content_reference": "assets/images/photo-oxyroom.jpg",
+    "editorial_quality": 8,
+    "editorial_text_qc": {
+      "pass": true,
+      "total": 20,
+      "issues": [],
+      "schema": "editorial-text-qc-v1",
+      "reviewer": "ChatGPT Work current conversation separate reread after editing; no separate AI reviewer",
+      "checked_at": "2026-11-28T08:27:35.732Z",
+      "content_id": "BLOG-20261128-oxydenba",
+      "body_sha256": "bbf6512d4eb2b3bc858a29bddcb4665cf0c3bd0c2c21d8fddde855d90d4f1903",
+      "evidence_sha256": "c718538ff55d9539a236fdb7e3b6d4e9179e714e0978b0785fcd8a592d95513e",
+      "source_unverified": false,
+      "external_ai_api_calls": 0
+    },
+    "gbp_image_required": true,
+    "gbp_safe_area_pass": true,
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "realism_qc_version": "v1",
+    "series_consistency": 9,
+    "typography_harmony": 9,
+    "independent_qc_pass": true,
+    "anatomy_pose_realism": 9,
+    "lighting_consistency": 9,
+    "trainer_photo_reused": false,
+    "customer_presentation": "male",
+    "expected_copy_present": true,
+    "gbp_aspect_ratio_pass": true,
+    "image_generation_used": true,
+    "headline_balance_score": 9,
+    "headline_history_check": {
+      "copy": "二つのケアを、\n一度に。",
+      "recentHeadlines": [
+        "下ろすときも、\n丁寧に。",
+        "セット間、\n何分休む？",
+        "筋トレ後の回復\n効くのはどれ？",
+        "入口は、\n続くほうから。",
+        "筋肉痛の日は、\nまず痛みを確かめる。",
+        "食後の筋トレは\n何時間後？",
+        "広さで変わる、\n過ごし方。",
+        "姿勢から、\n鍛え方を考える。",
+        "今のジムで、\n迷わず進める。",
+        "DENBA Health\n休息をケアに。",
+        "デンバで、\n休息をケアに。",
+        "研究結果、\nどう読む？",
+        "種目の順番、\n目的から。",
+        "ジムのあと、\n出かけよう。",
+        "筋トレの呼吸、いつ吐く。",
+        "完全予約制と、\n貸切の違い。",
+        "グローブは、\n借りて始められる。",
+        "引っ張る方向で、\n動きが変わる。",
+        "痛みや体調は、\nどこまで伝える？",
+        "初回体験、\n何を選ぶ？",
+        "姿勢は、\n動きから見直す。",
+        "運動前は、\n動ける状態へ。",
+        "本体とマット、\n役割は別。",
+        "続けやすさで、\n選ぶ。",
+        "座り仕事、\n30分ごとに立つ？",
+        "怖くても、\n最初は基本から。",
+        "DENBAの基本\n電位空間",
+        "始める前に、\n状態を確かめる。",
+        "続けられる頻度を、\n最初に決める。",
+        "通いやすさまで、\n選ぶ基準に。",
+        "通いやすさまで、\n選ぶ基準に。",
+        "中では、静かに休むだけ。",
+        "DENBAって何？",
+        "DENBAって、\n何するもの？",
+        "酸素ルームって、\n何する場所？",
+        "耳抜きは、\n我慢しない。",
+        "設備だけで、\n決めない。",
+        "軽く動いて、\n調子を見る。",
+        "設備だけで、\n決めない。",
+        "設備だけで、\n決めない。",
+        "軽く動いて、\n調子を見る。",
+        "軽く動いて、\n調子を見る。",
+        "設備だけで、\n決めない。",
+        "設備だけで、\n決めない。",
+        "体重計に出ない、\n進歩がある。",
+        "健診のあとこそ、\n無理なく始める。",
+        "体重計に出ない、\n進歩がある。",
+        "体重計に出ない、\n進歩がある。",
+        "限界まで追い込むかは、\nフォームと翌日の\n疲労で決める。",
+        "疲れた日は、\n軽く始めて決める。",
+        "30分より、\n行く前後を整える。"
+      ],
+      "blockedCandidates": [],
+      "exactHistoryCount": 42
+    },
+    "recent_reference_guard": {
+      "pass": true,
+      "recent": [
+        {
+          "slug": "strength-training-slow-repetition-tempo",
+          "checkedAt": "2026-11-28T01:10:21.241Z",
+          "thumbnail": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+          "driveFileId": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+          "articleTitle": "筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと",
+          "assetVersion": "reference-v26-tempo-20261128-work-r4",
+          "contentReference": "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
+          "sceneFingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "visual_role": "training_execution",
+            "human_action": "strength_exercise",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "imageHeadlineShort": "下ろすときも、\n丁寧に。",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "strength-training-rest-between-sets",
+          "checkedAt": "2026-11-26T07:07:01.712Z",
+          "thumbnail": "assets/images/blog/thumb-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+          "driveFileId": "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+          "articleTitle": "筋トレのセット間は何分休む？次のセットの質で決める休憩時間",
+          "assetVersion": "reference-v26-rest-sets-20261126-work-r1",
+          "contentReference": "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "close_action_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "visual_role": "checking_readiness",
+            "human_action": "rest",
+            "location_type": "training_area",
+            "article_intent": "training_execution",
+            "composition_type": "close_action_portrait"
+          },
+          "imageHeadlineShort": "セット間、\n何分休む？",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "post-workout-recovery-methods-evidence",
+          "checkedAt": "2026-11-24T08:32:37.789Z",
+          "thumbnail": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+          "driveFileId": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+          "articleTitle": "筋トレ後の回復方法、効果が確かめられているのはどれ？研究から整理",
+          "assetVersion": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+          "contentReference": "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+          "sceneFingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "recovery_area",
+            "article_intent": "recovery",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "visual_role": "recovery_time",
+            "human_action": "rest",
+            "location_type": "recovery_area",
+            "article_intent": "recovery",
+            "composition_type": "medium_three_quarter_portrait"
+          },
+          "imageHeadlineShort": "筋トレ後の回復\n効くのはどれ？",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "checkedAt": "2026-11-19T04:54:15.561Z",
+          "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+          "driveFileId": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+          "articleTitle": "ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ",
+          "assetVersion": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+          "contentReference": "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "compare_notes",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_seated_portrait"
+          },
+          "originVideoFileId": "",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "visual_role": "deciding_own_start",
+            "human_action": "compare_notes",
+            "location_type": "reception",
+            "article_intent": "training_start",
+            "composition_type": "medium_seated_portrait"
+          },
+          "imageHeadlineShort": "入口は、\n続くほうから。",
+          "customerPresentation": "male"
+        }
+      ],
+      "recent_content_references": [
+        "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
+        "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+        "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+        "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC"
+      ]
+    },
+    "the_rev_anchor_visible": true,
+    "exercise_pose_plausible": true,
+    "facility_only_thumbnail": false,
+    "location_semantics_pass": true,
+    "manual_visual_rejection": false,
+    "scene_grounding_version": "the-rev-source-scene-v1",
+    "unknown_trainer_present": false,
+    "article_visual_relevance": 9,
+    "brand_space_authenticity": 8,
+    "face_expression_readable": true,
+    "generated_customer_count": 1,
+    "human_subject_prominence": 9,
+    "main_claim_visualization": 9,
+    "recent_similarity_window": 4,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": true,
+    "no_cutout_or_sticker_look": true,
+    "background_source_recorded": true,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "scene_plausible_at_the_rev": true,
+    "source_material_scope_pass": true,
+    "headline_line_break_quality": true,
+    "location_behavior_plausible": true,
+    "non_customer_people_present": false,
+    "rev_environment_consistency": 8,
+    "current_background_source_id": "the-rev-oxyroom-20260924",
+    "human_visual_attention_share": 65,
+    "recent_background_source_ids": [
+      "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+      "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+      "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+      "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh"
+    ],
+    "recent_similarity_check_pass": true,
+    "unsupported_equipment_absent": true,
+    "human_environment_integration": 9,
+    "perspective_scale_consistency": 8,
+    "same_image_as_recent_articles": false,
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "fixed_overlay_layout_confirmed": true,
+    "background_origin_video_file_id": "",
+    "background_source_drive_file_id": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+    "thumbnail_typography_acceptance": {
+      "pass": true,
+      "visual": {
+        "og": {
+          "pass": true,
+          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete; customer face and relaxed upright posture unobscured; actual closed booth remains a recognizable secondary anchor. Clear hierarchy emphasizes 一度に。",
+          "text_not_buried": true,
+          "title_is_primary": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "natural_line_breaks": true,
+          "article_recognizable": true,
+          "immediately_readable": true,
+          "whitespace_has_purpose": true
+        },
+        "gbp": {
+          "pass": true,
+          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete; customer face and relaxed upright posture unobscured; actual closed booth remains a recognizable secondary anchor. Clear hierarchy emphasizes 一度に。",
+          "text_not_buried": true,
+          "title_is_primary": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "natural_line_breaks": true,
+          "article_recognizable": true,
+          "immediately_readable": true,
+          "whitespace_has_purpose": true
+        },
+        "thumbnail": {
+          "pass": true,
+          "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete; customer face and relaxed upright posture unobscured; actual closed booth remains a recognizable secondary anchor. Clear hierarchy emphasizes 一度に。",
+          "text_not_buried": true,
+          "title_is_primary": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "natural_line_breaks": true,
+          "article_recognizable": true,
+          "immediately_readable": true,
+          "whitespace_has_purpose": true
+        }
+      },
+      "art_direction": {
+        "pass": true,
+        "variants": {
+          "og": {
+            "pass": true,
+            "observation": "Centered organic type veil blends into the gym background; male customer preparing for a recovery visit dominates right. No detached panel, face unobscured. Face and relaxed arms stay outside text veil; crop preserves face and booth. GBP has its own placement, not a stretched wide crop.",
+            "not_size_only": true,
+            "no_white_board": true,
+            "fade_integrated": true,
+            "composition_balanced": true,
+            "not_generic_template": true,
+            "thumbnail_functional": true,
+            "inviting_at_list_size": true,
+            "premium_rev_preserved": true,
+            "whitespace_meaningful": true,
+            "golden_grammar_matches": true,
+            "format_layout_independent": true,
+            "keyword_hierarchy_present": true,
+            "photo_text_hierarchy_natural": true
+          },
+          "gbp": {
+            "pass": true,
+            "observation": "Centered organic type veil blends into the gym background; male customer preparing for a recovery visit dominates right. No detached panel, face unobscured. Face and relaxed arms stay outside text veil; crop preserves face and booth. GBP has its own placement, not a stretched wide crop.",
+            "not_size_only": true,
+            "no_white_board": true,
+            "fade_integrated": true,
+            "composition_balanced": true,
+            "not_generic_template": true,
+            "thumbnail_functional": true,
+            "inviting_at_list_size": true,
+            "premium_rev_preserved": true,
+            "whitespace_meaningful": true,
+            "golden_grammar_matches": true,
+            "format_layout_independent": true,
+            "keyword_hierarchy_present": true,
+            "photo_text_hierarchy_natural": true
+          },
+          "thumbnail": {
+            "pass": true,
+            "observation": "Centered organic type veil blends into the gym background; male customer preparing for a recovery visit dominates right. No detached panel, face unobscured. Face and relaxed arms stay outside text veil; crop preserves face and booth. GBP has its own placement, not a stretched wide crop.",
+            "not_size_only": true,
+            "no_white_board": true,
+            "fade_integrated": true,
+            "composition_balanced": true,
+            "not_generic_template": true,
+            "thumbnail_functional": true,
+            "inviting_at_list_size": true,
+            "premium_rev_preserved": true,
+            "whitespace_meaningful": true,
+            "golden_grammar_matches": true,
+            "format_layout_independent": true,
+            "keyword_hierarchy_present": true,
+            "photo_text_hierarchy_natural": true
+          }
+        }
+      },
+      "deterministic": {
+        "pass": true,
+        "slug": "oxygen-room-denba-combined-rest",
+        "revision": "thumbnail-golden-typography-v1",
+        "variants": {
+          "og": {
+            "pass": true,
+            "lines": [
+              "二つのケアを、",
+              "一度に。"
+            ],
+            "fade_end": 740,
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-320.jpg",
+                "sha256": "5381b7015e66fce55211dc279867900ca51040c0b54100838d8ab8223cd1b855"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-400.jpg",
+                "sha256": "ad5e41d4f33628a75456c7e83dcda8e9fa241ab3399f56e583196277478b380a"
+              }
+            },
+            "font_size": 73,
+            "asset_path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+            "fade_start": 603,
+            "focus_line": 1,
+            "focus_text": "一度に。",
+            "line_count": 2,
+            "line_rects": [
+              {
+                "top": 182,
+                "left": 64,
+                "right": 580.125,
+                "width": 516.125,
+                "bottom": 287
+              },
+              {
+                "top": 273.75,
+                "left": 64,
+                "right": 575.984375,
+                "width": 511.984375,
+                "bottom": 455.75
+              }
+            ],
+            "focus_scale": 1.7435897435897436,
+            "layout_rule": "golden-wide-v1",
+            "line_height": 1.12,
+            "asset_sha256": "e043ec8de4d4e602d6927705a4190a6ed2c97fe56370e3125dac3db85bae3a86",
+            "line_balance": 0.9951521978832529,
+            "veil_profile": "canonical-bezier-v1",
+            "label_removed": true,
+            "paper_profile": "local-curved-veil",
+            "contrast_floor": 5.025420138135389,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "safe_area_pass": true,
+            "text_preserved": true,
+            "line_font_sizes": [
+              73,
+              127.28205128205128
+            ],
+            "width_occupancy": 0.9911147390512319,
+            "block_area_ratio": 0.16517841547625406,
+            "font_size_at_320": 19.466666666666665,
+            "headline_center_y": 315.1484375,
+            "label_subordinate": true,
+            "fade_contains_text": true,
+            "fade_vertical_tail": 125,
+            "bottom_mark_removed": true,
+            "paper_opacity_floor": 0.8941176470588236,
+            "layout_balance_revision": "centered-organic-v1"
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "二つのケアを、",
+              "一度に。"
+            ],
+            "fade_end": 640,
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-320.jpg",
+                "sha256": "78c921182235e159379736da2fd1964f0550f1aa3e59db736f5f0ffe7a4f3846"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-400.jpg",
+                "sha256": "80ed9b8faf49307c25b1fd38e7bf577890e834090d16e967c3b04de49cde87ea"
+              }
+            },
+            "font_size": 62,
+            "asset_path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+            "fade_start": 521,
+            "focus_line": 1,
+            "focus_text": "一度に。",
+            "line_count": 2,
+            "line_rects": [
+              {
+                "top": 320,
+                "left": 60,
+                "right": 498.34375,
+                "width": 438.34375,
+                "bottom": 409
+              },
+              {
+                "top": 402.4375,
+                "left": 60,
+                "right": 470.921875,
+                "width": 410.921875,
+                "bottom": 549.4375
+              }
+            ],
+            "focus_scale": 1.647058823529412,
+            "layout_rule": "golden-gbp-v1",
+            "line_height": 1.12,
+            "asset_sha256": "cefa2a531ce423dc401674377c2413b36d35e8e00d597433690db3f4f534b6a0",
+            "line_balance": 0.9401011439393195,
+            "veil_profile": "canonical-bezier-v1",
+            "label_removed": true,
+            "paper_profile": "local-curved-veil",
+            "contrast_floor": 5.356830663826178,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "safe_area_pass": true,
+            "text_preserved": true,
+            "line_font_sizes": [
+              62,
+              102.11764705882354
+            ],
+            "width_occupancy": 0.9948186673251066,
+            "block_area_ratio": 0.08260449170282153,
+            "font_size_at_320": 16.533333333333335,
+            "headline_center_y": 431.90625,
+            "label_subordinate": true,
+            "fade_contains_text": true,
+            "fade_vertical_tail": 125,
+            "bottom_mark_removed": true,
+            "paper_opacity_floor": 0.9215686274509803,
+            "layout_balance_revision": "centered-organic-v1"
+          },
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "二つのケアを、",
+              "一度に。"
+            ],
+            "fade_end": 740,
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-320.jpg",
+                "sha256": "60a3d4e76bb375ae9af813afe871ba37c6dbec17ce3f81ece9e2e265feae17a5"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-400.jpg",
+                "sha256": "3c4f5eb8871e29f9eaf8b6a63ec843ecf9700fde9026e0c0ca9e34b7c25d99ff"
+              }
+            },
+            "font_size": 73,
+            "asset_path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+            "fade_start": 603,
+            "focus_line": 1,
+            "focus_text": "一度に。",
+            "line_count": 2,
+            "line_rects": [
+              {
+                "top": 204,
+                "left": 64,
+                "right": 580.125,
+                "width": 516.125,
+                "bottom": 309
+              },
+              {
+                "top": 295.75,
+                "left": 64,
+                "right": 575.984375,
+                "width": 511.984375,
+                "bottom": 477.75
+              }
+            ],
+            "focus_scale": 1.7435897435897436,
+            "layout_rule": "golden-wide-v1",
+            "line_height": 1.12,
+            "asset_sha256": "982ad85bae7a3669efdcd472f6c765e18d23ddcaba4a9db3c6227954731a4c8c",
+            "line_balance": 0.9951521978832529,
+            "veil_profile": "canonical-bezier-v1",
+            "label_removed": true,
+            "paper_profile": "local-curved-veil",
+            "contrast_floor": 5.025420138135389,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "safe_area_pass": true,
+            "text_preserved": true,
+            "line_font_sizes": [
+              73,
+              127.28205128205128
+            ],
+            "width_occupancy": 0.9911147390512319,
+            "block_area_ratio": 0.15416652111117046,
+            "font_size_at_320": 19.466666666666665,
+            "headline_center_y": 337.1484375,
+            "label_subordinate": true,
+            "fade_contains_text": true,
+            "fade_vertical_tail": 125,
+            "bottom_mark_removed": true,
+            "paper_opacity_floor": 0.8941176470588236,
+            "layout_balance_revision": "centered-organic-v1"
+          }
+        },
+        "asset_version": "reference-v26-oxydenba-20261128-work-r1"
+      },
+      "golden_reference": {
+        "assets": [
+          {
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e",
+            "variant": "wide"
+          },
+          {
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640",
+            "variant": "gbp"
+          },
+          {
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7",
+            "variant": "list"
+          }
+        ],
+        "revision": "approved-typography-20261001-v1"
+      }
+    },
+    "service_misrepresentation_absent": true,
+    "background_origin_video_file_name": "AI_SOURCE_photo-oxyroom_20260924.jpg",
+    "ground_contact_shadow_consistency": 8,
+    "real_the_rev_background_confirmed": true,
+    "customer_presentation_matches_plan": true,
+    "same_background_as_recent_articles": false,
+    "background_selection_reason_recorded": true,
+    "article_theme_inferable_without_title": true,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false
+  },
+  "keywords": [
+    "酸素ルーム",
+    "DENBA Health",
+    "リカバリー"
+  ],
+  "og_image": "/assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+  "canonical": null,
+  "gbp_image": "/assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+  "published": "2026-11-28",
+  "thumbnail": "/assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+  "created_at": "2026-11-28T08:28:16.339142+00:00",
+  "source_sha": null,
+  "updated_at": "2026-11-28T08:28:16.339142+00:00",
+  "author_role": "THE REV. CONDITIONING LAB. 代表トレーナー",
+  "description": "酸素ルームとDENBAは何が違い、一緒に使うとどう過ごせる？二つの役割と、着衣で利用できる初回45分3,300円のリカバリー体験をご紹介します。",
+  "source_path": null,
+  "gbp_image_qa": {
+    "pass": true,
+    "ratio": "4:3",
+    "width": 1200,
+    "height": 900,
+    "copy_legible": true,
+    "safe_area_pass": true,
+    "aspect_ratio_pass": true
+  },
+  "image_status": "READY",
+  "published_at": null,
+  "body_markdown": "仕事や用事を終えて、今日は少し横になってから帰りたい。そんな日のために、THE REV.には酸素ルームとDENBA Healthを組み合わせたリカバリーメニューがあります。\n\n服のまま、普段とは違う環境で身体を休める。運動をしない日にも選べる、休息のための時間です🌿\n\n## 酸素ルームとDENBA、それぞれ何をするもの？\n\n**酸素ルームは、呼吸する環境を変える設備です。**\n\n室内の気圧を高めると、酸素が肺から血液へ移り、血液に溶け込む条件が変わります。中では、いつもどおりに呼吸しながら横になって過ごせます。\n\n当店の「OXYROOM」は最大約1.35気圧に対応。初回は低い気圧から始め、耳抜きの様子や体調を確認しながらご案内します。\n\n**DENBA Healthは、身体の周りに微弱な電場をつくる機器です。**\n\nメーカーは、身体の水分に着目して健康をサポートする技術と説明しています。肌に直接触れさせたり、身体にパッドを貼ったりする必要はありません。\n\n休んでいる人の心拍変動を調べた共同研究もあり、メーカーは、電源のオン・オフで一部の指標に違いが見られたと報告しています。調べられているのは、休息中の身体の反応です。\n\n## 横になったまま、二つを一緒に\n\n酸素ルームで休んでいる間、同じ場所でDENBAも利用できます。\n\n呼吸する空気の環境と、横になった身体の周りの環境。その両方を、一度の休息に取り入れるのが当店のメニューです。\n\n途中で起きて別の施術へ移る必要も、DENBAのために時間を追加する必要もありません。スタッフの案内を受けたら、そのまま楽な姿勢でお過ごしください。\n\nトレーニングのあとに、休むところまで予定に入れる。新大宮で歩き回った帰りに、脚を伸ばす時間を取る。そんなふうに、ご自身の一日に合わせて使っていただけます。\n\n## 初回は45分、3,300円で体験できます\n\n酸素ルームとDENBA、初回の使い方のご案内を含めて、**45分3,300円（税込）**です。\n\n来店時に体調を確認し、耳抜きや利用中の連絡方法をご説明します。着衣のまま入室して少しずつ加圧し、休息後は気圧を戻してから退出します。\n\n**45分には加圧・減圧を含みます。受付・ご説明も合わせて、約60分をご予定ください。**\n\nTHE REV.では、運動をしない日も、酸素ルームとDENBAを一緒に使う休み方をご案内しています。ジムへの入会や運動の契約は不要です。\n\n次に新大宮へ出かける日は、帰る前の予定にリカバリーを入れてみませんか。\n\n[初回体験の内容・空き枠はこちら](/solution.html#first)\n\n※耳・鼻の不調や通院中の心配事は、予約時にご相談ください。ペースメーカーなどの体内植込型、心電計などの装着型の医用電気機器を使用している方は、DENBAをご利用いただけません。\n\n参考：[酸素ルーム・DENBAの利用案内](/solution.html)／[DENBAの共同研究報告](https://www.denba.co.jp/r-and-d)",
+  "published_url": null,
+  "category_label": "RECOVERY",
+  "image_attempts": 1,
+  "image_job_path": "editorial/hybrid-image-jobs/oxygen-room-denba-combined-rest.json",
+  "image_qa_model": "ChatGPT Work current conversation visual reread",
+  "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+  "publish_status": "NOT_PUBLISHED",
+  "editorial_source": "the-rev-editorial-ai",
+  "gbp_image_status": "READY",
+  "image_checked_at": "2026-11-28T08:27:36.174+00:00",
+  "image_last_error": null,
+  "image_asset_ready": true,
+  "image_source_path": "assets/images/photo-oxyroom.jpg",
+  "gbp_image_attempts": 1,
+  "image_series_label": "COLUMN",
+  "publish_commit_sha": null,
+  "editorial_sync_hash": "ec993321bff1af519bd83196a00365356893f827be6f16498467d5061be0513e",
+  "editorial_synced_at": "2026-11-28T08:28:14.637+00:00",
+  "image_asset_version": "reference-v26-oxydenba-20261128-work-r1",
+  "publish_verified_at": null,
+  "editorial_content_id": "BLOG-20261128-oxydenba",
+  "editorial_week_start": "2026-11-23",
+  "gbp_image_checked_at": "2026-11-28T08:27:36.174+00:00",
+  "gbp_image_last_error": null,
+  "image_brand_qa_score": 8,
+  "image_category_label": "RECOVERY",
+  "image_headline_short": "二つのケアを、\n一度に。",
+  "image_qa_report_path": "editorial/image-qa/oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.json",
+  "image_render_version": "rev-column-reference-v2.3-hybrid",
+  "image_style_template": "rev-column-reference-v2",
+  "publish_committed_at": null,
+  "published_content_sha": null,
+  "image_generation_model": "chatgpt-built-in-recovered-existing-image",
+  "gbp_image_asset_version": "reference-v26-oxydenba-20261128-work-r1"
+}

@@ -1,0 +1,17 @@
+{
+  "max_generation_attempts": 3,
+  "built_in_image_generation_calls": 1,
+  "external_paid_ai_api_calls": 0,
+  "estimated_external_ai_api_cost_jpy": 0,
+  "cost_note": "Built-in ChatGPT generation only; no external paid AI API called.",
+  "attempts": [
+    {
+      "attempt": 1,
+      "pass": true,
+      "source": "the-rev-oxyroom-20260924",
+      "observed": "Adult male customer preparing outside real closed booth; face/arms/hands and source anchors checked. All three originals plus six previews directly inspected."
+    }
+  ],
+  "text_layout_iterations": 3,
+  "layout_note": "First copy exceeded readable typography fit; next copy collided with recent copy history. Final 二つのケアを、一度に。 passes both. Same single generated scene throughout."
+}

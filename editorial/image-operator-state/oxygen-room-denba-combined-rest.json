@@ -1,0 +1,12 @@
+{
+  "slug": "oxygen-room-denba-combined-rest",
+  "status": "READY_CANDIDATE",
+  "asset_version": "reference-v26-oxydenba-20261128-work-r1",
+  "job_path": "editorial/hybrid-image-jobs/oxygen-room-denba-combined-rest.json",
+  "thumbnail": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+  "og_image": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+  "qa_report_path": "editorial/image-qa/oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.json",
+  "xserver_verified": false,
+  "actual_operator": "ChatGPT Work manual, built-in generation; no paid AI API"
+}

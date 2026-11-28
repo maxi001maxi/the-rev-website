@@ -1,0 +1,15 @@
+{
+  "run_date": "2026-11-28",
+  "target_date": "2026-11-28",
+  "mode": "OWNER_REQUESTED_MANUAL_WORK",
+  "owner_selection": "Latest owner explicitly requests concise oxygen-room/DENBA introduction, narrative rationale, restrained emojis, image generation and CMS draft.",
+  "daily_cadence_unchanged": true,
+  "existing_tempo_article": "Already PUBLISHED on live CMS readback. Do not replace; this is a separate owner-requested article.",
+  "global_minimum_length_changed": false,
+  "source_basis": "Current master v1.2, November27 follow-up, latest oxygen-reel decisions/research. No new owner quote needed. Claimed mechanism, offering, fees verified from first-party and current official sources.",
+  "publish_requires_human": true,
+  "overlap": {
+    "overlap": false,
+    "matches": []
+  }
+}
