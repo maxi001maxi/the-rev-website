@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-28T08:33:13.245Z",
+  "content_id": "BLOG-20261128-oxydenba",
+  "draft_id": "ee3cf60a-be55-4989-99d7-cf4571702025",
+  "rows": {
+    "21_WEB_BLOG_OUTPUT": 37,
+    "22_GBP_POST": 38,
+    "25_WEB_PUBLISH_BRIDGE": 43,
+    "26_DAILY_EDITORIAL_QUEUE": 40,
+    "43_BLOG_IMPROVEMENT_LOG": 6
+  },
+  "body_readback_exact_match": true,
+  "gbp_readback_exact_match": true,
+  "gbp_display_latest_article": true,
+  "gbp_image_formulas": [
+    "=IF($M38=\"\",\"\",IMAGE(IF(LEFT($M38,4)=\"http\",$M38,\"https://therev-lab.com\"&$M38),4,160,213))",
+    "=IF($M38=\"\",\"\",HYPERLINK(IF(LEFT($M38,4)=\"http\",$M38,\"https://therev-lab.com\"&$M38),\"GBP 4:3 / 1200×900\"))"
+  ],
+  "image_asset_version": "reference-v26-oxydenba-20261128-work-r1",
+  "canonical_final_preflight_run": "46126158219",
+  "canonical_final_stage": "REVIEW_READY",
+  "blog_published": false,
+  "gbp_posted": false
+}

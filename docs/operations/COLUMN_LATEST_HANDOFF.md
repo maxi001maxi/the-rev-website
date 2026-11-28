@@ -10,3 +10,5 @@
 前の筋トレテンポ記事は今回のCMS読戻し時点でPUBLISHED。新記事で上書きしない。11/25料金記事は保留のまま。
 
 新記事画像は内蔵生成1回・外部有料AI API0回、実OXYROOM外観を使う。配信と最終Preflightは新制作フォルダの証拠を確認。
+
+完了：run46126158219 SUCCESS、必須6検証PASS、3形式HTTP200/SHA256一致、Preflight13チェックerror0／REVIEW_READY。Sheets本文・GBP・画像表示の読戻し済み。未公開。

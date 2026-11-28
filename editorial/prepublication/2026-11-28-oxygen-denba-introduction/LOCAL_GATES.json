@@ -81,7 +81,13 @@
   "typography_pass": true,
   "draft_errors": [],
   "tests": {
-    "status": "PENDING_DEDICATED_CI"
+    "test:editorial-images": "PASS",
+    "test:phase-9": "PASS",
+    "test:daily-editorial-contract": "PASS",
+    "test:daily-editorial-state-machine": "PASS",
+    "test:daily-creator": "PASS",
+    "build:blog": "PASS"
   },
-  "external_ai_api_calls": 0
+  "external_ai_api_calls": 0,
+  "verification_run": "46126158219"
 }
