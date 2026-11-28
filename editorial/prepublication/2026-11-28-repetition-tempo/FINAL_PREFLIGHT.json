@@ -115,21 +115,21 @@
     "bridge_synced": true,
     "reusable_artifacts": {
       "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
-      "image_asset_version": "reference-v26-tempo-20261128-work-r3",
+      "image_asset_version": "reference-v26-tempo-20261128-work-r4",
       "image_job_path": "editorial/hybrid-image-jobs/strength-training-slow-repetition-tempo.json",
-      "thumbnail": "/assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
-      "og_image": "/assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
-      "gbp_image": "/assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg"
+      "thumbnail": "/assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+      "og_image": "/assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+      "gbp_image": "/assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg"
     },
     "api_usage": {
       "qc_api_calls": 0,
       "external_ai_api_calls": 0,
-      "built_in_image_generation_calls": 3,
+      "built_in_image_generation_calls": 4,
       "paid_generation_workflow_invoked": false
     }
   },
-  "checked_at": "2026-11-27T10:08:56.078Z",
-  "actual_cms_updated_at": "2026-11-27T10:06:21.577643+00:00",
+  "checked_at": "2026-11-28T01:14:24.151Z",
+  "actual_cms_updated_at": "2026-11-28T01:11:06.979432+00:00",
   "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
   "db_source": "Exact connected production Supabase readback; user_id omitted",
   "canonical_preflight": "Unmodified lib/publishFlow.mjs runPreflight, real authenticated GitHub main reads and real Xserver SHA256 comparisons",
