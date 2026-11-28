@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-27T09:19:01.003Z",
+  "checked_at": "2026-11-28T01:14:24.151Z",
   "rows": [
     {
       "sheet": "25_WEB_PUBLISH_BRIDGE",
@@ -47,6 +47,9 @@
   "previous_rest_article_reconciled_from_verified_cms": true,
   "blog_published": false,
   "gbp_posted": false,
-  "canonical_final_preflight_run": "45972474158",
-  "canonical_final_stage": "REVIEW_READY"
+  "canonical_final_preflight_run": "46092011527",
+  "canonical_final_stage": "REVIEW_READY",
+  "image_asset_version": "reference-v26-tempo-20261128-work-r4",
+  "owner_revision": "R4 body/head/arm/hand proportions corrected across three formats; Q37/R37 formulas retained; GBP display row2 new image path read back",
+  "body_and_gbp_text_unchanged": true
 }

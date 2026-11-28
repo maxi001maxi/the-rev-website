@@ -5,7 +5,7 @@
 2. 最新制作：`editorial/prepublication/2026-11-28-repetition-tempo/HANDOFF.md`
 3. 現在の編集/公開状態：Supabase `admin_article_drafts`。保存snapshotを現在のCMSへ上書きしない。
 
-11/28分：**筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと**。draft_id `9eb31128-f946-44f1-a410-d54c72e8171c`。本文・画像3形式・GBP原稿を準備。マスターへ保存・読戻し済み。記事/GBPは未公開、人間Publish待ち。最終検証は上記フォルダのFINAL_PREFLIGHT.json。最新R4は身体比率の追加修正版。配信と最終検証は制作フォルダの最新証拠を参照。
+11/28分：**筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと**。draft_id `9eb31128-f946-44f1-a410-d54c72e8171c`。本文・画像3形式・GBP原稿を準備。マスターへ保存・読戻し済み。記事/GBPは未公開、人間Publish待ち。最終検証は上記フォルダのFINAL_PREFLIGHT.json。最新R4は身体比率の追加修正版。run46092011527で必須6検証成功、3画像HTTP200/SHA256一致、Preflight13チェックerror0／REVIEW_READY。
 
 前回の休憩記事は実CMSの公開証拠を確認し、Queue/Bridgeの残留を同期。11/25料金記事 `nara-personal-gym-price-per-session` はユーザー指示で保留のまま。
 

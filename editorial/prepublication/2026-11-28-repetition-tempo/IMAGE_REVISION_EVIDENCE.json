@@ -27,14 +27,49 @@
   "body_unchanged": true,
   "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
   "gbp_copy_unchanged": true,
-  "image_display_and_formulas_verified": false,
-  "delivery_run": null,
-  "delivery_all_match": false,
-  "canonical_preflight": null,
+  "image_display_and_formulas_verified": true,
+  "delivery_run": "46092011527",
+  "delivery_all_match": true,
+  "canonical_preflight": {
+    "version": "v0.8.2",
+    "stage": "REVIEW_READY",
+    "last_successful_stage": "REVIEW_READY",
+    "ready_for_owner_publish": true,
+    "next_action": "OWNER_PUBLISH",
+    "stopped_reason": null,
+    "human_publish_required": true,
+    "automatic_publish": false,
+    "text_qc": {
+      "pass": true,
+      "checks": {
+        "proof_present": true,
+        "evidence_recorded": true,
+        "content_id_matches": true,
+        "independent_pass": true,
+        "body_matches": true
+      },
+      "missing": []
+    },
+    "bridge_synced": true,
+    "reusable_artifacts": {
+      "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
+      "image_asset_version": "reference-v26-tempo-20261128-work-r4",
+      "image_job_path": "editorial/hybrid-image-jobs/strength-training-slow-repetition-tempo.json",
+      "thumbnail": "/assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+      "og_image": "/assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+      "gbp_image": "/assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg"
+    },
+    "api_usage": {
+      "qc_api_calls": 0,
+      "external_ai_api_calls": 0,
+      "built_in_image_generation_calls": 4,
+      "paid_generation_workflow_invoked": false
+    }
+  },
   "old_r2_manual_visual_rejection": true,
   "publish_status": "NOT_PUBLISHED",
   "source_path": null,
-  "checked_at": "2026-11-28",
+  "checked_at": "2026-11-28T01:14:24.151Z",
   "old_r3_manual_visual_rejection": true,
   "automatic_attempt_policy_changed": false
 }
