@@ -1,5 +1,5 @@
 {
-  "pass": true,
+  "pass": false,
   "slug": "strength-training-slow-repetition-tempo",
   "article_title": "筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと",
   "asset_version": "reference-v26-tempo-20261128-work-r3",
@@ -27,7 +27,7 @@
   "no_cutout_or_sticker_look": true,
   "location_semantics_pass": true,
   "exercise_pose_plausible": true,
-  "manual_visual_rejection": false,
+  "manual_visual_rejection": true,
   "trainer_present": false,
   "unknown_trainer_present": false,
   "non_customer_people_present": false,
@@ -1204,5 +1204,6 @@
     "qc_api_calls": 0,
     "paid_generation_workflow_invoked": false
   },
-  "owner_requested_revision": "R3: only cross arms over chest. All three image formats replaced. Article body and GBP text unchanged."
+  "owner_requested_revision": "R3: only cross arms over chest. All three image formats replaced. Article body and GBP text unchanged.",
+  "owner_rejection_reason": "Owner found arm/hand/head proportions unnatural; R4 supersedes this image."
 }

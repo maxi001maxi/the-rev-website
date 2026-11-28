@@ -44,3 +44,6 @@ SHEET_SYNC_EVIDENCE.jsonに6タブの読戻し・GBP表示・画像数式保持�
 最新assetはreference-v26-tempo-20261128-work-r3。CMS・Bridge・GBP画像参照をR3へ同期。R3の配信証拠と最終Preflightはこの追記後に更新するXSERVER_EVIDENCE.json / FINAL_PREFLIGHT.jsonを参照。記事・GBPは未公開のまま。
 
 R3最終確認：run45979538309 SUCCESS。3画像の実HTTP200・SHA256一致、canonical Preflight13項目error0、REVIEW_READY。実CMSのR3参照と本文不変、未公開を最終読戻しでも確認。GBP表示と既存画像数式の保持も確認した。
+
+## 最新 R4｜2026-11-28 店長指定の身体比率修正
+頭・腕・手の相対比率、肩から肘のつながりを再生成。肘を下げ、手を反対側の上腕に添えた胸前クロスへ。元写真・生成写真・3形式の完成画像・320/400pxプレビューを目視点検。身体比率評価は定性的、足は画面外。R3は店長の違和感指摘で却下しQA pass=false。今回追加生成1回、累計4回、外部有料AI API0回。店長の追加依頼に対する修正で自動試行上限3回の方針は変更なし。本文・GBP投稿文は変更なし、CMS未公開。R4の配信・最終PreflightはXSERVER_EVIDENCE/FINAL_PREFLIGHTの最新asset_versionを確認。
