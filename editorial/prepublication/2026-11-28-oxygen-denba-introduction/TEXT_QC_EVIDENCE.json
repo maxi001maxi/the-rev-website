@@ -1,0 +1,49 @@
+{
+  "pass": true,
+  "reviewer": "ChatGPT Work current conversation separate reread after editing; no separate AI reviewer",
+  "external_ai_api_calls": 0,
+  "total": 20,
+  "issues": [],
+  "source_unverified": false,
+  "body_sha256": "bbf6512d4eb2b3bc858a29bddcb4665cf0c3bd0c2c21d8fddde855d90d4f1903",
+  "char_count_non_whitespace": 1242,
+  "checks": {
+    "owner_topic_selected": true,
+    "radio_preface_absent": true,
+    "short_length_owner_requested": true,
+    "paragraph_whitespace": true,
+    "emoji_contextual": true,
+    "narrative_four_stages": true,
+    "reader_visit_decision": true,
+    "both_device_roles": true,
+    "manufacturer_attribution": true,
+    "hrv_not_sleep_or_fatigue_endpoint": true,
+    "no_synergy_multiplier": true,
+    "no_invented_room_concentration": true,
+    "no_invented_customer_or_owner_story": true,
+    "initial_pressure_not_maximum_promise": true,
+    "price_verified": true,
+    "pressurization_included": true,
+    "reception_duration_distinguished": true,
+    "no_membership_required": true,
+    "safety_scoped": true,
+    "overlap_full_body_comparison": true
+  },
+  "length_policy": "Owner explicitly requested readable short article; no global minimum or validator changed. About 1200 characters incl links, reading-time estimate only, not measured.",
+  "structure": {
+    "起": "仕事・用事後の休息という利用場面から自分事化。架空の体験談ではない。",
+    "承": "酸素＝呼吸環境、DENBA＝身体周囲の電場。別々の役割を理解できる。",
+    "転": "休息を中断せず同時間に使える具体的な併用価値へ。単独研究を相乗効果に足し算しない。",
+    "結": "料金・初回の流れ・45分と約60分の区別・入会不要・予約先で利用判断を完結。"
+  },
+  "rationale_type": "Editorial design informed by master v1.2 and recent purchase-reasons research; conversion lift is an untested hypothesis, not a psychological law.",
+  "sources": [
+    "https://docs.google.com/document/d/15B_uoV_ENsU5y6PWZLBoYguVEnf7h2UVnc-p2lKOApM/edit",
+    "https://therev-lab.com/solution.html",
+    "https://therev-lab.com/price.html",
+    "https://www.denba.co.jp/r-and-d",
+    "https://www.denba.co.jp/faq/health"
+  ],
+  "claim_scope": "Current manufacturer primary report describes on/off differences in HRV among 22 seated participants, not measured improvement in fatigue, sleep or paired use. Source opened in same conversation.",
+  "overlap": "Basic roles/prices overlap existing introductions. New focus is combined use and current short decision-oriented first-visit explanation. Compared five nearest full bodies; no claim of zero overlap."
+}

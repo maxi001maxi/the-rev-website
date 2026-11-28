@@ -1,0 +1,13 @@
+{
+  "schema": "editorial-text-qc-v1",
+  "content_id": "BLOG-20261128-oxydenba",
+  "body_sha256": "bbf6512d4eb2b3bc858a29bddcb4665cf0c3bd0c2c21d8fddde855d90d4f1903",
+  "evidence_sha256": "c718538ff55d9539a236fdb7e3b6d4e9179e714e0978b0785fcd8a592d95513e",
+  "pass": true,
+  "source_unverified": false,
+  "issues": [],
+  "total": 20,
+  "reviewer": "ChatGPT Work current conversation separate reread after editing; no separate AI reviewer",
+  "external_ai_api_calls": 0,
+  "checked_at": "2026-11-28T08:27:35.732Z"
+}

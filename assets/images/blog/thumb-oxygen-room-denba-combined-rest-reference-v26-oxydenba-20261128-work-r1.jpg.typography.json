@@ -1,0 +1,209 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "oxygen-room-denba-combined-rest",
+  "asset_version": "reference-v26-oxydenba-20261128-work-r1",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "二つのケアを、",
+        "一度に。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9951521978832529,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 1,
+      "focus_text": "一度に。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911147390512319,
+      "block_area_ratio": 0.15416652111117046,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.1484375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8941176470588236,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.025420138135389,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 204,
+          "right": 580.125,
+          "bottom": 309,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 295.75,
+          "right": 575.984375,
+          "bottom": 477.75,
+          "width": 511.984375
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "asset_sha256": "982ad85bae7a3669efdcd472f6c765e18d23ddcaba4a9db3c6227954731a4c8c",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-320.jpg",
+          "sha256": "60a3d4e76bb375ae9af813afe871ba37c6dbec17ce3f81ece9e2e265feae17a5"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-400.jpg",
+          "sha256": "3c4f5eb8871e29f9eaf8b6a63ec843ecf9700fde9026e0c0ca9e34b7c25d99ff"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "二つのケアを、",
+        "一度に。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9951521978832529,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 1,
+      "focus_text": "一度に。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911147390512319,
+      "block_area_ratio": 0.16517841547625406,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.1484375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8941176470588236,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.025420138135389,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 182,
+          "right": 580.125,
+          "bottom": 287,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 273.75,
+          "right": 575.984375,
+          "bottom": 455.75,
+          "width": 511.984375
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "asset_sha256": "e043ec8de4d4e602d6927705a4190a6ed2c97fe56370e3125dac3db85bae3a86",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-320.jpg",
+          "sha256": "5381b7015e66fce55211dc279867900ca51040c0b54100838d8ab8223cd1b855"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-400.jpg",
+          "sha256": "ad5e41d4f33628a75456c7e83dcda8e9fa241ab3399f56e583196277478b380a"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "二つのケアを、",
+        "一度に。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9401011439393195,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 1,
+      "focus_text": "一度に。",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9948186673251066,
+      "block_area_ratio": 0.08260449170282153,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.90625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 320,
+          "right": 498.34375,
+          "bottom": 409,
+          "width": 438.34375
+        },
+        {
+          "left": 60,
+          "top": 402.4375,
+          "right": 470.921875,
+          "bottom": 549.4375,
+          "width": 410.921875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "asset_sha256": "cefa2a531ce423dc401674377c2413b36d35e8e00d597433690db3f4f534b6a0",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-320.jpg",
+          "sha256": "78c921182235e159379736da2fd1964f0550f1aa3e59db736f5f0ffe7a4f3846"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1-preview-400.jpg",
+          "sha256": "80ed9b8faf49307c25b1fd38e7bf577890e834090d16e967c3b04de49cde87ea"
+        }
+      }
+    }
+  }
+}
