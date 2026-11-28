@@ -1,0 +1,54 @@
+{
+  "envelope": {
+    "errors": [],
+    "value": {
+      "contentId": "BLOG-20261104-fbe3b0",
+      "weekStart": "2026-11-02",
+      "editorialStatus": "READY",
+      "factCheckStatus": "PASS",
+      "topicGateDecision": "PUBLISH",
+      "category": "recovery",
+      "ctaType": "recovery"
+    }
+  },
+  "metadata": {
+    "editorial_text_qc": {
+      "schema": "editorial-text-qc-v1",
+      "content_id": "BLOG-20261104-fbe3b0",
+      "body_sha256": "2df50a6e0b69a741a3e57e406baef47c7448406294e843045d28d98256df6fd0",
+      "evidence_sha256": "c4e23a8c320b371829cd952939dd3937f448e476bff379ac671e6e29fee58485",
+      "pass": true,
+      "total": 19,
+      "source_unverified": false,
+      "issues": [],
+      "version": "v0.8.2",
+      "review_method": "ChatGPT Work in-conversation claim, manufacturer-source and marketing review; no paid AI API",
+      "external_ai_api_calls": 0
+    },
+    "content_id": "BLOG-20261104-fbe3b0",
+    "week_start": "2026-11-02",
+    "editor_score": 19,
+    "fact_check_status": "PASS",
+    "topic_gate_score": 78,
+    "topic_gate_decision": "PUBLISH",
+    "primary_query": "DENBA Health 効果 仕組み",
+    "article_type": "STANDARD",
+    "source_doc_url": ""
+  },
+  "text_qc": {
+    "pass": true,
+    "checks": {
+      "proof_present": true,
+      "evidence_recorded": true,
+      "content_id_matches": true,
+      "independent_pass": true,
+      "body_matches": true
+    },
+    "missing": []
+  },
+  "normalized_fields_valid": true,
+  "publish_fields_errors": [],
+  "sync_hash": "2259c6612f795e1898b39d8f86f00b0da61fe4c7ed9f20a2c4bb51497bf43fd2",
+  "write_method": "Connected Supabase operator will insert this exact canonical payload under the existing publisher account; HTTP bridge is not invoked.",
+  "external_ai_api_calls": 0
+}

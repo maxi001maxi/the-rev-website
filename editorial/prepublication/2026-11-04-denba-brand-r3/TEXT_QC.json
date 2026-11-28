@@ -1,0 +1,13 @@
+{
+  "schema": "editorial-text-qc-v1",
+  "content_id": "BLOG-20261104-fbe3b0",
+  "body_sha256": "46d53ade68b3577eed04c308fbc7c46fe198196cb830e770645552307a8bf2ab",
+  "evidence_sha256": "3c1ba7ac2f5d5e562f5976133dba46c8e68d1f48d7006a2dc0e28226e97cfe93",
+  "pass": true,
+  "total": 19,
+  "source_unverified": false,
+  "issues": [],
+  "version": "v0.8.2",
+  "review_method": "ChatGPT Work notation-only diff and retained claim review; no paid AI API",
+  "external_ai_api_calls": 0
+}

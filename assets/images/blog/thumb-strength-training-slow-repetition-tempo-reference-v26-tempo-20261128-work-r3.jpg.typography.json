@@ -1,0 +1,209 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "strength-training-slow-repetition-tempo",
+  "asset_version": "reference-v26-tempo-20261128-work-r3",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "下ろすときも、",
+        "丁寧に。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9951521978832529,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 1,
+      "focus_text": "丁寧に。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911147390512319,
+      "block_area_ratio": 0.15416652111117046,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.1484375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8941176470588236,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.025420138135389,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 204,
+          "right": 580.125,
+          "bottom": 309,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 295.75,
+          "right": 575.984375,
+          "bottom": 477.75,
+          "width": 511.984375
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+      "asset_sha256": "7c59b6e851a6804fb1dfc8d7a7bfc113156bf3ba5f00e49fa6b2d2387a5585c8",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+          "sha256": "f7db14c1bf836310f5fae1eb06f147058ca16dcb0a9eff3ef99d6035787d4465"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+          "sha256": "15bc9d4163261a1e80c1d85cbdd6b2e7c5efee88b7424b698082fbb236371643"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "下ろすときも、",
+        "丁寧に。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9951521978832529,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 1,
+      "focus_text": "丁寧に。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9911147390512319,
+      "block_area_ratio": 0.16517841547625406,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.1484375,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8941176470588236,
+      "fade_start": 603,
+      "fade_end": 740,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.025420138135389,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 182,
+          "right": 580.125,
+          "bottom": 287,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 273.75,
+          "right": 575.984375,
+          "bottom": 455.75,
+          "width": 511.984375
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+      "asset_sha256": "399266a63db986c89a31d62356c94441dad110c65ecce126ecedd7470e6adeb2",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+          "sha256": "a47df93a140eaa943c5e1c11c159ec1efef345f435a95d8882576f1f77d21832"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+          "sha256": "71d30c190be41d37648bf0ad331eba6c24b116130fa616045643baf0a06f9b47"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "下ろすときも、",
+        "丁寧に。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9401011439393195,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 1,
+      "focus_text": "丁寧に。",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9948186673251066,
+      "block_area_ratio": 0.08260449170282153,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.90625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 320,
+          "right": 498.34375,
+          "bottom": 409,
+          "width": 438.34375
+        },
+        {
+          "left": 60,
+          "top": 402.4375,
+          "right": 470.921875,
+          "bottom": 549.4375,
+          "width": 410.921875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+      "asset_sha256": "2881b8a44c237f9beb45a86e9ed88319ee979a96aa165e8b3aeaea8fe9c905a5",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+          "sha256": "1b86022b4134240b8e90fa0d2fbe709cdd0440c524485e5a90aff7ded77cfd08"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+          "sha256": "72386170ac62dbf3040dd1c536136db4b1428980be5718e01d53af99d8c37f68"
+        }
+      }
+    }
+  }
+}

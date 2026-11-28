@@ -1,0 +1,51 @@
+{
+  "status": "COMPLETED_PASS",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
+  "prior_calls_preserved": 2,
+  "additional_calls_requested": 1,
+  "automatic_retry": false,
+  "proposed_model": "gpt-5.6 (official alias to gpt-5.6-sol; actual response model must be recorded)",
+  "max_output_tokens": 4000,
+  "request_utf8_bytes": 14879,
+  "estimated_usd_range": [
+    0.04,
+    0.07
+  ],
+  "requested_ceiling_usd": 0.25,
+  "conservative_input_bound_tokens": 15879,
+  "conservative_max_estimate_usd": 0.159395,
+  "pricing_verified_at": "2026-10-20T05:56:45.347848+00:00",
+  "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+  "unit_prices_usd_per_million": {
+    "input": 4,
+    "cache_write": 5,
+    "cached_input": 0.4,
+    "output": 20
+  },
+  "confirmed_charge": null,
+  "execution_plan_unchanged": "Original max_requests=2 and prior two calls preserved. QC_EXECUTION.json now carries a separate exact-body/request Owner approval for one additional call, ceiling USD0.25; retry is not required and is not used.",
+  "image_generation_calls_requested": 0,
+  "production_changes_requested": false,
+  "approved_at": "2026-10-20T17:08:43+09:00",
+  "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
+  "owner_permits_retry": true,
+  "request_id": "req_4f37704fd44a4f808505aae038f4d60f",
+  "result_path": "INDEPENDENT_QC_V082_ADDITIONAL.json",
+  "total": 20,
+  "actual_additional_calls": 1,
+  "actual_usage": {
+    "input_tokens": 3703,
+    "input_tokens_details": {
+      "cache_write_tokens": 3700,
+      "cached_tokens": 0
+    },
+    "output_tokens": 773,
+    "output_tokens_details": {
+      "reasoning_tokens": 382
+    },
+    "total_tokens": 4476
+  },
+  "estimated_cost_usd": 0.033972
+}

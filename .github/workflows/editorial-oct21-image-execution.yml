@@ -1,0 +1,91 @@
+name: Approved Oct21 Image Recovery (branch only)
+on:
+  push:
+    branches: [fix/editorial-autonomous-recovery-20261020]
+    paths:
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/IMAGE_EXECUTION.json'
+permissions:
+  contents: write
+concurrency:
+  group: approved-oct21-image-recovery
+  cancel-in-progress: false
+jobs:
+  approved-image:
+    if: github.ref == 'refs/heads/fix/editorial-autonomous-recovery-20261020'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: fix/editorial-autonomous-recovery-20261020
+      EDITORIAL_IMAGE_GENERATION_MODEL: gpt-5.6
+      EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get install -y -qq fonts-noto-cjk
+      - name: Verify exact execution marker and free canonical admission
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          const root='editorial/prepublication/2026-10-21-evening-strength-sleep/';
+          const marker=JSON.parse(fs.readFileSync(root+'IMAGE_EXECUTION.json'));
+          const hash=createHash('sha256').update(fs.readFileSync(root+'IMAGE_EXECUTION_CONTRACT.json')).digest('hex');
+          if(marker.action!=='EXECUTE_OWNER_APPROVED_IMAGE_ONCE'||marker.contract_sha256!==hash)throw Error('APPROVAL_MARKER_DRIFT');
+          JS
+          node scripts/prepare-oct21-image-execution.mjs
+          node --test scripts/test-editorial-guarded-photo-edit.mjs
+      - name: One OpenAI scene and at most two independent QC calls; no production writes
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          const c=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-21-evening-strength-sleep/IMAGE_EXECUTION_CONTRACT.json'));
+          const res=await fetch('https://api.openai.com/v1/models/'+encodeURIComponent(c.model),{headers:{Authorization:'Bearer '+process.env.OPENAI_API_KEY},signal:AbortSignal.timeout(30000)});
+          if(!res.ok)throw Error('APPROVED_IMAGE_MODEL_UNAVAILABLE_HTTP_'+res.status);
+          const m=await res.json();if(m.id!==c.model)throw Error('APPROVED_IMAGE_MODEL_ID_MISMATCH');
+          console.log('Approved model available: '+m.id);
+          JS
+          node scripts/auto-editorial-hybrid-image.mjs editorial/prepublication/2026-10-21-evening-strength-sleep/IMAGE_JOB.json
+      - name: Preserve result, calls and failed media
+        if: always()
+        run: |
+          if [ -f editorial/prepublication/2026-10-21-evening-strength-sleep/IMAGE_JOB.json ]; then
+            node scripts/finalize-oct21-image-execution.mjs
+          fi
+          tar --ignore-failed-read -czf oct21-image-execution-evidence.tar.gz editorial/prepublication/2026-10-21-evening-strength-sleep editorial/image-api-ledger .operator-rejected-evidence assets/images/editorial-generated/*night-workout* assets/images/blog/*night-workout* assets/images/blog/og/*night-workout* assets/images/gbp/*night-workout* 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oct21-actual-image-execution-${{ github.run_id }}
+          path: oct21-image-execution-evidence.tar.gz
+          if-no-files-found: error
+          retention-days: 30
+      - name: Save exact results to working branch only
+        if: always()
+        run: |
+          if [ ! -f .oct21-approved-result-paths ]; then exit 0; fi
+          git config user.name "THE REV Editorial Recovery"
+          git config user.email "actions@users.noreply.github.com"
+          while IFS= read -r p; do git add -- "$p"; done < .oct21-approved-result-paths
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Save Oct21 actual image generation and independent QC result"
+          git pull --rebase --autostash origin fix/editorial-autonomous-recovery-20261020
+          git push origin HEAD:fix/editorial-autonomous-recovery-20261020
+      - name: Fail closed when actual image is rejected
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          const p='editorial/prepublication/2026-10-21-evening-strength-sleep/IMAGE_EXECUTION_RESULT.json';
+          if(!fs.existsSync(p)||JSON.parse(fs.readFileSync(p)).image_qc_pass!==true)throw Error('IMAGE_RECOVERY_NOT_ACCEPTED; raw evidence retained; no regeneration');
+          JS

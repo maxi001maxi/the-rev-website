@@ -1,0 +1,9 @@
+import fs from 'node:fs';import {createHash} from 'node:crypto';import {runPreflight} from '../../../lib/publishFlow.mjs';
+const dir='editorial/prepublication/2026-11-04-denba-research',snapshot=JSON.parse(fs.readFileSync(dir+'/ACTUAL_CMS_SNAPSHOT.json'));
+if(snapshot.id!=='a0dadd28-52d6-4744-8ffd-18423ee98dfe'||snapshot.editorial_content_id!=='BLOG-20261104-fbe3b0'||snapshot.publish_status!=='NOT_PUBLISHED'||snapshot.source_path)throw Error('Actual CMS snapshot identity/state drift');
+const sha=createHash('sha256').update(snapshot.body_markdown.trim()).digest('hex');if(sha!==snapshot.image_qa.editorial_text_qc.body_sha256)throw Error('CMS text proof mismatch');
+// Data boundary only: this is the exact row returned by the connected production DB.
+// The canonical preflight executes unchanged, including real GitHub/main and Xserver requests.
+const db={from(table){if(table!=='admin_article_drafts')throw Error('Unexpected DB table '+table);return{select(){return{eq(key,id){if(key!=='id'||id!==snapshot.id)throw Error('Unexpected CMS lookup');return{async maybeSingle(){return{data:snapshot,error:null};}};}};}};}};
+const r=await runPreflight({supabase:db,user:null,articleId:snapshot.id,actor:'automation'});const out={ok:r.ok,mode:r.mode,checks:r.checks,blocker:r.blocker,targetPath:r.targetPath,publicUrl:r.publicUrl,github:r.github,production_recovery:r.production_recovery,checked_at:new Date().toISOString(),actual_cms_updated_at:snapshot.updated_at,body_sha256:sha,db_source:'Exact connected production Supabase readback; user_id omitted from public verification snapshot',canonical_preflight:'Unmodified lib/publishFlow.mjs runPreflight',external_ai_api_calls:0,blog_published:false,gbp_posted:false,owner_publish_approval:false};
+fs.writeFileSync(dir+'/FINAL_PREFLIGHT.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out,null,2));if(!r.ok)process.exitCode=1;

@@ -1,0 +1,126 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "status": "GEOMETRY_PASS_PRODUCTION_EDIT_BLOCKED",
+  "source_id": "the-rev-evolgear-20260922",
+  "source_path": "assets/images/photo-evolgear.jpg",
+  "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+  "source_size": [
+    1400,
+    1867
+  ],
+  "plan": {
+    "width": 1024,
+    "height": 1536,
+    "edit": {
+      "x": 560,
+      "y": 410,
+      "width": 440,
+      "height": 1100
+    },
+    "meaning": [
+      {
+        "name": "face",
+        "x": 680,
+        "y": 500,
+        "width": 190,
+        "height": 190
+      },
+      {
+        "name": "watch_gesture",
+        "x": 640,
+        "y": 800,
+        "width": 270,
+        "height": 200
+      }
+    ],
+    "formats": [
+      {
+        "name": "thumbnail",
+        "width": 1200,
+        "height": 675,
+        "photo_width_fraction": 0.66
+      },
+      {
+        "name": "og",
+        "width": 1200,
+        "height": 630,
+        "photo_width_fraction": 0.66
+      },
+      {
+        "name": "gbp",
+        "width": 1200,
+        "height": 900,
+        "photo_width_fraction": 1
+      }
+    ]
+  },
+  "geometry": {
+    "pass": true,
+    "errors": [],
+    "crops": [
+      {
+        "name": "thumbnail",
+        "width": 1200,
+        "height": 675,
+        "photo_width_fraction": 0.66,
+        "crop": {
+          "x": 0,
+          "y": 331.6363636363636,
+          "width": 1024,
+          "height": 872.7272727272727
+        },
+        "scale": 0.7734375
+      },
+      {
+        "name": "og",
+        "width": 1200,
+        "height": 630,
+        "photo_width_fraction": 0.66,
+        "crop": {
+          "x": 0,
+          "y": 360.72727272727275,
+          "width": 1024,
+          "height": 814.5454545454545
+        },
+        "scale": 0.7734375
+      },
+      {
+        "name": "gbp",
+        "width": 1200,
+        "height": 900,
+        "photo_width_fraction": 1,
+        "crop": {
+          "x": 0,
+          "y": 384,
+          "width": 1024,
+          "height": 768
+        },
+        "scale": 1.171875
+      }
+    ],
+    "no_api_calls": true,
+    "visual_qc_pass": false
+  },
+  "pixel_guard_synthetic_proof": {
+    "pass": true,
+    "protectedPixels": 1088864,
+    "changedPixels": 0,
+    "edgeChangedPixels": 0,
+    "reason": null,
+    "compositor_used": false,
+    "visual_qc_pass": false
+  },
+  "uniform_cover_no_stretch": true,
+  "raw_edit_no_restore": true,
+  "unresolved": [
+    "Actual OpenAI mask fidelity is not verified; protected raw pixels must match exactly, otherwise quarantine.",
+    "No validated person/hand segmentation; edge guard alone cannot certify anatomy or occlusion.",
+    "Independent Visual QC and R7 comparison must assess full scene, hands/gaze, equipment occlusion, source authenticity and each actual JPEG.",
+    "Recent-12 complete semantic history and recent-4 source exclusion must be refreshed before paid job admission."
+  ],
+  "paid_calls": 0,
+  "visual_qc_pass": false,
+  "adopted": false,
+  "production_job_changed": false,
+  "paid_execution_authorized": false
+}

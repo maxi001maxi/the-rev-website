@@ -1,0 +1,236 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "boxing-trial-what-to-bring",
+  "asset_version": "reference-v26-grounded-auto-boxing-20260924-78f3c9cf",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "グローブは、",
+        "借りて",
+        "始められる。"
+      ],
+      "text_preserved": true,
+      "font_size": 72,
+      "font_size_at_320": 19.2,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.7375149432476575,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        72,
+        125.53846153846153,
+        84.96
+      ],
+      "focus_line": 1,
+      "focus_text": "借りて",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9883968919020434,
+      "block_area_ratio": 0.2235813256332398,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.1796875,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8588235294117647,
+      "fade_start": 601,
+      "fade_end": 738,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.618575862874591,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 149,
+          "right": 496.734375,
+          "bottom": 253,
+          "width": 432.734375
+        },
+        {
+          "left": 64,
+          "top": 239.625,
+          "right": 442.71875,
+          "bottom": 419.625,
+          "width": 378.71875
+        },
+        {
+          "left": 64,
+          "top": 404.21875,
+          "right": 578.046875,
+          "bottom": 526.21875,
+          "width": 514.046875
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+      "asset_sha256": "05395fea5833b4e13c14231fbf2d00ad7b8ab28c78248eadbf75f02de9cdc683",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-320.jpg",
+          "sha256": "a0c75b029b78de31deef2a8d8af787f1406bce8c927abf0312b5c6478ab02637"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-400.jpg",
+          "sha256": "6dd865c171395d3d0b879b2113285e56bb56927cb4bce7f69467bf1b1c874048"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "グローブは、",
+        "借りて",
+        "始められる。"
+      ],
+      "text_preserved": true,
+      "font_size": 72,
+      "font_size_at_320": 19.2,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.7375149432476575,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        72,
+        125.53846153846153,
+        84.96
+      ],
+      "focus_line": 1,
+      "focus_text": "借りて",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9883968919020434,
+      "block_area_ratio": 0.23955142032132834,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.1796875,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8588235294117647,
+      "fade_start": 601,
+      "fade_end": 738,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.618575862874591,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 127,
+          "right": 496.734375,
+          "bottom": 231,
+          "width": 432.734375
+        },
+        {
+          "left": 64,
+          "top": 217.625,
+          "right": 442.71875,
+          "bottom": 397.625,
+          "width": 378.71875
+        },
+        {
+          "left": 64,
+          "top": 382.21875,
+          "right": 578.046875,
+          "bottom": 504.21875,
+          "width": 514.046875
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+      "asset_sha256": "b9bdcc88dcbf70a068a5e97c2e85be0857986ec81b6402be4a5eb593851fd59c",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-320.jpg",
+          "sha256": "4540d92a9897db56b6754398c2d7f0bacd0c0f0a5002c7135abe39eecb38488a"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-400.jpg",
+          "sha256": "af06060962257d3cf048caf926f17802449b0ca2165c34af048760f702275c46"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "グローブは、",
+        "借りて",
+        "始められる。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.7341224128564815,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        64,
+        105.41176470588235,
+        71.68
+      ],
+      "focus_line": 1,
+      "focus_text": "借りて",
+      "focus_scale": 1.6470588235294117,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9854904529918324,
+      "block_area_ratio": 0.12446379424822773,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9098039215686274,
+      "fade_start": 516,
+      "fade_end": 635,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.213181538979519,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 266,
+          "right": 444.640625,
+          "bottom": 358,
+          "width": 384.640625
+        },
+        {
+          "left": 60,
+          "top": 351.671875,
+          "right": 378.140625,
+          "bottom": 502.671875,
+          "width": 318.140625
+        },
+        {
+          "left": 60,
+          "top": 494.71875,
+          "right": 493.875,
+          "bottom": 598.71875,
+          "width": 433.875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf.jpg",
+      "asset_sha256": "d64e4f7a3963d21240f8b2fe1a436d0fa4806507ba79b3eca656284780d0c0a6",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-320.jpg",
+          "sha256": "c402523bb3950f87e624a9aa62f655add9b855af8b705632ae8ad3996fde2941"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-boxing-trial-what-to-bring-reference-v26-grounded-auto-boxing-20260924-78f3c9cf-preview-400.jpg",
+          "sha256": "cc80a8bdfafb553aa6ea732dc8a36c670dc326780899726cdccfcb18aacf1545"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "pass": true,
+  "input": {
+    "pass": true,
+    "input_sha256": "a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4",
+    "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+    "final_visual_qc_pass": false,
+    "production_writes": false
+  },
+  "free": {
+    "status": "PASS_BEFORE_MODEL",
+    "pass": true,
+    "strict": true,
+    "no_api_calls": true,
+    "source_id": "the-rev-evolgear-20260922",
+    "history_compared": 12,
+    "history_unknown": 0,
+    "closest_article": "pre-workout-stretching-duration",
+    "duplicate_slugs": [],
+    "errors": [],
+    "warnings": []
+  },
+  "at": "2026-10-20T09:30:31.537Z",
+  "preserved_r3_job_sha256": "2b4d55961236d07e89f4816ea8de3b801435d59e4c6839da31c7d14821d878b1",
+  "preserved_r3_result_sha256": "c7bc8ea943337c621e8ea3615bb7f9d2dcef792f29ae10099e21877a511093ee",
+  "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+  "text_qc_preserved": true,
+  "quality_thresholds_unchanged": true,
+  "model_calls": 0,
+  "production_writes": false
+}

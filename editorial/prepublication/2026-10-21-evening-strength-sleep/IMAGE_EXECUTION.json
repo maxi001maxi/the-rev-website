@@ -1,0 +1,6 @@
+{
+  "action": "EXECUTE_OWNER_APPROVED_IMAGE_ONCE",
+  "contract_sha256": "95c5cae76c3862e353497d8eb4f3de2fc41775b29fe71c673b0271bfb9651eb3",
+  "owner_approval_at": "2026-10-20T17:41:25+09:00",
+  "production_writes": false
+}

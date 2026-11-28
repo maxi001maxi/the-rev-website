@@ -1,0 +1,33 @@
+{
+  "xserver_verified": true,
+  "deploy_run_id": 43665691569,
+  "deploy_commit": "04e9e4b68e62af1132ddd1a6cd94195738f12a75",
+  "checks": [
+    {
+      "variant": "thumbnail",
+      "path": "assets/images/blog/thumb-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
+      "http_status": 200,
+      "size": 159607,
+      "sha256": "ed0f743da4756720a5713b83f1db0192d82ca20ba075ee8243e629f82b7425eb",
+      "match": true
+    },
+    {
+      "variant": "og",
+      "path": "assets/images/blog/og/og-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
+      "http_status": 200,
+      "size": 151824,
+      "sha256": "9359617091f1517ad8787099aefd12b426157a046ba473436cb0ad65270795c3",
+      "match": true
+    },
+    {
+      "variant": "gbp",
+      "path": "assets/images/gbp/gbp-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
+      "http_status": 200,
+      "size": 241284,
+      "sha256": "b36436811ff324f1e107513dee8a406e6e689eb5c918636cb04a33fba812700d",
+      "match": true
+    }
+  ],
+  "article_http_status": 404,
+  "blog_published": false
+}

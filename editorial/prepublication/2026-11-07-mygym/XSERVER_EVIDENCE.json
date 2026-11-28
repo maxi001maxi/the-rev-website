@@ -1,0 +1,69 @@
+{
+  "pass": true,
+  "checked_at": "2026-11-07T03:35:17.4450496Z",
+  "workflow_id": 42334609903,
+  "job_id": 128288631505,
+  "commit_sha": "06f5d52e97423ccce0bf73cc69992caf4dd056d9",
+  "items": [
+    {
+      "path": "assets/images/blog/og/og-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-preview-320.jpg",
+      "new_sha256": "ef51f217a40d037b3820216c46db1f18e0fde1aa798700d374fc70f618ded035",
+      "old_sha256": null,
+      "bytes": 20558
+    },
+    {
+      "path": "assets/images/blog/og/og-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-preview-400.jpg",
+      "new_sha256": "67d891f02dc4321f8972897c6ca7430584fa5e44daca964df8ddc5c59a8320ec",
+      "old_sha256": null,
+      "bytes": 27834
+    },
+    {
+      "path": "assets/images/blog/og/og-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1.jpg",
+      "new_sha256": "2199e1ea01d4f88cc056942df27a56a0ca1e82546cdab308c8df00f8b6317370",
+      "old_sha256": null,
+      "bytes": 143805
+    },
+    {
+      "path": "assets/images/blog/thumb-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-preview-320.jpg",
+      "new_sha256": "50814f8db1514255b641320e781b1f9596c4c106443c21c1b6150da2c1b0622d",
+      "old_sha256": null,
+      "bytes": 21789
+    },
+    {
+      "path": "assets/images/blog/thumb-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-preview-400.jpg",
+      "new_sha256": "dc54e598564afd64bfbb9e9fc298befaa5a5f6e8c975d5902558e2232f09a66b",
+      "old_sha256": null,
+      "bytes": 28933
+    },
+    {
+      "path": "assets/images/blog/thumb-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1.jpg",
+      "new_sha256": "e77f27918dc50db8688f560b96adb70e1fa67aa18bc437a49f300e7921d7f86b",
+      "old_sha256": null,
+      "bytes": 148474
+    },
+    {
+      "path": "assets/images/editorial-generated/24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-scene.jpg",
+      "new_sha256": "e5042550f39578f2da056a818cea1fb282bd4a618671559c7114fffd7e309d28",
+      "old_sha256": null,
+      "bytes": 352973
+    },
+    {
+      "path": "assets/images/gbp/gbp-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-preview-320.jpg",
+      "new_sha256": "7180a071b44fd0e509abc40b9ed2cea1ed1acf3abb564906c5a44874989e7afd",
+      "old_sha256": null,
+      "bytes": 26891
+    },
+    {
+      "path": "assets/images/gbp/gbp-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1-preview-400.jpg",
+      "new_sha256": "137a5ed6ae234110aaa42bd1d9fdf3a49beaa642c043e7392af1967d6f16b5c5",
+      "old_sha256": null,
+      "bytes": 36313
+    },
+    {
+      "path": "assets/images/gbp/gbp-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1.jpg",
+      "new_sha256": "657ecaf19348da34405f8cc55e784b90e838e08497b1dc36b8c9a4b604769369",
+      "old_sha256": null,
+      "bytes": 200598
+    }
+  ]
+}

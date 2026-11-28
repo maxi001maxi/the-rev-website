@@ -1,0 +1,58 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 9,
+  "article_visual_relevance": 9,
+  "rev_environment_consistency": 10,
+  "brand_space_authenticity": 10,
+  "source_material_scope_pass": true,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "too_promotional": false,
+  "source_identity_preservation": null,
+  "source_photo_changed_materially": null,
+  "invented_people_or_objects": null,
+  "comments": "指定Drive内のTHE REV.トレーニング設備実素材を起点にしたハイブリッド版。疲労日に『まず軽く始めて判断する』テーマを、静かな実設備の写真で自然に補強。未知のトレーナー・第三者は登場せず、THE REV.らしい空間整合性も高い。",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "generation_model": "chatgpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol",
+  "render_mode": "gpt-image-hybrid-v1",
+  "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+  "drive_source": {
+    "root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "cached_frame_file_id": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "cached_frame_file_name": "AI_FRAME_IMG_4387_75.jpg",
+    "origin_video_file_id": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+    "origin_video_file_name": "IMG_4387.MOV",
+    "frame_position_ratio": 0.75,
+    "selection_scope": "specified-drive-root-only"
+  },
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "recent_content_references": [
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg"
+    ],
+    "selected_content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+    "ever_used_before": false
+  },
+  "hybrid_policy": {
+    "rev_environment_generation_allowed": true,
+    "customer_generation_allowed": true,
+    "unknown_trainer_forbidden": true,
+    "non_customer_people_forbidden": true
+  },
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v23-hybrid",
+  "thumbnail": "/assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid.jpg",
+  "og_image": "/assets/images/blog/og/og-after-work-tired-strength-training-reference-v23-hybrid.jpg",
+  "checked_at": "2026-09-19T07:55:00Z"
+}

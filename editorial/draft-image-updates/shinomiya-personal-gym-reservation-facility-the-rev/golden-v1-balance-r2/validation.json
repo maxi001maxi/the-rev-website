@@ -1,0 +1,11 @@
+{
+  "main_hybrid_qa_pass": true,
+  "golden_hybrid_qa_pass": true,
+  "review_gate_pass": true,
+  "checked_assets": 9,
+  "scene_sha256": "87c9c61705d7298c14bdddabaf7f800ee6a260e5523c1cf05805eb2e5625b9b0",
+  "original_scene_unchanged": true,
+  "live_draft_mutated": false,
+  "article_published": false,
+  "gbp_posted": false
+}

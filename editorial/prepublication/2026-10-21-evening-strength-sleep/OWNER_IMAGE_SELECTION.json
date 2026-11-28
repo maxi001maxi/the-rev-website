@@ -1,0 +1,22 @@
+{
+  "schema": "the-rev-owner-image-selection-v1",
+  "recorded_at": "2026-10-20T13:39:01.067Z",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+  "asset_version": "reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020",
+  "owner_selected": true,
+  "owner_instruction": "これでいきましょう。本番直前まで実行",
+  "selection_basis": "Owner selected the actual final standing-layout thumbnail displayed in this conversation; the three exact existing formats are retained.",
+  "independent_qc_pass": false,
+  "independent_qc_record_preserved": true,
+  "production_article_preparation_authorized": true,
+  "main_merge_authorized": false,
+  "publish_authorized": false,
+  "gbp_post_authorized": false,
+  "assets": {
+    "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020-scene.png": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+    "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1",
+    "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b",
+    "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3"
+  }
+}

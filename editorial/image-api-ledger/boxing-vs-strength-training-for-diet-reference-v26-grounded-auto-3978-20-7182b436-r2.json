@@ -1,0 +1,431 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "boxing-vs-strength-training-for-diet",
+  "asset_version": "reference-v26-grounded-auto-3978-20-7182b436-r2",
+  "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-frame-3978-20",
+    "source_sha256": "b742042a1d206900b1f5f82ae2eb73e350e01b5d3aa7ae52f747496035845c05",
+    "scene_type": "personal_choice",
+    "location_type": "reception",
+    "human_action": "compare_notes",
+    "composition_type": "medium_seated_portrait",
+    "visual_role": "deciding_own_start",
+    "article_intent": "training_start",
+    "required_equipment": [],
+    "subject_zone": "reception",
+    "article_specific_directive": "",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "score": 0.3333333333333333,
+          "equal": [
+            "composition_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "composition_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-trial-what-to-bring",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "cable-machine-how-it-works-the-rev",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        }
+      ]
+    }
+  },
+  "headline": "入口は、\n続くほうから。",
+  "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+  "og": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+  "gbp": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-3978-20-7182b436-r2.jpg",
+  "contract_sha256": "936d9245ce65e54f6505e86094f94ec19bfbb1f95eafebb689d714822502a486",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:53:12.453Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_c4b6e78b1c294e06b59489b651bb72e7",
+      "response_id": "resp_0f37cb2d12525ba3006afe487a4f5087d093ee824d50163a1a",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 9797,
+        "input_tokens_details": {
+          "cache_write_tokens": 6772,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6772
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1171,
+        "output_tokens_details": {
+          "reasoning_tokens": 494
+        },
+        "total_tokens": 10968
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_0f37cb2d12525ba3006afe4880ec8087d0a75c461d0017f8ee",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-19T00:53:45.218Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 2,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:53:50.747Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_ab0cb3cbc7204fd7b6f725a58211038e",
+      "response_id": "resp_0a25f9dcac3a403f006afe48a0b7e087d0ac95105f3205cdca",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 18190,
+        "input_tokens_details": {
+          "cache_write_tokens": 18187,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 18187
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2479,
+        "output_tokens_details": {
+          "reasoning_tokens": 1658
+        },
+        "total_tokens": 20669
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T00:54:17.787Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 3,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:54:18.906Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_e4ebf58041fa4e56bc263d8f1c1cc080",
+      "response_id": "resp_08440b1e4ca5f934006afe48bcb5b487d0916e32e49c55b14f",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17580,
+        "input_tokens_details": {
+          "cache_write_tokens": 17577,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17577
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1601,
+        "output_tokens_details": {
+          "reasoning_tokens": 470
+        },
+        "total_tokens": 19181
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T00:54:36.295Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 4,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:54:37.811Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_0abcb93674c74cb2af4d7b9405ee1cd8",
+      "response_id": "resp_015bc42e03394892006afe48cf44f887d0bd72455c222c413d",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 9471,
+        "input_tokens_details": {
+          "cache_write_tokens": 6942,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6942
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 675,
+        "output_tokens_details": {
+          "reasoning_tokens": 79
+        },
+        "total_tokens": 10146
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_015bc42e03394892006afe48d1105c87d0af9be1bbd9d32077",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-19T00:55:00.634Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 5,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:55:03.265Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_79fbc568ce864af0a09e25a0a045bc90",
+      "response_id": "resp_0dbd19c08b6f8e30006afe48e8a72087d0b745d11f5670354e",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 18190,
+        "input_tokens_details": {
+          "cache_write_tokens": 18187,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 18187
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2469,
+        "output_tokens_details": {
+          "reasoning_tokens": 1643
+        },
+        "total_tokens": 20659
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T00:55:27.602Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 6,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:55:28.771Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_e93a7208385b4e418cdd3003577adb29",
+      "response_id": "resp_07ee986a7873e588006afe4902410487d092712ca2f8c3b04b",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17580,
+        "input_tokens_details": {
+          "cache_write_tokens": 17577,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17577
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2190,
+        "output_tokens_details": {
+          "reasoning_tokens": 1084
+        },
+        "total_tokens": 19770
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T00:55:53.050Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 7,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:55:54.324Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_cfcb36423b394ed79730dc5883840930",
+      "response_id": "resp_0d2b2a17fbc4c310006afe491bb23087d080503a2765e1839c",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 9576,
+        "input_tokens_details": {
+          "cache_write_tokens": 6947,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6947
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 775,
+        "output_tokens_details": {
+          "reasoning_tokens": 128
+        },
+        "total_tokens": 10351
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_0d2b2a17fbc4c310006afe491e265087d0aa3a5ff18753d4c4",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-19T00:56:23.729Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 8,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:56:26.459Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_8458d71bc2e84da78d259ca318cf3c02",
+      "response_id": "resp_0cc6fd4a6334ad60006afe493bf60087d096ab1763263c25b0",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 18190,
+        "input_tokens_details": {
+          "cache_write_tokens": 18187,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 18187
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2360,
+        "output_tokens_details": {
+          "reasoning_tokens": 1536
+        },
+        "total_tokens": 20550
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T00:56:55.752Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 9,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T00:56:57.050Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_e94a730d215440a09428af1826d45f09",
+      "response_id": "resp_0ac31e8fc9e3fba6006afe495ad66887d09f37ea9966a5c6e5",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17580,
+        "input_tokens_details": {
+          "cache_write_tokens": 17577,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17577
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2413,
+        "output_tokens_details": {
+          "reasoning_tokens": 1357
+        },
+        "total_tokens": 19993
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T00:57:21.847Z",
+      "estimated_cost_jpy": null
+    }
+  ],
+  "confirmed_cost": null
+}

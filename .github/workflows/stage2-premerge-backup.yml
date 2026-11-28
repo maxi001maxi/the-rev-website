@@ -1,0 +1,82 @@
+name: Stage 2 premerge backup (read only)
+on:
+  push:
+    branches: [design/unify-shared-ui]
+    paths: ['.github/workflows/stage2-premerge-backup.yml']
+permissions:
+  contents: read
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: xserver-production-v3
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read current production over verified FTPS
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          mkdir -p premerge-backup
+          timeout 900 lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp <<'FTPS'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set net:reconnect-interval-base 5
+          mirror --parallel=2 --verbose --exclude-glob 'unlimited-dev/' --exclude-glob 'unlimited-dev/**' / premerge-backup/
+          bye
+          FTPS
+      - name: Validate complete public documents and referenced assets
+        run: |
+          set -euo pipefail
+          node scripts/verify-xserver-backup.mjs premerge-backup
+          python3 - <<'PY'
+          import pathlib,hashlib,json,re,urllib.parse,os,datetime
+          root=pathlib.Path('premerge-backup').resolve()
+          files=sorted(p for p in root.rglob('*') if p.is_file())
+          missing=[]
+          for p in files:
+              if p.suffix not in ('.html','.css'): continue
+              text=p.read_text(errors='replace')
+              refs=re.findall(r'(?:src|href)=["\x27]([^"\x27]+)',text) if p.suffix=='.html' else re.findall(r'url\(["\x27]?([^)"\x27]+)',text)
+              for ref in refs:
+                  u=urllib.parse.urlparse(ref)
+                  if u.scheme or u.netloc or not u.path: continue
+                  target=(root/u.path.lstrip('/')) if u.path.startswith('/') else p.parent/u.path
+                  target=target.resolve()
+                  if not target.is_relative_to(root): continue
+                  if '/assets/' in str(target) and (not target.is_file() or target.stat().st_size==0):
+                      missing.append({'document':str(p.relative_to(root)),'asset':ref})
+          if missing: raise SystemExit(json.dumps({'missing_assets':missing},ensure_ascii=False))
+          report={'status':'PASS','read_only':True,'remote_writes':0,'source_sha':os.environ['GITHUB_SHA'],'observed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'files':[{'path':str(p.relative_to(root)),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in files]}
+          pathlib.Path('premerge-backup-manifest.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps({'status':'PASS','files':len(files),'total_bytes':sum(p.stat().st_size for p in files),'remote_writes':0}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xserver-backup-${{ github.run_id }}
+          path: premerge-backup/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-premerge-backup-manifest-${{ github.run_id }}
+          path: premerge-backup-manifest.json
+          if-no-files-found: warn
+          retention-days: 14

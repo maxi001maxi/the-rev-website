@@ -1,0 +1,17 @@
+{
+  "slug": "24-hour-gym-workout-menu-consultation",
+  "article_title": "24時間ジムで何をすればいいか分からない人へ｜メニューをプロに相談する方法",
+  "category_label": "GYM GUIDE",
+  "column_label": "COLUMN",
+  "image_headline_short": "今のジムで、\n迷わず進める。",
+  "asset_version": "reference-v26-grounded-mygym-20261107-work-r1",
+  "scene_intent": "相談前の女性顧客1人がTHE REV.実受付で自分のトレーニング記録ノートを両手で確認する。今のジムを続けながらメニュー設計を相談する記事。スタッフ・トレーナーなし。",
+  "generated_customer_count": 1,
+  "customer_presentation": "female",
+  "background_source": {
+    "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "selection_reason": "自主トレの既存記録を持って相談する入口を実受付で表現。直近4記事のDENBA/evolgear/shower/lobbyとはDrive ID・lineageとも異なるlobby-sp。受付に設備を移動せず既存ノート確認だけ。",
+    "treatment": "real THE REV source; natural depth of field and warm neutral color"
+  }
+}

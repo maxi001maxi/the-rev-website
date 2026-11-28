@@ -1,0 +1,56 @@
+{
+  "review_method": "ChatGPT Work in-conversation research and editorial review; no paid AI API",
+  "checked_at": "2026-11-04T00:26:19.362Z",
+  "owner_selection": "DENBAの効果と研究",
+  "source_verification": [
+    {
+      "url": "https://www.denba.co.jp/r-and-d",
+      "kind": "Manufacturer primary research summary, not an independently verified full study paper",
+      "scope": "22 adults age20-56; seated60min; hidden on/off15min; HRV indices. Do not equate HRV change with clinical autonomic normalization, sleep or fatigue benefits."
+    },
+    {
+      "url": "https://denba-health.info/wp-content/uploads/2025/12/報告書（身体・認知機能への効果）_大藏倫博-1.pdf",
+      "kind": "Primary author research report hosted by dealer; not described as peer-reviewed journal publication",
+      "scope": "FY2021 Okura Tsukuba report. Randomized double-blind crossover;13 older adults mean73.1;2h seated; RFD interaction significant; cognitive/mood interactions not significant. No long-term, muscle hypertrophy, postexercise recovery, sleep, young-adult or oxygen combination efficacy inferred."
+    },
+    {
+      "source": "S004 DENBA Health 従業員向け完全マニュアル",
+      "scope": "Health versus Medical; quiet rest; oxygen combination not proven synergy; medical electric device precautions; no invented customer case."
+    }
+  ],
+  "claim_review": [
+    {
+      "claim": "Human studies exist, with a limited outcome and population",
+      "pass": true
+    },
+    {
+      "claim": "Manufacturer summary identified as manufacturer summary, not university endorsement",
+      "pass": true
+    },
+    {
+      "claim": "RFD specific indicator, not overall strength or muscle growth",
+      "pass": true
+    },
+    {
+      "claim": "Mixed results reported; no cherry-picking cognitive or mood efficacy",
+      "pass": true
+    },
+    {
+      "claim": "No new store anecdotes, medical efficacy or synergistic recovery promise",
+      "pass": true
+    }
+  ],
+  "overlap": "Canonical full35-article history and active queue passed at topic approval. Existing device/mat article is linked for mechanism; new article answers evidence interpretation.",
+  "rubric": {
+    "reader_question": 4,
+    "evidence_and_limits": 4,
+    "professional_specificity": 4,
+    "plain_language": 3,
+    "store_transition": 4
+  },
+  "total": 19,
+  "max": 20,
+  "source_unverified": false,
+  "issues": [],
+  "external_ai_api_calls": 0
+}

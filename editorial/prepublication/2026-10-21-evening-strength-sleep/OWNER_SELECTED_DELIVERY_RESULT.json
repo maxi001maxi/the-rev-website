@@ -1,0 +1,126 @@
+{
+  "schema": "the-rev-oct21-owner-selected-recovery-result-v1",
+  "recorded_at": "2026-10-20T22:17:32.634Z",
+  "content_id": "BLOG-20261021-4ac8fd",
+  "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+  "asset_version": "reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020",
+  "status": "PARTIAL_OWNER_SELECTED_ASSETS_DELIVERED",
+  "article_ready_for_owner_publish": false,
+  "system_production_recovered": false,
+  "owner_image_selection_recorded": true,
+  "original_independent_qc_preserved": true,
+  "independent_visual_qc_pass": false,
+  "assets": [
+    {
+      "path": "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020-scene.png",
+      "sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 1746371
+    },
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1",
+      "width": 1200,
+      "height": 675,
+      "bytes": 133871
+    },
+    {
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b",
+      "width": 1200,
+      "height": 630,
+      "bytes": 126279
+    },
+    {
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3",
+      "width": 1200,
+      "height": 900,
+      "bytes": 179860
+    }
+  ],
+  "delivery_receipts": [
+    {
+      "url": "https://therev-lab.com/assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "status": 200,
+      "sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1",
+      "bytes": 133871
+    },
+    {
+      "url": "https://therev-lab.com/assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "status": 200,
+      "sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b",
+      "bytes": 126279
+    },
+    {
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-r5-standing-layout-qc-20261020.jpg",
+      "status": 200,
+      "sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3",
+      "bytes": 179860
+    }
+  ],
+  "generation_calls_this_continuation": 0,
+  "independent_qc_calls_this_continuation": 0,
+  "additional_openai_cost_this_continuation_usd": 0,
+  "delivery_run": "https://github.com/maxi001maxi/the-rev-website/actions/runs/39432356976",
+  "implementation_sha": "775319a1dfaec6ce45cb92f9a635f7fd472c77d7",
+  "asset_commit_sha": "fbfb2a201778fb7f4b423446c81bfe92d5b0206b",
+  "ci": {
+    "editorial_recovery": {
+      "run_id": 39432372409,
+      "result": "PASS"
+    },
+    "phase9": {
+      "run_id": 39432372328,
+      "result": "PASS"
+    },
+    "unified_public_qa": {
+      "run_id": 39432372447,
+      "result": "PASS",
+      "prior_intermittent_mobile_scroll_timeout_resolved": false
+    },
+    "publish_date": {
+      "run_id": 39432372372,
+      "result": "PASS"
+    },
+    "control_capture": {
+      "run_id": 39432372314,
+      "result": "PASS"
+    }
+  },
+  "cms_readback": {
+    "draft_count": 1,
+    "status": "draft",
+    "publish_status": "NOT_PUBLISHED",
+    "image_status": "ERROR",
+    "image_asset_ready": false,
+    "editorial_sync_hash": null,
+    "body_md5": "d7ab027c9adc6bbeedd9eaf5b8ccbfd2",
+    "body_changed_by_this_continuation": false
+  },
+  "console": {
+    "requested_url": "https://the-rev-website.vercel.app/admin/",
+    "observed_login_url": "https://the-rev-website.vercel.app/admin/login/",
+    "safe_auth_request": "TIMED_OUT",
+    "authentication_completion": "UNKNOWN",
+    "recovery": "NATIVE_CREDENTIAL_STATE_UNAVAILABLE",
+    "authenticated_preflight_executed": false
+  },
+  "remaining": [
+    "Owner selection is recorded separately; canonical image gate still rejects the independent QC results. No PASS/score/status was fabricated.",
+    "Formal Bridge update of the existing Draft and Sheets sync have not run; current published runtime is not replaced.",
+    "Authenticated Console final Preflight cannot run until its browser credential state is restored.",
+    "PR266 main merge and important GAS/Vercel production rollout remain subject to the separately required Owner approval; no merge/deploy attempted."
+  ],
+  "safety": {
+    "article_published": false,
+    "gbp_posted": false,
+    "main_merged": false,
+    "production_code_deployed": false,
+    "supabase_written": false,
+    "sheets_written": false,
+    "rejected_qc_rewritten": false
+  },
+  "evidence_archive": "https://drive.google.com/file/d/1kG9dMt23-ryYILNcYddeMHPUK6Xw8siK/view?usp=drivesdk"
+}

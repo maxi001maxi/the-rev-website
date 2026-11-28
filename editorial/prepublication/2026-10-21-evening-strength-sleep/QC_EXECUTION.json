@@ -1,0 +1,34 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "scope": "ONE_INDEPENDENT_TEXT_QC",
+  "max_requests": 2,
+  "image_generation": false,
+  "production_db_changes": false,
+  "publish": false,
+  "approval_source": "Owner development and Oct21 independent-QC execution request 2026-10-20",
+  "mode": "APPROVED_ADDITIONAL_TEXT_QC",
+  "reason": "Owner approved USD0.25 for corrected-article independent QC on 2026-10-20 17:08 JST; original two-call budget remains exhausted and preserved.",
+  "prior_scope_reason": "First independent QC 19/20 rejected unverified author identity, physiology claim and promotional transition; corrected only these issues. One final re-QC, no image API.",
+  "additional_approval": {
+    "approval_id": "owner-20261020-170843-jst-oct21-text-qc-usd025",
+    "status": "APPROVED",
+    "scope": "ONE_ADDITIONAL_INDEPENDENT_TEXT_QC",
+    "approved_at": "2026-10-20T17:08:43+09:00",
+    "approval_source": "Owner message: 上限：0.25ドル / 自動再試行あり（なしでもいいけど、ありでもいいかな）",
+    "max_additional_requests": 1,
+    "ceiling_usd": 0.25,
+    "owner_permits_retry": true,
+    "chosen_automatic_retry": false,
+    "retry_policy": "One quality-first independent QC; uncertain billing, transport failure or quality rejection never causes blind resubmission.",
+    "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+    "request_sha256": "18e854f3c28fd0e4b3a86468f6b3327da3b4e04da88804c5ae131a32612d8a40",
+    "expected_usd_range": [
+      0.04,
+      0.07
+    ],
+    "conservative_max_estimate_usd": 0.159395,
+    "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+    "image_calls_authorized": 0,
+    "production_changes_authorized": false
+  }
+}

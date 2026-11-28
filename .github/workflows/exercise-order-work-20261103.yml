@@ -1,0 +1,38 @@
+name: Exercise order draft - final canonical preflight
+on:
+  push:
+    branches: [work/exercise-order-draft-20261103]
+    paths: ['.github/workflows/exercise-order-work-20261103.yml']
+permissions:
+  contents: write
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Canonical publish preflight on actual production draft and main image bytes
+        run: node editorial/prepublication/2026-11-03-exercise-order/final-preflight.mjs
+      - name: Save verified unpublished readiness
+        run: |
+          set -euo pipefail
+          git add -- editorial/prepublication/2026-11-03-exercise-order/FINAL_PREFLIGHT.json
+          git -c user.name='THE REV Editorial Work' -c user.email='actions@users.noreply.github.com' commit -m 'Verify actual exercise order CMS draft with canonical main and Xserver preflight'
+          git push origin HEAD:work/exercise-order-draft-20261103
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: exercise-order-final-preflight-${{ github.run_id }}
+          path: editorial/prepublication/2026-11-03-exercise-order/FINAL_PREFLIGHT.json

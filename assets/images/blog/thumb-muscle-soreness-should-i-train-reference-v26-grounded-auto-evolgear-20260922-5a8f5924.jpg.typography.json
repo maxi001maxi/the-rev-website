@@ -1,0 +1,236 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "muscle-soreness-should-i-train",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "筋肉痛の日は、",
+        "まず痛みを",
+        "確かめる。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.708952820952888,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        73,
+        102.97029702970298
+      ],
+      "focus_line": 2,
+      "focus_text": "確かめる。",
+      "focus_scale": 1.4105520141055203,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.20169852523342086,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.40625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8705882352941177,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.751801048880557,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 168,
+          "right": 580.125,
+          "bottom": 273,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 267.75,
+          "right": 432.65625,
+          "bottom": 372.75,
+          "width": 368.65625
+        },
+        {
+          "left": 64,
+          "top": 362.5,
+          "right": 582.5,
+          "bottom": 510.5,
+          "width": 518.5
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+      "asset_sha256": "75a94c624d4ec8d1616dafa7e5740f9e2456047c67f7e490dd309f186b1df582",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-preview-320.jpg",
+          "sha256": "6146fe689159dc1df78fb1e1c5e31ccde40f03d29eb472134bf56bd3b0fbb3f5"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-preview-400.jpg",
+          "sha256": "e2d44c77e6ae490346e776f7f0099590ae1e0222b28ecd14a547b2f74276b0f4"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "筋肉痛の日は、",
+        "まず痛みを",
+        "確かめる。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.708952820952888,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        73,
+        102.97029702970298
+      ],
+      "focus_line": 2,
+      "focus_text": "確かめる。",
+      "focus_scale": 1.4105520141055203,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9980043398180901,
+      "block_area_ratio": 0.21610556275009377,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.40625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8705882352941177,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.751801048880557,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 146,
+          "right": 580.125,
+          "bottom": 251,
+          "width": 516.125
+        },
+        {
+          "left": 64,
+          "top": 245.75,
+          "right": 432.65625,
+          "bottom": 350.75,
+          "width": 368.65625
+        },
+        {
+          "left": 64,
+          "top": 340.5,
+          "right": 582.5,
+          "bottom": 488.5,
+          "width": 518.5
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+      "asset_sha256": "5ae453ff4179a5ab6d548f68e7246785e7cb514d400c20d0f27f9c2b4b091528",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-preview-320.jpg",
+          "sha256": "8ba5c28b27826414c93bead2da5595dc4d6895a1647d8af85accd2e17473b44d"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-preview-400.jpg",
+          "sha256": "f7b9d50512df298a50f59da05dd0848eafb397df026893bd41bd459fa2cad2d8"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "筋肉痛の日は、",
+        "まず痛みを",
+        "確かめる。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.71174831879471,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        62,
+        87.12871287128714
+      ],
+      "focus_line": 2,
+      "focus_text": "確かめる。",
+      "focus_scale": 1.4053018205046313,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9977995679359195,
+      "block_area_ratio": 0.11238121835092156,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.2265625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9098039215686274,
+      "fade_start": 521,
+      "fade_end": 640,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.213181538979519,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 284,
+          "right": 498.34375,
+          "bottom": 373,
+          "width": 438.34375
+        },
+        {
+          "left": 60,
+          "top": 373.4375,
+          "right": 373.109375,
+          "bottom": 462.4375,
+          "width": 313.109375
+        },
+        {
+          "left": 60,
+          "top": 458.875,
+          "right": 498.65625,
+          "bottom": 583.875,
+          "width": 438.65625
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+      "asset_sha256": "a4c99bcae6b1584470f72a4f1c83e40d898b6d868c491cc852b40466fc0f3c60",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-preview-320.jpg",
+          "sha256": "266be595751cd37936a40023020a109efc094000373a7312dec55847ba11b062"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-preview-400.jpg",
+          "sha256": "0cdfae61093c5cea785125546271163278430a5594de9c7265c8904506a95532"
+        }
+      }
+    }
+  }
+}

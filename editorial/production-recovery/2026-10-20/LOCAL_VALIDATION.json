@@ -1,0 +1,70 @@
+{
+  "npm_ci_exit_code": 0,
+  "checks": [
+    {
+      "command": "npm run test:production-recovery",
+      "exit_code": 0,
+      "seconds": 2.22
+    },
+    {
+      "command": "npm run test:editorial-quality-v080",
+      "exit_code": 0,
+      "seconds": 0.26
+    },
+    {
+      "command": "npm run test:daily-editorial-contract",
+      "exit_code": 0,
+      "seconds": 0.21
+    },
+    {
+      "command": "npm run test:daily-editorial-state-machine",
+      "exit_code": 0,
+      "seconds": 0.25
+    },
+    {
+      "command": "npm run test:daily-creator",
+      "exit_code": 0,
+      "seconds": 0.62
+    },
+    {
+      "command": "npm run test:supervisor-qc-recovery",
+      "exit_code": 0,
+      "seconds": 0.2
+    },
+    {
+      "command": "npm run test:trigger-topology",
+      "exit_code": 0,
+      "seconds": 0.25
+    },
+    {
+      "command": "npm run test:phase-9",
+      "exit_code": 0,
+      "seconds": 0.22
+    },
+    {
+      "command": "npm run test:phase-d",
+      "exit_code": 0,
+      "seconds": 0.49
+    },
+    {
+      "command": "npm run test:editorial-images",
+      "exit_code": 0,
+      "seconds": 0.32
+    },
+    {
+      "command": "node --test scripts/test-editorial-consistency.mjs scripts/test-editorial-production-image-preflight.mjs scripts/test-editorial-scene-grounding.mjs scripts/test-image-operator-primary-status.mjs",
+      "exit_code": 0,
+      "seconds": 0.24
+    },
+    {
+      "command": "node scripts/build-gas-bundle.mjs --check",
+      "exit_code": 0,
+      "seconds": 0.05
+    },
+    {
+      "command": "npm run build:blog",
+      "exit_code": 0,
+      "seconds": 0.24
+    }
+  ]
+}

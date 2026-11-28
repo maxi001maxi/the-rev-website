@@ -1,0 +1,765 @@
+{
+  "baseline_main": "cdad0488b60d4092ed30027bbe9c103983fcab89",
+  "old_job": {
+    "slug": "shinomiya-gym-beginner-choose",
+    "article_title": "新大宮で初心者がジムを選ぶなら｜24時間・パーソナルジム・ボクシング、続けやすいのは？",
+    "category_label": "GYM GUIDE",
+    "column_label": "COLUMN",
+    "image_headline_short": "続けやすさで、\n選ぶ。",
+    "image_style_template": "rev-column-reference-v2",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "scene_intent": "THE REV.の実店舗で、一般顧客役の成人1人が入口・受付側からトレーニングエリアへ自然に移り、EVOLGEAR等の実設備を見ながらグリップや設定位置を確認して使い始めようとしている場面。小さな通勤・ジムバッグを邪魔にならない位置へ置き、仕事帰りにも立ち寄れる生活動線と、本格設備の両方が一枚で伝わるようにする。受付だけを主役にせず、THE REV.のロゴまたは固有空間とトレーニング設備を同時に読み取れる構図にする。トレーナー、スタッフ、コーチは出さない。",
+    "generated_customer_count": 1,
+    "customer_presentation": "male",
+    "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-scene.png",
+    "style_references": [
+      "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+      "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+    ],
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
+    "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+    "og_image": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+    "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+    "gbp_image_required": true,
+    "gbp_image_width": 1200,
+    "gbp_image_height": 900,
+    "gbp_image_aspect_ratio": "4:3",
+    "qa_report_path": "editorial/image-qa/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.json",
+    "generation_model": "gpt-image-hybrid",
+    "qa_model": "gpt-5.6-sol-visual-qc",
+    "publish_requires_human_approval": true,
+    "policy": {
+      "generated_customer_allowed": true,
+      "generated_customer_required": true,
+      "generated_customer_default_count": 1,
+      "generated_customer_max_count": 1,
+      "customer_presentation": "male",
+      "human_visual_attention_share_target": "60-70%",
+      "background_role": "secondary-recognizable-the-rev-soft-blur",
+      "facility_only_thumbnail_forbidden": true,
+      "fixed_overlay_required": true,
+      "gbp_image_required": true,
+      "gbp_image_ratio": "4:3",
+      "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+      "policy_revision": "editorial-thumbnail-v2.4",
+      "design_revision": "editorial-thumbnail-v2.6-human-first",
+      "layout_variant": "human-first-v1",
+      "trainer_present_forbidden": true,
+      "unknown_trainer_forbidden": true,
+      "non_customer_people_forbidden": true,
+      "customer_only_or_no_people_required": true,
+      "real_the_rev_background_required": true,
+      "scene_aware_integration_required_for_exercise": true,
+      "isolated_person_cutout_composite_forbidden_for_exercise": true,
+      "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+      "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
+      "realism_qc_version": "v1",
+      "source_scope": "specified-drive-root-only",
+      "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+      "recent_reference_window": 4,
+      "selection_policy": "relevance-first-lineage-recency-v2",
+      "publish_boundary": "REVIEW_AND_PUBLISH",
+      "scene_plausibility_version": "the-rev-scene-plausibility-v1"
+    },
+    "background_source": {
+      "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "cached_frame_drive_file_id": "",
+      "origin_video_file_id": "",
+      "origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "frame_position_ratio": null,
+      "selection_reason": "新大宮でのジム選びを、通いやすい入口動線と実設備の両方で見せられるTHE REV.実素材。公式サイト写真と同一bytesのコピーを指定Editorial Drive rootへ保存し、2026-09-27に自動生成sourceとして登録。",
+      "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
+    },
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "automation": {
+      "mode": "unattended-github-actions-v1",
+      "source_registry": "editorial/automated-image-sources.json",
+      "selected_source_id": "the-rev-lobby-sp-20260927",
+      "source_repo_path": "assets/images/photo-lobby-sp.jpg",
+      "recent_similarity_window": 4,
+      "recent_articles": [
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "checkedAt": "2026-10-06T01:08:15.230Z",
+          "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+          "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+          "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+          "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+          "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "checkedAt": "2026-10-05T12:07:58.242Z",
+          "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+          "originVideoFileId": "",
+          "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+          "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+          "imageHeadlineShort": "怖くても、\n最初は基本から。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "checkedAt": "2026-10-04T09:45:25.230Z",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "originVideoFileId": "",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+          "imageHeadlineShort": "DENBAの基本\n電位空間",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "checkedAt": "2026-10-04T05:12:02.251Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+          "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+          "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+          "customerPresentation": "male"
+        }
+      ],
+      "recent_thumbnail_copy_window": 25,
+      "recent_thumbnail_headlines": [
+        "座り仕事、\n30分ごとに立つ？",
+        "怖くても、\n最初は基本から。",
+        "DENBAの基本\n電位空間",
+        "始める前に、\n状態を確かめる。",
+        "続けられる頻度を、\n最初に決める。",
+        "通いやすさまで、\n選ぶ基準に。",
+        "通いやすさまで、\n選ぶ基準に。",
+        "中では、静かに休むだけ。",
+        "DENBAって何？",
+        "DENBAって、\n何するもの？",
+        "酸素ルームって、\n何する場所？",
+        "耳抜きは、\n我慢しない。",
+        "設備だけで、\n決めない。",
+        "軽く動いて、\n調子を見る。",
+        "設備だけで、\n決めない。",
+        "設備だけで、\n決めない。",
+        "軽く動いて、\n調子を見る。",
+        "軽く動いて、\n調子を見る。",
+        "設備だけで、\n決めない。",
+        "設備だけで、\n決めない。",
+        "体重計に出ない、\n進歩がある。",
+        "健診のあとこそ、\n無理なく始める。",
+        "体重計に出ない、\n進歩がある。",
+        "体重計に出ない、\n進歩がある。",
+        "限界まで追い込むかは、\nフォームと翌日の\n疲労で決める。"
+      ],
+      "recent_customer_presentations": [
+        "female",
+        "male",
+        "female",
+        "male",
+        "female",
+        "male"
+      ],
+      "recovery_reason": "visual-qc-semantic-linebreak-r3",
+      "previous_asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r2"
+    }
+  },
+  "original_qa": {
+    "pass": true,
+    "thumbnail_typography_visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "visual_art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "ワイド2種は、金色の参照と同様に静かな墨色の導入句と大きな暖色キーワードを明確に分け、短い見出しに適した自然な2行構成になっている。320pxでも「選ぶ。」が強い焦点として即読でき、人物との視覚的競合もない。GBPは横長版の単純流用ではなく、左中央にコンパクトな見出しと局所的な曲線状ベールを配置し、人物の顔・手元・器具を保っている。いずれも白い掲示板状には見えず、写真への移行も柔らかい。"
+    },
+    "series_consistency": 9,
+    "editorial_quality": 9,
+    "typography_harmony": 9,
+    "negative_space": 8,
+    "photo_treatment": 9,
+    "article_visual_relevance": 9,
+    "main_claim_visualization": 8,
+    "human_subject_prominence": 9,
+    "human_visual_attention_share": 66,
+    "face_expression_readable": true,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": true,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "article_theme_inferable_without_title": true,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false,
+    "rev_environment_consistency": 9,
+    "brand_space_authenticity": 9,
+    "human_environment_integration": 9,
+    "perspective_scale_consistency": 9,
+    "ground_contact_shadow_consistency": 9,
+    "lighting_consistency": 9,
+    "anatomy_pose_realism": 9,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "location_behavior_plausible": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "scene_plausible_at_the_rev": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": false,
+    "trainer_present": false,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "generated_customer_count": 1,
+    "facility_only_thumbnail": false,
+    "real_the_rev_background_confirmed": true,
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "headline_line_break_quality": true,
+    "headline_balance_score": 9,
+    "too_promotional": false,
+    "gbp_aspect_ratio_pass": true,
+    "gbp_safe_area_pass": true,
+    "gbp_copy_legible": true,
+    "comments": "実景の梁、照明、受付、植栽、木床、THE REV.ロゴ、奥のトレーニング設備が生成場面でも一貫しており、別施設には見えない。成人男性客1人がケーブル器具のグリップ／設定部を確認する具体的な行動と、床の小型バッグによって初心者の利用開始と仕事帰りの動線が伝わる。人物は自然な光、接地、遠近感で空間に統合され、顔と手元もカードサイズで判読可能。スタッフや追加人物、医療行為、未確認設備の示唆はない。",
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "thumbnail_typography_acceptance": {
+      "pass": true,
+      "deterministic": {
+        "revision": "thumbnail-golden-typography-v1",
+        "slug": "shinomiya-gym-beginner-choose",
+        "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "続けやすさで、",
+              "選ぶ。"
+            ],
+            "text_preserved": true,
+            "font_size": 73,
+            "font_size_at_320": 19.466666666666665,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.7528186073246024,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              73,
+              127.28205128205128
+            ],
+            "focus_line": 1,
+            "focus_text": "選ぶ。",
+            "focus_scale": 1.7435897435897436,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9883070631760817,
+            "block_area_ratio": 0.15372979102834067,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 337.1484375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 601,
+            "fade_end": 738,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 204,
+                "right": 578.65625,
+                "bottom": 309,
+                "width": 514.65625
+              },
+              {
+                "left": 64,
+                "top": 295.75,
+                "right": 450.546875,
+                "bottom": 477.75,
+                "width": 386.546875
+              }
+            ],
+            "asset_path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+            "asset_sha256": "5e3fd24006b8c17ae1fee62cf86e9912c4ec6b85a11575cb1e069d6ff9d51c33",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-preview-320.jpg",
+                "sha256": "a43ee05c7d8f470260cf8de027a5a54e72f49b711081343891d25227279dbf87"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-preview-400.jpg",
+                "sha256": "4eeaaf2fb114f8402a826c2bb2e0ca831cb321f450b0eb56d29059a872c9f9ec"
+              }
+            }
+          },
+          "og": {
+            "pass": true,
+            "lines": [
+              "続けやすさで、",
+              "選ぶ。"
+            ],
+            "text_preserved": true,
+            "font_size": 73,
+            "font_size_at_320": 19.466666666666665,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.7528186073246024,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              73,
+              127.28205128205128
+            ],
+            "focus_line": 1,
+            "focus_text": "選ぶ。",
+            "focus_scale": 1.7435897435897436,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9883070631760817,
+            "block_area_ratio": 0.16471049038750785,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 315.1484375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 601,
+            "fade_end": 738,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 182,
+                "right": 578.65625,
+                "bottom": 287,
+                "width": 514.65625
+              },
+              {
+                "left": 64,
+                "top": 273.75,
+                "right": 450.546875,
+                "bottom": 455.75,
+                "width": 386.546875
+              }
+            ],
+            "asset_path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+            "asset_sha256": "629d6fa3792adca847e6d7850ed2451a0a64e8d4d427280024efa9d91919c682",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-preview-320.jpg",
+                "sha256": "6e66c18d71ed1e31409f952d53a63c00eff1f2c69a47eb2623de399e5d6d0ef8"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-preview-400.jpg",
+                "sha256": "561fc2a0898d2bebe18768f86d495ca4bd39685dcc7b0a38c01281bf2e93100c"
+              }
+            }
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "続けやすさで、",
+              "選ぶ。"
+            ],
+            "text_preserved": true,
+            "font_size": 62,
+            "font_size_at_320": 16.533333333333335,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.7111728594494704,
+            "layout_rule": "golden-gbp-v1",
+            "line_font_sizes": [
+              62,
+              102.11764705882354
+            ],
+            "focus_line": 1,
+            "focus_text": "選ぶ。",
+            "focus_scale": 1.647058823529412,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9920004383433949,
+            "block_area_ratio": 0.08237048084216649,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 431.90625,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9215686274509803,
+            "fade_start": 520,
+            "fade_end": 639,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.356830663826178,
+            "line_rects": [
+              {
+                "left": 60,
+                "top": 320,
+                "right": 497.109375,
+                "bottom": 409,
+                "width": 437.109375
+              },
+              {
+                "left": 60,
+                "top": 402.4375,
+                "right": 370.234375,
+                "bottom": 549.4375,
+                "width": 310.234375
+              }
+            ],
+            "asset_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+            "asset_sha256": "8965acb065fde07171258cf76131b96ed26bb576e1b27842157846f59d0eb2f4",
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-preview-320.jpg",
+                "sha256": "f4df080454a64c3b6f97d2fe3d49f888b4a69d285e568cb7ce334c3f3a9c3411"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-preview-400.jpg",
+                "sha256": "588c01c3c66dc18240a547d42a862891b876a996a278778979723ca69e4f3f6b"
+              }
+            }
+          }
+        }
+      },
+      "visual": {
+        "thumbnail": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "og": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "gbp": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        }
+      },
+      "art_direction": {
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "og": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "gbp": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          }
+        },
+        "comments": "ワイド2種は、金色の参照と同様に静かな墨色の導入句と大きな暖色キーワードを明確に分け、短い見出しに適した自然な2行構成になっている。320pxでも「選ぶ。」が強い焦点として即読でき、人物との視覚的競合もない。GBPは横長版の単純流用ではなく、左中央にコンパクトな見出しと局所的な曲線状ベールを配置し、人物の顔・手元・器具を保っている。いずれも白い掲示板状には見えず、写真への移行も柔らかい。"
+      },
+      "golden_reference": {
+        "revision": "approved-typography-20261001-v1",
+        "assets": [
+          {
+            "variant": "wide",
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+          },
+          {
+            "variant": "gbp",
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+          },
+          {
+            "variant": "list",
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+          }
+        ]
+      }
+    },
+    "source_material_scope_pass": true,
+    "generated_customer_allowed_under_policy": true,
+    "generated_customer_role": "customer",
+    "customer_presentation": "male",
+    "image_headline_short": "続けやすさで、\n選ぶ。",
+    "fixed_overlay_layout_confirmed": true,
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "background_source_type": "verified_the_rev_repo_mirror",
+    "content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "background_source_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "background_origin_video_file_id": "",
+    "background_origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "background_frame_position_ratio": null,
+    "background_treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed",
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "fallback_reason": "",
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "recent_similarity_window": 4,
+    "recent_similarity_check_pass": true,
+    "recent_background_source_ids": [
+      "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+      "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+      "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+      "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+      "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+      "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+      "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+      "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg"
+    ],
+    "recent_reference_guard": {
+      "window": 4,
+      "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+      "recent_articles": [
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "checkedAt": "2026-10-06T01:08:15.230Z",
+          "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+          "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+          "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+          "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+          "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "checkedAt": "2026-10-05T12:07:58.242Z",
+          "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+          "originVideoFileId": "",
+          "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+          "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+          "imageHeadlineShort": "怖くても、\n最初は基本から。",
+          "customerPresentation": "male"
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "checkedAt": "2026-10-04T09:45:25.230Z",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "originVideoFileId": "",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+          "imageHeadlineShort": "DENBAの基本\n電位空間",
+          "customerPresentation": "female"
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "checkedAt": "2026-10-04T05:12:02.251Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+          "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+          "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+          "customerPresentation": "male"
+        }
+      ],
+      "selected_content_reference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "selected_drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "avoided_repeat": true,
+      "repeated_due_to_relevance": false
+    },
+    "template": "rev-column-reference-v2",
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "generation_model": "gpt-image-hybrid",
+    "qa_model": "gpt-5.6",
+    "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+    "slug": "shinomiya-gym-beginner-choose",
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
+    "checked_at": "2026-10-07T03:27:18.834Z",
+    "review_mode": "HYBRID_GENERATED",
+    "realism_qc_version": "v1",
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "gbp_image_required": true,
+    "gbp_image_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3.jpg",
+    "gbp_image_width": 1200,
+    "gbp_image_height": 900,
+    "gbp_image_aspect_ratio": "4:3"
+  },
+  "evidence": {
+    "method": "human visual inspection of real source and generated r3, user rejection corroborated",
+    "source_path": "assets/images/photo-lobby-sp.jpg",
+    "scene_path": "assets/images/editorial-generated/shinomiya-gym-beginner-choose-reference-v26-auto-lobby-sp-20260927-19f594ac-r3-scene.png",
+    "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+    "scene_sha256": "ad2ec0288a276cf12b65a09c9e40769af040b729f206532b4500f1e0438c6308"
+  },
+  "observation": {
+    "complete": true,
+    "equipment": [
+      {
+        "object": "training_rack",
+        "zone": "rear_training_area"
+      },
+      {
+        "object": "training_rack",
+        "zone": "reception"
+      }
+    ],
+    "location_type": "reception",
+    "subject_zone": "reception",
+    "human_action": "rack_adjustment",
+    "equipment_relocated": true,
+    "room_geometry_preserved": false,
+    "article_scene_match": false,
+    "scene_fingerprint": {
+      "scene_type": "equipment_orientation",
+      "location_type": "reception",
+      "human_action": "rack_adjustment",
+      "composition_type": "medium_side_portrait",
+      "visual_role": "facility_inspection",
+      "article_intent": "facility_selection"
+    }
+  }
+}

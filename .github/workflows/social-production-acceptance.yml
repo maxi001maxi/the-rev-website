@@ -1,0 +1,28 @@
+name: Social Production Acceptance
+
+on:
+  push:
+    branches:
+      - acceptance/social-production-*
+    paths:
+      - 'editorial/social/acceptance/live-input-*.json'
+      - 'scripts/run-social-production-acceptance.mjs'
+      - '.github/workflows/social-production-acceptance.yml'
+      - 'editorial/gas/SocialDirector_v0.5_ONE_PASTE.gs'
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      SOCIAL_CANDIDATE_MODEL: gpt-5.6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Execute production Social generator
+        run: node scripts/run-social-production-acceptance.mjs editorial/social/acceptance/live-input-2026-10-06.json

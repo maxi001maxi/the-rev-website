@@ -1,0 +1,233 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+  "asset_version": "reference-v26-auto-lobby-20260924-89d8aa53",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "健診のあとこそ、",
+        "無理なく",
+        "始める。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.500621147510483,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        64,
+        64,
+        111.58974358974359
+      ],
+      "focus_line": 2,
+      "focus_text": "始める。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9907675311748798,
+      "block_area_ratio": 0.1935673839976935,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.1640625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 602,
+      "fade_end": 739,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 174,
+          "right": 579.84375,
+          "bottom": 266,
+          "width": 515.84375
+        },
+        {
+          "left": 64,
+          "top": 263.671875,
+          "right": 322.5625,
+          "bottom": 355.671875,
+          "width": 258.5625
+        },
+        {
+          "left": 64,
+          "top": 346.34375,
+          "right": 512.875,
+          "bottom": 506.34375,
+          "width": 448.875
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
+      "asset_sha256": "50d82e2241fea3b25de548484b07b6e64ffaec5650bda3bb9633d375dad9e1e4",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-preview-320.jpg",
+          "sha256": "aac1eac50bffc27817255c3f2be25b846e76d4f1634813d1815ec5ff10cccd79"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-preview-400.jpg",
+          "sha256": "d038634ddd23f33b1f0e453b0961385daa04f3dd4447f45186ddd566eeae9b06"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "健診のあとこそ、",
+        "無理なく",
+        "始める。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.500621147510483,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        64,
+        64,
+        111.58974358974359
+      ],
+      "focus_line": 2,
+      "focus_text": "始める。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9907675311748798,
+      "block_area_ratio": 0.20739362571181447,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.1640625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 602,
+      "fade_end": 739,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 152,
+          "right": 579.84375,
+          "bottom": 244,
+          "width": 515.84375
+        },
+        {
+          "left": 64,
+          "top": 241.671875,
+          "right": 322.5625,
+          "bottom": 333.671875,
+          "width": 258.5625
+        },
+        {
+          "left": 64,
+          "top": 324.34375,
+          "right": 512.875,
+          "bottom": 484.34375,
+          "width": 448.875
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
+      "asset_sha256": "13c110f38dae14c243920be7e76989a33b4cb0541014905578e379e120ea1ebd",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-preview-320.jpg",
+          "sha256": "a8d877b07376ffc1821063f33d0190c8d4135b51e1617372fb4fc2d43cb73b2a"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-preview-400.jpg",
+          "sha256": "e483419140a7c33914cd77c823896bcbd4a7ffaaaa657caa8bf496866e3e7a3a"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "健診のあとこそ、",
+        "無理なく",
+        "始める。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.5006211079132125,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 2,
+      "focus_text": "始める。",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982005078124999,
+      "block_area_ratio": 0.1355195828314887,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 582,
+      "fade_end": 701,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 275,
+          "right": 559.734375,
+          "bottom": 364,
+          "width": 499.734375
+        },
+        {
+          "left": 60,
+          "top": 364.4375,
+          "right": 310.484375,
+          "bottom": 453.4375,
+          "width": 250.484375
+        },
+        {
+          "left": 60,
+          "top": 446.875,
+          "right": 470.921875,
+          "bottom": 593.875,
+          "width": 410.921875
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53.jpg",
+      "asset_sha256": "a0ce2d29138d58deb37756e31362936789bdf50f9137a3e1a60624b6f74152fe",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-preview-320.jpg",
+          "sha256": "c2dfecb768dba251a40f1773021688b144843f5ff3df448befa6bf09ce970a7a"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-auto-lobby-20260924-89d8aa53-preview-400.jpg",
+          "sha256": "a8aad9045de631531fd2cd13358050a680fbbabbab9688ba31a36bef385cc6d9"
+        }
+      }
+    }
+  }
+}

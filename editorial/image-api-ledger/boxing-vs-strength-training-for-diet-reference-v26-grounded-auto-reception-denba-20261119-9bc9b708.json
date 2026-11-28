@@ -1,0 +1,233 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "boxing-vs-strength-training-for-diet",
+  "asset_version": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+  "source_sha256": "82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-reception-denba-20261119",
+    "source_sha256": "82eaf23cee99311bb3e278ec137ed93414dcc060f7e010f25435a913fcee1a15",
+    "scene_type": "personal_choice",
+    "location_type": "reception",
+    "human_action": "compare_notes",
+    "composition_type": "medium_seated_portrait",
+    "visual_role": "deciding_own_start",
+    "article_intent": "training_start",
+    "required_equipment": [],
+    "subject_zone": "reception",
+    "article_specific_directive": "",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "score": 0.3333333333333333,
+          "equal": [
+            "composition_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "composition_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-trial-what-to-bring",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "cable-machine-how-it-works-the-rev",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        }
+      ]
+    }
+  },
+  "headline": "入口は、\n続くほうから。",
+  "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+  "og": "assets/images/blog/og/og-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+  "gbp": "assets/images/gbp/gbp-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+  "contract_sha256": "5c354babf98d8544aab603ae58d3f7aadedc76f691774e7ffd022f58b6f6bde6",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-19T04:53:02.624Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_a083eee551bb49c49efb2f0ae933f237",
+      "response_id": "resp_01ebd84b7aa5d0bc006afe80b0d36487d2b6db4a5adebf32ed",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 9743,
+        "input_tokens_details": {
+          "cache_write_tokens": 6683,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6683
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1206,
+        "output_tokens_details": {
+          "reasoning_tokens": 559
+        },
+        "total_tokens": 10949
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_01ebd84b7aa5d0bc006afe80b802a487d2b6f84786e6bcab76",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-19T04:53:34.749Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 2,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T04:53:39.413Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_3ade227f6e7d44d8b24e90690bf917b7",
+      "response_id": "resp_030c6b467d364af1006afe80d47c8887d28f1fa0737c23ef5b",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 18019,
+        "input_tokens_details": {
+          "cache_write_tokens": 18016,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 18016
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1800,
+        "output_tokens_details": {
+          "reasoning_tokens": 973
+        },
+        "total_tokens": 19819
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T04:53:57.070Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 3,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-19T04:53:58.184Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_44b5ccfceead48fbba8c5edda4049b38",
+      "response_id": "resp_0524f165e054305d006afe80e786e887d2873d2fd24065b3dd",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17488,
+        "input_tokens_details": {
+          "cache_write_tokens": 17485,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17485
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1676,
+        "output_tokens_details": {
+          "reasoning_tokens": 516
+        },
+        "total_tokens": 19164
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-19T04:54:14.652Z",
+      "estimated_cost_jpy": null
+    }
+  ],
+  "confirmed_cost": null
+}

@@ -1,0 +1,27 @@
+{
+  "status": "CONVERSATION_QC_PASS_XSERVER_VERIFIED",
+  "run_id": "41257096599",
+  "asset_version": "reference-v26-grounded-shower-20261031-work-r1",
+  "image_checks": [
+    {
+      "path": "assets/images/blog/thumb-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+      "sha256": "b882f6353c21f849e7ba1657ec2e0c98ca84fb130273246cd0eb20609fc3eaf5",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/blog/og/og-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+      "sha256": "9fe1d7b40ad098d835ce347d2a00153ff97363cb412c39e8696fd1cbf1a7f742",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/gbp/gbp-after-training-shower-changing-the-rev-reference-v26-grounded-shower-20261031-work-r1.jpg",
+      "sha256": "e673f06e861de695d912d2bfa69f5daffb43eb68e59f0cef3d605a93bde9abb7",
+      "http_status": 200
+    }
+  ],
+  "article_http_status": 404,
+  "blog_published": false,
+  "gbp_posted": false,
+  "owner_publish_approval": false,
+  "external_ai_api_calls": 0
+}

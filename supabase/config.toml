@@ -1,0 +1,18 @@
+# THE REV. Editorial Console — Supabase CLI 設定
+#
+# このプロジェクトは Supabase のローカル開発スタック（`supabase start` によるDocker上の
+# Postgres / Auth / Storage 等）は使用しません。本番は常にSupabaseのホスト型プロジェクトのみで、
+# このファイルは `supabase link` → `supabase migration list` / `db push` /
+# `db diff` など、リモートプロジェクトに対するmigration管理のためだけに存在します。
+#
+# 詳しい設定リファレンス: https://supabase.com/docs/guides/local-development/cli/config
+project_id = "the-rev-website"
+
+[db]
+# リモートの本番Supabaseと同じPostgresメジャーバージョン。
+# Supabase Dashboard → Project Settings → Infrastructure で確認できる値と合わせること。
+major_version = 17
+
+[db.migrations]
+# `db push` / `db reset` でmigrationを適用するかどうか。
+enabled = true

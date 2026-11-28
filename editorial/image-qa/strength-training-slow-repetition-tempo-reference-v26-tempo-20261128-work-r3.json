@@ -1,0 +1,1209 @@
+{
+  "pass": false,
+  "slug": "strength-training-slow-repetition-tempo",
+  "article_title": "筋トレはゆっくり動かすほど効く？「下ろす動作」で見直したいこと",
+  "asset_version": "reference-v26-tempo-20261128-work-r3",
+  "checked_at": "2026-11-27T10:04:15.306Z",
+  "review_mode": "HYBRID_GENERATED",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "series_consistency": 9,
+  "editorial_quality": 8,
+  "typography_harmony": 9,
+  "negative_space": 8,
+  "photo_treatment": 8,
+  "article_visual_relevance": 9,
+  "rev_environment_consistency": 8,
+  "brand_space_authenticity": 8,
+  "realism_qc_version": "v1",
+  "human_environment_integration": 9,
+  "perspective_scale_consistency": 8,
+  "ground_contact_shadow_consistency": 8,
+  "lighting_consistency": 9,
+  "anatomy_pose_realism": 9,
+  "no_cutout_or_sticker_look": true,
+  "location_semantics_pass": true,
+  "exercise_pose_plausible": true,
+  "manual_visual_rejection": true,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "facility_only_thumbnail": false,
+  "fixed_overlay_layout_confirmed": true,
+  "human_subject_prominence": 9,
+  "human_visual_attention_share": 65,
+  "face_expression_readable": true,
+  "background_secondary_pass": true,
+  "background_soft_blur_pass": true,
+  "the_rev_anchor_visible": true,
+  "customer_presentation_matches_plan": true,
+  "customer_presentation": "female",
+  "real_the_rev_background_confirmed": true,
+  "source_material_scope_pass": true,
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "background_source_drive_file_id": "1tA7z7SiBCWGdUg11OhQzmXv_UyqIhBqQ",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "IMG_1312.HEIC",
+  "content_reference": "assets/images/editorial-sources/floor-rack-wide-IMG1312-20261119.jpg",
+  "current_background_source_id": "the-rev-floor-rack-wide-20261119",
+  "recent_similarity_check_pass": true,
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_window": 4,
+  "recent_reference_guard": {
+    "pass": true,
+    "recent": [
+      {
+        "slug": "strength-training-rest-between-sets",
+        "checkedAt": "2026-11-26T07:07:01.712Z",
+        "driveFileId": "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+        "originVideoFileId": "",
+        "contentReference": "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+        "assetVersion": "reference-v26-rest-sets-20261126-work-r1",
+        "imageHeadlineShort": "セット間、\n何分休む？",
+        "customerPresentation": "male",
+        "articleTitle": "筋トレのセット間は何分休む？次のセットの質で決める休憩時間",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "visual_role": "checking_readiness",
+          "human_action": "rest",
+          "location_type": "training_area",
+          "article_intent": "training_execution",
+          "composition_type": "close_action_portrait"
+        },
+        "thumbnail": "assets/images/blog/thumb-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "visual_role": "checking_readiness",
+          "human_action": "rest",
+          "location_type": "training_area",
+          "article_intent": "training_execution",
+          "composition_type": "close_action_portrait"
+        }
+      },
+      {
+        "slug": "post-workout-recovery-methods-evidence",
+        "checkedAt": "2026-11-24T08:32:37.789Z",
+        "driveFileId": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+        "originVideoFileId": "",
+        "contentReference": "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+        "imageHeadlineShort": "筋トレ後の回復\n効くのはどれ？",
+        "customerPresentation": "female",
+        "articleTitle": "筋トレ後の回復方法、効果が確かめられているのはどれ？研究から整理",
+        "sceneFingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "recovery_area",
+          "human_action": "rest",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "recovery_area",
+          "human_action": "rest",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "boxing-vs-strength-training-for-diet",
+        "checkedAt": "2026-11-19T04:54:15.561Z",
+        "driveFileId": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+        "originVideoFileId": "",
+        "contentReference": "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+        "assetVersion": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+        "imageHeadlineShort": "入口は、\n続くほうから。",
+        "customerPresentation": "male",
+        "articleTitle": "ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ",
+        "sceneFingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "muscle-soreness-should-i-train",
+        "checkedAt": "2026-11-17T09:58:24.928Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+        "imageHeadlineShort": "筋肉痛の日は、\nまず痛みを確かめる。",
+        "customerPresentation": "female",
+        "articleTitle": "筋肉痛があるとき、筋トレは休むべき？部位を変える目安",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+      "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+      "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+      "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg"
+    ]
+  },
+  "recent_background_source_ids": [
+    "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+    "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+    "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+    "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB"
+  ],
+  "headline_history_check": {
+    "copy": "下ろすときも、\n丁寧に。",
+    "recentHeadlines": [
+      "セット間、\n何分休む？",
+      "筋トレ後の回復\n効くのはどれ？",
+      "入口は、\n続くほうから。",
+      "筋肉痛の日は、\nまず痛みを確かめる。",
+      "食後の筋トレは\n何時間後？",
+      "広さで変わる、\n過ごし方。",
+      "姿勢から、\n鍛え方を考える。",
+      "今のジムで、\n迷わず進める。",
+      "DENBA Health\n休息をケアに。",
+      "デンバで、\n休息をケアに。",
+      "研究結果、\nどう読む？",
+      "種目の順番、\n目的から。",
+      "ジムのあと、\n出かけよう。",
+      "筋トレの呼吸、いつ吐く。",
+      "完全予約制と、\n貸切の違い。",
+      "グローブは、\n借りて始められる。",
+      "引っ張る方向で、\n動きが変わる。",
+      "痛みや体調は、\nどこまで伝える？",
+      "初回体験、\n何を選ぶ？",
+      "姿勢は、\n動きから見直す。",
+      "運動前は、\n動ける状態へ。",
+      "本体とマット、\n役割は別。",
+      "続けやすさで、\n選ぶ。",
+      "座り仕事、\n30分ごとに立つ？",
+      "怖くても、\n最初は基本から。",
+      "DENBAの基本\n電位空間",
+      "始める前に、\n状態を確かめる。",
+      "続けられる頻度を、\n最初に決める。",
+      "通いやすさまで、\n選ぶ基準に。",
+      "通いやすさまで、\n選ぶ基準に。",
+      "中では、静かに休むだけ。",
+      "DENBAって何？",
+      "DENBAって、\n何するもの？",
+      "酸素ルームって、\n何する場所？",
+      "耳抜きは、\n我慢しない。",
+      "設備だけで、\n決めない。",
+      "軽く動いて、\n調子を見る。",
+      "設備だけで、\n決めない。",
+      "設備だけで、\n決めない。",
+      "軽く動いて、\n調子を見る。",
+      "軽く動いて、\n調子を見る。",
+      "設備だけで、\n決めない。",
+      "設備だけで、\n決めない。",
+      "体重計に出ない、\n進歩がある。",
+      "健診のあとこそ、\n無理なく始める。",
+      "体重計に出ない、\n進歩がある。",
+      "体重計に出ない、\n進歩がある。",
+      "限界まで追い込むかは、\nフォームと翌日の\n疲労で決める。",
+      "疲れた日は、\n軽く始めて決める。",
+      "30分より、\n行く前後を整える。"
+    ],
+    "exactHistoryCount": 41,
+    "blockedCandidates": []
+  },
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "too_promotional": false,
+  "headline_line_break_quality": true,
+  "headline_balance_score": 9,
+  "main_claim_visualization": 9,
+  "article_theme_inferable_without_title": true,
+  "scene_action_has_article_specific_meaning": true,
+  "generic_passive_pose_without_article_reason": false,
+  "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+  "location_behavior_plausible": true,
+  "service_misrepresentation_absent": true,
+  "unsupported_equipment_absent": true,
+  "scene_plausible_at_the_rev": true,
+  "image_generation_used": true,
+  "fallback_used": false,
+  "gbp_image_required": true,
+  "gbp_aspect_ratio_pass": true,
+  "gbp_safe_area_pass": true,
+  "gbp_copy_legible": true,
+  "scene_grounding_version": "the-rev-source-scene-v1",
+  "scene_grounding": {
+    "version": "the-rev-source-scene-v1",
+    "pass": true,
+    "errors": [],
+    "inventory": {
+      "version": "the-rev-source-scene-v1",
+      "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+      "primary_location": "training_area",
+      "subject_zone": "training_area",
+      "visible_equipment": [
+        {
+          "object": "training_rack",
+          "zone": "training_area"
+        },
+        {
+          "object": "cable_machine",
+          "zone": "training_area"
+        },
+        {
+          "object": "barbell",
+          "zone": "training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "training_area"
+        },
+        {
+          "object": "oxygen_room",
+          "zone": "recovery_area"
+        }
+      ],
+      "allowed_generated_actions": [
+        "prepare",
+        "rest",
+        "observing_real_equipment",
+        "rack_adjustment",
+        "cable_operation",
+        "barbell_operation",
+        "strength_exercise"
+      ],
+      "forbidden_generated_objects": [
+        "medical_device",
+        "unverified_training_equipment"
+      ],
+      "suitable_article_intents": [
+        "facility_selection",
+        "health_before_start",
+        "readiness",
+        "training_start",
+        "training_execution",
+        "training_progress",
+        "recovery"
+      ],
+      "verification": {
+        "method": "owner-supplied JPEG of Drive HEIC + visual inspection by Claude",
+        "verified_at": "2026-11-19",
+        "note": "店長が撮影したIMG_1312（Driveの素材フォルダにHEICで保存）をJPEGに変換して添付したものをrepo mirrorとした。Drive上のHEICとはバイト一致しない変換版。写っている器具・位置は2026-11-19に目視確認。操作・移動・追加は不可。生成後はindependent visual QCが引き続き適用される。"
+      }
+    },
+    "plan": {
+      "version": "the-rev-source-scene-v1",
+      "source_id": "the-rev-floor-rack-wide-20261119",
+      "source_sha256": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+      "scene_type": "exercise",
+      "location_type": "training_area",
+      "human_action": "strength_exercise",
+      "composition_type": "medium_three_quarter_portrait",
+      "visual_role": "training_execution",
+      "article_intent": "training_execution",
+      "subject_zone": "training_area",
+      "required_equipment": [],
+      "article_specific_directive": "Customer rehearses a controlled unweighted squat descent on the actual open training floor. No dumbbell added. Manual alternative after the automatic dumbbell-driven source match had no eligible source; canonical registry and all recency rules preserved."
+    },
+    "sourceRecognition": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "training_area"
+        },
+        {
+          "object": "cable_machine",
+          "zone": "training_area"
+        },
+        {
+          "object": "barbell",
+          "zone": "training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "training_area"
+        },
+        {
+          "object": "oxygen_room",
+          "zone": "recovery_area"
+        }
+      ],
+      "method": "Actual IMG1312 source directly inspected before generation: central rack and cable stacks, racked bar and plate storage, adjustable bench in rack; silver oxygen booth in left rear recovery zone. No dumbbells used or introduced."
+    },
+    "observation": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "training_area"
+        },
+        {
+          "object": "cable_machine",
+          "zone": "training_area"
+        },
+        {
+          "object": "barbell",
+          "zone": "training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "training_area"
+        },
+        {
+          "object": "oxygen_room",
+          "zone": "recovery_area"
+        }
+      ],
+      "location_type": "training_area",
+      "subject_zone": "training_area",
+      "human_action": "strength_exercise",
+      "equipment_relocated": false,
+      "room_geometry_preserved": true,
+      "article_scene_match": true,
+      "scene_fingerprint": {
+        "scene_type": "exercise",
+        "location_type": "training_area",
+        "human_action": "strength_exercise",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "training_execution",
+        "article_intent": "training_execution"
+      },
+      "method": "Direct visual reread: one woman in sage shirt practices an unweighted partial squat on the actual training floor. Knees/hips are naturally bent and forearms form a natural X at the chest, each hand rests on the opposite upper chest/shoulder, and the two hands are anatomically plausible. Feet are outside the frame; contact is judged on the preceding unchanged pose and visible spatial integration, not directly visible feet. Rack/bar/cables/bench stay behind her; oxygen booth remains far left rear. No added dumbbells, trainer or relocated equipment. Static image cannot measure speed; the pose depicts controlled lowering practice."
+    },
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 10,
+      "unknown_count": 0,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "strength-training-rest-between-sets",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "post-workout-recovery-methods-evidence",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.16666666666666666,
+          "equal": [
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    },
+    "asset_version": "reference-v26-tempo-20261128-work-r3",
+    "recent": [
+      {
+        "slug": "strength-training-rest-between-sets",
+        "checkedAt": "2026-11-26T07:07:01.712Z",
+        "driveFileId": "1Pe46Vr5Ku014cS5ofWHLsJox7dSUBqVO",
+        "originVideoFileId": "",
+        "contentReference": "assets/images/editorial-sources/floor-rack-low-IMG1310-20261119.jpg",
+        "assetVersion": "reference-v26-rest-sets-20261126-work-r1",
+        "imageHeadlineShort": "セット間、\n何分休む？",
+        "customerPresentation": "male",
+        "articleTitle": "筋トレのセット間は何分休む？次のセットの質で決める休憩時間",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "visual_role": "checking_readiness",
+          "human_action": "rest",
+          "location_type": "training_area",
+          "article_intent": "training_execution",
+          "composition_type": "close_action_portrait"
+        },
+        "thumbnail": "assets/images/blog/thumb-strength-training-rest-between-sets-reference-v26-rest-sets-20261126-work-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "visual_role": "checking_readiness",
+          "human_action": "rest",
+          "location_type": "training_area",
+          "article_intent": "training_execution",
+          "composition_type": "close_action_portrait"
+        }
+      },
+      {
+        "slug": "post-workout-recovery-methods-evidence",
+        "checkedAt": "2026-11-24T08:32:37.789Z",
+        "driveFileId": "1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8",
+        "originVideoFileId": "",
+        "contentReference": "drive://1rhKsDmdGHlvyj9HqsD2vXrgBumJnKQg8/AI_SOURCE_photo-solution-oxyroom_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+        "imageHeadlineShort": "筋トレ後の回復\n効くのはどれ？",
+        "customerPresentation": "female",
+        "articleTitle": "筋トレ後の回復方法、効果が確かめられているのはどれ？研究から整理",
+        "sceneFingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "recovery_area",
+          "human_action": "rest",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "recovery_area",
+          "human_action": "rest",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "boxing-vs-strength-training-for-diet",
+        "checkedAt": "2026-11-19T04:54:15.561Z",
+        "driveFileId": "1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh",
+        "originVideoFileId": "",
+        "contentReference": "drive://1ENpOGGIVX95rYXN8E6bjzHc1OB_gTpNh/IMG_1302.HEIC",
+        "assetVersion": "reference-v26-grounded-auto-reception-denba-20261119-9bc9b708",
+        "imageHeadlineShort": "入口は、\n続くほうから。",
+        "customerPresentation": "male",
+        "articleTitle": "ボクシングと筋トレ、ダイエットにはどっち？目的と続けやすさで選ぶ",
+        "sceneFingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-boxing-vs-strength-training-for-diet-reference-v26-grounded-auto-reception-denba-20261119-9bc9b708.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "muscle-soreness-should-i-train",
+        "checkedAt": "2026-11-17T09:58:24.928Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+        "imageHeadlineShort": "筋肉痛の日は、\nまず痛みを確かめる。",
+        "customerPresentation": "female",
+        "articleTitle": "筋肉痛があるとき、筋トレは休むべき？部位を変える目安",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "workout-after-meal-timing",
+        "checkedAt": "2026-11-17T07:45:44.798688Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "assets/images/photo-lobby.jpg",
+        "assetVersion": "reference-v26-banana-20261117-r3",
+        "imageHeadlineShort": "食後の筋トレは\n何時間後？",
+        "customerPresentation": "male",
+        "articleTitle": "食後すぐに筋トレしていい？食事の量と運動までの時間の考え方",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "close_action_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "close_action_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "oxygen-capsule-vs-room",
+        "checkedAt": "2026-11-15T01:48:31.310Z",
+        "driveFileId": "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+        "originVideoFileId": "",
+        "contentReference": "assets/images/photo-oxyroom.jpg",
+        "assetVersion": "reference-v26-grounded-oxycompare-20261115-work-r1",
+        "imageHeadlineShort": "広さで変わる、\n過ごし方。",
+        "customerPresentation": "female",
+        "articleTitle": "酸素カプセルと酸素ルームは何が違う？初めて選ぶときの確認ポイント",
+        "sceneFingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "recovery_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "facility_inspection",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-oxygen-capsule-vs-room-reference-v26-grounded-oxycompare-20261115-work-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "recovery_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "facility_inspection",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "personal-gym-posture-check",
+        "checkedAt": "2026-11-13T14:48:10.243Z",
+        "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+        "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+        "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/AI_FRAME_IMG_4387_75.jpg",
+        "assetVersion": "reference-v26-grounded-posture-20261114-work-r1",
+        "imageHeadlineShort": "姿勢から、\n鍛え方を考える。",
+        "customerPresentation": "male",
+        "articleTitle": "パーソナルジムの姿勢チェックは何を見る？自分の姿勢を知って筋トレを始める",
+        "sceneFingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-personal-gym-posture-check-reference-v26-grounded-posture-20261114-work-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "24-hour-gym-workout-menu-consultation",
+        "checkedAt": "2026-11-07T03:31:42.504Z",
+        "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+        "originVideoFileId": "",
+        "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+        "assetVersion": "reference-v26-grounded-mygym-20261107-work-r1",
+        "imageHeadlineShort": "今のジムで、\n迷わず進める。",
+        "customerPresentation": "female",
+        "articleTitle": "24時間ジムで何をすればいいか分からない人へ｜メニューをプロに相談する方法",
+        "sceneFingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        },
+        "thumbnail": "assets/images/blog/thumb-24-hour-gym-workout-menu-consultation-reference-v26-grounded-mygym-20261107-work-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "denba-health-effects-research-evidence",
+        "checkedAt": "2026-11-04T02:14:51.325Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-denba-health-20261104-r3",
+        "imageHeadlineShort": "DENBA Health\n休息をケアに。",
+        "customerPresentation": "male",
+        "articleTitle": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+        "sceneFingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "denba-health-effects-research-evidence",
+        "checkedAt": "2026-11-04T01:04:41.294Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-denba-care-20261104-r2",
+        "imageHeadlineShort": "デンバで、\n休息をケアに。",
+        "customerPresentation": "male",
+        "articleTitle": "DENBA Healthの効果と仕組み｜休む時間を、身体のケアに",
+        "sceneFingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-care-20261104-r2.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "denba-health-effects-research-evidence",
+        "checkedAt": "2026-11-04T00:35:50.527Z",
+        "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+        "originVideoFileId": "",
+        "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+        "assetVersion": "reference-v26-grounded-auto-denba-20260924-63fb04d3",
+        "imageHeadlineShort": "研究結果、\nどう読む？",
+        "customerPresentation": "male",
+        "articleTitle": "DENBA Healthの効果はどこまで分かる？研究と体験談の読み分け方",
+        "sceneFingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        },
+        "thumbnail": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "strength-training-exercise-order-first-exercise",
+        "checkedAt": "2026-11-03T07:38:16.247Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v26-grounded-evolgear-20261103-work-r1",
+        "imageHeadlineShort": "種目の順番、\n目的から。",
+        "customerPresentation": "female",
+        "articleTitle": "筋トレは何から始める？最初の種目とウォーミングアップの決め方",
+        "sceneFingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "wide_full_body",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        },
+        "thumbnail": "assets/images/blog/thumb-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "wide_full_body",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        }
+      }
+    ],
+    "asset_hashes": {
+      "source": "4a914a8deb3ce7afe096d9a6d74b09b691421a1d590281015cac76a56f5cfb73",
+      "scene": "32e63a679cf50e2051c03ac6e72c57df8c31ceab4d578f6947ca7b7f2de3a3b5",
+      "thumbnail": "7c59b6e851a6804fb1dfc8d7a7bfc113156bf3ba5f00e49fa6b2d2387a5585c8",
+      "og": "399266a63db986c89a31d62356c94441dad110c65ecce126ecedd7470e6adeb2",
+      "gbp": "2881b8a44c237f9beb45a86e9ed88319ee979a96aa165e8b3aeaea8fe9c905a5"
+    }
+  },
+  "editorial_text_qc": {
+    "pass": true,
+    "total": 20,
+    "issues": [],
+    "schema": "editorial-text-qc-v1",
+    "reviewer": "ChatGPT Work current conversation: reread after drafting, not a separate agent",
+    "checked_at": "2026-11-27T08:56:01.437Z",
+    "content_id": "BLOG-20261128-tempo",
+    "body_sha256": "47a39e2135c8593279d1571389a10109df6ff4ced4844f4a2587246a85fcd2bb",
+    "evidence_sha256": "64a1e0adf5644f266cc6a1959bd4b2ccbcd29b49c8206d8dd9f212d436092ddb",
+    "source_unverified": false,
+    "external_ai_api_calls": 0
+  },
+  "independent_qc_pass": true,
+  "bridge_synced": true,
+  "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+  "thumbnail_typography_acceptance": {
+    "pass": true,
+    "deterministic": {
+      "revision": "thumbnail-golden-typography-v1",
+      "slug": "strength-training-slow-repetition-tempo",
+      "asset_version": "reference-v26-tempo-20261128-work-r3",
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "lines": [
+            "下ろすときも、",
+            "丁寧に。"
+          ],
+          "text_preserved": true,
+          "font_size": 73,
+          "font_size_at_320": 19.466666666666665,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.9951521978832529,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            73,
+            127.28205128205128
+          ],
+          "focus_line": 1,
+          "focus_text": "丁寧に。",
+          "focus_scale": 1.7435897435897436,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9911147390512319,
+          "block_area_ratio": 0.15416652111117046,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 337.1484375,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "canonical-bezier-v1",
+          "paper_opacity_floor": 0.8941176470588236,
+          "fade_start": 603,
+          "fade_end": 740,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.025420138135389,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 204,
+              "right": 580.125,
+              "bottom": 309,
+              "width": 516.125
+            },
+            {
+              "left": 64,
+              "top": 295.75,
+              "right": 575.984375,
+              "bottom": 477.75,
+              "width": 511.984375
+            }
+          ],
+          "asset_path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+          "asset_sha256": "7c59b6e851a6804fb1dfc8d7a7bfc113156bf3ba5f00e49fa6b2d2387a5585c8",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+              "sha256": "f7db14c1bf836310f5fae1eb06f147058ca16dcb0a9eff3ef99d6035787d4465"
+            },
+            "400": {
+              "path": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+              "sha256": "15bc9d4163261a1e80c1d85cbdd6b2e7c5efee88b7424b698082fbb236371643"
+            }
+          }
+        },
+        "og": {
+          "pass": true,
+          "lines": [
+            "下ろすときも、",
+            "丁寧に。"
+          ],
+          "text_preserved": true,
+          "font_size": 73,
+          "font_size_at_320": 19.466666666666665,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.9951521978832529,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            73,
+            127.28205128205128
+          ],
+          "focus_line": 1,
+          "focus_text": "丁寧に。",
+          "focus_scale": 1.7435897435897436,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9911147390512319,
+          "block_area_ratio": 0.16517841547625406,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 315.1484375,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "canonical-bezier-v1",
+          "paper_opacity_floor": 0.8941176470588236,
+          "fade_start": 603,
+          "fade_end": 740,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.025420138135389,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 182,
+              "right": 580.125,
+              "bottom": 287,
+              "width": 516.125
+            },
+            {
+              "left": 64,
+              "top": 273.75,
+              "right": 575.984375,
+              "bottom": 455.75,
+              "width": 511.984375
+            }
+          ],
+          "asset_path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+          "asset_sha256": "399266a63db986c89a31d62356c94441dad110c65ecce126ecedd7470e6adeb2",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+              "sha256": "a47df93a140eaa943c5e1c11c159ec1efef345f435a95d8882576f1f77d21832"
+            },
+            "400": {
+              "path": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+              "sha256": "71d30c190be41d37648bf0ad331eba6c24b116130fa616045643baf0a06f9b47"
+            }
+          }
+        },
+        "gbp": {
+          "pass": true,
+          "lines": [
+            "下ろすときも、",
+            "丁寧に。"
+          ],
+          "text_preserved": true,
+          "font_size": 62,
+          "font_size_at_320": 16.533333333333335,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.9401011439393195,
+          "layout_rule": "golden-gbp-v1",
+          "line_font_sizes": [
+            62,
+            102.11764705882354
+          ],
+          "focus_line": 1,
+          "focus_text": "丁寧に。",
+          "focus_scale": 1.647058823529412,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_subordinate": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9948186673251066,
+          "block_area_ratio": 0.08260449170282153,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 431.90625,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "canonical-bezier-v1",
+          "paper_opacity_floor": 0.9215686274509803,
+          "fade_start": 521,
+          "fade_end": 640,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.356830663826178,
+          "line_rects": [
+            {
+              "left": 60,
+              "top": 320,
+              "right": 498.34375,
+              "bottom": 409,
+              "width": 438.34375
+            },
+            {
+              "left": 60,
+              "top": 402.4375,
+              "right": 470.921875,
+              "bottom": 549.4375,
+              "width": 410.921875
+            }
+          ],
+          "asset_path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
+          "asset_sha256": "2881b8a44c237f9beb45a86e9ed88319ee979a96aa165e8b3aeaea8fe9c905a5",
+          "previews": {
+            "320": {
+              "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-320.jpg",
+              "sha256": "1b86022b4134240b8e90fa0d2fbe709cdd0440c524485e5a90aff7ded77cfd08"
+            },
+            "400": {
+              "path": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3-preview-400.jpg",
+              "sha256": "72386170ac62dbf3040dd1c536136db4b1428980be5718e01d53af99d8c37f68"
+            }
+          }
+        }
+      }
+    },
+    "visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true,
+        "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains crossed hands and bent knees; clear hierarchy emphasizing 丁寧に。"
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true,
+        "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains crossed hands and bent knees; clear hierarchy emphasizing 丁寧に。"
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true,
+        "observation": "Viewed original-size derivative and actual 320px/400px JPEG previews: both Japanese lines complete, face, hands and bent knees unobscured; head-to-knees crop retains crossed hands and bent knees; clear hierarchy emphasizing 丁寧に。"
+      }
+    },
+    "art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true,
+          "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. Crossed hands at the chest stay outside the text veil; left-aligned photo crop preserves the pose. GBP has its own placement, not a stretched wide crop."
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true,
+          "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. Crossed hands at the chest stay outside the text veil; left-aligned photo crop preserves the pose. GBP has its own placement, not a stretched wide crop."
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true,
+          "observation": "Centered organic type veil blends into the gym background; woman practicing a lowering movement dominates right. No detached panel, face unobscured. Crossed hands at the chest stay outside the text veil; left-aligned photo crop preserves the pose. GBP has its own placement, not a stretched wide crop."
+        }
+      }
+    },
+    "golden_reference": {
+      "revision": "approved-typography-20261001-v1",
+      "assets": [
+        {
+          "variant": "wide",
+          "path": "editorial/typography-golden-reference/reference-16x9.png",
+          "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+        },
+        {
+          "variant": "gbp",
+          "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+          "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+        },
+        {
+          "variant": "list",
+          "path": "editorial/typography-golden-reference/reference-list-view.png",
+          "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+        }
+      ]
+    }
+  },
+  "actual_reviewer": {
+    "provider": "ChatGPT Work current conversation",
+    "method": "Separate visual reread after generation. Source, generated photo, three originals and all six 320/400px previews directly inspected.",
+    "score_interpretation": "Scores and 65% attention share are reviewer estimates, not measurements or separate-model output. No separate agent or paid QC API. R2 feet are outside frame. R1 visible grounded pose was inspected but not accepted due to repeated full-body framing; R2 spatial integration judged from visible pose only. Static speed is not measurable.",
+    "observations": "Direct visual reread: one woman in sage shirt practices an unweighted partial squat on the actual training floor. Knees/hips are naturally bent and forearms form a natural X at the chest, each hand rests on the opposite upper chest/shoulder, and the two hands are anatomically plausible. Feet are outside the frame; contact is judged on the preceding unchanged pose and visible spatial integration, not directly visible feet. Rack/bar/cables/bench stay behind her; oxygen booth remains far left rear. No added dumbbells, trainer or relocated equipment. Static image cannot measure speed; the pose depicts controlled lowering practice.",
+    "external_ai_api_calls": 0
+  },
+  "api_usage": {
+    "external_ai_api_calls": 0,
+    "built_in_image_generation_calls": 3,
+    "qc_api_calls": 0,
+    "paid_generation_workflow_invoked": false
+  },
+  "owner_requested_revision": "R3: only cross arms over chest. All three image formats replaced. Article body and GBP text unchanged.",
+  "owner_rejection_reason": "Owner found arm/hand/head proportions unnatural; R4 supersedes this image."
+}

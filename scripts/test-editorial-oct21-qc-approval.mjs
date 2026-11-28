@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {authorizeOct21AdditionalQc,estimatedQcCost} from '../lib/editorialOct21QcApproval.mjs';
+const hash=s=>createHash('sha256').update(s).digest('hex');
+const payload={model:'gpt-5.6',max_output_tokens:4000,input:[{role:'user',content:'unchanged corrected article'}]};
+const prior={status:'COMPLETED',pass:false,total_requests:2,calls:['req_5132beae5d104cfb807c551661e7ae18','req_885cd030abb642d784f4c82adebcbb26'].map(request_id=>({status:'COMPLETED',request_id}))};
+const plan={content_id:'BLOG-20261021-4ac8fd',max_requests:2,mode:'APPROVED_ADDITIONAL_TEXT_QC',additional_approval:{status:'APPROVED',scope:'ONE_ADDITIONAL_INDEPENDENT_TEXT_QC',max_additional_requests:1,ceiling_usd:0.25,approved_at:'2026-10-20T17:08:43+09:00',approval_id:'owner-oct21-qc-extension-20261020',body_sha256:hash('body'),request_sha256:hash(JSON.stringify(payload))}};
+const input=()=>structuredClone({plan,prior,body:'body',payload});
+test('new scope preserves the exhausted original two calls and fits its own USD ceiling',()=>{const v=input(),before=JSON.stringify(v.prior);const p=authorizeOct21AdditionalQc(v);assert(p.conservative_max_estimate_usd<0.25);assert.equal(p.prior_calls_preserved,2);assert.equal(p.max_additional_requests,1);assert.equal(JSON.stringify(v.prior),before);});
+test('started, uncertain, spent, missing or altered history cannot purchase another request',()=>{for(const status of ['STARTED','UNCERTAIN','FAILED']){const v=input();v.prior.status=status;assert.throws(()=>authorizeOct21AdditionalQc(v));}const spent=input();spent.prior.calls.push({status:'COMPLETED'});spent.prior.total_requests=3;assert.throws(()=>authorizeOct21AdditionalQc(spent));const missing=input();missing.prior.calls[0].request_id='unknown';assert.throws(()=>authorizeOct21AdditionalQc(missing));});
+test('approval, text, request, model and output-cap changes fail before reservation/provider',()=>{for(const mutate of [v=>v.plan.additional_approval.status='PENDING',v=>v.body+='x',v=>v.payload.input.push({content:'drift'}),v=>v.payload.model='different',v=>v.payload.max_output_tokens=8000,v=>v.plan.max_requests=3,v=>v.plan.additional_approval.ceiling_usd=2]){const v=input();mutate(v);assert.throws(()=>authorizeOct21AdditionalQc(v));}});
+test('even an approved request cannot exceed USD0.25 using worst-case token prices',()=>{const v=input();v.payload.input[0].content='x'.repeat(60000);v.plan.additional_approval.request_sha256=hash(JSON.stringify(v.payload));assert.throws(()=>authorizeOct21AdditionalQc(v),/BUDGET/);});
+test('usage estimate accounts for cache writes without calling it a confirmed charge',()=>{assert.equal(estimatedQcCost({input_tokens:1000,output_tokens:100,input_tokens_details:{cache_write_tokens:800,cached_tokens:100}},'gpt-5.6-sol'),0.00644);assert.equal(estimatedQcCost({input_tokens:10},'unknown'),null);});

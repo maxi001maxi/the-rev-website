@@ -1,0 +1,163 @@
+{
+  "schema": "the-rev-image-v3-creative-brief-v1",
+  "content_id": "BLOG-20261018-082d82",
+  "target_date": "2026-10-18",
+  "status": "DESIGN_APPROVED_FOR_SINGLE_PRODUCTION_ATTEMPT",
+  "production_type": "Existing GitHub Actions / scripts/auto-editorial-hybrid-image.mjs / OpenAI Responses API image_generation ONLY",
+  "v3_phase": "Text-only 3 concepts -> verified camera/geometry/3-crop layout -> one paid GPT image generation -> deterministic 3-size renders -> independent visual QC -> Xserver verified -> staging only",
+  "reader": "初めてのパーソナルジム体験を検討し、料金・予約・退会の3項目で迷っている人",
+  "reader_promise": "難しく考えすぎなくても、3つ確認して自分で始めるか選べる。",
+  "article_claim": "契約の押し売りではなく、入会を自分で判断するための『3つの確認』",
+  "owner_rejection": {
+    "asset_version": "reference-v26-grounded-evolgear-20261018-contract-r2",
+    "rating_100": 30,
+    "reason": "Generic mobile-phone glance lacked photographic meaning and appeal despite auto QC PASS",
+    "do_not_reuse_rejected_scene": true
+  },
+  "golden_reference": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+  "golden_rule": "Use R7's premium warm restrained grading, subtle background depth, luminous organic text-to-photo transition and variable Japanese title hierarchy; never copy its seated pose or woman's image",
+  "reference_source": {
+    "source_id": "the-rev-lobby-20260924",
+    "repo_path": "assets/images/photo-lobby.jpg",
+    "sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+    "facility": "THE REV. CONDITIONING LAB. real entrance/reception looking into rear training area",
+    "camera_truth": "Keep the exact real reception counter, plant, stool, beams, windows and rear rack. Visitor in foreground reception; rack several metres behind. Natural occlusion only, never interpenetration."
+  },
+  "scoring_scale": "Each axis 1-5, select >=22/25, reject generic phone/passive posing",
+  "scoring_axes": [
+    "article_match",
+    "photographic_impact",
+    "real_facility_fidelity",
+    "text_crop_compatibility",
+    "distinctiveness"
+  ],
+  "concepts": [
+    {
+      "id": "A",
+      "title": "決断の直前、ラックを見つめる",
+      "scene": "実店舗のトレーニングエリアに初めて立った一般客男性が、予約や契約を考える前に自分がここで通う姿を想像する瞬間。片手で自分のウェア袖を自然に整え、もう片方の腕は力まず下げ、実在するラックに視線を向ける。カメラは視線の少し前方に回り込む。スマホも紙もない。",
+      "emotion": "不安から決意へ向かう手前の静かな安心感。作り笑いや成功者風ポーズは避ける。",
+      "camera": "実際のラックの位置を動かさず、視線は左のラック方向、50mm相当・高さ1.3m・胸から膝上までの自然な動きの途中。人物は右60～73%の領域。35%前後の左側を文字用に保持。",
+      "copy": "体験前に、／3つだけ。の2行構成。最終行は暖色、上行は墨色。生成シーンへの文字焼き込み禁止。",
+      "risks": "ラックに寄りかかる不自然なポーズや設備移動、典型的な筋トレ宣伝写真にしない。袖を整える自然な動作を重視。",
+      "scores": {
+        "article_match": 4,
+        "photographic_impact": 3,
+        "real_facility_fidelity": 2,
+        "text_crop_compatibility": 4,
+        "distinctiveness": 4
+      },
+      "rating_note": "R3/R4/R5で実設備の再構築や人物・器具の境界不整合が実証されたため、今回の再制作では不採用。"
+    },
+    {
+      "id": "B",
+      "title": "入口から、自分の一歩を選ぶ",
+      "scene": "入口側のロビー手前に立つ一般客男性1人が、奥のトレーニング空間を眺め、体験前の確認を終えて自分で始めるか判断する瞬間。人物は受付カウンターよりカメラ側、ラックは奥の別の距離に固定。器具に触れない。",
+      "emotion": "初来店の緊張が少しほどけ、通う自分を想像する控えめな期待。作り笑いや指導者風の表情にしない。",
+      "camera": "50mm相当の中距離・腰上から頭の3/4横顔。入口側の実写真の投影を維持し、人物は右寄り、奥の設備は右奥。引きすぎず左に文字余白。",
+      "copy": "承認済み『体験前に、／3つだけ。』を左側に2行構成で配置する。文字量の追加はしない。",
+      "risks": "前景人物と奥のラックの輪郭融合、受付の向こう側に浮く身体、椅子の貫通、顔の隠れ、背景の架空化。いずれも独立QCで不採用にする。",
+      "scores": {
+        "article_match": 5,
+        "photographic_impact": 5,
+        "real_facility_fidelity": 5,
+        "text_crop_compatibility": 5,
+        "distinctiveness": 4
+      },
+      "rating_note": "Ownerが今回指定したルートB。旧Aの設備近接と固定楕円マスクの継ぎ目を避け、入口と奥の距離で物理関係を明確にする。以下は生成前の設計評価であり、実画像のQC点数ではない。"
+    },
+    {
+      "id": "C",
+      "title": "体験後の落ち着いた表情",
+      "scene": "一人の成人男性が既存ベンチに腰掛け、緊張のほぐれた表情で実在ラック側に視線を向ける。スマホなし。",
+      "emotion": "体験後、契約条件を確認して自分で決められる落ち着いた安心感と納得感。",
+      "camera": "50mm相当・やや寄りの座像、人物右。左文字スペースを確保",
+      "copy": "承認済み『体験前に、／3つだけ。』を左側に2行構成で配置する。文字量の追加はしない。",
+      "risks": "R7の座り人物と構図が近く、今回こそ必要な新鮮さを失う",
+      "scores": {
+        "article_match": 4,
+        "photographic_impact": 4,
+        "real_facility_fidelity": 5,
+        "text_crop_compatibility": 5,
+        "distinctiveness": 2
+      },
+      "rating_note": "見た目は良くなる可能性があるが、10/15 R7からの単調な反復となるため不採用"
+    }
+  ],
+  "selected_concept_id": "B",
+  "selected_total": 24,
+  "selected_justification": "Owner explicitly selected Route B in the current request: the authentic lobby / entrance view into the rear training area. This separates the foreground visitor from the rear rack in depth, removes equipment contact and the failed ellipse compositor, while preserving one customer, real facility, approved copy and all independent QC gates.",
+  "shot_contract": {
+    "lens_mm_equivalent": 50,
+    "camera_height_m": 1.3,
+    "camera_distance_m_approx": 2.4,
+    "subject_horizontal_range_pct": [
+      58,
+      80
+    ],
+    "face_x_pct_approx": 69,
+    "face_y_pct_approx": 30,
+    "body_crop": "waist to head, natural three-quarter side portrait, complete hands inside safe crop",
+    "eyeline": "look into the actual rear training area, face visible in three-quarter profile, not turned completely away",
+    "subject_action": "One first-time male visitor pauses at the entrance, body turning towards the real rear training area, hands relaxed and empty, considering his own start after checking trial terms. No phone, no paper, no sleeve adjustment, no equipment contact.",
+    "mood": "calm, natural, hopeful but understated, documentary editorial not fashion/stock advertisement",
+    "lighting": "one believable original-space warm key light, credible floor contact and shadows, gentle background optical blur",
+    "background": "authentic real THE REV entrance/reception and rear training area, exact original positions and depth",
+    "text_negative_space_pct": "left ~38%, blended ivory NOT opaque box",
+    "style": "R7-level cinematic editorial photography without copying pose or room; warm muted; realistic skin",
+    "required_outputs": [
+      "1200x675 blog thumbnail",
+      "1200x630 OGP",
+      "1200x900 GBP"
+    ],
+    "crop_safe": "Face and natural hands survive both wide and GBP 4:3 crops. Foreground body may naturally occlude a portion of rear equipment, never merge with it.",
+    "text_lines": [
+      "体験前に、",
+      "3つだけ。"
+    ],
+    "readable_thumbnail_width_px": 320
+  },
+  "quality_gate": {
+    "semantic_min": 8,
+    "photographic_owner_level_reference": "R7",
+    "do_not_auto_accept_generic_stock": true,
+    "no_other_person": true,
+    "no_trainer": true,
+    "no_camera_misrepresentation": true,
+    "no_instagram_dm": true,
+    "human_rejection_overrides_model_pass": true
+  },
+  "spend_policy": {
+    "provider": "OpenAI",
+    "backend_route": "https://api.openai.com/v1/responses using gpt-5.6 orchestration / image_generation",
+    "quality": "medium",
+    "size": "1536x1024",
+    "max_paid_generation_attempts": 1,
+    "one_scene_three_offline_derivatives": true,
+    "no_paid_fallback": true,
+    "extra_generation_requires_separate_owner_review": true,
+    "comment": "Actual yen cost unknown until OpenAI usage/cost attribution; optimizing accepted-image cost, not minimum quality",
+    "authorization": "Current owner request authorizes one additional route-B image generation only. R3/R4/R5 remain rejected; no fallback or paid regeneration.",
+    "image_model": "existing Responses image_generation edit; medium, 1536x1024"
+  },
+  "publish_policy": {
+    "blog_post": false,
+    "gbp_post": false,
+    "keep_owner_human_publish_boundary": true
+  },
+  "design_completed_before_api": true,
+  "prior_approved_brief_selected_concept": "A",
+  "revision": "2026-10-17-owner-route-b-r6",
+  "prior_failures": {
+    "R2": "Owner 30/100 rejected",
+    "R3": "facility reconstructed",
+    "R4": "masked foreground and real equipment physically incoherent",
+    "R5": "offline repair still failed independent QC"
+  },
+  "source_reuse_authorization": {
+    "owner_request": "2026-10-17 BLOG-20261018-082d82 route B entrance/lobby looking into training space",
+    "scope": "this article and r6 asset only; actual lobby source mandatory for chosen angle",
+    "recent_source_repeated": true,
+    "reason": "Explicit owner choice of real lobby, distinct visitor action and visual role; independent actual-image semantic and equipment QC still mandatory. No thresholds waived."
+  }
+}

@@ -1,0 +1,92 @@
+name: Oct21 corrected-context independent QC (no generation)
+on:
+  push:
+    branches: [ops/editorial-v082-production-receipt-20261021]
+    paths:
+      - 'editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/EXECUTION.json'
+permissions:
+  contents: write
+concurrency:
+  group: approved-oct21-image-recovery
+  cancel-in-progress: false
+jobs:
+  independent-qc:
+    if: github.ref == 'refs/heads/ops/editorial-v082-production-receipt-20261021'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GITHUB_REPO: ${{ github.repository }}
+      GITHUB_BRANCH: ops/editorial-v082-production-receipt-20261021
+      EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get install -y -qq fonts-noto-cjk
+      - name: Exact reviewed-code marker and free image admission
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          const m=JSON.parse(fs.readFileSync('editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/EXECUTION.json'));
+          if(m.action!=='EXECUTE_CORRECTED_CONTEXT_QC_ONCE'||m.generation_max_calls!==0||m.qc_max_calls!==1)throw Error('EXECUTION_SCOPE_INVALID');
+          for(const [p,sha] of Object.entries(m.reviewed_code_sha256))if(createHash('sha256').update(fs.readFileSync(p)).digest('hex')!==sha)throw Error('REVIEWED_CODE_CHANGED');
+          JS
+          node --test scripts/test-editorial-owner-finish.mjs scripts/test-editorial-oct21-qc-consistency.mjs scripts/test-editorial-oct21-layout-recovery.mjs scripts/test-editorial-oct21-image-history.mjs
+          node scripts/prepare-oct21-qc-context.mjs
+      - name: One independent full QC, no new image generation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EDITORIAL_IMAGE_DISABLE_GENERATION: '1'
+        run: node scripts/auto-editorial-hybrid-image.mjs editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/IMAGE_JOB.json
+      - name: Retain independent outcome and unchanged-image evidence
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import {createHash} from 'node:crypto';
+          const root='editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021';
+          if(!fs.existsSync(root+'/IMAGE_JOB.json'))process.exit(0);
+          const job=JSON.parse(fs.readFileSync(root+'/IMAGE_JOB.json'));
+          const read=p=>fs.existsSync(p)?JSON.parse(fs.readFileSync(p)):null;
+          const qa=read(job.qa_report_path),state=read(root+'/image-execution-state/'+job.slug+'.json');
+          const old=read('editorial/prepublication/2026-10-21-evening-strength-sleep/OWNER_SELECTED_ASSET_STAGING.json');
+          const expected=Object.fromEntries(old.assets.map(a=>[a.path.endsWith('.png')?'generated_scene_path':a.path.includes('/gbp/')?'gbp_image':a.path.includes('/og/')?'og_image':'thumbnail',a.sha256]));
+          const files=Object.entries(expected).map(([k,sha256])=>({format:k,path:job[k],sha256:fs.existsSync(job[k])?createHash('sha256').update(fs.readFileSync(job[k])).digest('hex'):null,expected_sha256:sha256}));
+          const same=files.every(x=>x.sha256===x.expected_sha256);
+          const pass=qa?.pass===true&&state?.status==='READY_CANDIDATE'&&same;
+          const result={content_id:'BLOG-20261021-4ac8fd',status:pass?'CORRECTED_CONTEXT_FULL_QC_PASS':'QC_HELD',image_qc_pass:pass,all_owner_selected_bytes_identical:same,files,qa_pass:qa?.pass??false,qa_comments:qa?.comments||state?.last_error||'NO_QC_RESULT',generation_calls:qa?.api_usage?.generation_calls??0,qc_calls:qa?.api_usage?.qc_calls??null,old_verdicts_unchanged:true,production_ready:false,production_writes:false,publish_invoked:false,run_id:process.env.GITHUB_RUN_ID,checkout_sha:process.env.GITHUB_SHA};
+          fs.writeFileSync(root+'/RESULT.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
+          JS
+          tar --ignore-failed-read -czf oct21-qc-context-evidence.tar.gz editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021 editorial/image-api-ledger/*qc-context-20261021.json .operator-rejected-evidence assets/images/*/*qc-context-20261021* assets/images/blog/og/*qc-context-20261021* 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oct21-corrected-context-qc-${{ github.run_id }}
+          path: oct21-qc-context-evidence.tar.gz
+          if-no-files-found: error
+          retention-days: 30
+      - name: Save new reports only; retain old image and verdict files
+        if: always()
+        run: |
+          git config user.name 'THE REV Editorial Recovery'
+          git config user.email 'actions@users.noreply.github.com'
+          git add editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Preserve one corrected-context independent QC; no image generation or production adoption'
+          git pull --rebase --autostash origin "$GITHUB_BRANCH"
+          git push origin HEAD:"$GITHUB_BRANCH"
+      - name: Fail closed on QC or byte mismatch
+        if: always()
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const p='editorial/prepublication/2026-10-21-evening-strength-sleep/image-qc-context-20261021/RESULT.json';
+          if(!fs.existsSync(p)||JSON.parse(fs.readFileSync(p)).image_qc_pass!==true)throw Error('QC_NOT_ACCEPTED; retain evidence; no retry or adoption');
+          JS

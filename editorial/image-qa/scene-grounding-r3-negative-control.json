@@ -1,0 +1,129 @@
+{
+  "control_pass": true,
+  "checked_at": "2026-10-07T05:21:03.118Z",
+  "evidence": {
+    "version": "the-rev-source-scene-v1",
+    "pass": false,
+    "errors": [
+      "generated_unsupported_equipment:training_rack@reception",
+      "article_scene_match",
+      "action_location_consistency",
+      "training_action_in_reception",
+      "spatial_plausibility",
+      "article_scene_match_visual",
+      "observed_plan_mismatch:human_action",
+      "observed_plan_mismatch:visual_role",
+      "observed_plan_mismatch:article_intent"
+    ],
+    "inventory": {
+      "version": "the-rev-source-scene-v1",
+      "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+      "primary_location": "reception",
+      "subject_zone": "reception",
+      "visible_equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        }
+      ],
+      "allowed_generated_actions": [
+        "enter",
+        "prepare",
+        "rest",
+        "compare_notes",
+        "review_paper",
+        "observe_facility"
+      ],
+      "forbidden_generated_objects": [
+        "medical_device",
+        "unverified_training_equipment"
+      ],
+      "suitable_article_intents": [
+        "facility_selection",
+        "health_before_start",
+        "readiness",
+        "training_start"
+      ],
+      "verification": {
+        "method": "source image visual inspection + canonical scoped registry",
+        "verified_at": "2026-10-07",
+        "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+      }
+    },
+    "plan": {
+      "version": "the-rev-source-scene-v1",
+      "source_id": "the-rev-lobby-sp-20260927",
+      "source_sha256": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+      "scene_type": "personal_choice",
+      "location_type": "reception",
+      "human_action": "compare_notes",
+      "composition_type": "medium_seated_portrait",
+      "visual_role": "deciding_own_start",
+      "article_intent": "facility_selection",
+      "required_equipment": [],
+      "subject_zone": "reception",
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "compared": 0,
+        "unknown_count": 0,
+        "penalty": 0,
+        "matches": []
+      }
+    },
+    "sourceRecognition": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        }
+      ]
+    },
+    "observation": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "reception"
+        },
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        }
+      ],
+      "location_type": "reception",
+      "subject_zone": "reception",
+      "human_action": "rack_adjustment",
+      "equipment_relocated": true,
+      "room_geometry_preserved": true,
+      "article_scene_match": false,
+      "scene_fingerprint": {
+        "scene_type": "equipment_orientation",
+        "location_type": "reception",
+        "human_action": "rack_adjustment",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "checking_readiness",
+        "article_intent": "readiness"
+      }
+    },
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 0,
+      "unknown_count": 0,
+      "penalty": 0,
+      "matches": []
+    },
+    "recent": [],
+    "asset_version": "reference-v26-auto-lobby-sp-20260927-19f594ac-r3",
+    "asset_hashes": {
+      "source": "ca64249d26efba5cf664c955ce7e00e9280e72c29bfb148e74ba59296e408662",
+      "scene": "ad2ec0288a276cf12b65a09c9e40769af040b729f206532b4500f1e0438c6308",
+      "thumbnail": "5e3fd24006b8c17ae1fee62cf86e9912c4ec6b85a11575cb1e069d6ff9d51c33",
+      "og": "629d6fa3792adca847e6d7850ed2451a0a64e8d4d427280024efa9d91919c682",
+      "gbp": "8965acb065fde07171258cf76131b96ed26bb576e1b27842157846f59d0eb2f4"
+    },
+    "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
+  }
+}

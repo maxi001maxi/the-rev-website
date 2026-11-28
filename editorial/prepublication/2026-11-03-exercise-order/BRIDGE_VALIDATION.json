@@ -1,0 +1,54 @@
+{
+  "envelope": {
+    "errors": [],
+    "value": {
+      "contentId": "BLOG-20261103-9b1ae7",
+      "weekStart": "2026-11-02",
+      "editorialStatus": "READY",
+      "factCheckStatus": "PASS",
+      "topicGateDecision": "PUBLISH",
+      "category": "training",
+      "ctaType": "personal-training"
+    }
+  },
+  "metadata": {
+    "editorial_text_qc": {
+      "schema": "editorial-text-qc-v1",
+      "content_id": "BLOG-20261103-9b1ae7",
+      "body_sha256": "6cff2efa5a4d9f7c577d426d04f355d396464991f9dfe94c6582767444d45df2",
+      "evidence_sha256": "1dc7a9517c91f4df5d7a683e4c58472ea00e63146b42a11899b3aff200d129d3",
+      "pass": true,
+      "total": 19,
+      "source_unverified": false,
+      "issues": [],
+      "version": "v0.8.2",
+      "review_method": "ChatGPT Work in-conversation research and editorial review; no paid AI API",
+      "external_ai_api_calls": 0
+    },
+    "content_id": "BLOG-20261103-9b1ae7",
+    "week_start": "2026-11-02",
+    "editor_score": 19,
+    "fact_check_status": "PASS",
+    "topic_gate_score": 80,
+    "topic_gate_decision": "PUBLISH",
+    "primary_query": "筋トレ 種目 順番 最初",
+    "article_type": "STANDARD",
+    "source_doc_url": ""
+  },
+  "text_qc": {
+    "pass": true,
+    "checks": {
+      "proof_present": true,
+      "evidence_recorded": true,
+      "content_id_matches": true,
+      "independent_pass": true,
+      "body_matches": true
+    },
+    "missing": []
+  },
+  "normalized_fields_valid": true,
+  "publish_fields_errors": [],
+  "sync_hash": "5cdda12d92aaea83dded90b368b96f51f32b1b8118e2a358c33ab87ce8812f06",
+  "write_method": "Connected Supabase operator will insert this exact canonical payload under the existing publisher account; HTTP bridge is not invoked.",
+  "external_ai_api_calls": 0
+}

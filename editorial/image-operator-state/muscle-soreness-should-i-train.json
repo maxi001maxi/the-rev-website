@@ -1,0 +1,16 @@
+{
+  "slug": "muscle-soreness-should-i-train",
+  "status": "READY_CANDIDATE",
+  "attempts_total": 1,
+  "max_attempts": 3,
+  "job_path": "editorial/hybrid-image-jobs/muscle-soreness-should-i-train.json",
+  "generated_scene_path": "assets/images/editorial-generated/muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924-scene.png",
+  "thumbnail": "assets/images/blog/thumb-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+  "og_image": "assets/images/blog/og/og-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+  "gbp_image": "assets/images/gbp/gbp-muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.jpg",
+  "qa_report_path": "editorial/image-qa/muscle-soreness-should-i-train-reference-v26-grounded-auto-evolgear-20260922-5a8f5924.json",
+  "asset_version": "reference-v26-grounded-auto-evolgear-20260922-5a8f5924",
+  "updated_at": "2026-11-17T09:58:25.217Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-11-17T09:58:40Z"
+}

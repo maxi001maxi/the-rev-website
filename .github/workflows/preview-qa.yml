@@ -1,0 +1,135 @@
+# THE REV. — Explicit Preview QA
+#
+# Canon:
+#   docs/operations/VERCEL_RELEASE_POLICY_V1.md
+#
+# Automatic Git deployments are disabled in vercel.json.
+# This workflow never creates a Vercel deployment. A release operator (ChatGPT Work,
+# Vercel MCP, or human CLI fallback) creates exactly one explicit Preview candidate,
+# then passes its URL here for browser / external-link QA.
+#
+# This prevents every intermediate Git commit from consuming Hobby deployment quota.
+name: Preview QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Explicitly-created Vercel Preview URL'
+        required: true
+        type: string
+      deployment_sha:
+        description: 'Exact Git SHA represented by the Preview'
+        required: true
+        type: string
+      label:
+        description: 'Acceptance label'
+        required: false
+        type: string
+        default: 'Preview Candidate'
+
+permissions:
+  contents: write
+
+jobs:
+  resolve-preview:
+    runs-on: ubuntu-latest
+    outputs:
+      base_url: ${{ steps.target.outputs.base_url }}
+    steps:
+      - name: Bind explicit Preview target
+        id: target
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          DEPLOYMENT_SHA: ${{ inputs.deployment_sha }}
+        run: |
+          set -eu
+          case "$BASE_URL" in
+            https://*.vercel.app|https://*.therev-lab.com) ;;
+            *)
+              echo "::error::base_url must be an approved Vercel/THE REV host"
+              exit 1
+              ;;
+          esac
+          base="${BASE_URL%/}"
+          echo "Preview: $base"
+          echo "Git SHA: $DEPLOYMENT_SHA"
+          echo "base_url=$base" >> "$GITHUB_OUTPUT"
+          {
+            echo "# Preview QA target"
+            echo ""
+            echo "- URL: `$base`"
+            echo "- Git SHA: `$DEPLOYMENT_SHA`"
+            echo "- Trigger: explicit workflow_dispatch"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  visual:
+    needs: resolve-preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright (chromium only)
+        run: npm i -D playwright@1.55.0 && npx playwright install --with-deps chromium
+
+      - name: Visual QA against ${{ needs.resolve-preview.outputs.base_url }}
+        env:
+          BASE_URL: ${{ needs.resolve-preview.outputs.base_url }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          OUT_DIR: qa-out
+          LITE_DIR: qa-lite
+        run: node .github/qa/visual-qa.mjs
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-visual-qa
+          path: qa-out
+          retention-days: 7
+
+      - name: Publish lite screenshots to a throwaway branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: qa/preview-shots-${{ github.run_id }}
+        run: |
+          set -eu
+          workdir="$(mktemp -d)"
+          cp -R qa-lite/. "$workdir"/
+          cd "$workdir"
+          git init -q -b "$BRANCH"
+          git config user.email "noreply@anthropic.com"
+          git config user.name "Preview QA"
+          git add -A
+          git commit -q -m "Preview visual QA screenshots (throwaway branch; safe to delete)"
+          git push -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/${BRANCH}"
+          echo "screenshots branch: ${BRANCH}"
+
+  external-links:
+    needs: resolve-preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: External link check against ${{ needs.resolve-preview.outputs.base_url }}
+        env:
+          BASE_URL: ${{ needs.resolve-preview.outputs.base_url }}
+          VERCEL_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node .github/qa/external-links.mjs
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-links
+          path: external-links.json
+          retention-days: 7

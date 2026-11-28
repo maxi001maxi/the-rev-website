@@ -1,0 +1,105 @@
+name: Xserver FTPS read-only diagnosis
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/xserver-ftps-diagnostic.yml']
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check control, TLS and read-only index transfer
+        env:
+          FTP_HOST: sv14602.xserver.jp
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          python3 - <<'PY'
+          import socket, ssl, ftplib, os, json, hashlib, time
+          host=os.environ['FTP_HOST']
+          report={'read_only':True,'remote_writes':0,'host':host,'stages':[]}
+          def safe(e):
+              s=type(e).__name__+': '+str(e)
+              for key in ('FTP_USER','FTP_PASSWORD'):
+                  value=os.environ.get(key,'')
+                  if value:s=s.replace(value,'[REDACTED]')
+              return s[:500]
+          def run(name, fn):
+              start=time.monotonic()
+              try:
+                  value=fn()
+                  report['stages'].append({'stage':name,'status':'PASS','seconds':round(time.monotonic()-start,2),'detail':value})
+                  return True
+              except Exception as e:
+                  report['stages'].append({'stage':name,'status':'FAIL','seconds':round(time.monotonic()-start,2),'detail':safe(e)})
+                  return False
+          addresses=[]
+          run('dns',lambda: addresses.extend(socket.getaddrinfo(host,21,type=socket.SOCK_STREAM)) or sorted(set(a[4][0] for a in addresses)))
+          def tcp():
+              with socket.create_connection((host,21),timeout=15) as s:
+                  s.settimeout(15)
+                  return s.recv(256).decode(errors='replace').strip()
+          if run('tcp_banner',tcp):
+              ftp=ftplib.FTP_TLS(context=ssl.create_default_context(),timeout=15)
+              try:
+                  if run('ftp_connect',lambda: ftp.connect(host,21,timeout=15)):
+                      if run('verified_tls',lambda: ftp.auth()):
+                          if run('login',lambda: ftp.login(os.environ['FTP_USER'],os.environ['FTP_PASSWORD'])):
+                              if run('private_data',lambda: ftp.prot_p()):
+                                  data=bytearray()
+                                  def receive(chunk):
+                                      data.extend(chunk)
+                                      if len(data)>5000000:raise ValueError('index exceeds safe read limit')
+                                  if run('read_index',lambda: ftp.retrbinary('RETR index.html',receive)):
+                                      report['index']={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+                  ftp.close()
+              finally:ftp.close()
+          with open('xserver-ftps-diagnostic.json','w') as f:json.dump(report,f,indent=2)
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Compare encrypted lftp read-only handshakes
+        env:
+          FTP_HOST: sv14602.xserver.jp
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          python3 - <<'PY'
+          import os,subprocess,json,pathlib,hashlib
+          rows=[]
+          common=['set ftp:ssl-force true','set ftp:ssl-protect-data true','set ftp:ssl-protect-list true','set ftp:passive-mode true','set ssl:verify-certificate yes','set cmd:fail-exit yes','set net:max-retries 1','set net:timeout 10']
+          for name,extra in [('baseline',[]),('direct_auth_tls',['set ftp:use-feat no','set ftp:ssl-auth TLS'])]:
+              target='ftps-'+name+'-index.html'
+              commands='\n'.join(common+extra+['get index.html -o '+target,'cls -1 / > '+name+'-root-list.txt','cls -1 /blog > '+name+'-blog-list.txt','bye'])+'\n'
+              proc=subprocess.Popen(['lftp','-d','-u',os.environ['FTP_USER']+','+os.environ['FTP_PASSWORD'],os.environ['FTP_HOST']],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
+              try:output,_=proc.communicate(commands,timeout=40)
+              except subprocess.TimeoutExpired:
+                  proc.kill();output,_=proc.communicate()
+              for key in ('FTP_USER','FTP_PASSWORD'):
+                  value=os.environ.get(key,'')
+                  if value:output=output.replace(value,'[REDACTED]')
+              for line in output.splitlines():
+                  if 'PASS ' in line:output=output.replace(line,'[AUTHENTICATION COMMAND REDACTED]')
+              output='\n'.join(line for line in output.splitlines() if not line.startswith('<--- ') or __import__('re').match(r'^<--- [245][0-9][0-9] ',line))
+              row={'variant':name,'returncode':proc.returncode,'safe_protocol_trace':output[-10000:],'remote_writes':0}
+              for directory in ('root','blog'):
+                  listing=pathlib.Path(name+'-'+directory+'-list.txt')
+                  if listing.exists():row[directory+'_listing_count']=len(listing.read_text().splitlines())
+              p=pathlib.Path(target)
+              if p.exists():row['index']={'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+              rows.append(row)
+          with open('xserver-lftp-diagnostic.json','w') as f:json.dump(rows,f,indent=2)
+          print(json.dumps(rows,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xserver-ftps-diagnostic-${{ github.run_id }}
+          path: |
+            xserver-ftps-diagnostic.json
+            xserver-lftp-diagnostic.json
+          retention-days: 14

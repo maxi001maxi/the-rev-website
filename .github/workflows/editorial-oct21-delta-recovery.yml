@@ -1,0 +1,93 @@
+name: Oct21 exact staged-image delta recovery
+on:
+  push:
+    branches: [fix/editorial-xserver-staged-recovery-20261021]
+    paths: ['scripts/xserver-asset-delta.mjs']
+permissions:
+  contents: write
+concurrency:
+  group: approved-oct21-image-recovery
+  cancel-in-progress: false
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --test scripts/test-xserver-incremental.mjs scripts/test-xserver-deploy-plan.mjs
+      - name: Prepare normal delta from immutable Oct21 accepted job
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';
+          const m=JSON.parse(fs.readFileSync('editorial/image-acceptance/night-workout-sleep-timing-intensity.json'));
+          const job=JSON.parse(fs.readFileSync(m.job_path)),qa=JSON.parse(fs.readFileSync(job.qa_report_path));
+          if(m.content_id!=='BLOG-20261021-4ac8fd'||m.asset_version!=='reference-v082-evolgear-r5-qc-context-20261021'||qa.pass!==true||qa.r7_comparison?.pass!==true)throw Error('RECOVERY_SCOPE_INVALID');
+          const files=[];
+          for(const [kind,p] of [['scene',job.generated_scene_path],['thumbnail',job.thumbnail],['og',job.og_image],['gbp',job.gbp_image]]){
+            const bytes=fs.readFileSync(p);if(createHash('sha256').update(bytes).digest('hex')!==qa.scene_grounding.asset_hashes[kind])throw Error('QC_SHA_MISMATCH');
+            const dest='dist/'+p;fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,bytes);files.push(p);
+          }
+          fs.writeFileSync('.delta-assets',files.join('\n')+'\n');
+          JS
+          node scripts/xserver-asset-delta.mjs --mode prepare --before a9a8d9d0d32952858f31676b620ac1206d5b570f --paths .delta-assets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oct21-safe-delta-preimage-${{ github.run_id }}
+          path: delta-backup/
+          if-no-files-found: error
+      - name: Upload only missing exact scene; do not overwrite staged JPEGs
+        id: upload
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$XSERVER_FTP_USER"
+          test -n "$XSERVER_FTP_PASSWORD"
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp <<'FTP'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set ssl:verify-certificate yes
+          set net:max-retries 1
+          set net:timeout 25
+          set cmd:fail-exit yes
+          source .delta-upload.lftp
+          bye
+          FTP
+      - name: Verify four exact live assets by normal delta verifier
+        id: verify
+        run: node scripts/xserver-asset-delta.mjs --mode verify
+      - name: Restore only this run's new file if upload or verification fails
+        if: ${{ failure() && (steps.upload.outcome == 'failure' || steps.verify.outcome == 'failure') }}
+        env:
+          XSERVER_FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          XSERVER_FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          lftp -u "$XSERVER_FTP_USER","$XSERVER_FTP_PASSWORD" sv14602.xserver.jp <<'FTP'
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set cmd:fail-exit yes
+          source .delta-rollback.lftp
+          bye
+          FTP
+          node scripts/xserver-asset-delta.mjs --mode verify-rollback
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oct21-safe-delta-result-${{ github.run_id }}
+          path: |
+            delta-backup/manifest.json
+            .delta-upload.lftp
+            .delta-rollback.lftp

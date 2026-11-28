@@ -1,0 +1,99 @@
+{
+  "status": "PREPARED_NOT_APPLIED",
+  "draft_id": "4b7b2a01-cc78-48fd-8bd8-76dfadff0ce8",
+  "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+  "base_main": "bfecf96e0e812e2ee412b16b032b3962424a389e",
+  "publish_article": false,
+  "post_gbp": false,
+  "required_delivery": "main asset/QC files + Xserver image delivery before Draft reference update",
+  "before": {
+    "title": "新大宮で完全予約制のパーソナルジムを探す方へ｜THE REV.の設備と過ごし方",
+    "status": "draft",
+    "publish_status": "NOT_PUBLISHED",
+    "source_path": null,
+    "published_url": null,
+    "image_asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2",
+    "thumbnail": "/assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
+    "og_image": "/assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
+    "gbp_image": "/assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.jpg",
+    "image_job_path": "editorial/hybrid-image-jobs/shinomiya-personal-gym-reservation-facility-the-rev.json",
+    "image_qa_report_path": "editorial/image-qa/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2.json",
+    "body_hash": "734264b5ab663e07aec759a8ff88bec1",
+    "updated_at": "2026-10-03 02:09:18.205827+00"
+  },
+  "planned_image_fields": {
+    "thumbnail": "/assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+    "og_image": "/assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+    "gbp_image": "/assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+    "image_asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+    "gbp_image_asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+    "image_job_path": "editorial/draft-image-updates/shinomiya-personal-gym-reservation-facility-the-rev/golden-v1-balance-r2/render-job.json",
+    "image_qa_report_path": "editorial/image-qa/shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.json"
+  },
+  "assets": [
+    {
+      "variant": "thumbnail",
+      "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+      "sha256": "7131df1a9672c9ea7cf6e9800e2092d449b997baef74044e12ff2a242ef51892",
+      "bytes": 183862
+    },
+    {
+      "variant": "thumbnail",
+      "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-320.jpg",
+      "sha256": "0f5a061ac476f2c08900df29566db5468688626ee95a9c7171aa64c8ae40ae73",
+      "bytes": 22178
+    },
+    {
+      "variant": "thumbnail",
+      "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-400.jpg",
+      "sha256": "deea08385004794d899b3b7fd39f2fa0ee02f52670657bc960e1bcda8c571cfa",
+      "bytes": 29814
+    },
+    {
+      "variant": "og",
+      "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+      "sha256": "df5e10faebf3ea30f0205a1a3d8b8c454e9fe54b70a88ad3e096210559c58cad",
+      "bytes": 178249
+    },
+    {
+      "variant": "og",
+      "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-320.jpg",
+      "sha256": "37e004a70098b07926ef1f8b809bbd4832059f73563e2f741e95e9ef12331e1f",
+      "bytes": 20851
+    },
+    {
+      "variant": "og",
+      "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-400.jpg",
+      "sha256": "9a8706ce2c5a057a26289f299c339083a7f464edbc733b0a413b3e8393cc1c1d",
+      "bytes": 28871
+    },
+    {
+      "variant": "gbp",
+      "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+      "sha256": "27c60bda294b5647173fc31bb65b38795241d1b985e7299170b95d73f40a8bb8",
+      "bytes": 281987
+    },
+    {
+      "variant": "gbp",
+      "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-320.jpg",
+      "sha256": "2fc60a0cb4499676b0f29892a9171a4ef17363559b8f0a3c60533d8ab4b78d2e",
+      "bytes": 32954
+    },
+    {
+      "variant": "gbp",
+      "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2-preview-400.jpg",
+      "sha256": "48594db16f1c8f7b731c4dbbc2a4fee99a9a9077c54555ed7c178e8ac5bd412a",
+      "bytes": 45545
+    }
+  ],
+  "scene_sha256": "87c9c61705d7298c14bdddabaf7f800ee6a260e5523c1cf05805eb2e5625b9b0",
+  "photo_generation_calls": 0,
+  "apply_requirements": [
+    "User approval of asset-only main delivery because original instruction prohibits main merge.",
+    "Exact delivery commit Deploy to Xserver success.",
+    "All three live JPEG bytes match asset SHA256; previews and QA remain repository evidence.",
+    "Fresh target Draft still unpublished and its old image version unchanged; preserve title/body and publish fields.",
+    "Scoped image-only update; add github/live QA flags only after verification.",
+    "Read back Draft image fields and body hash; verify actual management UI after sign-in."
+  ]
+}

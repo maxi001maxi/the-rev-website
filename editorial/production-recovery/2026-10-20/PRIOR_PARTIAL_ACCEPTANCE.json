@@ -1,0 +1,87 @@
+{
+  "decision": "PARTIAL",
+  "condition_A": "BLOCKED",
+  "condition_B": "PARTIAL_IMPLEMENTED_NOT_DEPLOYED",
+  "DRY_RUN_PASS": {
+    "result": true,
+    "scope": "Connected application path with fixed external services; not installed GAS or live authenticated UI"
+  },
+  "REAL_DATA_PASS": false,
+  "EXTERNAL_VERIFICATION_PENDING": [
+    "GAS installed code and triggers",
+    "Owner-authorized main merge and Vercel/GAS deployment",
+    "Approved image production and Xserver sync",
+    "Authenticated Console PC/mobile/reservation/SEO Preflight"
+  ],
+  "BLOCKED": [
+    "Independent text QC rejected both exact candidate bodies; latest18/20, source_unverified=true",
+    "Image version exhausted two attempts and is rejected",
+    "New source/person/compositor design not validated",
+    "GitHub assets absent and production image GET 404 for all three formats",
+    "CMS remains Working Draft without Bridge hash"
+  ],
+  "article_id": "BLOG-20261021-4ac8fd",
+  "draft_id": "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+  "draft_pr": "https://github.com/maxi001maxi/the-rev-website/pull/266",
+  "issue": "https://github.com/maxi001maxi/the-rev-website/issues/264",
+  "implementation_sha": "11060ee5e95610fa80f578aceb5df9cbc6264dfd",
+  "phase9_ci": "https://github.com/maxi001maxi/the-rev-website/actions/runs/39362856567",
+  "connected_ci": "https://github.com/maxi001maxi/the-rev-website/actions/runs/39362856565",
+  "actual_qc_and_readonly_probe": "https://github.com/maxi001maxi/the-rev-website/actions/runs/39362851581",
+  "paid_workflow_failure_classification": "QUALITY_REJECTION; API HTTP200 completed, not infrastructure failure",
+  "production_deployed": false,
+  "production_db_changed_by_this_work": false,
+  "published": false,
+  "gbp_posted": false,
+  "api_usage": {
+    "scope": "This Work execution only; previous image runs accounted separately",
+    "text_qc_calls": 2,
+    "new_image_generation_calls": 0,
+    "new_visual_qc_calls": 0,
+    "input_tokens": 6754,
+    "output_tokens": 1566,
+    "total_tokens": 8320,
+    "confirmed_cost": null,
+    "cost_reason": "Responses supplied token usage, not billed USD. No billing data retrieved.",
+    "calls": [
+      {
+        "request_id": "req_5132beae5d104cfb807c551661e7ae18",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 3398,
+          "input_tokens_details": {
+            "cache_write_tokens": 3395,
+            "cached_tokens": 0
+          },
+          "output_tokens": 711,
+          "output_tokens_details": {
+            "reasoning_tokens": 356
+          },
+          "total_tokens": 4109
+        },
+        "pass": false,
+        "total": 19,
+        "body_sha256": "0071e929f34aef5121f9f62a0ee5f212f97c9f91b1a1df0875758104ffef50be"
+      },
+      {
+        "request_id": "req_885cd030abb642d784f4c82adebcbb26",
+        "model": "gpt-5.6-sol",
+        "usage": {
+          "input_tokens": 3356,
+          "input_tokens_details": {
+            "cache_write_tokens": 3353,
+            "cached_tokens": 0
+          },
+          "output_tokens": 855,
+          "output_tokens_details": {
+            "reasoning_tokens": 394
+          },
+          "total_tokens": 4211
+        },
+        "pass": false,
+        "total": 18,
+        "body_sha256": "f8ae09cce8d17253c5e82001cbf625ef606a9122881907c232ff61cc36c730f3"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1570 @@
+{
+  "slug": "night-workout-sleep-timing-intensity",
+  "status": "ERROR",
+  "attempts_total": 1,
+  "max_attempts": 1,
+  "last_error": "文字設計と時計確認の意味性、単独顧客、夜の雰囲気、ソース空間の保持は合格水準。ただしhuman-first-v1で必須の自然な背景ボケが不足し、巨大なラックが人物と同等に鋭く残る。R7基準の人物優先・背景二次化を満たさないため最終不合格。",
+  "last_qa": {
+    "pass": false,
+    "thumbnail_typography_visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true
+      }
+    },
+    "visual_art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true
+        }
+      },
+      "comments": "3形式とも実寸プレビューで見出しが即読でき、「何時まで？」を暖色かつ大きくした階層はゴールデンの文法に合う。改行も「夜の筋トレ、／何時まで？」という完結した自然な単位で、孤立文字や助詞分離はない。ワイドは写真と見出しが二つの焦点として成立し、GBPも左中央の局所的な曲面ベールで顔・手首・身体を避けている。アイボリー領域は短い見出しを支える目的があり、白板状の直線パネルには見えない。"
+    },
+    "series_consistency": 8,
+    "editorial_quality": 8,
+    "typography_harmony": 9,
+    "negative_space": 8,
+    "photo_treatment": 7,
+    "article_visual_relevance": 9,
+    "main_claim_visualization": 9,
+    "human_subject_prominence": 8,
+    "human_visual_attention_share": 62,
+    "face_expression_readable": true,
+    "background_secondary_pass": true,
+    "background_soft_blur_pass": false,
+    "the_rev_anchor_visible": true,
+    "customer_presentation_matches_plan": true,
+    "article_theme_inferable_without_title": true,
+    "scene_action_has_article_specific_meaning": true,
+    "generic_passive_pose_without_article_reason": false,
+    "rev_environment_consistency": 9,
+    "brand_space_authenticity": 8,
+    "human_environment_integration": 8,
+    "perspective_scale_consistency": 9,
+    "ground_contact_shadow_consistency": 8,
+    "lighting_consistency": 8,
+    "anatomy_pose_realism": 8,
+    "no_cutout_or_sticker_look": true,
+    "location_semantics_pass": true,
+    "location_behavior_plausible": true,
+    "service_misrepresentation_absent": true,
+    "unsupported_equipment_absent": true,
+    "scene_plausible_at_the_rev": true,
+    "exercise_pose_plausible": true,
+    "manual_visual_rejection": true,
+    "trainer_present": false,
+    "unknown_trainer_present": false,
+    "non_customer_people_present": false,
+    "customer_only_or_no_people": true,
+    "generated_customer_present": true,
+    "generated_customer_count": 1,
+    "facility_only_thumbnail": false,
+    "real_the_rev_background_confirmed": true,
+    "expected_copy_present": true,
+    "copy_legible": true,
+    "headline_line_break_quality": true,
+    "headline_balance_score": 9,
+    "too_promotional": false,
+    "gbp_aspect_ratio_pass": true,
+    "gbp_safe_area_pass": true,
+    "gbp_copy_legible": true,
+    "owner_finish_qc": {
+      "japanese_customer_brief_matches": true,
+      "night_atmosphere_visible": true,
+      "approved_composition_preserved": true,
+      "room_geometry_preserved": true,
+      "equipment_layout_preserved": true,
+      "hands_watch_gaze_natural": true,
+      "no_cutout_or_hard_restore": true,
+      "all_three_formats_readable": true,
+      "comments": "成人男性の提示、暗いブラインド外景と暖色室内光、時計へ向く視線と指先は意図に合う。人物の接地・光・輪郭も概ね自然で、ソースのラック、プレート、ケーブル、床、梁、鏡の配置は維持されている。国籍や本人性を断定する評価ではない。"
+    },
+    "r7_comparison": {
+      "pass": false,
+      "comments": "人物の解剖、時計を見る動作、接地影、室内光へのなじみは良好だが、Oct15 R7の自然な浅い被写界深度と比べてラック、滑車、ボルト、プレートまで全域が硬く鮮明である。人物と背景の焦点分離が弱く、機材の再構成感と情報量がカードサイズでも前に出るため、R7相当の人間中心の写真処理には未到達。3形式とも同一の未ぼけ背景を引き継いでいる。",
+      "variants": {
+        "thumbnail": false,
+        "og": false,
+        "gbp": false
+      }
+    },
+    "comments": "文字設計と時計確認の意味性、単独顧客、夜の雰囲気、ソース空間の保持は合格水準。ただしhuman-first-v1で必須の自然な背景ボケが不足し、巨大なラックが人物と同等に鋭く残る。R7基準の人物優先・背景二次化を満たさないため最終不合格。",
+    "scene_grounding_version": "the-rev-source-scene-v1",
+    "scene_grounding": {
+      "version": "the-rev-source-scene-v1",
+      "pass": true,
+      "errors": [],
+      "inventory": {
+        "version": "the-rev-source-scene-v1",
+        "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "primary_location": "training_area",
+        "subject_zone": "training_area",
+        "visible_equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "cable_machine",
+            "zone": "training_area"
+          },
+          {
+            "object": "barbell",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "allowed_generated_actions": [
+          "prepare",
+          "rest",
+          "observing_real_equipment",
+          "rack_adjustment",
+          "cable_operation",
+          "barbell_operation",
+          "strength_exercise"
+        ],
+        "forbidden_generated_objects": [
+          "medical_device",
+          "unverified_training_equipment"
+        ],
+        "suitable_article_intents": [
+          "facility_selection",
+          "health_before_start",
+          "readiness",
+          "training_start",
+          "training_execution",
+          "training_progress"
+        ],
+        "verification": {
+          "method": "source image visual inspection + canonical scoped registry",
+          "verified_at": "2026-10-07",
+          "note": "Rack visible at the rear of lobby photos is not permission to move/duplicate it into reception. New assets require recognition plus canonical approval, not per-job hand entry."
+        }
+      },
+      "plan": {
+        "version": "the-rev-source-scene-v1",
+        "source_id": "the-rev-evolgear-20260922",
+        "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "scene_type": "before_start",
+        "location_type": "training_area",
+        "human_action": "prepare",
+        "composition_type": "medium_three_quarter_portrait",
+        "visual_role": "checking_readiness",
+        "article_intent": "readiness",
+        "required_equipment": [],
+        "subject_zone": "training_area",
+        "article_specific_directive": "One ordinary adult customer pauses at the end of training and checks their wristwatch to decide when to finish; no equipment operation.",
+        "similarity": {
+          "pass": true,
+          "window": 12,
+          "compared": 12,
+          "unknown_count": 0,
+          "penalty": 0.6666666666666666,
+          "matches": [
+            {
+              "slug": "personal-gym-first-session-pain-health-history",
+              "score": 0.3333333333333333,
+              "equal": [
+                "scene_type",
+                "human_action"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "the-rev-trial-three-menus-first-visit",
+              "score": 0.16666666666666666,
+              "equal": [
+                "composition_type"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "nekose-strength-training-posture",
+              "score": 0.3333333333333333,
+              "equal": [
+                "scene_type",
+                "visual_role"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "pre-workout-stretching-duration",
+              "score": 0.6666666666666666,
+              "equal": [
+                "scene_type",
+                "location_type",
+                "human_action",
+                "visual_role"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "denba-health-device-mat-role",
+              "score": 0,
+              "equal": [],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "shinomiya-gym-beginner-choose",
+              "score": 0.5,
+              "equal": [
+                "scene_type",
+                "location_type",
+                "human_action"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "desk-work-stand-every-30-minutes",
+              "score": 0.16666666666666666,
+              "equal": [
+                "composition_type"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "boxing-beginner-scared-before-mitt-training",
+              "score": 0,
+              "equal": [],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "denba-electric-potential-space-radio-wave-difference",
+              "score": 0,
+              "equal": [],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+              "score": 0.16666666666666666,
+              "equal": [
+                "scene_type"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "beginner-strength-training-few-exercises-frequency",
+              "score": 0.16666666666666666,
+              "equal": [
+                "location_type"
+              ],
+              "hard_exclusion": false
+            },
+            {
+              "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+              "score": 0.16666666666666666,
+              "equal": [
+                "location_type"
+              ],
+              "hard_exclusion": false
+            }
+          ]
+        }
+      },
+      "sourceRecognition": {
+        "complete": true,
+        "equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ]
+      },
+      "observation": {
+        "complete": true,
+        "equipment": [
+          {
+            "object": "training_rack",
+            "zone": "training_area"
+          },
+          {
+            "object": "weight_plates",
+            "zone": "training_area"
+          },
+          {
+            "object": "training_bench",
+            "zone": "training_area"
+          }
+        ],
+        "location_type": "training_area",
+        "subject_zone": "training_area",
+        "human_action": "prepare",
+        "equipment_relocated": false,
+        "room_geometry_preserved": true,
+        "article_scene_match": true,
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "wide_full_body",
+          "visual_role": "checking_readiness",
+          "article_intent": "readiness"
+        }
+      },
+      "similarity": {
+        "pass": true,
+        "window": 12,
+        "compared": 12,
+        "unknown_count": 0,
+        "penalty": 0.8333333333333334,
+        "matches": [
+          {
+            "slug": "personal-gym-first-session-pain-health-history",
+            "score": 0.3333333333333333,
+            "equal": [
+              "scene_type",
+              "human_action"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "the-rev-trial-three-menus-first-visit",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "nekose-strength-training-posture",
+            "score": 0.3333333333333333,
+            "equal": [
+              "scene_type",
+              "visual_role"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "pre-workout-stretching-duration",
+            "score": 0.8333333333333334,
+            "equal": [
+              "scene_type",
+              "location_type",
+              "human_action",
+              "composition_type",
+              "visual_role"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-health-device-mat-role",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "shinomiya-gym-beginner-choose",
+            "score": 0.6666666666666666,
+            "equal": [
+              "scene_type",
+              "location_type",
+              "human_action",
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "desk-work-stand-every-30-minutes",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "boxing-beginner-scared-before-mitt-training",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "denba-electric-potential-space-radio-wave-difference",
+            "score": 0,
+            "equal": [],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+            "score": 0.16666666666666666,
+            "equal": [
+              "scene_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "beginner-strength-training-few-exercises-frequency",
+            "score": 0.16666666666666666,
+            "equal": [
+              "location_type"
+            ],
+            "hard_exclusion": false
+          },
+          {
+            "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+            "score": 0.3333333333333333,
+            "equal": [
+              "location_type",
+              "composition_type"
+            ],
+            "hard_exclusion": false
+          }
+        ]
+      },
+      "recent": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "checkedAt": "2026-10-15T03:46:44.330Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "assetVersion": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+          "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+          "customerPresentation": "female",
+          "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "considering_health_report",
+            "article_intent": "health_before_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "safe_first_step",
+            "article_intent": "health_before_start"
+          }
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "checkedAt": "2026-10-14T02:01:11.756Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+          "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+          "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+          "customerPresentation": "male",
+          "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+          "sceneFingerprint": {
+            "scene_type": "arrival",
+            "location_type": "reception",
+            "human_action": "observe_facility",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "first_visit_reassurance",
+            "article_intent": "facility_selection"
+          },
+          "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "reception",
+            "human_action": "observe_facility",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "checkedAt": "2026-10-13T01:53:31.806Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+          "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+          "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+          "customerPresentation": "female",
+          "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "checkedAt": "2026-10-11T00:47:06.303Z",
+          "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+          "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+          "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+          "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+          "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+          "customerPresentation": "male",
+          "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "wide_full_body",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "wide_full_body",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "checkedAt": "2026-10-10T02:43:04.486Z",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "originVideoFileId": "",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "assetVersion": "reference-v26-grounded-auto-denba-20260924-r5",
+          "imageHeadlineShort": "本体とマット、\n役割は別。",
+          "customerPresentation": "female",
+          "articleTitle": "DENBA Healthの機器とマットは何をする？触れなくても使える理由を解説",
+          "sceneFingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "reception",
+            "human_action": "observing_real_equipment",
+            "composition_type": "close_action_portrait",
+            "visual_role": "component_relationship",
+            "article_intent": "equipment_explanation"
+          },
+          "thumbnail": "assets/images/blog/thumb-denba-health-device-mat-role-reference-v26-grounded-auto-denba-20260924-r5.jpg",
+          "scene_fingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "recovery_area",
+            "human_action": "observing_real_equipment",
+            "composition_type": "close_action_portrait",
+            "visual_role": "component_relationship",
+            "article_intent": "equipment_explanation"
+          }
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "checkedAt": "2026-10-07T05:24:50.575Z",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "originVideoFileId": "",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "assetVersion": "reference-v26-grounded-evolgear-20261007-r4",
+          "imageHeadlineShort": "続けやすさで、\n選ぶ。",
+          "customerPresentation": "male",
+          "articleTitle": "新大宮で初心者がジムを選ぶなら｜24時間ジム・パーソナルジム・ボクシングの違い",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "facility_selection"
+          },
+          "thumbnail": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "wide_full_body",
+            "visual_role": "deciding_own_start",
+            "article_intent": "facility_selection"
+          }
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "checkedAt": "2026-10-06T01:08:15.230Z",
+          "driveFileId": "1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU",
+          "originVideoFileId": "1xP1lM-2Mxh6aGBvrZLjBPVQAbloYeyTf",
+          "contentReference": "drive://1G94c7AcvLUNVoXZe8qDFOAmiWliwHIbU/IMG_3978.MOV",
+          "assetVersion": "reference-v26-auto-3978-20-31e40387-humanfirst-r3",
+          "imageHeadlineShort": "座り仕事、\n30分ごとに立つ？",
+          "customerPresentation": "female",
+          "articleTitle": "座り仕事は30分ごとに立つべき？ ジムに通う人の続け方",
+          "sceneFingerprint": {
+            "scene_type": "workday_break",
+            "location_type": "reception",
+            "human_action": "standing_break",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "workday_movement_break",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-desk-work-stand-every-30-minutes-reference-v26-auto-3978-20-31e40387-humanfirst-r3.jpg",
+          "observationReference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+          "scene_fingerprint": {
+            "scene_type": "workday_break",
+            "location_type": "reception",
+            "human_action": "standing_break",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "workday_movement_break",
+            "article_intent": "training_start"
+          }
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "checkedAt": "2026-10-05T12:07:58.242Z",
+          "driveFileId": "1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj",
+          "originVideoFileId": "",
+          "contentReference": "drive://1fyG32t6AbOfRDCnJ-FXLnSpbAu1wRHaj/AI_SOURCE_photo-boxing_20260924.jpg",
+          "assetVersion": "reference-v26-auto-boxing-20261005-fear-r1",
+          "imageHeadlineShort": "怖くても、\n最初は基本から。",
+          "customerPresentation": "male",
+          "articleTitle": "ボクシングは怖そう…運動初心者でも始められる？ミット打ちの前に知りたいこと",
+          "sceneFingerprint": {
+            "scene_type": "exercise",
+            "location_type": "boxing_area",
+            "human_action": "boxing_stance",
+            "composition_type": "close_action_portrait",
+            "visual_role": "training_execution",
+            "article_intent": "boxing_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-boxing-beginner-scared-before-mitt-training-reference-v26-auto-boxing-20261005-fear-r1.jpg",
+          "observationReference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+          "scene_fingerprint": {
+            "scene_type": "exercise",
+            "location_type": "boxing_area",
+            "human_action": "boxing_stance",
+            "composition_type": "close_action_portrait",
+            "visual_role": "training_execution",
+            "article_intent": "boxing_start"
+          }
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "checkedAt": "2026-10-04T09:45:25.230Z",
+          "driveFileId": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE",
+          "originVideoFileId": "",
+          "contentReference": "drive://13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE/AI_SOURCE_photo-solution-denba_20260924.jpg",
+          "assetVersion": "reference-v26-auto-denba-20261004-layout-r3",
+          "imageHeadlineShort": "DENBAの基本\n電位空間",
+          "customerPresentation": "female",
+          "articleTitle": "DENBAの電位空間とは？ 電波・EMSと混同しないための基本整理",
+          "sceneFingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "reception",
+            "human_action": "observing_real_equipment",
+            "composition_type": "medium_side_portrait",
+            "visual_role": "component_relationship",
+            "article_intent": "recovery"
+          },
+          "thumbnail": "assets/images/blog/thumb-denba-electric-potential-space-radio-wave-difference-reference-v26-auto-denba-20261004-layout-r3.jpg",
+          "observationReference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+          "scene_fingerprint": {
+            "scene_type": "recovery_transition",
+            "location_type": "recovery_area",
+            "human_action": "observing_real_equipment",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "recovery_time",
+            "article_intent": "recovery"
+          }
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "checkedAt": "2026-10-04T05:12:02.251Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+          "assetVersion": "reference-v26-lobby-paper-20261004-r2",
+          "imageHeadlineShort": "始める前に、\n状態を確かめる。",
+          "customerPresentation": "male",
+          "articleTitle": "健康診断で血圧が高めと言われたら、筋トレはしていい？始める前の3つの確認",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "review_paper",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "considering_health_report",
+            "article_intent": "health_before_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-kenshin-ketsuatsu-takame-kinntore-hajimekata-reference-v26-lobby-paper-20261004-r2.jpg",
+          "observationReference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+          "scene_fingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "review_paper",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "considering_health_report",
+            "article_intent": "health_before_start"
+          }
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "checkedAt": "2026-10-03T14:29:13.715Z",
+          "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+          "originVideoFileId": "",
+          "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+          "assetVersion": "reference-v26-auto-evolgear-20260922-6bf9953b",
+          "imageHeadlineShort": "続けられる頻度を、\n最初に決める。",
+          "customerPresentation": "female",
+          "articleTitle": "筋トレ初心者は種目が少なくても効果はある？週の回数と始め方",
+          "sceneFingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "training_area",
+            "human_action": "compare_notes",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_execution"
+          },
+          "thumbnail": "assets/images/blog/thumb-beginner-strength-training-few-exercises-frequency-reference-v26-auto-evolgear-20260922-6bf9953b.jpg",
+          "observationReference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+          "scene_fingerprint": {
+            "scene_type": "personal_choice",
+            "location_type": "training_area",
+            "human_action": "compare_notes",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "deciding_own_start",
+            "article_intent": "training_execution"
+          }
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "checkedAt": "2026-10-03T04:14:41.758063Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "assetVersion": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2",
+          "imageHeadlineShort": "通いやすさまで、\n選ぶ基準に。",
+          "customerPresentation": "male",
+          "articleTitle": "新大宮で完全予約制のパーソナルジムを探す方へ｜THE REV.の設備と過ごし方",
+          "sceneFingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "training_area",
+            "human_action": "rack_adjustment",
+            "composition_type": "wide_full_body",
+            "visual_role": "facility_inspection",
+            "article_intent": "facility_selection"
+          },
+          "thumbnail": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-balance-r2.jpg",
+          "observationReference": "editorial/image-qa/personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.json",
+          "scene_fingerprint": {
+            "scene_type": "equipment_orientation",
+            "location_type": "training_area",
+            "human_action": "rack_adjustment",
+            "composition_type": "wide_full_body",
+            "visual_role": "facility_inspection",
+            "article_intent": "facility_selection"
+          }
+        }
+      ],
+      "asset_version": "reference-v082-evolgear-japanese-night-finish-20261020-r4",
+      "asset_hashes": {
+        "source": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "scene": "49f9a1d119bcf9907df8f5ee7364abfbf330bbfe05dd94222d36a638a74fb8c0",
+        "thumbnail": "79d60f93bb20960a9549536992b5563e7436a697a5b4ee7e53fb93c5a965483b",
+        "og": "333ae5b7ec9399c2b74f1fa85fdd8c320d33dec1dc76a56f714e267869b84909",
+        "gbp": "59d4ba7ddcf4d2abdf00fd8accab2717de9eed4010db78b9fe4f6dc38f00cd7d"
+      },
+      "observation_method": "independent multimodal inventory observation + deterministic canonical comparison"
+    },
+    "scene_fingerprint": {
+      "scene_type": "before_start",
+      "location_type": "training_area",
+      "human_action": "prepare",
+      "composition_type": "wide_full_body",
+      "visual_role": "checking_readiness",
+      "article_intent": "readiness"
+    },
+    "scene_location_consistency": true,
+    "equipment_source_grounding": true,
+    "spatial_plausibility": true,
+    "action_location_consistency": true,
+    "article_scene_match": true,
+    "recent_semantic_similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "composition_type",
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-device-mat-role",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-gym-beginner-choose",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "desk-work-stand-every-30-minutes",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-beginner-scared-before-mitt-training",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-electric-potential-space-radio-wave-difference",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "kenshin-ketsuatsu-takame-kinntore-hajimekata",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "beginner-strength-training-few-exercises-frequency",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    },
+    "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+    "thumbnail_typography_acceptance": {
+      "pass": true,
+      "deterministic": {
+        "revision": "thumbnail-golden-typography-v1",
+        "slug": "night-workout-sleep-timing-intensity",
+        "asset_version": "reference-v082-evolgear-japanese-night-finish-20261020-r4",
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "lines": [
+              "夜の筋トレ、",
+              "何時まで？"
+            ],
+            "text_preserved": true,
+            "font_size": 78,
+            "font_size_at_320": 20.8,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.8972915293839079,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              78,
+              102.97029702970298
+            ],
+            "focus_line": 1,
+            "focus_text": "何時まで？",
+            "focus_scale": 1.3201320132013201,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9980043398180901,
+            "block_area_ratio": 0.14138317807581907,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 337.3359375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.8862745098039215,
+            "fade_start": 605,
+            "fade_end": 742,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 4.933147579685566,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 214,
+                "right": 530.453125,
+                "bottom": 326,
+                "width": 466.453125
+              },
+              {
+                "left": 64,
+                "top": 315.359375,
+                "right": 582.75,
+                "bottom": 463.359375,
+                "width": 518.75
+              }
+            ],
+            "asset_path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4.jpg",
+            "asset_sha256": "79d60f93bb20960a9549536992b5563e7436a697a5b4ee7e53fb93c5a965483b",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4-preview-320.jpg",
+                "sha256": "04834928032ae51bd206fc9fb87c5dfcdbdf7a6e1418b6976b8020b857eb4c23"
+              },
+              "400": {
+                "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4-preview-400.jpg",
+                "sha256": "e6656a77ad800eabd4ca9a1366e167c103a788c5ca6347f45987aaf165ba0366"
+              }
+            }
+          },
+          "og": {
+            "pass": true,
+            "lines": [
+              "夜の筋トレ、",
+              "何時まで？"
+            ],
+            "text_preserved": true,
+            "font_size": 78,
+            "font_size_at_320": 20.8,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.8972915293839079,
+            "layout_rule": "golden-wide-v1",
+            "line_font_sizes": [
+              78,
+              102.97029702970298
+            ],
+            "focus_line": 1,
+            "focus_text": "何時まで？",
+            "focus_scale": 1.3201320132013201,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9980043398180901,
+            "block_area_ratio": 0.15148197650980616,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 315.3359375,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.8862745098039215,
+            "fade_start": 605,
+            "fade_end": 742,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 4.933147579685566,
+            "line_rects": [
+              {
+                "left": 64,
+                "top": 192,
+                "right": 530.453125,
+                "bottom": 304,
+                "width": 466.453125
+              },
+              {
+                "left": 64,
+                "top": 293.359375,
+                "right": 582.75,
+                "bottom": 441.359375,
+                "width": 518.75
+              }
+            ],
+            "asset_path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4.jpg",
+            "asset_sha256": "333ae5b7ec9399c2b74f1fa85fdd8c320d33dec1dc76a56f714e267869b84909",
+            "previews": {
+              "320": {
+                "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4-preview-320.jpg",
+                "sha256": "33c10168352dc8b20a9661db55f2d45f798cd711a50ea5cb30b2ff9e83320a52"
+              },
+              "400": {
+                "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4-preview-400.jpg",
+                "sha256": "a29a1b6a37f9cda11c6475f8b01cf1ad73f51463e91a58664748618c511c5456"
+              }
+            }
+          },
+          "gbp": {
+            "pass": true,
+            "lines": [
+              "夜の筋トレ、",
+              "何時まで？"
+            ],
+            "text_preserved": true,
+            "font_size": 67,
+            "font_size_at_320": 17.866666666666667,
+            "line_count": 2,
+            "line_height": 1.12,
+            "line_balance": 0.9110717180848582,
+            "layout_rule": "golden-gbp-v1",
+            "line_font_sizes": [
+              67,
+              87.12871287128714
+            ],
+            "focus_line": 1,
+            "focus_text": "何時まで？",
+            "focus_scale": 1.3004285503177184,
+            "hierarchy_kind": "lines",
+            "hierarchy_pass": true,
+            "label_subordinate": true,
+            "label_removed": true,
+            "bottom_mark_removed": true,
+            "width_occupancy": 0.9977995679359195,
+            "block_area_ratio": 0.07829781713738825,
+            "safe_area_pass": true,
+            "fade_contains_text": true,
+            "layout_balance_revision": "centered-organic-v1",
+            "headline_center_y": 432.3046875,
+            "paper_profile": "local-curved-veil",
+            "paper_opacity_floor": 0.9176470588235294,
+            "fade_start": 521,
+            "fade_end": 640,
+            "fade_vertical_tail": 125,
+            "contrast_floor": 5.308677408263676,
+            "line_rects": [
+              {
+                "left": 60,
+                "top": 325,
+                "right": 460.671875,
+                "bottom": 421,
+                "width": 400.671875
+              },
+              {
+                "left": 60,
+                "top": 417.03125,
+                "right": 498.90625,
+                "bottom": 542.03125,
+                "width": 438.90625
+              }
+            ],
+            "asset_path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4.jpg",
+            "asset_sha256": "59d4ba7ddcf4d2abdf00fd8accab2717de9eed4010db78b9fe4f6dc38f00cd7d",
+            "previews": {
+              "320": {
+                "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4-preview-320.jpg",
+                "sha256": "908b30f7672fae3873c22f18807b0648c76b7b7141c36544bb4d29e1acfb18a3"
+              },
+              "400": {
+                "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4-preview-400.jpg",
+                "sha256": "f7bbdcdbe4ed21fb09d26ec3f431c5c59114df81cc5c74b60eb6bb29ea22c069"
+              }
+            }
+          }
+        }
+      },
+      "visual": {
+        "thumbnail": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "og": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        },
+        "gbp": {
+          "pass": true,
+          "immediately_readable": true,
+          "title_is_primary": true,
+          "whitespace_has_purpose": true,
+          "natural_line_breaks": true,
+          "fade_contains_text": true,
+          "contrast_sufficient": true,
+          "text_not_buried": true,
+          "article_recognizable": true
+        }
+      },
+      "art_direction": {
+        "pass": true,
+        "variants": {
+          "thumbnail": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "og": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          },
+          "gbp": {
+            "pass": true,
+            "not_size_only": true,
+            "photo_text_hierarchy_natural": true,
+            "whitespace_meaningful": true,
+            "no_white_board": true,
+            "keyword_hierarchy_present": true,
+            "format_layout_independent": true,
+            "not_generic_template": true,
+            "premium_rev_preserved": true,
+            "inviting_at_list_size": true,
+            "thumbnail_functional": true,
+            "golden_grammar_matches": true,
+            "composition_balanced": true,
+            "fade_integrated": true
+          }
+        },
+        "comments": "3形式とも実寸プレビューで見出しが即読でき、「何時まで？」を暖色かつ大きくした階層はゴールデンの文法に合う。改行も「夜の筋トレ、／何時まで？」という完結した自然な単位で、孤立文字や助詞分離はない。ワイドは写真と見出しが二つの焦点として成立し、GBPも左中央の局所的な曲面ベールで顔・手首・身体を避けている。アイボリー領域は短い見出しを支える目的があり、白板状の直線パネルには見えない。"
+      },
+      "golden_reference": {
+        "revision": "approved-typography-20261001-v1",
+        "assets": [
+          {
+            "variant": "wide",
+            "path": "editorial/typography-golden-reference/reference-16x9.png",
+            "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+          },
+          {
+            "variant": "gbp",
+            "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+            "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+          },
+          {
+            "variant": "list",
+            "path": "editorial/typography-golden-reference/reference-list-view.png",
+            "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+          }
+        ]
+      }
+    },
+    "source_material_scope_pass": true,
+    "generated_customer_allowed_under_policy": true,
+    "generated_customer_role": "customer",
+    "customer_presentation": "male",
+    "image_headline_short": "夜の筋トレ、\n何時まで？",
+    "fixed_overlay_layout_confirmed": true,
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "background_source_type": "verified_the_rev_repo_mirror",
+    "content_reference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/",
+    "background_source_drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+    "background_origin_video_file_id": "",
+    "background_origin_video_file_name": "",
+    "background_frame_position_ratio": null,
+    "background_treatment": "real THE REV source; editorial soften/blur/depth allowed",
+    "background_source_recorded": true,
+    "background_selection_reason_recorded": true,
+    "image_generation_used": true,
+    "fallback_used": false,
+    "fallback_reason": "",
+    "same_image_as_recent_articles": false,
+    "same_background_as_recent_articles": false,
+    "trainer_photo_reused": false,
+    "background_reuse_relevance_exception": false,
+    "owner_route_b_source_reuse": false,
+    "contextual_verified_facility_source_reuse": {
+      "allowed": false,
+      "policy": null,
+      "errors": [],
+      "source_repeated": false,
+      "scene_repeated": false
+    },
+    "recent_similarity_window": 4,
+    "recent_similarity_check_pass": true,
+    "recent_background_source_ids": [
+      "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+      "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+      "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+      "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+      "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+      "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+      "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+      "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV"
+    ],
+    "recent_reference_guard": {
+      "window": 4,
+      "selection_policy": "relevance-first-recent4-hard-exclusion-v1",
+      "recent_articles": [
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "checkedAt": "2026-10-15T03:46:44.330Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/AI_SOURCE_photo-lobby-sp_20260927.jpg",
+          "assetVersion": "reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline",
+          "imageHeadlineShort": "痛みや体調は、\nどこまで伝える？",
+          "customerPresentation": "female",
+          "articleTitle": "パーソナルジム初回、痛みや体調はどこまで伝える？小さな違和感も話していい理由",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "prepare",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "considering_health_report",
+            "article_intent": "health_before_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-personal-gym-first-session-pain-health-history-reference-v26-grounded-lobbysp-20261015-pain-r7-depth-portrait-offline.jpg"
+        },
+        {
+          "slug": "the-rev-trial-three-menus-first-visit",
+          "checkedAt": "2026-10-14T02:01:11.756Z",
+          "driveFileId": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+          "originVideoFileId": "",
+          "contentReference": "drive://1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM/",
+          "assetVersion": "reference-v26-grounded-lobbysp-20261014-trial-r2",
+          "imageHeadlineShort": "初回体験、\n何を選ぶ？",
+          "customerPresentation": "male",
+          "articleTitle": "初回体験はどれを選ぶ？ THE REV.の3つの入口と来店前に知りたいこと",
+          "sceneFingerprint": {
+            "scene_type": "arrival",
+            "location_type": "reception",
+            "human_action": "observe_facility",
+            "composition_type": "medium_three_quarter_portrait",
+            "visual_role": "first_visit_reassurance",
+            "article_intent": "facility_selection"
+          },
+          "thumbnail": "assets/images/blog/thumb-the-rev-trial-three-menus-first-visit-reference-v26-grounded-lobbysp-20261014-trial-r2.jpg"
+        },
+        {
+          "slug": "nekose-strength-training-posture",
+          "checkedAt": "2026-10-13T01:53:31.806Z",
+          "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+          "originVideoFileId": "",
+          "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/",
+          "assetVersion": "reference-v26-grounded-auto-lobby-20261013-posture-r2",
+          "imageHeadlineShort": "姿勢は、\n動きから見直す。",
+          "customerPresentation": "female",
+          "articleTitle": "猫背は筋トレで変わる？「姿勢を正す」前に知りたいこと",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "reception",
+            "human_action": "rest",
+            "composition_type": "medium_seated_portrait",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-nekose-strength-training-posture-reference-v26-grounded-auto-lobby-20261013-posture-r2.jpg"
+        },
+        {
+          "slug": "pre-workout-stretching-duration",
+          "checkedAt": "2026-10-11T00:47:06.303Z",
+          "driveFileId": "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+          "originVideoFileId": "1d3W6u7DVWnvsWGqB0tqurqJMH7VXwRQC",
+          "contentReference": "drive://1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI/IMG_4387.MOV",
+          "assetVersion": "reference-v26-grounded-auto-4387-75-warmup-r3",
+          "imageHeadlineShort": "運動前は、\n動ける状態へ。",
+          "customerPresentation": "male",
+          "articleTitle": "運動前のストレッチは何分？10〜15分で「動ける状態」をつくる順番",
+          "sceneFingerprint": {
+            "scene_type": "before_start",
+            "location_type": "training_area",
+            "human_action": "prepare",
+            "composition_type": "wide_full_body",
+            "visual_role": "checking_readiness",
+            "article_intent": "training_start"
+          },
+          "thumbnail": "assets/images/blog/thumb-pre-workout-stretching-duration-reference-v26-grounded-auto-4387-75-warmup-r3.jpg"
+        }
+      ],
+      "selected_content_reference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/",
+      "selected_drive_file_id": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+      "avoided_repeat": true,
+      "repeated_due_to_relevance": false,
+      "repeat_distance": null,
+      "required_equipment": []
+    },
+    "template": "rev-column-reference-v2",
+    "render_version": "rev-column-reference-v2.3-hybrid",
+    "generation_model": "gpt-image-hybrid",
+    "qa_model": "gpt-5.6",
+    "qa_method": "automated GPT-5.6 multimodal visual inspection against verified THE REV source plus deterministic V2.4 overlay",
+    "slug": "night-workout-sleep-timing-intensity",
+    "asset_version": "reference-v082-evolgear-japanese-night-finish-20261020-r4",
+    "checked_at": "2026-10-20T09:33:40.486Z",
+    "review_mode": "HYBRID_GENERATED",
+    "realism_qc_version": "v1",
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "gbp_image_required": true,
+    "gbp_image_path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-japanese-night-finish-20261020-r4.jpg",
+    "gbp_image_width": 1200,
+    "gbp_image_height": 900,
+    "gbp_image_aspect_ratio": "4:3",
+    "editorial_text_qc": {
+      "pass": true,
+      "total": 20,
+      "body_sha256": "29cf1be0d80d2f9b9c5928d374fbd40f677f28336f675da15791c049b31bd079",
+      "report": "editorial/prepublication/2026-10-21-evening-strength-sleep/INDEPENDENT_QC_V082_ADDITIONAL.json"
+    },
+    "api_usage": {
+      "generation_calls": 1,
+      "qc_calls": 2,
+      "confirmed_cost": null,
+      "calls": [
+        {
+          "sequence": 1,
+          "kind": "generation",
+          "status": "COMPLETED",
+          "at": "2026-10-20T09:30:35.979Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_94212f09b6e842c5a8f301628a53b395",
+          "response_id": "resp_08347469472a233d006ad734bdde0087d0a4e2e9111c37f20c",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 8021,
+            "input_tokens_details": {
+              "cache_write_tokens": 5553,
+              "cached_tokens": 0
+            },
+            "output_tokens": 614,
+            "output_tokens_details": {
+              "reasoning_tokens": 25
+            },
+            "total_tokens": 8635
+          },
+          "image_generation_calls": [
+            {
+              "id": "ig_08347469472a233d006ad734bfcd9887d0bc403a391a25f35d",
+              "status": "completed",
+              "usage": null
+            }
+          ],
+          "completed_at": "2026-10-20T09:32:20.544Z"
+        },
+        {
+          "sequence": 2,
+          "kind": "qc",
+          "status": "COMPLETED",
+          "at": "2026-10-20T09:32:23.617Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_1b4aa944bde64db3bb0f3303b48f7d1d",
+          "response_id": "resp_0e8d55a7a393860f006ad73529343c87d099b9f7390459481c",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 18790,
+            "input_tokens_details": {
+              "cache_write_tokens": 18787,
+              "cached_tokens": 0
+            },
+            "output_tokens": 2851,
+            "output_tokens_details": {
+              "reasoning_tokens": 1951
+            },
+            "total_tokens": 21641
+          },
+          "image_generation_calls": [],
+          "completed_at": "2026-10-20T09:32:56.439Z"
+        },
+        {
+          "sequence": 3,
+          "kind": "qc",
+          "status": "COMPLETED",
+          "at": "2026-10-20T09:32:57.911Z",
+          "confirmed_cost": null,
+          "http_status": 200,
+          "request_id": "req_434f4b75e8bc4be1b5c74a10527ecf03",
+          "response_id": "resp_03669f8a6163014c006ad7354ba37487d090e7474de6529c3a",
+          "response_status": "completed",
+          "model": "gpt-5.6-sol",
+          "usage": {
+            "input_tokens": 23328,
+            "input_tokens_details": {
+              "cache_write_tokens": 23325,
+              "cached_tokens": 0
+            },
+            "output_tokens": 2991,
+            "output_tokens_details": {
+              "reasoning_tokens": 1552
+            },
+            "total_tokens": 26319
+          },
+          "image_generation_calls": [],
+          "completed_at": "2026-10-20T09:33:39.436Z"
+        }
+      ]
+    },
+    "raw_background_guard": {
+      "mode": "owner-japanese-night-finish-v1",
+      "input_admission": {
+        "pass": true,
+        "input_sha256": "a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4",
+        "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+        "final_visual_qc_pass": false,
+        "production_writes": false
+      },
+      "source_sha256": "437836aedf2116c7f051276d30aefb73e295f5f4481c8aa0c3b165f57d52f8ea",
+      "input_sha256": "a996f1e46d8f1f65abfeb99a4888e36674c15c8d1627450e0d2b1b88dbdd64b4",
+      "raw_sha256": "49f9a1d119bcf9907df8f5ee7364abfbf330bbfe05dd94222d36a638a74fb8c0",
+      "exact_pixel_preservation_claimed": false,
+      "independent_structural_qc_required": true,
+      "compositor_used": false,
+      "visual_qc_pass": false,
+      "response_id": "resp_08347469472a233d006ad734bdde0087d0a4e2e9111c37f20c"
+    },
+    "source_preservation_gate": {
+      "mode": "owner-japanese-night-finish-v1",
+      "pass": true,
+      "exact_pixel_preservation_claimed": false,
+      "independent_structural_qc": true
+    },
+    "production_ready": false
+  },
+  "job_path": "editorial/prepublication/2026-10-21-evening-strength-sleep/image-finish-r4/IMAGE_JOB.json",
+  "updated_at": "2026-10-20T09:33:40.650Z",
+  "asset_version": "reference-v082-evolgear-japanese-night-finish-20261020-r4"
+}

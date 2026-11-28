@@ -1,0 +1,141 @@
+{
+  "slug": "shinomiya-gym-erabikata-dosen",
+  "article_title": "新大宮でジムを選ぶなら｜設備・通いやすさ・使い方で見る5つのポイント",
+  "category_label": "BODY KNOWLEDGE",
+  "column_label": "COLUMN",
+  "image_headline_short": "設備だけで、\n決めない。",
+  "image_style_template": "rev-column-reference-v2",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "scene_intent": "THE REV.の実店舗で、成人女性の一般顧客1人が、見学者のように立つのではなく、実際にマシンのシートまたは調整部へ片手を添え、自分の体格に合う位置へ調整しながら使い心地を確かめている瞬間。ジムバッグは足元の邪魔にならない場所へ置き、仕事帰りにもここへ通って使い続ける自分を具体的に想像していることが行動から分かる。顔は見え、落ち着いて考えながら少し前向きになっている表情。背景はTHE REV.壁面ロゴ、受付、特徴的な黒い設備のうち1〜2要素を残し、浅い被写界深度/soft blurで人物より弱くする。トレーナー、スタッフ、コーチ、他の顧客は出さない。",
+  "thumbnail_claim": "ジム選びでは、設備の数だけでなく、自分が実際に通って無理なく使い続けられるかまで確かめる。",
+  "visible_action": "一般顧客がバッグを置き、マシンのシートまたは調整部を自分の体格へ合わせて、実際に使う前提で使い心地を確かめる。立って眺めるだけのポートレートにはしない。",
+  "emotional_state": "落ち着いて比較検討しており、使い方が自分に合いそうだと少し前向きに感じ始めている。広告的な笑顔にはしない。",
+  "generated_customer_count": 1,
+  "generated_scene_path": "assets/images/editorial-generated/shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1-scene.png",
+  "style_references": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ],
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "image_strategy": "reference-v2-gpt-image-hybrid-drive-source",
+  "asset_version": "reference-v26-semantic-xl-20260927-r1",
+  "thumbnail": "assets/images/blog/thumb-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+  "og_image": "assets/images/blog/og/og-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+  "gbp_image": "assets/images/gbp/gbp-shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.jpg",
+  "gbp_image_required": true,
+  "gbp_image_width": 1200,
+  "gbp_image_height": 900,
+  "gbp_image_aspect_ratio": "4:3",
+  "qa_report_path": "editorial/image-qa/shinomiya-gym-erabikata-dosen-reference-v26-semantic-xl-20260927-r1.json",
+  "generation_model": "gpt-image-hybrid",
+  "qa_model": "gpt-5.6-sol-visual-qc",
+  "publish_requires_human_approval": true,
+  "max_generation_attempts": 2,
+  "policy": {
+    "generated_customer_allowed": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 1,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true,
+    "gbp_image_required": true,
+    "gbp_image_ratio": "4:3",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "trainer_present_forbidden": true,
+    "unknown_trainer_forbidden": true,
+    "non_customer_people_forbidden": true,
+    "customer_only_or_no_people_required": true,
+    "real_the_rev_background_required": true,
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; never silently accept a cutout composite",
+    "realism_qc_version": "v1",
+    "source_scope": "specified-drive-root-only",
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "recent_reference_window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "publish_boundary": "REVIEW_AND_PUBLISH",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "layout_variant": "human-first-v1",
+    "customer_presentation": "female",
+    "human_visual_attention_share_target": "60-70%",
+    "background_role": "secondary-recognizable-the-rev-soft-blur"
+  },
+  "background_source": {
+    "drive_file_id": "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "cached_frame_drive_file_id": "",
+    "origin_video_file_id": "",
+    "origin_video_file_name": "AI_SOURCE_photo-lobby-sp_20260927.jpg",
+    "frame_position_ratio": null,
+    "selection_reason": "新大宮でのジム選びを、通いやすい入口動線と実設備の両方で見せられるTHE REV.実素材。公式サイト写真と同一bytesのコピーを指定Editorial Drive rootへ保存し、THE REV.壁面ロゴ・受付・奥のEVOLGEAR設備を実空間の正本として使う。",
+    "treatment": "real THE REV source preserved as spatial truth; scene-aware customer generation; crop/depth/light harmonization allowed"
+  },
+  "automation": {
+    "mode": "unattended-github-actions-v1",
+    "source_registry": "editorial/automated-image-sources.json",
+    "selected_source_id": "the-rev-lobby-sp-20260927",
+    "source_repo_path": "assets/images/photo-lobby-sp.jpg",
+    "recent_similarity_window": 4,
+    "recent_articles": [
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T09:14:25.201Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v24-auto-lobby-20260924-4db7de37-r5"
+      },
+      {
+        "slug": "health-check-results-before-starting-exercise",
+        "checkedAt": "2026-09-24T07:29:18.413Z",
+        "driveFileId": "1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB",
+        "originVideoFileId": "",
+        "contentReference": "drive://1aU-Rsx8blQv8qeJuqw51UimNORTVL9lB/AI_SOURCE_photo-evolgear_20260922.jpg",
+        "assetVersion": "reference-v24-auto-evolgear-20260922-2bd31683"
+      },
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T07:26:01.411Z",
+        "driveFileId": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+        "originVideoFileId": "",
+        "contentReference": "drive://1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7/AI_SOURCE_photo-lobby_20260924.jpg",
+        "assetVersion": "reference-v24-auto-lobby-20260924-4db7de37-r2"
+      },
+      {
+        "slug": "muscle-mass-not-increasing-progress-signs",
+        "checkedAt": "2026-09-24T00:10:00Z",
+        "driveFileId": "1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg",
+        "originVideoFileId": "",
+        "contentReference": "drive://1uxhaAnBZKiwQpNN_lQMqJki5eUrSiqUg/IMG_4201.DNG.jpg",
+        "assetVersion": "reference-v24-hybrid-4201-01"
+      }
+    ],
+    "requeue_token": "2026-09-27-v26-human-first-r2",
+    "semantic_relevance_gate": "v7-human-first-thumbnail",
+    "recent_thumbnail_copy_window": 12,
+    "recent_thumbnail_headlines": [
+      "軽く動いて、\n調子を見る。",
+      "体重計に出ない、\n進歩がある。",
+      "健診のあとこそ、\n無理なく始める。",
+      "疲れた日は、\n軽く始めて決める。",
+      "限界まで追い込むかは、\nフォームと翌日の\n疲労で決める。",
+      "続かないなら、\n行く前後を見直す。"
+    ],
+    "recent_customer_presentations": [
+      "male"
+    ]
+  },
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "visual_claim": "ジム選びは設備スペックだけではなく、自分が実際にその場所へ通い、使う姿を想像できるかまで見る。その判断を、人物が設備を自分に合わせて試す具体行動で伝える。",
+  "composition_hint": "V2.6 Human First。人物が視覚的注意の約60〜70%を占めるmedium〜medium-wideの寄り構図。顔、上半身、マシンを調整する手、バッグが同時に読めること。THE REV.ロゴまたは黒い設備を背景アンカーとして残すが、自然なsoft blurでサブへ下げる。左側の大きなEditorial Copyと人物行動が二つの明確な焦点になること。",
+  "scene_object_position": {
+    "thumbnail": "58% center",
+    "og": "58% center",
+    "gbp": "60% center"
+  },
+  "customer_presentation": "female"
+}

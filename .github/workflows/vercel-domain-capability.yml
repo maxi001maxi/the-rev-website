@@ -1,0 +1,57 @@
+name: Vercel Domain Capability
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/ga4-admin-analytics
+    paths:
+      - '.github/workflows/vercel-domain-capability.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  domain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      VERCEL_TOKEN_1: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_TOKEN_2: ${{ secrets.VERCEL_ACCESS_TOKEN }}
+      VERCEL_TOKEN_3: ${{ secrets.VERCEL_AUTH_TOKEN }}
+      VERCEL_TOKEN_4: ${{ secrets.VERCEL_API_TOKEN }}
+      TEAM_ID: team_Tr078zaEJtEFM8mC2epaOchj
+      PROJECT: the-rev-website
+      DOMAIN: admin.therev-lab.com
+    steps:
+      - name: Detect usable Vercel API token and attach domain
+        run: |
+          set -euo pipefail
+          TOKEN=''
+          for candidate in "$VERCEL_TOKEN_1" "$VERCEL_TOKEN_2" "$VERCEL_TOKEN_3" "$VERCEL_TOKEN_4"; do
+            if [ -n "$candidate" ]; then TOKEN="$candidate"; break; fi
+          done
+
+          if [ -z "$TOKEN" ]; then
+            echo 'vercel_api_token_present=false'
+            exit 0
+          fi
+          echo 'vercel_api_token_present=true'
+
+          project_code=$(curl -sS -o /tmp/project.json -w '%{http_code}' \
+            -H "Authorization: Bearer $TOKEN" \
+            "https://api.vercel.com/v9/projects/$PROJECT?teamId=$TEAM_ID")
+          echo "project_api_http=$project_code"
+          if [ "$project_code" != '200' ]; then
+            jq -c '{error:(.error.code // "unknown"),message:(.error.message // "")}' /tmp/project.json || true
+            exit 0
+          fi
+          jq -c '{id,name,accountId}' /tmp/project.json
+
+          domain_code=$(curl -sS -o /tmp/domain.json -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H 'Content-Type: application/json' \
+            "https://api.vercel.com/v10/projects/$PROJECT/domains?teamId=$TEAM_ID" \
+            --data "{\"name\":\"$DOMAIN\"}")
+          echo "domain_add_http=$domain_code"
+          jq -c '{name,apexName,projectId,verified,verification,error:(.error.code // null),message:(.error.message // null)}' /tmp/domain.json || true

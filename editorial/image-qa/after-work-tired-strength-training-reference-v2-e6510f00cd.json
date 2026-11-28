@@ -1,0 +1,65 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 9,
+  "article_visual_relevance": 10,
+  "source_identity_preservation": 10,
+  "invented_people_or_objects": false,
+  "source_photo_changed_materially": false,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "unexpected_text_is_source_native": true,
+  "too_promotional": false,
+  "comments": "Strong sixth-card fit for the approved series. The exact expected category label and headline are present, with restrained Japanese editorial typography, a balanced left text field, and a naturally treated arrival-routine photograph on the right. The photographic region clearly preserves the supplied content reference with crop/resize only; visible THE REV. signage and the small Japanese tag are source-native. The composition feels premium and calm rather than like a promotional fitness banner.",
+  "correction": "No correction required.",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.2",
+  "generation_model": "source-photo-lock-playwright",
+  "render_mode": "source-photo-lock-v1",
+  "content_reference": "assets/images/photo-lobby.jpg",
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "priority_order": [
+      "article_relevance",
+      "never_used_in_past_articles",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "no-time-for-gym-starting-friction",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg",
+        "checked_at": "2026-09-19T07:55:00Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_3978_20.jpg"
+    ],
+    "historical_usage_registry": "editorial/content-reference-usage.json",
+    "historical_matching_articles": [],
+    "ever_used_before": false,
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/photo-lobby.jpg",
+        "intent": "arrival-routine",
+        "relevanceLevel": "primary",
+        "ever_used_before": false,
+        "recent_4_used": false
+      }
+    ],
+    "selected_content_reference": "assets/images/photo-lobby.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_historical_repeat": false,
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  },
+  "qa_model": "gpt-5.6-luna",
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v2-e6510f00cd",
+  "checked_at": "2026-09-19T08:51:32.105Z"
+}

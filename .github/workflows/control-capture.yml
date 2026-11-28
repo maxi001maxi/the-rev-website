@@ -1,0 +1,38 @@
+name: Control Capture Contract
+
+on:
+  push:
+    branches: [feat/rev-exp-2026-001-control-capture]
+  pull_request:
+    paths:
+      - 'price.html'
+      - 'assets/js/main.js'
+      - 'lib/ga4CompanyOsSync.mjs'
+      - 'lib/ga4ExperimentCapture.mjs'
+      - 'scripts/test-control-capture.mjs'
+      - 'supabase/migrations/20261007072053_rev_exp_control_capture.sql'
+      - 'docs/analytics/REV_EXP_2026_001_CONTROL_CAPTURE.md'
+      - 'package.json'
+      - '.github/workflows/control-capture.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm run test:control-capture
+      - run: node scripts/test-ga4-measurement-gate.mjs
+      - run: npm run test:ga4-direct
+      - run: npm run test:site-insights
+      - run: npm run test:phase-e
+      - run: npm run test:vercel-release-policy
+      - run: npm run vercel-build

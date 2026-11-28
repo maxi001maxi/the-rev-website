@@ -1,0 +1,216 @@
+name: Production release readback
+'on':
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/production-release-readback.yml
+permissions:
+  contents: read
+env:
+  PRODUCTION_URL: https://therev-lab.com
+  DEPLOY_MODE: READ_ONLY
+  DEPLOY_REASON: verify transferred source a3b98e after legacy CSS-check failure
+  XSERVER_FTP_HOST: not used
+  XSERVER_REMOTE_DIR: not used
+jobs:
+  production-readback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: npm
+    - run: npm ci
+    - run: npm run vercel-build
+    - name: Regression test of stylesheet verification
+      run: node --test scripts/test-production-styles.mjs
+    - name: Validate generated Blog against source status
+      run: "set -euo pipefail\nnode --input-type=module <<'NODE'\nimport fs from 'node:fs';\nimport path from 'node:path';\nimport matter from\
+        \ 'gray-matter';\n\nconst contentDir = 'content/blog';\nconst distBlogDir = 'dist/blog';\nconst indexPath = path.join(distBlogDir, 'index.html');\n\
+        \nif (!fs.existsSync(indexPath)) {\n  throw new Error('dist/blog/index.html が生成されていません。');\n}\n\nconst cachePolicyPath = path.join(distBlogDir,\
+        \ '.htaccess');\nif (!fs.existsSync(cachePolicyPath)) {\n  throw new Error('Blog cache policy is missing: dist/blog/.htaccess');\n}\n\
+        const cachePolicy = fs.readFileSync(cachePolicyPath, 'utf8');\nif (!cachePolicy.includes('Cache-Control \"no-store, no-cache, max-age=0,\
+        \ must-revalidate\"')) {\n  throw new Error('Blog cache policy does not require HTML revalidation.');\n}\n\nconst files = fs.readdirSync(contentDir).filter((name)\
+        \ => name.endsWith('.md'));\nconst published = [];\nconst publishedCards = [];\nconst drafts = [];\nconst publishedImages = new Set();\n\
+        \nfor (const file of files) {\n  const raw = fs.readFileSync(path.join(contentDir, file), 'utf8');\n  const { data } = matter(raw);\n\
+        \  const slug = String(data.slug || path.basename(file, '.md')).trim();\n  const status = String(data.status || 'draft').trim().toLowerCase();\n\
+        \n  if (!/^[a-z0-9-]+$/.test(slug)) {\n    throw new Error(`不正なslug: ${slug}`);\n  }\n\n  const generated = path.join(distBlogDir, slug,\
+        \ 'index.html');\n  if (status === 'published') {\n    if (!fs.existsSync(generated)) {\n      throw new Error(`公開記事がdistにありません: ${slug}`);\n\
+        \    }\n    published.push(slug);\n    const publishedDate = String(data.published || '').trim();\n    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(publishedDate))\
+        \ {\n      throw new Error(`公開記事のpublished日付が不正です: ${slug} -> ${publishedDate || '(empty)'}`);\n    }\n    publishedCards.push(`${slug}|${publishedDate.replaceAll('-',\
+        \ '.')}`);\n    for (const imagePath of [data.thumbnail, data.og_image]) {\n      if (typeof imagePath !== 'string' || !imagePath.startsWith('/assets/'))\
+        \ {\n        throw new Error(`公開記事の画像パスが不正です: ${slug} -> ${imagePath || '(empty)'}`);\n      }\n      const localImage = path.join('dist',\
+        \ imagePath.replace(/^\\//, ''));\n      if (!fs.existsSync(localImage)) {\n        throw new Error(`公開記事の画像がdistにありません: ${slug} -> ${imagePath}`);\n\
+        \      }\n      publishedImages.add(imagePath);\n    }\n  } else {\n    if (fs.existsSync(generated)) {\n      throw new Error(`下書き記事がdistへ混入しています:\
+        \ ${slug}`);\n    }\n    drafts.push(slug);\n  }\n}\n\nif (published.length === 0) {\n  throw new Error('公開記事が0件です。デプロイを停止します。');\n}\n\
+        \nconst indexPaths = [indexPath];\nconst paginatedDir = path.join(distBlogDir, 'page');\nif (fs.existsSync(paginatedDir)) {\n  for (const\
+        \ entry of fs.readdirSync(paginatedDir, { withFileTypes: true })) {\n    if (!entry.isDirectory() || !/^\\d+$/.test(entry.name)) continue;\n\
+        \    const pageIndex = path.join(paginatedDir, entry.name, 'index.html');\n    if (fs.existsSync(pageIndex)) indexPaths.push(pageIndex);\n\
+        \  }\n}\nconst blogIndexCorpus = indexPaths\n  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))\n  .map((p) => fs.readFileSync(p,\
+        \ 'utf8'))\n  .join('\\\\n');\n\nfor (const slug of published) {\n  if (!blogIndexCorpus.includes(`/blog/${slug}/`)) {\n    throw new\
+        \ Error(`Blog一覧（全ページ）に公開記事がありません: ${slug}`);\n  }\n}\nfor (const slug of drafts) {\n  if (blogIndexCorpus.includes(`/blog/${slug}/`))\
+        \ {\n    throw new Error(`Blog一覧（全ページ）に下書き記事が混入しています: ${slug}`);\n  }\n}\n\nfs.writeFileSync('.deploy-published-slugs', `${published.join('\\\
+        n')}\\n`);\nfs.writeFileSync('.deploy-published-card-expectations', `${publishedCards.join('\\n')}\\n`);\nfs.writeFileSync('.deploy-draft-slugs',\
+        \ drafts.length ? `${drafts.join('\\n')}\\n` : '');\nfs.writeFileSync('.deploy-published-images', `${[...publishedImages].join('\\n')}\\\
+        n`);\nconsole.log(`Build validation OK — published: ${published.length}, draft: ${drafts.length}, images: ${publishedImages.size}`);\n\
+        NODE\n"
+    - name: Repeat complete live verification after correcting legacy TOP CSS assumption (read only)
+      run: "set -euo pipefail\nFAIL=0\nSUMMARY=\"$GITHUB_STEP_SUMMARY\"\nCACHE_BUST=\"deploy=${GITHUB_RUN_ID}\"\nTMP_DIR=\"$(mktemp -d)\"\n\n\
+        echo \"# Xserver Production Readback\" >> \"$SUMMARY\"\necho \"\" >> \"$SUMMARY\"\necho \"- Trigger: \\`${GITHUB_EVENT_NAME}\\`\" >> \"\
+        $SUMMARY\"\necho \"- Commit: \\`${GITHUB_SHA}\\`\" >> \"$SUMMARY\"\necho \"- Mode: \\`${DEPLOY_MODE}\\` (${DEPLOY_REASON})\" >> \"$SUMMARY\"\
+        \necho \"- Target: \\`${PRODUCTION_URL}\\`\" >> \"$SUMMARY\"\necho \"- Remote: \\`${XSERVER_FTP_HOST}:${XSERVER_REMOTE_DIR}\\`\" >> \"\
+        $SUMMARY\"\nif [ \"$DEPLOY_MODE\" = \"BLOG_FAST\" ]; then\n  echo \"- Rollback source: Git parent commit + deterministic Blog rebuild\"\
+        \ >> \"$SUMMARY\"\nelif [ \"false\" = \"true\" ]; then\n  echo \"- Backup: \\`xserver-backup-${GITHUB_RUN_ID}\\` (current run)\" >> \"\
+        $SUMMARY\"\nelse\n  echo \"- Original healthy rollback backup12090654704; excluded interrupted backup12091359317. Diagnostic value: \\\
+        `false\\`\" >> \"$SUMMARY\"\nfi\necho \"\" >> \"$SUMMARY\"\necho \"| Check | Result |\" >> \"$SUMMARY\"\necho \"|---|---|\" >> \"$SUMMARY\"\
+        \n\nfetch_page() {\n  local label=\"$1\"\n  local url=\"$2\"\n  local outfile=\"$3\"\n  local code\n  code=$(curl -sS -L -o \"$outfile\"\
+        \ -w '%{http_code}' \\\n    --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \"$url\" || echo '000')\n \
+        \ if [ \"$code\" = \"200\" ]; then\n    echo \"| ${label} | ✅ HTTP 200 |\" >> \"$SUMMARY\"\n  else\n    echo \"| ${label} | ❌ HTTP ${code}\
+        \ |\" >> \"$SUMMARY\"\n    FAIL=1\n  fi\n}\n\nfetch_page \"TOP\" \"${PRODUCTION_URL}/?${CACHE_BUST}\" \"$TMP_DIR/top.html\"\nif ! grep\
+        \ -qF 'THE REV' \"$TMP_DIR/top.html\"; then\n  echo \"::error::TOPページ本文に THE REV が見つかりません。\"\n  FAIL=1\nfi\n\n# v7 TOP uses dedicated\
+        \ styles; the legacy shared stylesheet remains on Price.\nfetch_page \"Price\" \"${PRODUCTION_URL}/price.html?${CACHE_BUST}\" \"$TMP_DIR/price.html\"\
+        \nif ! node scripts/verify-production-styles.mjs; then FAIL=1; fi\nROOT_CSS_URL=\"$(grep -oE 'assets/css/style\\.css\\?v=[a-f0-9]{12}'\
+        \ \"$TMP_DIR/price.html\" | head -n1 || true)\"\nif [ -z \"$ROOT_CSS_URL\" ]; then\n  echo \"::error::本番Price HTMLにfingerprint付き共通style.cssがありません。\"\
+        \n  echo \"| Root CSS fingerprint | ❌ missing |\" >> \"$SUMMARY\"\n  FAIL=1\nelse\n  ROOT_CSS_LIVE=\"$TMP_DIR/style.css\"\n  ROOT_CSS_CODE=$(curl\
+        \ -sS -L -o \"$ROOT_CSS_LIVE\" -w '%{http_code}' \\\n    --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15\
+        \ \\\n    \"${PRODUCTION_URL}/${ROOT_CSS_URL}&${CACHE_BUST}\" || echo '000')\n  if [ \"$ROOT_CSS_CODE\" != \"200\" ]; then\n    echo \"\
+        ::error::本番style.cssがHTTP ${ROOT_CSS_CODE}です: ${ROOT_CSS_URL}\"\n    echo \"| Root CSS live | ❌ HTTP ${ROOT_CSS_CODE} |\" >> \"$SUMMARY\"\
+        \n    FAIL=1\n  else\n    ROOT_LIVE_SHA=\"$(sha256sum \"$ROOT_CSS_LIVE\" | awk '{print $1}')\"\n    ROOT_LOCAL_SHA=\"$(sha256sum dist/assets/css/style.css\
+        \ | awk '{print $1}')\"\n    if [ \"$ROOT_LIVE_SHA\" != \"$ROOT_LOCAL_SHA\" ]; then\n      echo \"::error::本番style.cssが今回のdistと一致しません。\"\
+        \n      echo \"| Root CSS bytes | ❌ SHA256 mismatch |\" >> \"$SUMMARY\"\n      FAIL=1\n    elif ! grep -qF '.voice-cards{' \"$ROOT_CSS_LIVE\"\
+        \ || ! grep -qF 'overflow-x:auto' \"$ROOT_CSS_LIVE\"; then\n      echo \"::error::本番style.cssにREAL VOICE横スクロール指定がありません。\"\n      echo\
+        \ \"| REAL VOICE carousel CSS | ❌ missing |\" >> \"$SUMMARY\"\n      FAIL=1\n    else\n      echo \"| Root CSS fingerprint | ✅ ${ROOT_CSS_URL}\
+        \ |\" >> \"$SUMMARY\"\n      echo \"| Root CSS bytes | ✅ exact match |\" >> \"$SUMMARY\"\n      echo \"| REAL VOICE carousel CSS | ✅ present\
+        \ |\" >> \"$SUMMARY\"\n    fi\n  fi\nfi\n\nfetch_page \"Blog index\" \"${PRODUCTION_URL}/blog/?${CACHE_BUST}\" \"$TMP_DIR/blog.html\"\n\
+        BLOG_INDEX_CORPUS=\"$TMP_DIR/blog-index-all.html\"\ncp \"$TMP_DIR/blog.html\" \"$BLOG_INDEX_CORPUS\"\n\nwhile IFS= read -r local_page;\
+        \ do\n  [ -z \"$local_page\" ] && continue\n  page_num=\"$(basename \"$(dirname \"$local_page\")\")\"\n  live_page=\"$TMP_DIR/blog-page-${page_num}.html\"\
+        \n  fetch_page \"Blog page ${page_num}\" \"${PRODUCTION_URL}/blog/page/${page_num}/?${CACHE_BUST}\" \"$live_page\"\n  cat \"$live_page\"\
+        \ >> \"$BLOG_INDEX_CORPUS\"\ndone < <(find dist/blog/page -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)\n\
+        \n# Plain Blog URL freshness: the normal URL used by visitors must already\n# expose the new article set. A cache-busted URL alone is\
+        \ not sufficient.\nPLAIN_READY=0\nPLAIN_CACHE_CONTROL=\"\"\nfor ATTEMPT in $(seq 1 12); do\n  PLAIN_BLOG_INDEX_CORPUS=\"$TMP_DIR/blog-index-plain-all.html\"\
+        \n  : > \"$PLAIN_BLOG_INDEX_CORPUS\"\n  PLAIN_HEADERS=\"$TMP_DIR/blog-plain.headers\"\n  PLAIN_INDEX=\"$TMP_DIR/blog-plain.html\"\n\n\
+        \  PLAIN_CODE=$(curl -sS -L -D \"$PLAIN_HEADERS\" -o \"$PLAIN_INDEX\" -w '%{http_code}' \\\n    --retry 1 --retry-delay 1 --retry-all-errors\
+        \ --connect-timeout 8 --max-time 15 \\\n    \"${PRODUCTION_URL}/blog/\" || echo '000')\n\n  if [ \"$PLAIN_CODE\" = \"200\" ]; then\n \
+        \   cat \"$PLAIN_INDEX\" >> \"$PLAIN_BLOG_INDEX_CORPUS\"\n    PLAIN_PAGES_OK=1\n    while IFS= read -r local_page; do\n      [ -z \"$local_page\"\
+        \ ] && continue\n      page_num=\"$(basename \"$(dirname \"$local_page\")\")\"\n      plain_page=\"$TMP_DIR/blog-page-${page_num}-plain.html\"\
+        \n      page_code=$(curl -sS -L -o \"$plain_page\" -w '%{http_code}' \\\n        --retry 1 --retry-delay 1 --retry-all-errors --connect-timeout\
+        \ 8 --max-time 15 \\\n        \"${PRODUCTION_URL}/blog/page/${page_num}/\" || echo '000')\n      if [ \"$page_code\" != \"200\" ]; then\n\
+        \        PLAIN_PAGES_OK=0\n        break\n      fi\n      cat \"$plain_page\" >> \"$PLAIN_BLOG_INDEX_CORPUS\"\n    done < <(find dist/blog/page\
+        \ -mindepth 2 -maxdepth 2 -type f -name index.html 2>/dev/null | sort -V || true)\n\n    PLAIN_ALL_LISTED=1\n    while IFS= read -r slug;\
+        \ do\n      [ -z \"$slug\" ] && continue\n      if ! grep -qF \"/blog/${slug}/\" \"$PLAIN_BLOG_INDEX_CORPUS\"; then\n        PLAIN_ALL_LISTED=0\n\
+        \        break\n      fi\n    done < .deploy-published-slugs\n\n    PLAIN_DATES_OK=1\n    if ! node scripts/verify-blog-card-dates.mjs\
+        \ \"$PLAIN_BLOG_INDEX_CORPUS\" .deploy-published-card-expectations; then\n      PLAIN_DATES_OK=0\n    fi\n\n    PLAIN_CACHE_CONTROL=\"\
+        $(grep -i '^cache-control:' \"$PLAIN_HEADERS\" | tail -n1 | cut -d: -f2- | tr -d '\\r' | xargs || true)\"\n    if [ \"$PLAIN_PAGES_OK\"\
+        \ = \"1\" ] && [ \"$PLAIN_ALL_LISTED\" = \"1\" ] && [ \"$PLAIN_DATES_OK\" = \"1\" ] \\\n      && printf '%s' \"$PLAIN_CACHE_CONTROL\"\
+        \ | grep -Eqi 'no-cache|max-age=0|must-revalidate'; then\n      PLAIN_READY=1\n      break\n    fi\n  fi\n\n  echo \"Waiting for plain\
+        \ /blog/ freshness ${ATTEMPT}/12 (HTTP ${PLAIN_CODE}, Cache-Control: ${PLAIN_CACHE_CONTROL:-missing})\"\n  sleep 5\ndone\n\nif [ \"$PLAIN_READY\"\
+        \ != \"1\" ]; then\n  echo \"::error::Plain /blog/ is stale or lacks revalidation cache headers after deploy.\"\n  echo \"| Plain Blog\
+        \ URL freshness | ❌ stale or cacheable |\" >> \"$SUMMARY\"\n  FAIL=1\nelse\n  echo \"| Plain Blog URL freshness | ✅ all published articles\
+        \ listed |\" >> \"$SUMMARY\"\n  echo \"| Plain Blog card dates | ✅ match published front matter |\" >> \"$SUMMARY\"\n  echo \"| Blog HTML\
+        \ Cache-Control | ✅ ${PLAIN_CACHE_CONTROL} |\" >> \"$SUMMARY\"\nfi\n\nBLOG_CSS_URL=\"$(grep -oE '/assets/css/blog\\.css\\?v=[a-f0-9]{12}'\
+        \ \"$TMP_DIR/blog.html\" | head -n1 || true)\"\nif [ -z \"$BLOG_CSS_URL\" ]; then\n  echo \"::error::本番Blog HTMLにfingerprint付きblog.cssがありません。\"\
+        \n  echo \"| Blog CSS fingerprint | ❌ missing |\" >> \"$SUMMARY\"\n  FAIL=1\nelse\n  CSS_LIVE=\"$TMP_DIR/blog.css\"\n  CSS_CODE=$(curl\
+        \ -sS -L -o \"$CSS_LIVE\" -w '%{http_code}' \\\n    --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \\\n\
+        \    \"${PRODUCTION_URL}${BLOG_CSS_URL}&${CACHE_BUST}\" || echo '000')\n  if [ \"$CSS_CODE\" != \"200\" ]; then\n    echo \"::error::本番blog.cssがHTTP\
+        \ ${CSS_CODE}です: ${BLOG_CSS_URL}\"\n    echo \"| Blog CSS live | ❌ HTTP ${CSS_CODE} |\" >> \"$SUMMARY\"\n    FAIL=1\n  else\n    LIVE_CSS_SHA=\"\
+        $(sha256sum \"$CSS_LIVE\" | awk '{print $1}')\"\n    LOCAL_CSS_SHA=\"$(sha256sum dist/assets/css/blog.css | awk '{print $1}')\"\n    if\
+        \ [ \"$LIVE_CSS_SHA\" != \"$LOCAL_CSS_SHA\" ]; then\n      echo \"::error::本番blog.cssが今回のdistと一致しません。\"\n      echo \"| Blog CSS bytes\
+        \ | ❌ SHA256 mismatch |\" >> \"$SUMMARY\"\n      FAIL=1\n    elif ! grep -qF 'aspect-ratio:16/9' \"$CSS_LIVE\"; then\n      echo \"::error::本番blog.cssに16:9カード指定がありません。\"\
+        \n      echo \"| Blog card ratio CSS | ❌ missing 16:9 |\" >> \"$SUMMARY\"\n      FAIL=1\n    else\n      echo \"| Blog CSS fingerprint\
+        \ | ✅ ${BLOG_CSS_URL} |\" >> \"$SUMMARY\"\n      echo \"| Blog CSS bytes | ✅ exact match |\" >> \"$SUMMARY\"\n      echo \"| Blog card\
+        \ ratio CSS | ✅ 16:9 |\" >> \"$SUMMARY\"\n    fi\n  fi\nfi\n\nwhile IFS= read -r image_path; do\n  [ -z \"$image_path\" ] && continue\n\
+        \  image_label=\"${image_path#/}\"\n  image_file=\"$TMP_DIR/image-$(printf '%s' \"$image_label\" | tr '/ ' '__')\"\n  local_file=\"dist/${image_label}\"\
+        \n  fetch_page \"Image: ${image_label}\" \"${PRODUCTION_URL}${image_path}?${CACHE_BUST}\" \"$image_file\"\n  if [ ! -s \"$image_file\"\
+        \ ]; then\n    echo \"::error::本番画像が空です: ${image_path}\"\n    FAIL=1\n    continue\n  fi\n  if [ ! -f \"$local_file\" ]; then\n    echo\
+        \ \"::error::比較元のdist画像がありません: ${image_path}\"\n    FAIL=1\n    continue\n  fi\n  live_sha=\"$(sha256sum \"$image_file\" | awk '{print\
+        \ $1}')\"\n  local_sha=\"$(sha256sum \"$local_file\" | awk '{print $1}')\"\n  if [ \"$live_sha\" != \"$local_sha\" ]; then\n    echo \"\
+        ::error::本番画像が今回のdist画像と一致しません: ${image_path}\"\n    echo \"| Image bytes: ${image_label} | ❌ SHA256 mismatch |\" >> \"$SUMMARY\"\n  \
+        \  FAIL=1\n  else\n    echo \"| Image bytes: ${image_label} | ✅ exact match |\" >> \"$SUMMARY\"\n  fi\ndone < .deploy-published-images\n\
+        \nwhile IFS= read -r slug; do\n  [ -z \"$slug\" ] && continue\n  if ! grep -qF \"/blog/${slug}/\" \"$BLOG_INDEX_CORPUS\"; then\n    echo\
+        \ \"::error::本番Blog一覧に公開記事がありません: ${slug}\"\n    echo \"| Blog link: ${slug} | ❌ missing |\" >> \"$SUMMARY\"\n    FAIL=1\n  else\n   \
+        \ echo \"| Blog link: ${slug} | ✅ listed |\" >> \"$SUMMARY\"\n  fi\n  if [ \"$DEPLOY_MODE\" != \"BLOG_FAST\" ] || [ ! -f .deploy-changed-slugs\
+        \ ] \\\n      || grep -Fxq \"$slug\" .deploy-changed-slugs; then\n    fetch_page \"Article: ${slug}\" \"${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}\"\
+        \ \"$TMP_DIR/article-${slug}.html\"\n  else\n    echo \"Unchanged article: ${slug} (link in complete index verified)\"\n  fi\ndone < .deploy-published-slugs\n\
+        \nwhile IFS= read -r slug; do\n  [ -z \"$slug\" ] && continue\n  if grep -qF \"/blog/${slug}/\" \"$BLOG_INDEX_CORPUS\"; then\n    echo\
+        \ \"::error::本番Blog一覧に下書き記事が表示されています: ${slug}\"\n    echo \"| Draft hidden: ${slug} | ❌ listed |\" >> \"$SUMMARY\"\n    FAIL=1\n  else\n\
+        \    echo \"| Draft hidden: ${slug} | ✅ not listed |\" >> \"$SUMMARY\"\n  fi\n\n  code=$(curl -sS -L -o \"$TMP_DIR/draft-${slug}.html\"\
+        \ -w '%{http_code}' \\\n    --retry 1 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 15 \\\n    \"${PRODUCTION_URL}/blog/${slug}/?${CACHE_BUST}\"\
+        \ || echo '000')\n  if [ \"$code\" = \"200\" ]; then\n    echo \"::error::下書き記事URLが本番でHTTP 200を返しています: ${slug}\"\n    echo \"| Draft URL:\
+        \ ${slug} | ❌ HTTP 200 |\" >> \"$SUMMARY\"\n    FAIL=1\n  else\n    echo \"| Draft URL: ${slug} | ✅ HTTP ${code} |\" >> \"$SUMMARY\"\n\
+        \  fi\ndone < .deploy-draft-slugs\n\n# Category Architecture v1.0: キャッシュバスターなしの通常訪問者URLでカテゴリー導線を検証する。\nif ! node scripts/verify-blog-categories.mjs\
+        \ live \"${PRODUCTION_URL}\"; then\n  echo \"::error::本番のBlogカテゴリー検証に失敗しました。\"\n  FAIL=1\nfi\n\necho \"\" >> \"$SUMMARY\"\nif [ \"$FAIL\"\
+        \ = \"0\" ]; then\n  echo \"**結果: Xserver本番公開・公開記事・下書き非公開を確認しました。**\" >> \"$SUMMARY\"\nelse\n  echo \"**結果: 本番確認で失敗した項目があります。バックアップ安全網を保持したまま停止しました。**\"\
+        \ >> \"$SUMMARY\"\nfi\n\nrm -rf \"$TMP_DIR\"\nexit \"$FAIL\"\n"
+    - name: Recheck published category paths
+      run: node scripts/verify-blog-categories.mjs live https://therev-lab.com
+    - name: Compare normal public URLs with exact deployed build
+      id: live_bytes
+      env:
+        RELEASE_SHA: a3b98e788238ee84dac77416d332e689856639d2
+        RELEASE_RUN: '39006859070'
+      run: "mkdir -p qa-out/production\nnode --input-type=module <<'NODE'\nimport fs from 'node:fs';\nimport crypto from 'node:crypto';\nimport\
+        \ assert from 'node:assert/strict';\nimport path from 'node:path';\nconst files=['index.html','solution.html','trainer.html','price.html','blog/index.html','access.html','robots.txt','sitemap.xml','assets/css/style.css','assets/js/main.js'];\n\
+        function collectPublishedBlog(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())collectPublishedBlog(file);else\
+        \ if(entry.name==='index.html'){const relative=path.relative('dist',file);if(!files.includes(relative))files.push(relative);}}}\ncollectPublishedBlog('dist/blog');\n\
+        const checks=[];\nconst versionedScripts=new Set();\nfor(const file of files){\n  const pathname=file==='index.html'?'/':file.startsWith('blog/')?'/'+file.replace(/index\\\
+        .html$/,''):'/'+file;\n  const response=await fetch('https://therev-lab.com'+pathname,{signal:AbortSignal.timeout(30000)});\n  const body=Buffer.from(await\
+        \ response.arrayBuffer());\n  const hash=b=>crypto.createHash('sha256').update(b).digest('hex');\n  const actual=hash(body),expected=hash(fs.readFileSync('dist/'+file));\n\
+        \  checks.push({path:pathname,http:response.status,actual,expected,match:actual===expected,xRobotsTag:response.headers.get('x-robots-tag')});\n\
+        \  if(file.endsWith('.html')){\n    for(const match of fs.readFileSync('dist/'+file,'utf8').matchAll(/src=[\"']([^\"']*assets\\/js\\/(?:main|unified-navigation|home-v7)\\\
+        .js\\?v=[a-f0-9]{12})[\"']/g))versionedScripts.add(new URL(match[1],'https://therev-lab.com'+pathname).pathname+'?'+new URL(match[1],'https://therev-lab.com'+pathname).searchParams);\n\
+        \  }\n}\nfor(const pathname of versionedScripts){\n  const response=await fetch('https://therev-lab.com'+pathname,{signal:AbortSignal.timeout(30000)});\n\
+        \  const body=Buffer.from(await response.arrayBuffer()),file=new URL('https://therev-lab.com'+pathname).pathname.slice(1);\n  const hash=b=>crypto.createHash('sha256').update(b).digest('hex');\n\
+        \  const actual=hash(body),expected=hash(fs.readFileSync('dist/'+file));\n  checks.push({path:pathname,http:response.status,actual,expected,match:actual===expected,xRobotsTag:response.headers.get('x-robots-tag')});\n\
+        }\nconst report={releaseSha:process.env.RELEASE_SHA,releaseRun:process.env.RELEASE_RUN,observedAt:new Date().toISOString(),method:'GET\
+        \ only; no JavaScript or analytics execution',checks};\nfs.writeFileSync('qa-out/production/live-bytes.json',JSON.stringify(report,null,2));\n\
+        for(const row of checks){assert.equal(row.http,200,row.path);assert.ok(row.match,row.path+' exact production bytes');assert.ok(!/noindex/i.test(row.xRobotsTag||''),row.path+'\
+        \ header indexable');}\nconsole.log('Production byte acceptance PASS: '+checks.length+' normal visitor URLs');\nNODE\n"
+    - run: npx playwright install --with-deps chromium
+    - name: Verify returning-visitor JavaScript cache replacement
+      if: hashFiles('scripts/test-javascript-warm-cache.mjs') != ''
+      run: node --test scripts/test-javascript-warm-cache.mjs
+    - name: Operate all six public pages at seven viewport sizes
+      env:
+        BASE_URL: https://therev-lab.com
+        QA_OUT: qa-out/production/browser
+      run: node scripts/qa-unified-site.mjs
+    - name: Verify actual public GTM and intent requests without transmission
+      if: always() && steps.live_bytes.outcome == 'success'
+      run: "node --input-type=module <<'NODE'\nimport fs from 'node:fs';\nimport assert from 'node:assert/strict';\nimport {chromium} from 'playwright';\n\
+        const report={scope:'Actual production HTTP and browser; collection fulfilled locally before transmission',analyticsTransmitted:0,ga4Receipt:'UNVERIFIED',pages:[]};\n\
+        const browser=await chromium.launch({headless:true});\ntry {\n  for(const pathname of ['/','/solution.html','/trainer.html','/price.html','/blog/','/access.html','/blog/training-how-hard-to-push/']){\n\
+        \    const row={pathname,collection:[],cdn:[],errors:[]};report.pages.push(row);\n    const context=await browser.newContext({viewport:{width:1440,height:900},serviceWorkers:'block'});\n\
+        \    await context.route('**/*',async route=>{\n      const req=route.request(),u=new URL(req.url());\n      if(/google-analytics\\.com$|analytics\\\
+        .google\\.com$/.test(u.hostname)||/\\/(?:g\\/)?collect(?:\\/|$)/.test(u.pathname)){\n        const params=u.searchParams;\n        for(const\
+        \ line of (req.postData()||'').split('\\n')){\n          const body=new URLSearchParams(line);\n          row.collection.push({measurementId:params.get('tid')||body.get('tid'),event:body.get('en')||params.get('en'),pageType:body.get('ep.page_type')||params.get('ep.page_type'),placement:body.get('ep.placement')||params.get('ep.placement'),intercepted:true});\n\
+        \        }\n        await route.fulfill({status:204,headers:{'access-control-allow-origin':'*'},body:''});return;\n      }\n      if(req.method()==='GET'&&(u.origin==='https://therev-lab.com'||u.hostname==='www.googletagmanager.com')){await\
+        \ route.continue();return;}\n      await route.abort();\n    });\n    const page=await context.newPage();\n    page.on('pageerror',e=>row.errors.push(e.message));\n\
+        \    page.on('response',r=>{if(r.url().startsWith('https://www.googletagmanager.com/'))row.cdn.push({path:new URL(r.url()).pathname,status:r.status()});});\n\
+        \    try {\n      const response=await page.goto('https://therev-lab.com'+pathname,{waitUntil:'load',timeout:45000});\n      assert.equal(response.status(),200);\n\
+        \      await page.waitForFunction(()=>!!window.google_tag_manager?.['GTM-WFD7R8BT'],{},{timeout:15000});\n      const intent=await page.evaluate(()=>{\n\
+        \        const track=location.pathname.startsWith('/blog/')&&location.pathname!=='/blog/'?'article_cta_click':'reserve_click';\n     \
+        \   const a=document.querySelector('a[data-track=\"'+track+'\"]');\n        if(!a)return null;\n        document.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault();},true);\n\
+        \        a.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));return track;\n      });\n      assert.ok(intent,'existing\
+        \ intent CTA must exist');\n      const deadline=Date.now()+15000;\n      while(Date.now()<deadline&&(!row.collection.some(e=>e.event==='page_view')||!row.collection.some(e=>e.event===intent)))await\
+        \ new Promise(r=>setTimeout(r,100));\n      row.dataLayer=await page.evaluate(()=>({starts:dataLayer.filter(e=>e.event==='gtm.js').length,intents:dataLayer.filter(e=>['reserve_click','article_cta_click'].includes(e.event)).map(e=>({event:e.event,page_type:e.page_type,placement:e.placement,event_version:e.event_version}))}));\n\
+        \      assert.equal(row.dataLayer.starts,1);\n      assert.equal(row.dataLayer.intents.filter(e=>e.event===intent).length,1);\n      const\
+        \ expectedType={'/':'home','/solution.html':'recovery','/trainer.html':'trainer','/price.html':'price','/blog/':'blog_index','/access.html':'access','/blog/training-how-hard-to-push/':'blog_article'}[pathname];\n\
+        \      const emitted=row.dataLayer.intents.find(e=>e.event===intent);\n      assert.equal(emitted.page_type,expectedType);assert.equal(emitted.event_version,'e1_v1');assert.ok(emitted.placement);\n\
+        \      const collected=row.collection.filter(e=>e.measurementId==='G-Q6ZSSJMEZ2');\n      assert.equal(collected.filter(e=>e.event==='page_view').length,1);\n\
+        \      assert.equal(collected.filter(e=>e.event===intent).length,1);\n      assert.ok(row.cdn.some(e=>e.status===200&&e.path.startsWith('/gtag/')));\n\
+        \      assert.deepEqual(row.errors,[]);row.status='PASS';\n    } catch(e){row.status='FAIL';row.failure=e.message;}\n    finally{await\
+        \ context.close();}\n  }\n} finally {\n  await browser.close();\n  fs.mkdirSync('qa-out/production',{recursive:true});\n  fs.writeFileSync('qa-out/production/measurement.json',JSON.stringify(report,null,2));\n\
+        }\nassert.equal(report.pages.length,7);\nassert.ok(report.pages.every(p=>p.status==='PASS'),JSON.stringify(report.pages.filter(p=>p.status!=='PASS')));\n\
+        console.log('Actual production GTM/Google tag + single page_view/intent request construction PASS on 7 pages; analytics transmitted 0;\
+        \ receipt UNVERIFIED');\nNODE\n"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: production-release-readback-${{ github.run_id }}
+        path: qa-out/
+        retention-days: 14

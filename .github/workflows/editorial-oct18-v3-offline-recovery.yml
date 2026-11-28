@@ -1,0 +1,84 @@
+name: Oct18 V3 Real Room Offline Recovery (OpenAI only, zero new image generations)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/editorial-oct18-v3-offline-recovery.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  free-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      EDITORIAL_IMAGE_GENERATION_MODEL: gpt-5.6
+      EDITORIAL_IMAGE_QA_MODEL: gpt-5.6
+      EDITORIAL_IMAGE_DISABLE_GENERATION: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main, fetch-depth: 0}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22', cache: npm}
+      - name: Retrieve quarantined actual R4 OpenAI photograph
+        run: |
+          set -euo pipefail
+          mkdir -p .offline-r4-evidence
+          gh run download 38998995589 --repo ${{ github.repository }} --name editorial-rejected-image-evidence-38998995589 --dir .offline-r4-evidence
+          tar -xzf .offline-r4-evidence/editorial-operator-rejected.tar.gz -C .offline-r4-evidence
+          test -f assets/images/photo-evolgear.jpg
+          find .offline-r4-evidence -name '*-scene.png' -print
+      - name: Install image repair tools and existing typography renderer
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq python3-pil fonts-noto-cjk
+          npm ci
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Recover original real gym and keep the R4 OpenAI human without generating a second photo
+        run: |
+          set -euo pipefail
+          python3 scripts/recover-oct18-v3-r4-offline.py
+          test "$(jq -r .v3.no_new_image_generation editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json)" = true
+      - name: Re-render existing THREE original formats and run existing independent GPT visual QA without any image generation
+        id: qa
+        run: |
+          set -euo pipefail
+          node scripts/auto-editorial-hybrid-image.mjs editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json
+          test "$(jq -r .status editorial/image-operator-state/personal-gym-trial-three-checks.json)" = 'READY_CANDIDATE'
+          test "$(jq -r .pass editorial/image-qa/personal-gym-trial-three-checks-reference-v3-authentic-room-recovery-20261018-contract-r5.json)" = true
+      - name: Preserve all recovered evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oct18-v3-recovery-evidence-${{ github.run_id }}
+          path: |
+            assets/images/editorial-generated/personal-gym-trial-three-checks-reference-v3-authentic-room-recovery-20261018-contract-r5-scene.png
+            assets/images/blog/*personal-gym-trial-three-checks*contract-r5*
+            assets/images/blog/og/*personal-gym-trial-three-checks*contract-r5*
+            assets/images/gbp/*personal-gym-trial-three-checks*contract-r5*
+            editorial/image-qa/personal-gym-trial-three-checks-reference-v3-authentic-room-recovery-20261018-contract-r5.json
+            editorial/image-operator-state/personal-gym-trial-three-checks.json
+            editorial/prepublication/2026-10-18-contract-checklist/V3_R5_OFFLINE_RECOVERY.json
+          if-no-files-found: warn
+      - name: Commit validated article image and hook into canonical Xserver image production staging
+        if: success()
+        run: |
+          set -euo pipefail
+          job=editorial/hybrid-image-jobs/personal-gym-trial-three-checks.json
+          scene=$(jq -r .generated_scene_path "$job")
+          thumb=$(jq -r .thumbnail "$job")
+          og=$(jq -r .og_image "$job")
+          gbp=$(jq -r .gbp_image "$job")
+          qa=$(jq -r .qa_report_path "$job")
+          test -f "$scene" && test -f "$thumb" && test -f "$og" && test -f "$gbp" && test -f "$qa"
+          git add "$job" "$scene" "$thumb" "$og" "$gbp" "$qa" editorial/image-operator-state/personal-gym-trial-three-checks.json editorial/prepublication/2026-10-18-contract-checklist/V3_R5_OFFLINE_RECOVERY.json
+          git add "${thumb}.typography.json"
+          jq -r '.thumbnail_typography_acceptance.deterministic.variants[].previews[].path' "$qa" | while read -r file; do test -f "$file"; git add "$file"; done
+          git -c user.name='THE REV OpenAI Offline Recovery' -c user.email='actions@users.noreply.github.com' commit -m 'Recover V3 Oct18 authentic source gym and OpenAI human, 3 derivatives Visual QC PASS, no new generation'
+          git pull --rebase origin main
+          git push origin HEAD:main

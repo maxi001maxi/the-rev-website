@@ -1,0 +1,4 @@
+before-access_html: 18 states, 3 with failures
+FAIL access.html@1500 scroll=900 cta"初回体験を予約" 1.06<4.5
+FAIL access.html@1440 scroll=900 cta"初回体験を予約" 1.06<4.5
+FAIL access.html@1400 scroll=900 cta"初回体験を予約" 1.06<4.5

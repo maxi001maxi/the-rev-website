@@ -1,0 +1,27 @@
+{
+  "status": "CONVERSATION_QC_PASS_XSERVER_VERIFIED",
+  "run_id": "41747987253",
+  "asset_version": "reference-v26-grounded-auto-denba-20260924-63fb04d3",
+  "image_checks": [
+    {
+      "path": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+      "sha256": "76a73531318d0b92195ac4daf9944fbe83d64150bd94e409bab8bf371a4513ce",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+      "sha256": "52df0998fda9a1c633e37d4fc7fcee7fac78aba7cf91457a2d9125e24237857b",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+      "sha256": "44ec5edb8938f7e5e59cd2cdb04bc88b36fde6dbe5145f9af7e7364c6b6ac721",
+      "http_status": 200
+    }
+  ],
+  "article_http_status": 404,
+  "blog_published": false,
+  "gbp_posted": false,
+  "owner_publish_approval": false,
+  "external_ai_api_calls": 0
+}

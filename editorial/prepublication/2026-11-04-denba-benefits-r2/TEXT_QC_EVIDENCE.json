@@ -1,0 +1,57 @@
+{
+  "review_method": "ChatGPT Work in-conversation claim, manufacturer-source and marketing review; no paid AI API",
+  "checked_at": "2026-11-04T00:58:59.399Z",
+  "owner_direction": "Lead with product benefits and understandable manufacturer mechanism; remove academic-study exposition; make title and thumbnail explicitly relevant to DENBA care. Same approved CMS draft, not a new article.",
+  "sources": [
+    {
+      "url": "https://www.denba.co.jp/faq/health",
+      "scope": "Official product expectations: pleasant sleep, refreshed waking, beauty/health/aging-care support. Clearly attributed and identified as sleep-use context; no guarantee for THE REV short sessions. Use/contraindication facts only. Do not repeat official rash-as-positive-reaction claim."
+    },
+    {
+      "url": "https://www.denba.co.jp/health",
+      "scope": "Manufacturer mechanism: weak field around mat, microscopic vibration of water molecules, application from food preservation to health; labeled manufacturer explanation, not independent clinical fact."
+    },
+    {
+      "source": "S004 DENBA Health 従業員向け完全マニュアル",
+      "scope": "Recovery positioning, rest after exercise/work, customer operation unnecessary, individual feelings, no medical/synergy claim."
+    },
+    {
+      "source": "GitHub main solution.html",
+      "scope": "Current first trial45min3300JPY tax included; booking60min; recovery-only available without training contract; separate menu/fee. No promise45min pure rest or60min exact door-to-door."
+    }
+  ],
+  "claim_review": [
+    {
+      "claim": "Product expectations are attributed; daytime session is not presented as overnight-use evidence",
+      "pass": true
+    },
+    {
+      "claim": "Mechanism is manufacturer-described, no invented blood-flow/metabolic/toxin causal chain",
+      "pass": true
+    },
+    {
+      "claim": "No claim of proven fatigue recovery, autonomic normalization, disease treatment or synergy",
+      "pass": true
+    },
+    {
+      "claim": "No invented store testimonial, popularity, actual client result or new clinical evidence",
+      "pass": true
+    },
+    {
+      "claim": "Clear product-and-care title/copy; benefits first; no study n/p-values or university authority pitch",
+      "pass": true
+    }
+  ],
+  "rubric": {
+    "reader_relevance": 4,
+    "manufacturer_claim_accuracy": 4,
+    "plain_mechanism": 4,
+    "marketing_readability": 4,
+    "store_transition": 3
+  },
+  "total": 19,
+  "max": 20,
+  "source_unverified": false,
+  "issues": [],
+  "external_ai_api_calls": 0
+}

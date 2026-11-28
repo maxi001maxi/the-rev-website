@@ -1,0 +1,238 @@
+{
+  "scope": "Target article rows and bounded Editorial log entries only; read-only",
+  "spreadsheet_id": "1_Cia3fsELLCJtBcIFq38Jg5CbEVG2md2G6w6Do4BaeI",
+  "snapshots": [
+    {
+      "sheet": "26_DAILY_EDITORIAL_QUEUE",
+      "range": "A25:AY25",
+      "observed_at": "2026-10-20T03:10:52.705Z",
+      "provider_result": {
+        "range": "'26_DAILY_EDITORIAL_QUEUE'!A25:AY25",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "DQ-20261020-001",
+            46315,
+            "TU",
+            "BLOG-20261021-4ac8fd",
+            "BT-20261020-DAILY-2",
+            "夜の筋トレと睡眠の両立",
+            "夜 筋トレ 睡眠 何時間前",
+            "training",
+            "REVIEW_REQUIRED",
+            "SUFFICIENT",
+            false,
+            "NOT_REQUIRED",
+            "REVIEW_REQUIRED",
+            "NOT_STARTED",
+            null,
+            "NORMAL",
+            "TP-20261021 (GPT first-party Interview)",
+            46315.45647929398,
+            46315.45794050926,
+            "Created by Daily Creator v0.6.9 from BT-20261020-DAILY-2 on Gate CREATE_NEW (run 2026-10-20, target 2026-10-21). Auto Publish OFF / Human approval required. Topic approval TP-20261021 by GPT.",
+            46315,
+            91,
+            82,
+            null,
+            "NOT_SYNCED",
+            "{\"candidate_id\":\"BT-20261020-DAILY-2\",\"decision\":\"PUBLISH\",\"route_lane\":\"WEB_BLOG\",\"topic\":\"夜の筋トレと睡眠の両立\",\"title_candidate\":\"夜に筋トレしても眠れる？寝る前の時間と強さを決める目安\",\"primary_query\":\"夜 筋トレ 睡眠 何時間前\",\"audience_question\":\"仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？\",\"why_now\":\"朝と夜の優劣を単純に決められない研究が出ており、秋の生活リズム再設計期に「夜しか時間がない」人の実用的な疑問に答えられる。直近記事の疲労時の筋トレ判断とも異なる、就寝前の強度と時間の設計が主題になる。\",\"local_angle\":\"地域名を入れない自然な全国検索テーマ。新大宮で仕事帰りに予約して運動を検討する人にも合う。\",\"unique_angle\":\"朝活を正解にせず、就寝までの残り時間、運動の強さ、普段の寝つき、翌朝の予定から「軽く動く・別日に回す」を選ぶ記事にする。睡眠改善は断言しない。\",\"selection_reason\":\"\",\"article_type\":\"STANDARD\",\"total_score\":82,\"raw_topic_score\":82,\"pillar_adjusted_score\":null,\"portfolio_final_score\":null,\"source_refs\":\"[\\\"fresh_research:12f76dac-a998-4903-a678-9d9583e5ed0b\\\",\\\"fresh_research:e30bed07-160f-4a24-9daf-13ccbfa3f536\\\",\\\"blog_history:仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安\\\",\\\"recent_instagram_history:睡眠と身体づくりの関係\\\"]\",\"notes\":\"AUDIENCE_V08: {\\\"editorial_role\\\":\\\"KNOWLEDGE\\\",\\\"editorial_role_reason\\\":\\\"夜しか運動時間を取れない読者が、睡眠を犠牲にせず負荷を選べるようにする\\\",\\\"audience_stage\\\":\\\"EXPLORING_OPTIONS\\\",\\\"psychological_hook\\\":\\\"UNCERTAINTY\\\",\\\"reader_scene\\\":\\\"夕食後に運動するか、そのまま寝るか迷う平日夜\\\",\\\"reader_job\\\":\\\"夜の運動量を決める\\\",\\\"reader_question\\\":\\\"夜に筋トレしても眠れる？\\\",\\\"new_reader_takeaway\\\":\\\"時間帯の優劣より就寝までの時間と運動強度を確認する見方\\\",\\\"incremental_answer\\\":\\\"疲れている日の可否ではなく、眠る前の運動の組み立て方を示す\\\",\\\"natural_service_fit\\\":\\\"完全予約制で生活予定に合わせたトレーニング相談へつながる\\\",\\\"content_action\\\":\\\"NEW_ARTICLE\\\",\\\"search_signal_type\\\":\\\"QUERY_HYPOTHESIS\\\",\\\"nearest_content_ids\\\":[],\\\"same_answer_as_existing\\\":false,\\\"unverified_health_claim\\\":false,\\\"evidence_items\\\":[{\\\"kind\\\":\\\"RESEARCH_INTERPRETATION\\\",\\\"source\\\":\\\"fresh_research:12f76dac-a998-4903-a678-9d9583e5ed0b\\\"},{\\\"kind\\\":\\\"RESEARCH_INTERPRETATION\\\",\\\"source\\\":\\\"fresh_research:e30bed07-160f-4a24-9daf-13ccbfa3f536\\\"}]}\\n一次情報Interview（原文。一般化・医療効果の断定をしない）:\\n「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"comparison_doc_url\":\"\",\"created_by\":\"daily-creator-v0.6.9\"}",
+            "{\"decision\":\"SUFFICIENT\",\"sufficient\":true,\"reason\":\"OWNER_TOPIC_INTERVIEW\",\"source_id\":\"TP-20261021\",\"source_refs\":[\"TP-20261021 (GPT first-party Interview)\"],\"fact_ids\":[],\"registry_version\":\"topic-interview-v1\",\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"topic_approval\":{\"proposal_id\":\"TP-20261021\",\"source\":\"GPT\",\"approved_at\":\"2026-10-20T00:37:16.996+00:00\"},\"media_portfolio\":{\"editorial_role\":\"KNOWLEDGE\",\"topic_lane\":\"生活と運動の検索ニーズ\",\"portfolio_at_selection\":{\"counts\":{\"KNOWLEDGE\":8,\"COMMUNITY_STORY\":0,\"FACILITY_AND_TRUST\":1,\"SERVICE_EXPERIENCE\":2,\"COMPARISON_DECISION\":1},\"notice\":\"直近12本の編成で不足: サービスの利用・体験 1本、店舗・設備・人への信頼 1本、比較・来店前の判断 1本（12本の柔軟な目安）\",\"topics\":{\"BOXING\":1,\"HEALTH\":3,\"RECOVERY\":3,\"TRAINING\":2,\"GYM-GUIDE\":3},\"window\":12,\"observed\":12,\"projected\":{\"KNOWLEDGE\":10,\"COMMUNITY_STORY\":0,\"FACILITY_AND_TRUST\":1,\"SERVICE_EXPERIENCE\":3,\"COMPARISON_DECISION\":1},\"role_score\":0,\"classification_source\":\"EXPLICIT\"}},\"first_party\":\"USED\",\"interview\":[{\"question\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\",\"answer\":\"夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\"},{\"question\":\"よくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\",\"answer\":\"実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\"}]}",
+            "Final Editor / Fact / Topic Gate requires review",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "TOPIC_SELECTED",
+            null,
+            "BLOG_DRAFT",
+            "NONE",
+            "PENDING",
+            "LINE",
+            null,
+            null,
+            null,
+            46316
+          ]
+        ]
+      }
+    },
+    {
+      "sheet": "21_WEB_BLOG_OUTPUT",
+      "range": "A22:AF22",
+      "observed_at": "2026-10-20T03:10:52.705Z",
+      "provider_result": {
+        "range": "'21_WEB_BLOG_OUTPUT'!A22:AF22",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            46315.457935439816,
+            46315,
+            "BLOG-20261021-4ac8fd",
+            "夜の筋トレは睡眠の何時間前まで？眠りを妨げにくい強さの目安",
+            "night-workout-sleep-timing-intensity",
+            "仕事後に筋トレをしたい人が、睡眠を妨げにくい運動終了時刻と強度の目安を知りたい。",
+            "夜 筋トレ 睡眠 何時間前",
+            "夜の筋トレは一律に避ける必要はありません。就寝までの残り時間、運動の強さ、翌朝の予定から、追い込む・軽く動く・休むを選ぶ実用的な目安を解説します。",
+            "夜の筋トレは、就寝直前に重いウェイトで追い込まなければ、必ずしも避ける必要はありません。目安は「夜 筋トレ 睡眠 何時間前か」だけでなく、その日の強度です。寝るまでの時間に合わせて、通常どおり行うか、軽く動くかを決めましょう。",
+            "夜にしか運動時間を取れないなら、筋トレを諦めるより**就寝までの残り時間と運動の強さをセットで調整する**ほうが現実的です。朝に運動するほうが常に睡眠に有利、とは一概にいえません。一方で、就寝に近い時間の激しい運動は、眠りの途中で目が覚めるなど、睡眠の連続性に影響する可能性があります。([朝と夜の運動・睡眠の研究レビュー](https://pubmed.ncbi.nlm.nih.gov/42632303/?utm_source=openai))\n\nまずの目安は、重い重量を扱い、限界近くまで行う日なら**できれば就寝の3〜4時間前には終える**ことです。残りが2時間以内なら、重量や種目数を抑える、または軽い運動に切り替える。これなら「夜しかできない」と「明日も眠りたい」の間で、無理のない選択ができます。\n\n## 時計だけでなく、終わった後の興奮度を見る\n\n同じ21時の運動でも、内容は大きく違います。息が上がるインターバル、長い距離を速く走る運動、重いウェイトでの追い込みは、終えてからも身体が高ぶった感覚が残りやすいものです。夜遅くに問題になりやすいのは、時刻そのものより、この「まだ落ち着かない」状態かもしれません。\n\n過去の研究レビューでは、就寝1時間以内に終わる激しい運動は、寝つくまでの時間や総睡眠時間に影響する可能性が示されています。反対に、高い強度でも就寝の2〜4時間前に終えた研究では、大きな睡眠の乱れが確認されなかったという整理もあります。対象者や運動内容は研究ごとに異なるため、全員に共通する正解の時刻ではありません。([夜の激しい運動と睡眠の研究レビュー](https://pubmed.ncbi.nlm.nih.gov/30374942/?utm_source=openai))\n\n夜の筋トレでは、次のように考えると選びやすくなります。\n\n- **就寝まで3〜4時間以上ある日**：通常の筋トレを検討しやすい時間帯です。ただし翌朝が早い日や寝不足の日まで、毎回追い込む必要はありません。\n- **就寝まで1〜2時間ほどの日**：重量やセット数を減らし、「あと数回はできそう」と感じる余力を残して終えます。フォーム確認、マシンでの軽めの筋トレ、ゆったりしたウォーキングが候補です。\n- **就寝直前の日**：自己ベスト狙い、息が切れる運動、重いウェイトでの追い込みは別日に回しましょう。動きたいなら、短い散歩や軽いストレッチなど、終えた後に呼吸が落ち着く内容を選びます。\n\n## 平日夜は「やるか、休むか」の二択にしない\n\n仕事後は疲労に加え、夕食、入浴、家事もあります。予定どおりのメニューを完遂することより、翌日に響かせないことを優先したい日もあるでしょう。夜の運動を続けるコツは、ゼロか百かにしないことです。\n\nたとえば23時に寝たい日に、21時からジムへ行ける場合。スクワットやデッドリフトを重くして限界まで行うより、全身を軽めに30〜40分動かし、21時45分頃には終える組み方のほうが現実的です。帰宅後の食事や入浴にも時間を残せます。\n\nこのときの選択肢は3つです。就寝まで余裕があり、日中の疲れも強くないなら通常どおり行う。寝る時間が近いなら、重量・セット数・ランニングのペースを落として軽く行う。眠気が強い、翌朝が早い、すでに寝つきにくさが続くなら、別日に回す。休むことも、続けるためのトレーニング計画に含まれます。\n\nランニングも同じです。夜に走ること自体ではなく、ペースで負荷は変わります。会話が難しいほどの速さで走るなら負荷は高くなりやすく、遅い時間には向かないことがあります。反対に、軽く歩くことまで睡眠に悪いと決めつける必要はありません。\n\n## 自分の「ちょうどよさ」は翌朝まで確かめる\n\n運動と睡眠の関係には個人差があります。成人を対象にしたメタ分析でも、運動による主観的な睡眠の変化にはばらつきがあり、研究全体の確実性も高くないと整理されています。([運動と睡眠の個人差を扱ったメタ分析](https://pubmed.ncbi.nlm.nih.gov/41650690/?utm_source=openai))\n\nそこで2週間ほど、夜に運動した日は「終了時刻」「内容」「寝つくまでの感覚」「夜中に起きた回数」「翌朝のだるさ」を短くメモしてみてください。夜トレの日だけ寝つきが悪いなら、まず終了時刻を早めるか、最後の高強度種目を外します。それでも続く場合は、カフェイン、夕食や入浴の時刻、仕事の緊張も含めて見直しましょう。\n\nTHE REV.では、夜しか時間を取りにくい方にも、毎回追い込むことを前提にはしません。就寝予定と疲れ具合を見て、重いトレーニングをする日、軽く動く日、休む日を分ける。その判断が、夜の運動を長く続けるための土台になります。強い不眠が続く、日中の強い眠気がある、いびきや呼吸の異常を指摘されている場合は、運動だけで解決しようとせず、医療機関へ相談してください。",
+            "仕事終わりの運動を続けたいけれど、負荷や時間の組み方に迷う方は、就寝予定も含めてトレーニング内容を相談してみてください。完全予約制のTHE REV. CONDITIONING LABでは、生活リズムに合わせた無理のない進め方を一緒に考えます。",
+            "[\"「仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安」へ、疲労が強い日の判断として内部リンクする。\",\"「睡眠と身体づくりの関係」へ、運動と休息を一緒に考える関連記事として内部リンクする。\"]",
+            "[\"朝・夜の運動と睡眠を比較した2026年の系統的レビュー：([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/42632303/?utm_source=openai))\",\"夜の激しい運動と就寝までの時間を扱った系統的レビュー：([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/30374942/?utm_source=openai))\",\"運動負荷・終了時刻と睡眠の関連を扱った大規模観察研究：([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/40234380/?utm_source=openai))\",\"運動による睡眠の変化の個人差を扱ったメタ分析：([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/41650690/?utm_source=openai))\"]",
+            "[\"https://pubmed.ncbi.nlm.nih.gov/30374942/\",\"https://pubmed.ncbi.nlm.nih.gov/42632303/\",\"https://pubmed.ncbi.nlm.nih.gov/34416428/\",\"https://pubmed.ncbi.nlm.nih.gov/36540196/\",\"https://pubmed.ncbi.nlm.nih.gov/41032147/\",\"https://pubmed.ncbi.nlm.nih.gov/37946447/\",\"https://pubmed.ncbi.nlm.nih.gov/42857179/\",\"https://pubmed.ncbi.nlm.nih.gov/37208462/\",\"https://pubmed.ncbi.nlm.nih.gov/40234380/\",\"https://pubmed.ncbi.nlm.nih.gov/40816297/\",\"https://pubmed.ncbi.nlm.nih.gov/24933083/\",\"https://pubmed.ncbi.nlm.nih.gov/41650690/\",\"https://odphp.health.gov/sites/default/files/2019-09/PAG_Advisory_Committee_Report.pdf\",\"https://health.gov/sites/default/files/2019-11/PAGAC-Meeting-5-Summary.pdf\",\"https://health.gov/sites/default/files/2019-10/Brain_Health_Q4_Sleep_Evidence_Portfolio.pdf\",\"https://pubmed.ncbi.nlm.nih.gov/42632303/\",\"https://pubmed.ncbi.nlm.nih.gov/30374942/\",\"https://pubmed.ncbi.nlm.nih.gov/41650690/\",\"https://pubmed.ncbi.nlm.nih.gov/40234380/\"]",
+            "https://docs.google.com/open?id=14kM38wjQ75p5TT6l8LRkuySVgBilCAmz_32bBFinaZE",
+            "REVIEW_REQUIRED",
+            "body_markdownは指定の1,600〜2,400字を満たす分量を想定しています。 | Blog Style Standard v2",
+            "夜の筋トレは、**時間帯だけを理由に一律で避ける必要はありません**。朝と夜の運動を比べた研究レビューでも、朝が常に睡眠に有利とは示されていません。一方で、夜は強度が高いほど、また就寝に近いほど、眠りの途中で目覚めるなど睡眠の連続性に影響する可能性があります。([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/42632303/?utm_source=openai))\n\nまずは、就寝までの残り時間で決めましょう。**重い重量で限界近くまで行う日なら、できれば就寝の3〜4時間前には終える**。残りが2時間以内なら、重量や種目数を抑えるか、軽い有酸素運動へ切り替える。この考え方なら、「夜しかできない」と「明日も眠りたい」を両立しやすくなります。\n\n## 「何時間前」より、運動の強さを先に見る\n\n夜の運動後に寝つきにくくなるかは、時計だけでは決まりません。息が上がるインターバル、長いランニング、重いウェイトでの追い込みは、身体が興奮した状態のまま就寝時刻に近づきやすい内容です。\n\n過去のレビューでは、就寝1時間以内に終わる激しい運動は、寝つくまでの時間や総睡眠時間に影響する可能性が示されました。反対に、高強度運動でも就寝2〜4時間前に終えた研究では、大きな睡眠の乱れが確認されなかったという整理もあります。研究ごとに対象者や運動内容は異なるため、誰にでも同じ時刻が正解とはいえません。([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/30374942/?utm_source=openai))\n\n目安として、次のように分けると実行しやすいでしょう。\n\n- **就寝まで3〜4時間以上**：通常の筋トレを検討しやすい時間帯。ただし、翌朝が早い日や寝不足の日は追い込みすぎない。\n- **就寝まで1〜2時間程度**：重量・セット数を減らし、「あと数回できそう」と感じるところで終える。フォーム確認、マシンでの軽めの筋トレ、ゆったりしたウォーキングが候補です。\n- **就寝直前**：自己ベスト狙いや息が切れる運動は別日に回す。身体を動かしたいなら、短い散歩や軽いストレッチなど、終えた後に呼吸が落ち着く内容を選びます。\n\n## 平日夜は「やる・やらない」ではなく、3つから選ぶ\n\n仕事後は疲労、夕食、入浴、家事などが重なります。そのため、予定どおりのメニューを完遂することより、翌日に持ち越さない選択が大切です。\n\nたとえば23時に寝たい日に、21時からジムへ行ける場合。スクワットやデッドリフトを重くして限界まで行うより、全身を軽めに30〜40分動かし、21時45分頃には終える設計の方が現実的です。帰宅後の食事や入浴の時間も確保できます。\n\n選択肢は次の3つです。\n\n1. **通常どおり行う**：就寝まで余裕があり、日中の疲れも強くない日。\n2. **軽く行う**：就寝が近い日。重量、セット数、ランニングのペースを下げる日です。\n3. **別日に回す**：眠気が強い、翌朝が早い、すでに寝つきが悪い日。休むこともトレーニング計画の一部です。\n\nランニングも同じで、種目名ではなくペース次第です。会話が難しいほど走るなら高い負荷になりやすく、夜遅い時間には向かないことがあります。軽く歩くことまで「睡眠に悪い」と決めつける必要はありません。\n\n## 自分に合うかは、翌朝まで記録して確かめる\n\n運動が睡眠を良くするかどうかも、全員で同じではありません。成人を対象にしたメタ分析では、運動による主観的な睡眠の変化には個人差があり、研究全体の確実性も高くないとされています。([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/41650690/?utm_source=openai))\n\nそこで2週間ほど、運動した日は「終了時刻・内容・寝つくまでの感覚・夜中に起きた回数・翌朝のだるさ」を簡単にメモしてみてください。夜トレの日だけ寝つきが悪いなら、まずは終了時刻を早めるか、最後の高強度種目を外します。それでも続く場合は、カフェイン、夕食や入浴の時刻、仕事の緊張も含めて見直すのがよいでしょう。\n\nTHE REV.では、夜しか時間を取りにくい方にも、毎回追い込むことを前提にせず、その日の就寝予定や疲れ具合に合わせて軽い内容から組み立てる考え方を大切にしています。強い不眠が続く、日中の強い眠気がある、いびきや呼吸の異常を指摘されている場合は、運動だけで解決しようとせず医療機関へ相談してください。\n\n参考として、夜間運動と睡眠の関係は、強度・就寝までの時間・個人差を分けて考えることが重要です。([pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov/42632303/?utm_source=openai))",
+            91,
+            "REVIEW_REQUIRED",
+            1,
+            "{\"issues\":[\"研究リンクは公開前にリンク先の書誌情報と、本文中の研究解釈が一致しているか最終確認してください。\",\"「3〜4時間前」は一般的な研究上の目安であり、THE REV.固有の運用ルールではないことを本文の文脈で明確にしています。\"],\"strengths\":[\"検索意図である「夜の筋トレは睡眠の何時間前までか」に冒頭で答え、強度によって判断を変える軸もすぐ示しています。\",\"一次情報の中心判断である「夜の運動を一律に避けない」「就寝直前の重い追い込みは避け、軽い内容から始める」を維持しています。\",\"3つの時間帯別の目安と、通常・軽め・別日に回すという実行しやすい選択肢で、読後の判断が明確です。\",\"睡眠改善を断定せず、個人差、研究の限界、受診が必要なサインを残しています。\"],\"summary\":\"時間帯を善悪で切らず、「就寝までの時間×強度×翌朝の状態」で選ぶ記事に整理しました。研究の断定を避けながら、平日夜に実際に使える判断基準へ落とし込めています。\",\"score_breakdown\":{\"title_hook\":13,\"seo_intent\":14,\"human_voice\":14,\"readability\":14,\"length_efficiency\":8,\"originality\":9,\"brand_fit\":10,\"fact_safety\":9},\"style_gate_pass\":true,\"final_char_count\":2034,\"target_char_count\":2400,\"topic_gate\":{\"candidate_id\":\"BT-20261020-DAILY-2\",\"decision\":\"PUBLISH\",\"route_lane\":\"WEB_BLOG\",\"topic\":\"夜の筋トレと睡眠の両立\",\"title_candidate\":\"夜に筋トレしても眠れる？寝る前の時間と強さを決める目安\",\"primary_query\":\"夜 筋トレ 睡眠 何時間前\",\"audience_question\":\"仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？\",\"why_now\":\"朝と夜の優劣を単純に決められない研究が出ており、秋の生活リズム再設計期に「夜しか時間がない」人の実用的な疑問に答えられる。直近記事の疲労時の筋トレ判断とも異なる、就寝前の強度と時間の設計が主題になる。\",\"local_angle\":\"地域名を入れない自然な全国検索テーマ。新大宮で仕事帰りに予約して運動を検討する人にも合う。\",\"unique_angle\":\"朝活を正解にせず、就寝までの残り時間、運動の強さ、普段の寝つき、翌朝の予定から「軽く動く・別日に回す」を選ぶ記事にする。睡眠改善は断言しない。\",\"selection_reason\":\"\",\"article_type\":\"STANDARD\",\"total_score\":82,\"raw_topic_score\":82,\"pillar_adjusted_score\":null,\"portfolio_final_score\":null,\"source_refs\":\"[\\\"fresh_research:12f76dac-a998-4903-a678-9d9583e5ed0b\\\",\\\"fresh_research:e30bed07-160f-4a24-9daf-13ccbfa3f536\\\",\\\"blog_history:仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安\\\",\\\"recent_instagram_history:睡眠と身体づくりの関係\\\"]\",\"notes\":\"AUDIENCE_V08: {\\\"editorial_role\\\":\\\"KNOWLEDGE\\\",\\\"editorial_role_reason\\\":\\\"夜しか運動時間を取れない読者が、睡眠を犠牲にせず負荷を選べるようにする\\\",\\\"audience_stage\\\":\\\"EXPLORING_OPTIONS\\\",\\\"psychological_hook\\\":\\\"UNCERTAINTY\\\",\\\"reader_scene\\\":\\\"夕食後に運動するか、そのまま寝るか迷う平日夜\\\",\\\"reader_job\\\":\\\"夜の運動量を決める\\\",\\\"reader_question\\\":\\\"夜に筋トレしても眠れる？\\\",\\\"new_reader_takeaway\\\":\\\"時間帯の優劣より就寝までの時間と運動強度を確認する見方\\\",\\\"incremental_answer\\\":\\\"疲れている日の可否ではなく、眠る前の運動の組み立て方を示す\\\",\\\"natural_service_fit\\\":\\\"完全予約制で生活予定に合わせたトレーニング相談へつながる\\\",\\\"content_action\\\":\\\"NEW_ARTICLE\\\",\\\"search_signal_type\\\":\\\"QUERY_HYPOTHESIS\\\",\\\"nearest_content_ids\\\":[],\\\"same_answer_as_existing\\\":false,\\\"unverified_health_claim\\\":false,\\\"evidence_items\\\":[{\\\"kind\\\":\\\"RESEARCH_INTERPRETATION\\\",\\\"source\\\":\\\"fresh_research:12f76dac-a998-4903-a678-9d9583e5ed0b\\\"},{\\\"kind\\\":\\\"RESEARCH_INTERPRETATION\\\",\\\"source\\\":\\\"fresh_research:e30bed07-160f-4a24-9daf-13ccbfa3f536\\\"}]}\\n一次情報Interview（原文。一般化・医療効果の断定をしない）:\\n「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"comparison_doc_url\":\"\",\"created_by\":\"daily-creator-v0.6.9\",\"target_char_count\":2400,\"target_range\":{\"min\":1600,\"max\":2400},\"style_standard_version\":\"v2\",\"knowledge_gate\":\"SUFFICIENT\",\"knowledge_context\":{\"decision\":\"SUFFICIENT\",\"sufficient\":true,\"reason\":\"OWNER_TOPIC_INTERVIEW\",\"source_id\":\"TP-20261021\",\"source_refs\":[\"TP-20261021 (GPT first-party Interview)\"],\"fact_ids\":[],\"registry_version\":\"topic-interview-v1\",\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"topic_approval\":{\"proposal_id\":\"TP-20261021\",\"source\":\"GPT\",\"approved_at\":\"2026-10-20T00:37:16.996+00:00\"},\"media_portfolio\":{\"editorial_role\":\"KNOWLEDGE\",\"topic_lane\":\"生活と運動の検索ニーズ\",\"portfolio_at_selection\":{\"counts\":{\"KNOWLEDGE\":8,\"COMMUNITY_STORY\":0,\"FACILITY_AND_TRUST\":1,\"SERVICE_EXPERIENCE\":2,\"COMPARISON_DECISION\":1},\"notice\":\"直近12本の編成で不足: サービスの利用・体験 1本、店舗・設備・人への信頼 1本、比較・来店前の判断 1本（12本の柔軟な目安）\",\"topics\":{\"BOXING\":1,\"HEALTH\":3,\"RECOVERY\":3,\"TRAINING\":2,\"GYM-GUIDE\":3},\"window\":12,\"observed\":12,\"projected\":{\"KNOWLEDGE\":10,\"COMMUNITY_STORY\":0,\"FACILITY_AND_TRUST\":1,\"SERVICE_EXPERIENCE\":3,\"COMPARISON_DECISION\":1},\"role_score\":0,\"classification_source\":\"EXPLICIT\"}},\"first_party\":\"USED\",\"interview\":[{\"question\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\",\"answer\":\"夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\"},{\"question\":\"よくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\",\"answer\":\"実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\"}]},\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"first_party_interview\":{\"topic_candidate_id\":\"BT-20261020-DAILY-2\",\"raw_answer\":\"1. 「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\n2. よくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"extracted_insights\":[],\"usable_quotes\":[],\"source_id\":\"TP-20261021\"}},\"quality_v080\":{\"mode\":\"ENFORCE\",\"deterministic\":{\"pass\":true,\"errors\":[],\"notices\":[\"SEMANTIC_CLAIM_PRESERVATION_NOT_PROVEN\",\"MODEL_SCORE_IS_NOT_HUMAN_READER_EVIDENCE\"],\"body_chars\":2034,\"score_total\":91,\"inspection\":\"DETERMINISTIC_ONLY\"},\"independent\":{\"pass\":false,\"total\":16,\"issues\":[\"中心となる「重い・限界近くの筋トレは就寝3〜4時間前まで」「2時間以内なら軽くする」という具体的な時間基準は、提示資料内に論文本文・抄録・結果の検証可能な抜粋がなく、根拠との対応を確認できない。実用的な目安として示すなら、研究からの確定的な基準ではないことをより明確にする必要がある。\",\"「就寝1時間以内の激しい運動は睡眠潜時・総睡眠時間に影響しうる」「高強度でも2〜4時間前なら大きな乱れは確認されなかった」「朝の運動が常に有利とは限らない」「睡眠の連続性に影響しうる」といった研究結果の要約は、リンクはあるが検証用の本文・公式抜粋が供給されていないため、本レビューでは確認不能。\",\"成人メタ分析についての「主観的睡眠変化にはばらつきがあり、研究全体の確実性も高くない」という記述も、提示されたエビデンスだけでは確認できない。\",\"末尾の「THE REV.では…毎回追い込むことを前提にはしません」は、オーナーが述べた方針とは整合するが、オーナーインタビューは店舗の実際の標準プロトコルを独立に立証する資料ではない。『オーナーはこのように考えています』など、発言者への帰属を明示するほうが適切。\",\"正式名称として確認済みなのは「THE REV. CONDITIONING LAB.」であり、ブランド方針を述べる箇所では略称のみの使用より正式名称または初出時の併記が望ましい。\"],\"source_unverified\":true,\"reason\":\"読者の問いには直接答え、就寝までの時間別に運動強度を変える判断表と、2週間の記録という具体的な行動案を提示している点は有用です。一方、記事の主要な時間・強度の推奨と研究要約は外部PubMedリンクへの依存が大きく、供給資料だけでは結果や適用範囲を検証できません。オーナー発言は店舗の立場を示す証拠にはなりますが、実施手順や睡眠への効果を裏づける独立証拠としては扱えません。\",\"is_human_reader_test\":false},\"enforced\":true,\"passed\":false,\"publish_requires_human\":true},\"style_standard_version\":\"v2\",\"length_range_pass\":true,\"target_range\":{\"min\":1600}}",
+            0,
+            "REVIEW",
+            "v0.6.5.2.1-standard-v2",
+            82,
+            "PUBLISH",
+            "STANDARD",
+            2400,
+            "{\"candidate_id\":\"BT-20261020-DAILY-2\",\"decision\":\"PUBLISH\",\"route_lane\":\"WEB_BLOG\",\"topic\":\"夜の筋トレと睡眠の両立\",\"title_candidate\":\"夜に筋トレしても眠れる？寝る前の時間と強さを決める目安\",\"primary_query\":\"夜 筋トレ 睡眠 何時間前\",\"audience_question\":\"仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？\",\"why_now\":\"朝と夜の優劣を単純に決められない研究が出ており、秋の生活リズム再設計期に「夜しか時間がない」人の実用的な疑問に答えられる。直近記事の疲労時の筋トレ判断とも異なる、就寝前の強度と時間の設計が主題になる。\",\"local_angle\":\"地域名を入れない自然な全国検索テーマ。新大宮で仕事帰りに予約して運動を検討する人にも合う。\",\"unique_angle\":\"朝活を正解にせず、就寝までの残り時間、運動の強さ、普段の寝つき、翌朝の予定から「軽く動く・別日に回す」を選ぶ記事にする。睡眠改善は断言しない。\",\"selection_reason\":\"\",\"article_type\":\"STANDARD\",\"total_score\":82,\"raw_topic_score\":82,\"pillar_adjusted_score\":null,\"portfolio_final_score\":null,\"source_refs\":\"[\\\"fresh_research:12f76dac-a998-4903-a678-9d9583e5ed0b\\\",\\\"fresh_research:e30bed07-160f-4a24-9daf-13ccbfa3f536\\\",\\\"blog_history:仕事終わり、疲れている日は筋トレに行くべき？軽く始めて決める目安\\\",\\\"recent_instagram_history:睡眠と身体づくりの関係\\\"]\",\"notes\":\"AUDIENCE_V08: {\\\"editorial_role\\\":\\\"KNOWLEDGE\\\",\\\"editorial_role_reason\\\":\\\"夜しか運動時間を取れない読者が、睡眠を犠牲にせず負荷を選べるようにする\\\",\\\"audience_stage\\\":\\\"EXPLORING_OPTIONS\\\",\\\"psychological_hook\\\":\\\"UNCERTAINTY\\\",\\\"reader_scene\\\":\\\"夕食後に運動するか、そのまま寝るか迷う平日夜\\\",\\\"reader_job\\\":\\\"夜の運動量を決める\\\",\\\"reader_question\\\":\\\"夜に筋トレしても眠れる？\\\",\\\"new_reader_takeaway\\\":\\\"時間帯の優劣より就寝までの時間と運動強度を確認する見方\\\",\\\"incremental_answer\\\":\\\"疲れている日の可否ではなく、眠る前の運動の組み立て方を示す\\\",\\\"natural_service_fit\\\":\\\"完全予約制で生活予定に合わせたトレーニング相談へつながる\\\",\\\"content_action\\\":\\\"NEW_ARTICLE\\\",\\\"search_signal_type\\\":\\\"QUERY_HYPOTHESIS\\\",\\\"nearest_content_ids\\\":[],\\\"same_answer_as_existing\\\":false,\\\"unverified_health_claim\\\":false,\\\"evidence_items\\\":[{\\\"kind\\\":\\\"RESEARCH_INTERPRETATION\\\",\\\"source\\\":\\\"fresh_research:12f76dac-a998-4903-a678-9d9583e5ed0b\\\"},{\\\"kind\\\":\\\"RESEARCH_INTERPRETATION\\\",\\\"source\\\":\\\"fresh_research:e30bed07-160f-4a24-9daf-13ccbfa3f536\\\"}]}\\n一次情報Interview（原文。一般化・医療効果の断定をしない）:\\n「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"comparison_doc_url\":\"\",\"created_by\":\"daily-creator-v0.6.9\",\"target_char_count\":2400,\"target_range\":{\"min\":1600,\"max\":2400},\"style_standard_version\":\"v2\",\"knowledge_gate\":\"SUFFICIENT\",\"knowledge_context\":{\"decision\":\"SUFFICIENT\",\"sufficient\":true,\"reason\":\"OWNER_TOPIC_INTERVIEW\",\"source_id\":\"TP-20261021\",\"source_refs\":[\"TP-20261021 (GPT first-party Interview)\"],\"fact_ids\":[],\"registry_version\":\"topic-interview-v1\",\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"topic_approval\":{\"proposal_id\":\"TP-20261021\",\"source\":\"GPT\",\"approved_at\":\"2026-10-20T00:37:16.996+00:00\"},\"media_portfolio\":{\"editorial_role\":\"KNOWLEDGE\",\"topic_lane\":\"生活と運動の検索ニーズ\",\"portfolio_at_selection\":{\"counts\":{\"KNOWLEDGE\":8,\"COMMUNITY_STORY\":0,\"FACILITY_AND_TRUST\":1,\"SERVICE_EXPERIENCE\":2,\"COMPARISON_DECISION\":1},\"notice\":\"直近12本の編成で不足: サービスの利用・体験 1本、店舗・設備・人への信頼 1本、比較・来店前の判断 1本（12本の柔軟な目安）\",\"topics\":{\"BOXING\":1,\"HEALTH\":3,\"RECOVERY\":3,\"TRAINING\":2,\"GYM-GUIDE\":3},\"window\":12,\"observed\":12,\"projected\":{\"KNOWLEDGE\":10,\"COMMUNITY_STORY\":0,\"FACILITY_AND_TRUST\":1,\"SERVICE_EXPERIENCE\":3,\"COMPARISON_DECISION\":1},\"role_score\":0,\"classification_source\":\"EXPLICIT\"}},\"first_party\":\"USED\",\"interview\":[{\"question\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\",\"answer\":\"夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\"},{\"question\":\"よくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\",\"answer\":\"実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\"}]},\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"first_party_interview\":{\"topic_candidate_id\":\"BT-20261020-DAILY-2\",\"raw_answer\":\"1. 「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\n2. よくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"main_claim\":\"「仕事後しか運動できないけれど、夜の筋トレは睡眠の邪魔にならない？」について、THE REV.ではどのように説明・対応していますか？具体的な判断や手順を教えてください。\\n夜の筋トレを一律に避ける必要はないと考えています。就寝直前に重いウェイトで追い込むと覚醒が続くことがあるため、夜しか運動できない人には運動を諦めず、軽い内容から始めることを提案します。何時間前という店舗固有の決まりはなく、一般的な研究上の目安を記事で説明してほしいです。\\n\\nよくあるつまずきと、変えた方がよい対応を一つ教えてください。確認できていないことは「不明」で構いません。お客様を特定できる情報は不要です。\\n実際のお客様に頻発する具体例は未確認です。就寝直前に重いウェイトで追い込むのを避け、状況によってウォーキングなどの軽い運動へ調整することを勧めます。ランニングの強度はペース次第です。軽い運動が睡眠の質に良い場合もあると聞いていますが、効果は断定しないでください。\",\"extracted_insights\":[],\"usable_quotes\":[],\"source_id\":\"TP-20261021\"}}",
+            "v2"
+          ]
+        ]
+      }
+    },
+    {
+      "sheet": "25_WEB_PUBLISH_BRIDGE",
+      "range": "A29:AE29",
+      "observed_at": "2026-10-20T03:10:52.705Z",
+      "provider_result": {
+        "range": "'25_WEB_PUBLISH_BRIDGE'!A29:AE29",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            46315.457935439816,
+            46315,
+            "BLOG-20261021-4ac8fd",
+            "REVIEW_REQUIRED",
+            "ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+            "https://the-rev-website.vercel.app/admin/articles/review/?id=ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+            "https://the-rev-website.vercel.app/admin/articles/editor/?id=ac869d7c-c6b8-4d15-b3a0-e8b6c0963f47",
+            "night-workout-sleep-timing-intensity",
+            "夜に筋トレしても眠れる？寝る前の時間と強さを決める目安",
+            null,
+            null,
+            null,
+            "asset_input_discovery",
+            null,
+            null,
+            "画像一覧への同期用。テーマ承認・公開を表しません。",
+            "ERROR",
+            "/assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+            "/assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+            "reference-v2-gpt-image-hybrid-drive-source",
+            "2026-10-20T03:05:28.92+00:00",
+            "rev-column-reference-v2.3-hybrid",
+            null,
+            "rev-column-reference-v2",
+            "疲労がある日は、\n強度を選び直す。",
+            "reference-v26-grounded-auto-4387-75-4c7bef75",
+            "ERROR",
+            "/assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+            "reference-v26-grounded-auto-4387-75-4c7bef75",
+            "2026-10-20T03:05:28.92+00:00"
+          ]
+        ]
+      }
+    },
+    {
+      "sheet": "18_AUTOMATION_LOG",
+      "range": "A510:J540",
+      "observed_at": "2026-10-20T03:10:52.705Z",
+      "provider_result": {
+        "range": "'18_AUTOMATION_LOG'!A510:J540",
+        "majorDimension": "ROWS",
+        "values": [
+          [
+            "11168dea-2f24-4cce-8516-4a969e7e27c5",
+            46314.25803739583,
+            46314.25869969907,
+            "RESEARCH_DAILY",
+            "TIME_OR_MANUAL",
+            "SUCCESS",
+            8,
+            "DAILY research completed"
+          ],
+          [
+            "dd7ab0dc-cd5d-4542-bb5e-dc7a7632ede2",
+            46315.012338773144,
+            46315.01236148148,
+            "DAILY_TOPIC_APPROVAL",
+            "TIME_TRIGGER",
+            "TOPIC_SELECTION_WAITING",
+            0,
+            "target_date=2026-10-21 created= stuck=0 owner_topic_choice_required=true publish=human"
+          ],
+          [
+            "b89450bc-0401-4ec8-a79f-9cbef07e0c7b",
+            46315.20477658565,
+            46315.204843750005,
+            "DAILY_EDITORIAL_GATE",
+            "TIME_TRIGGER",
+            "CREATE_NEW",
+            0,
+            "run_date=2026-10-20 target_date=2026-10-21 WE cadence=BUSINESS_DAYS decision=CREATE_NEW/CAPACITY_AVAILABLE active=0/5 published_reconciled=none review_ready_blocks_creation=false"
+          ],
+          [
+            "261f3996-4bb8-4da5-b785-152c8635f80f",
+            46315.2579809375,
+            46315.25866393519,
+            "RESEARCH_DAILY",
+            "TIME_OR_MANUAL",
+            "SUCCESS",
+            8,
+            "DAILY research completed"
+          ],
+          [
+            "5d2a5ab8-17a5-4dd3-9a36-e22c93afd723",
+            46315.40116483797,
+            46315.40118905093,
+            "DAILY_TOPIC_APPROVAL",
+            "TIME_TRIGGER",
+            "INTERVIEW_WAITING",
+            0,
+            "target_date=2026-10-21 created= stuck=0 owner_topic_choice_required=true publish=human"
+          ],
+          [
+            "c20bc44d-f200-4c6a-9e14-b50d7a2f8df3",
+            46315.45686959491,
+            46315.456889085646,
+            "DAILY_TOPIC_APPROVAL",
+            "TIME_TRIGGER",
+            "CREATED",
+            1,
+            "target_date=2026-10-21 created=BLOG-20261021-4ac8fd stuck=0 owner_topic_choice_required=true publish=human"
+          ],
+          [
+            "45dba2e1-fbca-4b9e-9019-a52cd1ea026f",
+            46315.463570381944,
+            46315.463581874996,
+            "DAILY_TOPIC_APPROVAL",
+            "TIME_TRIGGER",
+            "TOPIC_SELECTION_WAITING",
+            0,
+            "target_date=2026-10-21 created= stuck=0 owner_topic_choice_required=true publish=human"
+          ]
+        ]
+      }
+    }
+  ]
+}

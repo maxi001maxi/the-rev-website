@@ -1,0 +1,58 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 8,
+  "article_visual_relevance": 10,
+  "source_identity_preservation": 10,
+  "invented_people_or_objects": false,
+  "source_photo_changed_materially": false,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "unexpected_text_is_source_native": true,
+  "too_promotional": false,
+  "comments": "The final card is a strong sixth member of the approved series. It preserves the supplied arrival-routine photograph with crop/resize only, including the source-native THE REV. signage and reception details. The left text field, fine rule, restrained serif Japanese headline, muted palette, and generous spacing align closely with the established editorial system. The reception/entrance scene is directly relevant to the article theme and avoids a fitness-ad treatment.",
+  "correction": "No correction required. If desired, a slightly less aggressive crop could retain more of the source-native THE REV. wall lettering, but this is not a QA issue.",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.2",
+  "generation_model": "source-photo-lock-playwright",
+  "render_mode": "source-photo-lock-v1",
+  "content_reference": "assets/images/photo-lobby.jpg",
+  "recent_reference_guard": {
+    "window": 4,
+    "selection_policy": "relevance-first-recency-second-v1",
+    "priority_order": [
+      "article_relevance",
+      "not_used_in_recent_4",
+      "least_recently_used"
+    ],
+    "recent_articles": [
+      {
+        "slug": "after-work-tired-strength-training",
+        "content_reference": "assets/images/trainer-coaching.jpg",
+        "checked_at": "2026-09-19T03:05:04.238Z"
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/trainer-coaching.jpg"
+    ],
+    "relevant_candidate_pool": [
+      {
+        "path": "assets/images/photo-lobby.jpg",
+        "intent": "arrival-routine",
+        "relevanceLevel": "primary"
+      }
+    ],
+    "selected_content_reference": "assets/images/photo-lobby.jpg",
+    "selected_relevance_level": "primary",
+    "avoided_repeat": false,
+    "repeated_due_to_relevance": false
+  },
+  "qa_model": "gpt-5.6-luna",
+  "slug": "no-time-for-gym-starting-friction",
+  "asset_version": "reference-v2-6f7bb961a1",
+  "checked_at": "2026-09-19T03:59:15.100Z"
+}

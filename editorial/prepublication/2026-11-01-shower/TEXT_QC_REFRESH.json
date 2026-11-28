@@ -1,0 +1,44 @@
+{
+  "evidence": {
+    "review_method": "ChatGPT Work in-conversation editorial QC",
+    "ai_api_calls": 0,
+    "content_id": "BLOG-20261101-c36b34",
+    "owner_interview": {
+      "shower": "追加料金・事前申告不要。空いていれば終了後にも利用可。",
+      "amenities": "貸出タオル、シャンプー、リンス、ドライヤー。それ以外は持参。"
+    },
+    "reviewed_change": "Article-ending link label clarified from THE REV.のトレーニング案内 to トレーニングの内容・料金. Destination and all factual claims unchanged.",
+    "checks": [
+      "読者の疑問を解決",
+      "備品と持参品を区別",
+      "空き状況の条件を維持",
+      "利用時間保証・新しいサービスを追加しない",
+      "締めくくりは記事固有の時間と持ち物の判断を示す"
+    ],
+    "scores": {
+      "question_resolution": 4,
+      "understanding_gain": 4,
+      "decision_support": 4,
+      "concreteness_evidence": 4,
+      "originality_readability": 3
+    },
+    "total": 19,
+    "issues": [],
+    "source_unverified": false,
+    "checked_at": "2026-11-01T00:35:47.589Z"
+  },
+  "proof": {
+    "schema": "editorial-text-qc-v1",
+    "version": "v0.8.2-conversation-qc",
+    "content_id": "BLOG-20261101-c36b34",
+    "body_sha256": "24369ab8b3a0f01e870c3362d1ece8102a383571972c3ccccf372a00c05545de",
+    "evidence_sha256": "ad8456f712e366b36ffa5e5d3b7efac3832fec6c5cc2fc99118c15c15e82b067",
+    "pass": true,
+    "total": 19,
+    "issues": [],
+    "source_unverified": false,
+    "review_method": "ChatGPT Work in-conversation editorial QC",
+    "external_ai_api_calls": 0,
+    "checked_at": "2026-11-01T00:35:47.589Z"
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "shinomiya-gym-beginner-choose",
+  "asset_version": "reference-v26-grounded-evolgear-20261007-r4",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "続けやすさで、",
+        "選ぶ。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.7528186073246024,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 1,
+      "focus_text": "選ぶ。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9883070631760817,
+      "block_area_ratio": 0.15372979102834067,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.1484375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 601,
+      "fade_end": 738,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 204,
+          "right": 578.65625,
+          "bottom": 309,
+          "width": 514.65625
+        },
+        {
+          "left": 64,
+          "top": 295.75,
+          "right": 450.546875,
+          "bottom": 477.75,
+          "width": 386.546875
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+      "asset_sha256": "922ac3fe7d8f8c0d7e628b16c9e23ec909afa6aec7371216b4e635091b64968c",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-preview-320.jpg",
+          "sha256": "d468c4771b68be289a60514b2afaa049d5033d8c7240e7f70b98b2958809e3db"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-preview-400.jpg",
+          "sha256": "cb9da33d792d840e3c5dde77e4376a430a8f1a1b61b17787dc555d8c55eea235"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "続けやすさで、",
+        "選ぶ。"
+      ],
+      "text_preserved": true,
+      "font_size": 73,
+      "font_size_at_320": 19.466666666666665,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.7528186073246024,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        73,
+        127.28205128205128
+      ],
+      "focus_line": 1,
+      "focus_text": "選ぶ。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9883070631760817,
+      "block_area_ratio": 0.16471049038750785,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.1484375,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 601,
+      "fade_end": 738,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 182,
+          "right": 578.65625,
+          "bottom": 287,
+          "width": 514.65625
+        },
+        {
+          "left": 64,
+          "top": 273.75,
+          "right": 450.546875,
+          "bottom": 455.75,
+          "width": 386.546875
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+      "asset_sha256": "afb901e3d67226970d50024a376e8126c1bd2fd63e889ae2907ee31304dba3a4",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-preview-320.jpg",
+          "sha256": "c8a26b0f734e47ae42591a02cd8b7b996a6f80d30195c1ceee4fb02cea201fa5"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-preview-400.jpg",
+          "sha256": "8435577ebc312aa47e2beaaa69872b373f85dbd85f422edd9b4200a77124cb93"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "続けやすさで、",
+        "選ぶ。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.7111728594494704,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        102.11764705882354
+      ],
+      "focus_line": 1,
+      "focus_text": "選ぶ。",
+      "focus_scale": 1.647058823529412,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9920004383433949,
+      "block_area_ratio": 0.08237048084216649,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.90625,
+      "paper_profile": "local-curved-veil",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 520,
+      "fade_end": 639,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 320,
+          "right": 497.109375,
+          "bottom": 409,
+          "width": 437.109375
+        },
+        {
+          "left": 60,
+          "top": 402.4375,
+          "right": 370.234375,
+          "bottom": 549.4375,
+          "width": 310.234375
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4.jpg",
+      "asset_sha256": "966d0d6dbadf8df05d7ab9c1a143dc08ebd5e09c15a95f99a11c3a7be87916ba",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-preview-320.jpg",
+          "sha256": "bf7e1f27f4e03ba9f1863d6ac734130177b89b25617c56552396df70a4f8b57d"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-shinomiya-gym-beginner-choose-reference-v26-grounded-evolgear-20261007-r4-preview-400.jpg",
+          "sha256": "599d175fbb70654a095ccd1ef426f6ccc4dbab80bb0b61d0d7617a84e4366946"
+        }
+      }
+    }
+  }
+}

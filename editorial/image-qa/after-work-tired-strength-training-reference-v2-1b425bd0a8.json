@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 8,
+  "photo_treatment": 9,
+  "article_visual_relevance": 10,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "too_promotional": false,
+  "comments": "A strong sixth card that sits naturally within the approved series. The restrained cream text field, fine rule, spaced English category label, elegant Japanese headline, warm natural photography, and balanced split composition all match the established editorial DNA without feeling repetitive. The coaching/stretching scene directly supports the state-check intent of beginning lightly and deciding based on condition. The right image is somewhat more active and visually dense than some references, but remains premium and appropriately human.",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.1",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v2-1b425bd0a8",
+  "checked_at": "2026-09-19T03:05:04.238Z"
+}

@@ -1,0 +1,9 @@
+{
+  "action": "EXECUTE_OWNER_APPROVED_IMAGE_ONCE",
+  "contract_sha256": "bcbb90d0583f4ca618ca6f15ad597d5ba960a15179d23d3d5c1a388b4323ceb7",
+  "execution_mode": "QC_ONLY_NO_IMAGE_GENERATION",
+  "generation_calls_allowed": 0,
+  "independent_final_qc_calls_allowed": 1,
+  "prior_calls_and_rejections_preserved": true,
+  "production_writes": false
+}

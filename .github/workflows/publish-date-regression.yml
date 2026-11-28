@@ -1,0 +1,39 @@
+name: Publish Date Regression
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'api/admin/publish.mjs'
+      - 'lib/publishFlow.mjs'
+      - 'lib/editorialPublication.mjs'
+      - 'scripts/test-phase-d.mjs'
+      - '.github/workflows/publish-date-regression.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'api/admin/publish.mjs'
+      - 'lib/publishFlow.mjs'
+      - 'lib/editorialPublication.mjs'
+      - 'scripts/test-phase-d.mjs'
+      - '.github/workflows/publish-date-regression.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-date-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phase-d:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:phase-d

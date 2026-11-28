@@ -1,0 +1,158 @@
+{
+  "run_date": "2026-11-27",
+  "target_date": "2026-11-28",
+  "mode": "OWNER_REQUESTED_MANUAL_WORK",
+  "policy": "Owner request to create tomorrow article; COLUMN_PDCA_PROTOCOL_V1 §5.6 theme selection policy and canonical next-day state machine. No scheduling automation created.",
+  "selection_reason": "Training and search-oriented practical topics remain the main editorial allocation. Lowering/repetition tempo is an unserved specific reader question; unlike recent inter-set rest, this treats the movement within one repetition. No direct measured query demand; do not infer it from broader training metrics.",
+  "rejected_options": [
+    "重量を増やすタイミング：既存の負荷・進歩・追い込み記事と答えが近いため見送る。",
+    "ボクシングのパンチ改善：定期的に必要だが、今回の具体的な技術論を裏づける登録済みInterviewがなく、店長の指導を創作しないため見送る。",
+    "酸素ルームの頻度：既存保留記事BLOG-20261110-oxyfreqがあり、別記事を重ねない。"
+  ],
+  "metrics_source": "42_BLOG_PERFORMANCE read 2026-11-27: values fetched 2026-11-17, past 3 months. Exact tempo query has no measured data. Related progress article 157 impressions / 7 clicks / rank7.64; not a demand forecast.",
+  "existing_improvement_candidates": "B:追い込み記事、C:仕事後・夜の筋トレ・ケーブル・頻度。今回は店長が依頼した新規記事のみ。公開改善の適用はしていない。",
+  "global_settings_changed": false,
+  "canonical_daily_plan": {
+    "run_date": "2026-11-27",
+    "target_date": "2026-11-28",
+    "lead_days": 1,
+    "cadence": "BUSINESS_DAYS",
+    "weekday": "SA",
+    "business_day": true,
+    "target_scheduled": true,
+    "decision": {
+      "action": "CREATE_NEW",
+      "reason": "CAPACITY_AVAILABLE",
+      "new_topics_allowed": 1,
+      "today_content_ids": []
+    },
+    "active": {
+      "count": 0,
+      "content_ids": [],
+      "by_status": {},
+      "cap": 5
+    },
+    "reconciliation": {
+      "patches": [
+        {
+          "content_id": "BLOG-20261126-rest-sets",
+          "from_queue_status": "REVIEW_READY",
+          "queue_status": "PUBLISHED",
+          "web_bridge_status": "PUBLISHED",
+          "published_url": "https://therev-lab.com/blog/strength-training-rest-between-sets/",
+          "publish_verified_at": "2026-11-27 08:50:31.948+00",
+          "publish_commit_sha": null,
+          "last_successful_stage": "PUBLISHED",
+          "next_stage": "",
+          "human_action_required": "NONE",
+          "reason": "VERIFIED_PRODUCTION_PUBLICATION"
+        }
+      ],
+      "pending_deploy_verification": []
+    },
+    "existing_work": [
+      {
+        "content_id": "BLOG-20261018-082d82",
+        "queue_status": "REVIEW_REQUIRED",
+        "next_action": "AWAIT_HUMAN_REVIEW",
+        "blocks_daily_creation": false
+      },
+      {
+        "content_id": "BLOG-20261110-oxyfreq",
+        "queue_status": "REVIEW_REQUIRED",
+        "next_action": "AWAIT_HUMAN_REVIEW",
+        "blocks_daily_creation": false
+      }
+    ],
+    "required_end_states": [
+      "REVIEW_READY",
+      "INTERVIEW_WAITING",
+      "ERROR_BLOCKED"
+    ],
+    "invariants": {
+      "review_ready_blocks_creation": false,
+      "notification_failure_blocks_creation": false,
+      "auto_publish": false,
+      "human_publish_required": true
+    }
+  },
+  "knowledge": {
+    "decision": "SUFFICIENT",
+    "sufficient": true,
+    "reason": "限界まで追い込まない負荷設計・フォーム・翌日の疲労の現場判断が既存Interviewに記録済み。",
+    "source_id": "TRAINING",
+    "source_refs": [
+      "BLOG-20260922-4d8f2a (First-party Interview)"
+    ],
+    "fact_ids": [],
+    "registry_version": "v1"
+  },
+  "overlap": {
+    "overlap": false,
+    "matches": []
+  },
+  "repo_history_count": 43,
+  "cms_history_count": 39,
+  "published_recent12": [
+    {
+      "slug": "strength-training-rest-between-sets",
+      "category": "training",
+      "published": "2026-11-26"
+    },
+    {
+      "slug": "post-workout-recovery-methods-evidence",
+      "category": "recovery",
+      "published": "2026-11-24"
+    },
+    {
+      "slug": "boxing-vs-strength-training-for-diet",
+      "category": "training",
+      "published": "2026-11-19"
+    },
+    {
+      "slug": "muscle-soreness-should-i-train",
+      "category": "training",
+      "published": "2026-11-18"
+    },
+    {
+      "slug": "workout-after-meal-timing",
+      "category": "health",
+      "published": "2026-11-17"
+    },
+    {
+      "slug": "oxygen-capsule-vs-room",
+      "category": "recovery",
+      "published": "2026-11-15"
+    },
+    {
+      "slug": "personal-gym-posture-check",
+      "category": "gym-guide",
+      "published": "2026-11-14"
+    },
+    {
+      "slug": "24-hour-gym-workout-menu-consultation",
+      "category": "gym-guide",
+      "published": "2026-11-07"
+    },
+    {
+      "slug": "denba-health-effects-research-evidence",
+      "category": "recovery",
+      "published": "2026-11-04"
+    },
+    {
+      "slug": "strength-training-exercise-order-first-exercise",
+      "category": "training",
+      "published": "2026-11-03"
+    },
+    {
+      "slug": "after-training-shower-changing-the-rev",
+      "category": "gym-guide",
+      "published": "2026-11-01"
+    },
+    {
+      "slug": "strength-training-breathing-when-to-exhale",
+      "category": "training",
+      "published": "2026-10-31"
+    }
+  ]
+}

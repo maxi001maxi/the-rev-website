@@ -1,0 +1,209 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "reservation-only-vs-exclusive-use",
+  "asset_version": "reference-v26-grounded-auto-3978-20-a68e4b8a",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "完全予約制と、",
+        "貸切の違い。"
+      ],
+      "text_preserved": true,
+      "font_size": 66,
+      "font_size_at_320": 17.6,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8976797356128593,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        66,
+        85.8085808580858
+      ],
+      "focus_line": 1,
+      "focus_text": "貸切の違い。",
+      "focus_scale": 1.3001300130013,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982142978889986,
+      "block_area_ratio": 0.12048585216394919,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.0078125,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8901960784313725,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.979150214640286,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 232,
+          "right": 530.625,
+          "bottom": 327,
+          "width": 466.625
+        },
+        {
+          "left": 64,
+          "top": 320.90625,
+          "right": 582.75,
+          "bottom": 444.90625,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+      "asset_sha256": "3391e2a0a67895ccb249426014fbd7c778a537a174b8a7e332aee62cb2b7cdeb",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-preview-320.jpg",
+          "sha256": "e66bb496ce48cc0d2059bbac2691f22a62abd903882f4ae19fdf9ed63d0cb4c8"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-preview-400.jpg",
+          "sha256": "fc77b789e239f415c1901f31843d904685852e71af1f588140a9ca07e38a2a4d"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "完全予約制と、",
+        "貸切の違い。"
+      ],
+      "text_preserved": true,
+      "font_size": 66,
+      "font_size_at_320": 17.6,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8976797356128593,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        66,
+        85.8085808580858
+      ],
+      "focus_line": 1,
+      "focus_text": "貸切の違い。",
+      "focus_scale": 1.3001300130013,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982142978889986,
+      "block_area_ratio": 0.12909198446137413,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 315.0078125,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.8901960784313725,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 4.979150214640286,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 210,
+          "right": 530.625,
+          "bottom": 305,
+          "width": 466.625
+        },
+        {
+          "left": 64,
+          "top": 298.90625,
+          "right": 582.75,
+          "bottom": 422.90625,
+          "width": 518.75
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+      "asset_sha256": "c1035086e0500532793688337826bc3cd6354cad21106c5d1df7fe4d5ea0469a",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-preview-320.jpg",
+          "sha256": "4cfe594154bfcdc6e9381a4dfdb7f0bf6d2549231c664859478a975301ab81b9"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-preview-400.jpg",
+          "sha256": "ca815f38f79b966086203ac6a20510d64f8da603993a8a74104d626491d50c7c"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "完全予約制と、",
+        "貸切の違い。"
+      ],
+      "text_preserved": true,
+      "font_size": 63,
+      "font_size_at_320": 16.8,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.8911184579777778,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        63,
+        82.5082508250825
+      ],
+      "focus_line": 1,
+      "focus_text": "貸切の違い。",
+      "focus_scale": 1.3096547750013094,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982506419770395,
+      "block_area_ratio": 0.08455234929766461,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 432.4765625,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9176470588235294,
+      "fade_start": 581,
+      "fade_end": 700,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.308677408263676,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 330,
+          "right": 505.421875,
+          "bottom": 421,
+          "width": 445.421875
+        },
+        {
+          "left": 60,
+          "top": 417.546875,
+          "right": 558.78125,
+          "bottom": 536.546875,
+          "width": 498.78125
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a.jpg",
+      "asset_sha256": "c2bb6c45812d872abe8a67b2cecca4f9a00721015ce5aff2fc78552288e22611",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-preview-320.jpg",
+          "sha256": "f41b6aeac7a57537d302f765d128c8c39c803a804c98a64a99f2b135ad3cc2ee"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-reservation-only-vs-exclusive-use-reference-v26-grounded-auto-3978-20-a68e4b8a-preview-400.jpg",
+          "sha256": "4b969a1ddd7db7ac8f30671c2913f43d92363e3e074408e95dfe5a9805e33b59"
+        }
+      }
+    }
+  }
+}

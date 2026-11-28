@@ -1,0 +1,71 @@
+{
+  "target_date": "2026-11-03",
+  "run_date": "2026-11-03",
+  "completed_at": "2026-11-03T07:53:00.621Z",
+  "content_id": "BLOG-20261103-9b1ae7",
+  "cms_draft_id": "301445ad-8b0a-473a-a5ac-b4c70862a87b",
+  "title": "筋トレは何から始める？最初の種目とウォーミングアップの決め方",
+  "review_url": "https://the-rev-website.vercel.app/admin/articles/review/?id=301445ad-8b0a-473a-a5ac-b4c70862a87b",
+  "status": "REVIEW_READY",
+  "cms_status": "draft",
+  "publish_status": "NOT_PUBLISHED",
+  "body_sha256": "6cff2efa5a4d9f7c577d426d04f355d396464991f9dfe94c6582767444d45df2",
+  "image_asset_version": "reference-v26-grounded-evolgear-20261103-work-r1",
+  "image_checks": [
+    {
+      "path": "assets/images/blog/thumb-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+      "sha256": "a0158ee4454f8ba85cc158d35693c48a3b2ceaf28a036b2e848842547112a3ef",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/blog/og/og-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+      "sha256": "e5782ef68da60a962512194f2025beb6aed06827ac89a770f7a885e46bb046a7",
+      "http_status": 200
+    },
+    {
+      "path": "assets/images/gbp/gbp-strength-training-exercise-order-first-exercise-reference-v26-grounded-evolgear-20261103-work-r1.jpg",
+      "sha256": "631397f6bcce93f6d0e45886150e2378f9508444f7a916a4ee2e32590de28752",
+      "http_status": 200
+    }
+  ],
+  "gbp_post_ready": true,
+  "gbp_posted": false,
+  "article_published": false,
+  "ai_api_calls": 0,
+  "built_in_image_generation_calls": 1,
+  "qc_method": "ChatGPT Work in-conversation review; canonical deterministic gates and runPreflight",
+  "required_tests": {
+    "run_id": 41597893854,
+    "status": "PASS"
+  },
+  "final_preflight": {
+    "run_id": 41598358981,
+    "ok": true,
+    "live_main_asset_hashes_verified": true
+  },
+  "sheet_rows": {
+    "21_WEB_BLOG_OUTPUT": 28,
+    "22_GBP_POST": 26,
+    "25_WEB_PUBLISH_BRIDGE": 35,
+    "26_DAILY_EDITORIAL_QUEUE": 31
+  },
+  "sheet_readback": {
+    "blog": "READY",
+    "gbp": "READY",
+    "bridge": "PREVIEW_READY",
+    "queue": "REVIEW_READY",
+    "gbp_Q_R_formulas_preserved": true
+  },
+  "notification": {
+    "channel": "GPT",
+    "status": "SENT",
+    "sent_at": "2026-11-03T07:53:00.621Z",
+    "line_delivery": "UNVERIFIED"
+  },
+  "owner_publish_approval": false,
+  "automatic_image_operator": {
+    "main_run_id": 41598092130,
+    "result": "No generation jobs selected; all provider execution steps skipped"
+  },
+  "owner_direction_scope": "Research-led recommendations authorized; no topic-specific store practice or client case invented"
+}

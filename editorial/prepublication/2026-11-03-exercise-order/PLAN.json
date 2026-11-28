@@ -1,0 +1,32 @@
+{
+  "plan": {
+    "jobPath": "editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json",
+    "assetVersion": "reference-v26-grounded-evolgear-20261103-work-r1",
+    "selectedSource": {
+      "repo_path": "assets/images/photo-evolgear.jpg"
+    },
+    "manual_grounded_scene": true
+  },
+  "canonical_text_gates": {
+    "text": {
+      "pass": true,
+      "checks": {
+        "proof_present": true,
+        "evidence_recorded": true,
+        "content_id_matches": true,
+        "independent_pass": true,
+        "body_matches": true
+      },
+      "missing": []
+    },
+    "length": {
+      "pass": true,
+      "count": 2273,
+      "min": 1600,
+      "type": "STANDARD"
+    },
+    "closing": []
+  },
+  "external_ai_api_calls": 0,
+  "job_path": "editorial/hybrid-image-jobs/strength-training-exercise-order-first-exercise.json"
+}

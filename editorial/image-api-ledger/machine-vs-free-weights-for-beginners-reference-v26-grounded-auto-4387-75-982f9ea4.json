@@ -1,0 +1,430 @@
+{
+  "schema": "editorial-image-api-ledger-v1",
+  "slug": "machine-vs-free-weights-for-beginners",
+  "asset_version": "reference-v26-grounded-auto-4387-75-982f9ea4",
+  "source_sha256": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
+  "scene_plan": {
+    "version": "the-rev-source-scene-v1",
+    "source_id": "the-rev-frame-4387-75",
+    "source_sha256": "a711aaca51a41714538345be88178398dc1b4127f29f1af4a57c850dee69874c",
+    "scene_type": "equipment_orientation",
+    "location_type": "training_area",
+    "human_action": "observing_real_equipment",
+    "composition_type": "medium_side_portrait",
+    "visual_role": "deciding_own_start",
+    "article_intent": "training_start",
+    "required_equipment": [],
+    "subject_zone": "training_area",
+    "article_specific_directive": "EQUIPMENT-CHOICE FRAMING (human-first): one customer in a medium side portrait, face and calm thoughtful expression clearly readable at small card size, dominant at roughly 60-70% of visual attention. The customer looks over the verified real equipment from a safe distance with empty hands, deciding where to start. Keep the real machine/rack as a clearly recognizable but secondary anchor and render the rest of the verified background with natural shallow depth-of-field. Dumbbells may appear only if they are already visible in the source, small and in their original position; never add, move or enlarge equipment. No touching, loading or operating equipment, no trainer or staff.",
+    "similarity": {
+      "pass": true,
+      "window": 12,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.5,
+      "matches": [
+        {
+          "slug": "post-workout-recovery-methods-evidence",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-vs-strength-training-for-diet",
+          "score": 0.3333333333333333,
+          "equal": [
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "muscle-soreness-should-i-train",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "workout-after-meal-timing",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0.3333333333333333,
+          "equal": [
+            "scene_type",
+            "composition_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0.5,
+          "equal": [
+            "location_type",
+            "composition_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.3333333333333333,
+          "equal": [
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "score": 0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "score": 0.16666666666666666,
+          "equal": [
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "score": 0.16666666666666666,
+          "equal": [
+            "visual_role"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    }
+  },
+  "headline": "マシンか\nダンベルか",
+  "thumbnail": "assets/images/blog/thumb-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-4387-75-982f9ea4.jpg",
+  "og": "assets/images/blog/og/og-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-4387-75-982f9ea4.jpg",
+  "gbp": "assets/images/gbp/gbp-machine-vs-free-weights-for-beginners-reference-v26-grounded-auto-4387-75-982f9ea4.jpg",
+  "contract_sha256": "4f7b3316384d7c2c77af9a5208569790c4c52c2b4046148701a3c013dde310ad",
+  "calls": [
+    {
+      "sequence": 1,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:54:08.764Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_7b9c9edacf8d482a832313baf605fc05",
+      "response_id": "resp_0e41aea3b0030897006b0550b2d12087d296c8cae7c6bd4166",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 8807,
+        "input_tokens_details": {
+          "cache_write_tokens": 6378,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6378
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 575,
+        "output_tokens_details": {
+          "reasoning_tokens": 82
+        },
+        "total_tokens": 9382
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_0e41aea3b0030897006b0550b4f47087d28d9127bb64450d0b",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-24T08:54:33.957Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 2,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:54:39.093Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_d66f182db6eb4b25a9f28f95f39ac050",
+      "response_id": "resp_02522a1c51cbf2f2006b0550d0485487d29209c9e9a8ae4829",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17617,
+        "input_tokens_details": {
+          "cache_write_tokens": 17614,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17614
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2888,
+        "output_tokens_details": {
+          "reasoning_tokens": 2015
+        },
+        "total_tokens": 20505
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-24T08:55:04.883Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 3,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:55:06.298Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_8fe35bbb2d834850bd52062d20eb8345",
+      "response_id": "resp_0f423b9ec9a1316f006b0550ebee9087d2bd2ce29f0d9893a2",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17191,
+        "input_tokens_details": {
+          "cache_write_tokens": 17188,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17188
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2440,
+        "output_tokens_details": {
+          "reasoning_tokens": 1334
+        },
+        "total_tokens": 19631
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-24T08:55:31.597Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 4,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:55:32.957Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_401b27aa59984c7b9ab9941694fe2934",
+      "response_id": "resp_0b8bc21f9d2f3aeb006b055105fa1c87d2b140e5c6fc71c98a",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 9194,
+        "input_tokens_details": {
+          "cache_write_tokens": 6547,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6547
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 793,
+        "output_tokens_details": {
+          "reasoning_tokens": 132
+        },
+        "total_tokens": 9987
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_0b8bc21f9d2f3aeb006b055108479087d2b0770509df22d2c1",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-24T08:55:57.967Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 5,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:56:00.290Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_8efadeec75c840309aaa50dac1534849",
+      "response_id": "resp_02c58fdcf3b3c82a006b055121b8fc87d28e988be28f7ce2b3",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17617,
+        "input_tokens_details": {
+          "cache_write_tokens": 17614,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17614
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2329,
+        "output_tokens_details": {
+          "reasoning_tokens": 1475
+        },
+        "total_tokens": 19946
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-24T08:56:26.354Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 6,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:56:27.704Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_c031c88ba0914c59ba4438645578eac2",
+      "response_id": "resp_0b3249a40da2ef0c006b05513d082c87d28c90abd2ff5ed615",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17191,
+        "input_tokens_details": {
+          "cache_write_tokens": 17188,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17188
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1965,
+        "output_tokens_details": {
+          "reasoning_tokens": 817
+        },
+        "total_tokens": 19156
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-24T08:56:46.246Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 7,
+      "kind": "generation",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:56:47.484Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_6c50474706d44e3db14127a66988fb71",
+      "response_id": "resp_0245610d168bd773006b05515098b087d29922e469f1e7c8ec",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 9098,
+        "input_tokens_details": {
+          "cache_write_tokens": 6583,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 6583
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 661,
+        "output_tokens_details": {
+          "reasoning_tokens": 129
+        },
+        "total_tokens": 9759
+      },
+      "image_generation_calls": [
+        {
+          "id": "ig_0245610d168bd773006b055153d39087d284987fad7804cf9b",
+          "status": "completed",
+          "usage": null
+        }
+      ],
+      "completed_at": "2026-11-24T08:57:12.670Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 8,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:57:15.486Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_45509662bc6943b6a46318c7ea82c0c5",
+      "response_id": "resp_0ea5ec22c61b845c006b05516cd6e087d29815db9e815c7756",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17617,
+        "input_tokens_details": {
+          "cache_write_tokens": 17614,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17614
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 2484,
+        "output_tokens_details": {
+          "reasoning_tokens": 1638
+        },
+        "total_tokens": 20101
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-24T08:57:40.179Z",
+      "estimated_cost_jpy": null
+    },
+    {
+      "sequence": 9,
+      "kind": "qc",
+      "status": "COMPLETED",
+      "at": "2026-11-24T08:57:41.381Z",
+      "confirmed_cost": null,
+      "http_status": 200,
+      "request_id": "req_a64be9eea02047dda58c41bab12b1476",
+      "response_id": "resp_04a3087167d75569006b055186bebc87d2a5d87c2243d66d28",
+      "response_status": "completed",
+      "model": "gpt-5.6-sol",
+      "usage": {
+        "input_tokens": 17191,
+        "input_tokens_details": {
+          "cache_write_tokens": 17188,
+          "cache_write_tokens_details": {
+            "ttl_12h_tokens": 0,
+            "ttl_30m_tokens": 17188
+          },
+          "cached_tokens": 0
+        },
+        "output_tokens": 1698,
+        "output_tokens_details": {
+          "reasoning_tokens": 566
+        },
+        "total_tokens": 18889
+      },
+      "image_generation_calls": [],
+      "completed_at": "2026-11-24T08:57:59.429Z",
+      "estimated_cost_jpy": null
+    }
+  ],
+  "confirmed_cost": null
+}

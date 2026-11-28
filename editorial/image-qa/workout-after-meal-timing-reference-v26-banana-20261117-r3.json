@@ -1,0 +1,847 @@
+{
+  "pass": true,
+  "slug": "workout-after-meal-timing",
+  "article_title": "食後すぐに筋トレしていい？食事の量と運動までの時間の考え方",
+  "asset_version": "reference-v26-banana-20261117-r3",
+  "checked_at": "2026-11-17T07:45:44.798688Z",
+  "review_mode": "HYBRID_GENERATED",
+  "render_version": "rev-column-reference-v2.3-hybrid",
+  "design_revision": "editorial-thumbnail-v2.6-human-first",
+  "layout_variant": "human-first-v1",
+  "policy_revision": "editorial-thumbnail-v2.4",
+  "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 8,
+  "photo_treatment": 9,
+  "article_visual_relevance": 9,
+  "rev_environment_consistency": 9,
+  "brand_space_authenticity": 8,
+  "realism_qc_version": "v1",
+  "human_environment_integration": 8,
+  "perspective_scale_consistency": 8,
+  "ground_contact_shadow_consistency": 8,
+  "lighting_consistency": 8,
+  "anatomy_pose_realism": 9,
+  "no_cutout_or_sticker_look": true,
+  "location_semantics_pass": true,
+  "exercise_pose_plausible": true,
+  "manual_visual_rejection": false,
+  "trainer_present": false,
+  "unknown_trainer_present": false,
+  "non_customer_people_present": false,
+  "customer_only_or_no_people": true,
+  "generated_customer_present": true,
+  "generated_customer_count": 1,
+  "facility_only_thumbnail": false,
+  "fixed_overlay_layout_confirmed": true,
+  "human_subject_prominence": 9,
+  "human_visual_attention_share": 63,
+  "face_expression_readable": true,
+  "background_secondary_pass": true,
+  "background_soft_blur_pass": true,
+  "the_rev_anchor_visible": true,
+  "customer_presentation_matches_plan": true,
+  "customer_presentation": "male",
+  "real_the_rev_background_confirmed": true,
+  "source_material_scope_pass": true,
+  "background_source_recorded": true,
+  "background_selection_reason_recorded": true,
+  "background_source_drive_file_id": "1kvmgNTs9nbmXNOWyQkb_qAmSV83A1OC7",
+  "background_origin_video_file_id": "",
+  "background_origin_video_file_name": "",
+  "content_reference": "assets/images/photo-lobby.jpg",
+  "current_background_source_id": "the-rev-lobby-20260924",
+  "recent_similarity_check_pass": true,
+  "same_image_as_recent_articles": false,
+  "same_background_as_recent_articles": false,
+  "trainer_photo_reused": false,
+  "recent_similarity_window": 4,
+  "recent_reference_guard": {
+    "pass": true,
+    "recent": [
+      {
+        "slug": "oxygen-capsule-vs-room",
+        "content_reference": "assets/images/photo-oxyroom.jpg",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "recovery_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "facility_inspection",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "personal-gym-posture-check",
+        "content_reference": "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "24-hour-gym-workout-menu-consultation",
+        "content_reference": "assets/images/photo-lobby-sp.jpg",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "denba-health-effects-research-evidence",
+        "content_reference": "assets/images/photo-solution-denba.jpg",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      }
+    ],
+    "recent_content_references": [
+      "assets/images/photo-oxyroom.jpg",
+      "assets/images/editorial-source/drive/AI_FRAME_IMG_4387_75.jpg",
+      "assets/images/photo-lobby-sp.jpg",
+      "assets/images/photo-solution-denba.jpg"
+    ]
+  },
+  "recent_background_source_ids": [
+    "1KrgQnCXaFQ-uTOcPp3lpTjxSVTNVMs6c",
+    "1Qz9ku6-Yrt6pMIOJnB2QXIUMm5tBnOnI",
+    "1JvOA5-mmAV8atXtB_8p0hqwSKZOZeDYM",
+    "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE"
+  ],
+  "headline_history_check": {
+    "copy": "食後の筋トレは\n何時間後？",
+    "duplicate": false,
+    "verified_against_published_count": 12
+  },
+  "expected_copy_present": true,
+  "copy_legible": true,
+  "too_promotional": false,
+  "headline_line_break_quality": true,
+  "headline_balance_score": 9,
+  "main_claim_visualization": 9,
+  "article_theme_inferable_without_title": true,
+  "scene_action_has_article_specific_meaning": true,
+  "generic_passive_pose_without_article_reason": false,
+  "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+  "location_behavior_plausible": true,
+  "service_misrepresentation_absent": true,
+  "unsupported_equipment_absent": true,
+  "scene_plausible_at_the_rev": true,
+  "image_generation_used": true,
+  "fallback_used": false,
+  "gbp_image_required": true,
+  "gbp_aspect_ratio_pass": true,
+  "gbp_safe_area_pass": true,
+  "gbp_copy_legible": true,
+  "scene_grounding_version": "the-rev-source-scene-v1",
+  "scene_grounding": {
+    "version": "the-rev-source-scene-v1",
+    "pass": true,
+    "errors": [],
+    "inventory": {
+      "version": "the-rev-source-scene-v1",
+      "source_sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "primary_location": "reception",
+      "subject_zone": "reception",
+      "visible_equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "rear_training_area"
+        }
+      ],
+      "allowed_generated_actions": [
+        "enter",
+        "prepare",
+        "rest",
+        "compare_notes",
+        "review_paper",
+        "observe_facility"
+      ],
+      "forbidden_generated_objects": [
+        "medical_device",
+        "unverified_training_equipment"
+      ],
+      "suitable_article_intents": [
+        "facility_selection",
+        "health_before_start",
+        "readiness",
+        "training_start"
+      ]
+    },
+    "plan": {
+      "version": "the-rev-source-scene-v1",
+      "source_id": "the-rev-lobby-20260924",
+      "source_sha256": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "scene_type": "before_start",
+      "location_type": "reception",
+      "human_action": "prepare",
+      "composition_type": "close_action_portrait",
+      "visual_role": "checking_readiness",
+      "article_intent": "training_start",
+      "required_equipment": [],
+      "subject_zone": "reception",
+      "article_specific_directive": "One male customer in actual THE REV reception before training. Holding and considering banana and gym bag. No exercise in reception, equipment remains at the rear."
+    },
+    "sourceRecognition": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "weight_plates",
+          "zone": "rear_training_area"
+        },
+        {
+          "object": "training_bench",
+          "zone": "rear_training_area"
+        }
+      ],
+      "method": "Direct in-chat visual inspection of GitHub canonical actual THE REV. source photo"
+    },
+    "observation": {
+      "complete": true,
+      "equipment": [
+        {
+          "object": "training_rack",
+          "zone": "rear_training_area"
+        }
+      ],
+      "location_type": "reception",
+      "subject_zone": "reception",
+      "human_action": "prepare",
+      "equipment_relocated": false,
+      "room_geometry_preserved": true,
+      "article_scene_match": true,
+      "scene_fingerprint": {
+        "scene_type": "before_start",
+        "location_type": "reception",
+        "human_action": "prepare",
+        "composition_type": "close_action_portrait",
+        "visual_role": "checking_readiness",
+        "article_intent": "training_start"
+      }
+    },
+    "similarity": {
+      "pass": true,
+      "compared": 12,
+      "unknown_count": 0,
+      "penalty": 0.8333333333333334,
+      "matches": [
+        {
+          "slug": "oxygen-capsule-vs-room",
+          "score": 0.16666666666666666,
+          "equal": [
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-posture-check",
+          "score": 0.6666666666666666,
+          "equal": [
+            "scene_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "24-hour-gym-workout-menu-consultation",
+          "score": 0.3333333333333333,
+          "equal": [
+            "location_type",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "denba-health-effects-research-evidence",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-exercise-order-first-exercise",
+          "score": 0.0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "after-training-shower-changing-the-rev",
+          "score": 0.16666666666666666,
+          "equal": [
+            "human_action"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "strength-training-breathing-when-to-exhale",
+          "score": 0.8333333333333334,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action",
+            "visual_role",
+            "article_intent"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "reservation-only-vs-exclusive-use",
+          "score": 0.16666666666666666,
+          "equal": [
+            "location_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "boxing-trial-what-to-bring",
+          "score": 0.16666666666666666,
+          "equal": [
+            "scene_type"
+          ],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "cable-machine-how-it-works-the-rev",
+          "score": 0.0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "night-workout-sleep-timing-intensity",
+          "score": 0.0,
+          "equal": [],
+          "hard_exclusion": false
+        },
+        {
+          "slug": "personal-gym-first-session-pain-health-history",
+          "score": 0.5,
+          "equal": [
+            "scene_type",
+            "location_type",
+            "human_action"
+          ],
+          "hard_exclusion": false
+        }
+      ]
+    },
+    "asset_version": "reference-v26-banana-20261117-r3",
+    "asset_hashes": {
+      "source": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "scene": "f502510c5edf5283d79b02b2d23d423b03f5d1218ffd387e1137cd923e0e756f",
+      "thumbnail": "cf327337cb53795845401f056b1afba43f3101091318c4e1b91090d541508cd7",
+      "og": "206a837fbef56513d32f0a81b9de86dae9a1b068bd7814c83eb133496e7a471b",
+      "gbp": "77be4cc4e1e0fe14f5a47f768be8fc811e477571b92f7d44ae0d4a72dfda7abd"
+    },
+    "recent": [
+      {
+        "slug": "oxygen-capsule-vs-room",
+        "scene_fingerprint": {
+          "scene_type": "equipment_orientation",
+          "location_type": "recovery_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "facility_inspection",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "personal-gym-posture-check",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "training_area",
+          "human_action": "prepare",
+          "composition_type": "medium_side_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "24-hour-gym-workout-menu-consultation",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "review_paper",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "denba-health-effects-research-evidence",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "reception",
+          "human_action": "rest",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "strength-training-exercise-order-first-exercise",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "wide_full_body",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        }
+      },
+      {
+        "slug": "after-training-shower-changing-the-rev",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "recovery_area",
+          "human_action": "prepare",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "recovery_time",
+          "article_intent": "facility_selection"
+        }
+      },
+      {
+        "slug": "strength-training-breathing-when-to-exhale",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "checking_readiness",
+          "article_intent": "training_start"
+        }
+      },
+      {
+        "slug": "reservation-only-vs-exclusive-use",
+        "scene_fingerprint": {
+          "scene_type": "personal_choice",
+          "location_type": "reception",
+          "human_action": "compare_notes",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "deciding_own_start",
+          "article_intent": "facility_selection"
+        }
+      },
+      {
+        "slug": "boxing-trial-what-to-bring",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "boxing_area",
+          "human_action": "boxing_stance",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "safe_first_step",
+          "article_intent": "boxing_start"
+        }
+      },
+      {
+        "slug": "cable-machine-how-it-works-the-rev",
+        "scene_fingerprint": {
+          "scene_type": "exercise",
+          "location_type": "training_area",
+          "human_action": "strength_exercise",
+          "composition_type": "medium_three_quarter_portrait",
+          "visual_role": "training_execution",
+          "article_intent": "training_execution"
+        }
+      },
+      {
+        "slug": "night-workout-sleep-timing-intensity",
+        "scene_fingerprint": {
+          "scene_type": "recovery_transition",
+          "location_type": "training_area",
+          "human_action": "rest",
+          "composition_type": "wide_full_body",
+          "visual_role": "recovery_time",
+          "article_intent": "recovery"
+        }
+      },
+      {
+        "slug": "personal-gym-first-session-pain-health-history",
+        "scene_fingerprint": {
+          "scene_type": "before_start",
+          "location_type": "reception",
+          "human_action": "prepare",
+          "composition_type": "medium_seated_portrait",
+          "visual_role": "considering_health_report",
+          "article_intent": "health_before_start"
+        }
+      }
+    ]
+  },
+  "thumbnail_typography_revision": "thumbnail-golden-typography-v1",
+  "thumbnail_typography_acceptance": {
+    "pass": true,
+    "manual_visual_rejection": false,
+    "deterministic": {
+      "revision": "thumbnail-golden-typography-v1",
+      "slug": "workout-after-meal-timing",
+      "asset_version": "reference-v26-banana-20261117-r3",
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "lines": [
+            "食後の筋トレは",
+            "何時間後？"
+          ],
+          "text_preserved": true,
+          "font_size": 68,
+          "font_size_at_320": 18.133333333333333,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.9916666666666667,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            68,
+            96
+          ],
+          "focus_line": 1,
+          "focus_text": "何時間後？",
+          "focus_scale": 1.411764705882353,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9230769230769231,
+          "block_area_ratio": 0.10785185185185185,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 337.5,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "vertical-curved-softstep-v1",
+          "paper_opacity_floor": 0.9019607843137255,
+          "fade_start": 575,
+          "fade_end": 735,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.0,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 262,
+              "right": 540,
+              "bottom": 327,
+              "width": 476
+            },
+            {
+              "left": 64,
+              "top": 357,
+              "right": 544,
+              "bottom": 449,
+              "width": 480
+            }
+          ],
+          "asset_path": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
+          "asset_sha256": "cf327337cb53795845401f056b1afba43f3101091318c4e1b91090d541508cd7",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3-preview-320.jpg",
+              "sha256": "0e0bac2a2f670bb4bc9d6bf3243a7fa7fac01588353136e60859ea91d4feb97c"
+            },
+            "400": {
+              "path": "assets/images/blog/thumb-workout-after-meal-timing-reference-v26-banana-20261117-r3-preview-400.jpg",
+              "sha256": "2ec6156c3f3900621e430281fdb358df9efe34315ee261588e21d545b9461023"
+            }
+          }
+        },
+        "og": {
+          "pass": true,
+          "lines": [
+            "食後の筋トレは",
+            "何時間後？"
+          ],
+          "text_preserved": true,
+          "font_size": 68,
+          "font_size_at_320": 18.133333333333333,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.9916666666666667,
+          "layout_rule": "golden-wide-v1",
+          "line_font_sizes": [
+            68,
+            96
+          ],
+          "focus_line": 1,
+          "focus_text": "何時間後？",
+          "focus_scale": 1.411764705882353,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9230769230769231,
+          "block_area_ratio": 0.11555555555555555,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 315.0,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "vertical-curved-softstep-v1",
+          "paper_opacity_floor": 0.9019607843137255,
+          "fade_start": 575,
+          "fade_end": 735,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.0,
+          "line_rects": [
+            {
+              "left": 64,
+              "top": 240,
+              "right": 540,
+              "bottom": 305,
+              "width": 476
+            },
+            {
+              "left": 64,
+              "top": 335,
+              "right": 544,
+              "bottom": 427,
+              "width": 480
+            }
+          ],
+          "asset_path": "assets/images/blog/og/og-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
+          "asset_sha256": "206a837fbef56513d32f0a81b9de86dae9a1b068bd7814c83eb133496e7a471b",
+          "previews": {
+            "320": {
+              "path": "assets/images/blog/og/og-workout-after-meal-timing-reference-v26-banana-20261117-r3-preview-320.jpg",
+              "sha256": "1caeb5a0aec054d2de337c81102dc01a53b4c740f6b943a137ef314941065326"
+            },
+            "400": {
+              "path": "assets/images/blog/og/og-workout-after-meal-timing-reference-v26-banana-20261117-r3-preview-400.jpg",
+              "sha256": "f0176ad5fa78551a5915153b4e6bd74e1adf7143f8593019ffa8cea393260f54"
+            }
+          }
+        },
+        "gbp": {
+          "pass": true,
+          "lines": [
+            "食後の筋トレは",
+            "何時間後？"
+          ],
+          "text_preserved": true,
+          "font_size": 62,
+          "font_size_at_320": 16.533333333333335,
+          "line_count": 2,
+          "line_height": 1.12,
+          "line_balance": 0.9907834101382489,
+          "layout_rule": "golden-gbp-v1",
+          "line_font_sizes": [
+            62,
+            86
+          ],
+          "focus_line": 1,
+          "focus_text": "何時間後？",
+          "focus_scale": 1.3870967741935485,
+          "hierarchy_kind": "lines",
+          "hierarchy_pass": true,
+          "label_removed": true,
+          "bottom_mark_removed": true,
+          "width_occupancy": 0.9863636363636363,
+          "block_area_ratio": 0.0675111111111111,
+          "safe_area_pass": true,
+          "fade_contains_text": true,
+          "layout_balance_revision": "centered-organic-v1",
+          "headline_center_y": 450.0,
+          "paper_profile": "local-curved-veil",
+          "veil_profile": "vertical-curved-softstep-v1",
+          "paper_opacity_floor": 0.9019607843137255,
+          "fade_start": 524,
+          "fade_end": 656,
+          "fade_vertical_tail": 125,
+          "contrast_floor": 5.0,
+          "line_rects": [
+            {
+              "left": 60,
+              "top": 380,
+              "right": 494,
+              "bottom": 440,
+              "width": 434
+            },
+            {
+              "left": 60,
+              "top": 469,
+              "right": 490,
+              "bottom": 551,
+              "width": 430
+            }
+          ],
+          "asset_path": "assets/images/gbp/gbp-workout-after-meal-timing-reference-v26-banana-20261117-r3.jpg",
+          "asset_sha256": "77be4cc4e1e0fe14f5a47f768be8fc811e477571b92f7d44ae0d4a72dfda7abd",
+          "previews": {
+            "320": {
+              "path": "assets/images/gbp/gbp-workout-after-meal-timing-reference-v26-banana-20261117-r3-preview-320.jpg",
+              "sha256": "5bb452524f8e47bca966c37bfdcc4dee957cea80f69d6312e6045c271eb01f3f"
+            },
+            "400": {
+              "path": "assets/images/gbp/gbp-workout-after-meal-timing-reference-v26-banana-20261117-r3-preview-400.jpg",
+              "sha256": "ca25707e3fd6dd1d1d0c91e7514598b6dc632ab31f17d7bdb8303b06c26daefc"
+            }
+          }
+        }
+      }
+    },
+    "visual": {
+      "thumbnail": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true,
+        "observation": "Actual 1200px final and the 320/400px raster previews were inspected; full Japanese lettering and a plausible banana-consideration moment remained visible."
+      },
+      "og": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true,
+        "observation": "Actual 1200px final and the 320/400px raster previews were inspected; full Japanese lettering and a plausible banana-consideration moment remained visible."
+      },
+      "gbp": {
+        "pass": true,
+        "immediately_readable": true,
+        "title_is_primary": true,
+        "whitespace_has_purpose": true,
+        "natural_line_breaks": true,
+        "fade_contains_text": true,
+        "contrast_sufficient": true,
+        "text_not_buried": true,
+        "article_recognizable": true,
+        "observation": "Actual 1200px final and the 320/400px raster previews were inspected; full Japanese lettering and a plausible banana-consideration moment remained visible."
+      }
+    },
+    "art_direction": {
+      "pass": true,
+      "variants": {
+        "thumbnail": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true,
+          "observation": "Measured native Pillow typography geometry and source photo anchored composition; distinct media crops; organic soft paper veil."
+        },
+        "og": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true,
+          "observation": "Measured native Pillow typography geometry and source photo anchored composition; distinct media crops; organic soft paper veil."
+        },
+        "gbp": {
+          "pass": true,
+          "not_size_only": true,
+          "photo_text_hierarchy_natural": true,
+          "whitespace_meaningful": true,
+          "no_white_board": true,
+          "keyword_hierarchy_present": true,
+          "format_layout_independent": true,
+          "not_generic_template": true,
+          "premium_rev_preserved": true,
+          "inviting_at_list_size": true,
+          "thumbnail_functional": true,
+          "golden_grammar_matches": true,
+          "composition_balanced": true,
+          "fade_integrated": true,
+          "observation": "Measured native Pillow typography geometry and source photo anchored composition; distinct media crops; organic soft paper veil."
+        }
+      }
+    },
+    "golden_reference": {
+      "revision": "approved-typography-20261001-v1",
+      "assets": [
+        {
+          "variant": "wide",
+          "path": "editorial/typography-golden-reference/reference-16x9.png",
+          "sha256": "ad6b5724177e691b6c56a7379b18550615937a4d4c8259f9bb786f73c5690f3e"
+        },
+        {
+          "variant": "gbp",
+          "path": "editorial/typography-golden-reference/reference-gbp-4x3.png",
+          "sha256": "9d60770cbeb79eb12ac9e2ecfa937ca001c5ba23916de51f4196ba8d04648640"
+        },
+        {
+          "variant": "list",
+          "path": "editorial/typography-golden-reference/reference-list-view.png",
+          "sha256": "c1c48d0190179b18a0b1668605672a46d6805ea50bf216734693f5c535525cb7"
+        }
+      ]
+    }
+  },
+  "actual_reviewer": {
+    "method": "In-chat direct visual QC of actual 1200px and 320px/400px JPEGs and canonical source photo, plus measured typography and reviewed scene inventory",
+    "model": "GPT-6",
+    "limitations": "Not external third-party QA; per-pixel Xserver verified separately by GitHub workflow"
+  },
+  "api_usage": {
+    "external_ai_api_calls": 0,
+    "prior_built_in_generated_scene_recovered": true,
+    "current_rendering": "Pillow deterministic media rendering"
+  },
+  "xserver_live_verify_passed": false,
+  "gbp_xserver_live_verify_passed": false,
+  "xserver_evidence": {
+    "status": "AWAITING_EXACT_PUBLIC_BYTE_VERIFICATION",
+    "sha256": {
+      "source": "37fd69c2b1698cb4f367b718981bceaa3824bfcb86b592f7e14098e34d654ae0",
+      "scene": "f502510c5edf5283d79b02b2d23d423b03f5d1218ffd387e1137cd923e0e756f",
+      "thumbnail": "cf327337cb53795845401f056b1afba43f3101091318c4e1b91090d541508cd7",
+      "og": "206a837fbef56513d32f0a81b9de86dae9a1b068bd7814c83eb133496e7a471b",
+      "gbp": "77be4cc4e1e0fe14f5a47f768be8fc811e477571b92f7d44ae0d4a72dfda7abd"
+    }
+  }
+}

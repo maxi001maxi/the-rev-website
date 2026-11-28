@@ -1,0 +1,191 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "shinomiya-personal-gym-reservation-facility-the-rev",
+  "asset_version": "reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "通いやすさまで、",
+        "選ぶ基準に。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9925399117906174,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        64,
+        85.8085808580858
+      ],
+      "focus_line": 1,
+      "focus_text": "選ぶ基準に。",
+      "focus_scale": 1.3407590759075907,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982142978889986,
+      "block_area_ratio": 0.11520902642719186,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "fade_start": 606,
+      "fade_end": 772,
+      "fade_vertical_tail": null,
+      "contrast_floor": 5.586785391534058,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 237,
+          "right": 579.84375,
+          "bottom": 329,
+          "width": 515.84375
+        },
+        {
+          "left": 64,
+          "top": 317.671875,
+          "right": 582.625,
+          "bottom": 441.671875,
+          "width": 518.625
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
+      "asset_sha256": "1fec4eb0bdac643b31095b8c561a36de3f810b6f8270a78778b9c0b14c71ddcb",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
+          "sha256": "87d3dcae32efeddf89cce7e6096c92578bbc23abe86142f441629537fa3577d7"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
+          "sha256": "f5f6bfd97dc313d54be298ab95bbd2005fd37898ac785a79096d2d751d73f461"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "通いやすさまで、",
+        "選ぶ基準に。"
+      ],
+      "text_preserved": true,
+      "font_size": 64,
+      "font_size_at_320": 17.066666666666666,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9925399117906174,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        64,
+        85.8085808580858
+      ],
+      "focus_line": 1,
+      "focus_text": "選ぶ基準に。",
+      "focus_scale": 1.3407590759075907,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982142978889986,
+      "block_area_ratio": 0.1234382426005627,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "fade_start": 606,
+      "fade_end": 772,
+      "fade_vertical_tail": null,
+      "contrast_floor": 5.586785391534058,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 214,
+          "right": 579.84375,
+          "bottom": 306,
+          "width": 515.84375
+        },
+        {
+          "left": 64,
+          "top": 294.671875,
+          "right": 582.625,
+          "bottom": 418.671875,
+          "width": 518.625
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
+      "asset_sha256": "3c23edf695b51ac22a3cdba851c1dce3657704cb079a8d0b70be23b5d7e7754f",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
+          "sha256": "78212e1a94ae006b598a8251af17d22b92a207c848d237083810e9682780a12b"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
+          "sha256": "c5a4394a669e70e8eb3d7319b955d374a9beb47dc71528692cc4375a7f5e3093"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "通いやすさまで、",
+        "選ぶ基準に。"
+      ],
+      "text_preserved": true,
+      "font_size": 62,
+      "font_size_at_320": 16.533333333333335,
+      "line_count": 2,
+      "line_height": 1.12,
+      "line_balance": 0.9999497779791653,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        62,
+        82.5082508250825
+      ],
+      "focus_line": 1,
+      "focus_text": "選ぶ基準に。",
+      "focus_scale": 1.3307782391142338,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9982506419770395,
+      "block_area_ratio": 0.07941811748020458,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "fade_start": 582,
+      "fade_end": 690,
+      "fade_vertical_tail": 150,
+      "contrast_floor": 5.586785391534058,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 190,
+          "right": 559.734375,
+          "bottom": 279,
+          "width": 499.734375
+        },
+        {
+          "left": 60,
+          "top": 265.4375,
+          "right": 558.734375,
+          "bottom": 384.4375,
+          "width": 498.734375
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003.jpg",
+      "asset_sha256": "a88b6087468ce2fb960aadfc594c4794ea1e07bb8893fc9aba8276c6d8345fa3",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-320.jpg",
+          "sha256": "97bccf9895911daad1d0d95024199c152039227e4bec24452d7541f01dc4457b"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-shinomiya-personal-gym-reservation-facility-the-rev-reference-v26-auto-lobby-sp-20260927-330b3b3f-r2-golden-v1-20261003-preview-400.jpg",
+          "sha256": "05289388f92f23b137a2468131ea88856604f9cbd6511dfb6ba7600b764a4f18"
+        }
+      }
+    }
+  }
+}

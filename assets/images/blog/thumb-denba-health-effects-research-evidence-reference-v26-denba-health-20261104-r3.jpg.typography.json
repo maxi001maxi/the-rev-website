@@ -1,0 +1,236 @@
+{
+  "revision": "thumbnail-golden-typography-v1",
+  "slug": "denba-health-effects-research-evidence",
+  "asset_version": "reference-v26-denba-health-20261104-r3",
+  "pass": true,
+  "variants": {
+    "thumbnail": {
+      "pass": true,
+      "lines": [
+        "DENBA Health",
+        "休息を",
+        "ケアに。"
+      ],
+      "text_preserved": true,
+      "font_size": 72,
+      "font_size_at_320": 19.2,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.4198526521545849,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        72,
+        72,
+        125.53846153846153
+      ],
+      "focus_line": 2,
+      "focus_text": "ケアに。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9959542236328124,
+      "block_area_ratio": 0.21600986798152214,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 337.921875,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9058823529411765,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.165838053306941,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 157,
+          "right": 582.625,
+          "bottom": 261,
+          "width": 518.625
+        },
+        {
+          "left": 64,
+          "top": 255.625,
+          "right": 282.171875,
+          "bottom": 359.625,
+          "width": 218.171875
+        },
+        {
+          "left": 64,
+          "top": 346.25,
+          "right": 568.953125,
+          "bottom": 526.25,
+          "width": 504.953125
+        }
+      ],
+      "asset_path": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+      "asset_sha256": "d4988331f4935a670033025c8e45335dfd16e72a651cb034fb3cda5fb1a51d96",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3-preview-320.jpg",
+          "sha256": "20a914a7cf4c4bbff192ca157a11ede0fc94ed31ccf3239136f24d545e669f67"
+        },
+        "400": {
+          "path": "assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3-preview-400.jpg",
+          "sha256": "e3917b6013d37634278a1e31dba5741efa245e31baf420a128194d054d29d49d"
+        }
+      }
+    },
+    "og": {
+      "pass": true,
+      "lines": [
+        "DENBA Health",
+        "休息を",
+        "ケアに。"
+      ],
+      "text_preserved": true,
+      "font_size": 72,
+      "font_size_at_320": 19.2,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.4198526521545849,
+      "layout_rule": "golden-wide-v1",
+      "line_font_sizes": [
+        72,
+        72,
+        125.53846153846153
+      ],
+      "focus_line": 2,
+      "focus_text": "ケアに。",
+      "focus_scale": 1.7435897435897436,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9959542236328124,
+      "block_area_ratio": 0.23143914426591658,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 314.921875,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9058823529411765,
+      "fade_start": 605,
+      "fade_end": 742,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.165838053306941,
+      "line_rects": [
+        {
+          "left": 64,
+          "top": 134,
+          "right": 582.625,
+          "bottom": 238,
+          "width": 518.625
+        },
+        {
+          "left": 64,
+          "top": 232.625,
+          "right": 282.171875,
+          "bottom": 336.625,
+          "width": 218.171875
+        },
+        {
+          "left": 64,
+          "top": 323.25,
+          "right": 568.953125,
+          "bottom": 503.25,
+          "width": 504.953125
+        }
+      ],
+      "asset_path": "assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+      "asset_sha256": "2d998fc460dfbf4d582dbe4af0ef17f7d4307d15a5e9d787ce95cf56364e1acc",
+      "previews": {
+        "320": {
+          "path": "assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3-preview-320.jpg",
+          "sha256": "215289f4225b9d5f85e12b956539a540ffbbc01640807b51a910b8282352a69f"
+        },
+        "400": {
+          "path": "assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3-preview-400.jpg",
+          "sha256": "4ffdb4b748174e2624a882a2d3fb27ccc2293c61475c658fd1e22de252bf95e9"
+        }
+      }
+    },
+    "gbp": {
+      "pass": true,
+      "lines": [
+        "DENBA Health",
+        "休息を",
+        "ケアに。"
+      ],
+      "text_preserved": true,
+      "font_size": 61,
+      "font_size_at_320": 16.266666666666666,
+      "line_count": 3,
+      "line_height": 1.12,
+      "line_balance": 0.41985261677383817,
+      "layout_rule": "golden-gbp-v1",
+      "line_font_sizes": [
+        61,
+        61,
+        100.47058823529412
+      ],
+      "focus_line": 2,
+      "focus_text": "ケアに。",
+      "focus_scale": 1.6470588235294117,
+      "hierarchy_kind": "lines",
+      "hierarchy_pass": true,
+      "label_subordinate": true,
+      "label_removed": true,
+      "bottom_mark_removed": true,
+      "width_occupancy": 0.9972131403142755,
+      "block_area_ratio": 0.11746974581983353,
+      "safe_area_pass": true,
+      "fade_contains_text": true,
+      "layout_balance_revision": "centered-organic-v1",
+      "headline_center_y": 431.5703125,
+      "paper_profile": "local-curved-veil",
+      "veil_profile": "canonical-bezier-v1",
+      "paper_opacity_floor": 0.9215686274509803,
+      "fade_start": 522,
+      "fade_end": 641,
+      "fade_vertical_tail": 125,
+      "contrast_floor": 5.356830663826178,
+      "line_rects": [
+        {
+          "left": 60,
+          "top": 277,
+          "right": 499.390625,
+          "bottom": 364,
+          "width": 439.390625
+        },
+        {
+          "left": 60,
+          "top": 365.3125,
+          "right": 244.84375,
+          "bottom": 452.3125,
+          "width": 184.84375
+        },
+        {
+          "left": 60,
+          "top": 446.625,
+          "right": 464.328125,
+          "bottom": 591.625,
+          "width": 404.328125
+        }
+      ],
+      "asset_path": "assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3.jpg",
+      "asset_sha256": "e52ae47df6dec0c3e43e921a4af94c060e2c19c21a4d79c0313d3e0a34c8ba95",
+      "previews": {
+        "320": {
+          "path": "assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3-preview-320.jpg",
+          "sha256": "8784ab9257c0673e10ca741369c3647df766ce58590e2320d72e591a9bb916ac"
+        },
+        "400": {
+          "path": "assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-denba-health-20261104-r3-preview-400.jpg",
+          "sha256": "d45fb1f37545e97cb76f7b64c4bec509f81cee09ef203031a4df44b03110769b"
+        }
+      }
+    }
+  }
+}

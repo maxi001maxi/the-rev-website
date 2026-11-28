@@ -1,0 +1,42 @@
+{
+  "content_id": "BLOG-20261021-4ac8fd",
+  "status": "CORRECTED_CONTEXT_FULL_QC_PASS",
+  "image_qc_pass": true,
+  "all_owner_selected_bytes_identical": true,
+  "files": [
+    {
+      "format": "generated_scene_path",
+      "path": "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021-scene.png",
+      "sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7",
+      "expected_sha256": "6f3b19d4a15565bce5d5399a6e85cbb0443b410285911d6c2f94188975fb70b7"
+    },
+    {
+      "format": "thumbnail",
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1",
+      "expected_sha256": "83ffff6b1d2cc26d817e6420896fcc69060af02fd8359dfaebfbc83eaee7a4e1"
+    },
+    {
+      "format": "og_image",
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b",
+      "expected_sha256": "c3124f7d6571a53cef13880ace469966b8a918848da4065db2e522d552c9358b"
+    },
+    {
+      "format": "gbp_image",
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v082-evolgear-r5-qc-context-20261021.jpg",
+      "sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3",
+      "expected_sha256": "3ccdf051b1c0d042c9dd9ce0b6ad6ed9b69a811b579e3d736cc7a5fdfbc77ba3"
+    }
+  ],
+  "qa_pass": true,
+  "qa_comments": "元画像の黒い複合ラック、左側のプレート列、ケーブル機構、床タイル、天井梁という場所固有の要素が保たれ、人物は前景に自然に接地している。顧客は一人だけで、トレーナーやスタッフはいない。時計を見て終了時刻を判断する動作が記事固有の意味を持ち、医療行為や未確認サービスも示していない。3形式とも実寸プレビューでコピーが明瞭で、人物・時計・見出しのバランスも成立している。",
+  "generation_calls": 0,
+  "qc_calls": 1,
+  "old_verdicts_unchanged": true,
+  "production_ready": false,
+  "production_writes": false,
+  "publish_invoked": false,
+  "run_id": "39528881887",
+  "checkout_sha": "f2b55f924c1f22c1e5dd6a9490f9a924b79a2094"
+}

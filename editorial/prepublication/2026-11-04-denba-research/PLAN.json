@@ -1,0 +1,57 @@
+{
+  "plan": {
+    "status": "PREPARING",
+    "preserveReady": false,
+    "renderVersion": "rev-column-reference-v2.3-hybrid",
+    "strategy": "reference-v2-gpt-image-hybrid-drive-source",
+    "styleTemplate": "rev-column-reference-v2",
+    "sourcePath": "assets/images/photo-solution-denba.jpg",
+    "imageHeadlineShort": "研究結果、\nどう読む？",
+    "categoryLabel": "RECOVERY",
+    "seriesLabel": "COLUMN",
+    "assetVersion": "reference-v26-grounded-auto-denba-20260924-63fb04d3",
+    "jobPath": "editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json",
+    "qaReportPath": "editorial/image-qa/denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.json",
+    "generationModel": "gpt-image-hybrid",
+    "qaModel": "gpt-5.6-sol-visual-qc",
+    "thumbnail": "/assets/images/blog/thumb-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+    "ogImage": "/assets/images/blog/og/og-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+    "gbpImage": "/assets/images/gbp/gbp-denba-health-effects-research-evidence-reference-v26-grounded-auto-denba-20260924-63fb04d3.jpg",
+    "gbpImageStatus": "PREPARING",
+    "gbpImageAssetVersion": "reference-v26-grounded-auto-denba-20260924-63fb04d3",
+    "gbpImageQa": null,
+    "qa": null,
+    "brandQaScore": null,
+    "attempts": null,
+    "assetReady": false,
+    "operatorRequired": false,
+    "automatedOperator": true,
+    "selectedSource": {
+      "source_id": "the-rev-denba-20260924",
+      "repo_path": "assets/images/photo-solution-denba.jpg",
+      "drive_file_id": "13lMHSE0-VX5X7ECMNX3xgkUJBufngVuE"
+    }
+  },
+  "canonical_text_gates": {
+    "text": {
+      "pass": true,
+      "checks": {
+        "proof_present": true,
+        "evidence_recorded": true,
+        "content_id_matches": true,
+        "independent_pass": true,
+        "body_matches": true
+      },
+      "missing": []
+    },
+    "length": {
+      "pass": true,
+      "count": 2446,
+      "min": 1600,
+      "type": "STANDARD"
+    },
+    "closing": []
+  },
+  "external_ai_api_calls": 0,
+  "job_path": "editorial/hybrid-image-jobs/denba-health-effects-research-evidence.json"
+}

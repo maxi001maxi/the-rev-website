@@ -1,0 +1,164 @@
+{
+  "scope": "connected application HTTP path + GAS adapters; external APIs and accepted imagery fixed; deployed GAS triggers not exercised",
+  "external_api_cost": 0,
+  "traces": [
+    {
+      "case": "A",
+      "result": "DRY_RUN_PASS_SUPPORTED_CONNECTED_PATH",
+      "content_id": "BLOG-20261018-d24d55",
+      "checks": [
+        {
+          "id": "auth",
+          "label": "認証",
+          "status": "ok",
+          "message": "ログイン中：synthetic@example.invalid"
+        },
+        {
+          "id": "publisher",
+          "label": "Publisher権限",
+          "status": "ok",
+          "message": "公開権限があります。"
+        },
+        {
+          "id": "draft",
+          "label": "Draft存在",
+          "status": "ok",
+          "message": "下書きを読み込みました。"
+        },
+        {
+          "id": "required",
+          "label": "必須項目",
+          "status": "ok",
+          "message": "必要な項目はすべて入力されています。"
+        },
+        {
+          "id": "slug_format",
+          "label": "Slug形式",
+          "status": "ok",
+          "message": "/blog/synthetic-e2e-recovery/ として公開されます。"
+        },
+        {
+          "id": "independent_text_qc",
+          "label": "本文の独立QC",
+          "status": "ok",
+          "message": "現在の本文と独立QC証拠が一致しています。"
+        },
+        {
+          "id": "image_review_gate",
+          "label": "画像Review Gate",
+          "status": "ok",
+          "message": "HYBRID_GENERATED / trainer absent / generated customer / recent-4 reuse check PASS。"
+        },
+        {
+          "id": "image_release",
+          "label": "記事画像",
+          "status": "ok",
+          "message": "旧5記事参照 rev-column-reference-v2 / GPT Image hybrid / editorial-thumbnail-v2.4 / rev-column-v24-fixed-overlay-v1 / generated customer + real THE REV. environment / Brand QA PASS。"
+        },
+        {
+          "id": "github_connection",
+          "label": "GitHub接続",
+          "status": "ok",
+          "message": "test/editorial @ main へ接続できました。"
+        },
+        {
+          "id": "image_assets",
+          "label": "画像3形式",
+          "status": "ok",
+          "message": "GitHubの3画像を確認しました。"
+        },
+        {
+          "id": "image_live",
+          "label": "本番画像反映",
+          "status": "ok",
+          "message": "XserverとGitHubの3画像SHA256一致。"
+        },
+        {
+          "id": "github_target",
+          "label": "GitHub上のslug衝突",
+          "status": "ok",
+          "message": "content/blog/synthetic-e2e-recovery.md は未使用です（新規作成）。"
+        },
+        {
+          "id": "source_sync",
+          "label": "source_path / source_sha",
+          "status": "ok",
+          "message": "新規公開のため未設定です（公開成功後に保存されます）。"
+        }
+      ],
+      "limits": [
+        "legacy writer/research boundary fixed",
+        "generation/render/visual responses fixed",
+        "GAS installed triggers not executed"
+      ]
+    },
+    {
+      "case": "qc",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "OWNER_REVIEW_REQUIRED"
+    },
+    {
+      "case": "db-sync",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "missing-file",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "preflight",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "api",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "admin-reflection",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "partial-actions",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "missing-source",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "tampered-qc-bytes",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "same-size-live-bytes",
+      "safe_stop": true,
+      "retains_body": true,
+      "recovery": "SYNC_RESUMED_WITHOUT_GENERATION"
+    },
+    {
+      "case": "no_interview",
+      "result": "DRY_RUN_PASS"
+    },
+    {
+      "case": "delayed_duplicate_interview",
+      "result": "DRY_RUN_PASS"
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "system_id": "the-rev-editorial-image-system",
+  "schema_version": "1.7.0",
+  "current_truth_date": "2026-09-27",
+  "system_status": "AUTOMATED_TO_REVIEW_READY",
+  "fully_automated": true,
+  "current_standard": {
+    "format_id": "rev-column-reference-v2.3-hybrid",
+    "code_contract": "lib/editorialHybridImageFormat.mjs",
+    "machine_spec": "editorial/reference-v23-hybrid-format.json",
+    "human_spec": "editorial/REFERENCE_V23_HYBRID_FORMAT.md",
+    "runbook": "editorial/EDITORIAL_IMAGE_RUNBOOK.md",
+    "request_template": "editorial/hybrid-image-request.template.json",
+    "job_template": "editorial/hybrid-image-jobs/_template.json",
+    "job_compiler": "scripts/compile-hybrid-image-job.mjs",
+    "validator": "scripts/validate-hybrid-image-jobs.mjs",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "hybrid_overlay_renderer": "scripts/render-hybrid-editorial-overlay.mjs",
+    "automated_operator": "github-actions-auto-operator-v1",
+    "automated_source_registry": "editorial/automated-image-sources.json",
+    "automated_runner": "scripts/auto-editorial-hybrid-image.mjs",
+    "design_revision": "editorial-thumbnail-v2.6-human-first",
+    "default_layout_variant": "human-first-v1",
+    "legacy_layout_variant": "legacy-v24",
+    "impact_layout_variant": "impact-v1",
+    "typography_revision": "thumbnail-golden-typography-v1",
+    "typography_contract": "lib/editorialThumbnailTypography.mjs",
+    "typography_reference_lock": "editorial/typography-golden-reference/lock.json",
+    "typography_balance_revision": "centered-organic-v1"
+  },
+  "source_policy": {
+    "drive_root_folder_id": "1I2qrLVBSlnC035b6U6z76dtyHXNc-6iG",
+    "scope": "specified-drive-root-only",
+    "full_drive_search": false,
+    "video_frame_allowed": true,
+    "recent_reference_window": 4,
+    "selection_policy": "relevance-first-lineage-recency-v2",
+    "verified_repo_mirror_registry": "editorial/automated-image-sources.json",
+    "repo_mirrors_must_have_scoped_drive_provenance": true,
+    "recent_thumbnail_copy_window": 25,
+    "exact_thumbnail_copy_scope": "all-history"
+  },
+  "output_contract": {
+    "thumbnail": {
+      "width": 1200,
+      "height": 675,
+      "ratio": "16:9"
+    },
+    "ogp": {
+      "width": 1200,
+      "height": 630,
+      "ratio": "1.91:1"
+    },
+    "thumbnail_pattern": "assets/images/blog/thumb-{slug}-{asset_version}.jpg",
+    "ogp_pattern": "assets/images/blog/og/og-{slug}-{asset_version}.jpg",
+    "qa_pattern": "editorial/image-qa/{slug}-{asset_version}.json",
+    "generated_scene_pattern": "assets/images/editorial-generated/{slug}-{asset_version}-scene.png",
+    "gbp": {
+      "width": 1200,
+      "height": 900,
+      "ratio": "4:3"
+    },
+    "gbp_pattern": "assets/images/gbp/gbp-{slug}-{asset_version}.jpg"
+  },
+  "design_reference_assets": [
+    "assets/images/blog/thumb-after-work-tired-strength-training-reference-v23-hybrid-4387-75.jpg",
+    "assets/images/blog/thumb-no-time-for-gym-starting-friction-reference-v23-hybrid-3978-20.jpg"
+  ],
+  "fallback": {
+    "id": "reference-v2.2-source-lock",
+    "render_version": "rev-column-reference-v2.2",
+    "code_contract": "lib/editorialImageStyle.mjs",
+    "renderer": "scripts/render-blog-image.mjs",
+    "qa": "scripts/qa-editorial-image.mjs",
+    "workflow": ".github/workflows/render-editorial-images.yml",
+    "thumbnail": {
+      "width": 1200,
+      "height": 675
+    },
+    "ogp": {
+      "width": 1200,
+      "height": 630
+    }
+  },
+  "automation": {
+    "automated": [
+      "Editorial Bridge converts a PREPARING article into a canonical V2.4 Hybrid Job",
+      "verified THE REV source selection from the scoped Drive-provenance repo mirror registry",
+      "recent-4 background provenance hard exclusion",
+      "short Editorial Copy generation, recent-12 exact/near-duplicate rejection and deterministic validation",
+      "article-specific one-customer scene intent planning",
+      "single-customer male/female presentation rotation from recent history",
+      "GPT image-generation scene creation from the real THE REV source environment",
+      "deterministic V2.6 Human First typography/layout overlay with impact-v1 and legacy-v24 compatibility",
+      "multimodal visual QC against the real THE REV source and final thumbnail",
+      "realism QC for scale, perspective, floor contact, contact shadows, lighting, anatomy and location semantics",
+      "automatic retry up to the configured max attempts",
+      "deterministic GBP 4:3 (1200x900) derivative from the same approved Hybrid scene",
+      "generated scene / Thumbnail / OGP / GBP 4:3 / QA / operator state commit to GitHub",
+      "Hybrid Job / QA / JPEG dimension / provenance validation",
+      "Xserver asset-first deployment and public byte verification",
+      "Editorial status polling to Supabase READY",
+      "LINE notification when Review Ready is reached",
+      "publish preflight and image READY gate",
+      "trainer-free Review Gate shared by READY, Review and Publish",
+      "manual visual rejection is fail-closed in READY / Review / Publish"
+    ],
+    "operator_required": [
+      "add a newly verified THE REV source mirror when the recent-4-safe automated source pool is exhausted",
+      "investigate an image that exhausts automated QC retry attempts",
+      "override by rejection when a human reviewer sees a visual defect that automated QC missed"
+    ],
+    "human_required": [
+      "final Review & Publish approval"
+    ]
+  },
+  "canonical_commands": {
+    "install": "npm ci",
+    "compile_job": "npm run image:compile-job -- path/to/request.json",
+    "validate_images": "npm run test:editorial-images",
+    "validate_phase9": "npm run test:phase-9",
+    "build_blog": "npm run build:blog"
+  },
+  "workflows": {
+    "source_lock_render": ".github/workflows/render-editorial-images.yml",
+    "phase9_ci": ".github/workflows/phase-9-check.yml",
+    "xserver_deploy": ".github/workflows/deploy-xserver.yml",
+    "preview_qa": ".github/workflows/preview-qa.yml",
+    "auto_hybrid_generation": ".github/workflows/auto-editorial-hybrid-images.yml"
+  },
+  "release_boundary": "REVIEW_AND_PUBLISH",
+  "stop_conditions": [
+    "generated customer is missing, or customer count is not exactly 1 for V2.6 Human First",
+    "trainer / coach / staff appears or looks like the subject role",
+    "thumbnail is facility-only",
+    "fixed V2.4 overlay was not applied",
+    "same image or same background provenance appears in the recent 4 articles",
+    "Thumbnail Copy is exact or near-duplicate of the recent 12 editorial headlines",
+    "manual_visual_rejection is true",
+    "person does not carry roughly 60-70% of visual attention in human-first-v1",
+    "face / expression / article-specific action is not readable at blog-card size",
+    "THE REV. background is either unrecognizable or too sharp/dominant to remain a supporting layer",
+    "exercise is placed in a reception/circulation area rather than a plausible training area",
+    "exercise pose is anatomically or mechanically implausible",
+    "person looks pasted/cut out or does not share the background perspective, scale, ground contact, shadows or lighting",
+    "Hybrid generation is missing",
+    "source is outside the specified Drive root",
+    "article relevance is weak",
+    "thumbnail or OGP dimensions do not match the output contract",
+    "GBP image dimensions do not match 1200x900 / 4:3 when GBP image is required",
+    "Hybrid QC is below threshold or required boolean flags are missing",
+    "GitHub asset is missing",
+    "Xserver public asset does not match repository bytes",
+    "publish would occur without explicit human approval",
+    "headline is too small to read at live blog-card size",
+    "negative space becomes a large dead ivory field with no hierarchy purpose"
+  ],
+  "review_policy": {
+    "standard_mode": "HYBRID_GENERATED",
+    "policy_revision": "editorial-thumbnail-v2.4",
+    "layout_template_id": "rev-column-v24-fixed-overlay-v1",
+    "trainer_present_forbidden": true,
+    "generated_customer_required": true,
+    "generated_customer_default_count": 1,
+    "generated_customer_max_count": 1,
+    "facility_only_thumbnail_forbidden": true,
+    "fixed_overlay_required": true,
+    "source_lock_publish_allowed_for_new_editorial": false,
+    "recent_similarity_window": 4,
+    "same_image_recent_forbidden": true,
+    "same_background_recent_forbidden": true,
+    "trainer_photo_reuse_forbidden": true,
+    "fail_closed_on_missing_fields": true,
+    "realism_qc_version": "v1",
+    "human_environment_integration_min": 8,
+    "perspective_scale_consistency_min": 8,
+    "ground_contact_shadow_consistency_min": 8,
+    "lighting_consistency_min": 8,
+    "anatomy_pose_realism_min": 8,
+    "no_cutout_or_sticker_look_required": true,
+    "location_semantics_pass_required": true,
+    "exercise_pose_plausible_required": true,
+    "scene_aware_integration_required_for_exercise": true,
+    "isolated_person_cutout_composite_forbidden_for_exercise": true,
+    "preferred_high_motion_model_class": "FLUX Kontext/Pro or equivalent scene-aware photoreal editor",
+    "unavailable_high_motion_provider_policy": "simplify scene or keep PREPARING; do not silently downgrade",
+    "article_visual_relevance_min": 8,
+    "main_claim_visualization_min": 8,
+    "article_theme_inferable_without_title_required": true,
+    "scene_action_has_article_specific_meaning_required": true,
+    "generic_passive_pose_without_article_reason_required": false,
+    "semantic_qc_cutover": "2026-09-26T00:00:00.000Z",
+    "semantic_qc_legacy_pre_cutover_allowed": true,
+    "human_first_design_revision": "editorial-thumbnail-v2.6-human-first",
+    "human_subject_prominence_min": 8,
+    "human_visual_attention_share_min": 58,
+    "human_visual_attention_share_max": 75,
+    "face_expression_readable_required": true,
+    "background_secondary_pass_required": true,
+    "background_soft_blur_pass_required": true,
+    "the_rev_anchor_visible_required": true,
+    "customer_presentation_matches_plan_required": true,
+    "scene_plausibility_version": "the-rev-scene-plausibility-v1",
+    "scene_plausibility_fields": [
+      "location_behavior_plausible",
+      "service_misrepresentation_absent",
+      "unsupported_equipment_absent",
+      "scene_plausible_at_the_rev"
+    ]
+  },
+  "operator_required": [
+    "only exception handling: expand the verified source registry when no recent-4-safe source remains",
+    "only exception handling: investigate automated Visual QC failures after max retries",
+    "human Review may reject an image even after automated PASS"
+  ],
+  "scene_grounding": {
+    "version": "the-rev-source-scene-v1",
+    "canonical_module": "lib/editorialSceneGrounding.mjs",
+    "source_registry": "editorial/automated-image-sources.json",
+    "equipment_zone_lock": true,
+    "independent_inventory_observation": true,
+    "recent_semantic_window": 12,
+    "fail_closed": true
+  }
+}

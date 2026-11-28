@@ -1,0 +1,78 @@
+{
+  "slug": "night-workout-sleep-timing-intensity",
+  "asset_version": "reference-v26-grounded-auto-4387-75-4c7bef75",
+  "reason": "INDEPENDENT_VISUAL_QC_REJECTED",
+  "qa_pass": false,
+  "approved_for_publishing": false,
+  "original_media_retained_only_in_quarantine": true,
+  "files": [
+    {
+      "path": "assets/images/editorial-generated/night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-scene.png",
+      "sha256": "d6fbe5b324ab4a21c0019d7d446faadd09f7704ae2101cfa2931408890945c34",
+      "bytes": 2178312
+    },
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+      "sha256": "ccbccadd82b921c3232ee879f032afb830a085d815fcaabca63de8ce79f69dc1",
+      "bytes": 158994
+    },
+    {
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+      "sha256": "13b4a89fbb7af661403afe5c403dad02195f6639bc8372c1709d301d6108e3af",
+      "bytes": 152782
+    },
+    {
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg",
+      "sha256": "340dece88a889dc556565ecf5959f1d669784e066bf651fc16655a3f168de846",
+      "bytes": 220531
+    },
+    {
+      "path": "editorial/image-qa/night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.json",
+      "sha256": "26de605cdc4f3284ab6a306a287e76a365a3dab48c8f9f8f84ae33f2eef72330",
+      "bytes": 53437
+    },
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75.jpg.typography.json",
+      "sha256": "db8eced74babbabc68c808dd99aec98531040d38d44b4b46038b0e4025dd1be4",
+      "bytes": 7572
+    },
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-preview-320.jpg",
+      "sha256": "05b14f0aad91cfd1c90ff25242471e78555d4c9b3e7a0b7e82bcb63399659699",
+      "bytes": 23541
+    },
+    {
+      "path": "assets/images/blog/thumb-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-preview-400.jpg",
+      "sha256": "5812a43bd91489efe88fac2e3dc1360907d9f6988eb2950232f716e384196292",
+      "bytes": 31485
+    },
+    {
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-preview-320.jpg",
+      "sha256": "593c9c90c11d67db5717f5416240dab7e23db3db37ebb1172b0ee124111fc543",
+      "bytes": 22225
+    },
+    {
+      "path": "assets/images/blog/og/og-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-preview-400.jpg",
+      "sha256": "261538b473fab2ed89beb88548d6b0421ab24e3bb757aa3e35fb0c9f43a3310b",
+      "bytes": 30134
+    },
+    {
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-preview-320.jpg",
+      "sha256": "c3e4b18863978dcbbf981eeea8595ffb6642c1818b29ba783cbe1fc72738859e",
+      "bytes": 31202
+    },
+    {
+      "path": "assets/images/gbp/gbp-night-workout-sleep-timing-intensity-reference-v26-grounded-auto-4387-75-4c7bef75-preview-400.jpg",
+      "sha256": "de8831a5c03b5b9d810d4f2c65407c6231bcc53379f64829663389f6532508e2",
+      "bytes": 42144
+    }
+  ],
+  "source_actions_run": 39358414337,
+  "persistent_archive": "https://drive.google.com/file/d/1LLJT0o1d4vEMIH2YLwNJsy5wR6Hcrwhr/view",
+  "inspected_by_agent": true,
+  "visual_findings": [
+    "Actual source camera angle/bench/ceiling differ in candidate; broad warm color shift",
+    "Candidate shows generic one-arm cable exercise rather than before-sleep load/timing choice",
+    "Independent rejection retained; typography pass does not override room/action failure"
+  ]
+}

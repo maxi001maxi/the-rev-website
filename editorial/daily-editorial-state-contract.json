@@ -1,0 +1,449 @@
+{
+  "schema_version": "1.8.0",
+  "contract_id": "the-rev-daily-editorial-state-contract-v1",
+  "source_of_truth": {
+    "settings_sheet": "08_SETTINGS",
+    "queue_sheet": "26_DAILY_EDITORIAL_QUEUE",
+    "gbp_sheet": "22_GBP_POST",
+    "automation_log_sheet": "18_AUTOMATION_LOG",
+    "gas_supervisor_version": "v0.6.5.2",
+    "bridge_sheet": "25_WEB_PUBLISH_BRIDGE",
+    "decision_engine": "lib/dailyEditorialStateMachine.mjs",
+    "decision_api": "POST /api/integrations/editorial-status {action:daily_plan}",
+    "gas_gate_version": "v0.6.9",
+    "gas_gate_source": "editorial/gas/DailyEditorialGate_v0.6.9.gs",
+    "creator_source": "editorial/gas/DailyEditorialCreator_v0.6.9.gs",
+    "creator_engine": "lib/dailyEditorialCreator.mjs",
+    "knowledge_registry": "lib/dailyEditorialKnowledge.mjs",
+    "image_operator_primary_adapter": "editorial/gas/DailyEditorialImageOperatorStatus_v0.7.2.gs",
+    "trigger_topology_source": "editorial/gas/DailyEditorialTriggerTopology_v0.7.3.gs"
+  },
+  "new_queue_no_interview": {
+    "queue_status": "DRAFTING",
+    "knowledge_gate": "SUFFICIENT",
+    "interview_required": false,
+    "interview_status": "NOT_REQUIRED",
+    "draft_status": "NOT_STARTED",
+    "image_status": "NOT_STARTED",
+    "forbidden_draft_statuses": [
+      "PENDING"
+    ]
+  },
+  "daily_creation": {
+    "editorial_runs": "EVERY_DAY (shop closed days included)",
+    "run_date": "JST day the Editorial run happens",
+    "target_date": "content / publish day = run_date + prepare_lead_days",
+    "cadence_setting": "daily_editorial_cadence",
+    "cadence_values": [
+      "BUSINESS_DAYS",
+      "DAILY"
+    ],
+    "cadence_default": "BUSINESS_DAYS",
+    "cadence_applies_to": "TARGET_DATE",
+    "lead_setting": "daily_editorial_lead_days",
+    "idempotency_key": "target_date (legacy rows: run_date)",
+    "prepare_lead_days": 1,
+    "business_days": [
+      "TU",
+      "WE",
+      "TH",
+      "SA",
+      "SU"
+    ],
+    "gate_hour_jst": 4,
+    "creator_start_jst": "05:00",
+    "watchdog_hour_jst": 8,
+    "max_active_queue": 5,
+    "max_new_topics_per_run": 1,
+    "active_statuses_count_toward_cap": [
+      "NEW",
+      "KNOWLEDGE_CHECK",
+      "INTERVIEW_WAITING",
+      "INTERVIEW_COMPLETE",
+      "DRAFTING",
+      "QC",
+      "IMAGE_PREPARING",
+      "REVIEW_READY",
+      "ERROR"
+    ],
+    "active_is_exclusive_lock": false,
+    "review_ready_blocks_creation": false,
+    "existing_work_is_parallel": true,
+    "notification_failure_blocks_creation": false,
+    "reconcile_before_active_count": true,
+    "missed_creation_end_state": "ERROR_BLOCKED"
+  },
+  "daily_creator": {
+    "executable": "editorial/gas/DailyEditorialCreator_v0.6.9.gs",
+    "selection_engine": "lib/dailyEditorialCreator.mjs",
+    "knowledge_registry": "lib/dailyEditorialKnowledge.mjs",
+    "decision_api": "POST /api/integrations/editorial-status {action:daily_create}",
+    "decision_authority": "GATE_ONLY",
+    "external_operator_may_decide": false,
+    "external_operator_allowed_role": "mechanical_fallback_only",
+    "window_jst": "every day 05:00-11:59 hourly (start hour = daily_editorial_hour)",
+    "idempotency_key": "target_date (legacy rows: run_date)",
+    "candidate_source_sheet": "23_BLOG_TOPIC_SHORTLIST",
+    "candidate_selection": "highest portfolio_final_score, then pillar_adjusted_score, then total_score; raw score gate applies first",
+    "candidate_max_age_days": 14,
+    "creates_queue_row": {
+      "queue_status": "DRAFTING",
+      "knowledge_gate": "SUFFICIENT",
+      "interview_required": false,
+      "interview_status": "NOT_REQUIRED",
+      "draft_status": "NOT_STARTED",
+      "image_status": "NOT_STARTED",
+      "web_bridge_status": "NOT_SYNCED",
+      "run_date": "RUN_DAY",
+      "target_date": "RUN_DAY_PLUS_LEAD"
+    },
+    "success_requires": [
+      "queue_row_read_back_from_sheet",
+      "queue_status_DRAFTING",
+      "shortlist_candidate_marked_SELECTED"
+    ],
+    "not_success": [
+      "CREATE_NEW_recorded_only",
+      "watchdog_failure_notice",
+      "line_sent_without_queue_row"
+    ],
+    "fail_closed_when": [
+      "supervisor_not_wired",
+      "bridge_unavailable",
+      "no_eligible_candidate",
+      "only_interview_required_candidates",
+      "queue_write_not_persisted"
+    ],
+    "downstream_owner": "scheduledDailyEditorialSupervisorV065 (GAS v0.6.5.2, 1-minute trigger)",
+    "stuck_rules_minutes": {
+      "supervisor_not_picking_up": 10,
+      "stage_stalled": 30,
+      "image_stalled_hours": 6,
+      "image_operator_blocked": "immediate",
+      "image_operator_failed": "immediate"
+    },
+    "knowledge_sufficiency": "registered first-party source required; unregistered lanes need Interview and are never auto-drafted",
+    "review_ready_notification": "Supervisor announces while run_date is today; the Creator announces upcoming articles the Supervisor missed (shared de-dupe key)",
+    "content_id_format": "BLOG-<target YYYYMMDD>-<6 hex>; the Bridge dates the article by this target day",
+    "fallback": {
+      "primary": "GAS Gate/Creator + Vercel Bridge + GitHub Actions",
+      "secondary": "ChatGPT Scheduled Task as LIGHT watchdog at 08:45/11:45 JST; conditional mechanical recovery only",
+      "fallback_may_decide": false,
+      "shared_decision": "POST editorial-status {action:daily_create}",
+      "duplicate_protection": "target_date idempotency in the Gate and under the GAS script lock"
+    },
+    "review_required_auto_recovery": {
+      "scope": "STANDARD length gate only",
+      "near_miss_max_deficit": "max(200 chars, 15% of minimum)",
+      "max_retries": 2,
+      "retry_transition": "REVIEW_REQUIRED -> PATCHING / NOT_STARTED -> existing Supervisor",
+      "forbidden_auto_bypass": [
+        "Fact Gate",
+        "Topic Gate",
+        "Editor safety review"
+      ],
+      "exhausted_state": "REVIEW_REQUIRED + notification"
+    }
+  },
+  "publish_reconciliation": {
+    "from_queue_statuses": "ANY_NON_TERMINAL",
+    "to_queue_status": "PUBLISHED",
+    "to_web_bridge_status": "PUBLISHED",
+    "required_evidence": {
+      "supabase_publish_status": "PUBLISHED",
+      "publish_verified_at_required": true,
+      "published_url_required": true,
+      "supabase_promotion_requires": "exact_commit_deploy_xserver_success_and_live_url"
+    },
+    "insufficient_evidence": [
+      "PUBLISH_COMMITTED",
+      "GITHUB_COMMIT_ONLY",
+      "QUEUE_STATUS",
+      "HUMAN_MEMORY"
+    ],
+    "gbp_blog_url_placeholder_resolved": true,
+    "gbp_auto_post": false
+  },
+  "handoffs": [
+    {
+      "name": "draft_to_image",
+      "from_queue_status": "DRAFTING",
+      "when": "draft_ready_and_image_job_created",
+      "required_before_handoff": {
+        "draft_status": "READY"
+      },
+      "to_queue_status": "IMAGE_PREPARING",
+      "to_image_status": "PREPARING",
+      "to_web_bridge_status": "IMAGE_PREPARING"
+    },
+    {
+      "name": "image_to_review",
+      "from_queue_status": "IMAGE_PREPARING",
+      "when": "blog_gbp_row_thumbnail_ogp_gbp_ready_visual_qc_pass_and_xserver_verified",
+      "required_before_handoff": {
+        "draft_status": "READY",
+        "gbp_post_row_exists": true,
+        "gbp_parent_blog_id_matches": true,
+        "image_status": "READY",
+        "gbp_image_status": "READY"
+      },
+      "to_queue_status": "REVIEW_READY",
+      "to_web_bridge_status": "PREVIEW_READY",
+      "review_url_required": true
+    }
+  ],
+  "completion": {
+    "silent_stop_forbidden": true,
+    "success_requires_notification_evidence": true,
+    "intermediate_states_never_success": [
+      "NEW",
+      "KNOWLEDGE_CHECK",
+      "DRAFTING",
+      "QC",
+      "IMAGE_PREPARING",
+      "NOT_SYNCED"
+    ],
+    "allowed_end_states": [
+      {
+        "state": "REVIEW_READY",
+        "notification_type": "REVIEW_READY",
+        "notification_required": true
+      },
+      {
+        "state": "INTERVIEW_WAITING",
+        "notification_type": "INTERVIEW_QUESTIONS",
+        "notification_required": true
+      },
+      {
+        "state": "ERROR_BLOCKED",
+        "notification_type": "ERROR_BLOCKED",
+        "notification_required": true
+      },
+      {
+        "state": "NO_ACTION",
+        "notification_type": "NO_ACTION",
+        "notification_required": true
+      },
+      {
+        "state": "TOPIC_SELECTION_WAITING",
+        "notification_required": true,
+        "notification_type": "THREE_REASONED_TOPICS",
+        "human_action_required": "CHOOSE_TOPIC_IN_LINE_OR_GPT"
+      }
+    ]
+  },
+  "resume": {
+    "enabled": true,
+    "stuck_timeout_minutes": 10,
+    "required_fields_on_stop": [
+      "last_successful_stage",
+      "next_stage",
+      "human_action_required"
+    ]
+  },
+  "publish_boundary": {
+    "auto_publish": false,
+    "human_approval_required": true,
+    "auto_publish_gate": "lib/editorialAutoPublishGate.mjs",
+    "auto_publish_env": "AUTO_PUBLISH_ENABLED",
+    "auto_publish_setting": "auto_publish",
+    "both_keys_required": true,
+    "executor_installed": false
+  },
+  "regression_scenarios": [
+    {
+      "name": "incident_2026_10_01_review_ready_one_of_five",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "now": "2026-09-30T05:00:00+09:00",
+      "evidence": {},
+      "expect": {
+        "action": "CREATE_NEW",
+        "active": 1,
+        "patches": 0
+      }
+    },
+    {
+      "name": "incident_2026_10_03_stale_review_ready_published",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "now": "2026-10-02T05:00:00+09:00",
+      "evidence": {
+        "BLOG-20260930-oxy02": {
+          "publish_status": "PUBLISHED",
+          "published_url": "https://therev-lab.com/blog/oxygen-room-how-to-spend-time/",
+          "publish_verified_at": "2026-10-01T02:06:00.000Z"
+        }
+      },
+      "expect": {
+        "action": "CREATE_NEW",
+        "active": 0,
+        "patches": 1
+      }
+    },
+    {
+      "name": "closed_friday",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "now": "2026-10-01T05:00:00+09:00",
+      "evidence": {},
+      "expect": {
+        "action": "NO_ACTION",
+        "reason": "CLOSED_DAY"
+      }
+    },
+    {
+      "name": "creator_2026_10_03_review_ready_does_not_block_new_article",
+      "kind": "creation",
+      "fixture": "editorial/fixtures/daily-queue-2026-10-03-snapshot.json",
+      "shortlist_fixture": "editorial/fixtures/blog-shortlist-2026-10-03-snapshot.json",
+      "now": "2026-10-02T05:00:00+09:00",
+      "evidence": {
+        "BLOG-20260930-oxy02": {
+          "publish_status": "PUBLISHED",
+          "published_url": "https://therev-lab.com/blog/oxygen-room-how-to-spend-time/",
+          "publish_verified_at": "2026-10-01T02:06:00.000Z"
+        }
+      },
+      "expect": {
+        "action": "CREATE_NEW",
+        "creation_status": "READY_TO_CREATE",
+        "candidate_id": "BT-20260930-FAC-01",
+        "queue_status": "DRAFTING"
+      }
+    }
+  ],
+  "flow": [
+    "EVERY_DAY_FIXED_TIME",
+    "THREE_REASONED_TOPICS",
+    "OWNER_TOPIC_CHOICE",
+    "OPTIONAL_FIRST_PARTY_INTERVIEW",
+    "PREPARE_NEXT_DAY_ARTICLE",
+    "DRAFT",
+    "QC",
+    "GBP",
+    "IMAGES",
+    "REVIEW_READY",
+    "HUMAN_PUBLISH",
+    "POST_PUBLISH_STATE_AUTO_SYNC"
+  ],
+  "post_publish_reconciliation": {
+    "github": "content/blog/{slug}.md status: published (human Publish commit)",
+    "production_deployment": "Deploy to Xserver success for the exact publish commit",
+    "supabase": "publish_status PUBLISH_COMMITTED -> PUBLISHED (publish_verified_at, published_url)",
+    "queue": "26_DAILY_EDITORIAL_QUEUE queue_status -> PUBLISHED",
+    "bridge": "25_WEB_PUBLISH_BRIDGE bridge_status -> PUBLISHED + published_url",
+    "gbp": "22_GBP_POST [BLOG_URL] -> production URL, BLOCKED_URL -> READY (never posted)",
+    "post_history": "NOT_WRITTEN: 01_POST_HISTORY feeds the Instagram planner, embeddings and performance sync by post_id; Blog history lives in Queue + Bridge"
+  },
+  "topic_approval": {
+    "enabled_setting": "daily_editorial_topic_approval_required",
+    "live_cadence_after_install": "DAILY",
+    "candidate_count": 3,
+    "selection_required_before_draft": true,
+    "wait_state": "TOPIC_SELECTION_WAITING",
+    "human_wait_is_error": false,
+    "approval_channels": [
+      "LINE",
+      "GPT"
+    ],
+    "interview_mode": "TOPIC_KNOWLEDGE_GAP_ONLY",
+    "reply_resumes_all_target_dates": true,
+    "approval_poll_minutes": 10,
+    "proposal_table": "editorial_topic_proposals",
+    "line_event_receipts_table": "editorial_line_receipts",
+    "api": "POST /api/integrations/editorial-status {action:topic_*}",
+    "line_webhook": "POST /api/integrations/editorial-status/?mode=line_webhook",
+    "engine": "lib/editorialTopicApproval.mjs",
+    "gas_source": "editorial/gas/DailyEditorialTopicApproval_v0.7.0.gs",
+    "gate_authority": "GATE_PLUS_PERSISTED_OWNER_CHOICE",
+    "legacy_create_requires_approval": true,
+    "public_publish_approval_separate": true
+  },
+  "external_watchdog": {
+    "role": "INDEPENDENT_LIGHT_WATCHDOG_WITH_CONDITIONAL_RECOVERY",
+    "task_name": "THE REV Editorial Watchdog",
+    "schedule_jst": [
+      "08:45",
+      "11:45"
+    ],
+    "primary_collision_avoidance": "NO_EXTERNAL_05_RUN",
+    "light_reads": [
+      "08_SETTINGS relevant daily/supervisor/completion keys",
+      "18_AUTOMATION_LOG recent rows",
+      "26_DAILY_EDITORIAL_QUEUE current target and incomplete rows"
+    ],
+    "healthy_no_action": [
+      "TOPIC_SELECTION_WAITING",
+      "INTERVIEW_WAITING",
+      "fresh in-flight state within canonical stuck thresholds",
+      "REVIEW_READY"
+    ],
+    "heavy_recovery_only_when": [
+      "primary execution evidence missing",
+      "approved target missing Queue row",
+      "non-human in-flight state is stale and supervisor heartbeat stopped",
+      "image stage exceeds canonical stall threshold or retryable workflow failed",
+      "required canonical row missing or inconsistent",
+      "verified Supabase publication is not reconciled to Queue/Bridge"
+    ],
+    "forbidden_normal_reads": [
+      "full shortlist",
+      "full queue history",
+      "all GitHub blog history",
+      "all Supabase drafts",
+      "all image workflows",
+      "all Xserver verification"
+    ],
+    "external_blockers": "report without consuming retry attempts",
+    "independent_editorial_logic": false,
+    "final_publish": false,
+    "gbp_publish": false
+  },
+  "image_operator_primary": {
+    "source_of_truth": "editorial/image-operator-state/{slug}.json",
+    "asset_version_must_match": true,
+    "status_api": "GET /api/integrations/editorial-status?content_id={id}",
+    "queue_status_while_blocked": "IMAGE_PREPARING",
+    "blocked_mapping": {
+      "BLOCKED_PROVIDER_CREDITS": {
+        "image_status": "BLOCKED",
+        "failed_stage": "IMAGE_OPERATOR",
+        "human_action_required": "RESTORE_PROVIDER_CREDITS",
+        "automatic_retry_allowed": false,
+        "consume_generation_attempt": false
+      }
+    },
+    "failed_statuses": [
+      "BLOCKED_MAX_ATTEMPTS",
+      "OVERLAY_QC_REJECTED",
+      "ERROR"
+    ],
+    "failed_mapping": {
+      "image_status": "ERROR",
+      "failed_stage": "IMAGE_OPERATOR",
+      "human_action_required": "REVIEW_IMAGE_OPERATOR",
+      "automatic_retry_allowed": false
+    },
+    "automatic_recovery": "when current operator state becomes non-blocking or READY, clear prior IMAGE_OPERATOR marker and continue polling",
+    "notification_dedupe_key": "content_id + operator_status + asset_version",
+    "publish_boundary_unchanged": true
+  },
+  "trigger_topology": {
+    "version": "v0.7.3",
+    "topic_approval_enabled": {
+      "scheduledDailyEditorialGateV069": 1,
+      "scheduledDailyEditorialCreatorV069": 0,
+      "scheduledDailyEditorialWatchdogV069": 0,
+      "scheduledDailyEditorialTopicApprovalV070": 1,
+      "supervisor_trigger": "existing_single_trigger_untouched"
+    },
+    "topic_approval_disabled": {
+      "scheduledDailyEditorialGateV069": 1,
+      "scheduledDailyEditorialCreatorV069": 1,
+      "scheduledDailyEditorialWatchdogV069": 1,
+      "scheduledDailyEditorialTopicApprovalV070": 0,
+      "supervisor_trigger": "existing_single_trigger_untouched"
+    },
+    "stale_creator_or_watchdog_behavior": "DELEGATED_TO_TOPIC_APPROVAL_TRIGGER_NO_OP",
+    "rationale": "Topic Approval 10-minute poll is the sole orchestration trigger while approval is enabled; Creator and Watchdog must not independently call v070TopicTick_.",
+    "publish_boundary_unchanged": true
+  }
+}

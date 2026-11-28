@@ -1,0 +1,309 @@
+{
+  "verdict": "CONDITIONAL GO",
+  "checkedAt": "2026-10-17T03:53:45.721379+00:00",
+  "scope": "Xserver public static website only; not Editorial/API/GTM settings release",
+  "featureBefore": "e65c1441bfbbbc291a978c3cdee134dc25564f13",
+  "mainIntegrated": "f1667a73e5da097c1432f7ecd2c423265e5ab3a1",
+  "preview": {
+    "deploymentId": "dpl_6LqoHfZQnzvpdTx6CvW4K5Sgd7un",
+    "sha": "f749d9c21370287efbb4fb3cb47ed3046ba3c98c",
+    "url": "https://the-rev-website-27fwyd6ay-htrmaxi0101-9305s-projects.vercel.app/",
+    "state": "READY"
+  },
+  "publicPayloadEquivalence": {
+    "status": "PASS",
+    "acceptedRuntime": "bd3f219a7653bd77f1a6f27c5b1efa7bafb88729",
+    "deployedSha": "f749d9c21370287efbb4fb3cb47ed3046ba3c98c",
+    "integratedMain": "f1667a73e5da097c1432f7ecd2c423265e5ab3a1",
+    "filesPerEnvironment": 691,
+    "changedBytes": [],
+    "basis": "fresh production and preview rebuild compared to accepted runtime CI artifact complete SHA256 manifest"
+  },
+  "productionSeo": {
+    "status": "PASS",
+    "pages": [
+      {
+        "route": "index.html",
+        "title": "THE REV. CONDITIONING LAB.｜奈良・新大宮のパーソナルジム",
+        "canonical": "https://therev-lab.com/",
+        "robots": "index,follow",
+        "schemas": [
+          "HealthClub"
+        ],
+        "staticH1Count": 2
+      },
+      {
+        "route": "solution.html",
+        "title": "酸素ルーム × DENBA Health｜THE REV. CONDITIONING LAB. 奈良・新大宮",
+        "canonical": "https://therev-lab.com/solution.html",
+        "robots": "index,follow",
+        "schemas": [
+          "HealthClub",
+          "BreadcrumbList"
+        ],
+        "staticH1Count": 1
+      },
+      {
+        "route": "trainer.html",
+        "title": "代表トレーナー 服部真騎士｜THE REV. CONDITIONING LAB.",
+        "canonical": "https://therev-lab.com/trainer.html",
+        "robots": "index,follow",
+        "schemas": [
+          null
+        ],
+        "staticH1Count": 1
+      },
+      {
+        "route": "price.html",
+        "title": "料金・プラン｜奈良・新大宮のパーソナルジム THE REV.",
+        "canonical": "https://therev-lab.com/price.html",
+        "robots": "index,follow",
+        "schemas": [
+          "HealthClub",
+          "BreadcrumbList"
+        ],
+        "staticH1Count": 1
+      },
+      {
+        "route": "blog/index.html",
+        "title": "コラム｜THE REV. CONDITIONING LAB.",
+        "canonical": "https://therev-lab.com/blog/",
+        "robots": "index,follow",
+        "schemas": [
+          "BreadcrumbList"
+        ],
+        "staticH1Count": 1
+      },
+      {
+        "route": "access.html",
+        "title": "アクセス・ご来店案内｜奈良・新大宮のパーソナルジム THE REV.",
+        "canonical": "https://therev-lab.com/access.html",
+        "robots": "index,follow",
+        "schemas": [
+          "HealthClub",
+          "BreadcrumbList"
+        ],
+        "staticH1Count": 1
+      }
+    ],
+    "robots": "User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: https://therev-lab.com/sitemap.xml\n",
+    "h1Note": "TOP has approved separate PC/SP hero h1 markup. This raw DOM count is 2; mandatory real-browser test retains exactly one visible h1 at every viewport. Initial ad-hoc total-count=1 assertion was inapplicable and not an existing release test. No source or mandatory test changed."
+  },
+  "productionFreshReads": {
+    "at": "2026-10-17T03:46:01.628222+00:00",
+    "reads": [
+      {
+        "name": "live-top",
+        "url": "https://therev-lab.com/",
+        "finalUrl": "https://therev-lab.com/",
+        "status": 200,
+        "bytes": 46358,
+        "sha256": "81de5b834f004c8cd5ffc7badbde4321b656e483cc7b070725c53a865dbae731"
+      },
+      {
+        "name": "live-recovery",
+        "url": "https://therev-lab.com/solution.html",
+        "finalUrl": "https://therev-lab.com/solution.html",
+        "status": 200,
+        "bytes": 27054,
+        "sha256": "b53fcf6edb5217cf93c1a95d94b9e22e0e20fe63f3a22de8d6619bbdd2b28655"
+      },
+      {
+        "name": "live-robots",
+        "url": "https://therev-lab.com/robots.txt",
+        "finalUrl": "https://therev-lab.com/robots.txt",
+        "status": 200,
+        "bytes": 86,
+        "sha256": "52431c3571df4fb0e884124e608fc3876e23677fbdc0583da82924d05881541c"
+      },
+      {
+        "name": "live-sitemap",
+        "url": "https://therev-lab.com/sitemap.xml",
+        "finalUrl": "https://therev-lab.com/sitemap.xml",
+        "status": 200,
+        "bytes": 4876,
+        "sha256": "7248485ecf0e4c7d1bc4b6b1a45535d7b0e5fe3452348b37a8c9642079e46236"
+      },
+      {
+        "name": "gtm-current",
+        "url": "https://www.googletagmanager.com/gtm.js?id=GTM-WFD7R8BT",
+        "finalUrl": "https://www.googletagmanager.com/gtm.js?id=GTM-WFD7R8BT",
+        "status": 200,
+        "bytes": 365620,
+        "sha256": "b4adfbf19e930d7d230874d4305ea7627416bd5b35225e6bbc38713019178831"
+      }
+    ]
+  },
+  "publishedGtm": {
+    "resourceVersion": "3",
+    "comparison": {
+      "version": true,
+      "macros": true,
+      "tags": true,
+      "predicates": true,
+      "rules": true
+    },
+    "parameterMappingStatus": "FAIL_EXISTING_GTM_PARAMETER_MAP"
+  },
+  "technicalBrowser": {
+    "checks": 20,
+    "status": "PASS",
+    "measurement": "EVENT_NAMES_CONSTRUCTED_NOT_TRANSMITTED",
+    "analyticsTransmitted": 0,
+    "ga4Receipt": "UNVERIFIED",
+    "visualPairsIdentical": 4,
+    "errors": [],
+    "watchdogSeconds": 240,
+    "decodeWaitTimeoutMs": 2000,
+    "screenshotTimeoutMs": 15000,
+    "visibleBrokenImageAssertion": true
+  },
+  "booking": {
+    "ownerOrdinaryUse": "CONFIRMED by Owner in final-acceptance request",
+    "automatedUi": "FAIL; not relabelled PASS; cause not definitively proven",
+    "redirectFourUtm": "PASS in deployed CI38998326481",
+    "publicMenuNames": [
+      "【初回体験】リカバリー 45分",
+      "【初回体験】パーソナルジムトレーニング　60分",
+      "【初回体験】パーソナルボクシング　50分"
+    ],
+    "liveGet": {
+      "reads": [
+        {
+          "name": "booking-entry",
+          "requested": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_hero",
+          "finalUrl": "https://cl.gyms.jp/t/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_hero",
+          "status": 200,
+          "bytes": 2273,
+          "searchRetentionCode": false
+        },
+        {
+          "name": "booking-trial",
+          "requested": "https://cl.gyms.jp/trial/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_hero",
+          "finalUrl": "https://cl.gyms.jp/trial/CC2237480443/?utm_source=website&utm_medium=referral&utm_campaign=trial&utm_content=home_hero",
+          "status": 200,
+          "bytes": 9937,
+          "searchRetentionCode": false
+        }
+      ],
+      "scope": "GET only. No JS execution, no client information, no reservation, no payment. Actual browser redirect/menu evidence is separate CI artifact; Owner ordinary-use confirmation is independent."
+    }
+  },
+  "ciKnown": {
+    "acceptedRuntime": "bd3f219a7653bd77f1a6f27c5b1efa7bafb88729",
+    "deployedWebsiteRun": 38998326481,
+    "deployedChecks": 532,
+    "deployedScreenshots": 63,
+    "recordHeadSiteRun": 38998784792,
+    "recordHeadSiteNavigation": "PASS532; technical20 PASS; cancelled while creating mobile visual evidence",
+    "phase9Run": 38998784812,
+    "phase9": "FAIL: prepublication V3 job approved-style-reference mismatch, absent from published source and all 691 public output files",
+    "allCiPass": false,
+    "recordHeadArtifact": 12088248757,
+    "recordHeadTechnicalChecks": 20,
+    "recordHeadTechnicalMeasurement": "INFERRED_FROM_SEVEN_PASS_TAG_PAGES: requests generated, not transmitted; raw progress has no final measurementStatus field",
+    "candidateSha": "f2a6283568a21fe144e8485380c59194310b952e",
+    "candidateRun": 39000569126,
+    "candidateControlRun": 39000569029,
+    "candidatePhase9Run": 39000569043,
+    "boundedRun": 39000569126,
+    "boundedArtifact": 12089301530,
+    "boundedTechnicalChecks": 20,
+    "boundedFailure": "240s at visual comparison / top /390; all seven actual tag pages PASS, collection construction confirmed",
+    "finalCodeCandidate": "d3f2474fe62452ac55509a397ecd2169f0667538",
+    "finalCodeRun": 39001184604,
+    "finalCodeControlRun": 39001184619,
+    "finalCodePhase9Run": 39001184609,
+    "finalCodeStatus": "Website532 PASS; technical20 PASS; visual evidence complete; overall FAIL external booking UI only",
+    "visualStallResolved": true
+  },
+  "mutations": {
+    "mainMerge": false,
+    "productionDeploy": false,
+    "xserver": false,
+    "gtmSettings": false,
+    "customerInformationSubmitted": false,
+    "bookingMade": false
+  },
+  "companyOsCurrentReadOnly": {
+    "source": {
+      "status": "ACTIVE",
+      "source_id": "ga4-direct-read",
+      "property_id": "552679302",
+      "has_last_error": false,
+      "last_observed_at": "2026-10-16T22:32:23.216+00:00"
+    },
+    "morning": {
+      "freshness": {
+        "last_observed_at": "2026-10-16T22:32:23.216+00:00",
+        "latest_metric_date": "2026-10-17"
+      },
+      "source_status": "VALUE",
+      "today_partial": true,
+      "window_status": "VALUE",
+      "reservation_start": {
+        "value": null,
+        "status": "UNKNOWN"
+      },
+      "today_data_status": "DELAYED",
+      "reservation_complete": {
+        "value": null,
+        "status": "UNKNOWN"
+      },
+      "active_users_semantics": "period_unique_active_users"
+    },
+    "existing_receipt_evidence": {
+      "latest_positive_p0_date": "2026-10-14",
+      "recent_page_views_exist": true,
+      "latest_completed_metric_date": "2026-10-16"
+    }
+  },
+  "finalCi": {
+    "sourceSha": "d3f2474fe62452ac55509a397ecd2169f0667538",
+    "run": 39001184604,
+    "artifact": 12089615462,
+    "overall": "FAIL: external booking UI only",
+    "navigation": {
+      "status": "PASS",
+      "checks": 532,
+      "screenshots": 63,
+      "jsErrors": [],
+      "firstPartyFailures": []
+    },
+    "technical": {
+      "status": "PASS",
+      "checks": 20,
+      "measurementStatus": "EVENT_NAMES_CONSTRUCTED_NOT_TRANSMITTED",
+      "parameterMappingStatus": "FAIL_EXISTING_GTM_PARAMETER_MAP",
+      "ga4Receipt": "UNVERIFIED",
+      "analyticsTransmitted": 0,
+      "visualScreenshots": [
+        "top-1440",
+        "recovery-1440",
+        "top-390",
+        "recovery-390"
+      ]
+    },
+    "booking": {
+      "status": "FAIL",
+      "redirectStatus": "PASS",
+      "finalUrl": "https://cl.gyms.jp/trial/CC2237480443/?utm_campaign=trial&utm_content=home_hero&utm_medium=referral&utm_source=website",
+      "publicMenuNames": [
+        "【初回体験】リカバリー 45分",
+        "【初回体験】パーソナルジムトレーニング　60分",
+        "【初回体験】パーソナルボクシング　50分"
+      ],
+      "error": "locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('input,select').first() to be visible\n"
+    },
+    "control": {
+      "run": 39001184619,
+      "status": "PASS"
+    },
+    "phase9": {
+      "run": 39001184609,
+      "status": "FAIL: unpublished V3 image job references mismatch; no public payload impact"
+    },
+    "siteCodeChanged": false,
+    "mainSnapshot": "f1667a73e5da097c1432f7ecd2c423265e5ab3a1"
+  }
+}

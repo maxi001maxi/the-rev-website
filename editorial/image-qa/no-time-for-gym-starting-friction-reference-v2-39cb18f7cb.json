@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 8,
+  "photo_treatment": 9,
+  "article_visual_relevance": 9,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "too_promotional": false,
+  "comments": "Strong sixth-member composition. It preserves the series’ quiet Japanese editorial language: warm neutral palette, fine border, restrained uppercase category label, generous left text field, and a natural gym photograph on the right. The coaching/state-check context is especially relevant, with the smiling subject and partial trainer figure supporting the article theme rather than presenting generic exercise. Headline and category label are present and legible exactly as expected. Small contextual equipment and clothing markings do not materially disrupt the card.",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.1",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "slug": "no-time-for-gym-starting-friction",
+  "asset_version": "reference-v2-39cb18f7cb",
+  "checked_at": "2026-09-19T03:19:37.108Z"
+}

@@ -1,0 +1,10 @@
+before-blog_personal-training-frequency_: 18 states, 9 with failures
+FAIL blog/personal-training-frequency/@1500 scroll=0 nav"サービスService" 1.01<4.5; nav"リカバリーRecovery" 1.01<4.5; nav"トレーナーTrainer" 1.01<4.5; nav"料金Price" 1.01<4.5; nav"コラムColumn" 1.01<4.5; nav"初回体験Trial" 1.01<4.5; nav"アクセスAccess" 1.01<4.5; cta"初回体験を予約" 1.98<4.5
+FAIL blog/personal-training-frequency/@1440 scroll=0 nav"サービスService" 1.01<4.5; nav"リカバリーRecovery" 1.01<4.5; nav"トレーナーTrainer" 1.01<4.5; nav"料金Price" 1.01<4.5; nav"コラムColumn" 1.01<4.5; nav"初回体験Trial" 1.01<4.5; nav"アクセスAccess" 1.01<4.5; cta"初回体験を予約" 1.98<4.5
+FAIL blog/personal-training-frequency/@1400 scroll=0 nav"サービスService" 1.01<4.5; nav"リカバリーRecovery" 1.01<4.5; nav"トレーナーTrainer" 1.01<4.5; nav"料金Price" 1.01<4.5; nav"コラムColumn" 1.01<4.5; nav"初回体験Trial" 1.01<4.5; nav"アクセスAccess" 1.01<4.5; cta"初回体験を予約" 1.98<4.5
+FAIL blog/personal-training-frequency/@1399 scroll=0 burger"" 1.01<3
+FAIL blog/personal-training-frequency/@1280 scroll=0 burger"" 1.01<3
+FAIL blog/personal-training-frequency/@1024 scroll=0 burger"" 1.01<3
+FAIL blog/personal-training-frequency/@861 scroll=0 burger"" 1.01<3
+FAIL blog/personal-training-frequency/@768 scroll=0 burger"" 1.01<3
+FAIL blog/personal-training-frequency/@390 scroll=0 burger"" 1.01<3

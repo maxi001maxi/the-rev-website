@@ -1,0 +1,45 @@
+{
+  "external_paid_ai_api_calls": 0,
+  "built_in_image_generation_calls": 4,
+  "max_generation_attempts": 3,
+  "attempts": [
+    {
+      "attempt": 1,
+      "asset_version": "reference-v26-tempo-20261128-work-r1",
+      "pass": false,
+      "reason": "Full-body composition repeated the recent exercise-order scene fingerprint. Original generated scene retained; rejected derivatives removed."
+    },
+    {
+      "attempt": 2,
+      "asset_version": "reference-v26-tempo-20261128-work-r2",
+      "pass": false,
+      "reason": "Owner requested crossed arms at chest; forward-reaching pose superseded by R3.",
+      "pass_at_creation": true,
+      "manual_visual_rejection": true
+    },
+    {
+      "attempt": 3,
+      "asset_version": "reference-v26-tempo-20261128-work-r3",
+      "pass": false,
+      "owner_requested_revision": "Only arms crossed over chest; same woman, squat depth, room, crop and copy.",
+      "external_paid_ai_api_calls": 0,
+      "pass_at_creation": true,
+      "manual_visual_rejection": true,
+      "reason": "Owner found compact arms/hands and relatively large head unnatural. Superseded by R4."
+    },
+    {
+      "attempt": 4,
+      "asset_version": "reference-v26-tempo-20261128-work-r4",
+      "pass": true,
+      "owner_requested_revision": "Recompose coherent adult proportions: lower elbows and relaxed crossed forearms, hands on opposite upper arms. Same real gym/identity/copy.",
+      "external_paid_ai_api_calls": 0
+    }
+  ],
+  "owner_requested_additional_revision": {
+    "requested_date": "2026-11-28",
+    "request": "じゃあちょっと進めてくれる？クオリティチェックしながら。",
+    "scope": "Correct the head/arm/hand proportions while keeping crossed arms; update all three formats.",
+    "additional_calls_authorized_and_used": 1,
+    "automatic_attempt_policy_changed": false
+  }
+}

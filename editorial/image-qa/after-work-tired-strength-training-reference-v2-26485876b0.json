@@ -1,0 +1,22 @@
+{
+  "pass": true,
+  "series_consistency": 9,
+  "editorial_quality": 9,
+  "typography_harmony": 9,
+  "negative_space": 9,
+  "photo_treatment": 9,
+  "article_visual_relevance": 10,
+  "copy_legible": true,
+  "expected_copy_present": true,
+  "unexpected_readable_text": false,
+  "too_promotional": false,
+  "comments": "The card is a strong sixth member of the series. It preserves the established cream left text field, fine border, restrained uppercase category label, thin divider, Japanese editorial headline, and warm natural gym photography. The seated, visibly fatigued subject directly supports the article's question about training after work and deciding whether to continue after starting lightly. The composition is balanced, premium, and avoids a generic high-intensity fitness-ad look. Overlay copy appears exactly as expected, with no unintended readable text of concern.",
+  "correction": "",
+  "template": "rev-column-reference-v2",
+  "render_version": "rev-column-reference-v2.1",
+  "generation_model": "gpt-image-2",
+  "qa_model": "gpt-5.6-luna",
+  "slug": "after-work-tired-strength-training",
+  "asset_version": "reference-v2-26485876b0",
+  "checked_at": "2026-09-19T03:09:56.286Z"
+}

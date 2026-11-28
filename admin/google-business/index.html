@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Google Business Profile｜THE REV. Editorial Console</title>
+<link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+<div id="checking" class="admin-loading">CHECKING SESSION…</div>
+<div id="app" class="admin-hidden">
+<header class="admin-shell-header">
+<div class="admin-shell-brand">THE REV.<span>Editorial Console</span></div>
+<nav class="admin-shell-nav" aria-label="Admin navigation">
+<a href="/admin/">Dashboard</a>
+<a href="/admin/analytics/">Analytics</a>
+<a href="/admin/site-insights/">Site Insights</a>
+</nav>
+<div class="admin-shell-user"><span id="user-email" class="admin-shell-email"></span><button id="logout-btn" class="admin-logout" type="button">ログアウト</button></div>
+</header>
+<main class="admin-main" style="max-width:760px;margin:auto">
+<p style="letter-spacing:.16em;font-size:.75rem">GOOGLE BUSINESS PROFILE</p>
+<h1 class="admin-page-title">店舗インサイト接続</h1>
+<p>Google検索・Googleマップ上の店舗パフォーマンスをSite Insightsへ接続します。</p>
+<div id="status" class="admin-card">接続状態を確認中…</div>
+<div id="error" class="admin-error admin-hidden" role="alert"></div>
+<button id="connect-btn" class="admin-button" type="button">Google Business Profileを接続</button>
+</main>
+</div>
+<script type="module" src="/admin/js/google-business.mjs"></script>
+</body>
+</html>

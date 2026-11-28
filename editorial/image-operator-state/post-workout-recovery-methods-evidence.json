@@ -1,0 +1,16 @@
+{
+  "slug": "post-workout-recovery-methods-evidence",
+  "status": "READY_CANDIDATE",
+  "attempts_total": 3,
+  "max_attempts": 3,
+  "job_path": "editorial/hybrid-image-jobs/post-workout-recovery-methods-evidence.json",
+  "generated_scene_path": "assets/images/editorial-generated/post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c-scene.png",
+  "thumbnail": "assets/images/blog/thumb-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+  "og_image": "assets/images/blog/og/og-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+  "gbp_image": "assets/images/gbp/gbp-post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.jpg",
+  "qa_report_path": "editorial/image-qa/post-workout-recovery-methods-evidence-reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c.json",
+  "asset_version": "reference-v26-grounded-auto-oxy-solution-20260924-6fd59b2c",
+  "updated_at": "2026-11-24T08:32:37.967Z",
+  "xserver_verified": true,
+  "xserver_verified_at": "2026-11-24T08:32:54Z"
+}
