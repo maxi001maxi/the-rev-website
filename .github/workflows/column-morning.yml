@@ -1,0 +1,110 @@
+name: Column Morning (auto draft)
+
+# 営業日（火・水・木・土・日）の朝に、その日のコラムの下書きを自動で準備する。公開はしない。
+# GitHub Actions で動くので、店長・社長のPCが切れていても動く。
+#   05:30 JST 本番 / 07:30 JST 再実行の枠（本番が一時的な不具合で失敗したときだけ動く。同じ日に記事を2本作らない）
+# JST の 05:30 = UTC 前日 20:30。火水木土日(JST) → 月火水金土(UTC)。
+on:
+  schedule:
+    - cron: '30 20 * * 1,2,3,5,6'
+    - cron: '30 22 * * 1,2,3,5,6'
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: '対象日（YYYY-MM-DD、空なら今日のJST）'
+        required: false
+        default: ''
+      topic:
+        description: 'テーマの指定（任意）'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: column-morning
+  cancel-in-progress: false
+
+env:
+  COLUMN_TARGET_DATE: ${{ github.event.inputs.target_date }}
+  COLUMN_FORCE_TOPIC: ${{ github.event.inputs.topic }}
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      proceed: ${{ steps.run.outputs.proceed }}
+      slug: ${{ steps.run.outputs.slug }}
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      COLUMN_DELIVERY_TOKEN: ${{ secrets.COLUMN_DELIVERY_TOKEN }}
+      LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check required secrets (values are never printed)
+        run: |
+          set -euo pipefail
+          for k in ANTHROPIC_API_KEY SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY; do
+            if [ -z "${!k:-}" ]; then echo "::error::$k が未設定です（GitHub Secrets）"; exit 1; fi
+          done
+      - name: Topic, writing, quality check, image job
+        id: run
+        run: |
+          git config user.name "THE REV Column Automation"
+          git config user.email "actions@users.noreply.github.com"
+          node scripts/column-auto/run.mjs prepare
+
+  images:
+    needs: prepare
+    if: needs.prepare.outputs.proceed == 'true'
+    uses: ./.github/workflows/auto-editorial-hybrid-images.yml
+    secrets: inherit
+
+  finalize:
+    needs: [prepare, images]
+    if: always() && needs.prepare.outputs.proceed == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || vars.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      COLUMN_DELIVERY_TOKEN: ${{ secrets.COLUMN_DELIVERY_TOKEN }}
+      ADMIN_PUBLISHER_USER_ID: ${{ vars.ADMIN_PUBLISHER_USER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies and fonts
+        run: |
+          set -euo pipefail
+          npm ci
+          npx playwright install --with-deps chromium
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+      - name: Story image, draft save, sheet record, delivery, cost
+        run: |
+          git config user.name "THE REV Column Automation"
+          git config user.email "actions@users.noreply.github.com"
+          node scripts/column-auto/run.mjs finalize
