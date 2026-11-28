@@ -1,0 +1,71 @@
+---
+title: "酸素ルームとDENBA。ふたつを一緒に使う休み方"
+slug: "oxygen-room-denba-combined-rest"
+description: "酸素ルームとDENBAは何が違い、一緒に使うとどう過ごせる？二つの役割と、着衣で利用できる初回45分3,300円のリカバリー体験をご紹介します。"
+published: "2026-11-28"
+updated: "2026-11-28"
+category: "recovery"
+category_label: "RECOVERY"
+author: "服部 真騎士"
+author_role: "THE REV. CONDITIONING LAB. 代表トレーナー"
+thumbnail: "/assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg"
+og_image: "/assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg"
+content_reference: "assets/images/photo-oxyroom.jpg"
+image_asset_version: "reference-v26-oxydenba-20261128-work-r1"
+image_render_version: "rev-column-reference-v2.3-hybrid"
+status: "published"
+featured: false
+cta_type: "recovery"
+keywords:
+  - "酸素ルーム"
+  - "DENBA Health"
+  - "リカバリー"
+canonical: "https://therev-lab.com/blog/oxygen-room-denba-combined-rest/"
+noindex: false
+---
+
+仕事や用事を終えて、今日は少し横になってから帰りたい。そんな日のために、THE REV.には酸素ルームとDENBA Healthを組み合わせたリカバリーメニューがあります。
+
+服のまま、普段とは違う環境で身体を休める。運動をしない日にも選べる、休息のための時間です🌿
+
+## 酸素ルームとDENBA、それぞれ何をするもの？
+
+**酸素ルームは、呼吸する環境を変える設備です。**
+
+室内の気圧を高めると、酸素が肺から血液へ移り、血液に溶け込む条件が変わります。中では、いつもどおりに呼吸しながら横になって過ごせます。
+
+当店の「OXYROOM」は最大約1.35気圧に対応。初回は低い気圧から始め、耳抜きの様子や体調を確認しながらご案内します。
+
+**DENBA Healthは、身体の周りに微弱な電場をつくる機器です。**
+
+メーカーは、身体の水分に着目して健康をサポートする技術と説明しています。肌に直接触れさせたり、身体にパッドを貼ったりする必要はありません。
+
+休んでいる人の心拍変動を調べた共同研究もあり、メーカーは、電源のオン・オフで一部の指標に違いが見られたと報告しています。調べられているのは、休息中の身体の反応です。
+
+## 横になったまま、二つを一緒に
+
+酸素ルームで休んでいる間、同じ場所でDENBAも利用できます。
+
+呼吸する空気の環境と、横になった身体の周りの環境。その両方を、一度の休息に取り入れるのが当店のメニューです。
+
+途中で起きて別の施術へ移る必要も、DENBAのために時間を追加する必要もありません。スタッフの案内を受けたら、そのまま楽な姿勢でお過ごしください。
+
+トレーニングのあとに、休むところまで予定に入れる。新大宮で歩き回った帰りに、脚を伸ばす時間を取る。そんなふうに、ご自身の一日に合わせて使っていただけます。
+
+## 初回は45分、3,300円で体験できます
+
+酸素ルームとDENBA、初回の使い方のご案内を含めて、**45分3,300円（税込）**です。
+
+来店時に体調を確認し、耳抜きや利用中の連絡方法をご説明します。着衣のまま入室して少しずつ加圧し、休息後は気圧を戻してから退出します。
+
+**45分には加圧・減圧を含みます。受付・ご説明も合わせて、約60分をご予定ください。**
+
+THE REV.では、運動をしない日も、酸素ルームとDENBAを一緒に使う休み方をご案内しています。ジムへの入会や運動の契約は不要です。
+
+次に新大宮へ出かける日は、帰る前の予定にリカバリーを入れてみませんか。
+
+[初回体験の内容・空き枠はこちら](/solution.html#first)
+
+※耳・鼻の不調や通院中の心配事は、予約時にご相談ください。ペースメーカーなどの体内植込型、心電計などの装着型の医用電気機器を使用している方は、DENBAをご利用いただけません。
+
+参考：[酸素ルーム・DENBAの利用案内](/solution.html)／[DENBAの共同研究報告](https://www.denba.co.jp/r-and-d)
