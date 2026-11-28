@@ -1,0 +1,41 @@
+{
+  "all_match": true,
+  "assets": [
+    {
+      "variant": "thumbnail",
+      "path": "assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "sha256": "982ad85bae7a3669efdcd472f6c765e18d23ddcaba4a9db3c6227954731a4c8c",
+      "url": "https://therev-lab.com/assets/images/blog/thumb-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "http_status": 200,
+      "remote_sha256": "982ad85bae7a3669efdcd472f6c765e18d23ddcaba4a9db3c6227954731a4c8c",
+      "bytes": 136014,
+      "match": true
+    },
+    {
+      "variant": "og",
+      "path": "assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "sha256": "e043ec8de4d4e602d6927705a4190a6ed2c97fe56370e3125dac3db85bae3a86",
+      "url": "https://therev-lab.com/assets/images/blog/og/og-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "http_status": 200,
+      "remote_sha256": "e043ec8de4d4e602d6927705a4190a6ed2c97fe56370e3125dac3db85bae3a86",
+      "bytes": 129491,
+      "match": true
+    },
+    {
+      "variant": "gbp",
+      "path": "assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "sha256": "cefa2a531ce423dc401674377c2413b36d35e8e00d597433690db3f4f534b6a0",
+      "url": "https://therev-lab.com/assets/images/gbp/gbp-oxygen-room-denba-combined-rest-reference-v26-oxydenba-20261128-work-r1.jpg",
+      "http_status": 200,
+      "remote_sha256": "cefa2a531ce423dc401674377c2413b36d35e8e00d597433690db3f4f534b6a0",
+      "bytes": 197715,
+      "match": true
+    }
+  ],
+  "checked_at": "2026-11-28T08:31:20.368Z",
+  "run_id": "46126158219",
+  "scope": "Only three new accepted images; no HTML or published articles",
+  "blog_published": false,
+  "gbp_posted": false,
+  "external_ai_api_calls": 0
+}
