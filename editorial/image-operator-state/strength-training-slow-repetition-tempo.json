@@ -1,14 +1,12 @@
 {
   "slug": "strength-training-slow-repetition-tempo",
   "status": "READY_CANDIDATE",
-  "asset_version": "reference-v26-tempo-20261128-work-r3",
+  "asset_version": "reference-v26-tempo-20261128-work-r4",
   "job_path": "editorial/hybrid-image-jobs/strength-training-slow-repetition-tempo.json",
-  "thumbnail": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
-  "og_image": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
-  "gbp_image": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.jpg",
-  "qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r3.json",
-  "xserver_verified": true,
-  "actual_operator": "ChatGPT Work manual, built-in generation; no paid AI API",
-  "xserver_verified_at": "2026-11-27T10:08:56.706Z",
-  "delivery_run_id": "45979538309"
+  "thumbnail": "assets/images/blog/thumb-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+  "og_image": "assets/images/blog/og/og-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+  "gbp_image": "assets/images/gbp/gbp-strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.jpg",
+  "qa_report_path": "editorial/image-qa/strength-training-slow-repetition-tempo-reference-v26-tempo-20261128-work-r4.json",
+  "xserver_verified": false,
+  "actual_operator": "ChatGPT Work manual, built-in generation; no paid AI API"
 }
